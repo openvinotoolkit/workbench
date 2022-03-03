@@ -23,7 +23,10 @@ To read more about INT8 inference, see
 [Using Low-Precision INT8 Integer Inference](@ref openvino_docs_IE_DG_Int8Inference) and 
 [Post-Training Optimization Toolkit](@ref pot_README).
 
-> **NOTE**: INT8 calibration is **not** available in the following cases: 1. You run the configuration on an Intel® Movidius™ Neural Compute Stick 2, or Intel® Vision Accelerator Design with Intel® Movidius™ VPUs plugin or 2. AccuracyAware method is disabled if your configuration uses a not annotated dataset
+> **NOTE**: INT8 calibration is **not** available in the following cases: 
+> 1. The model belongs to Natural Language Processing domain. 
+> 2. You run the configuration on an Intel® Movidius™ Neural Compute Stick 2, or Intel® Vision Accelerator Design with Intel® Movidius™ VPUs plugin. 
+> 3. AccuracyAware method is disabled if your configuration uses a not annotated dataset.
 
 ## INT8 Calibration Methods
 

@@ -13,7 +13,7 @@
 
 @endsphinxdirective
 
-**TIP:** If you have optimized the model using [INT8 Calibration](Int-8_Quantization.md), you can use a Not Annotated dataset to compare original and optimized model predictions. 
+> **NOTE**: Accuracy Measurements are not available for Natural Language Processing models. 
 
 Once you select a model and a dataset and run a baseline inference, the **Projects** page appears. Go to the **Perform** tab and select **Create Accuracy Report**:
 

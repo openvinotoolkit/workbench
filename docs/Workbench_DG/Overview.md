@@ -1,6 +1,6 @@
 # OpenVINO™ Deep Learning Workbench Overview {#workbench_docs_Workbench_DG_Introduction}
 
-Deep Learning Workbench (DL Workbench) is an official OpenVINO™ graphical interface designed to make the production of pretrained deep learning models significantly easier. 
+Deep Learning Workbench (DL Workbench) is an official OpenVINO™ graphical interface designed to make the production of pretrained deep learning Computer Vision and Natural Language Processing models significantly easier. 
 
 DL Workbench combines OpenVINO™ tools to assist you with the most commonly used tasks: import a model, analyze its performance and accuracy, visualize the outputs, optimize and prepare the model for deployment in a matter of minutes. DL Workbench will take you through the full OpenVINO™ workflow, providing the opportunity to learn about various toolkit components.
  
