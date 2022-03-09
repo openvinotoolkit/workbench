@@ -70,5 +70,4 @@ visualize model [architecture](https://docs.openvino.ai/latest/workbench_docs_Wo
 * [Import Darknet* YOLOv4 model](Import_YOLO.md)
 * [Import Frozen TensorFlow* SSD MobileNet v2 COCO Tutorial](Import_TensorFlow.md)
 * [Import ONNX* MobileNet v2 Tutorial](Import_ONNX.md)
-* [Import MXNet* MobileNet v2 Tutorial](Import_MXNet.md)
 * [Troubleshooting](Troubleshooting.md)

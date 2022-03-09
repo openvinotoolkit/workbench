@@ -23,5 +23,4 @@ Once you have the fields of the **Convert Model to IR** window filled as shown b
 
 * [Import Models](Select_Models.md)
 * [Import Frozen TensorFlow* SSD MobileNet v2 COCO Tutorial](Import_TensorFlow.md)
-* [Import MXNet* MobileNet v2 Tutorial](Import_MXNet.md)
 * [Troubleshooting](Troubleshooting.md)

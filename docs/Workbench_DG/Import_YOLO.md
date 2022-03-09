@@ -266,9 +266,7 @@ In this tutorial, you will learn how to:
 
 .. dropdown:: Upload Not Annotated Dataset 
 
-   Validation of the model is always performed against specific data combined into datasets. The data can be in different formats, depending on the task for which the model has been trained. Learn more in the `Dataset Types documentation`_. 
-
-   .. _Dataset Types documentation:: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Dataset_Types.html
+   Validation of the model is always performed against specific data combined into datasets. The data can be in different formats, depending on the task for which the model has been trained. Learn more in the Dataset Types documentation. 
 
    On the third step, click **Import Image Dataset**.
     
@@ -355,9 +353,7 @@ In this tutorial, you will learn how to:
 
    **Interpret Report Results**
 
-   The report has two display options: Basic and Advanced mode. To learn more about each column of the Accuracy Report, refer to `Interpreting Accuracy Report <accuracy report results>` page. 
-
-   .. _accuracy report results:: Accuracy_Report_results.md
+   The report has two display options: Basic and Advanced mode. To learn more about each column of the Accuracy Report, refer to Interpreting Accuracy Report page. 
 
    Each line of the report table in basic mode contains a number of detected objects in the image: **A. Optimized Model Detections**. The number of objects in Parent model predictions for the image is indicated in **B. Parent Model Detections**. If the numbers do not match, the model must be incorrect.
 
@@ -383,13 +379,7 @@ In this tutorial, you will learn how to:
 
    - If the tradeoff between accuracy and performance is too big, import an annotated dataset  and use AccuracyAware optimization method, then repeat the steps from this tutorial.
 
-   .. _annotated dataset:: Import_Datasets.md
-   .. _accuracy aware:: Int-8_Quantization.md#accuracyaware
-
    - If the tradeoff is acceptable, explore inference configurations to further enhance the performance. Then create a deployment package with your ready-to-deploy model. 
-
-   .. _deploy criteria:: workbench_docs_Workbench_DG_Deploy_and_Integrate_Performance_Criteria_into_Application
-   .. _package:: workbench_docs_Workbench_DG_Deployment_Package
 
 @endsphinxdirective
 
