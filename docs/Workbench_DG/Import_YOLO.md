@@ -215,14 +215,14 @@ In this tutorial, you will learn how to:
 
    .. image:: _static/images/inputs.png
 
-      - Check Specify Inputs (Optional)
-      - Select NHWC layout as the Original Layout
-      - Set the following parameters:
+   - Check Specify Inputs (Optional)
+   - Select NHWC layout as the Original Layout
+   - Set the following parameters:
 
-      - N = 1: number of images in the batch
-      - H = 608: image height
-      - W = 608: image width
-      - C = 3: number of channels, RGB
+   - N = 1: number of images in the batch
+   - H = 608: image height
+   - W = 608: image width
+   - C = 3: number of channels, RGB
 
    - Set scales to **255** as specified in the Darknet `sources`_:
 

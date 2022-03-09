@@ -11,6 +11,8 @@
    workbench_docs_Workbench_DG_Tutorial_Import_Original
    workbench_docs_Workbench_DG_Tutorial_Import_YOLO
    workbench_docs_Workbench_DG_Tutorial_Import_NLP
+   workbench_docs_Workbench_DG_Import_ONNX
+   workbench_docs_Workbench_DG_Import_TensorFlow
    
 @endsphinxdirective
 

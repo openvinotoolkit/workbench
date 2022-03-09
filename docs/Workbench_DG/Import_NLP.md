@@ -25,7 +25,7 @@ In this tutorial, you will learn how to:
 
    Select and upload .onnx model file and click Import:
 
-   .. image:: .._static/images/import_model_nlp.png
+   .. image:: _static/images/import_model_nlp.png
 
    To work with OpenVINO tools, you need to obtain a model in Intermediate Representation (IR) format. IR is the OpenVINO format of pre-trained model representation with two files:
 
@@ -38,7 +38,7 @@ In this tutorial, you will learn how to:
 
    Specify 1 batch and 128 channels (tokens) for each input. Click Validate and Import:
 
-   .. image:: .._static/images/imputs.png
+   .. image:: _static/images/inputs.png
 
    When the model is successfully imported, you will see it on the Create Project page. Click on the model to select it and proceed to the Next Step.
 
@@ -60,15 +60,15 @@ In this tutorial, you will learn how to:
 
    On the Select Validation Dataset page, click Import Text Dataset.
 
-   .. image:: .._static/images/import_text_dataset.png
+   .. image:: _static/images/import_text_dataset.png
 
    Download an example CoLa dataset from **Dataset Info** tip and upload it to the DL Workbench.
 
-   .. image:: .._static/images/download_cola.png
+   .. image:: _static/images/download_cola.png
 
    Upload the dataset file.
 
-   .. image:: .._static/images/dataset.png
+   .. image:: _static/images/dataset.png
 
    The dataset has a UTF-8 encoding and Comma as separator. In the Raw Dataset Preview you can see that our dataset Has Header. The dataset will be used for the Text Classification task type and contains the text in the Column 1, labels in the Column 2.
 

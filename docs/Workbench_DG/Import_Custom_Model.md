@@ -1,4 +1,4 @@
-# Import Original Model {#workbench_docs_Workbench_DG_Tutorial_Import_Original}
+# Import Original Model Tutorial  {#workbench_docs_Workbench_DG_Tutorial_Import_Original}
 
   Use the following recommendations to make the process of importing original models easier:
 
