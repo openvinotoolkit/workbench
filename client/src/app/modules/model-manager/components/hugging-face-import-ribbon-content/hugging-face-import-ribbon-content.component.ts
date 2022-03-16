@@ -36,13 +36,13 @@ export class HuggingFaceImportRibbonContentComponent implements OnInit, AfterVie
   readonly externalResourceNotification =
     this._messages.hintMessages.importHuggingFaceTips.externalResourceNotification;
 
+  readonly dataSource = new HuggingfaceModelZooDataSource();
+
   readonly filterControl = new FormControl();
-  readonly sortControl = new FormControl('downloads');
+  readonly sortControl = new FormControl(this.dataSource.defaultSortOption);
 
   appliedTags: IHuggingfaceAppliedModelTags = null;
   availableTags: IHuggingfaceAvailableTags = null;
-
-  readonly dataSource = new HuggingfaceModelZooDataSource();
 
   selectedModel: IHuggingfaceModel = null;
 

@@ -1,9 +1,16 @@
 import { IHuggingfaceModel } from '@shared/models/huggingface/huggingface-model';
 
-import { BaseModelZooDataSource } from './base-model-zoo-data-source';
+import { BaseModelZooDataSource, ModelZooSort } from './base-model-zoo-data-source';
 
 export class HuggingfaceModelZooDataSource extends BaseModelZooDataSource<IHuggingfaceModel> {
   protected _searchIdentityField: keyof IHuggingfaceModel = 'id';
+
+  sortOptions: ModelZooSort<IHuggingfaceModel>[] = [
+    { field: 'downloads', direction: 'desc', label: 'Most Downloaded' },
+    { field: 'lastModified', direction: 'desc', label: 'Recently Updated' },
+    { field: 'id', direction: 'asc', label: 'Name (A-Z)' },
+    { field: 'id', direction: 'desc', label: 'Name (Z-A)' },
+  ];
 
   // todo: filter on data set
   set filterTags(value: string[]) {

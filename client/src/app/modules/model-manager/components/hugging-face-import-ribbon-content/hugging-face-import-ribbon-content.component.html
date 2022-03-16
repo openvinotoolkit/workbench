@@ -62,8 +62,7 @@
 <ng-template #filtersTemplate>
   <mat-form-field>
     <mat-select [formControl]="sortControl">
-      <mat-option [value]="'downloads'">Downloads</mat-option>
-      <mat-option [value]="'lastModified'">Recently Updated</mat-option>
+      <mat-option *ngFor="let option of dataSource.sortOptions" [value]="option">{{ option.label }}</mat-option>
     </mat-select>
   </mat-form-field>
 

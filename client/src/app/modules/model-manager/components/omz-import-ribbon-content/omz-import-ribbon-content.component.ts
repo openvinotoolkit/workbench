@@ -1,5 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { FormBuilder } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
@@ -32,6 +33,8 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
   @ViewChild(MatPaginator) private _paginator: MatPaginator;
 
   readonly dataSource = new OpenModelZooDataSource();
+
+  readonly sortControl = this._fb.control(this.dataSource.defaultSortOption);
 
   get selectedModel(): ModelDownloaderDTO {
     return this._selectedModel;
@@ -68,7 +71,8 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
 
   constructor(
     private readonly _store$: Store<RootStoreState.State>,
-    private readonly _messagesService: MessagesService
+    private readonly _messagesService: MessagesService,
+    private readonly _fb: FormBuilder
   ) {
     this._omzModels$.pipe(takeUntil(this._unsubscribe$)).subscribe((models) => {
       this.dataSource.data = models;
@@ -80,6 +84,10 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
 
     this._hasInternetConnection$.pipe(takeUntil(this._unsubscribe$)).subscribe((value) => {
       this.hasInternetConnection = value;
+    });
+
+    this.sortControl.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe((sort) => {
+      this.dataSource.sort = sort;
     });
   }
 

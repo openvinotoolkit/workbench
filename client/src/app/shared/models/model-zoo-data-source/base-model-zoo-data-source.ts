@@ -2,11 +2,24 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort/sort';
+import { SortDirection } from '@angular/material/sort/sort-direction';
 
 import { Observable } from 'rxjs';
 
+export interface ModelZooSort<T> {
+  field: keyof T;
+  direction: SortDirection;
+  label: string;
+}
+
 export abstract class BaseModelZooDataSource<T> implements DataSource<T> {
   protected abstract _searchIdentityField: keyof T;
+
+  abstract sortOptions: ModelZooSort<T>[];
+
+  get defaultSortOption(): ModelZooSort<T> {
+    return this.sortOptions[0];
+  }
 
   protected readonly _matDataSource = new MatTableDataSource<T>();
   protected _originalData: T[] = [];
@@ -15,6 +28,8 @@ export abstract class BaseModelZooDataSource<T> implements DataSource<T> {
     this._originalData = value;
     this._matDataSource.data = value;
     this._matDataSource.paginator?.firstPage();
+    // TODO Persist current sorting
+    this.sort = this.sortOptions[0];
   }
 
   get data(): T[] {
@@ -31,9 +46,9 @@ export abstract class BaseModelZooDataSource<T> implements DataSource<T> {
   }
 
   // todo: sort on data set
-  set sort(value: string) {
-    this._matDataSource.data = this._sortData(this._matDataSource.filteredData, { active: value, direction: 'desc' });
-    this._matDataSource.paginator.firstPage();
+  set sort({ field, direction }: ModelZooSort<T>) {
+    this._matDataSource.data = this._sortData(this._matDataSource.filteredData, { active: field as string, direction });
+    this._matDataSource.paginator?.firstPage();
   }
 
   set paginator(value: MatPaginator) {

@@ -1,5 +1,13 @@
 <wb-model-zoo-layout [isDetailsOpened]="!!selectedModel">
   <wb-model-zoo-content>
+    <mat-form-field ngProjectAs="model-zoo-sort" appearance="outline">
+      <mat-select [formControl]="sortControl">
+        <mat-option *ngFor="let option of dataSource.sortOptions" [value]="option">
+          {{ option.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <wb-search-field ngProjectAs="model-zoo-search" (search)="searchModels($event)"></wb-search-field>
 
     <wb-model-zoo-counter
