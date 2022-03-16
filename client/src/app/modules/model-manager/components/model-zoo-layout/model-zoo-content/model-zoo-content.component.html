@@ -2,6 +2,18 @@
 
 <div class="content-row">
   <div class="wb-col-4 filter-block">
+    <!--  TODO Consider moving filter block to separate component  -->
+    <div class="block-header">
+      <div class="block-header-row">
+        <div class="model-zoo-sort-label">
+          <mat-icon svgIcon="swap_vert"></mat-icon>
+          <span class="wb-subtitle-strong">Sort By</span>
+        </div>
+        <div class="model-zoo-sort-wrapper">
+          <ng-content select="model-zoo-sort"></ng-content>
+        </div>
+      </div>
+    </div>
     <ng-content select="model-zoo-filters"></ng-content>
   </div>
 

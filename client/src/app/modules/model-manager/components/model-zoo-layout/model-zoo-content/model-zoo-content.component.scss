@@ -44,6 +44,19 @@
       padding-left: 10px;
     }
   }
+
+  .model-zoo-sort-wrapper {
+    flex: 1;
+
+    ::ng-deep mat-form-field {
+      width: 100%;
+
+      .mat-form-field-wrapper {
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
 }
 
 .main-block {
