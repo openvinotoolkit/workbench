@@ -363,5 +363,15 @@
     <symbol id="lock" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3"/>
     </symbol>
+
+    <!--  sorting  -->
+    <symbol id="swap_vert" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 17.01V10H14V17.01H11L15 21L19 17.01H16ZM9 3L5 6.99H8V14H10V6.99H13L9 3ZM16 17.01V10H14V17.01H11L15 21L19 17.01H16ZM9 3L5 6.99H8V14H10V6.99H13L9 3Z" fill="#383838"/>
+    </symbol>
+
+    <!--  filters  -->
+    <symbol id="filters" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 17V19H9V17H3ZM3 5V7H13V5H3ZM13 21V19H21V17H13V15H11V21H13ZM7 9V11H3V13H7V15H9V9H7ZM21 13V11H11V13H21ZM15 9H17V7H21V5H17V3H15V9Z" fill="#383838"/>
+    </symbol>
   </defs>
 </svg>
