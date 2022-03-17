@@ -6,6 +6,7 @@
   display: flex;
   overflow: hidden;
   flex-grow: 1;
+  position: relative;
 }
 
 .block-header {
@@ -33,7 +34,9 @@
 
 .filter-block {
   border-right: 1px solid $very-light-pink;
-  overflow-y: auto;
+  overflow: hidden;
+  position: absolute;
+  height: 100%;
 
   .model-zoo-sort-label,
   .model-zoo-filters-label {
@@ -62,9 +65,15 @@
   .reset-filters-button {
     margin-left: auto;
   }
+
+  ::ng-deep wb-model-zoo-filter-group {
+    overflow-y: scroll;
+  }
 }
 
 .main-block {
+  margin-left: auto;
+
   .block-header {
     border-bottom: none;
   }
