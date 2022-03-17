@@ -35,7 +35,8 @@
   border-right: 1px solid $very-light-pink;
   overflow-y: auto;
 
-  .model-zoo-sort-label {
+  .model-zoo-sort-label,
+  .model-zoo-filters-label {
     display: flex;
     align-items: center;
     margin-right: 20px;
@@ -57,12 +58,15 @@
       }
     }
   }
+
+  .reset-filters-button {
+    margin-left: auto;
+  }
 }
 
 .main-block {
   .block-header {
     border-bottom: none;
-    padding-bottom: 0;
   }
 
   ::ng-deep wb-search-field {
@@ -117,7 +121,7 @@
   }
 
   ::ng-deep wb-card-grid {
-    padding: 20px;
+    padding: 0 $container-padding $container-padding;
     overflow-y: auto;
   }
 }
