@@ -10,7 +10,7 @@ from wb.extensions_factories.database import get_db_session_for_app
 from wb.flask_test import TestFlaskAppCase
 from wb.main.api_endpoints.utils import find_projects, project_json, connect_with_parents
 from wb.main.enumerates import OptimizationTypesEnum, SupportedFrameworksEnum, TargetTypeEnum
-from wb.main.models.datasets_model import DatasetsModel
+from wb.main.models.datasets.datasets_model import DatasetsModel
 from wb.main.models.devices_model import DevicesModel
 from wb.main.models.projects_model import ProjectsModel
 from wb.main.models.target_model import TargetModel

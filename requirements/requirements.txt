@@ -9,7 +9,7 @@ cffi==1.15.0
 chardet==4.0.0
 click==8.0.0
 cryptography==3.4.8
-datumaro==0.2.1
+git+https://github.com/IRDonch/datumaro.git@download-info#egg=datumaro[tf,tfds]
 defusedxml==0.7.1
 distlib==0.3.2
 dnspython==1.16.0

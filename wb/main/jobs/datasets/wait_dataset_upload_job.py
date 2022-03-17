@@ -24,7 +24,7 @@ from wb.extensions_factories.database import get_db_session_for_celery
 from wb.main.enumerates import JobTypesEnum, StatusEnum
 from wb.main.jobs.datasets.base_dataset_job import BaseDatasetJob
 from wb.main.models import DatasetsModel
-from wb.main.models.wait_dataset_upload_jobs_model import WaitDatasetUploadJobsModel
+from wb.main.models.datasets.wait_dataset_upload_jobs_model import WaitDatasetUploadJobsModel
 
 
 class WaitDatasetUploadJob(BaseDatasetJob):

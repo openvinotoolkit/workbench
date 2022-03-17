@@ -17,7 +17,7 @@ from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship, backref
 
 from wb.main.enumerates import JobTypesEnum
-from wb.main.models.datasets_model import DatasetsModel
+from wb.main.models.datasets.datasets_model import DatasetsModel
 from wb.main.models.jobs_model import JobsModel, JobData
 
 

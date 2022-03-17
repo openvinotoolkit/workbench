@@ -16,7 +16,7 @@
 from sqlalchemy import Integer, Column, ForeignKey
 
 from wb.main.models.base_model import BaseModel
-from wb.main.models.datasets_model import DatasetsModel
+from wb.main.models.datasets.datasets_model import DatasetsModel
 from wb.main.models.enumerates import TASK_ENUM_SCHEMA
 from wb.main.shared.enumerates import TaskEnum
 

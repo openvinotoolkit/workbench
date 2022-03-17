@@ -41,6 +41,7 @@ class JobTypesEnum(enum.Enum):
     annotate_dataset = 'AnnotateDatasetJob'
     remote_annotate_dataset = 'RemoteAnnotateDatasetJob'
 
+    download_dataset_type = 'DownloadDatasetJob'
     extract_dataset_type = 'ExtractDatasetJob'
     extract_text_dataset_type = 'ExtractTextDatasetJob'
     wait_upload_dataset_type = 'WaitDatasetUploadJob'
@@ -424,6 +425,7 @@ class PipelineTypeEnum(enum.Enum):
     remote_int8_calibration = 'remote_int8_calibration'
     dev_cloud_int8_calibration = 'dev_cloud_int8_calibration'
     create_profiling_bundle = 'create_profiling_bundle'
+    dlownload_dataset = 'download_dataset'
     download_log = 'download_log'
     download_model = 'download_model'
     deployment_manager = 'deployment_manager'
@@ -476,6 +478,7 @@ class PipelineStageEnum(enum.Enum):
     # Dataset
     augment_dataset = 'augment_dataset'
     convert_dataset = 'convert_dataset'
+    download_dataset = 'download_dataset'
     extract_dataset = 'extract_dataset'
     extract_text_dataset = 'extract_text_dataset'
     recognize_dataset = 'recognize_dataset'
@@ -658,7 +661,8 @@ class ModelShapeTypeEnum(enum.Enum):
 
 class DatumaroModesEnum(enum.Enum):
     convert = 'convert'
-
+    download = 'download'
+    download_info = 'download_info'
 
 class TokenizerTypeEnum(enum.Enum):
     wordpiece = 'wordpiece'

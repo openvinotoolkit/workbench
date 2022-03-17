@@ -1,6 +1,6 @@
 """
  OpenVINO DL Workbench
- Class for ORM model described an dataset extractor job
+ Class for ORM model described an dataset recognizer job
 
  Copyright (c) 2020 Intel Corporation
 
@@ -13,29 +13,27 @@
  You may obtain a copy of the License at
       https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
 """
-
-from sqlalchemy import Integer, Column, ForeignKey, ARRAY, Boolean, String
+from sqlalchemy import Integer, Column, ForeignKey
 from sqlalchemy.orm import relationship, backref
 
 from wb.main.enumerates import JobTypesEnum
-from wb.main.models.datasets.datasets_model import DatasetJobData, DatasetsModel, TextDatasetJobData
-from wb.main.models.enumerates import CSV_SEPARATOR_TYPE_ENUM_SCHEMA
+from wb.main.models.datasets.datasets_model import DatasetJobData, DatasetsModel
 from wb.main.models.jobs_model import JobsModel
 
 
-class ExtractDatasetJobsModel(JobsModel):
-    __tablename__ = 'extract_dataset_jobs'
+class RecognizeDatasetJobsModel(JobsModel):
+    __tablename__ = 'recognize_dataset_jobs'
 
     __mapper_args__ = {
-        'polymorphic_identity': JobTypesEnum.extract_dataset_type.value
+        'polymorphic_identity': JobTypesEnum.recognize_dataset_type.value
     }
 
     job_id = Column(Integer, ForeignKey(JobsModel.job_id), primary_key=True)
     dataset_id = Column(Integer, ForeignKey(DatasetsModel.id), nullable=False)
 
     dataset: DatasetsModel = relationship(DatasetsModel, foreign_keys=[dataset_id],
-                                          backref=backref('extract_dataset_job', lazy='subquery', cascade='delete,all',
-                                                          uselist=False))
+                                          backref=backref('recognize_dataset_job', lazy='subquery',
+                                                          cascade='delete,all', uselist=False))
 
     def __init__(self, data: DatasetJobData):
         super().__init__(data)
@@ -46,25 +44,3 @@ class ExtractDatasetJobsModel(JobsModel):
             **super().json(),
             **self.dataset.json()
         }
-
-
-class ExtractTextDatasetJobsModel(ExtractDatasetJobsModel):
-    __tablename__ = 'extract_text_dataset_jobs'
-
-    __mapper_args__ = {
-        'polymorphic_identity': JobTypesEnum.extract_text_dataset_type.value
-    }
-
-    job_id = Column(Integer, ForeignKey(ExtractDatasetJobsModel.job_id), primary_key=True)
-
-    columns = Column(ARRAY(Integer), nullable=False)
-    header = Column(Boolean, nullable=False, )
-    encoding = Column(String, nullable=False)
-    separator = Column(CSV_SEPARATOR_TYPE_ENUM_SCHEMA, nullable=False)
-
-    def __init__(self, data: TextDatasetJobData):
-        super().__init__(data)
-        self.columns = data['columns']
-        self.header = data['header']
-        self.encoding = data['encoding']
-        self.separator = data['separator']

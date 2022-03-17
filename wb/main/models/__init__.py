@@ -22,7 +22,6 @@ from wb.main.models.analyze_model_input_shape_job_model import AnalyzeModelInput
 from wb.main.models.apply_model_layout_model import ApplyModelLayoutJobModel
 from wb.main.models.artifacts_model import ArtifactsModel
 from wb.main.models.base_model import BaseModel
-from wb.main.models.convert_dataset_jobs_model import ConvertDatasetJobsModel
 from wb.main.models.convert_keras_job_model import ConvertKerasJobModel
 from wb.main.models.cpu_info_model import CPUInfoModel
 from wb.main.models.create_accuracy_bundle_job_model import CreateAccuracyBundleJobModel
@@ -33,9 +32,7 @@ from wb.main.models.create_profiling_bundle_job_model import CreateProfilingBund
 from wb.main.models.create_profiling_scripts_job_model import CreateProfilingScriptsJobModel
 from wb.main.models.create_reshape_model_scripts_model import CreateReshapeModelScriptsJobModel
 from wb.main.models.create_setup_bundle_job_model import CreateSetupBundleJobModel
-from wb.main.models.dataset_augmentation_job_model import DatasetAugmentationJobModel
-from wb.main.models.dataset_tasks_model import DatasetTasksModel
-from wb.main.models.datasets_model import DatasetsModel, DatasetJobData, TextDatasetJobData
+from wb.main.models.datasets import *
 from wb.main.models.dependency_model import DependencyModel
 from wb.main.models.deployment_bundle_config_model import DeploymentBundleConfigModel, DeploymentTargetsModel
 from wb.main.models.dev_cloud_target_model import DevCloudTargetModel

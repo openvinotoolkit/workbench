@@ -18,9 +18,9 @@ from sqlalchemy.orm import Session
 
 from wb.main.enumerates import PipelineTypeEnum, PipelineStageEnum
 from wb.main.models import PipelineModel, ValidateDatasetJobsModel, LocalTargetModel, DatasetAugmentationJobModel
-from wb.main.models.dataset_augmentation_job_model import DatasetAugmentationJobData
-from wb.main.models.datasets_model import DatasetJobData
-from wb.main.models.wait_dataset_upload_jobs_model import WaitDatasetUploadJobsModel
+from wb.main.models.datasets.dataset_augmentation_job_model import DatasetAugmentationJobData
+from wb.main.models.datasets.datasets_model import DatasetJobData
+from wb.main.models.datasets.wait_dataset_upload_jobs_model import WaitDatasetUploadJobsModel
 from wb.main.pipeline_creators.pipeline_creator import PipelineCreator
 
 
