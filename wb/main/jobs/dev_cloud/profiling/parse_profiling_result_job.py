@@ -16,18 +16,17 @@
 import logging as log
 import os
 import re
-import tarfile
-import tempfile
 from contextlib import closing
 from typing import Tuple
+
+from sqlalchemy.orm import Session
 
 from config.constants import BENCHMARK_REPORT_FILE_NAME, EXEC_GRAPH_FILE_NAME
 from wb.error.job_error import ManualTaskRetryException, ProfilingError
 from wb.extensions_factories.database import get_db_session_for_celery
 from wb.main.enumerates import JobTypesEnum, StatusEnum
 from wb.main.jobs.interfaces.ijob import IJob
-from wb.main.models import (ProfilingJobModel, DownloadableArtifactsModel, FilesModel,
-                            ParseDevCloudProfilingResultJobModel, ParseDevCloudResultJobModel, SingleInferenceInfoModel)
+from wb.main.models import ProfilingJobModel, ParseDevCloudProfilingResultJobModel, SingleInferenceInfoModel
 from wb.main.utils.profiling_run_info import SingleProfilingRunInfo
 from wb.main.utils.utils import find_by_ext
 from wb.utils.benchmark_report.benchmark_report import BenchmarkReport
@@ -35,7 +34,7 @@ from wb.utils.benchmark_report.benchmark_report import BenchmarkReport
 
 class ParseDevCloudProfilingResultJob(IJob):
     job_type = JobTypesEnum.parse_dev_cloud_profiling_result_job
-    _job_model_class = ParseDevCloudResultJobModel
+    _job_model_class = ParseDevCloudProfilingResultJobModel
 
     def __init__(self, job_id: int, **unused_kwargs):
         super().__init__(job_id=job_id)
@@ -46,64 +45,55 @@ class ParseDevCloudProfilingResultJob(IJob):
                                              log='Starting parse DevCloud profiling result job')
         with closing(get_db_session_for_celery()) as session:
             parse_profiling_result_job_model: ParseDevCloudProfilingResultJobModel = self.get_job_model(session)
-            profiling_result_artifact: DownloadableArtifactsModel = parse_profiling_result_job_model.result_artifact
             compound_inference_job_id = parse_profiling_result_job_model.parent_job
 
             # Wait for file to be completely uploaded by chunks
-            if not profiling_result_artifact.is_all_files_uploaded:
+            if not parse_profiling_result_job_model.are_results_obtained:
                 raise ManualTaskRetryException('Profiling result artifact is not uploaded yet, retry task')
 
             log.debug('Parsing profiling result artifact and saving data to database')
-            profiling_result_file_record: FilesModel = profiling_result_artifact.files[0]
-            profiling_result_file_path = profiling_result_file_record.path
 
-        if not os.path.isfile(profiling_result_file_path):
-            raise FileNotFoundError(f'Result artifact is not found in path {profiling_result_file_path}')
+            results_path = parse_profiling_result_job_model.job_result_path
 
-        with tempfile.TemporaryDirectory('rw') as tmp_folder:
-            with tarfile.open(profiling_result_file_path, 'r:gz') as tar:
-                tar.extractall(path=tmp_folder)
-
-            (_, result_dir_names, _) = next(os.walk(tmp_folder))
+            _, result_dir_names, _ = next(os.walk(results_path))
 
             for benchmark_app_result_dir_name in result_dir_names:
-                self._parse_profiling_result_files(extracted_files_path=tmp_folder,
+                self._parse_profiling_result_files(extracted_files_path=results_path,
                                                    benchmark_app_result_dir_name=benchmark_app_result_dir_name,
-                                                   compound_inference_job_id=compound_inference_job_id)
+                                                   compound_inference_job_id=compound_inference_job_id,
+                                                   session=session)
 
         self.on_success()
 
     def _parse_profiling_result_files(self, extracted_files_path: str, benchmark_app_result_dir_name: str,
-                                      compound_inference_job_id: int):
+                                      compound_inference_job_id: int, session: Session):
         benchmark_app_result_dir_path = os.path.join(extracted_files_path, benchmark_app_result_dir_name)
         exec_graph_path = os.path.join(benchmark_app_result_dir_path, EXEC_GRAPH_FILE_NAME)
         benchmark_report_path = os.path.join(benchmark_app_result_dir_path, BENCHMARK_REPORT_FILE_NAME)
 
         batch, nireq = self._parse_batch_and_num_streams(benchmark_app_result_dir_name)
 
-        session = get_db_session_for_celery()
-        with closing(session):
-            profiling_job: ProfilingJobModel = session.query(ProfilingJobModel).get(
-                compound_inference_job_id)
-            model_record = profiling_job.project.topology
-            model_path = find_by_ext(model_record.path, 'xml')
+        profiling_job: ProfilingJobModel = session.query(ProfilingJobModel).get(
+            compound_inference_job_id)
+        model_record = profiling_job.project.topology
+        model_path = find_by_ext(model_record.path, 'xml')
 
-            profiling_run_info = self._parse_profiling_run_info(batch=batch, nireq=nireq, model_path=model_path,
-                                                                exec_graph_path=exec_graph_path,
-                                                                benchmark_report_path=benchmark_report_path)
+        profiling_run_info = self._parse_profiling_run_info(batch=batch, nireq=nireq, model_path=model_path,
+                                                            exec_graph_path=exec_graph_path,
+                                                            benchmark_report_path=benchmark_report_path)
 
-            profiling_info_model = (
-                SingleInferenceInfoModel
-                    .get_or_create_single_inference_model(batch=batch, nireq=nireq,
-                                                          project_id=profiling_job.project_id,
-                                                          profiling_job_id=compound_inference_job_id,
-                                                          session=session)
-            )
+        profiling_info_model = (
+            SingleInferenceInfoModel
+                .get_or_create_single_inference_model(batch=batch, nireq=nireq,
+                                                      project_id=profiling_job.project_id,
+                                                      profiling_job_id=compound_inference_job_id,
+                                                      session=session)
+        )
 
-            profiling_info_model.update(profiling_results=profiling_run_info)
-            profiling_info_model.progress = 100
-            profiling_info_model.status = StatusEnum.ready
-            profiling_info_model.write_record(session)
+        profiling_info_model.update(profiling_results=profiling_run_info)
+        profiling_info_model.progress = 100
+        profiling_info_model.status = StatusEnum.ready
+        profiling_info_model.write_record(session)
 
     @staticmethod
     def _parse_batch_and_num_streams(benchmark_app_result_dir_name: str) -> Tuple[int, int]:
