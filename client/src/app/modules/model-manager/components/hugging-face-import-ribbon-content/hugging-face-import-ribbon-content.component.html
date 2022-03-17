@@ -8,7 +8,7 @@
       </mat-select>
     </mat-form-field>
 
-    <ng-container ngProjectAs="model-zoo-filters" [ngTemplateOutlet]="filtersTemplate"></ng-container>
+    <ng-container ngProjectAs="wb-model-zoo-filter-group" [ngTemplateOutlet]="filterGroupTemplate"></ng-container>
 
     <wb-model-zoo-notification [message]="externalResourceNotification"></wb-model-zoo-notification>
 
@@ -67,7 +67,7 @@
   </wb-model-zoo-details>
 </wb-model-zoo-layout>
 
-<ng-template #filtersTemplate>
+<ng-template #filterGroupTemplate>
   <wb-model-zoo-filter-group [formControl]="filterControl">
     <ng-container *ngIf="appliedTags">
       <wb-model-zoo-filter group="pipeline_tag">
