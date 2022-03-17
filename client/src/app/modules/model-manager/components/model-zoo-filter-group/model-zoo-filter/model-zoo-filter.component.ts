@@ -85,3 +85,11 @@ export class ModelZooFilterComponent<T> implements AfterContentInit, OnDestroy {
     this.hiddenOptions = [];
   }
 }
+
+@Component({
+  selector: 'wb-model-zoo-filter-title',
+  template: '<ng-content></ng-content>',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+// TODO Consider moving to separate file with own template and styles
+export class ModelZooFilterTitleComponent {}
