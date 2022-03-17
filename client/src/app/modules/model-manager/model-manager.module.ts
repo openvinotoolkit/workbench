@@ -18,10 +18,8 @@ import { OmzImportRibbonContentComponent } from './components/omz-import-ribbon-
 import { CardModule } from './components/card/card.module';
 import { HuggingFaceImportRibbonContentComponent } from './components/hugging-face-import-ribbon-content/hugging-face-import-ribbon-content.component';
 import { CardDefDirective, CardGridComponent } from './components/card-grid/card-grid.component';
-import { ModelZooFilterGroupComponent } from './components/model-zoo-filter-group/model-zoo-filter-group.component';
-import { ModelZooFilterComponent } from './components/model-zoo-filter-group/model-zoo-filter/model-zoo-filter.component';
-import { ModelZooFilterOptionComponent } from './components/model-zoo-filter-group/model-zoo-filter/model-zoo-filter-option/model-zoo-filter-option.component';
 import { ModelZooLayoutModule } from './components/model-zoo-layout/model-zoo-layout.module';
+import { ModelZooFilterGroupModule } from './components/model-zoo-filter-group/model-zoo-filter-group.module';
 
 @NgModule({
   declarations: [
@@ -34,9 +32,6 @@ import { ModelZooLayoutModule } from './components/model-zoo-layout/model-zoo-la
     EditPageComponent,
     CardGridComponent,
     CardDefDirective,
-    ModelZooFilterGroupComponent,
-    ModelZooFilterComponent,
-    ModelZooFilterOptionComponent,
     OmzImportRibbonContentComponent,
     HuggingFaceImportRibbonContentComponent,
   ],
@@ -48,6 +43,7 @@ import { ModelZooLayoutModule } from './components/model-zoo-layout/model-zoo-la
     ModelManagerConvertModule,
     CardModule,
     ModelZooLayoutModule,
+    ModelZooFilterGroupModule,
   ],
   providers: [ModelDownloaderService],
 })
