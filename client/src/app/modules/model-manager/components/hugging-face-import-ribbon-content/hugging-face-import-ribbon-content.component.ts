@@ -35,6 +35,7 @@ import { IHuggingfaceModel } from '@shared/models/huggingface/huggingface-model'
 export class HuggingFaceImportRibbonContentComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly externalResourceNotification =
     this._messages.hintMessages.importHuggingFaceTips.externalResourceNotification;
+  readonly shownSubsetNotification = this._messages.hintMessages.importHuggingFaceTips.shownSubsetNotification;
 
   readonly dataSource = new HuggingfaceModelZooDataSource();
 
