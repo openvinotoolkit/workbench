@@ -12,6 +12,13 @@
 
 .icon-container {
   order: 1;
+
+  .show-more,
+  .show-less {
+    @include wb-label();
+    color: $brownish-grey;
+    cursor: pointer;
+  }
 }
 
 .options-container {
