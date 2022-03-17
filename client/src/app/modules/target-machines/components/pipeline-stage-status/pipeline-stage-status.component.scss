@@ -1,0 +1,38 @@
+@import 'colors';
+
+$status-colors: (
+  queued: $cool-grey,
+  running: $blue-blue,
+  ready: $green,
+  error: $deep-red,
+  warning: $orange,
+);
+
+$icon-size: 16px;
+
+:host {
+  @each $status, $color in $status-colors {
+    .pipeline-stage-status-#{$status} {
+      color: $color;
+    }
+  }
+
+  ::ng-deep mat-icon {
+    width: $icon-size;
+    height: $icon-size;
+    font-size: $icon-size;
+  }
+
+  .pipeline-stage-status-running ::ng-deep mat-icon {
+    animation: rotation 2s infinite linear;
+
+    @keyframes rotation {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(359deg);
+      }
+    }
+  }
+}

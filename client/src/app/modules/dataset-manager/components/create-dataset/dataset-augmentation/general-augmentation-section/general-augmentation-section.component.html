@@ -1,0 +1,40 @@
+<div class="section">
+  <div class="section-content">
+    <div class="section-controls">
+      <ng-template [ngTemplateOutlet]="tipMessage"></ng-template>
+      <ng-container *ngFor="let field of formFields">
+        <wb-config-form-field [field]="field" [group]="formGroup"></wb-config-form-field>
+      </ng-container>
+    </div>
+    <div class="result-img" *ngIf="!isNil(isDevCloud); else imagesLoading">
+      <div class="img-preview">
+        <span>Preview</span>
+      </div>
+      <div class="image-card" *ngIf="defaultImagePath">
+        <img [src]="defaultImagePath | safeResourceUrl" alt="default-image" />
+        <div class="preview-text">
+          <span>Before</span>
+        </div>
+      </div>
+      <div class="image-card" *ngIf="afterImagePath || defaultImagePath">
+        <img
+          [className]="afterImageClass"
+          [src]="afterImagePath || defaultImagePath | safeResourceUrl"
+          alt="default-image"
+        />
+        <div class="preview-text">
+          <span>After</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <wb-section-summary [images]="imagesCount"></wb-section-summary>
+</div>
+
+<ng-template #tipMessage>
+  <wb-info-hint [message]="augmentationTipMessage"></wb-info-hint>
+</ng-template>
+
+<ng-template #imagesLoading>
+  <wb-spinner data-test-id="images-loading"></wb-spinner>
+</ng-template>

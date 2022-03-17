@@ -1,0 +1,9 @@
+<mat-expansion-panel class="mat-elevation-z0" #panel hideToggle="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title class="wb-h5">
+      {{ title }}
+      <mat-icon [svgIcon]="panel.expanded ? 'arrow_up' : 'arrow_down'" class="toggle-icon"></mat-icon>
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <wb-markdown-text [text]="text" class="wb-text-8"></wb-markdown-text>
+</mat-expansion-panel>

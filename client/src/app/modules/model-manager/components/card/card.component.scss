@@ -1,0 +1,65 @@
+@import 'colors';
+@import 'fonts';
+
+$card-padding: 20px;
+
+:host {
+  border: 1px solid $very-light-pink;
+  border-radius: 3px;
+  padding: $card-padding;
+  box-sizing: border-box;
+
+  &:hover:not(.disabled) {
+    border-color: $plum;
+    box-shadow: 0 2px 5px $panel-shadow;
+    cursor: pointer;
+
+    ::ng-deep wb-card-title-row > *:not(mat-icon) {
+      color: $plum;
+    }
+  }
+
+  ::ng-deep wb-card-title-row,
+  ::ng-deep wb-card-content-row,
+  ::ng-deep wb-card-content-row-item {
+    display: flex;
+    align-items: center;
+  }
+
+  ::ng-deep wb-card-content-row-item {
+    max-width: fit-content;
+  }
+
+  ::ng-deep wb-card-title-row {
+    @include wb-subtitle-1();
+    color: $black;
+
+    & > mat-icon {
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+
+    & > * {
+      overflow: hidden;
+    }
+  }
+
+  ::ng-deep wb-card-content-row {
+    @include wb-label();
+    color: $cool-grey;
+    margin-top: $card-padding;
+
+    wb-card-content-row-item + wb-card-content-row-item:before {
+      content: '•';
+      margin: 0 10px;
+    }
+  }
+
+  &.disabled {
+    color: $cool-grey;
+
+    ::ng-deep wb-card-title-row {
+      color: $cool-grey;
+    }
+  }
+}

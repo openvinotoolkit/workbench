@@ -1,0 +1,75 @@
+<!-- These blocks needed for correct rendering -->
+<div [id]="getIdWithGraphTypeSuffix(toolbarId)"></div>
+<div [id]="getIdWithGraphTypeSuffix(zoomInButtonId)"></div>
+<div [id]="getIdWithGraphTypeSuffix(zoomOutButtonId)"></div>
+<div [id]="getIdWithGraphTypeSuffix(nameButtonId)"></div>
+<div [id]="getIdWithGraphTypeSuffix(backButtonId)"></div>
+
+<div class="graph-coloring" *ngIf="coloringOption !== GraphColoring.BY_LAYER_TYPE">
+  <div class="graph-coloring-header">
+    <div class="graph-coloring-header-title">{{ coloringLabelsMap[coloringOption] }}</div>
+    <div class="graph-coloring-header-content" *ngIf="coloringOption === GraphColoring.BY_EXECUTION_TIME">
+      <wb-heatmap [intervals]="executionTimeIntervals"></wb-heatmap>
+      <wb-color-label [color]="ExecutionTimeToColorMap[notExecutedLabel]" [label]="notExecutedLabel"></wb-color-label>
+    </div>
+    <div
+      class="graph-coloring-header-content"
+      *ngIf="[GraphColoring.BY_RUNTIME_PRECISION, GraphColoring.BY_OUTPUT_PRECISION].includes(coloringOption)"
+    >
+      <wb-color-label
+        *ngFor="let precision of availablePrecisions"
+        [color]="PrecisionLabelToColorMap[precision]"
+        [label]="precision"
+      >
+      </wb-color-label>
+    </div>
+  </div>
+  <ng-container *ngIf="!selectedNodesIds.length" [ngTemplateOutlet]="notFoundTemplate"></ng-container>
+</div>
+<div class="graph-window" [id]="getIdWithGraphTypeSuffix(graphWindowId)">
+  <!-- Progress spinner block -->
+  <ng-container
+    *ngIf="isLoading || modelGraphVisualizationService.isRendering(graphType)"
+    [ngTemplateOutlet]="progressTemplate"
+  ></ng-container>
+  <!-- Error message block -->
+  <ng-container
+    *ngIf="disabled || modelGraphVisualizationService.hasRenderingError(graphType)"
+    [ngTemplateOutlet]="errorTemplate"
+  ></ng-container>
+  <!-- Layers Not Found block -->
+  <ng-container *ngIf="!selectedNodesIds.length" [ngTemplateOutlet]="notFoundTemplate"></ng-container>
+  <!-- Main graph block -->
+  <div [id]="getIdWithGraphTypeSuffix(graphId)">
+    <svg
+      [id]="getIdWithGraphTypeSuffix(canvasId)"
+      [attr.data-test-id]="getIdWithGraphTypeSuffix(graphId)"
+      class="canvas"
+      preserveaspectratio="xMidYMid meet"
+      (click)="handleLayerClick($event)"
+    ></svg>
+  </div>
+  <div [id]="getIdWithGraphTypeSuffix(sidebarId)" class="sidebar"></div>
+</div>
+
+<ng-template #progressTemplate>
+  <div class="progress-block">
+    <div class="progress-block-content">
+      <wb-spinner></wb-spinner>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #errorTemplate>
+  <div class="error-block">
+    <div class="error-block-content">
+      <wb-info-hint type="warning" [message]="modelNotAvailableMessage"></wb-info-hint>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #notFoundTemplate>
+  <div class="layer-warning-message">
+    <wb-message-box messageType="error" [message]="layersNotFoundMessage"></wb-message-box>
+  </div>
+</ng-template>

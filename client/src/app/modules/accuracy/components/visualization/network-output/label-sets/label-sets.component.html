@@ -1,0 +1,16 @@
+<mat-expansion-panel class="label-sets" *ngIf="!!labelSets.length">
+  <mat-expansion-panel-header data-test-id="labels-sets" class="wb-body-1" collapsedHeight="40px" expandedHeight="40px">
+    Label Set
+  </mat-expansion-panel-header>
+
+  <ng-template matExpansionPanelContent>
+    <wb-info-hint [message]="'Select a label set.'"></wb-info-hint>
+    <mat-form-field>
+      <mat-select [formControl]="labelSetControl">
+        <mat-option *ngFor="let value of labelSets" [value]="value">
+          {{ value.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </ng-template>
+</mat-expansion-panel>

@@ -1,0 +1,15 @@
+<wb-help-tooltip *ngIf="tooltipMessage" [tooltipMessage]="tooltipMessage"></wb-help-tooltip>
+<span class="option-label" [class.option-label-selected]="leftOptionChecked" (click)="leftOptionChecked = true">
+  {{ leftOptionLabel }}
+</span>
+<div
+  class="switch-button"
+  data-test-id="switch-between-target-platform"
+  [class.switch-button-toggled-right]="!leftOptionChecked"
+  (click)="leftOptionChecked = !leftOptionChecked"
+>
+  <div class="switch-button-thumb"></div>
+</div>
+<span class="option-label" [class.option-label-selected]="!leftOptionChecked" (click)="leftOptionChecked = false">
+  {{ rightOptionLabel }}
+</span>

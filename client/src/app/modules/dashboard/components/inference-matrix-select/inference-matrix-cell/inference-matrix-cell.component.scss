@@ -1,0 +1,23 @@
+@import 'colors';
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  width: 60px;
+  mat-icon {
+    color: $plum;
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+  }
+
+  &.has-info {
+    background-color: $plum;
+
+    mat-icon {
+      color: $white;
+    }
+  }
+}

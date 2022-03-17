@@ -1,0 +1,133 @@
+<ng-container [ngTemplateOutlet]="navigation"></ng-container>
+<ng-container *ngIf="model$ | async as model">
+  <!-- Compare Page Header -->
+  <div class="wb-page-header">
+    <h1 class="wb-h1 wb-page-header__title">Setup to Compare Performance: {{ model.name }} model</h1>
+    <wb-info-hint class="wb-page-header__hint" [message]="getUnderTitleHint(model.name)"></wb-info-hint>
+  </div>
+  <div class="compare-page">
+    <!-- Compare Page Container -->
+    <div class="container">
+      <div class="row">
+        <div class="half">
+          <wb-compare-column
+            data-test-id="side_a"
+            [selectedProject]="defaultProjectA$ | async"
+            [projects]="projects$ | async"
+            side="a"
+            (selectInferenceResult)="onInferenceResultASelection($event)"
+          ></wb-compare-column>
+        </div>
+        <div class="half">
+          <wb-compare-column
+            data-test-id="side_b"
+            [selectedProject]="defaultProjectB$ | async"
+            [projects]="projects$ | async"
+            side="b"
+            (selectInferenceResult)="onInferenceResultBSelection($event)"
+          ></wb-compare-column>
+        </div>
+      </div>
+      <div class="row">
+        <div class="full">
+          <div class="btn-with-tooltip">
+            <wb-button
+              #detailsElement
+              [disabled]="!inferenceResultA || !inferenceResultB || showDetails"
+              data-test-id="compare-btn"
+              class="compare-btn enlarged-control"
+              type="primary"
+              text="Compare"
+              (handleClick)="showComparisonDetails()"
+            ></wb-button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabs-container" *ngIf="showDetails">
+        <mat-tab-group wbScrollIntoView wbMatTabGroupFix animationDuration="0ms" disableRipple class="tab-group">
+          <!--  Execution Time by Layer Tab  -->
+          <mat-tab>
+            <ng-template matTabLabel><span data-test-id="execution-tab">Performance Summary</span></ng-template>
+            <ng-template matTabContent>
+              <ng-container [ngTemplateOutlet]="comparisonLayersTimeDistribution"></ng-container>
+            </ng-template>
+          </mat-tab>
+          <!--  Inference Time Tab  -->
+          <mat-tab>
+            <ng-template matTabLabel><span data-test-id="inference-tab">Inference Time</span></ng-template>
+            <ng-template matTabContent>
+              <ng-container [ngTemplateOutlet]="inferenceTime"></ng-container>
+            </ng-template>
+          </mat-tab>
+          <!--  Layers Table  -->
+          <mat-tab>
+            <ng-template matTabLabel><span data-test-id="layers-table-tab">Kernel-Level Performance</span></ng-template>
+            <ng-template matTabContent>
+              <ng-container [ngTemplateOutlet]="layersTable"></ng-container>
+            </ng-template>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #navigation>
+  <wb-navigation-bar>
+    <a (click)="goToModel()" data-test-id="back-to-dashboard">Model {{ (model$ | async)?.name }}</a>
+    <a>Setup to Compare Models Performance</a>
+  </wb-navigation-bar>
+</ng-template>
+
+<!-- Inference Time Template -->
+<ng-template #inferenceTime>
+  <div class="bar-chart-container">
+    <wb-switch-button
+      leftOptionLabel="Throughput"
+      rightOptionLabel="Latency"
+      [leftOptionChecked]="barChartType === 'throughput'"
+      (leftOptionCheckedChange)="barChartType = $event ? 'throughput' : 'latency'"
+    ></wb-switch-button>
+    <wb-info-hint class="bar-hint" [message]="barTypeHint"></wb-info-hint>
+    <wb-bar-chart
+      data-test-id="bar-chart"
+      [type]="barChartType"
+      [throughputUnit]="getThroughputUnit((model$ | async)?.domain)"
+      [data]="[inferenceResultA, inferenceResultB]"
+      [chartLabels]="['First Selected Point', 'Second Selected Point']"
+    >
+    </wb-bar-chart>
+  </div>
+</ng-template>
+
+<!-- Layers Table Template -->
+<ng-template #layersTable>
+  <wb-layers-compare-table
+    data-test-id="layers-compare-table"
+    style="margin: 0 -20px -20px -20px"
+    *ngIf="layerTableData && layerTableData.length > 0; else progressSpinner"
+    [layers]="layerTableData"
+    [executionConfigurations]="execDetails$ | async"
+    [attr.data-model-id]="(model$ | async)?.id"
+    [attr.data-job-id]="inferenceResultA?.compoundJobId"
+    [attr.data-inference-result-id]="inferenceResultA?.id"
+    [attr.data-job-comparison-id]="inferenceResultB?.compoundJobId"
+    [attr.data-inference-result-comparison-id]="inferenceResultB?.id"
+  ></wb-layers-compare-table>
+</ng-template>
+
+<!-- Progress spinner template -->
+<ng-template #progressSpinner>
+  <wb-spinner></wb-spinner>
+</ng-template>
+
+<ng-template #comparisonLayersTimeDistribution>
+  <div class="layers-distribution" *ngIf="firstPointLayerTimeDistribution && secondPointLayerTimeDistribution">
+    <wb-layers-distribution-comparison
+      data-test-id="layers-distribution-table"
+      [layerTimeDistributionA]="firstPointLayerTimeDistribution"
+      [layerTimeDistributionB]="secondPointLayerTimeDistribution"
+    ></wb-layers-distribution-comparison>
+  </div>
+</ng-template>

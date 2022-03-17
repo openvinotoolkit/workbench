@@ -1,0 +1,120 @@
+@import 'colors';
+@import 'fonts';
+@import 'variables';
+
+$header-padding: 20px;
+$buttons-block-padding: 15px;
+$zoom-icon-size: 22px;
+$toolbar-height: 100px;
+$close-icon-size: 20px;
+$close-icon-padding: 8px;
+$search-width: 150px;
+
+.netron-graph-container {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  min-height: 500px;
+
+  .netron-graph-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+    border-left: none;
+    &:nth-child(2) {
+      border-left: 1px solid $light-blue-grey;
+    }
+    .graph-header {
+      background-color: $faded-bgr;
+      padding-bottom: $header-padding;
+      @include wb-label();
+
+      ::ng-deep .mat-select-value-text {
+        @include wb-body-1();
+      }
+
+      &-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        height: $toolbar-height;
+
+        &-block {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          width: 100%;
+          &:first-child {
+            .graph-header-toolbar-search-layer {
+              position: relative;
+              top: -6px;
+            }
+          }
+          &:last-child {
+            align-items: flex-end;
+          }
+          &-padding {
+            padding-top: 25px;
+          }
+        }
+
+        &-buttons {
+          display: flex;
+          align-items: center;
+          margin-right: $buttons-block-padding;
+        }
+
+        &-title {
+          @include wb-h3();
+          margin-right: $buttons-block-padding;
+        }
+        &-zoom,
+        &-download {
+          cursor: pointer;
+        }
+
+        &-zoom {
+          padding: 0 3px;
+        }
+
+        &-download {
+          margin-right: $header-padding;
+        }
+
+        &-search-layer {
+          display: flex;
+          flex-grow: 1;
+          justify-content: flex-end;
+        }
+
+        & > wb-button {
+          margin-left: 25px;
+        }
+      }
+    }
+
+    .netron-graph {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    ::ng-deep .select-autocomplete-form {
+      mat-form-field {
+        width: $search-width;
+      }
+    }
+
+    &:not(:first-child) > .graph-block {
+      border-left: none;
+    }
+    .close-icon {
+      cursor: pointer;
+      padding-bottom: $close-icon-padding;
+      color: $black;
+      font-size: $close-icon-size;
+      height: $close-icon-size;
+      width: $close-icon-size;
+    }
+  }
+}

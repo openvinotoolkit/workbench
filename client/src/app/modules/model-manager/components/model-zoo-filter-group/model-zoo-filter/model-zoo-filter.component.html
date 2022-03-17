@@ -1,0 +1,8 @@
+<ng-content select="[title]"></ng-content>
+<div class="options-container" #container>
+  <ng-content></ng-content>
+  <div class="icon-container" *ngIf="options.length > optionsLimit">
+    <mat-icon svgIcon="add" *ngIf="hiddenOptions?.length" (click)="showOptions()"></mat-icon>
+    <mat-icon svgIcon="close" *ngIf="!hiddenOptions?.length" (click)="hideOptions()"></mat-icon>
+  </div>
+</div>

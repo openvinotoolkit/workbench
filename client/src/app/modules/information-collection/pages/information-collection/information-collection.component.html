@@ -1,0 +1,45 @@
+<ng-template #navigation>
+  <wb-navigation-bar>
+    <a>Cookie Information</a>
+  </wb-navigation-bar>
+</ng-template>
+
+<ng-container [ngTemplateOutlet]="navigation"></ng-container>
+<div class="wb-page-header">
+  <div class="wb-page-header__row">
+    <h1 class="wb-page-header__title wb-h1">Cookie Information</h1>
+  </div>
+  <wb-info-hint class="wb-page-header__hint" [message]="softwareImprovementProgramLink"></wb-info-hint>
+</div>
+
+<div class="wb-container">
+  <div class="wb-panel">
+    <span class="content-row">
+      <span class="text-label">
+        <span>Name:</span>
+      </span>
+      <span class="version-value wb-body-2">Google Analytics</span>
+    </span>
+    <span class="content-row">
+      <span class="text-label">
+        <span>Type:</span>
+      </span>
+      <span class="version-value wb-body-2">Analytical Cookie</span>
+    </span>
+    <span class="content-row">
+      <span class="text-label">
+        <span>Purpose:</span>
+      </span>
+      <span class="version-value wb-body-2">To count the number of users and analyse site usage</span>
+    </span>
+    <span class="content-row">
+      <span class="text-label">
+        <span>Opt-Out:</span>
+      </span>
+      <span class="version-value wb-body-2"> Block from the Settings panel </span>
+    </span>
+  </div>
+  <div class="wb-panel">
+    <wb-markdown-text class="improvement-program-description" [text]="softwareImprovementProgramTip"></wb-markdown-text>
+  </div>
+</div>

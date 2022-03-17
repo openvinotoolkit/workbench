@@ -1,0 +1,3006 @@
+{
+  "ODModels": {
+    "mobilenetSSD": {
+      "binPath": "models/IR/OD/mobilenetssd/mobilenet-ssd.bin",
+      "xmlPath": "models/IR/OD/mobilenetssd/mobilenet-ssd.xml",
+      "name": "Mobilenet",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irVersion": 10,
+        "colourSpace": "BGR",
+        "outputs": ["detection_out"],
+        "opSets": "opset1, opset3",
+        "inputLayers": [
+          {
+            "name": "data",
+            "means": [127.5, 127.5, 127.5],
+            "scales": [127.5],
+            "shape": [1, 3, 300, 300]
+          }
+        ]
+      },
+      "accuracyData": {
+        "accuracyValue": 73.15,
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "SSD"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "Yes"
+        },
+        "postProcessing": {
+          "resizeBoxes": "ResizeBoxes"
+        },
+        "metric": {
+          "name": "mAP",
+          "integral": "11 Point",
+          "integralTests": "11Point",
+          "overlapThreshold": 0.5
+        }
+      }
+    },
+    "ssdliteMobileNetV2": {
+      "binPath": "models/IR/OD/ssdlite_mobilenet_v2/ssdlite_mobilenet_v2.bin",
+      "xmlPath": "models/IR/OD/ssdlite_mobilenet_v2/ssdlite_mobilenet_v2.xml",
+      "name": "ssdliteMobileNetV2",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irVersion": 11,
+        "colourSpace": "BGR",
+        "setLayout": true,
+        "outputs": ["detection_scores", "detection_boxes", "num_detections"],
+        "outputsTest": "detection_scores, detection_boxes, num_detections",
+        "opSets": "opset1, opset3, opset8",
+        "inputLayers": [
+          {
+            "name": "image_tensor",
+            "shape": [1, 300, 300, 3],
+            "originalLayout": "NHWC"
+          }
+        ]
+      },
+      "accuracyData": {
+        "accuracyValue": 10.3,
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "SSD"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "Yes"
+        },
+        "postProcessing": {
+          "resizeBoxes": "ResizeBoxes"
+        },
+        "metric": {
+          "name": "mAP",
+          "integral": "11 Point",
+          "integralTests": "11Point",
+          "overlapThreshold": 0.5
+        }
+      }
+    },
+    "ssdMobilenetCocoDeprecatedIRV10": {
+      "binPath": "models/IR/OD/ssd_mobilenet_v1_coco/ssd_mobilenet_v1_coco.bin",
+      "xmlPath": "models/IR/OD/ssd_mobilenet_v1_coco/ssd_mobilenet_v1_coco.xml",
+      "name": "ssdMobilenetCocoV1",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irVersion": 10,
+        "colourSpace": "BGR",
+        "outputs": ["detection_boxes", "detection_scores", "num_detections"],
+        "outputsTests": "detection_scores, detection_boxes, num_detections",
+        "opSets": "opset1",
+        "inputLayers": [
+          {
+            "name": "image_tensor",
+            "shape": [1, 300, 300, 3]
+          }
+        ]
+      },
+      "accuracyData": {
+        "accuracyValue": 31.86,
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "SSD"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "Yes",
+          "mapping": "91 COCO classes"
+        },
+        "postProcessing": {
+          "resizeBoxes": "ResizeBoxes"
+        },
+        "metric": {
+          "name": "COCO Precision",
+          "maxDetections": 20
+        }
+      }
+    },
+    "ssdMobilenetCoco": {
+      "binPath": "models/IR/OD/ssd_mobilenet_v1_coco/ssd_mobilenet_v1_coco_v11.bin",
+      "xmlPath": "models/IR/OD/ssd_mobilenet_v1_coco/ssd_mobilenet_v1_coco_v11.xml",
+      "name": "ssdMobilenetCocoV1V11",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irVersion": 11,
+        "setLayout": true,
+        "colourSpace": "BGR",
+        "outputs": ["detection_boxes", "detection_scores", "num_detections"],
+        "outputsTests": "detection_scores, detection_boxes, num_detections",
+        "opSets": "opset1, opset3, opset8",
+        "inputLayers": [
+          {
+            "name": "image_tensor",
+            "shape": [1, 300, 300, 3],
+            "originalLayout": "NHWC"
+          }
+        ]
+      },
+      "accuracyData": {
+        "accuracyValue": 31.86,
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "SSD"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "Yes",
+          "mapping": "91 COCO classes"
+        },
+        "postProcessing": {
+          "resizeBoxes": "ResizeBoxes"
+        },
+        "metric": {
+          "name": "COCO Precision",
+          "maxDetections": 20
+        }
+      }
+    },
+    "yoloV2DeprecatedIR10": {
+      "binPath": "models/IR/OD/yolo_v2/yolo_v2.bin",
+      "xmlPath": "models/IR/OD/yolo_v2/yolo_v2.xml",
+      "name": "Yolo_V2",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "irVersion": 10,
+        "precision": "FP32",
+        "colourSpace": "BGR",
+        "opSets": "opset1, opset2",
+        "inputLayers": [
+          {
+            "shape": [1, 416, 416, 3]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "Yolo V2",
+          "subTypeTest": "Yolo_V2"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "No"
+        },
+        "postProcessing": {
+          "resizeBoxes": "ResizeBoxes NMS",
+          "NMSOverlap": 0.5
+        },
+        "metric": {
+          "name": "mAP",
+          "integral": "11 Point",
+          "integralTests": "11Point",
+          "overlapThreshold": 0.5
+        }
+      }
+    },
+    "yoloV2": {
+      "binPath": "models/IR/OD/yolo_v2/yolo_v2_v11.bin",
+      "xmlPath": "models/IR/OD/yolo_v2/yolo_v2_v11.xml",
+      "name": "Yolo_V2_v11",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "irVersion": 11,
+        "precision": "FP32",
+        "colourSpace": "BGR",
+        "opSets": "opset1, opset8",
+        "inputLayers": [
+          {
+            "name": "image_input",
+            "scales": ["image_input(255)"],
+            "shape": [1, 608, 608, 3],
+            "originalLayout": "NHWC"
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "Yolo V2",
+          "subTypeTest": "Yolo_V2"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "No"
+        },
+        "postProcessing": {
+          "resizeBoxes": "ResizeBoxes NMS",
+          "NMSOverlap": 0.5
+        },
+        "metric": {
+          "name": "mAP",
+          "integral": "11 Point",
+          "integralTests": "11Point",
+          "overlapThreshold": 0.5
+        }
+      }
+    },
+    "yoloTinyV2": {
+      "binPath": "models/IR/OD/yolo_tiny_v2/yolo_tiny_v2.bin",
+      "xmlPath": "models/IR/OD/yolo_tiny_v2/yolo_tiny_v2.xml",
+      "name": "Yolo_Tiny_V2",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "irVersion": 10,
+        "precision": "FP32",
+        "colourSpace": "BGR",
+        "outputs": "Region",
+        "opSets": "opset1",
+        "inputLayers": [
+          {
+            "scales": "254.99991075003123",
+            "shape": [8, 3, 416, 416]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "Tiny Yolo V2",
+          "subTypeTest": "Tiny_Yolo_V2"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "No"
+        },
+        "postProcessing": {
+          "resizeBoxes": "ResizeBoxes NMS",
+          "NMSOverlap": 0.5
+        },
+        "metric": {
+          "name": "mAP",
+          "integral": "11 Point",
+          "integralTests": "11Point",
+          "overlapThreshold": 0.5
+        }
+      }
+    },
+    "roadSegmentationAdas": {
+      "binPath": "models/IR/semantic/road-segmentation-adas/road-segmentation-adas-0001-v11.bin",
+      "xmlPath": "models/IR/semantic/road-segmentation-adas/road-segmentation-adas-0001-v11.xml",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP32",
+        "irVersion": 11,
+        "opSets": "opset1, opset3, opset4, opset8",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB"
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Semantic Segmentation"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "mobilenet": {
+      "modelPath": "models/caffe/OD/mobilenet_ssd/mobilenet_ssd.caffemodel",
+      "protoTxtPath": "models/caffe/OD/mobilenet_ssd/mobilenet_ssd.prototxt",
+      "name": "mobilenet_Caffe",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "Caffe",
+        "precision": "FP32",
+        "irVersion": 11,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "inputLayers": [
+          {
+            "name": "data",
+            "shape": [1, 3, 300, 300]
+          }
+        ]
+      },
+      "backendData": {
+        "data": [1, 3, 300, 300]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "SSD"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "Yes"
+        },
+        "postProcessing": {
+          "resizeBoxes": "ResizeBoxes"
+        },
+        "metric": {
+          "name": "mAP",
+          "integral": "11 Point",
+          "integralTests": "11Point",
+          "overlapThreshold": 0.5
+        }
+      }
+    },
+    "mtcnno": {
+      "modelPath": "models/caffe/OD/mtcnn_o/mtcnn_o.caffemodel",
+      "protoTxtPath": "models/caffe/OD/mtcnn_o/mtcnn_o.prototxt",
+      "name": "Mtcnn_o",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "Caffe",
+        "precision": "FP16",
+        "irVersion": 11,
+        "scalesTest": "128.0,128.0,128.0",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "inputLayers": [
+          {
+            "name": "data",
+            "means": [127.5, 127.5, 127.5],
+            "scales": [128.0, 128.0, 128.0],
+            "shape": [1, 3, 48, 48]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Object Detection"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "SSDInceptionV3": {
+      "paramsPath": "models/mxnet/OD/ssd_inception_v3/ssd_inception_v3_512.params",
+      "jsonPath": "models/mxnet/OD/ssd_inception_v3/ssd_inception_v3_512_symbol.json",
+      "name": "SSD_Inception_V3_Mxnet",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "MxNet",
+        "precision": "FP16",
+        "irVersion": 11,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "legacy": false,
+        "gluoncv": false,
+        "inputLayers": [
+          {
+            "name": "data",
+            "shape": [1, 3, 512, 512]
+          }
+        ]
+      },
+      "backendData": {
+        "data": []
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "SSD"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "SSDMobilenet": {
+      "paramsPath": "models/mxnet/OD/ssd_mobilenet/ssd_mobilenet_512.params",
+      "jsonPath": "models/mxnet/OD/ssd_mobilenet/ssd_mobilenet_512_symbol.json",
+      "name": "SSD_Mobilenet_Mxnet",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "MxNet",
+        "precision": "FP32",
+        "irVersion": 11,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "meansTest": "104.0,117.0,123.0",
+        "legacy": false,
+        "gluoncv": false,
+        "inputLayers": [
+          {
+            "name": "data",
+            "means": [123.0, 117.0, 104.0],
+            "shape": [1, 3, 512, 512]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "SSD"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "No"
+        },
+        "postProcessing": {
+          "resizeBoxes": "ResizeBoxes"
+        },
+        "metric": {
+          "name": "mAP",
+          "integral": "11 Point",
+          "integralTests": "11Point",
+          "overlapThreshold": 0.5
+        }
+      }
+    },
+    "rcnnInceptionV2Coco": {
+      "dataPath": "models/tensorflow/OD/rcnn_inception_v2_coco/inception_v2_coco.ckpt.data-00000-of-00001",
+      "indexPath": "models/tensorflow/OD/rcnn_inception_v2_coco/inception_v2_coco.ckpt.index",
+      "metaPath": "models/tensorflow/OD/rcnn_inception_v2_coco/inception_v2_coco.ckpt.meta",
+      "frozenPath": "models/tensorflow/OD/rcnn_inception_v2_coco/inception_v2_coco_frozen.pb",
+      "configPath": "models/tensorflow/OD/rcnn_inception_v2_coco/pipeline.config",
+      "name": "Inception_V2_Coco_TensorFlow",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "TensorFlow",
+        "precision": "FP32",
+        "colourSpace": "BGR",
+        "irVersion": 11,
+        "frozen": false,
+        "modelTransformationsConfig": "faster_rcnn_support",
+        "modelTransformationsConfigFullPath": "faster_rcnn_support.json",
+        "outputs": ["detection_scores", "detection_boxes", "num_detections"],
+        "outputsTests": "detection_scores, detection_boxes, num_detections",
+        "ODAPI": true,
+        "pipelineConfig": "pipeline",
+        "inputLayers": [
+          {
+            "name": "image_tensor",
+            "shape": []
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "SSD"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "SSDLiteMobilenetV2": {
+      "dataPath": "models/tensorflow/OD/ssdlite_mobilenet_v2/mobilenet_v2.ckpt.data-00000-of-00001",
+      "indexPath": "models/tensorflow/OD/ssdlite_mobilenet_v2/mobilenet_v2.ckpt.index",
+      "metaPath": "models/tensorflow/OD/ssdlite_mobilenet_v2/mobilenet_v2.ckpt.meta",
+      "frozenPath": "models/tensorflow/OD/ssdlite_mobilenet_v2/mobilenet_v2_frozen.pb",
+      "configPath": "models/tensorflow/OD/ssdlite_mobilenet_v2/pipeline.config",
+      "name": "SSDLite_Mobilenet_V2_TensorFlow",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "TensorFlow",
+        "precision": "FP16",
+        "colourSpace": "BGR",
+        "irVersion": 11,
+        "frozen": false,
+        "meansTest": "104,117,123",
+        "modelTransformationsConfig": "ssd_v2_support",
+        "modelTransformationsConfigTest": "ssd_v2_support.json",
+        "outputs": ["detection_scores", "detection_boxes", "num_detections"],
+        "outputsTests": "detection_scores, detection_boxes, num_detections",
+        "ODAPI": true,
+        "pipelineConfig": "pipeline",
+        "inputLayers": [
+          {
+            "name": "image_tensor",
+            "means": [123.0, 117.0, 104.0],
+            "shape": [1, 300, 300, 3]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "SSD"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "yoloV3Tiny": {
+      "frozenPath": "models/tensorflow/OD/yolo-v3-tiny-tf/yolo-v3-tiny-tf.pb",
+      "name": "YOLO_V3_Tiny",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "TensorFlow",
+        "precision": "FP16",
+        "colourSpace": "BGR",
+        "irVersion": 11,
+        "transformationsConfigPath": "models/tensorflow/OD/yolo-v3-tiny-tf/yolo-v3-tiny-tf.json",
+        "frozen": true,
+        "inputLayers": [
+          {
+            "name": "image_input",
+            "shape": [1, 416, 416, 3]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "Yolo V3",
+          "subTypeTest": "Yolo_V3"
+        }
+      }
+    },
+    "efficientDet": {
+      "frozenPath": "models/tensorflow/OD/Livnsense-EfficientDet/efficientdet-d0_frozen.pb",
+      "name": "EfficientDet",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "TensorFlow",
+        "precision": "FP16",
+        "colourSpace": "BGR",
+        "irVersion": 11,
+        "preConfiguredConfigurationFile": "automl_efficientdet",
+        "frozen": true,
+        "inputLayers": [
+          {
+            "name": "image_files",
+            "shape": [1, 512, 512, 3]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "SSD"
+        }
+      }
+    },
+    "tapway": {
+      "paramsPath": "models/mxnet/OD/tapway/model-0000.params",
+      "jsonPath": "models/mxnet/OD/tapway/model-symbol.json",
+      "name": "tapway",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "MxNet",
+        "precision": "FP16",
+        "preConfiguredConfigurationFile": "yolo_v3_mobilenet1_voc",
+        "irVersion": 11,
+        "irColourSpace": "BGR",
+        "colourSpace": "BGR",
+        "legacy": false,
+        "gluoncv": false,
+        "inputLayers": [
+          {
+            "name": "data",
+            "shape": [1, 3, 608, 608]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "SSD"
+        }
+      }
+    },
+    "yoloV3TinyDeprecatedIRV10": {
+      "binPath": "models/IR/OD/yolo-v3-tiny-tf/yolo-v3-tiny-tf.bin",
+      "xmlPath": "models/IR/OD/yolo-v3-tiny-tf/yolo-v3-tiny-tf.xml",
+      "name": "yolo-v3-tiny",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irVersion": 10,
+        "colourSpace": "BGR",
+        "opSets": "opset1, opset3, opset4",
+        "inputLayers": [
+          {
+            "name": "image_input",
+            "scales": [255],
+            "shape": [1, 416, 416, 3]
+          }
+        ]
+      },
+      "accuracyData": {
+        "accuracyValue": 0.2,
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "Tiny Yolo V3/V4",
+          "subTypeTest": "Tiny_yolo_v3_v4"
+        }
+      }
+    },
+    "yoloV3TinyIR": {
+      "binPath": "models/IR/OD/yolo-v3-tiny-tf/yolo-v3-tiny-tf-v11.bin",
+      "xmlPath": "models/IR/OD/yolo-v3-tiny-tf/yolo-v3-tiny-tf-v11.xml",
+      "name": "yolo-v3-tiny",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irVersion": 11,
+        "setLayout": true,
+        "colourSpace": "BGR",
+        "opSets": "opset1, opset3, opset4, opset8",
+        "inputLayers": [
+          {
+            "name": "image_input",
+            "scales": ["image_input(255)"],
+            "shape": [1, 416, 416, 3],
+            "originalLayout": "NHWC"
+          }
+        ]
+      },
+      "accuracyData": {
+        "accuracyValue": 0.2,
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "Tiny Yolo V3/V4",
+          "subTypeTest": "Tiny_yolo_v3_v4"
+        }
+      }
+    },
+    "yoloV3DeprecatedIRV10": {
+      "binPath": "models/IR/OD/yolo-v3-tf/yolo-v3-tf.bin",
+      "xmlPath": "models/IR/OD/yolo-v3-tf/yolo-v3-tf.xml",
+      "name": "yolo-v3-tf",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irVersion": 10,
+        "colourSpace": "BGR",
+        "opSets": "opset1, opset3, opset4",
+        "inputLayers": [
+          {
+            "name": "input_1",
+            "scales": ["input_1(255)"],
+            "shape": [1, 416, 416, 3]
+          }
+        ]
+      },
+      "accuracyData": {
+        "accuracyValue": 67.47,
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "Yolo V3",
+          "subTypeTest": "Yolo_v3"
+        }
+      }
+    },
+    "yoloV3IR": {
+      "binPath": "models/IR/OD/yolo-v3-tf/yolo-v3-tf-v11.bin",
+      "xmlPath": "models/IR/OD/yolo-v3-tf/yolo-v3-tf-v11.xml",
+      "name": "yolo-v3-tf",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irVersion": 11,
+        "setLayout": true,
+        "colourSpace": "BGR",
+        "opSets": "opset1, opset3, opset4, opset8",
+        "inputLayers": [
+          {
+            "name": "input_1",
+            "scales": ["input_1(255)"],
+            "shape": [1, 416, 416, 3],
+            "originalLayout": "NHWC"
+          }
+        ]
+      },
+      "accuracyData": {
+        "accuracyValue": 67.47,
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "Yolo V3",
+          "subTypeTest": "Yolo_v3"
+        }
+      }
+    },
+    "yoloV4TinyDeprecatedIRV10": {
+      "binPath": "models/IR/OD/yolo-v4-tiny-tf/yolo-v4-tiny-tf.bin",
+      "xmlPath": "models/IR/OD/yolo-v4-tiny-tf/yolo-v4-tiny-tf.xml",
+      "name": "yolo-v4-tiny",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irVersion": 10,
+        "colourSpace": "BGR",
+        "opSets": "opset1, opset3, opset4",
+        "inputLayers": [
+          {
+            "name": "image_input",
+            "scales": [255],
+            "shape": [1, 416, 416, 3]
+          }
+        ]
+      },
+      "accuracyData": {
+        "accuracyValue": 0.2,
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "Tiny Yolo V3/V4",
+          "subTypeTest": "Tiny_yolo_v3_v4"
+        }
+      }
+    },
+    "yoloV4TinyIR": {
+      "binPath": "models/IR/OD/yolo-v4-tiny-tf/yolo-v4-tiny-tf-v11.bin",
+      "xmlPath": "models/IR/OD/yolo-v4-tiny-tf/yolo-v4-tiny-tf-v11.xml",
+      "name": "yolo-v4-tiny",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irVersion": 11,
+        "setLayout": true,
+        "colourSpace": "BGR",
+        "opSets": "opset1, opset3, opset4, opset8",
+        "inputLayers": [
+          {
+            "name": "image_input",
+            "scales": ["image_input(255)"],
+            "shape": [1, 416, 416, 3],
+            "originalLayout": "NHWC"
+          }
+        ]
+      },
+      "accuracyData": {
+        "accuracyValue": 0.2,
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "Tiny Yolo V3/V4",
+          "subTypeTest": "Tiny_yolo_v3_v4"
+        }
+      }
+    },
+    "yoloV4DeprecatedIRV10": {
+      "binPath": "models/IR/OD/yolo-v4-tf/yolo-v4-tf.bin",
+      "xmlPath": "models/IR/OD/yolo-v4-tf/yolo-v4-tf.xml",
+      "name": "yolo-v4-tf",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irVersion": 10,
+        "colourSpace": "BGR",
+        "opSets": "opset1, opset3, opset4",
+        "inputLayers": [
+          {
+            "name": "image_input",
+            "scales": [255],
+            "shape": [1, 608, 608, 3]
+          }
+        ]
+      },
+      "accuracyData": {
+        "accuracyValue": 0.03,
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "Yolo V4",
+          "subTypeTest": "Yolo_v4"
+        }
+      }
+    },
+    "yoloV4IR": {
+      "binPath": "models/IR/OD/yolo-v4-tf/yolo-v4-tf-v11.bin",
+      "xmlPath": "models/IR/OD/yolo-v4-tf/yolo-v4-tf-v11.xml",
+      "name": "yolo-v4-tf",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irVersion": 10,
+        "colourSpace": "BGR",
+        "setLayout": true,
+        "opSets": "opset1, opset3, opset4, opset8",
+        "inputLayers": [
+          {
+            "name": "image_input",
+            "scales": ["image_input(255)"],
+            "shape": [1, 608, 608, 3],
+            "originalLayout": "NHWC"
+          }
+        ]
+      },
+      "accuracyData": {
+        "accuracyValue": 0.03,
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "Yolo V4",
+          "subTypeTest": "Yolo_v4"
+        }
+      }
+    },
+    "instanceSegmentationSecurity0010": {
+      "binPath": "models/IR/instance/instance-segmentation-security-0010/instance-segmentation-security-0010.bin",
+      "xmlPath": "models/IR/instance/instance-segmentation-security-0010/instance-segmentation-security-0010.xml",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irVersion": 10,
+        "opSets": "opset1, opset2",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB"
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Instance Segmentation"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "instanceSegmentationSecurity0050": {
+      "binPath": "models/IR/instance/instance-segmentation-security-0050/instance-segmentation-security-0050.bin",
+      "xmlPath": "models/IR/instance/instance-segmentation-security-0050/instance-segmentation-security-0050.xml",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irVersion": 10,
+        "opSets": "opset1",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB"
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Instance Segmentation"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "instanceSegmentationSecurity0083": {
+      "binPath": "models/IR/instance/instance-segmentation-security-0083/instance-segmentation-security-0083.bin",
+      "xmlPath": "models/IR/instance/instance-segmentation-security-0083/instance-segmentation-security-0083.xml",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irVersion": 10,
+        "opSets": "opset1",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB"
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Instance Segmentation"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "instanceSegmentationSecurity1025": {
+      "binPath": "models/IR/instance/instance-segmentation-security-1025/instance-segmentation-security-1025.bin",
+      "xmlPath": "models/IR/instance/instance-segmentation-security-1025/instance-segmentation-security-1025.xml",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irVersion": 10,
+        "colourSpace": "BGR",
+        "opSets": "opset1"
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Instance Segmentation"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "maskRcnnInceptionResnetV2AtrousCoco": {
+      "frozenPath": "models/tensorflow/IS/mask_rcnn_inception_resnet_v2_atrous_coco/frozen_inference_graph.pb",
+      "configPath": "models/tensorflow/IS/mask_rcnn_inception_resnet_v2_atrous_coco/pipeline.config",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "TensorFlow",
+        "precision": "FP16",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "irVersion": 11,
+        "frozen": true,
+        "modelTransformationsConfig": "mask_rcnn_support",
+        "pipelineConfig": "pipeline.config",
+        "transformationsConfig": "mask_rcnn_support.json",
+        "ODAPI": true,
+        "inputLayers": [
+          {
+            "shape": []
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Instance Segmentation"
+        },
+        "preProcessing": {
+          "hasBackground": "Yes"
+        },
+        "postProcessing": {}
+      }
+    },
+    "maskRcnnInceptionV2Coco": {
+      "frozenPath": "models/tensorflow/IS/mask_rcnn_inception_v2_coco/frozen_inference_graph.pb",
+      "configPath": "models/tensorflow/IS/mask_rcnn_inception_v2_coco/pipeline.config",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "TensorFlow",
+        "precision": "FP16",
+        "colourSpace": "BGR",
+        "irVersion": 11,
+        "frozen": true,
+        "modelTransformationsConfig": "mask_rcnn_support",
+        "pipelineConfig": "pipeline.config",
+        "transformationsConfig": "mask_rcnn_support.json",
+        "ODAPI": true,
+        "inputLayers": [
+          {
+            "name": "image_tensor",
+            "shape": []
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Instance Segmentation"
+        },
+        "preProcessing": {
+          "hasBackground": "Yes"
+        },
+        "postProcessing": {}
+      }
+    },
+    "maskRcnnResnet50AtrousCoco": {
+      "frozenPath": "models/tensorflow/IS/mask_rcnn_resnet50_atrous_coco/frozen_inference_graph.pb",
+      "configPath": "models/tensorflow/IS/mask_rcnn_resnet50_atrous_coco/pipeline.config",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "TensorFlow",
+        "precision": "FP16",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "irVersion": 11,
+        "frozen": true,
+        "modelTransformationsConfig": "mask_rcnn_support",
+        "pipelineConfig": "pipeline.config",
+        "transformationsConfig": "mask_rcnn_support.json",
+        "ODAPI": true,
+        "inputLayers": [
+          {
+            "shape": []
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Instance Segmentation"
+        },
+        "preProcessing": {
+          "hasBackground": "Yes"
+        },
+        "postProcessing": {}
+      }
+    },
+    "maskRcnnResnet101AtrousCoco": {
+      "frozenPath": "models/tensorflow/IS/mask_rcnn_resnet101_atrous_coco/frozen_inference_graph.pb",
+      "configPath": "models/tensorflow/IS/mask_rcnn_resnet101_atrous_coco/pipeline.config",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "TensorFlow",
+        "precision": "FP16",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "irVersion": 11,
+        "frozen": true,
+        "modelTransformationsConfig": "mask_rcnn_support",
+        "pipelineConfig": "pipeline.config",
+        "transformationsConfig": "mask_rcnn_support.json",
+        "ODAPI": true,
+        "inputLayers": [
+          {
+            "shape": []
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Instance Segmentation"
+        },
+        "preProcessing": {
+          "hasBackground": "Yes"
+        },
+        "postProcessing": {}
+      }
+    },
+    "SimpleH5TF2": {
+      "h5path": "models/tensorflow2/h5/simple_model/simple_model.h5",
+      "name": "simple_model",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "TensorFlow V2",
+        "precision": "FP16",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "irVersion": 11,
+        "inputLayers": [
+          {
+            "name": "conv2d_input",
+            "shape": [1, 10, 10, 3]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "SSD"
+        }
+      },
+      "custom": {
+        "frozen": true
+      }
+    },
+    "SSDInceptionV3IRV10": {
+      "binPath": "models/IR/OD/ssd_inception_v3/ssd_inception_v3.bin",
+      "xmlPath": "models/IR/OD/ssd_inception_v3/ssd_inception_v3.xml",
+      "name": "SSD_Inception_V3_IR_V10",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "irVersion": 10,
+        "opSets": "opset1",
+        "inputLayers": [
+          {
+            "name": "data",
+            "shape": [1, 3, 512, 512]
+          }
+        ]
+      },
+      "backendData": {
+        "data": []
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Object Detection",
+          "subType": "SSD"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "No"
+        },
+        "postProcessing": {
+          "resizeBoxes": "ResizeBoxes"
+        },
+        "metric": {
+          "name": "mAP",
+          "integral": "11 Point",
+          "integralTests": "11Point",
+          "overlapThreshold": 0.5
+        }
+      }
+    },
+    "FasterRCNNInceptionResNetV2": {
+      "savedModelDir": "models/tensorflow2/OD/FasterRCNNInceptionResNetV2",
+      "name": "FasterRCNNInceptionResNetV2",
+      "type": "model",
+      "configPath": "models/tensorflow2/OD/FasterRCNNInceptionResNetV2/pipeline.config",
+      "conversionSettings": {
+        "framework": "TensorFlow V2",
+        "precision": "FP16",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "irVersion": 11,
+        "usePipelineConfig": true,
+        "pipelineConfig": "pipeline",
+        "preConfiguredConfigurationFile": "faster_rcnn_support_api_v2.0",
+        "inputLayers": [
+          {
+            "name": "input_tensor",
+            "shape": []
+          }
+        ]
+      }
+    },
+    "FasterRCNNInceptionResnetV2AtrousOID": {
+      "frozenPath": "models/tensorflow/OD/FasterRCNNInceptionResnetV2AtrousOID/frozen_inference_graph.pb",
+      "name": "FasterRCNNInceptionResNetV2",
+      "type": "model",
+      "configPath": "models/tensorflow/OD/FasterRCNNInceptionResnetV2AtrousOID/pipeline.config",
+      "conversionSettings": {
+        "framework": "TensorFlow",
+        "precision": "FP16",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "irVersion": 11,
+        "frozen": true,
+        "ODAPI": true,
+        "pipelineConfig": "pipeline",
+        "preConfiguredConfigurationFile": "faster_rcnn_support",
+        "inputLayers": [
+          {
+            "name": "image_tensor",
+            "shape": [1, 600, 1024, 3]
+          }
+        ]
+      }
+    },
+    "SSSMobilenetV2OID": {
+      "frozenPath": "models/tensorflow/OD/ssd_mobilenet_v2_oid_v4/frozen_inference_graph.pb",
+      "name": "SSSMobilenetV2OID",
+      "type": "model",
+      "configPath": "models/tensorflow/OD/ssd_mobilenet_v2_oid_v4/pipeline.config",
+      "conversionSettings": {
+        "framework": "TensorFlow",
+        "precision": "FP16",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "irVersion": 11,
+        "frozen": true,
+        "ODAPI": true,
+        "pipelineConfig": "pipeline",
+        "preConfiguredConfigurationFile": "ssd_v2_support",
+        "inputLayers": [
+          {
+            "name": "image_tensor",
+            "shape": [1, 300, 300, 3]
+          }
+        ]
+      }
+    },
+    "bdtiYoloV4TinyTf": {
+      "frozenPath": "models/tensorflow/OD/bdti_yolo_v4_tiny_tf/bdti_yolo_v4_tiny_tf.pb",
+      "name": "bdti_yolo_v4",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "TensorFlow",
+        "precision": "FP16",
+        "irVersion": 11,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "frozen": true,
+        "dynamic": true,
+        "inputLayers": [
+          {
+            "name": "image_input",
+            "shape": [1, 512, 680, 3]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Inpainting"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    }
+  },
+  "classificationModels": {
+    "brainTumorDeprecatedV10": {
+      "binPath": "models/IR/classification/braintumor/brain-tumor-segmentation-0001-symbol.bin",
+      "xmlPath": "models/IR/classification/braintumor/brain-tumor-segmentation-0001-symbol.xml",
+      "name": "braintumor",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irVersion": 10,
+        "colourSpace": "RGB",
+        "irColourSpace": "BGR",
+        "opSets": "opset1, opset3, opset4, opset6",
+        "inputLayers": [
+          {
+            "name": "data_crop",
+            "shape": [1, 4, 128, 128, 128]
+          }
+        ]
+      }
+    },
+    "brainTumor": {
+      "binPath": "models/IR/classification/braintumor/brain-tumor-segmentation-0001-symbol-v11.bin",
+      "xmlPath": "models/IR/classification/braintumor/brain-tumor-segmentation-0001-symbol-v11.xml",
+      "name": "braintumorV11",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irVersion": 11,
+        "colourSpace": "RGB",
+        "irColourSpace": "BGR",
+        "opSets": "opset1, opset6, opset8",
+        "inputLayers": [
+          {
+            "name": "data_crop",
+            "shape": [1, 4, 128, 128, 128]
+          }
+        ]
+      }
+    },
+    "DenseNetTFV2": {
+      "savedModelDir": "models/tensorflow2/classification/DenseNet121",
+      "name": "denseNet121TFv2",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "TensorFlow V2",
+        "precision": "FP16",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "irVersion": 11,
+        "frozen": true,
+        "inputLayers": [
+          {
+            "name": "input_1",
+            "shape": [1, 224, 224, 3],
+            "originalLayout": "NHWC"
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "No"
+        },
+        "metric": {
+          "name": "Accuracy",
+          "topK": 5
+        }
+      }
+    },
+    "InceptionV3TFV2": {
+      "savedModelDir": "models/tensorflow2/classification/InceptionV3",
+      "name": "InceptionV3TFv2",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "TensorFlow V2",
+        "precision": "FP16",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "irVersion": 11,
+        "inputLayers": [
+          {
+            "name": "input_5",
+            "shape": [1, 299, 299, 3]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "No"
+        },
+        "metric": {
+          "name": "Accuracy",
+          "topK": 5
+        }
+      }
+    },
+    "MobileNetV2TFV2": {
+      "savedModelDir": "models/tensorflow2/classification/MobileNetV2",
+      "name": "MobileNetV2TFv2",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "TensorFlow V2",
+        "precision": "FP16",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "irVersion": 11,
+        "inputLayers": [
+          {
+            "name": "input_7",
+            "shape": [1, 224, 224, 3]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "No"
+        },
+        "metric": {
+          "name": "Accuracy",
+          "topK": 5
+        }
+      }
+    },
+    "ResNet50V2TFV2": {
+      "savedModelDir": "models/tensorflow2/classification/ResNet50V2",
+      "name": "ResNet50V2TFv2",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "TensorFlow V2",
+        "precision": "FP16",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "irVersion": 11,
+        "frozen": true,
+        "inputLayers": [
+          {
+            "name": "input_15",
+            "shape": [1, 224, 224, 3],
+            "originalLayout": "NHWC"
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "No"
+        },
+        "metric": {
+          "name": "Accuracy",
+          "topK": 5
+        }
+      }
+    },
+    "SampleNet": {
+      "frozenPath": "models/tensorflow/classification/SampleNet/samplenet.pb",
+      "name": "SampleNet",
+      "type": "model",
+      "conversionSettings": {
+        "precision": "FP32",
+        "framework": "Tensorflow",
+        "irVersion": 11,
+        "irColourSpace": "BGR",
+        "colorSpace": "RGB",
+        "originalLayout": "NCHW",
+        "frozen": true,
+        "inputLayers": [
+          {
+            "name": "data",
+            "shape": [1, 3, 32, 32]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "No"
+        },
+        "metric": {
+          "name": "Accuracy",
+          "topK": 5
+        }
+      }
+    },
+    "inceptionV3": {
+      "binPath": "models/IR/classification/inception_v3/inception_v3.bin",
+      "xmlPath": "models/IR/classification/inception_v3/inception_v3.xml",
+      "name": "Inception_V3",
+      "type": "model",
+      "conversionSettings": {
+        "precision": "FP32",
+        "framework": "OpenVINO IR",
+        "irVersion": 11,
+        "opSets": "opset1",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB"
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "No"
+        },
+        "metric": {
+          "name": "Accuracy",
+          "topK": 5
+        }
+      }
+    },
+    "inceptionV3Deprecated": {
+      "binPath": "models/IR/classification/inception_v3/inception_v3_old.bin",
+      "xmlPath": "models/IR/classification/inception_v3/inception_v3_old.xml",
+      "name": "Inception_V3",
+      "type": "model",
+      "conversionSettings": {
+        "precision": "FP32",
+        "framework": "OpenVINO IR",
+        "irVersion": 2,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB"
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "No"
+        },
+        "metric": {
+          "name": "Accuracy",
+          "topK": 5
+        }
+      }
+    },
+    "inceptionResnetV2": {
+      "binPath": "models/IR/classification/inception_resnet_v2/inception_resnet_v2.bin",
+      "xmlPath": "models/IR/classification/inception_resnet_v2/inception_resnet_v2.xml",
+      "name": "Inception_Resnet_V2",
+      "type": "model",
+      "conversionSettings": {
+        "precision": "FP16",
+        "framework": "OpenVINO IR",
+        "irVersion": 10,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "meansTest": "128.0,128.0,128.0",
+        "scalesTest": "128.0",
+        "outputs": ["prob"],
+        "opSets": "opset1",
+        "inputLayers": [
+          {
+            "name": "data",
+            "means": [128.0, 128.0, 128.0],
+            "scales": [128.0],
+            "shape": [1, 3, 299, 299]
+          }
+        ]
+      },
+      "accuracyData": {
+        "accuracyValue": 94,
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "No"
+        },
+        "metric": {
+          "name": "Accuracy",
+          "topK": 5
+        }
+      }
+    },
+    "googlenetV2": {
+      "modelPath": "models/caffe/classification/googlenet_v2/googlenet_v2.caffemodel",
+      "protoTxtPath": "models/caffe/classification/googlenet_v2/googlenet_v2.prototxt",
+      "name": "Googlenet_V2_Caffe",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "Caffe",
+        "precision": "FP32",
+        "irVersion": 11,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "inputLayers": [
+          {
+            "name": "data",
+            "shape": [1, 3, 224, 224]
+          }
+        ]
+      },
+      "backendData": {
+        "data": [1, 3, 224, 224]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "No"
+        },
+        "metric": {
+          "name": "Accuracy",
+          "topK": 5
+        }
+      }
+    },
+    "squeezenetV1": {
+      "modelPath": "models/caffe/classification/squeezenet/squeezenet_1.0.caffemodel",
+      "protoTxtPath": "models/caffe/classification/squeezenet/squeezenet_1.0.prototxt",
+      "name": "Squeezenet_V1_Caffe",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "Caffe",
+        "precision": "FP16",
+        "irVersion": 11,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "inputLayers": [
+          {
+            "name": "data",
+            "shape": [1, 3, 227, 227]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "No"
+        },
+        "metric": {
+          "name": "Accuracy",
+          "topK": 5
+        }
+      }
+    },
+    "Resnet152": {
+      "paramsPath": "models/mxnet/classification/resnet_152/resnet_152.params",
+      "jsonPath": "models/mxnet/classification/resnet_152/resnet_152_symbol.json",
+      "name": "Resnet50_Mxnet",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "MxNet",
+        "precision": "FP32",
+        "irVersion": 11,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "legacy": true,
+        "gluoncv": false,
+        "inputLayers": [
+          {
+            "name": "data",
+            "shape": [1, 3, 224, 224]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "inceptionV2": {
+      "onnxPath": "models/onnx/classification/inception_v2/inception_v2.onnx",
+      "name": "Inception_V2_Onnx",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "ONNX",
+        "precision": "FP32",
+        "irVersion": 11,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "inputLayers": [
+          {
+            "name": "data_0",
+            "shape": [1, 3, 224, 224]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "No"
+        },
+        "metric": {
+          "name": "Accuracy",
+          "topK": 5
+        }
+      }
+    },
+    "mobilenetV2": {
+      "onnxPath": "models/onnx/classification/mobilenet/mobilenet_v2.onnx",
+      "name": "Mobilenet_V2_Onnx",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "ONNX",
+        "precision": "FP16",
+        "irVersion": 11,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "inputLayers": [
+          {
+            "name": "data",
+            "shape": [1, 3, 224, 224]
+          }
+        ]
+      },
+      "backendData": {
+        "data": [1, 3, 224, 224]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "resnet50V2": {
+      "onnxPath": "models/onnx/classification/resnet_50_v2/resnet_50_v2.onnx",
+      "name": "Resnet50_V2_Onnx",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "ONNX",
+        "precision": "FP32",
+        "irVersion": 11,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "inputLayers": [
+          {
+            "name": "data",
+            "shape": [1, 3, 224, 224]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "squeezenetV1.1": {
+      "onnxPath": "models/onnx/classification/squeezenet_1.1/squeezenet_1.1.onnx",
+      "name": "Squeezenet_V1.1_Onnx",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "ONNX",
+        "precision": "FP16",
+        "irVersion": 11,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "inputLayers": [
+          {
+            "name": "data",
+            "shape": [1, 3, 224, 224]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "No"
+        },
+        "metric": {
+          "name": "Accuracy",
+          "topK": 5
+        }
+      }
+    },
+    "inceptionV3TF": {
+      "frozenPath": "models/tensorflow/classification/inception_v3/inception_v3_frozen.pb",
+      "name": "Inception_V3_TensorFlow",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "TensorFlow",
+        "precision": "FP32",
+        "irVersion": 11,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "frozen": true,
+        "ODAPI": false,
+        "inputLayers": [
+          {
+            "name": "input",
+            "shape": [1, 299, 299, 3]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "Yes"
+        },
+        "metric": {
+          "name": "Accuracy",
+          "topK": 5
+        }
+      }
+    },
+    "OctaveDenseNet121": {
+      "paramsPath": "models/mxnet/classification/octave_densenet_121/octave_densenet_121.params",
+      "jsonPath": "models/mxnet/classification/octave_densenet_121/octave_densenet_121_symbol.json",
+      "name": "Octave-denseNet-121",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "MxNet",
+        "precision": "FP16",
+        "irVersion": 11,
+        "colourSpace": "BGR",
+        "legacy": false,
+        "gluoncv": false,
+        "meansTest": "104,117,124",
+        "outputs": ["softmax"],
+        "inputLayers": [
+          {
+            "name": "data",
+            "means": [124.0, 117.0, 104.0],
+            "scales": [59.880239521, 59.880239521, 59.880239521],
+            "shape": [1, 3, 224, 224]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "squeezenetIRV10": {
+      "binPath": "models/IR/classification/squeezenetV1.1/squeezenet1.1.bin",
+      "xmlPath": "models/IR/classification/squeezenetV1.1/squeezenet1.1.xml",
+      "name": "Squeezenet_V1.1_IR_V10",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP32",
+        "irVersion": 10,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "meansTest": "104.0,117.0,123.0",
+        "outputs": ["prob"],
+        "opSets": "opset1",
+        "inputLayers": [
+          {
+            "name": "data",
+            "means": [104.0, 117.0, 123.0],
+            "shape": [1, 3, 227, 227]
+          }
+        ]
+      },
+      "accuracyData": {
+        "accuracyValue": 77.5,
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "No"
+        },
+        "metric": {
+          "name": "Accuracy",
+          "topK": 5
+        }
+      }
+    },
+    "squeezenetIRV11": {
+      "binPath": "models/IR/classification/squeezenetV1.1/squeezenet1.1_v11.bin",
+      "xmlPath": "models/IR/classification/squeezenetV1.1/squeezenet1.1_v11.xml",
+      "name": "Squeezenet_V1.1_IR_V11",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP32",
+        "irVersion": 11,
+        "irColourSpace": "BGR",
+        "setLayout": true,
+        "colourSpace": "RGB",
+        "meansTest": "104.0,117.0,123.0",
+        "outputs": ["prob"],
+        "opSets": "opset1, opset8",
+        "inputLayers": [
+          {
+            "name": "data",
+            "means": [104.0, 117.0, 123.0],
+            "shape": [1, 3, 227, 227],
+            "originalLayout": "NCHW"
+          }
+        ]
+      },
+      "accuracyData": {
+        "accuracyValue": 77.5,
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "No"
+        },
+        "metric": {
+          "name": "Accuracy",
+          "topK": 5
+        }
+      }
+    },
+    "squeezenetINT8": {
+      "binPath": "models/IR/classification/squeezenet_int8/squeezenet_int8.bin",
+      "xmlPath": "models/IR/classification/squeezenet_int8/squeezenet_int8.xml",
+      "name": "Squeezenet_V1.1_INT8",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP32",
+        "irVersion": 10,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "meansTest": "104.0,117.0,123.0",
+        "outputs": ["prob"],
+        "opSets": "opset1",
+        "inputLayers": [
+          {
+            "name": "data",
+            "means": [104.0, 117.0, 123.0],
+            "shape": [1, 3, 227, 227]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "Yes"
+        },
+        "metric": {
+          "name": "Accuracy",
+          "topK": 5
+        }
+      }
+    },
+    "squeezenetDynamicShapes": {
+      "binPath": "models/IR/classification/squeezenet_dynamic/squeezenet1.1.bin",
+      "xmlPath": "models/IR/classification/squeezenet_dynamic/squeezenet1.1.xml",
+      "name": "Squeezenet_dynamic",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "n/a",
+        "irVersion": 11,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "dynamic": true,
+        "inputLayers": [
+          {
+            "name": "data",
+            "shape": [1, 3, 227, 227]
+          }
+        ]
+      },
+      "accuracyData": {
+        "accuracyValue": 77.5,
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {
+          "resizeType": "Auto",
+          "colourSpace": "RGB",
+          "hasBackground": "No"
+        },
+        "metric": {
+          "name": "Accuracy",
+          "topK": 5
+        }
+      }
+    },
+    "fasterRCNNResNet101": {
+      "modelPath": "models/caffe/classification/faster_rcnn_resnet_101/faster_rcnn_resnet_101.caffemodel",
+      "protoTxtPath": "models/caffe/classification/faster_rcnn_resnet_101/faster_rcnn_resnet_101.prototxt",
+      "name": "Faster_RCNN_ResNet_101_Caffe",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "Caffe",
+        "precision": "FP16",
+        "irVersion": 11,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "inputLayers": [
+          {
+            "name": "data",
+            "originalLayout": ["Batch", "Channels", "Height", "Width"],
+            "shape": [1, 3, 224, 224]
+          },
+          {
+            "name": "im_info",
+            "originalLayout": ["Batch", "Channels"],
+            "shape": [1, 3]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Classification"
+        }
+      }
+    }
+  },
+  "textRecognition": {
+    "ResNetGray": {
+      "onnxPath": "models/onnx/TextRecognition/resnet_fc.onnx",
+      "name": "ResNetGray",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "ONNX",
+        "precision": "FP32",
+        "irVersion": 11,
+        "irColourSpace": "Grayscale",
+        "colourSpace": "Grayscale",
+        "inputLayers": [
+          {
+            "name": "input.0",
+            "scales": [255],
+            "shape": [1, 1, 32, 100]
+          }
+        ]
+      }
+    },
+    "bertTiny5FinetunedSquadv2": {
+      "onnxPath": "models/onnx/TextRecognition/bert-tiny-5-finetuned-squadv2/bert-tiny-5-finetuned-squadv2.onnx",
+      "name": "bert-tiny-5-finetuned-squadv2",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "ONNX",
+        "precision": "FP32",
+        "irVersion": 11,
+        "irColourSpace": "RGB",
+        "colourSpace": "RGB",
+        "dynamic": true,
+        "inputLayers": [
+          {
+            "name": "input_ids",
+            "shape": [3, 3]
+          },
+          {
+            "name": "token_type_ids",
+            "shape": [1, 1]
+          },
+          {
+            "name": "attention_mask",
+            "shape": [1, 1]
+          }
+        ]
+      }
+    }
+  },
+  "faceRecognition": {
+    "sphereface": {
+      "modelPath": "models/caffe/faceRecognition/sphereface/sphereface_model.caffemodel",
+      "protoTxtPath": "models/caffe/faceRecognition/sphereface/sphereface_deploy.prototxt",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "Caffe",
+        "precision": "FP16",
+        "irVersion": 11,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "inputLayers": [
+          {
+            "name": "data",
+            "shape": [1, 3, 112, 96]
+          }
+        ]
+      },
+      "accuracyData": {
+        "accuracyValue": 60.57,
+        "adapter": {
+          "taskType": "Face Recognition"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "facenetDeprecatedIRV10": {
+      "binPath": "models/IR/faceRecognition/facenet/facenet.bin",
+      "xmlPath": "models/IR/faceRecognition/facenet/facenet.xml",
+      "type": "model",
+      "conversionSettings": {
+        "precision": "float",
+        "framework": "OpenVINO IR",
+        "irVersion": 10,
+        "opSets": "opset1, opset3",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB"
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "facenet": {
+      "binPath": "models/IR/faceRecognition/facenet/facenet_v11.bin",
+      "xmlPath": "models/IR/faceRecognition/facenet/facenet_v11.xml",
+      "type": "model",
+      "conversionSettings": {
+        "precision": "fp16",
+        "framework": "OpenVINO IR",
+        "irVersion": 11,
+        "setLayout": true,
+        "opSets": "opset1, opset3, opset8",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "inputLayers": [
+          {
+            "name": "image_batch/placeholder_port_0",
+            "shape": [1, 160, 160, 3],
+            "originalLayout": "NHWC"
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Classification"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "facenetTf": {
+      "frozenPath": "models/tensorflow/faceRecognition/facenet/facenet.pb",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "TensorFlow",
+        "precision": "FP16",
+        "irVersion": 11,
+        "opSets": "opset1, opset3, opset8",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "frozen": true,
+        "inputLayers": [
+          {
+            "name": "batch_join:0",
+            "shape": [1, 160, 160, 3]
+          },
+          {
+            "name": "batch_join:1",
+            "shape": [1, 160, 160, 3]
+          },
+          {
+            "name": "phase_train",
+            "shape": [1],
+            "freezePlaceholder": "False"
+          }
+        ]
+      }
+    },
+    "arcface": {
+      "paramsPath": "models/mxnet/faceRecognition/arcface/arcface.params",
+      "jsonPath": "models/mxnet/faceRecognition/arcface/arcface.json",
+      "name": "arcface",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "MxNet",
+        "precision": "FP16",
+        "irVersion": 11,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "legacy": false,
+        "gluoncv": false,
+        "inputLayers": [
+          {
+            "name": "data",
+            "shape": [1, 3, 112, 112]
+          }
+        ]
+      },
+      "accuracyData": {
+        "accuracyValue": 78.82,
+        "adapter": {
+          "taskType": "Face Recognition"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "MobileFace": {
+      "paramsPath": "models/mxnet/faceRecognition/mobileface/MobileFace_Identification.params",
+      "jsonPath": "models/mxnet/faceRecognition/mobileface/MobileFace_Identification.json",
+      "name": "MobileFace",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "MxNet",
+        "precision": "FP16",
+        "irVersion": 11,
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "legacy": false,
+        "gluoncv": false,
+        "inputLayers": [
+          {
+            "name": "data",
+            "shape": [1, 3, 112, 112]
+          }
+        ]
+      },
+      "accuracyData": {
+        "accuracyValue": 69.37,
+        "adapter": {
+          "taskType": "Face Recognition"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    }
+  },
+  "landmarkDetection": {
+    "landmarksRegressionRetail": {
+      "binPath": "models/IR/landmarkDetection/landmarks_regression_retail/landmarks-regression-retail-0009-v11.bin",
+      "xmlPath": "models/IR/landmarkDetection/landmarks_regression_retail/landmarks-regression-retail-0009-v11.xml",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP32",
+        "irVersion": 11,
+        "opSets": "opset1, opset8",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB"
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Landmark Detection"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    }
+  },
+  "ganModels": {
+    "singleImageSuperResolution1032": {
+      "binPath": "models/IR/GAN/single-image-super-resolution-1032/single-image-super-resolution-1032-v11.bin",
+      "xmlPath": "models/IR/GAN/single-image-super-resolution-1032/single-image-super-resolution-1032-v11.xml",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP32",
+        "irVersion": 11,
+        "opSets": "opset1, opset3",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB"
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Super-Resolution"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "textImageSuperResolution0001": {
+      "binPath": "models/IR/GAN/text-image-super-resolution-0001/text-image-super-resolution-0001.bin",
+      "xmlPath": "models/IR/GAN/text-image-super-resolution-0001/text-image-super-resolution-0001.xml",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP32",
+        "irVersion": 10,
+        "opSets": "opset1",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB"
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Super-Resolution"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "regionWiseInpainting": {
+      "binPath": "models/IR/GAN/region-wise-inpainting/region-wise-inpainting.bin",
+      "xmlPath": "models/IR/GAN/region-wise-inpainting/region-wise-inpainting.xml",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irVersion": 10,
+        "opSets": "opset1",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB"
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Inpainting"
+        },
+        "preProcessing": {},
+        "postProcessing": {},
+        "inverseMask": true
+      }
+    },
+    "itlabMosaic": {
+      "binPath": "models/IR/GAN/itlab-mosaic/itlab-mosaic-v11.bin",
+      "xmlPath": "models/IR/GAN/itlab-mosaic/itlab-mosaic-v11.xml",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "FP16",
+        "irVersion": 11,
+        "opSets": "opset1, opset2",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB"
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Style Transfer"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "fastNeuralStyleMosaicOnnx": {
+      "onnxPath": "models/onnx/GAN/fast-neural-style-mosaic-onnx/fast-neural-style-mosaic-onnx.onnx",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "ONNX",
+        "precision": "FP16",
+        "irVersion": 11,
+        "opSets": "opset1, opset3, opset4, opset6, opset8",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "inputLayers": [
+          {
+            "name": "input1",
+            "shape": [1, 3, 224, 224]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Style Transfer"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "gmcnnPlaces2": {
+      "frozenPath": "models/tensorflow/GAN/gmcnn-places2-tf/gmcnn-places2-tf.pb",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "TensorFlow",
+        "precision": "FP16",
+        "irVersion": 11,
+        "opSets": "opset1, opset3, opset4, opset8",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "frozen": true,
+        "dynamic": true,
+        "inputLayers": [
+          {
+            "name": "Placeholder",
+            "shape": [1, 512, 680, 3]
+          },
+          {
+            "name": "Placeholder_1",
+            "shape": [1, 512, 680, 1]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Inpainting"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "tensorLayerSrgan": {
+      "frozenPath": "models/tensorflow/GAN/tensor_layer_srgan/tensor_layer_srgan.frozen.pb",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "TensorFlow",
+        "precision": "FP16",
+        "irVersion": 11,
+        "opSets": "opset1",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "frozen": true,
+        "inputLayers": [
+          {
+            "name": "input_image",
+            "shape": [1, 512, 680, 3]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Super-Resolution"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "tfSrGan": {
+      "frozenPath": "models/tensorflow/GAN/tf-SRGAN/tf-SRGAN_frozen.pb",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "TensorFlow",
+        "precision": "FP16",
+        "irVersion": 11,
+        "opSets": "opset1, opset3, opset8",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "frozen": true,
+        "inputLayers": [
+          {
+            "name": "inputs_raw",
+            "shape": [1, 224, 224, 3]
+          }
+        ]
+      },
+      "accuracyData": {
+        "adapter": {
+          "taskType": "Super-Resolution"
+        },
+        "preProcessing": {},
+        "postProcessing": {}
+      }
+    },
+    "denoise": {
+      "frozenPath": "models/tensorflow/GAN/denoise/denoise.pb",
+      "type": "model",
+      "conversionSettings": {
+        "framework": "TensorFlow",
+        "precision": "FP16",
+        "irVersion": 11,
+        "opSets": "opset1, opset3, opset4, opset8",
+        "irColourSpace": "BGR",
+        "colourSpace": "RGB",
+        "frozen": true,
+        "inputLayers": [
+          {
+            "name": "netInput",
+            "shape": [1, 512, 512, 3]
+          },
+          {
+            "name": "t_param",
+            "freezePlaceholder": "[0.5]"
+          },
+          {
+            "name": "t_param1",
+            "freezePlaceholder": "[0.5]"
+          }
+        ]
+      }
+    }
+  },
+  "nlpModels": {
+    "smallBert": {
+      "savedModelDir": "models/tensorflow2/NLP/small_bert",
+      "name": "SmallBert",
+      "type": "model",
+      "domain": "NLP",
+      "conversionSettings": {
+        "framework": "TensorFlow V2",
+        "precision": "FP16",
+        "irVersion": 11,
+        "inputLayers": [
+          {
+            "name": "input_mask",
+            "shape": [1, 128],
+            "originalLayout": ["Batch", "Sequence"]
+          },
+          {
+            "name": "input_type_ids",
+            "shape": [1, 128],
+            "originalLayout": ["Batch", "Sequence"]
+          },
+          {
+            "name": "input_word_ids",
+            "shape": [1, 128],
+            "originalLayout": ["Batch", "Sequence"]
+          }
+        ]
+      }
+    },
+    "toxicBert": {
+      "onnxPath": "models/onnx/NLP/toxic-bert/toxic-bert.onnx",
+      "name": "ToxicBert",
+      "type": "model",
+      "domain": "NLP",
+      "conversionSettings": {
+        "framework": "ONNX",
+        "precision": "FP16",
+        "irVersion": 11,
+        "inputLayers": [
+          {
+            "name": "input_ids",
+            "shape": [1, 128],
+            "originalLayout": ["Batch", "Sequence"]
+          },
+          {
+            "name": "attention_mask",
+            "shape": [1, 128],
+            "originalLayout": ["Batch", "Sequence"]
+          },
+          {
+            "name": "token_type_ids",
+            "shape": [1, 128],
+            "originalLayout": ["Batch", "Sequence"]
+          }
+        ]
+      },
+      "tokenizer": {
+        "vocabPath": "models/onnx/NLP/toxic-bert/tokenizer/vocab.txt",
+        "name": "vocabTokenizer"
+      }
+    },
+    "distilbertEmotion": {
+      "xmlPath": "models/IR/NLP/distilbert-base-emotion/distilbert-base-emotion.xml",
+      "binPath": "models/IR/NLP/distilbert-base-emotion/distilbert-base-emotion.bin",
+      "name": "Distilbert",
+      "type": "model",
+      "domain": "NLP",
+      "conversionSettings": {
+        "framework": "OpenVINO IR",
+        "precision": "N/A",
+        "irVersion": 11,
+        "setLayout": true,
+        "inputLayers": [
+          {
+            "name": "input_ids",
+            "shape": [1, 128],
+            "originalLayout": ["Batch", "Sequence"]
+          },
+          {
+            "name": "attention_mask",
+            "shape": [1, 128],
+            "originalLayout": ["Batch", "Sequence"]
+          }
+        ]
+      }
+    }
+  },
+  "VOCDataset": {
+    "path": "datasets/VOC150.tar.gz",
+    "name": "VOCDataset",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "VOC",
+      "task": "Object Detection, Inpainting, Style Transfer"
+    }
+  },
+  "VOCVal2007": {
+    "path": "datasets/VOC2007.tar",
+    "name": "VOC2007",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "VOC",
+      "task": "Object Detection, Semantic Segmentation, Inpainting, Style Transfer"
+    }
+  },
+  "VOCVal2010": {
+    "path": "datasets/vocVal2010.tar",
+    "name": "VOCVal2010",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "VOC",
+      "task": "Object Detection, Semantic Segmentation, Inpainting, Style Transfer"
+    }
+  },
+  "VOCVal2012": {
+    "path": "datasets/vocVal2012.tar",
+    "name": "VOCVal2012",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "VOC",
+      "task": "Object Detection, Semantic Segmentation, Inpainting, Style Transfer"
+    }
+  },
+  "smallVOCDataset": {
+    "path": "datasets/VOC_small.tar.gz",
+    "name": "SmallVOCDataset",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "VOC",
+      "task": "Object Detection, Inpainting, Style Transfer"
+    }
+  },
+  "imageNetDataset": {
+    "path": "datasets/imagenet_200.tar.gz",
+    "name": "ImageNetDataset",
+    "format": "ImageNet",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "ImageNet",
+      "task": "Classification, Inpainting, Style Transfer"
+    }
+  },
+  "imageNet2012": {
+    "path": "datasets/imageNet2012.tar",
+    "name": "imageNet2012",
+    "format": "ImageNet",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "ImageNet",
+      "task": "Classification, Inpainting, Style Transfer"
+    }
+  },
+  "smallImageNetDataset": {
+    "path": "datasets/imagenet10.tar.gz",
+    "name": "SmallImageNetDataset",
+    "format": "ImageNet",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "ImageNet",
+      "task": "Classification, Inpainting, Style Transfer"
+    }
+  },
+  "smallImageNetSubdirDataset": {
+    "path": "datasets/imagenet10_subdir.tar.gz",
+    "name": "TestDataset",
+    "format": "ImageNet",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "ImageNet",
+      "task": "Classification, Inpainting, Style Transfer"
+    }
+  },
+  "cocoDataset": {
+    "path": "datasets/coco200.zip",
+    "name": "coco200Dataset",
+    "format": "Coco",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "COCO",
+      "task": "Object Detection, Instance Segmentation, Inpainting, Style Transfer"
+    }
+  },
+  "cocoCorruptedDataset": {
+    "path": "datasets/coco200_corrupted.zip",
+    "name": "coco200Dataset",
+    "format": "Coco",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "COCO",
+      "task": "Object Detection, Instance Segmentation, Inpainting, Style Transfer"
+    }
+  },
+  "cocoVal2014": {
+    "path": "datasets/cocoVal2014.zip",
+    "name": "coco200Dataset",
+    "format": "Coco",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "COCO",
+      "task": "Object Detection, Instance Segmentation, Inpainting, Style Transfer"
+    }
+  },
+  "cocoVal2017": {
+    "path": "datasets/cocoVal2014.zip",
+    "name": "coco200Dataset",
+    "format": "Coco",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "COCO",
+      "task": "Object Detection, Instance Segmentation, Inpainting, Style Transfer"
+    }
+  },
+  "VOCSegmentationDataset": {
+    "path": "datasets/voc_segm_200.zip",
+    "name": "VOC_segmentation_200",
+    "format": "VOCSegm",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "VOC",
+      "task": "Object Detection, Semantic Segmentation, Inpainting, Style Transfer"
+    }
+  },
+  "CSSDataset": {
+    "path": "datasets/css_200.zip",
+    "name": "Common_Semantic_Segmentation",
+    "format": "CSS",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "Common Semantic Segmentation",
+      "task": "Semantic Segmentation, Inpainting, Style Transfer"
+    }
+  },
+  "imageNetNotAnnotated": {
+    "path": "datasets/imagenet_notannotated_200.zip",
+    "name": "ImageNetNotAnnotated",
+    "format": "ImageNet",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "Not Annotated",
+      "task": ""
+    }
+  },
+  "smallSemanticSegmentationDataset": {
+    "path": "datasets/css_10.zip",
+    "name": "SemanticDataset",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "Common Semantic Segmentation",
+      "task": "Semantic Segmentation, Inpainting, Style Transfer"
+    }
+  },
+  "superResolutionDataset": {
+    "path": "datasets/sup-res-test.tar.gz",
+    "name": "superResolutionDataset",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "Common Super-Resolution",
+      "task": "Super-Resolution, Inpainting, Style Transfer"
+    }
+  },
+  "LFWDataset": {
+    "path": "datasets/LFW.tar.gz",
+    "name": "LFWDataset",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "LFW",
+      "task": "Face Recognition"
+    }
+  },
+  "VggFaces2Dataset": {
+    "path": "datasets/VGGFaces2_subset.tar",
+    "name": "VggFaces2",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "VggFace2",
+      "task": "Facial Landmark Detection"
+    }
+  },
+  "WiderFaceDataset": {
+    "path": "datasets/WIDER_val.zip",
+    "name": "WIDER FACE",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "WIDER FACE",
+      "task": "Object Detection"
+    }
+  },
+  "OpenImagesDataset": {
+    "path": "datasets/OpenImages.zip",
+    "name": "Open Images",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "Open Images",
+      "task": "Object Detection"
+    }
+  },
+  "imageNetWithUnrelatedFiles": {
+    "path": "datasets/imagenet_dirty.tar.gz",
+    "name": "ImageNet with unrelated files",
+    "format": "ImageNet",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "ImageNet",
+      "task": "Classification, Inpainting, Style Transfer"
+    }
+  },
+  "cocoWithUnrelatedFiles": {
+    "path": "datasets/coco_dirty.tar.gz",
+    "name": "COCO with unrelated files",
+    "format": "Coco",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "COCO",
+      "task": "Inpainting, Style Transfer"
+    }
+  },
+  "CityscapesDataset": {
+    "path": "datasets/cityscapes.zip",
+    "name": "City_scapes",
+    "format": "Cityscapes",
+    "type": "dataset",
+    "accuracyData": {
+      "type": "VOC",
+      "task": "Semantic Segmentation, Inpainting, Style Transfer"
+    }
+  },
+  "nlpDatasets": {
+    "imdb": {
+      "path": "datasets/NLP/imdb.csv",
+      "name": "IMDB Dataset",
+      "type": "dataset",
+      "domain": "NLP",
+      "encoding": "UTF-8",
+      "separator": "Comma",
+      "hasHeader": true,
+      "accuracyData": {
+        "type": "CSV",
+        "task": "Text Classification"
+      },
+      "columnsData": {
+        "textColumn": 1,
+        "labelColumn": 2
+      },
+      "previewTestData": {
+        "texts": [
+          "review",
+          "One of the other reviewers has mentioned that after",
+          "The filming technique is very unassuming",
+          "this was a wonderful way to spend time on a too hot"
+        ],
+        "labels": ["sentiment", "positive", "positive", "positive"]
+      }
+    },
+    "toxicComments": {
+      "path": "datasets/NLP/toxic_comments.csv",
+      "name": "Toxic Comments Dataset",
+      "type": "dataset",
+      "domain": "NLP",
+      "encoding": "UTF-8",
+      "separator": "Comma",
+      "hasHeader": true,
+      "accuracyData": {
+        "type": "CSV",
+        "task": "Text Classification"
+      },
+      "columnsData": {
+        "textColumn": 2,
+        "labelColumn": 3
+      },
+      "previewTestData": {
+        "texts": ["comment_text", "Why the edits made", "He matches this", "really not"],
+        "labels": ["toxic", "0", "0", "0"]
+      }
+    },
+    "snli": {
+      "path": "datasets/NLP/snli.txt",
+      "name": "SNLI",
+      "type": "dataset",
+      "domain": "NLP",
+      "encoding": "UTF-8",
+      "separator": "Tab",
+      "hasHeader": true,
+      "accuracyData": {
+        "type": "CSV",
+        "task": "Textual Entailment"
+      },
+      "columnsData": {
+        "premiseColumn": 6,
+        "hypothesisColumn": 7,
+        "labelColumn": 1
+      },
+      "previewTestData": {
+        "premises": [
+          "sentence1",
+          "person on a horse jumps over a broken down airplane",
+          "person on a horse jumps over a broken down airplane",
+          "person on a horse jumps over a broken down airplane"
+        ],
+        "hypotheses": [
+          "sentence2",
+          "person is training his horse for a competition",
+          "person is at a diner, ordering an omelette",
+          "person is outdoors, on a horse"
+        ],
+        "labels": ["gold_label", "neutral", "contradiction", "entailment"]
+      }
+    }
+  },
+  "testImages": {
+    "classificationImage": {
+      "pathToImage": "images/dog.jpeg"
+    },
+    "ODImage": {
+      "pathToImage": "images/policeCar.jpg"
+    },
+    "instanceSegmImage": {
+      "pathToImage": "images/peopleAndCake.jpg"
+    },
+    "semanticSegmImage": {
+      "pathToImage": "images/bus.jpg"
+    },
+    "streetImage": {
+      "pathToImage": "images/detroit_street.png"
+    },
+    "instanceSegmExpected": {
+      "pathToImage": "images/expectations/mask_rcnn_inception_v2_coco.png"
+    },
+    "semanticSegmExpected": {
+      "pathToImage": "images/expectations/semantic-segmentation-adas-0001.png"
+    },
+    "personImage": {
+      "pathToImage": "images/man.jpg"
+    },
+    "personImageYoloExpected": {
+      "pathToImage": "images/expectations/yolo-v1-tiny-tf_v6.png"
+    },
+    "personDetectionImageExpected": {
+      "pathToImage": "images/expectations/person-detection-0200_v2.png"
+    },
+    "styleTransferImageExpected": {
+      "pathToImage": "images/expectations/fast-neural-style-mosaic-onnx.png"
+    },
+    "inpaintingImageExpected": {
+      "pathToImage": "images/expectations/inpainting.png"
+    },
+    "mobilenetSSDExpected": {
+      "pathToImage": "images/expectations/mobilenetSSD_v3.png"
+    },
+    "roadSegmentationAdasExpected": {
+      "pathToImage": "images/expectations/roadSegmentationAdas.png"
+    },
+    "itlabMosaicExpected": {
+      "pathToImage": "images/expectations/itlabMosaic.png"
+    },
+    "regionWiseInpaintingExpected": {
+      "pathToImage": "images/expectations/regionWiseInpainting.png"
+    },
+    "instanceSegmentationSecurity0010Expected": {
+      "pathToImage": "images/expectations/instanceSegmentationSecurity0010_v2.png"
+    },
+    "instanceSegmentationSecurity0050Expected": {
+      "pathToImage": "images/expectations/instanceSegmentationSecurity0050.png"
+    }
+  },
+  "transformedImages": {
+    "horizontalFlip": {
+      "pathToImage": "images/transformation/horizontal/horizontalFlip.png"
+    },
+    "verticalFlip": {
+      "pathToImage": "images/transformation/vertical/verticalFlip.jpg"
+    }
+  },
+  "targetMachines": {
+    "localMachine": {
+      "name": "Local_Workstation",
+      "user": "openvino",
+      "IPAddress": "127.0.0.1"
+    },
+    "remoteMachine": {
+      "port": "22",
+      "name": "remoteMachine",
+      "user": "root",
+      "sshKey": "remote_profiling/sshKey",
+      "hasProxy": true,
+      "machineSpecs": {
+        "devices": "Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz"
+      },
+      "machineDetails": {
+        "os": "\"Ubuntu 18.04.4 LTS\"",
+        "root_privilege": "Available",
+        "internet_connection": "Available",
+        "python_version": "3.6"
+      }
+    },
+    "masterRemoteMachine": {
+      "port": "22",
+      "name": "masterRemoteMachine",
+      "user": "root",
+      "sshKey": "remote_profiling/sshKeyMaster",
+      "hasProxy": true,
+      "machineSpecs": {
+        "devices": "Intel(R) Core(TM) i7-8700K CPU @ 3.70GHz"
+      },
+      "machineDetails": {
+        "os": "\"Ubuntu 18.04.4 LTS\"",
+        "root_privilege": "Available",
+        "internet_connection": "Available",
+        "python_version": "3.6"
+      }
+    },
+    "remoteMachineIncorrect": {
+      "hostName": "111.111.111.111",
+      "port": "1000",
+      "name": "remoteMachineIncorrect",
+      "user": "nonExistingUser",
+      "sshKey": "remote_profiling/sshKey"
+    }
+  },
+  "layersDistribution": {
+    "inceptionResnetV2": {
+      "layers": [
+        "Convolution",
+        "Reorder",
+        "Eltwise",
+        "Pooling",
+        "FullyConnected",
+        "SoftMax",
+        "Reduce",
+        "Result",
+        "ScaleShift"
+      ],
+      "fp32LayerCount": {
+        "Reorder": 1,
+        "Result": 1
+      },
+      "fp16LayerCount": {
+        "Convolution": 244,
+        "Reorder": 1,
+        "Eltwise": 1,
+        "Pooling": 5,
+        "FullyConnected": 1,
+        "SoftMax": 1,
+        "Reduce": 1,
+        "ScaleShift": 1
+      },
+      "int8LayerCount": {}
+    },
+    "resnet50Caffe2": {
+      "layers": ["Convolution", "FullyConnected", "Pooling", "Eltwise", "Softmax"],
+      "fp32LayerCount": {
+        "Convolution": 53,
+        "FullyConnected": 1,
+        "Pooling": 2,
+        "Softmax": 1
+      },
+      "fp16LayerCount": {},
+      "int8LayerCount": {
+        "Eltwise": 1
+      }
+    }
+  },
+  "precisionsDistribution": {
+    "resnet50Caffe2": {
+      "precisions": ["FP32", "I8"],
+      "transitions": {
+        "FP32": 1
+      },
+      "transitionMatrix": {
+        "precisions": ["FP32", "FP16", "I8"],
+        "transitions": {
+          "I8_to_FP32": 1
+        }
+      }
+    }
+  }
+}

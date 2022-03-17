@@ -1,0 +1,16 @@
+.config-form-field {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+
+  .field-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 10px;
+
+    wb-help-tooltip {
+      margin-left: 5px;
+    }
+  }
+}

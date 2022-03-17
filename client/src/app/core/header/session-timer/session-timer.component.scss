@@ -1,0 +1,21 @@
+@import 'colors';
+@import 'fonts';
+
+.session-timer {
+  @include wb-label();
+  color: $white;
+  $line-height: 20px;
+  line-height: $line-height;
+
+  mat-icon {
+    margin-right: 10px;
+    width: $line-height;
+    height: $line-height;
+    font-size: $line-height;
+    vertical-align: text-bottom;
+  }
+
+  .timer {
+    margin-left: 20px;
+  }
+}

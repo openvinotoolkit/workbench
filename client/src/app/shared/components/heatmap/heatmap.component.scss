@@ -1,0 +1,52 @@
+@import 'fonts';
+
+$interval-block-width: 50px;
+$interval-block-height: 30px;
+$interval-block-border-radius: 3px;
+
+$heatmap-colors: (
+  linear-gradient(270deg, #76c47b 0%, #63be7d 100%),
+  linear-gradient(270deg, #9ed07f 0%, #8acb7c 100%),
+  linear-gradient(90deg, #b9d580 0%, #ccdb86 100%),
+  linear-gradient(270deg, #f4e87f 0%, #dbe280 100%),
+  linear-gradient(270deg, #fdd480 0%, #f9e480 100%),
+  linear-gradient(270deg, #f67d71 0%, #fb9e75 50%, #fdbf7c 100%)
+);
+
+:host {
+  display: flex;
+  flex-direction: row;
+
+  .interval-block {
+    display: flex;
+    flex-direction: column;
+
+    &:first-child .interval-block-color {
+      border-top-left-radius: $interval-block-border-radius;
+      border-bottom-left-radius: $interval-block-border-radius;
+    }
+
+    &:last-child .interval-block-color {
+      border-top-right-radius: $interval-block-border-radius;
+      border-bottom-right-radius: $interval-block-border-radius;
+    }
+
+    &-color {
+      width: $interval-block-width;
+      height: $interval-block-height;
+
+      @each $color in $heatmap-colors {
+        &.interval-block-color-#{index($heatmap-colors, $color)} {
+          background: $color;
+        }
+      }
+    }
+
+    &-label {
+      margin-top: 8px;
+      line-height: 1.8;
+      width: $interval-block-width;
+      @include wb-body-6();
+    }
+  }
+}

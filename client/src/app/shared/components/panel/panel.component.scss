@@ -1,0 +1,77 @@
+@import 'colors';
+@import 'variables';
+
+$border-radius: 3px;
+
+@mixin heading() {
+  padding: 0 20px;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+
+  & ::ng-deep > * {
+    width: 100%;
+    flex-grow: 1;
+  }
+}
+
+:host {
+  display: block;
+  width: 100%;
+
+  border: 1px solid $very-light-pink;
+  background: $faded-bgr;
+  border-radius: 3px;
+  box-sizing: border-box;
+
+  &.size-s {
+    .heading,
+    .footer {
+      min-height: 60px;
+    }
+  }
+
+  .heading,
+  .footer {
+    @include heading();
+  }
+
+  .content {
+    border-radius: 0 0 $border-radius $border-radius;
+    padding: $container-padding;
+
+    ::ng-deep .panel-row {
+      margin-left: -$container-padding;
+      margin-right: -$container-padding;
+      min-height: 80px;
+      padding: $container-padding;
+      box-sizing: border-box;
+
+      &.panel-row--footer {
+        border-top: 1px solid $very-light-pink;
+        margin-bottom: -$container-padding;
+      }
+
+      &.panel-row--section {
+        border-top: 1px solid $very-light-pink;
+      }
+
+      &.panel-row--subheader {
+        border-bottom: 1px solid $very-light-pink;
+        margin-top: -$container-padding;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: $container-padding;
+      }
+    }
+  }
+
+  .heading + .content {
+    border-top: 1px solid $very-light-pink;
+  }
+
+  .content + .footer {
+    border-top: 1px solid $very-light-pink;
+  }
+}

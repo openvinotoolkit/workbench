@@ -1,0 +1,142 @@
+<div [ngClass]="['config-form-field', 'config-form-field-' + field.type]" [formGroup]="group">
+  <div class="field-label" *ngIf="field.label">
+    <label>{{ field.label }}:</label>
+    <wb-help-tooltip
+      *ngIf="field.tooltip"
+      [tooltipMessage]="tooltipService.getTooltip(field.tooltip.prefix, field.tooltip.value)"
+    ></wb-help-tooltip>
+  </div>
+  <div class="field-container">
+    <ng-container [ngSwitch]="field.type">
+      <mat-checkbox
+        *ngSwitchCase="'checkbox'"
+        [attr.data-test-id]="testId || field.name"
+        [formControlName]="field.name"
+        [id]="controlId"
+      ></mat-checkbox>
+      <mat-radio-group
+        *ngSwitchCase="'radio'"
+        class="wb-radio-group field-container wb-body-4"
+        [formControlName]="field.name"
+        [id]="controlId"
+      >
+        <ng-container *ngFor="let option of field.options">
+          <mat-radio-button
+            [attr.data-test-id]="
+              testId ? testId + option['value'] : option['name'] || (isObject(option) ? option['value'] : option)
+            "
+            [value]="isObject(option) ? option['value'] : option"
+            [id]="getOptionId(option)"
+            >{{ isObject(option) ? option['name'] : option }}
+          </mat-radio-button>
+        </ng-container>
+      </mat-radio-group>
+
+      <mat-form-field
+        *ngIf="field.type !== 'checkbox' && field.type !== 'threshold' && field.type !== 'radio'"
+        [ngStyle]="{
+          display: field.type === 'RGB' || field.type === 'checkbox' ? 'none' : ''
+        }"
+        appearance="outline"
+        floatLabel="never"
+        [attr.data-test-id]="field.name?.toLowerCase() + '-form-field'"
+      >
+        <input
+          *ngSwitchCase="'input'"
+          matInput
+          type="number"
+          [id]="controlId"
+          [numberType]="field.numberType"
+          [maxNumber]="field.maxNumber"
+          [formControlName]="field.name"
+          [attr.data-test-id]="controlId"
+        />
+
+        <input
+          *ngSwitchCase="'RGB'"
+          hidden
+          matInput
+          [type]="field.numberType ? 'number' : 'text'"
+          [formControlName]="field.name"
+        />
+
+        <input *ngSwitchCase="'text'" [id]="controlId" matInput [type]="'text'" [formControlName]="field.name" />
+        <span matSuffix *ngIf="field.suffix">
+          {{ field.suffix }}
+        </span>
+
+        <input
+          *ngSwitchCase="'password'"
+          [id]="controlId"
+          matInput
+          [type]="'password'"
+          [formControlName]="field.name"
+        />
+
+        <mat-select *ngSwitchCase="'select'" [formControlName]="field.name" [id]="controlId">
+          <ng-container *ngFor="let option of field.options">
+            <mat-option
+              [attr.data-test-id]="
+                testId ? testId + option['value'] : option['name'] || (isObject(option) ? option['value'] : option)
+              "
+              [value]="isObject(option) ? option.value : option"
+              [disabled]="option?.disabled"
+              >{{ isObject(option) ? option['name'] : option }}</mat-option
+            >
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+
+      <div *ngSwitchCase="'RGB'" class="rgb-fields-group">
+        <form [formGroup]="rgbFormGroup">
+          <mat-form-field appearance="outline" floatLabel="never">
+            <input
+              matInput
+              type="number"
+              numberType="long_float"
+              required
+              [min]="0"
+              [max]="256"
+              formControlName="R"
+              (input)="updateRGBFieldValue()"
+            />
+            <span matPrefix>R:&nbsp;</span>
+          </mat-form-field>
+          <mat-form-field appearance="outline" floatLabel="never">
+            <input
+              matInput
+              type="number"
+              numberType="long_float"
+              required
+              [min]="0"
+              [max]="256"
+              formControlName="G"
+              (input)="updateRGBFieldValue()"
+            />
+            <span matPrefix>G:&nbsp;</span>
+          </mat-form-field>
+          <mat-form-field appearance="outline" floatLabel="never">
+            <input
+              matInput
+              type="number"
+              numberType="long_float"
+              required
+              [min]="0"
+              [max]="256"
+              formControlName="B"
+              (input)="updateRGBFieldValue()"
+            />
+            <span matPrefix>B:&nbsp;</span>
+          </mat-form-field>
+        </form>
+      </div>
+
+      <div *ngSwitchCase="'threshold'" class="threshold">
+        <wb-metric-threshold [formControlName]="field.name"></wb-metric-threshold>
+      </div>
+    </ng-container>
+    <div *ngIf="shouldDisplayErrorMessage(field.name)" class="error-message" data-test-id="control-error">
+      <wb-markdown-text [text]="getError()" class="wb-body-4"></wb-markdown-text>
+    </div>
+  </div>
+</div>

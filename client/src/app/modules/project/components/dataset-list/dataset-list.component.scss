@@ -1,0 +1,72 @@
+@import 'variables';
+
+.name-column {
+  width: 20%;
+  white-space: nowrap;
+}
+
+.actions-column {
+  text-align: right;
+
+  &-cell {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    mat-icon {
+      cursor: pointer;
+      color: $brownish-grey;
+
+      &:hover {
+        color: $black;
+      }
+    }
+
+    > *:not(:first-child) {
+      margin-left: 5px;
+    }
+  }
+}
+
+.disabled-cell {
+  opacity: 0.3;
+}
+
+.status-content {
+  display: flex;
+  align-items: center;
+
+  .try-again-button {
+    margin-left: 10px;
+    padding: 8px 0;
+  }
+}
+
+.empty-list-column {
+  border: none;
+}
+
+.date-column,
+.size-column {
+  white-space: nowrap;
+}
+
+.type-column .cell-content {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.type-column .cell-content {
+  max-width: 120px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.task-column .cell-content {
+  max-width: 220px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

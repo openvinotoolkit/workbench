@@ -1,0 +1,54 @@
+@import 'variables';
+@import 'fonts';
+@import 'colors';
+
+$close-icon-size: 20px;
+
+:host {
+  .title,
+  .content,
+  .actions {
+    padding: $container-padding;
+    margin: 0;
+  }
+
+  .title {
+    border-bottom: 1px solid $very-light-pink;
+    padding: 30px $container-padding;
+  }
+
+  .content {
+    color: $brownish-grey;
+    word-wrap: break-word;
+    white-space: break-spaces;
+  }
+
+  .actions {
+    padding-top: 5px;
+
+    wb-button + wb-button {
+      margin-left: $container-padding;
+    }
+  }
+
+  .close-button,
+  .close-icon {
+    width: $close-icon-size;
+    height: $close-icon-size;
+  }
+
+  .close-button {
+    border-radius: 50%;
+    background-color: $white;
+    color: $plum;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+
+    &:hover {
+      color: $plum-light;
+    }
+  }
+}

@@ -1,0 +1,34 @@
+<svg
+  *ngIf="!isEmpty(layerNames)"
+  width="100%"
+  [attr.height]="svgHeight"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+>
+  <g *ngFor="let layer of layerNames">
+    <ng-container *ngFor="let layerName of layerNames; index as index; last as isLast">
+      <ng-container
+        *ngTemplateOutlet="layerBoxTemplate; context: { layerName: layerName, index: index, isLast: isLast }"
+      ></ng-container>
+    </ng-container>
+  </g>
+
+  <ng-template #layerBoxTemplate let-layerName="layerName" let-index="index" let-isLast="isLast">
+    <foreignObject width="100%" [attr.height]="layerBoxHeight" x="0" [attr.y]="getLayerBoxYCoordinate(index)">
+      <xhtml:div class="layer-box">
+        <span class="layer-name wb-body-2">{{ layerName }}</span>
+      </xhtml:div>
+    </foreignObject>
+    <line
+      *ngIf="!isLast"
+      [attr.id]="'line_' + index"
+      x1="50%"
+      [attr.y1]="getLayerBoxYCoordinate(index) + layerBoxHeight"
+      x2="50%"
+      [attr.y2]="getLayerBoxYCoordinate(index) + layerBoxHeight + lineHeight"
+      stroke-width="1.5"
+      stroke="black"
+      fill="none"
+    />
+  </ng-template>
+</svg>

@@ -1,0 +1,120 @@
+<wb-panel class="augmentation">
+  <div wb-heading>
+    <h3 class="subheader wb-h4">Enlarge Not Annotated Dataset by Augmentation</h3>
+  </div>
+  <div wb-content>
+    <form [formGroup]="datasetAugmentationForm">
+      <mat-accordion displayMode="flat" multi>
+        <mat-expansion-panel hideToggle class="wb-panel mat-elevation-z0" *ngIf="horizontalFlipGroup">
+          <mat-expansion-panel-header class="wb-panel-header">
+            <ng-container
+              *ngTemplateOutlet="
+                panelHeader;
+                context: {
+                  field: dataAugmentationFormFields.horizontalFlipField,
+                  group: horizontalFlipGroup,
+                  title: 'Horizontal Flip'
+                }
+              "
+            ></ng-container>
+          </mat-expansion-panel-header>
+          <ng-template matExpansionPanelContent>
+            <wb-general-augmentation-section
+              [isDevCloud]="isDevCloud"
+              [afterImageClass]="'flip-img-horizontal'"
+            ></wb-general-augmentation-section>
+          </ng-template>
+        </mat-expansion-panel>
+        <mat-expansion-panel hideToggle class="wb-panel mat-elevation-z0" *ngIf="verticalFlipGroup">
+          <mat-expansion-panel-header class="wb-panel-header">
+            <ng-container
+              *ngTemplateOutlet="
+                panelHeader;
+                context: {
+                  field: dataAugmentationFormFields.verticalFlipField,
+                  group: verticalFlipGroup,
+                  title: 'Vertical Flip'
+                }
+              "
+            ></ng-container>
+          </mat-expansion-panel-header>
+
+          <ng-template matExpansionPanelContent>
+            <wb-general-augmentation-section
+              [isDevCloud]="isDevCloud"
+              [afterImageClass]="'flip-img-vertical'"
+            ></wb-general-augmentation-section>
+          </ng-template>
+        </mat-expansion-panel>
+        <mat-expansion-panel hideToggle class="wb-panel mat-elevation-z0" *ngIf="eraseGroup">
+          <mat-expansion-panel-header class="wb-panel-header">
+            <ng-container
+              *ngTemplateOutlet="
+                panelHeader;
+                context: { field: dataAugmentationFormFields.applyEraseField, group: eraseGroup, title: 'Random Erase' }
+              "
+            ></ng-container>
+          </mat-expansion-panel-header>
+
+          <ng-template matExpansionPanelContent>
+            <wb-general-augmentation-section
+              [isDevCloud]="isDevCloud"
+              [formGroup]="eraseGroup"
+              [formFields]="dataAugmentationFormFields.eraseFields"
+              [afterImageName]="'default_erased.jpg'"
+              [imagesCount]="randomEraseImages"
+            ></wb-general-augmentation-section>
+          </ng-template>
+        </mat-expansion-panel>
+        <mat-expansion-panel hideToggle class="wb-panel mat-elevation-z0" *ngIf="noiseGroup">
+          <mat-expansion-panel-header class="wb-panel-header">
+            <ng-container
+              *ngTemplateOutlet="
+                panelHeader;
+                context: {
+                  field: dataAugmentationFormFields.applyNoiseField,
+                  group: noiseGroup,
+                  title: 'Noise Injection'
+                }
+              "
+            ></ng-container>
+          </mat-expansion-panel-header>
+
+          <ng-template matExpansionPanelContent>
+            <wb-general-augmentation-section
+              [isDevCloud]="isDevCloud"
+              [formGroup]="noiseGroup"
+              [formFields]="dataAugmentationFormFields.noiseFields"
+              [afterImageName]="'default_noised.jpg'"
+              [imagesCount]="noiseImages"
+            ></wb-general-augmentation-section>
+          </ng-template>
+        </mat-expansion-panel>
+        <mat-expansion-panel hideToggle class="wb-panel mat-elevation-z0" *ngIf="colorSpaceGroup">
+          <mat-expansion-panel-header class="wb-panel-header">
+            <ng-container
+              *ngTemplateOutlet="
+                panelHeader;
+                context: {
+                  field: dataAugmentationFormFields.changeColorSpace,
+                  group: colorSpaceGroup,
+                  title: 'Color Transformations'
+                }
+              "
+            ></ng-container>
+          </mat-expansion-panel-header>
+
+          <ng-template matExpansionPanelContent>
+            <wb-color-transformations-section [isDevCloud]="isDevCloud" (setPresetsEvent)="addPreset($event)">
+            </wb-color-transformations-section>
+          </ng-template>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </form>
+  </div>
+</wb-panel>
+
+<ng-template #panelHeader let-field="field" let-group="group" let-title="title">
+  <wb-config-form-field [field]="field" [group]="group"></wb-config-form-field>
+  <h3 class="wb-h4 wb-panel-title">{{ title }}</h3>
+</ng-template>

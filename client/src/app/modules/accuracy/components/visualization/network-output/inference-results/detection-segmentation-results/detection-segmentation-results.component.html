@@ -1,0 +1,35 @@
+<div
+  class="threshold-control wb-panel"
+  data-test-id="threshold-control"
+  *ngIf="taskType !== modelTaskTypes.SEMANTIC_SEGMENTATION"
+>
+  <span class="wb-label">Threshold:</span>
+  <mat-form-field appearance="outline" class="enlarged-control">
+    <mat-select [formControl]="thresholdControl">
+      <mat-option *ngFor="let value of THRESHOLD_OPTIONS" [value]="value">
+        {{ value }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div [ngClass]="taskType === modelTaskTypes.OBJECT_DETECTION ? 'columns-container' : 'rows-container'">
+  <wb-object-detection-predictions
+    data-test-id="optimized-model-predictions"
+    [inactive]="taskType === modelTaskTypes.OBJECT_DETECTION && !!hoveredRefPrediction"
+    [predictions]="filteredPredictions"
+    [title]="modelPredictionsTitle"
+    [labelSet]="labelSet"
+    (selectionChange)="onSelectedPredictionsChange($event)"
+  ></wb-object-detection-predictions>
+
+  <wb-object-detection-predictions
+    data-test-id="parent-model-predictions"
+    *ngIf="mode === 'parent_model_predictions' || mode === 'dataset_annotations'"
+    [inactive]="taskType === modelTaskTypes.OBJECT_DETECTION && !!hoveredPrediction"
+    [predictions]="filteredRefPredictions"
+    [title]="referencePredictionsTitle"
+    [labelSet]="labelSet"
+    (selectionChange)="onSelectedRefPredictionsChange($event)"
+  ></wb-object-detection-predictions>
+</div>

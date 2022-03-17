@@ -1,0 +1,113 @@
+<div class="table-container">
+  <table
+    data-test-id="inference-history-table"
+    class="wb-table wb-table-on-gray inference-history-table"
+    mat-table
+    matSort
+    (matSortChange)="sortedColumn = $event"
+    [dataSource]="dataSource"
+  >
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>#</th>
+      <td mat-cell *matCellDef="let element"></td>
+    </ng-container>
+
+    <ng-container matColumnDef="batch">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Batch
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: 'batch' }"></ng-container>
+      </th>
+      <td mat-cell *matCellDef="let element" data-test-id="batch-cell">
+        {{ element.isAutoBenchmark ? formatAutoBenchmarkParameter(element.batch) : element.batch }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nireq">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Stream
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: 'nireq' }"></ng-container>
+      </th>
+      <td mat-cell *matCellDef="let element" data-test-id="nireq-cell">
+        {{ element.isAutoBenchmark ? formatAutoBenchmarkParameter(element.nireq) : element.nireq }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="throughput">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Throughput, <br />{{ throughputUnit }}
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: 'throughput' }"></ng-container>
+      </th>
+      <td mat-cell *matCellDef="let element" data-test-id="throughput-cell">
+        <ng-container *ngIf="element.throughput; else NAPlaceholder">
+          {{ element.throughput | formatNumber }}
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="latency">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Latency, <br />ms
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: 'latency' }"></ng-container>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <ng-container *ngIf="element.latency; else NAPlaceholder">
+          {{ element.latency | formatNumber }}
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef class="column-status">Last Status</th>
+      <td mat-cell *matCellDef="let element" class="column-status">
+        <wb-status-bar
+          [status]="
+            element.status.name === ProjectStatusNames.RUNNING
+              ? (element | singleInferenceStatus | async)
+              : element.status
+          "
+          [cancellationEnabled]="false"
+          [performance]="false"
+        ></wb-status-bar>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="filter">
+      <th mat-header-cell *matHeaderCellDef class="column-filter">Display <br />Experiment</th>
+      <td mat-cell *matCellDef="let element" class="column-filter">
+        <mat-checkbox
+          [checked]="isDisplayed(element)"
+          [disabled]="!element.throughput || isSelected(element)"
+          (change)="toggleHidden($event, element)"
+          (click)="$event.stopPropagation()"
+        ></mat-checkbox>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      [class.selected]="isSelected(row)"
+      (click)="select(row)"
+    ></tr>
+  </table>
+
+  <ng-container
+    *ngIf="!dataSource.data || dataSource.data?.length === 0"
+    [ngTemplateOutlet]="emptyDataTemplate"
+  ></ng-container>
+</div>
+
+<ng-template #NAPlaceholder>
+  <span class="wb-disabled-color">N/A</span>
+</ng-template>
+
+<ng-template #emptyDataTemplate>
+  <div class="empty-data-container wb-label">Select project to load inference history</div>
+</ng-template>
+
+<ng-template #sortIcon let-columnName="columnName">
+  <ng-container *ngIf="dataSource.data?.length">
+    <wb-table-sort-icon [columnName]="columnName" [sortedColumn]="sortedColumn"></wb-table-sort-icon>
+  </ng-container>
+</ng-template>

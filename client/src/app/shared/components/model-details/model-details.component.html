@@ -1,0 +1,248 @@
+<div [class.as-sidebar]="usage === 'sidebar'" *ngIf="model" data-test-id="model-details-section" [ngSwitch]="usage">
+  <ng-container *ngSwitchCase="'sidebar'" [ngTemplateOutlet]="sidebarTemplate"></ng-container>
+  <ng-container *ngSwitchCase="'panel'" [ngTemplateOutlet]="panelDetailsTemplate"></ng-container>
+</div>
+
+<ng-template #sidebarTemplate>
+  <ng-container [ngTemplateOutlet]="modelHeader"></ng-container>
+
+  <!-- Environment Details -->
+  <div class="content">
+    <ng-container *ngIf="targetParameters.length">
+      <div class="content-title">Environment Details</div>
+
+      <div class="group">
+        <div class="group-data" data-test-id="target-data">
+          <wb-parameter-details
+            class="attr"
+            *ngFor="let param of targetParameters"
+            [parameter]="param"
+          ></wb-parameter-details>
+        </div>
+      </div>
+    </ng-container>
+
+    <h2 class="content-title">Model Parameters</h2>
+
+    <!--Theoretical Analysis group-->
+    <ng-container [ngTemplateOutlet]="theoreticalAnalysis"></ng-container>
+
+    <!--Conversion Settings group-->
+    <ng-container [ngTemplateOutlet]="conversionSettings"></ng-container>
+
+    <!--Advanced Conversion Settings sub group-->
+    <ng-container
+      [ngTemplateOutlet]="advanced"
+      *ngIf="conversionInputsParameters.length || conversionOutputsParameters.length"
+    >
+    </ng-container>
+
+    <!--Accuracy Configurations group-->
+    <ng-container *ngIf="accuracyConfigurationParameters.length" [ngTemplateOutlet]="accuracyConfigurations">
+    </ng-container>
+
+    <!--Accuracy Preprocessing sub group-->
+    <ng-container *ngIf="accuracyPreProcessingParameters.length" [ngTemplateOutlet]="preprocessing"></ng-container>
+
+    <!--Accuracy Postprocessing sub group-->
+    <ng-container *ngIf="accuracyPostProcessingParameters.length" [ngTemplateOutlet]="postprocessing"></ng-container>
+
+    <!--Accuracy Metric sub group-->
+    <ng-container *ngIf="accuracyMetricsParameters.length" [ngTemplateOutlet]="metric"></ng-container>
+
+    <ng-container *ngIf="projectParameters.length" [ngTemplateOutlet]="projectParametersTemplate"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #panelDetailsTemplate>
+  <div class="wb-row dashboard-template">
+    <div class="wb-col-4" *ngIf="targetParameters.length">
+      <div class="wb-panel">
+        <ng-container [ngTemplateOutlet]="environmentDetails"></ng-container>
+      </div>
+    </div>
+    <div [ngClass]="targetParameters.length ? 'wb-col-8' : 'wb-col-12'">
+      <div class="wb-panel">
+        <div class="wb-panel__header">
+          <h2 class="wb-panel__title">Model Parameters</h2>
+        </div>
+        <div class="wb-row">
+          <div
+            class="column-content"
+            [ngClass]="showAccuracyParameters ? 'wb-col-6' : 'wb-col-12 model-params-content'"
+          >
+            <div><ng-container [ngTemplateOutlet]="theoreticalAnalysis"></ng-container></div>
+            <div>
+              <ng-container [ngTemplateOutlet]="conversionSettings"></ng-container>
+
+              <ng-container
+                [ngTemplateOutlet]="advanced"
+                *ngIf="conversionInputsParameters.length || conversionOutputsParameters.length"
+              >
+              </ng-container>
+            </div>
+          </div>
+          <div class="wb-col-6 column-content">
+            <ng-container [ngTemplateOutlet]="accuracyConfigurations" *ngIf="accuracyConfigurationParameters.length">
+            </ng-container>
+
+            <ng-container [ngTemplateOutlet]="preprocessing" *ngIf="accuracyPreProcessingParameters.length">
+            </ng-container>
+
+            <ng-container [ngTemplateOutlet]="postprocessing" *ngIf="accuracyPostProcessingParameters.length">
+            </ng-container>
+
+            <ng-container [ngTemplateOutlet]="metric" *ngIf="accuracyMetricsParameters.length"> </ng-container>
+
+            <ng-container *ngIf="projectParameters.length" [ngTemplateOutlet]="projectParametersTemplate">
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #modelHeader>
+  <div class="model-header">
+    <div class="sub-title">Model</div>
+    <div class="top-title"><wb-text-overflow [content]="model?.name"></wb-text-overflow></div>
+  </div>
+</ng-template>
+
+<ng-template #environmentDetails>
+  <div class="wb-panel__header">
+    <h2 class="wb-panel__title">Environment Details</h2>
+  </div>
+
+  <div class="group" data-test-id="target-data">
+    <wb-parameter-details
+      class="attr"
+      *ngFor="let param of targetParameters"
+      [parameter]="param"
+    ></wb-parameter-details>
+  </div>
+</ng-template>
+
+<ng-template #theoreticalAnalysis>
+  <h3 class="subheader">Theoretical Analysis</h3>
+
+  <div class="group" data-test-id="theoretical-analysis">
+    <wb-parameter-details
+      class="attr"
+      *ngFor="let param of theoreticalAnalysisParameters"
+      [parameter]="param"
+    ></wb-parameter-details>
+  </div>
+</ng-template>
+
+<ng-template #conversionSettings>
+  <h3 class="subheader">Conversion Settings</h3>
+
+  <div class="group" data-test-id="conversion-settings">
+    <wb-parameter-details
+      class="attr"
+      *ngFor="let param of conversionSettingsParameters"
+      [parameter]="param"
+    ></wb-parameter-details>
+  </div>
+</ng-template>
+
+<ng-template #advanced>
+  <h4 class="title">Advanced</h4>
+
+  <div class="group">
+    <div class="group-data" data-test-id="opSets" *ngIf="opSetParameter.value.length">
+      <wb-parameter-details class="attr" [parameter]="opSetParameter"></wb-parameter-details>
+    </div>
+
+    <div class="group-data" data-test-id="inputs" *ngFor="let params of conversionInputsParameters">
+      <wb-parameter-details class="attr" *ngFor="let param of params" [parameter]="param"></wb-parameter-details>
+    </div>
+
+    <div class="group-data outputs-data" data-test-id="outputs">
+      <wb-parameter-details
+        class="attr"
+        *ngFor="let param of conversionOutputsParameters"
+        [parameter]="param"
+      ></wb-parameter-details>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #accuracyConfigurations>
+  <h3 class="subheader">Accuracy Configurations</h3>
+
+  <div class="group" data-test-id="accuracy-configuration">
+    <wb-parameter-details
+      class="attr"
+      *ngFor="let param of accuracyConfigurationParameters"
+      [parameter]="param"
+    ></wb-parameter-details>
+  </div>
+</ng-template>
+
+<ng-template #preprocessing>
+  <h4 class="title">Preprocessing</h4>
+
+  <div class="group" data-test-id="accuracy-preprocessing">
+    <wb-parameter-details
+      class="attr"
+      *ngFor="let param of accuracyPreProcessingParameters"
+      [parameter]="param"
+    ></wb-parameter-details>
+  </div>
+</ng-template>
+
+<ng-template #postprocessing>
+  <h4 class="title">Postprocessing</h4>
+
+  <div class="group" data-test-id="accuracy-postprocessing">
+    <wb-parameter-details
+      class="attr"
+      *ngFor="let param of accuracyPostProcessingParameters"
+      [parameter]="param"
+    ></wb-parameter-details>
+  </div>
+</ng-template>
+
+<ng-template #metric>
+  <h4 class="title">Metric</h4>
+
+  <div class="group" data-test-id="accuracy-metric">
+    <wb-parameter-details
+      class="attr"
+      *ngFor="let param of accuracyMetricsParameters"
+      [parameter]="param"
+    ></wb-parameter-details>
+  </div>
+</ng-template>
+
+<ng-template #projectParametersTemplate>
+  <h3 class="subheader">Project Parameters</h3>
+
+  <div class="group" data-test-id="project-data">
+    <wb-parameter-details
+      class="attr"
+      *ngFor="let param of projectParameters"
+      [parameter]="param"
+    ></wb-parameter-details>
+  </div>
+
+  <ng-container
+    *ngIf="projectInt8ConfigurationParameters.length"
+    [ngTemplateOutlet]="projectInt8ParametersTemplate"
+  ></ng-container>
+</ng-template>
+
+<ng-template #projectInt8ParametersTemplate>
+  <h4 class="title">INT8 Configuration</h4>
+
+  <div class="group" data-test-id="calibration-data">
+    <wb-parameter-details
+      class="attr"
+      *ngFor="let param of projectInt8ConfigurationParameters"
+      [parameter]="param"
+    ></wb-parameter-details>
+  </div>
+</ng-template>

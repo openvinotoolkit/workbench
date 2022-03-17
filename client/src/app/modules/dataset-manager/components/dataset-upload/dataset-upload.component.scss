@@ -1,0 +1,165 @@
+@import 'fonts';
+@import 'variables';
+
+$toggle-icon-size: 10px;
+$footer-height: 40px;
+
+.upload-dataset {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  border-bottom: 1px solid $very-light-pink;
+  margin-bottom: 80px;
+}
+
+.selection {
+  display: flex;
+  background-color: $faded-bgr;
+  border: 1px solid $very-light-pink;
+  border-radius: 5px;
+  flex-basis: 60%;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 2;
+  margin: $container-padding;
+
+  wb-config-form-field,
+  wb-file-upload-field {
+    ::ng-deep .field-label {
+      min-width: 190px;
+      margin-right: $container-padding;
+    }
+  }
+
+  .uploader-tooltip {
+    display: flex;
+    margin: $container-padding;
+
+    .icon {
+      $size: 20px;
+      width: $size;
+      height: $size;
+      flex: 0 0 $size;
+      color: $blue-blue;
+    }
+
+    .tooltip-txt {
+      word-wrap: break-word;
+      margin-left: 5px;
+      line-height: 1.65;
+    }
+
+    a {
+      color: $plum;
+      cursor: default;
+    }
+
+    ::ng-deep wb-info-hint .wb-body-4 {
+      font-size: 14px;
+    }
+  }
+
+  .uploader-body {
+    display: flex;
+    flex-direction: column;
+    margin: $container-padding;
+
+    .model-input {
+      span:first-child {
+        margin-right: 78px;
+      }
+
+      span:last-child {
+        margin-left: 10px;
+        color: $brownish-grey;
+      }
+    }
+  }
+}
+
+.tips {
+  align-self: flex-start;
+  background-color: $faded-bgr;
+  border: 1px solid $very-light-pink;
+  border-radius: 5px;
+  display: flex;
+  flex-basis: 30%;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 0;
+  margin: $container-padding;
+
+  .tip-content {
+    margin: $container-padding;
+
+    mat-expansion-panel {
+      background-color: transparent;
+
+      ::ng-deep.mat-expansion-panel-body {
+        padding: 0;
+      }
+
+      mat-expansion-panel-header {
+        padding: 0;
+
+        mat-panel-title {
+          .dataset-tip-toggle-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: $toggle-icon-size;
+            height: $toggle-icon-size;
+            margin-left: 5px;
+          }
+
+          .dataset-tip-label {
+            display: flex;
+            align-items: center;
+            @include wb-subtitle-2();
+          }
+        }
+      }
+    }
+
+    span {
+      display: block;
+      margin-top: 15px;
+    }
+  }
+
+  ::ng-deep wb-markdown-text {
+    display: block;
+
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+
+    ::ng-deep .markdown-text-block {
+      white-space: pre-wrap;
+    }
+  }
+  .feedback-info {
+    margin: 0 $container-padding $container-padding;
+  }
+}
+
+.upload-buttons {
+  align-content: space-around;
+  background-color: $faded-bgr;
+  bottom: 0;
+  box-shadow: 0 4px 5px 4px $cool-grey;
+  display: flex;
+  flex-direction: row;
+  padding: $container-padding;
+  position: fixed;
+  width: 100%;
+  height: $footer-height;
+
+  wb-button + wb-button {
+    margin-left: $container-padding;
+  }
+}
+
+wb-help-tooltip {
+  margin-left: 5px;
+}

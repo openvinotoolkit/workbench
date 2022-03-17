@@ -1,0 +1,120 @@
+<wb-model-zoo-layout [isDetailsOpened]="!!selectedModel">
+  <wb-model-zoo-content>
+    <ng-container ngProjectAs="model-zoo-filters" [ngTemplateOutlet]="filtersTemplate"></ng-container>
+
+    <wb-model-zoo-notification [message]="externalResourceNotification"></wb-model-zoo-notification>
+
+    <wb-search-field ngProjectAs="model-zoo-search" (search)="searchModels($event)"></wb-search-field>
+
+    <wb-model-zoo-counter
+      [dataLength]="dataSource?.data.length"
+      [filteredDataLength]="dataSource?.filteredData?.length"
+    ></wb-model-zoo-counter>
+
+    <mat-paginator
+      ngProjectAs="model-zoo-paginator"
+      [length]="dataSource.data.length"
+      [pageSize]="8"
+      hidePageSize
+    ></mat-paginator>
+
+    <wb-card-grid [dataSource]="dataSource">
+      <wb-card
+        class="model-card"
+        *wbCardDef="let model"
+        [disabled]="model.validation.disabled"
+        [matTooltip]="model.validation.message"
+        [matTooltipDisabled]="!model.validation.disabled"
+        (click)="selectedModel = model"
+      >
+        <wb-card-title-row>
+          <mat-icon [svgIcon]="model.validation.disabled ? 'lock' : 'text_fields'"></mat-icon>
+          <wb-text-overflow [content]="model.id"></wb-text-overflow>
+        </wb-card-title-row>
+        <wb-card-content-row>
+          <wb-card-content-row-item>{{ model.pipelineTag }}</wb-card-content-row-item>
+        </wb-card-content-row>
+        <wb-card-content-row>
+          <wb-card-content-row-item>{{ model.downloads || 0 }}</wb-card-content-row-item>
+          <wb-card-content-row-item>Updated: {{ model.lastModified | date }}</wb-card-content-row-item>
+        </wb-card-content-row>
+      </wb-card>
+    </wb-card-grid>
+  </wb-model-zoo-content>
+
+  <wb-model-zoo-details>
+    <wb-model-zoo-details-header
+      [modelName]="selectedModel?.id"
+      (hideDetails)="selectedModel = null"
+    ></wb-model-zoo-details-header>
+
+    <wb-model-zoo-details-footer>
+      <wb-button
+        type="primary"
+        class="enlarged-control"
+        text="Download and Import"
+        (handleClick)="handleUploadModel()"
+      ></wb-button>
+    </wb-model-zoo-details-footer>
+  </wb-model-zoo-details>
+</wb-model-zoo-layout>
+
+<ng-template #filtersTemplate>
+  <mat-form-field>
+    <mat-select [formControl]="sortControl">
+      <mat-option [value]="'downloads'">Downloads</mat-option>
+      <mat-option [value]="'lastModified'">Recently Updated</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <wb-model-zoo-filter-group [formControl]="filterControl">
+    <ng-container *ngIf="appliedTags">
+      <wb-model-zoo-filter group="pipeline_tag">
+        <h3 title>Tasks</h3>
+        <wb-model-zoo-filter-option
+          selected="true"
+          disabled="true"
+          *ngFor="let tag of appliedTags.pipelineTags"
+          [value]="tag"
+        >
+          {{ tag }}
+        </wb-model-zoo-filter-option>
+      </wb-model-zoo-filter>
+
+      <wb-model-zoo-filter group="library">
+        <h3 title>Library</h3>
+        <wb-model-zoo-filter-option
+          selected="true"
+          disabled="true"
+          *ngFor="let tag of appliedTags.libraries"
+          [value]="tag"
+        >
+          {{ tag }}
+        </wb-model-zoo-filter-option>
+      </wb-model-zoo-filter>
+    </ng-container>
+
+    <ng-container *ngIf="availableTags">
+      <wb-model-zoo-filter group="modelTypes">
+        <h3 title>Model types</h3>
+        <wb-model-zoo-filter-option *ngFor="let modelType of availableTags.modelTypes" [value]="modelType">
+          {{ modelType }}
+        </wb-model-zoo-filter-option>
+      </wb-model-zoo-filter>
+
+      <wb-model-zoo-filter group="languages">
+        <h3 title>Languages</h3>
+        <wb-model-zoo-filter-option *ngFor="let language of availableTags.languages" [value]="language">
+          {{ language }}
+        </wb-model-zoo-filter-option>
+      </wb-model-zoo-filter>
+
+      <wb-model-zoo-filter group="licenses">
+        <h3 title>Licenses</h3>
+        <wb-model-zoo-filter-option *ngFor="let license of availableTags.licenses" [value]="license">
+          {{ license }}
+        </wb-model-zoo-filter-option>
+      </wb-model-zoo-filter>
+    </ng-container>
+  </wb-model-zoo-filter-group>
+</ng-template>

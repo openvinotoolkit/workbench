@@ -1,0 +1,154 @@
+@import 'fonts';
+@import 'colors';
+
+table.wb-table {
+  width: 100%;
+
+  > thead {
+    > tr {
+      height: 32px;
+
+      > th {
+        background-color: $light-blue-grey;
+        @include wb-text-13();
+        color: $brownish-grey;
+        border-top: 1px solid $cloudy-blue;
+        padding: 0 5px;
+
+        .mat-sort-header-content {
+          text-align: left;
+        }
+      }
+    }
+  }
+
+  > tbody {
+    > tr {
+      height: 36px;
+      transition: 0.2s background-color ease-in-out;
+
+      &:hover {
+        background-color: $very-light-pink;
+      }
+
+      &.selected {
+        background-color: $very-light-pink;
+      }
+
+      &.expandable-row {
+        height: 0;
+
+        > td {
+          padding: 0;
+        }
+      }
+
+      &.disabled {
+        cursor: not-allowed;
+
+        > td {
+          cursor: not-allowed;
+        }
+      }
+
+      &.inactive,
+      &.inactive:hover {
+        background-color: inherit;
+        cursor: not-allowed;
+
+        > td {
+          color: $cool-grey;
+          cursor: not-allowed;
+        }
+      }
+
+      > td {
+        @include wb-body-4();
+        padding: 0 5px;
+      }
+    }
+  }
+
+  > tfoot {
+    > tr {
+      height: 36px;
+
+      > td {
+        @include wb-body-4();
+        padding: 0 5px;
+      }
+    }
+  }
+
+  &.disabled {
+    pointer-events: none;
+    > tbody {
+      opacity: 0.8;
+    }
+  }
+}
+
+table.wb-table.wb-table-on-gray {
+  width: 100%;
+  background: $faded-bgr;
+  line-height: 1;
+  border-radius: 3px;
+
+  .mat-sort-header-content {
+    text-align: left;
+  }
+
+  .column-status {
+    width: 200px;
+    padding-right: 20px;
+  }
+  .column-filter {
+    width: 40px;
+  }
+
+  thead tr:first-child th {
+    border-top: none;
+  }
+
+  thead tr th {
+    border-top: none;
+    vertical-align: top;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background: $faded-bgr;
+    line-height: 16px;
+  }
+
+  thead tr:last-child th {
+    border-bottom: 1px solid $very-light-pink;
+  }
+
+  td,
+  th {
+    border-color: $very-light-pink;
+  }
+
+  tfoot tr:last-child td {
+    border-bottom: none;
+  }
+
+  th.mat-header-cell:first-of-type,
+  td.mat-cell:first-of-type,
+  td.mat-footer-cell:first-of-type {
+    padding-left: 20px;
+  }
+
+  th.mat-header-cell:last-of-type,
+  td.mat-cell:last-of-type,
+  td.mat-footer-cell:last-of-type {
+    padding-right: 20px;
+  }
+
+  tr:hover {
+    cursor: default;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+}

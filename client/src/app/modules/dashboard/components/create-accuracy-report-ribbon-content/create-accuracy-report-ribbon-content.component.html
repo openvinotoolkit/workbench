@@ -1,0 +1,42 @@
+<wb-panel>
+  <div class="wb-h4" wb-heading>Create Accuracy Report</div>
+  <ng-container wb-content>
+    <wb-accuracy-report-type-radio-group
+      [formControl]="accuracyReportTypeControl"
+      [accuracyReportOptions]="accuracyReportOptions"
+    ></wb-accuracy-report-type-radio-group>
+
+    <div *ngIf="!areAllReportsDisabled" class="accuracy-configuration">
+      <wb-button
+        [type]="
+          hasAccuracyConfiguration || accuracyReportTypeControl.value === AccuracyReportType.PARENT_MODEL_PER_TENSOR
+            ? 'secondary'
+            : 'primary'
+        "
+        class="enlarged-control"
+        testId="provide-accuracy-configuration"
+        text="Provide accuracy configuration"
+        (handleClick)="navigateToAccuracyPage()"
+      ></wb-button>
+      <wb-info-hint [message]="hints.provideAccuracyConfigurationDescription"></wb-info-hint>
+    </div>
+  </ng-container>
+</wb-panel>
+
+<div *ngIf="!areAllReportsDisabled" class="footer">
+  <wb-button
+    class="enlarged-control"
+    text="Create Accuracy Report"
+    testId="create-accuracy-report"
+    type="primary"
+    (handleClick)="createAccuracyReport()"
+    [disabled]="isCreateAccuracyReportDisabled"
+  ></wb-button>
+  <wb-info-hint type="warning" *ngIf="isTaskRunning" [message]="taskIsRunningMsg"></wb-info-hint>
+  <wb-info-hint type="warning" *ngIf="archivedProjectMessage" [message]="archivedProjectMessage"></wb-info-hint>
+  <wb-info-hint
+    type="warning"
+    *ngIf="!hasAccuracyConfiguration && accuracyReportTypeControl.value !== AccuracyReportType.PARENT_MODEL_PER_TENSOR"
+    [message]="hints.noAccuracyConfigDisabledMessage"
+  ></wb-info-hint>
+</div>

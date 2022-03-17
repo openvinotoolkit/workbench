@@ -1,0 +1,14 @@
+@import 'variables';
+
+.output-layer-field {
+  mat-form-field {
+    margin-left: $container-padding;
+  }
+
+  wb-help-tooltip {
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -3px;
+  }
+}

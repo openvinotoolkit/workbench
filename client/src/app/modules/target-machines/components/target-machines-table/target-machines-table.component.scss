@@ -1,0 +1,66 @@
+@import 'colors';
+
+.mat-row.selected .actions-column-cell mat-icon {
+  color: $black;
+}
+
+:host {
+  ::ng-deep table > tbody > tr {
+    cursor: pointer;
+  }
+
+  .name-column {
+    width: 1%;
+    white-space: nowrap;
+  }
+
+  .details-column {
+    color: $plum;
+    width: 72px;
+    box-sizing: border-box;
+  }
+
+  .status-column {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    wb-target-machine-status {
+      width: 145px;
+    }
+    wb-button {
+      margin-left: 10px;
+
+      $button-height: 22px;
+
+      ::ng-deep .button {
+        height: $button-height;
+        line-height: $button-height;
+      }
+    }
+  }
+
+  .actions-column-cell {
+    display: flex;
+    align-items: center;
+
+    & > mat-icon {
+      color: $cool-grey;
+
+      &:hover {
+        color: $black;
+      }
+
+      &:not(:first-child) {
+        margin-left: 10px;
+      }
+
+      &#edit-target {
+        $icon-size: 20px;
+        width: $icon-size;
+        height: $icon-size;
+        font-size: $icon-size;
+      }
+    }
+  }
+}

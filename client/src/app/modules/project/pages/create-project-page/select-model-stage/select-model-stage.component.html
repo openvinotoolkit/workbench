@@ -1,0 +1,47 @@
+<div class="head">
+  <h3 class="wb-h4 title">Select Model</h3>
+
+  <ng-container *ngIf="(models$ | async).length">
+    <ng-container *ngTemplateOutlet="importModelButton"></ng-container>
+  </ng-container>
+</div>
+
+<div class="form" [class.empty]="!(models$ | async).length">
+  <wb-models-list
+    *ngIf="(models$ | async).length; else noModelsTemplate"
+    class="table models-table"
+    [models]="models$ | async"
+    [detailsShown]="detailsShown"
+    [selectedModelId]="selectedModel?.id"
+    [taskIsRunning]="taskIsRunning"
+    (selected)="selected.emit($event)"
+    (selectedDetails)="selectedDetails.emit($event)"
+  ></wb-models-list>
+</div>
+
+<div class="stage-actions">
+  <wb-button
+    class="button enlarged-control"
+    type="secondary"
+    text="Next Step"
+    [disabled]="!selectedModel"
+    (handleClick)="toStage.emit(createProjectStages.ENVIRONMENT)"
+  >
+  </wb-button>
+</div>
+
+<ng-template #importModelButton>
+  <wb-button
+    class="enlarged-control"
+    testId="import-from-model-manager"
+    type="secondary"
+    text="Import Model"
+    (handleClick)="openModelImport.emit()"
+  >
+  </wb-button>
+</ng-template>
+
+<ng-template #noModelsTemplate>
+  <ng-container *ngTemplateOutlet="importModelButton"></ng-container>
+  <div class="empty-message">{{ messages.emptyTip }}</div>
+</ng-template>

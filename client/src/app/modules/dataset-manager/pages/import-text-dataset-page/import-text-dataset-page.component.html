@@ -1,0 +1,45 @@
+<wb-page-with-actions class="gray-footer">
+  <ng-container ngProjectAs="pageContent">
+    <wb-navigation-bar>
+      <a routerLink="/projects/create" queryParamsHandling="preserve">Create Project</a>
+      <a>Import Text Dataset</a>
+    </wb-navigation-bar>
+    <h1 class="wb-h1 wb-page-header">Import Text Dataset</h1>
+
+    <wb-message-box
+      class="upload-dataset-error"
+      *ngIf="uploadErrorMessage$ | async as errorMessage"
+      messageType="error"
+      [message]="'Text dataset upload failed'"
+      [detailedMessage]="errorMessage"
+    >
+    </wb-message-box>
+
+    <wb-text-dataset-info></wb-text-dataset-info>
+
+    <wb-text-dataset-data #dataCmp (datasetChange)="onDatasetChange($event)"></wb-text-dataset-data>
+  </ng-container>
+
+  <ng-container [ngTemplateOutlet]="actions" ngProjectAs="pageActions"></ng-container>
+</wb-page-with-actions>
+
+<ng-template #actions>
+  <div class="actions">
+    <wb-button
+      class="enlarged-control"
+      testId="import-button"
+      type="primary"
+      text="Import"
+      (handleClick)="submit()"
+      [disabled]="dataCmp.form.invalid"
+    >
+    </wb-button>
+    <wb-button
+      class="enlarged-control"
+      type="default"
+      text="Cancel"
+      routerLink="/projects/create"
+      queryParamsHandling="preserve"
+    ></wb-button>
+  </div>
+</ng-template>

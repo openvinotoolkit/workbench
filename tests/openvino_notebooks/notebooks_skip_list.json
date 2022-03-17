@@ -1,0 +1,53 @@
+{
+  "105-language-quantize-bert.ipynb": {
+    "skip": "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed"
+  },
+  "201-vision-monodepth.ipynb": {
+    "skip": "63174"
+  },
+  "202-vision-superresolution-image.ipynb": {
+    "skip": "63174"
+  },
+  "202-vision-superresolution-video.ipynb": {
+    "skip": "63174"
+  },
+  "206-vision-paddlegan-anime.ipynb": {
+    "skip": "70531"
+  },
+  "208-optical-character-recognition.ipynb": {
+    "skip": "70531"
+  },
+  "301-tensorflow-training-openvino": {
+    "skip": "skipped in main repository"
+  },
+  "401-object-detection.ipynb": {
+    "skip": "63174"
+  },
+  "402-pose-estimation.ipynb": {
+    "skip": "63174"
+  },
+  "403-action-recognition-webcam": {
+    "skip": "63174"
+  },
+  "111-detection-quantization": {
+    "skip": "79001"
+  },
+  "211-speech-to-text": {
+    "skip": "79003"
+  },
+  "212-onnx-style-transfer": {
+    "skip": "79001"
+  },
+  "213-question-answering": {
+    "skip": "Issue in main repo #413"
+  },
+  "110-ct-segmentation-quantize/pytorch-monai-training.ipynb": {
+    "skip": "Optional notebook"
+  },
+  "110-ct-segmentation-quantize/data-preparation-ct-scan.ipynb": {
+    "skip": "Optional notebook"
+  },
+  "utils/notebook_utils.ipynb": {
+    "skip": "Optional notebook"
+  }
+}

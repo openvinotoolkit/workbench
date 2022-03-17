@@ -1,0 +1,137 @@
+<wb-table-filter-form
+  [columns]="filterableColumns"
+  [columnOptions]="filterableColumnOptions"
+  [valueConditionOptions]="valueConditionOptions"
+  (applyFilter)="applyFilter($event)"
+  (resetFilter)="resetFilter()"
+></wb-table-filter-form>
+
+<mat-sidenav-container>
+  <mat-sidenav-content class="master-container table-on-gray-wrapper">
+    <ng-container ngProjectAs="masterContent" [ngTemplateOutlet]="layerTable"></ng-container>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ng-template #layerTable>
+  <table
+    mat-table
+    matSort
+    (matSortChange)="sortedColumn = $event"
+    [dataSource]="layersDataSource"
+    id="layers-table"
+    class="wb-table wb-table-on-gray"
+  >
+    <!-- Layer Name Definition -->
+    <ng-container [cdkColumnDef]="ColumnNames.LAYER_NAME">
+      <th mat-header-cell mat-sort-header *cdkHeaderCellDef>
+        {{ ColumnLabels.LAYER_NAME }}
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: ColumnNames.LAYER_NAME }"></ng-container>
+      </th>
+      <td
+        mat-cell
+        *cdkCellDef="let row; index as index"
+        class="layer-name-cell"
+        [title]="row.layerName"
+        (click)="clickLayer(row, index)"
+      >
+        {{ row.layerName }}
+      </td>
+    </ng-container>
+
+    <!-- Execution Time Definition -->
+    <ng-container [cdkColumnDef]="ColumnNames.EXEC_TIME">
+      <th mat-header-cell mat-sort-header *cdkHeaderCellDef>
+        {{ ColumnLabels.EXEC_TIME }}, ms
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: ColumnNames.EXEC_TIME }"></ng-container>
+      </th>
+      <td
+        mat-cell
+        *cdkCellDef="let row; index as index"
+        [class.disabled]="!isFinite(row.execTime[0])"
+        (click)="clickLayer(row, index)"
+      >
+        {{ layersTableService.getExecTimeValue(row.execTime[0]) }}
+      </td>
+    </ng-container>
+
+    <!-- Layer Information -->
+    <ng-container [cdkColumnDef]="ColumnNames.LAYER_INFORMATION">
+      <th mat-header-cell mat-sort-header *cdkHeaderCellDef>
+        {{ ColumnLabels.LAYER_INFORMATION }}
+        <ng-container
+          *ngTemplateOutlet="sortIcon; context: { columnName: ColumnNames.LAYER_INFORMATION }"
+        ></ng-container>
+      </th>
+      <td
+        mat-cell
+        *cdkCellDef="let row; index as index"
+        class="layer-information-cell"
+        (click)="clickLayer(row, index)"
+      >
+        <ng-container *ngIf="isGraphsBlockExpanded">
+          <ng-container
+            [ngTemplateOutlet]="layerProperty"
+            [ngTemplateOutletContext]="{ label: ColumnLabels.LAYER_NAME, value: row.layerName }"
+          >
+          </ng-container>
+          <ng-container
+            [ngTemplateOutlet]="layerProperty"
+            [ngTemplateOutletContext]="{
+              label: ColumnLabels.EXEC_TIME,
+              value: layersTableService.getExecTimeValue(row.execTime[0])
+            }"
+          >
+          </ng-container>
+        </ng-container>
+        <ng-container
+          [ngTemplateOutlet]="layerProperty"
+          [ngTemplateOutletContext]="{ label: ColumnLabels.LAYER_TYPE, value: row.layerType }"
+        >
+        </ng-container>
+        <ng-container
+          [ngTemplateOutlet]="layerProperty"
+          [ngTemplateOutletContext]="{ label: ColumnLabels.PRECISION, value: row.runtimePrecision }"
+        >
+        </ng-container>
+        <ng-container
+          [ngTemplateOutlet]="layerProperty"
+          [ngTemplateOutletContext]="{
+            label: ColumnLabels.EXEC_ORDER,
+            value: row.details[0]?.executionParams?.execOrder
+          }"
+        >
+        </ng-container>
+      </td>
+    </ng-container>
+    <tr
+      mat-header-row
+      *cdkHeaderRowDef="isGraphsBlockExpanded ? collapsedTableColumns : tableColumns; sticky: true"
+    ></tr>
+    <tr
+      mat-row
+      #layerRow
+      [class.selected]="selectedLayer?.layerName === row.layerName"
+      *cdkRowDef="let row; columns: isGraphsBlockExpanded ? collapsedTableColumns : tableColumns"
+    ></tr>
+  </table>
+</ng-template>
+
+<ng-template #layerProperty let-label="label" let-value="value">
+  <div class="layer-property" [attr.data-test-id]="label.replace(' ', '_').toLowerCase() + '_property'">
+    <span class="layer-property-label">{{ label }}:</span>
+    <span
+      class="layer-property-value"
+      data-test-id="value"
+      [class.disabled]="label === ColumnLabels.EXEC_TIME ? !isFinite(toNumber(value)) : !value"
+      [class.layer-name-cell]="label === ColumnLabels.LAYER_NAME"
+      [title]="value"
+      >{{ value || notAvailableLabel }}</span
+    >
+  </div>
+</ng-template>
+
+<ng-template #sortIcon let-columnName="columnName">
+  <ng-container *ngIf="layersDataSource.data?.length">
+    <wb-table-sort-icon [columnName]="columnName" [sortedColumn]="sortedColumn"></wb-table-sort-icon>
+  </ng-container>
+</ng-template>

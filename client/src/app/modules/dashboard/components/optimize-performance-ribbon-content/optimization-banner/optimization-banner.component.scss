@@ -1,0 +1,59 @@
+@import 'fonts';
+@import 'colors';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 260px;
+}
+
+.banner-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-evenly;
+  margin: -20px 0;
+  color: $plum;
+
+  &.disabled {
+    color: $cool-grey;
+  }
+
+  & > .banner-header {
+    @include wb-h4();
+    text-align: center;
+  }
+
+  & > .improvements {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    & > .improvement {
+      display: flex;
+      flex-basis: 260px;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 20px;
+
+      & > .up-to-label {
+        @include wb-text-8();
+        height: 0;
+        position: relative;
+        top: -20px;
+      }
+
+      & > .value {
+        @include wb-label();
+        font-size: 90px;
+        line-height: 105px;
+      }
+
+      & > .description-label {
+        @include wb-h5();
+      }
+    }
+  }
+}

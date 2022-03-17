@@ -1,0 +1,440 @@
+{
+  "faster_rcnn_inception_resnet_v2_atrous_coco": {
+    "skip": "26335"
+  },
+  "retinanet-tf": {
+    "skip": "26335"
+  },
+  "faster-rcnn-resnet101-coco-sparse-60-0001": {
+    "skip": "26335"
+  },
+  "efficientnet-b0": {
+    "timeout": 2,
+    "skip": "78064"
+  },
+  "deeplabv3": {
+    "skip": "78064"
+  },
+  "efficientnet-b7_auto_aug": {
+    "timeout": 2
+  },
+  "efficientnet-b7-pytorch": {
+    "timeout": 2,
+    "skip": "65890"
+  },
+  "efficientnet-b0_auto_aug": {
+    "disable_presets": {
+      "AccuracyAwareQuantization": "28552 - long optimization"
+    }
+  },
+  "efficientnet-b5": {
+    "timeout": 2
+  },
+  "mask_rcnn_inception_resnet_v2_atrous_coco": {
+    "skip": "28552 - long optimization"
+  },
+  "mask_rcnn_resnet101_atrous_coco": {
+    "skip": "28552 - long optimization",
+    "timeout": 2
+  },
+  "mask_rcnn_resnet50_atrous_coco": {
+    "skip": "28552 - long optimization",
+    "timeout": 2
+  },
+  "mask_rcnn_inception_v2_coco": {
+    "skip": "28552 - long optimization"
+  },
+  "octave-se-resnet-50-0.125": {
+    "disable_presets": {
+      "AccuracyAwareQuantization": "28552 - long optimization"
+    }
+  },
+  "octave-resnext-50-0.25": {
+    "timeout": 2
+  },
+  "octave-resnext-101-0.25": {
+    "timeout": 2,
+    "disable_presets": {
+      "AccuracyAwareQuantization": "28552 - long optimization"
+    }
+  },
+  "octave-resnet-101-0.125": {
+    "timeout": 2,
+    "disable_presets": {
+      "AccuracyAwareQuantization": "28552 - long optimization"
+    }
+  },
+  "octave-resnet-200-0.125": {
+    "skip": "28552 - long optimization"
+  },
+  "faster_rcnn_inception_v2_coco": {
+    "skip": "28552 - long optimization"
+  },
+  "face-recognition-resnet100-arcface": {
+    "skip": "OMZ PR #2386"
+  },
+  "face-recognition-mobilefacenet-arcface": {
+    "skip": "OMZ PR #2386"
+  },
+  "ssd_resnet50_v1_fpn_coco": {
+    "timeout": 1,
+    "subSet": 1
+  },
+  "ssdlite_mobilenet_v2": {
+    "timeout": 1,
+    "subSet": 50
+  },
+  "se-resnext-101": {
+    "timeout": 1
+  },
+  "alexnet": {
+    "timeout": 2
+  },
+  "octave-resnet-101-0.25": {
+    "subSet": 10,
+    "timeout": 1
+  },
+  "octave-densenet-121-0.125": {
+    "subSet": 10,
+    "timeout": 2
+  },
+  "octave-resnet-50-0.125": {
+    "subSet": 10,
+    "timeout": 2
+  },
+  "vgg16": {
+    "timeout": 2
+  },
+  "vgg19": {
+    "timeout": 2
+  },
+  "vgg19-caffe2": {
+    "timeout": 2
+  },
+  "resnet-50-tf": {
+    "timeout": 1
+  },
+  "ssd300": {
+    "timeout": 1
+  },
+  "ssd512": {
+    "timeout": 1
+  },
+  "yolo-v2-ava-sparse-35-0001,": {
+    "timeout": 2
+  },
+  "hbonet-0.25": {
+    "timeout": 3,
+    "subSet": 100,
+    "accuracyDrop": 0.5,
+    "skip": "69752"
+  },
+  "hbonet-0.5": {
+    "timeout": 2,
+    "subSet": 100,
+    "accuracyDrop": 0.5,
+    "skip": "69752"
+  },
+  "hbonet-1.0": {
+    "timeout": 2,
+    "subSet": 100,
+    "accuracyDrop": 0.5,
+    "skip": "74139"
+  },
+  "instance-segmentation-security-0002": {
+    "timeout": 2,
+    "subSet": 50,
+    "skip": "57880"
+  },
+  "instance-segmentation-security-0091": {
+    "timeout": 2,
+    "subSet": 5,
+    "skip": "57880"
+  },
+  "instance-segmentation-security-0228": {
+    "timeout": 2,
+    "subSet": 5,
+    "skip": "57880"
+  },
+  "instance-segmentation-security-1039": {
+    "timeout": 2,
+    "subSet": 5,
+    "skip": "57880"
+  },
+  "instance-segmentation-security-1040": {
+    "timeout": 2,
+    "subSet": 5,
+    "skip": "57880"
+  },
+  "mobilenet-v1-0.50-160": {
+    "timeout": 2,
+    "subSet": 100
+  },
+  "mobilenet-v2": {
+    "timeout": 1
+  },
+  "pelee-coco": {
+    "subSet": 50
+  },
+  "resnet-152": {
+    "subSet": 100,
+    "timeout": 2
+  },
+  "ssd_mobilenet_v2_coco": {
+    "timeout": 1
+  },
+  "face-recognition-resnet50-arcface": {
+    "skip": "OMZ PR #2386"
+  },
+  "facenet-20180408-102900": {
+    "skip": "56670"
+  },
+  "landmarks-regression-retail-0009": {
+    "skip": "56670"
+  },
+  "Sphereface": {
+    "skip": "56670"
+  },
+  "face-recognition-resnet34-arcface": {
+    "skip": "OMZ PR #2386"
+  },
+  "shufflenet-v2-x1.0": {
+    "timeout": 2,
+    "accuracyDrop": 0.5,
+    "subSet": 100,
+    "skip": "74139",
+    "disable_presets": {
+      "AccuracyAwareQuantization": "28552 - long optimization"
+    }
+  },
+  "repvgg-b1": {
+    "timeout": 2,
+    "skip": "74139"
+  },
+  "repvgg-b3": {
+    "timeout": 2,
+    "skip": "74139"
+  },
+  "asl-recognition-0004": {
+    "skip": "56789"
+  },
+  "yolo-v2-tiny-vehicle-detection-0001": {
+    "skip": "56789"
+  },
+  "mobilefacedet-v1-mxnet": {
+    "skip": "56789"
+  },
+  "common-sign-language-0002": {
+    "skip": "56789"
+  },
+  "mixnet-l": {
+    "skip": "56789"
+  },
+  "netvlad-tf": {
+    "skip": "56789"
+  },
+  "person-detection-0106": {
+    "skip": "57012"
+  },
+  "vehicle-detection-adas-0002": {
+    "skip": "57015"
+  },
+  "text-image-super-resolution-0001": {
+    "timeout": 2,
+    "subSet": 50,
+    "skip": "57015"
+  },
+  "faster_rcnn_resnet101_coco": {
+    "skip": "56212",
+    "subSet": 50,
+    "timeout": 2
+  },
+  "faster_rcnn_resnet50_coco": {
+    "skip": "56212",
+    "subSet": 50,
+    "timeout": 2
+  },
+  "resnest-50-pytorch": {
+    "skip": "57282"
+  },
+  "yolo-v2-tiny-tf": {
+    "skip": "57103"
+  },
+  "yolo-v2-tf": {
+    "skip": "57103"
+  },
+  "mobilenet-v3-large-1.0-224-tf": {
+    "timeout": 2
+  },
+  "mobilenet-v3-small-1.0-224-tf": {
+    "timeout": 3,
+    "accuracyDrop": 0.5,
+    "subSet": 100
+  },
+  "ssd_mobilenet_v1_fpn_coco": {
+    "timeout": 2
+  },
+  "yolo-v4-tf": {
+    "timeout": 2,
+    "skip": "77428"
+  },
+  "yolo-v4-tiny-tf": {
+    "skip": "77428"
+  },
+  "se-resnet-50": {
+    "skip": "59237"
+  },
+  "fast-neural-style-mosaic-onnx": {
+    "skip": "60375"
+  },
+  "dla-34": {
+    "skip": "74139",
+    "timeout": 2
+  },
+  "caffen": {
+    "timeout": 2
+  },
+  "face-detection-0200": {
+    "timeout": 2
+  },
+  "face-detection-0202": {
+    "timeout": 2
+  },
+  "face-detection-0204": {
+    "timeout": 2
+  },
+  "densenet-121-caffe2": {
+    "timeout": 2
+  },
+  "swin-tiny-patch4-window7-224": {
+    "timeout": 2,
+    "skip": "74139"
+  },
+  "densenet-121-tf": {
+    "skip": "74139"
+  },
+  "efficientdet-d0-tf": {
+    "skip": "74139",
+    "timeout": 2
+  },
+  "efficientdet-d1-tf": {
+    "skip": "74139",
+    "timeout": 2
+  },
+  "mobilenet-yolo-v4-syg": {
+    "skip": "74139"
+  },
+  "vehicle-license-plate-detection-barrier-0123": {
+    "skip": "74139",
+    "timeout": 2
+  },
+  "yolo-v1-tiny-tf": {
+    "skip": "74139"
+  },
+  "yolo-v3-tf": {
+    "skip": "74139"
+  },
+  "yolo-v3-tiny-tf": {
+    "skip": "74139"
+  },
+  "gmcnn-places2-tf": {
+    "subSet": 1,
+    "accuracyDrop": 10,
+    "timeout": 3,
+    "layouts": ["NHWC", "NHWC"],
+    "skip": "74139"
+  },
+  "rfcn-resnet101-coco-tf": {
+    "subSet": 50,
+    "timeout": 2,
+    "layouts": ["NHWC", "NC"],
+    "skip": "74139"
+  },
+  "efficientnet-b0-pytorch": {
+    "skip": "74139"
+  },
+  "efficientnet-v2-b0": {
+    "skip": "74139"
+  },
+  "efficientnet-v2-s": {
+    "skip": "74139"
+  },
+  "googlenet-v3-pytorch": {
+    "skip": "74139"
+  },
+  "mobilenet-v2-pytorch": {
+    "skip": "74139"
+  },
+  "nfnet-f0": {
+    "skip": "74139"
+  },
+  "pspnet-pytorch": {
+    "skip": "74139"
+  },
+  "repvgg-a0": {
+    "skip": "74139"
+  },
+  "resnet-34-pytorch": {
+    "skip": "74139"
+  },
+  "resnet-18-pytorch": {
+    "skip": "74139"
+  },
+  "resnet-50-pytorch": {
+    "skip": "74139"
+  },
+  "rexnet-v1-x1.0": {
+    "skip": "74139"
+  },
+  "emotions-recognition-retail-0003": {
+    "skip": "75628"
+  },
+  "face-detection-retail-0004": {
+    "skip": "75628"
+  },
+  "person-detection-retail-0002": {
+    "skip": "75628",
+    "subSet": 50,
+    "timeout": 2
+  },
+  "person-detection-retail-0013": {
+    "skip": "75628"
+  },
+  "person-vehicle-bike-detection-crossroad-0078": {
+    "skip": "75628"
+  },
+  "road-segmentation-adas-0001": {
+    "skip": "75628"
+  },
+  "semantic-segmentation-adas-0001": {
+    "skip": "75628"
+  },
+  "single-image-super-resolution-1032": { "skip": "75628" },
+  "single-image-super-resolution-1033": {
+    "skip": "75628"
+  },
+  "yolo-v2-ava-0001": {
+    "skip": "75628"
+  },
+  "yolo-v2-ava-sparse-35-0001": {
+    "skip": "75628"
+  },
+  "yolo-v2-ava-sparse-70-0001": {
+    "skip": "75628"
+  },
+  "yolo-v2-tiny-ava-0001": {
+    "skip": "75628",
+    "timeout": 2
+  },
+  "yolo-v2-tiny-ava-sparse-30-0001": {
+    "skip": "75628",
+    "timeout": 2
+  },
+  "yolo-v2-tiny-ava-sparse-60-0001": {
+    "skip": "75628",
+    "timeout": 2
+  },
+  "t2t-vit-14": {
+    "skip": "77614"
+  }
+}

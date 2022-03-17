@@ -1,0 +1,96 @@
+@import 'fonts';
+@import 'colors';
+
+.wb-container {
+  margin-bottom: 20px;
+}
+
+.error-block {
+  margin-bottom: 20px;
+}
+
+.legend {
+  color: $deep-red;
+  margin: -10px 0 20px;
+}
+
+.calibration-content {
+  margin-top: 20px;
+}
+
+.calibration-form {
+  width: 100%;
+}
+
+.hints-box {
+  padding: 20px;
+}
+
+.subset-size ::ng-deep {
+  .config-form-field {
+    display: flex;
+    align-items: center;
+  }
+
+  .field-label {
+    @include wb-subtitle-1();
+    padding-bottom: 15px;
+  }
+}
+
+wb-config-form-field.required ::ng-deep .field-container {
+  position: relative;
+
+  &:after {
+    position: absolute;
+    top: 0;
+    right: -20px;
+    content: '*';
+    font-size: 20px;
+    color: $deep-red;
+  }
+}
+
+.subset-panel {
+  padding-bottom: 5px;
+}
+
+.controls {
+  display: flex;
+  margin-top: 25px;
+
+  .control {
+    width: 50%;
+    flex-basis: 50%;
+    padding-right: 20px;
+    box-sizing: border-box;
+  }
+
+  .description {
+    display: block;
+    margin: 0 0 12px 24px;
+    color: $brownish-grey;
+    line-height: 20px;
+
+    @include wb-label();
+  }
+}
+
+.tip-paragraph {
+  display: block;
+}
+
+.footer {
+  .footer-actions {
+    display: flex;
+
+    > * + * {
+      margin-left: 20px;
+    }
+  }
+
+  wb-info-hint {
+    display: block;
+    margin-top: 10px;
+  }
+}

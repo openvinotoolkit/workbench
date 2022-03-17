@@ -1,0 +1,58 @@
+# Start Optimizing {{ project_model_name }} Model for {{ project_device_name }} with OpenVINO
+
+## Introduction
+
+The purpose of this tutorial is to guide you through the stages of working with a model to optimize it and prepare for production using OpenVINO toolkit. The model used in the tutorial was imported from the DL Workbench project and has the following characteristics:
+
+| Model Name | Domain |  Task Type | Framework | Precisions |
+| :---: | :---: | :---: | :---: | :---: |
+| {{ project_model_name }} | {{ project_model_domain }} | {{ project_model_task_type | replace('_', ' ') | title }} | {{ SupportedFrameworksEnum.get_name(project_model_framework) }} | {{ project_model_precisions }} |
+
+{% if project_model_task_type == TaskEnum.object_detection.value -%}
+    This model is trained to solve Object Detection task. The goal of Object Detection is to recognize instances of object classes (for example: people, cars, animals) and describe the locations of each detected object in the image using a bounding box.
+{% elif project_model_task_type == TaskEnum.classification.value -%}
+    This model is trained to solve Classification task. The goal of Classification is to assign a class label from a fixed set of categories to an input image.
+{% elif project_model_task_type == TaskEnum.instance_segmentation.value -%}
+    This model is trained to solve Instance Segmentation task. The goal of Instance Segmentation is to recognize instances of objects of a certain class and highlight them with masks.
+{% elif project_model_task_type == TaskEnum.semantic_segmentation.value -%}
+    This model is trained to solve Semantic Segmentation task. The goal of Semantic Segmentation is to detect all object types in an image at the pixel level and highlight them as regions.
+{% elif project_model_task_type == TaskEnum.inpainting.value -%}
+    This model is trained to solve Image Inpainting task. The goal of Image Inpainting is to reconstruct missing areas in an image.
+{% elif project_model_task_type == TaskEnum.super_resolution.value -%}
+    This model is trained to solve Super Resolution task. The goal of Super Resolution is to enhance the image resolution.
+{% elif project_model_task_type == TaskEnum.style_transfer.value -%}
+    This model is trained to solve Style Transfer task. The goal of Style Transfer is to adopt the appearance of another image.
+{% elif project_model_task_type == TaskEnum.landmark_detection.value -%}
+    This model is trained to solve Facial Landmark Detection task. The goal of Facial Landmark Detection is to detect key landmarks of a face, such as eyes, nose, and mouth.
+{% elif project_model_task_type == TaskEnum.face_recognition.value -%}
+    This model is trained to solve Face Recognition task. The goal of Face Recognition is to identify a person based on an image of their face.
+{% else -%}
+    This model is trained to solve Generic task. The goal of Generic task is to enable you to perform different kinds of experiments with your data.
+{% endif %}
+
+
+## Content
+
+You will learn how to optimize your model using OpenVINO toolkit through the following steps:
+
+1. [Obtain Model in OpenVINO IR Format (Optional)](#obtain-model) - Learn how to obtain a model in Intermediate Representation (IR) format of pretrained model representation to start working with OpenVINO toolkit.
+{% if is_optimized_project %}
+1. [Optimize Model with INT8 Calibration (Optional)](#optimize-model-with-int8-calibration) - Calibrate a model and execute it in the INT8 precision to accelerate the performance.
+{% endif %}
+{% if has_tokenizer_section %}
+1. [Load Tokenizer](#Load-Tokenizer) - Load the model tokenizer that can transform input text into model input
+1. [Prepare Text Dataset For Benchmark](#Prepare-Text-Dataset-For-Benchmark) - Prepare binary files to benchmark the model
+{% endif %}
+1. [Evaluate Model Performance](#evaluate-model-performance) - Use your model to infer the testing samples to predict the values.
+{% if has_accuracy_checker_section %}
+1. [Evaluate Model Accuracy](#evaluate-model-accuracy) - Evaluate the quality of predictions for the test data.
+{% endif %}
+{% if has_int8_calibration_section %}
+1. [Optimize Model with INT8 Calibration](#optimize-model-with-int8-calibration) - Calibrate a model and execute it in the INT8 precision to accelerate the performance.
+{% endif %}
+
+
+## How to use this tutorial
+
+- This notebook is generated from the DL Workbench. Performing actions and changing configurations in DL Workbench may change corresponding cells. It is not recommended to change cells content to prevent information loss
+- Copy the cells or create new cells to experiment with your project without losing your data.

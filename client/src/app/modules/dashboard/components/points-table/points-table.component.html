@@ -1,0 +1,52 @@
+<mat-radio-group [disabled]="disabled">
+  <table
+    class="wb-table"
+    [class.disabled]="disabled"
+    data-test-id="experiments-selector"
+    mat-table
+    matSort
+    (matSortChange)="sortedColumn = $event"
+    [matSortActive]="sortedColumn.active"
+    [matSortDirection]="sortedColumn.direction"
+    [dataSource]="dataSource"
+  >
+    <ng-container *ngFor="let column of generatedColumns" [matColumnDef]="column">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <div>{{ columnNamesTextMap[column] }}</div>
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: column }"></ng-container>
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        <div>{{ columnNamesTextMap.select }}</div>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <mat-radio-button [value]="element.id" [checked]="selectedPoint?.id === element.id"></mat-radio-button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>
+        <div>{{ columnNamesTextMap['id'] }}</div>
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      [class.selected]="selectedPoint?.id === row.id"
+      [attr.data-test-id]="'batch:' + row.batch + '_' + 'stream:' + row.nireq"
+      (click)="selectRow(row)"
+    ></tr>
+  </table>
+</mat-radio-group>
+
+<ng-template #sortIcon let-columnName="columnName">
+  <ng-container *ngIf="dataSource.data?.length">
+    <wb-table-sort-icon [columnName]="columnName" [sortedColumn]="sortedColumn"></wb-table-sort-icon>
+  </ng-container>
+</ng-template>

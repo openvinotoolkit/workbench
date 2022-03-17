@@ -1,0 +1,9 @@
+[submodule "model_analyzer"]
+	path = model_analyzer
+	url = https://github.com/openvinotoolkit/model_analyzer.git
+[submodule "openvino_notebooks"]
+	path = openvino_notebooks
+	url = https://github.com/SalnikovIgor/openvino_notebooks.git
+[submodule "client/vendors/netron/netron"]
+	path = client/vendors/netron/netron
+	url = https://github.com/lutzroeder/netron

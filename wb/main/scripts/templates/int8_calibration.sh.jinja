@@ -1,0 +1,11 @@
+sed -i 's@$JOB_BUNDLE_PATH@'"$JOB_BUNDLE_PATH"'@g' ${JOB_BUNDLE_PATH}/{{CONFIG_PATH_IN_INT8CALIBRATION_BUNDLE}}
+
+
+echo -n "[RUN COMMAND] "
+
+set -x
+
+pot --direct-dump \
+    --progress-bar \
+    --output-dir ${ARTIFACTS_PATH} \
+    --config ${JOB_BUNDLE_PATH}/{{CONFIG_PATH_IN_INT8CALIBRATION_BUNDLE}}

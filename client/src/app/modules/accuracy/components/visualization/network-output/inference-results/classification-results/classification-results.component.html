@@ -1,0 +1,67 @@
+<div class="wb-panel classification-results">
+  <div class="wb-panel__header" *ngIf="accuracyReportMode">
+    <h4 class="wb-panel__title">{{ modelPredictionsTitle }}</h4>
+  </div>
+  <div class="legend" *ngIf="!accuracyReportMode && mode === 'parent_model_predictions'">
+    <div class="legend-item">
+      <span class="original-model box" [style.backgroundColor]="getLegendColor(originalModelBarHue)"></span>
+      <span class="wb-label label">Parent Model</span>
+    </div>
+    <div class="legend-item">
+      <span class="int8-model box" [style.backgroundColor]="getLegendColor(int8ModelBarHue)"></span>
+      <span class="wb-label label">Optimized Model</span>
+    </div>
+  </div>
+
+  <div class="table-results-overflow-container">
+    <table class="results-table" data-test-id="predictions-table">
+      <tbody>
+        <tr *ngFor="let prediction of predictions" (click)="onPredictionClick(prediction)">
+          <td *ngIf="mode === 'explain'" class="radio-button-td">
+            <mat-radio-button
+              [checked]="prediction === selectedPrediction"
+              (click)="$event.preventDefault()"
+            ></mat-radio-button>
+          </td>
+          <td class="category-td wb-label" data-test-id="prediction-class">
+            <div>{{ labelSet.labels[prediction.category_id] || '#' + prediction.category_id }}:</div>
+          </td>
+          <td class="score-td wb-body-2">
+            <div data-test-id="prediction-score">{{ prediction.score | number }}</div>
+            <div
+              *ngIf="!accuracyReportMode && mode === 'parent_model_predictions'"
+              data-test-id="prediction-score-reference"
+            >
+              {{ getRefPredictionScore(prediction) | number }}
+            </div>
+          </td>
+          <td class="bar-td" [class.pointer]="mode === 'explain'">
+            <wb-ratio-bar
+              [normalizeTo]="rationBarNormalization"
+              [lighten]="mode === 'default' || mode === 'explain'"
+              [percent]="prediction.score * 100"
+              [baseHue]="int8ModelBarHue"
+            ></wb-ratio-bar>
+            <wb-ratio-bar
+              *ngIf="!accuracyReportMode && mode === 'parent_model_predictions'"
+              [normalizeTo]="rationBarNormalization"
+              [lighten]="false"
+              [percent]="getRefPredictionScore(prediction) * 100"
+              [baseHue]="originalModelBarHue"
+            ></wb-ratio-bar>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="wb-panel classification-results" *ngIf="accuracyReportMode">
+  <div class="wb-panel__header">
+    <h4 class="wb-panel__title">{{ referencePredictionsTitle }}</h4>
+  </div>
+  <div class="reference-prediction">
+    <span class="wb-label">Class:</span>
+    <span class="wb-body-2">{{refPredictions?.[0]?.category_id}}</span>
+  </div>
+</div>

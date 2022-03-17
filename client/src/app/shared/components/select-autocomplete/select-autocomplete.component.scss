@@ -1,0 +1,32 @@
+@import 'fonts';
+@import 'variables';
+
+$form-field-width: 225px;
+
+.select-autocomplete-form {
+  margin: 0;
+  .mat-form-field {
+    width: $form-field-width;
+    &.mat-focused {
+      ::ng-deep .mat-form-field-ripple {
+        background-color: $brownish-grey;
+      }
+    }
+    &-appearance-legacy {
+      ::ng-deep .mat-form-field-infix {
+        padding: 8px 0 !important;
+        margin-left: 5px;
+        @include wb-body-1();
+      }
+    }
+  }
+  ::ng-deep .mat-form-field-flex {
+    align-items: center;
+  }
+  ::ng-deep .mat-form-field-suffix {
+    color: $black38;
+  }
+  &-placeholder {
+    color: $black;
+  }
+}

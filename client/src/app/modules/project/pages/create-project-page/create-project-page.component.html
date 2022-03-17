@@ -1,0 +1,93 @@
+<wb-master-detail #wbMasterDetail [width]="'450px'" mode="over">
+  <wb-page-with-actions ngProjectAs="masterContent" class="gray-footer">
+    <ng-container [ngTemplateOutlet]="wizard" ngProjectAs="pageContent"></ng-container>
+    <ng-container [ngTemplateOutlet]="actions" ngProjectAs="pageActions"></ng-container>
+  </wb-page-with-actions>
+  <wb-model-details
+    [model]="selectedDetailsModel"
+    *ngIf="selectedDetailsModel"
+    ngProjectAs="detailsContent"
+  ></wb-model-details>
+</wb-master-detail>
+
+<ng-template #wizard>
+  <div class="layout">
+    <div class="header">
+      <wb-navigation-bar>
+        <a>Create Project</a>
+      </wb-navigation-bar>
+      <div class="wb-page-header">
+        <h1 class="wb-h1 wb-page-header__title" data-test-id="set-inference-time" (click)="setInferenceTime()">
+          Create Project
+        </h1>
+      </div>
+    </div>
+    <div class="wizard">
+      <wb-create-project-stages
+        class="stages"
+        [selectedModel]="selectedModel"
+        [selectedTarget]="selectedTargetMachine"
+        [defaultTarget]="defaultTargetMachine"
+        [selectedDevice]="selectedTargetDevice"
+        [selectedDataset]="selectedDataset"
+        [currentStage]="currentStage"
+        (toStage)="toStage($event)"
+        (resetStage)="resetStage($event)"
+      ></wb-create-project-stages>
+
+      <wb-select-model-stage
+        [class.show]="currentStage === createProjectStages.MODEL"
+        class="content"
+        [selectedModel]="selectedModel"
+        [taskIsRunning]="isTaskRunning$ | async"
+        [detailsShown]="wbMasterDetail.detailsSidenav.opened"
+        (toStage)="toStage($event)"
+        (selected)="onModelSelected($event)"
+        (selectedDetails)="onModelDetailsSelected($event)"
+        (openModelImport)="openModelImport()"
+      ></wb-select-model-stage>
+
+      <wb-select-environment-stage
+        [class.show]="currentStage === createProjectStages.ENVIRONMENT"
+        class="content"
+        [selectedModel]="selectedModel"
+        [selectedDataset]="selectedDataset"
+        (toStage)="toStage($event)"
+        (setTargetMachine)="selectedTargetMachine = $event"
+        (setSelectedTargetDevice)="selectedTargetDevice = $event"
+        (setDefaultTargetMachine)="defaultTargetMachine = $event"
+        (setIsSupportedPrecision)="isSupportedPrecision = $event"
+        (setUnsupportedPrecisions)="unsupportedPrecisions = $event"
+      >
+      </wb-select-environment-stage>
+
+      <wb-select-dataset-stage
+        [class.show]="currentStage === createProjectStages.DATASET"
+        class="content"
+        [selectedDataset]="selectedDataset"
+        [taskIsRunning]="isTaskRunning$ | async"
+        (selected)="onDatasetSelected($event)"
+        (openDatasetUpload)="openDatasetUpload()"
+        (openTextDatasetUpload)="openTextDatasetUpload()"
+      ></wb-select-dataset-stage>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #actions>
+  <div class="actions">
+    <wb-button
+      class="btn enlarged-control"
+      testId="go-btn"
+      type="primary"
+      text="Create Project"
+      (handleClick)="runInference()"
+      [disabled]="isCreateProjectDisabled"
+      [pending]="isProjectCreating"
+    >
+    </wb-button>
+    <wb-button class="btn enlarged-control" type="default" text="Cancel" (handleClick)="cancel()"> </wb-button>
+  </div>
+  <wb-info-hint *ngIf="pageHint" class="hint wb-full-width" [message]="pageHint.message" [type]="pageHint.type">
+  </wb-info-hint>
+</ng-template>

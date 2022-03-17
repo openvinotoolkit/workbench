@@ -1,0 +1,13 @@
+<wb-switch-button
+  leftOptionLabel="Basic mode"
+  rightOptionLabel="Advanced mode"
+  [leftOptionChecked]="mode === 'basic'"
+  (leftOptionCheckedChange)="setMode($event ? 'basic' : 'advanced')"
+>
+</wb-switch-button>
+<wb-dynamic-table
+  [columns]="tableColumns"
+  [filterableColumns]="filterableColumns"
+  [dataSource]="dataSource"
+  (action)="onVisualize($event)"
+></wb-dynamic-table>

@@ -1,0 +1,7 @@
+## Load Tokenizer
+
+### Motivation
+
+The model cannot work with the text directly. Instead, the text is first split into tokens and then replaces each token with the corresponding index. A token can be a word, part of a word, a symbol, or a couple of symbols. The map between tokens and indices is stored by the tokenizer.
+
+The model input that takes token indices is usually called `input_ids`. There are also might be other inputs. If the model input is static, meaning that it can take only fixed-size inputs, one could have to make an input text longer. For that, there is a special token, called _padding_, that can be added to the beginning or to the end of the sequence. To ignore these tokens during inference there is an `attention_mask` model input.

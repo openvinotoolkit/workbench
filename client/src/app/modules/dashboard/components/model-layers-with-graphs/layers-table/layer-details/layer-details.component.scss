@@ -1,0 +1,164 @@
+@import 'fonts';
+@import 'colors';
+
+$parameter-block-header-color: $blue-blue;
+$layer_exec_params_gap: 40px;
+$parameter-tooltip-icon-size: 14px;
+
+@mixin layer_parameter {
+  .parameter-row {
+    display: flex;
+    align-items: center;
+    padding-right: 20px;
+
+    &:not(:last-child) {
+      padding-bottom: 10px;
+    }
+
+    .tooltip-icon {
+      margin-right: 6px;
+      width: $parameter-tooltip-icon-size;
+      height: $parameter-tooltip-icon-size;
+    }
+  }
+}
+
+.parameter-name {
+  @include wb-body-4();
+  color: $black;
+}
+
+.parameter-value {
+  @include wb-subtitle-2();
+  color: $blue-blue;
+}
+
+.layer-details {
+  display: flex;
+  flex-direction: column;
+
+  &-exec-params {
+    &-header {
+      margin: 0;
+    }
+
+    &-content {
+      margin-top: 10px;
+    }
+  }
+
+  &-fusing {
+    &-header {
+      margin: 20px 0 10px 0;
+    }
+
+    &-description {
+      line-height: 1.56;
+      color: $black;
+
+      span {
+        @include wb-body-3();
+        color: $blue-blue;
+      }
+    }
+
+    &-scheme {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 10px;
+      border-radius: 3px;
+      border: solid 1px $cloudy-blue;
+      background-color: $very-light-pink;
+
+      .fusion-icon {
+        width: 40px;
+        height: 40px;
+        margin: 0 20px;
+        flex-shrink: 0;
+      }
+    }
+
+    &-content {
+      counter-reset: fused_layer;
+    }
+  }
+
+  .executed-layer-parameters {
+    @include wb-label();
+    @include layer_parameter;
+
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: auto auto 1fr;
+    grid-auto-flow: column;
+    grid-column-gap: $layer_exec_params_gap;
+
+    .parameter-row {
+      &:not(:last-child) {
+        padding-right: $layer_exec_params_gap;
+        border-right: 1px solid $light-blue-grey;
+      }
+      &:nth-child(2n) {
+        padding-bottom: 0;
+      }
+    }
+  }
+
+  .fused-layer-parameters {
+    @include wb-label();
+
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+
+    &-layer-name {
+      color: $blue-blue;
+      counter-increment: fused_layer;
+
+      &::before {
+        content: counter(fused_layer) '. ';
+      }
+    }
+
+    &-header {
+      @include wb-body-2();
+      margin: 10px 0;
+    }
+
+    &-layer-type {
+      padding: 10px 0;
+    }
+
+    &-row {
+      display: flex;
+
+      mat-divider {
+        margin: 30px 20px 0 20px;
+      }
+
+      h6 {
+        margin: 10px 20px 10px 0;
+        color: $parameter-block-header-color;
+
+        &::after {
+          content: ':';
+        }
+      }
+
+      @include layer_parameter;
+    }
+  }
+
+  .no-data-container {
+    color: $light-blue-grey;
+    line-height: 1.89;
+  }
+}
+
+.layer-not-available-container {
+  color: $black;
+  line-height: 1.89;
+  margin: 10px 0;
+}

@@ -1,0 +1,14 @@
+@import 'colors';
+
+.model-zoo-notification {
+  display: flex;
+  align-items: center;
+  min-height: 70px;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: $very-light-pink;
+
+  .hide-notification-button {
+    margin-left: auto;
+  }
+}

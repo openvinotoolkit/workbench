@@ -1,0 +1,14 @@
+<div class="wb-panel">
+  <div class="editor-schema-container">
+    <div class="editor-container" data-test-id="editor-container">
+      <div #editor class="editor"></div>
+    </div>
+    <div class="schema-container" *ngIf="acConfigEditor" data-test-id="schema-container">
+      <wb-status-block [acConfigControl]="acConfigEditor.control"></wb-status-block>
+
+      <div class="wb-panel">
+        <wb-info-hint class="wb-full-width" [message]="hints.pathPrefixes"></wb-info-hint>
+      </div>
+    </div>
+  </div>
+</div>

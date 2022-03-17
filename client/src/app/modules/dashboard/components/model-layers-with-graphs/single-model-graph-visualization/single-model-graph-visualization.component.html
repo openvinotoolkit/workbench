@@ -1,0 +1,84 @@
+<div class="netron-graph-container" *ngIf="originalGraph$ | async as graph">
+  <div class="netron-graph-content">
+    <wb-master-detail #originalGraphMasterDetail mode="over" [width]="masterDetailWidth">
+      <ng-container ngProjectAs="masterContent">
+        <div class="netron-graph wb-panel">
+          <ng-container *ngTemplateOutlet="graphHeader"></ng-container>
+          <wb-netron-graph
+            [graphType]="ModelGraphType.ORIGINAL"
+            [graphContent]="graph.xmlContent"
+            [isLoading]="graph.isLoading"
+            [coloringOption]="coloringOption"
+            [selectedNodesIds]="selectedNodesIdsInOriginalGraph"
+            (changeSelectedNode)="handleChangeSelectedNodeIds($event)"
+            (openLayerDetailsPanel)="
+              openedNodeIdInOriginalGraph = $event; originalGraphMasterDetailComponent.detailsSidenav.open()
+            "
+          ></wb-netron-graph>
+        </div>
+      </ng-container>
+      <div ngProjectAs="detailsContent">
+        <wb-layer-properties [layer]="getOpenedLayerInGraph()"></wb-layer-properties>
+      </div>
+    </wb-master-detail>
+  </div>
+</div>
+
+<ng-template #graphHeader>
+  <div class="graph-header">
+    <div class="graph-header-toolbar">
+      <ng-container *ngTemplateOutlet="titleToolbarBlock"></ng-container>
+      <ng-container *ngTemplateOutlet="functionalToolbarBlock"></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #titleToolbarBlock>
+  <div class="graph-header-toolbar-block">
+    <div class="graph-header-toolbar-buttons">
+      <div class="graph-header-toolbar-title">Intermediate Representation</div>
+      <div
+        class="graph-header-toolbar-download"
+        [matMenuTriggerFor]="menu"
+        [attr.data-test-id]="ModelGraphType.ORIGINAL + '-download-field'"
+      >
+        <mat-icon svgIcon="download" class="custom-svg-icon"></mat-icon>
+      </div>
+      <mat-menu #menu="matMenu">
+        <div *ngFor="let format of GraphFormatsToDownload" mat-menu-item (click)="exportGraphImage(format)">
+          Download Graph as .{{ format }}
+        </div>
+      </mat-menu>
+      <div class="graph-header-toolbar-zoom" (click)="zoomIn()">
+        <mat-icon svgIcon="zoom_in" class="custom-svg-icon"></mat-icon>
+      </div>
+      <div class="graph-header-toolbar-zoom" (click)="zoomOut()">
+        <mat-icon svgIcon="zoom_out" class="custom-svg-icon"></mat-icon>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #functionalToolbarBlock>
+  <div class="graph-header-toolbar-block graph-header-toolbar-block-padding">
+    <mat-form-field floatLabel="always" [attr.data-test-id]="ModelGraphType.ORIGINAL + '-coloring-field'">
+      <mat-label>Coloring</mat-label>
+      <mat-select [(value)]="coloringOption" (selectionChange)="reportColoringGA($event)">
+        <mat-option *ngFor="let select of originalColoringOptions" [value]="select.value">
+          {{ select.text }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="graph-header-toolbar-search-layer">
+      <wb-select-autocomplete
+        placeholder="Search Layer"
+        [testId]="ModelGraphType.ORIGINAL + '-search-layer'"
+        [control]="searchOriginalLayerFormControl"
+        [options]="getGraphLayersNamesToSearch()"
+        appearance="legacy"
+        (changeSelectedLayerName)="changeLayerNameToSearch($event)"
+      ></wb-select-autocomplete>
+    </div>
+  </div>
+</ng-template>

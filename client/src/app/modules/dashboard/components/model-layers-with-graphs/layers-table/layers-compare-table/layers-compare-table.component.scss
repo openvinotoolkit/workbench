@@ -1,0 +1,118 @@
+@import 'fonts';
+@import 'colors';
+
+@import '../layers-single-table/layers-single-table.component';
+
+$selected-tab-color: $light-blue-grey;
+$tab-border-color: $cloudy-blue;
+$unselected-tab-text-color: $cool-grey;
+
+@mixin tab_label {
+  ::ng-deep .mat-tab-header {
+    border-bottom-color: $tab-border-color;
+    padding-left: $layer-details-container-padding;
+  }
+
+  ::ng-deep .mat-tab-label {
+    @include wb-subtitle-2();
+    background-color: $white;
+    color: $unselected-tab-text-color;
+    opacity: 1;
+    border: 1px solid $tab-border-color;
+    border-bottom: 0;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    padding: 0 10px;
+    margin-left: 0;
+    height: auto;
+    max-width: 320px;
+
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+
+    .mat-tab-label-content {
+      white-space: pre-line;
+      text-align: start;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+  }
+
+  ::ng-deep .mat-tab-label-active {
+    background-color: $selected-tab-color;
+    color: $black;
+  }
+
+  ::ng-deep mat-ink-bar {
+    display: none;
+  }
+}
+
+wb-table-filter-form {
+  padding-left: $layer-details-container-padding;
+}
+
+#layers-table {
+  tr.mat-header-row.first-header-row {
+    height: 62px;
+
+    th.mat-header-cell {
+      height: inherit !important;
+      vertical-align: top;
+      padding-top: 12px;
+
+      ::ng-deep .formula-header {
+        display: block;
+      }
+    }
+  }
+
+  .cdk-column-delta,
+  .cdk-column-ratio {
+    &.better {
+      color: $green;
+    }
+
+    &.worse {
+      color: $deep-red;
+    }
+
+    .icon-delta,
+    .icon-ratio {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      vertical-align: bottom;
+
+      &-up {
+        color: $green;
+      }
+
+      &-down {
+        color: $deep-red;
+      }
+    }
+  }
+}
+
+.layer-details-sidenav-content {
+  &-layer-name {
+    padding-left: $layer-details-container-padding;
+  }
+  &-tabs {
+    height: calc(100% - 40px);
+
+    mat-tab-group {
+      height: 100%;
+      display: flex;
+
+      @include tab_label;
+
+      .layer-details-container {
+        height: auto;
+        overflow-y: hidden;
+      }
+    }
+  }
+}

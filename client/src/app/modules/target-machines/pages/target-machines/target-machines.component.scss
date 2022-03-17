@@ -1,0 +1,176 @@
+@import 'fonts';
+@import 'variables';
+
+$success-icon-size: 20px;
+
+@mixin icon-with-text {
+  display: flex;
+  align-items: center;
+
+  mat-icon {
+    width: $success-icon-size;
+    height: $success-icon-size;
+    font-size: $success-icon-size;
+    margin-right: 10px;
+  }
+}
+
+.target-machines {
+  .machines-table-header {
+    display: block;
+    margin: 0 0 20px 20px;
+  }
+
+  &-machines-table {
+    span {
+      margin-left: $container-padding;
+    }
+
+    .machines-list {
+      height: 160px;
+      overflow-y: auto;
+      display: block;
+      border-bottom: 1px solid $cloudy-blue;
+    }
+  }
+
+  &-pipeline {
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+    margin-left: $container-padding;
+
+    &-content {
+      margin-top: 40px;
+
+      .ignore-container-padding {
+        margin-left: -$container-padding;
+      }
+
+      .target-machine-configured {
+        @include icon-with-text();
+        margin-left: $container-padding;
+
+        mat-icon {
+          color: $green;
+        }
+
+        span {
+          color: $black;
+        }
+      }
+    }
+  }
+
+  &-machine-info {
+    display: flex;
+    flex-direction: row;
+    margin-left: $container-padding;
+    margin-top: 60px;
+    margin-bottom: 20px;
+
+    &-devices {
+      display: flex;
+      flex-direction: column;
+      flex-basis: 50%;
+    }
+
+    &-resources {
+      display: flex;
+      flex-direction: column;
+      flex-basis: 50%;
+    }
+
+    &-content {
+      margin-top: 30px;
+
+      .device-name {
+        @include icon-with-text();
+
+        mat-icon {
+          color: $green;
+        }
+
+        &:not(:first-child) {
+          margin-top: 15px;
+        }
+      }
+
+      .device {
+        @include icon-with-text();
+
+        & > span {
+          display: flex;
+        }
+        &-not-available {
+          @include icon-with-text();
+
+          mat-error {
+            margin-left: 10px;
+          }
+        }
+
+        &-configuring {
+          @include icon-with-text();
+
+          .status {
+            margin-left: 10px;
+            color: $blue-blue;
+          }
+
+          ::ng-deep mat-icon {
+            animation: rotation 2s infinite linear;
+
+            @keyframes rotation {
+              from {
+                transform: rotate(0deg);
+              }
+              to {
+                transform: rotate(359deg);
+              }
+            }
+          }
+        }
+        &-error {
+          @include icon-with-text();
+          .status {
+            margin-left: 10px;
+            color: $deep-red;
+          }
+          ::ng-deep mat-icon {
+            color: $deep-red;
+          }
+        }
+      }
+
+      .resource-usage-item {
+        display: flex;
+        flex-direction: row;
+
+        .item-name {
+          width: 140px;
+          display: flex;
+          align-items: center;
+
+          & > wb-help-tooltip {
+            margin-right: 10px;
+          }
+        }
+
+        .item-value {
+          @include wb-body-2();
+          margin-left: 20px;
+        }
+      }
+
+      .resource-usage-item:not(:first-child) {
+        margin-top: 15px;
+      }
+    }
+  }
+
+  .header-subitem {
+    margin-top: 10px;
+    color: $brownish-grey;
+  }
+}

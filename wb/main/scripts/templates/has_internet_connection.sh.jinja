@@ -1,0 +1,22 @@
+#!/bin/bash
+
+CURRENT_SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+BUNDLE_ROOT_PATH="$(dirname ${CURRENT_SCRIPT_PATH})"
+
+SCRIPTS_PATH=${BUNDLE_ROOT_PATH}/{{SCRIPTS_PATH}}
+PYTHON_ENVIRONMENT_PATH=${BUNDLE_ROOT_PATH}/{{PYTHON_ENVIRONMENT_PATH}}
+
+# Activate virtualenv
+if [[ -f "${PYTHON_ENVIRONMENT_PATH}/bin/activate" ]]; then
+    source ${PYTHON_ENVIRONMENT_PATH}/bin/activate
+fi
+
+python3 ${SCRIPTS_PATH}/has_internet_connection.py
+
+if [ $? -eq 0 ]; then
+  echo "The target has internet connection."
+  exit 0
+fi
+
+echo "The target does not have internet connection."
+exit 1

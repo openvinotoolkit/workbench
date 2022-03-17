@@ -1,0 +1,111 @@
+@import 'colors';
+@import 'fonts';
+
+$content-box-gap: 20px;
+$container-padding: 20px;
+
+.field {
+  display: block;
+}
+
+.field + .field {
+  margin-top: 10px;
+  padding-top: 10px;
+}
+
+.field + .field.next-fieldset {
+  margin-top: 20px;
+  border-top: 1px solid $very-light-pink;
+  padding-top: 20px;
+}
+
+.title {
+  margin-bottom: 20px;
+}
+
+mat-expansion-panel.wb-panel {
+  background: $faded-bgr;
+  box-sizing: border-box;
+
+  ::ng-deep {
+    mat-expansion-panel-header {
+      padding: 0;
+      margin: 0;
+    }
+
+    .mat-expansion-panel-body {
+      padding: 0;
+      margin-top: 15px;
+    }
+  }
+
+  .wb-panel-header {
+    height: auto;
+    padding: 10px 0;
+  }
+
+  .wb-panel-title {
+    margin: 0;
+  }
+
+  .wb-panel-icon {
+    margin-right: 10px;
+  }
+
+  .mat-expansion-panel {
+    margin-top: 20px;
+  }
+}
+
+.subtitle,
+wb-config-form-field::ng-deep .subtitle {
+  margin: 20px 0 20px;
+  border-top: 1px solid $very-light-pink;
+  padding: 30px 0 0;
+  color: $brownish-grey;
+}
+
+wb-config-form-field::ng-deep {
+  .field .config-form-field-radio {
+    margin-bottom: 5px;
+  }
+
+  .mat-form-field-wrapper {
+    max-width: 300px;
+    padding-bottom: 0;
+  }
+
+  .config-form-field {
+    .field-label {
+      position: relative;
+      top: 5px;
+      @include wb-subtitle-1();
+      wb-help-tooltip {
+        order: -1;
+        margin: 0 10px 0 0;
+      }
+    }
+
+    .field-container .field-container.wb-radio-group {
+      flex-direction: row;
+      align-items: center;
+      height: 20px;
+
+      .mat-radio-button:not(:last-child) {
+        margin: 0 15px 0 0;
+      }
+    }
+  }
+
+  .group .field-label {
+    min-width: 100px;
+  }
+}
+
+.wb-panel wb-config-form-field.field ::ng-deep div.field-container div.error-message {
+  top: 0;
+}
+
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:hover:not([aria-disabled='true']) {
+  background: $faded-bgr;
+}

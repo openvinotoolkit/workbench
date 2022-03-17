@@ -1,0 +1,17 @@
+.header {
+  margin: 0 0 30px;
+}
+
+.attr-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  wb-help-tooltip {
+    margin-right: 10px;
+  }
+
+  .wb-body-2 {
+    margin-left: 10px;
+  }
+}

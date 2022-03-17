@@ -1,0 +1,18 @@
+<div class="output-layer-field">
+  <wb-help-tooltip [tooltipMessage]="selectOutputTooltipMessage"></wb-help-tooltip>
+  <span class="wb-label">Select Output to Display:</span>
+  <mat-form-field appearance="outline">
+    <mat-select [formControl]="outputLayerControl">
+      <mat-option *ngFor="let outputName of report?.outputNames" [value]="outputName">
+        {{ outputName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<wb-dynamic-table
+  [columns]="columns"
+  [filterableColumns]="filterableColumns"
+  [dataSource]="dataSource"
+  (action)="onVisualize($event)"
+>
+</wb-dynamic-table>

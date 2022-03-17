@@ -1,0 +1,10 @@
+<span
+  #textOverflowSpan
+  class="text-overflow"
+  [class.nowrap]="!allowWrap"
+  [class.sup]="isSupContained"
+  [attr.data-test-id]="testId"
+  [matTooltip]="!isSupContained ? content.toString() : ''"
+  [innerHTML]="content"
+  (mouseenter)="matTooltip.disabled = !isOverflown"
+></span>

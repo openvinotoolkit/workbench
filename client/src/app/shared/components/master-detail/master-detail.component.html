@@ -1,0 +1,27 @@
+<mat-sidenav-container
+  [class]="'wb-master-detail-type-' + mode"
+  (backdropClick)="detailsSidenav.close(); closeDetails.emit()"
+>
+  <mat-sidenav-content class="master-container">
+    <ng-content select="masterContent"></ng-content>
+  </mat-sidenav-content>
+  <mat-sidenav
+    #detailsSidenav
+    [mode]="mode"
+    [autoFocus]="false"
+    position="end"
+    [disableClose]="true"
+    class="details-sidenav"
+    [style.width]="width"
+  >
+    <div class="details-sidenav-content">
+      <mat-icon
+        class="close-icon"
+        (click)="detailsSidenav.close(); closeDetails.emit()"
+        data-test-id="close-details"
+        svgIcon="close"
+      ></mat-icon>
+      <ng-content select="detailsContent"></ng-content>
+    </div>
+  </mat-sidenav>
+</mat-sidenav-container>

@@ -1,0 +1,9 @@
+<mat-checkbox [formControl]="onlyErroneousFormControl" class="errors-control" data-test-id="show-only-error-images">
+  <span class="wb-label"> Show only erroneous images </span>
+</mat-checkbox>
+<wb-dynamic-table
+  [columns]="classificationReportTableColumns"
+  [filterableColumns]="filterableColumns"
+  [dataSource]="dataSource"
+  (action)="onVisualize($event)"
+></wb-dynamic-table>

@@ -1,0 +1,48 @@
+@import 'fonts';
+@import 'colors';
+@import 'variables';
+
+.wb-breadcrumbs {
+  display: flex;
+  margin-right: 35px;
+  padding: 0;
+  list-style: none;
+
+  ::ng-deep {
+    a {
+      @include wb-text-1();
+      padding: 0;
+      list-style: none;
+      display: flex;
+      color: $black;
+      line-height: 16px;
+      cursor: pointer;
+      position: relative;
+      transition: 0.2s color ease-in-out;
+
+      &:hover {
+        color: $brownish-grey;
+      }
+    }
+
+    a + a {
+      margin-left: 25px;
+    }
+
+    a + a:before {
+      content: '/';
+      left: -15px;
+      color: $black;
+      text-decoration: none;
+      pointer-events: none;
+      position: absolute;
+    }
+
+    a:last-child {
+      @include wb-body-2();
+      text-decoration: none;
+      color: $plum;
+      cursor: default;
+    }
+  }
+}

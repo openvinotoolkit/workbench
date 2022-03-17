@@ -1,0 +1,78 @@
+@import 'colors';
+@import 'fonts';
+@import 'variables';
+
+$image-card-size: 150px;
+$image-card-margin: 10px;
+$image-overlay-color: rgba(56, 56, 56, 0.8);
+$icon-size: 30px;
+
+.colorspace-selection {
+  display: flex;
+}
+
+.colorspace-transformations {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: $container-padding;
+}
+
+.row {
+  align-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: $container-padding;
+}
+
+.transform-img {
+  position: relative;
+
+  img {
+    width: $image-card-size;
+  }
+}
+
+.col {
+  flex: 0 0 calc(33.33% - 20px);
+  margin: 5px;
+}
+
+.img-overlay {
+  position: absolute;
+  background: $image-overlay-color;
+  cursor: pointer;
+  top: 0;
+  width: $image-card-size;
+  height: calc(100% - 5px);
+  color: $white;
+  align-items: center;
+  justify-content: center;
+}
+
+.selected {
+  display: flex;
+
+  mat-icon {
+    color: $white;
+    font-size: $icon-size;
+    width: $icon-size;
+    height: $icon-size;
+  }
+}
+
+.transform-info {
+  display: none;
+}
+
+.transform-img:hover {
+  .transform-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .selected {
+    display: none;
+  }
+}

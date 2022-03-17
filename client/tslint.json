@@ -1,0 +1,159 @@
+{
+  "rulesDirectory": ["node_modules/codelyzer", "node_modules/tslint-import-group-ordering/dist"],
+  "rules": {
+    "arrow-return-shorthand": true,
+    "callable-types": true,
+    "class-name": true,
+    "comment-format": [true, "check-space"],
+    "curly": true,
+    "deprecation": {
+      "severity": "warn"
+    },
+    "eofline": true,
+    "forin": true,
+    "import-blacklist": [true, "rxjs/Rx"],
+    "import-spacing": true,
+    "indent": [true, "spaces"],
+    "interface-over-type-literal": true,
+    "label-position": true,
+    "max-line-length": [true, { "limit": 140, "ignore-pattern": "^import [^,]+ from" }],
+    "member-access": false,
+    "member-ordering": [
+      true,
+      {
+        "order": ["static-field", "instance-field", "static-method", "instance-method"]
+      }
+    ],
+    "no-any": true,
+    "no-arg": true,
+    "no-bitwise": true,
+    "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
+    "no-construct": true,
+    "no-debugger": true,
+    "no-duplicate-super": true,
+    "no-empty": false,
+    "no-empty-interface": true,
+    "no-eval": true,
+    "no-inferrable-types": [true, "ignore-params"],
+    "no-misused-new": true,
+    "no-non-null-assertion": true,
+    "no-shadowed-variable": true,
+    "no-string-literal": false,
+    "no-string-throw": true,
+    "no-switch-case-fall-through": true,
+    "no-trailing-whitespace": true,
+    "no-unnecessary-initializer": true,
+    "no-unused-expression": true,
+    "no-var-keyword": true,
+    "object-literal-sort-keys": false,
+    "one-line": [true, "check-open-brace", "check-catch", "check-else", "check-whitespace"],
+    "prefer-const": true,
+    "quotemark": [true, "single", "avoid-escape"],
+    "radix": true,
+    "semicolon": [true, "always", "ignore-bound-class-methods"],
+    "triple-equals": [true, "allow-null-check"],
+    "typedef-whitespace": [
+      true,
+      {
+        "call-signature": "nospace",
+        "index-signature": "nospace",
+        "parameter": "nospace",
+        "property-declaration": "nospace",
+        "variable-declaration": "nospace"
+      }
+    ],
+    "unified-signatures": true,
+    "variable-name": false,
+    "whitespace": [true, "check-branch", "check-decl", "check-operator", "check-separator", "check-type"],
+    "directive-selector": [true, "attribute", "wb", "camelCase"],
+    "component-selector": [true, "element", "wb", "kebab-case"],
+    "no-output-on-prefix": true,
+    "no-inputs-metadata-property": true,
+    "no-outputs-metadata-property": true,
+    "no-host-metadata-property": true,
+    "no-input-rename": true,
+    "no-output-rename": true,
+    "use-lifecycle-interface": true,
+    "use-pipe-transform-interface": true,
+    "component-class-suffix": true,
+    "directive-class-suffix": true,
+    "arrow-parens": true,
+    "import-group-ordering": {
+      "severity": "error",
+      "options": {
+        "imports-groups": [
+          {
+            "name": "angular-dependencies"
+          },
+          {
+            "name": "other-dependencies"
+          },
+          {
+            "name": "env"
+          },
+          {
+            "name": "core"
+          },
+          {
+            "name": "store"
+          },
+          {
+            "name": "shared"
+          },
+          {
+            "name": "other-imports"
+          }
+        ],
+        "matching-rules": [
+          {
+            "type": "project",
+            "imports-group": "angular-dependencies",
+            "matches": "^(@angular)",
+            "disable-native-nodejs-modules": true,
+            "from-package.json": true
+          },
+          {
+            "type": "dependencies",
+            "imports-group": "other-dependencies",
+            "disable-native-nodejs-modules": true,
+            "from-package.json": true
+          },
+          {
+            "type": "project",
+            "imports-group": "env",
+            "matches": "^(@env)",
+            "disable-native-nodejs-modules": true,
+            "from-package.json": false
+          },
+          {
+            "type": "project",
+            "imports-group": "core",
+            "matches": "^(@core)",
+            "disable-native-nodejs-modules": true,
+            "from-package.json": false
+          },
+          {
+            "type": "project",
+            "imports-group": "store",
+            "matches": "^(@store)",
+            "disable-native-nodejs-modules": true,
+            "from-package.json": false
+          },
+          {
+            "type": "project",
+            "imports-group": "shared",
+            "matches": "^(@shared)",
+            "disable-native-nodejs-modules": true,
+            "from-package.json": false
+          },
+          {
+            "type": "project",
+            "imports-group": "other-imports",
+            "matches": ".*"
+          }
+        ]
+      }
+    },
+    "extends": ["tslint:latest", "tslint-import-group-ordering", "tslint-config-prettier"]
+  }
+}

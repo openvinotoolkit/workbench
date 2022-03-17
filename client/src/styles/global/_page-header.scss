@@ -1,0 +1,20 @@
+@import 'variables';
+
+.wb-page-header {
+  margin: 0 $container-padding 25px $container-padding;
+
+  &__row {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+  }
+
+  &__title {
+    margin: 0 20px 0 0;
+  }
+
+  &__hint {
+    display: block;
+    margin-top: 10px;
+  }
+}

@@ -1,0 +1,80 @@
+@use "sass:math";
+
+@import 'colors';
+@import 'fonts';
+
+$page-padding: 20px;
+
+@mixin grid-generator($grid-columns) {
+  @for $i from 1 through $grid-columns {
+    .wb-col-#{$i} {
+      width: percentage(math.div($i, $grid-columns));
+      padding-left: math.div($page-padding, 2);
+      padding-right: math.div($page-padding, 2);
+      box-sizing: border-box;
+
+      // todo: remove
+      // column should not force display flex
+      display: flex;
+    }
+  }
+}
+
+.wb-container {
+  margin-left: $page-padding;
+  margin-right: $page-padding;
+}
+
+.wb-row {
+  display: flex;
+  flex-grow: 1;
+  margin-left: math.div(-$page-padding, 2);
+  margin-right: math.div(-$page-padding, 2);
+
+  @include grid-generator(12);
+}
+
+.wb-row-divider {
+  border-top: 1px solid $very-light-pink;
+  width: 100%;
+  margin: 25px 0 20px;
+}
+
+.wb-panel {
+  width: 100%;
+  border: 1px solid $very-light-pink;
+  background: $faded-bgr;
+  border-radius: 3px;
+  box-sizing: border-box;
+  padding: 20px;
+
+  // todo: remove
+  // this works unexpectedly for side by side layout
+  & + & {
+    margin-top: 20px;
+  }
+
+  .wb-panel__header,
+  .wb-panel__footer {
+    display: flex;
+    padding: 20px;
+    align-items: center;
+    min-height: 80px;
+    box-sizing: border-box;
+  }
+
+  .wb-panel__header {
+    border-bottom: 1px solid $very-light-pink;
+    margin: -20px -20px 30px;
+  }
+
+  .wb-panel__footer {
+    border-top: 1px solid $very-light-pink;
+    margin: 30px -20px -20px;
+  }
+
+  .wb-panel__title {
+    @include wb-h4();
+    margin: 0;
+  }
+}

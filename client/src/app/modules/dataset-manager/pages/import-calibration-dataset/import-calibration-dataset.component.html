@@ -1,0 +1,19 @@
+<ng-container [ngTemplateOutlet]="navigation"></ng-container>
+<h1 class="wb-h1 wb-page-header">Import Calibration Dataset</h1>
+<div class="calibration-dataset">
+  <wb-dataset-upload
+    [importTip]="importDatasetTip"
+    (uploadDataset)="uploadDataset($event)"
+    (navigateBack)="goToCalibrationOptions()"
+  >
+  </wb-dataset-upload>
+</div>
+
+<ng-template #navigation>
+  <wb-navigation-bar>
+    <a (click)="goToModel()" data-test-id="breadcrumb-to-projects-by-model">Model {{ selectedModel?.name }}</a>
+    <a (click)="goToProject()">Project #{{ projectId }}</a>
+    <a (click)="goToCalibrationOptions()">Optimize INT8</a>
+    <a>Import Calibration Dataset</a>
+  </wb-navigation-bar>
+</ng-template>

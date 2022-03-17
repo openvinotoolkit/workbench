@@ -1,0 +1,41 @@
+<div class="app-container">
+  <div class="app-header">
+    <wb-header
+      [isAuthenticated]="isAuthenticated$ | async"
+      [isJupyterAvailable]="isJupyterAvailable$ | async"
+      (toggleUserInfo)="appMasterDetail.detailsSidenav.toggle()"
+    ></wb-header>
+    <wb-message-box
+      *ngIf="isDevCloudNotAvailable$ | async"
+      class="dev-cloud-warning-message"
+      messageType="error"
+      [message]="devCloudMessages.notRespondingGlobalWarning"
+    >
+    </wb-message-box>
+  </div>
+  <div class="app-notifications">
+    <wb-notification
+      *ngFor="let message of notificationService.notificationMessages; index as i"
+      [message]="message"
+      (close)="notificationService.remove(i)"
+    >
+    </wb-notification>
+  </div>
+  <wb-master-detail #appMasterDetail mode="over" class="app-content" [width]="'450px'">
+    <router-outlet ngProjectAs="masterContent"></router-outlet>
+    <ng-container ngProjectAs="detailsContent" [ngTemplateOutlet]="userDetails"></ng-container>
+  </wb-master-detail>
+</div>
+
+<ng-template #userDetails>
+  <wb-user-panel
+    [version]="version$ | async"
+    [userMeta]="userMeta$ | async"
+    [isDisabled]="taskIsRunning$ | async"
+    [isLogoutAvailable]="isAuthEnabled$ | async"
+    (logoutUser)="appMasterDetail.detailsSidenav.close(); logoutUser()"
+    (downloadLog)="downloadLogFile()"
+    (eraseAll)="appMasterDetail.detailsSidenav.close(); eraseAll()"
+    (setGAStatusEvent)="handleGAStatusChange($event)"
+  ></wb-user-panel>
+</ng-template>

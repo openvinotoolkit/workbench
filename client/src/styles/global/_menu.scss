@@ -1,0 +1,33 @@
+@import 'colors';
+
+.wb-menu.mat-menu-panel {
+  min-height: unset;
+
+  .mat-menu-content {
+    padding: 5px 0;
+  }
+
+  .mat-menu-item {
+    position: relative;
+    padding: 0 20px;
+    height: 40px;
+    line-height: 40px;
+  }
+
+  .mat-menu-item + .mat-menu-item {
+    padding-top: 1px;
+  }
+
+  .mat-menu-item + .mat-menu-item:before {
+    $divider-offset: 10px;
+
+    content: '';
+    height: 1px;
+    background: $very-light-pink;
+    display: block;
+    position: absolute;
+    left: $divider-offset;
+    right: $divider-offset;
+    top: 0;
+  }
+}

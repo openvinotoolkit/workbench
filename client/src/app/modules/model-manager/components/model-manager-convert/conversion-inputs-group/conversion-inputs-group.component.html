@@ -1,0 +1,40 @@
+<ng-container *ngIf="model" [formGroup]="group">
+  <wb-config-form-field
+    class="enlarged-control"
+    testId="specify-inputs"
+    [field]="specifyInputs"
+    [group]="group"
+  ></wb-config-form-field>
+  <p class="about-specify">{{ inputSpecification }}</p>
+
+  <div *ngIf="specifyInputsControl.value" [formArrayName]="inputLayers" class="input-shape-container-content">
+    <wb-input-output-layer-control
+      *ngFor="let inputControl of inputLayersFormArray.controls; index as controlIndex"
+      class="layer"
+      layerType="input"
+      [formControlName]="controlIndex"
+      [controlIndex]="controlIndex"
+      [controlsCount]="inputLayersFormArray.length"
+      [colorSpace]="colorSpace"
+      [availableLayers]="getAvailableLayersForInputControl(controlIndex)"
+      [attr.data-test-id]="'input-shape-form-' + controlIndex"
+      [isDynamicSupported]="isDynamicSupported"
+      [domain]="model.domain"
+      (removeInput)="removeInputLayerControl($event)"
+    ></wb-input-output-layer-control>
+    <wb-button
+      class="add-layer enlarged-control"
+      icon="add"
+      text="Add Input"
+      type="secondary"
+      (click)="addInputLayerControl()"
+      data-test-id="add-input-layer"
+    ></wb-button>
+  </div>
+
+  <div class="note" *ngIf="isDynamicSupported && isVisibleNote">
+    <div class="header wb-h5">Note:</div>
+    <div class="description wb-text-8">{{ inputDynamicDimensionNote }}</div>
+    <wb-button class="close" icon="close_circle" (handleClick)="isVisibleNote = false"></wb-button>
+  </div>
+</ng-container>

@@ -1,0 +1,39 @@
+<div class="header" data-test-id="header" [attr.data-test-url]="currentUrl">
+  <div class="header-item">
+    <img class="logo" src="assets/img/DL_Workbench_Logo.svg" alt="DL Workbench logo" (click)="goHome()" />
+  </div>
+  <div class="header-item">
+    <mat-icon
+      class="home"
+      svgIcon="home"
+      (click)="goHome()"
+      [matTooltip]="'Go to Start Page'"
+      [attr.data-test-id]="'homeIcon'"
+    ></mat-icon>
+  </div>
+  <div *ngIf="isJupyterAvailable" class="header-item">
+    <a
+      class="open-jupyter-lab-button wb-body-3"
+      (click)="openJupyterLab()"
+      target="_blank"
+      [matTooltip]="'Open JupyterLab'"
+    >
+      Learn OpenVINO
+    </a>
+  </div>
+
+  <div class="info" *ngIf="isAuthenticated">
+    <div class="header-item" *ngIf="sessionService.isSessionExists$ | async">
+      <wb-session-timer class="timer"></wb-session-timer>
+    </div>
+    <div class="header-item">
+      <mat-icon
+        class="settings"
+        data-test-id="user-toggle"
+        svgIcon="settings"
+        [matTooltip]="'Settings'"
+        (click)="toggleUserInfo.emit()"
+      ></mat-icon>
+    </div>
+  </div>
+</div>

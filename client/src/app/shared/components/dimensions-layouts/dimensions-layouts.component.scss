@@ -1,0 +1,101 @@
+@import 'colors';
+
+.container {
+  margin-bottom: 10px;
+  display: flex;
+
+  form {
+    flex-grow: 1;
+  }
+
+  .items {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.inputs-block {
+  display: flex;
+  margin-bottom: 20px;
+
+  ::ng-deep .field-container {
+    max-width: 110px;
+  }
+}
+
+.labels {
+  padding: 42px 25px 30px 0;
+  flex-shrink: 0;
+
+  .label {
+    line-height: 52px;
+  }
+
+  .label + .label {
+    margin-top: 10px;
+  }
+
+  &.has-error {
+    .label:last-child {
+      margin-top: 30px;
+    }
+  }
+}
+
+.num {
+  margin-bottom: 10px;
+}
+
+.inputs {
+  width: 100%;
+  border: 1px solid $very-light-pink;
+  border-radius: 3px;
+  padding: 20px;
+
+  wb-config-form-field:first-child {
+    display: block;
+    margin-bottom: 10px;
+  }
+}
+
+.items.has-error wb-config-form-field:first-child {
+  height: 70px;
+}
+
+.item {
+  margin-right: 20px;
+}
+
+.action {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.layout-type ::ng-deep .config-form-field .field-container {
+  flex-direction: row;
+
+  .mat-radio-button + .mat-radio-button {
+    margin-left: 20px;
+  }
+}
+
+:host .inputs ::ng-deep .config-form-field .field-container {
+  .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+
+  .error-message {
+    top: 0;
+  }
+}
+
+.layout-value {
+  line-height: 50px;
+  font-weight: 500;
+}

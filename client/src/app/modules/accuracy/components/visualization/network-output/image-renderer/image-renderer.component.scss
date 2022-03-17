@@ -1,0 +1,44 @@
+@import 'colors';
+@import '../network-output.component.variables';
+
+$canvas-min-width: 500px;
+
+.canvas-container {
+  position: relative;
+
+  .canvas {
+    width: 100%;
+    min-width: $canvas-min-width;
+    height: $image-renderer-height;
+    display: block;
+    object-fit: contain;
+    outline: solid 2px transparent;
+    box-sizing: border-box;
+    background-color: $faded-bgr;
+    border-radius: 3px;
+  }
+
+  wb-painting-canvas,
+  .explanation-mask,
+  .explanation-mask-not-selected {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    min-width: $canvas-min-width;
+    height: $image-renderer-height;
+  }
+
+  .explanation-mask-not-selected {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba($black, 0.8);
+    color: $white;
+  }
+
+  .explanation-mask {
+    opacity: 0.5;
+    object-fit: contain;
+  }
+}

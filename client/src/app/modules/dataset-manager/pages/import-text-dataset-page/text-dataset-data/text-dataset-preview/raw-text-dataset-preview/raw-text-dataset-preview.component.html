@@ -1,0 +1,23 @@
+<div class="wb-panel">
+  <div class="wb-panel__header">
+    <h4 class="wb-panel__title">Raw Dataset Preview</h4>
+    <div class="wb-chip" *ngIf="dataset?.length">{{ dataset?.length }} lines from file</div>
+  </div>
+
+  <div class="text-dataset-preview-table" *ngIf="dataset">
+    <table class="wb-table" data-test-id="raw-dataset-preview-table">
+      <thead>
+        <tr>
+          <th class="cell" *ngFor="let cell of dataset[0]; let i = index">Column {{ i + 1 }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let line of dataset" data-test-id="raw-dataset-preview-row">
+          <td class="cell" *ngFor="let cell of line">
+            <pre dir="auto">{{ cell }}</pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

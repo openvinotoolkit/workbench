@@ -1,0 +1,285 @@
+@import 'colors';
+
+$border-radius: 3px;
+$children-offset: 20px;
+$cell-padding: 10px 0 10px 15px;
+
+:host {
+  border-bottom: 1px solid $very-light-pink;
+  overflow: auto;
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
+
+  &::-webkit-scrollbar-track {
+    border: none;
+  }
+
+  table {
+    table-layout: fixed;
+
+    th {
+      background: $faded-bgr;
+      padding: $cell-padding;
+      vertical-align: top;
+      border-top: 1px solid $very-light-pink;
+      border-bottom: 1px solid $very-light-pink;
+
+      &:last-child {
+        padding-right: 20px;
+        border-top-right-radius: $border-radius;
+        border-right: 1px solid $very-light-pink;
+      }
+
+      &:first-child {
+        border-top-left-radius: $border-radius;
+        border-left: 1px solid $very-light-pink;
+      }
+    }
+
+    td {
+      border-color: $very-light-pink;
+      border-top: 1px solid transparent;
+      padding: $cell-padding;
+
+      &:first-child {
+        border-left: 1px solid $very-light-pink;
+      }
+      &:last-child {
+        border-right: 1px solid $very-light-pink;
+        padding-left: 20px;
+      }
+    }
+
+    ::ng-deep tbody {
+      > tr:not(.selected):hover {
+        background: $faded-bgr;
+      }
+      > tr:hover {
+        td,
+        td:first-child,
+        td:last-child {
+          border-color: $blue-blue;
+        }
+      }
+    }
+  }
+}
+
+wb-text-overflow {
+  display: block;
+}
+
+.cell-content {
+  position: relative;
+}
+
+.optimization-type-row {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+
+  wb-help-tooltip {
+    margin-right: 5px;
+  }
+}
+
+.time {
+  white-space: pre-line;
+}
+
+.accuracy {
+  .cell-content {
+    display: flex;
+    align-items: center;
+  }
+
+  wb-help-tooltip {
+    margin-right: 5px;
+  }
+}
+
+th.id,
+td.id {
+  width: 60px;
+}
+
+th.dataset,
+td.dataset {
+  width: 90px;
+}
+
+th.precisions,
+td.precisions {
+  width: 70px;
+}
+
+th.throughput,
+td.throughput {
+  width: 80px;
+}
+
+th.accuracy,
+td.accuracy {
+  width: 70px;
+}
+
+th.time,
+td.time {
+  width: 70px;
+}
+
+th.details,
+td.details {
+  width: 80px;
+}
+
+th.status,
+td.status {
+  width: 185px;
+}
+
+th.open,
+td.open {
+  width: 75px;
+}
+
+th.actions,
+td.actions {
+  width: 50px;
+}
+
+.actions button {
+  color: $brownish-grey;
+  transition: color 0.2s ease-in-out;
+
+  &:hover {
+    color: $black;
+  }
+}
+
+.hide-overflow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+:host table {
+  background-color: $faded-bgr;
+
+  td.name {
+    position: relative;
+    padding: 0;
+    border-color: transparent;
+    background-color: transparent;
+    overflow: visible;
+
+    .cell-content {
+      position: absolute;
+      top: -1px;
+      bottom: -1px;
+      left: -1px;
+      right: 0;
+      display: flex;
+      align-items: center;
+      padding: $cell-padding;
+
+      border-left: 1px solid $very-light-pink;
+      border-bottom: 1px solid $very-light-pink;
+      border-top: 1px solid transparent;
+    }
+
+    .project-id {
+      padding-right: 10px;
+    }
+  }
+
+  tr[data-deep='1'] td.name .cell-content {
+    left: $children-offset;
+    border-left-color: $plum;
+    border-left-width: 2px;
+  }
+
+  tr[data-deep='2'] td.name .cell-content {
+    left: $children-offset * 2;
+    border-left-color: $plum;
+    border-left-width: 2px;
+  }
+
+  tr:hover td.name {
+    border-color: transparent;
+
+    .cell-content {
+      border-color: $blue-blue;
+    }
+  }
+
+  tr[data-deep='1']:hover td.name .cell-content,
+  tr[data-deep='2']:hover td.name .cell-content {
+    border-left-color: $plum;
+  }
+
+  tr.selected {
+    background-color: transparent;
+
+    td:not(:first-child) {
+      background-color: $very-light-pink;
+    }
+
+    td:first-child .cell-content {
+      background-color: $very-light-pink;
+    }
+  }
+}
+
+tr[data-deep='1'] + tr[data-deep='0'] td.name .cell-content:before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: -1px;
+  width: 1px + $children-offset;
+  height: 1px;
+  top: -2px;
+  background-color: $very-light-pink;
+}
+
+tr[data-deep='2'] + tr[data-deep='1'] td.name .cell-content:before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: -1px;
+  width: 1px + $children-offset;
+  height: 1px;
+  top: -2px;
+  background-color: $very-light-pink;
+}
+
+tr[data-deep='2'] + tr[data-deep='0'] td.name .cell-content:before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: -1px;
+  width: 1px + $children-offset * 2;
+  height: 1px;
+  top: -2px;
+  background-color: $very-light-pink;
+}
+
+tr[data-deep='0'] + tr[data-deep='1'] td.name:before,
+tr[data-deep='1'] + tr[data-deep='2'] td.name:before {
+  content: '';
+  position: absolute;
+  left: $children-offset * 0.5;
+  top: -4px;
+  height: 50%;
+  width: $children-offset * 0.5;
+  border: 2px solid $plum;
+  border-bottom-left-radius: 3px;
+  border-top-color: transparent;
+  border-right-color: transparent;
+
+  clip-path: inset(3px 4px 0 0);
+}
+
+tr[data-deep='1'] + tr[data-deep='2'] td.name:before {
+  left: $children-offset + $children-offset * 0.5;
+}

@@ -1,0 +1,65 @@
+@import 'src/styles/fonts';
+@import 'src/styles/colors';
+@import 'src/styles/variables';
+
+wb-model-manager-import {
+  display: block;
+  margin-bottom: 20px;
+}
+
+wb-panel,
+.wb-panel {
+  margin-bottom: 20px;
+}
+
+.panel-header {
+  margin: 0;
+}
+
+.description {
+  display: block;
+  @include wb-body-4();
+  color: $brownish-grey;
+  margin-top: $container-padding;
+}
+
+:host ::ng-deep .key-val .status {
+  @include wb-subtitle-1();
+}
+
+.common-error {
+  display: block;
+  margin-bottom: $container-padding;
+}
+
+:host {
+  counter-reset: stages-counter;
+
+  ::ng-deep div[wb-heading] {
+    display: flex;
+    align-items: center;
+  }
+
+  ::ng-deep .import-stage-header:before {
+    counter-increment: stages-counter;
+    content: counter(stages-counter) '. ';
+  }
+}
+
+.try-again-btn {
+  margin-top: $container-padding;
+}
+
+wb-reshape,
+.convert-form-section {
+  display: none;
+
+  &.show {
+    display: block;
+  }
+}
+
+.environment-error-panel wb-info-hint {
+  display: block;
+  padding-bottom: 20px;
+}

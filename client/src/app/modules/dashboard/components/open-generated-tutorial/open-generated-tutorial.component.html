@@ -1,0 +1,27 @@
+<div class="wb-row">
+  <div class="wb-col-12">
+    <div class="wb-panel">
+      <div class="description wb-label" [innerText]="generatedTutorialDescription"></div>
+    </div>
+  </div>
+</div>
+
+<div class="controls-row">
+  <wb-button
+    class="enlarged-control"
+    type="primary"
+    text="Open"
+    testId="open-generated-tutorial-button"
+    [disabled]="!jupyterNotebookPath"
+    (handleClick)="openGeneratedTutorial()"
+  >
+  </wb-button>
+</div>
+
+<div class="hint-row">
+  <wb-info-hint
+    *ngIf="!jupyterNotebookPath"
+    [message]="notebookNotAvailableWarning.message"
+    [type]="notebookNotAvailableWarning.type"
+  ></wb-info-hint>
+</div>

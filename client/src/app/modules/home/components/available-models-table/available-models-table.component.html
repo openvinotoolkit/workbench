@@ -1,0 +1,86 @@
+<table
+  mat-table
+  matSort
+  [matSortActive]="sortedColumn.active"
+  [matSortDirection]="sortedColumn.direction"
+  (matSortChange)="sortedColumn = $event"
+  id="active-models-table"
+  *ngIf="!isLoading; else progressSpinner"
+  [dataSource]="dataSource"
+  class="wb-table wb-table-on-gray models-table"
+>
+  <!--Model Name Column-->
+  <ng-container matColumnDef="name">
+    <th class="name" mat-header-cell *matHeaderCellDef mat-sort-header>
+      Model Name
+      <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: 'name' }"></ng-container>
+    </th>
+    <td class="name" mat-cell [attr.data-test-id]="'model-name'" *matCellDef="let model">
+      <wb-text-overflow [content]="model.name"></wb-text-overflow>
+    </td>
+  </ng-container>
+  <!--Model Precision Column-->
+  <ng-container matColumnDef="bodyPrecisions">
+    <th class="precision" mat-header-cell *matHeaderCellDef>Precision</th>
+    <td class="precision" mat-cell *matCellDef="let model">
+      {{ model.bodyPrecisions.join(', ') }}
+    </td>
+  </ng-container>
+  <!--  Model Usage Column-->
+  <ng-container matColumnDef="usage">
+    <th class="usage" mat-header-cell *matHeaderCellDef>Usage</th>
+    <td class="usage" mat-cell *matCellDef="let model">
+      {{ TaskTypeToNameMap[model.accuracyConfiguration?.taskType] }}
+    </td>
+  </ng-container>
+  <!--Model Size Column-->
+  <ng-container matColumnDef="size">
+    <th class="size" mat-header-cell *matHeaderCellDef mat-sort-header>
+      <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: 'size' }"></ng-container>
+      Size, Mb
+    </th>
+    <td class="size" mat-cell *matCellDef="let model">
+      {{ formatSize(model.size) }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="date">
+    <th class="date" time mat-header-cell *matHeaderCellDef mat-sort-header>
+      Import Time
+      <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: 'date' }"></ng-container>
+    </th>
+    <td class="date" time mat-cell *matCellDef="let model">
+      {{ model.date | date: 'dd/MM/yy, hh:mm' }}
+    </td>
+  </ng-container>
+  <!--Button Column-->
+  <ng-container matColumnDef="modelOpen">
+    <th class="action" mat-header-cell *matHeaderCellDef></th>
+    <td class="action" mat-cell *matCellDef="let model">
+      <wb-button
+        class="btn"
+        type="secondary"
+        text="Open"
+        testId="open-model"
+        (handleClick)="openModel.emit(model)"
+      ></wb-button>
+    </td>
+  </ng-container>
+
+  <!--Table Rows-->
+  <tr mat-header-row *matHeaderRowDef="tableColumns" class="table-header"></tr>
+  <tr mat-row *matRowDef="let row; columns: tableColumns" [attr.data-test-id]="'model-element-row'"></tr>
+</table>
+
+<div class="empty-msg wb-label" *ngIf="haveModels && !isLoading">No data available, create project first</div>
+
+<ng-template #progressSpinner>
+  <div class="progress-spinner-placeholder">
+    <wb-spinner diameter="50"></wb-spinner>
+  </div>
+</ng-template>
+
+<ng-template #sortIcon let-columnName="columnName">
+  <ng-container *ngIf="dataSource.data?.length">
+    <wb-table-sort-icon [columnName]="columnName" [sortedColumn]="sortedColumn"></wb-table-sort-icon>
+  </ng-container>
+</ng-template>

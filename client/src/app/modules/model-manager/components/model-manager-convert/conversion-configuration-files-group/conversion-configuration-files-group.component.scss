@@ -1,0 +1,71 @@
+.checkbox-and-file {
+  display: flex;
+  margin-bottom: 20px;
+  min-height: 40px;
+
+  .checkbox {
+    margin-top: 8px;
+  }
+
+  .checkbox {
+    ::ng-deep .config-form-field {
+      margin-bottom: 0;
+    }
+  }
+
+  .file {
+    margin-left: 20px;
+
+    ::ng-deep .file-upload-field-container {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.transformations-config-container {
+  margin-left: 30px;
+
+  ::ng-deep mat-radio-button:first-child {
+    margin-bottom: 40px;
+
+    &.mat-radio-checked {
+      margin-bottom: 215px;
+    }
+  }
+
+  .predefined-config {
+    display: block;
+    margin-top: -230px;
+    padding-bottom: 60px;
+  }
+}
+
+.pipeline-row {
+  display: flex;
+
+  .tip-link {
+    margin-top: 10px;
+  }
+}
+
+.preconfigured {
+  margin-left: 280px;
+  top: -268px;
+  display: block;
+  position: relative;
+}
+
+.custom-config-row {
+  margin-left: 235px;
+  margin-top: -53px;
+  display: flex;
+
+  .tip-link {
+    margin-top: 11px;
+  }
+}
+
+.use-config {
+  display: block;
+  margin-bottom: 40px;
+}

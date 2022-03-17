@@ -1,0 +1,104 @@
+<div *ngIf="!!layerDetails; else layerNotAvailableTemplate" class="layer-details">
+  <div class="layer-details-exec-params" *ngIf="executionParameters">
+    <div class="layer-details-exec-params-header wb-body-2">Execution parameters</div>
+    <div class="layer-details-exec-params-content">
+      <ng-container [ngTemplateOutlet]="executedLayerParametersTemplate"></ng-container>
+    </div>
+  </div>
+  <div *ngIf="hasFusedLayers" class="layer-details-fusing">
+    <div class="layer-details-fusing-header wb-body-2">Fusing information</div>
+    <div class="layer-details-fusing-description wb-body-4">
+      IR Layer<ng-container *ngIf="fusedLayerNames?.length > 1">s</ng-container>&nbsp;
+      <ng-container *ngFor="let fusedLayerName of fusedLayerNames; last as isLast">
+        <span>{{ fusedLayerName }}</span>
+        <ng-container *ngIf="!isLast">,</ng-container>&nbsp;
+      </ng-container>
+      {{ fusedLayerNames?.length > 1 ? 'were' : 'was' }}
+      transformed on {{ deviceName }} device to
+      {{ splitExecutedLayers.length > 1 ? splitExecutedLayers.length : 'single' }}
+      layer<ng-container *ngIf="splitExecutedLayers?.length > 1">s</ng-container>&nbsp;
+      <ng-container *ngFor="let splitExecutedLayerName of splitExecutedLayers; last as isLast">
+        <span>{{ splitExecutedLayerName }}</span>
+        <ng-container *ngIf="!isLast">,</ng-container>&nbsp; </ng-container
+      >. This is called layer fusion and the diagram below demonstrates the fusion scheme and information on each layer
+      from original IR.
+    </div>
+    <div class="layer-details-fusing-scheme">
+      <wb-layers-flowchart class="fused-layers-flowchart" [layerNames]="fusedLayerNames"></wb-layers-flowchart>
+      <mat-icon class="fusion-icon" svgIcon="arrow_forward"></mat-icon>
+      <wb-layers-flowchart class="executed-layers-flowchart" [layerNames]="splitExecutedLayers"></wb-layers-flowchart>
+    </div>
+    <div class="layer-details-fusing-content">
+      <ng-container *ngFor="let fusedLayer of layerDetails?.fusedLayers">
+        <ng-container
+          *ngTemplateOutlet="fusedLayerParametersTemplate; context: { fusedLayer: fusedLayer }"
+        ></ng-container>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<ng-template #executedLayerParametersTemplate>
+  <div class="executed-layer-parameters">
+    <ng-container *ngTemplateOutlet="parametersBlockTemplate; context: { params: executionParameters }"> </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #fusedLayerParametersTemplate let-fusedLayer="fusedLayer">
+  <div class="fused-layer-parameters">
+    <h4 class="fused-layer-parameters-layer-name wb-body-2">{{ fusedLayer.layerName }}</h4>
+    <h5 class="fused-layer-parameters-header">Layer Parameters</h5>
+    <div class="fused-layer-parameters-layer-type">
+      <span class="parameter-name">Layer type:&nbsp;</span
+      ><span class="parameter-value">{{ fusedLayer.layerType }}</span>
+    </div>
+    <div class="fused-layer-parameters-row">
+      <div class="fused-layer-parameters-row-spatial">
+        <h6 class="wb-body-3">Spatial Parameters</h6>
+        <ng-container
+          *ngTemplateOutlet="parametersBlockTemplate; context: { params: getSpacialParameters(fusedLayer) }"
+        >
+        </ng-container>
+      </div>
+
+      <mat-divider [vertical]="true"></mat-divider>
+
+      <div class="fused-layer-parameters-row-specific">
+        <h6 class="wb-body-3">Specific Parameters</h6>
+        <ng-container
+          *ngTemplateOutlet="parametersBlockTemplate; context: { params: getSpecificParameters(fusedLayer) }"
+        >
+        </ng-container>
+      </div>
+
+      <mat-divider [vertical]="true"></mat-divider>
+
+      <div class="fused-layer-parameters-row-positional">
+        <h6 class="wb-body-3">Positional Data</h6>
+        <ng-container *ngTemplateOutlet="parametersBlockTemplate; context: { params: getPositionalData(fusedLayer) }">
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #parametersBlockTemplate let-params="params">
+  <ng-container *ngIf="params; else noDataTemplate">
+    <div *ngFor="let param of params | keyvalue: sortByKeyAsc" class="parameter-row">
+      <span class="parameter-name">{{ param.key | parameterName }}:&nbsp;</span>
+      <span class="parameter-value">{{
+        param.key === 'execTimeMcs' ? (param.value / 1000 | number: '1.0-5') || notExecutedLabel : param.value
+      }}</span>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #noDataTemplate>
+  <div class="no-data-container wb-body-4">
+    {{ noDataLabel }}
+  </div>
+</ng-template>
+
+<ng-template #layerNotAvailableTemplate>
+  <div class="layer-not-available-container wb-body-4">{{ layerNotAvailableText }}&nbsp;{{ deviceName }}</div>
+</ng-template>

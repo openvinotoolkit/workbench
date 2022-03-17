@@ -1,0 +1,17 @@
+.head {
+  justify-content: start;
+  .title {
+    margin-right: auto;
+  }
+}
+
+.head,
+.buttons {
+  wb-button + wb-button {
+    margin-left: 20px;
+  }
+}
+
+.buttons {
+  display: flex;
+}

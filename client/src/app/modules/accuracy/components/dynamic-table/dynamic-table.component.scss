@@ -1,0 +1,94 @@
+@import 'fonts';
+@import 'colors';
+
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-paginator,
+.mat-table {
+  background-color: transparent;
+}
+
+.table-controls {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+wb-info-hint {
+  margin-bottom: 20px;
+}
+
+.table-container {
+  position: relative;
+  flex: 1 0 auto;
+
+  .loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: $black15;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.dynamic-table {
+  width: 100%;
+  border: 1px $very-light-pink solid;
+  border-radius: 3px;
+  box-sizing: border-box;
+
+  mat-header-row {
+    min-height: 80px;
+  }
+
+  mat-row {
+    height: 40px;
+  }
+
+  mat-header-row,
+  mat-row {
+    border-bottom: 1px $very-light-pink solid;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  mat-header-cell,
+  mat-cell {
+    @include wb-body-4();
+    color: $black;
+    padding-right: 20px;
+
+    &:first-of-type {
+      padding-left: 20px;
+    }
+    &:last-child {
+      max-width: 90px;
+      box-sizing: content-box;
+    }
+  }
+
+  mat-header-cell {
+    & .header-cell-content {
+      @include wb-subtitle-2();
+      text-align: start;
+      white-space: pre-line;
+    }
+  }
+
+  mat-cell .cell-content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

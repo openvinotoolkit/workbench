@@ -1,0 +1,16 @@
+{
+  "squeezeNet": {
+    "inputLayer": {
+      "type": "Input",
+      "name": "data",
+      "precision": "U8"
+    },
+    "outputLayer": {
+      "type": "Output",
+      "name": "out_prob",
+      "precision": "FP32"
+    },
+    "precisions": ["FP32", "U8"],
+    "layerTypes": ["Input", "Const", "Eltwise", "Convolution", "Pooling", "Concatenation", "SoftMax", "Reorder", "Output"]
+  }
+}

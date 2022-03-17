@@ -1,0 +1,28 @@
+@import 'colors';
+
+.error-block {
+  background-color: $deep-red-light;
+  border: 1px solid $deep-red;
+  box-sizing: border-box;
+  border-radius: 3px;
+  padding: 20px;
+
+  wb-status-text ::ng-deep .mat-icon {
+    color: $deep-red;
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+  }
+
+  .error-message {
+    padding-left: 20px;
+    margin-top: 20px;
+  }
+
+  .toggle-link {
+    text-decoration-line: underline;
+    color: $blue-blue;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+}

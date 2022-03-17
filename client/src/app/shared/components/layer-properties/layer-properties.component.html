@@ -1,0 +1,73 @@
+<ng-container *ngIf="layer">
+  <ng-container *ngTemplateOutlet="header"></ng-container>
+  <div class="content">
+    <div class="wb-h2">Details</div>
+
+    <!-- Model Properties or Node Properties -->
+    <ng-container *ngTemplateOutlet="layer.type ? nodeProperties : modelProperties"></ng-container>
+
+    <!-- Attributes -->
+    <ng-container *ngIf="layer.attributes?.length">
+      <div class="group">
+        <div class="group-title">Attributes</div>
+        <div class="group-data" data-test-id="attributes">
+          <wb-parameter-details *ngFor="let param of layerAttributesParameters" [parameter]="param">
+          </wb-parameter-details>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Inputs -->
+    <ng-container *ngIf="layer.inputs?.length || layer.arguments?.length">
+      <div class="group">
+        <div class="group-title">Inputs</div>
+        <ng-container *ngFor="let inputParameters of layerInputsParameters; let i = index">
+          <div class="group-sub-title">{{ (layer.inputs ? layer.inputs[i].name : layer.name) | titlecase }}</div>
+          <div class="group-data">
+            <wb-parameter-details *ngFor="let param of inputParameters" [parameter]="param"> </wb-parameter-details>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+
+    <!-- Outputs -->
+    <ng-container *ngIf="layer.outputs?.length">
+      <div class="group">
+        <div class="group-title">Outputs</div>
+        <ng-container *ngFor="let outputParameters of layerOutputsParameters; let i = index">
+          <div class="group-sub-title">{{ layer.outputs[i].name | titlecase }}</div>
+          <div class="group-data">
+            <wb-parameter-details *ngFor="let param of outputParameters" [parameter]="param"> </wb-parameter-details>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>
+
+<ng-template #header>
+  <div class="header">
+    <div class="sub-title">Layer Type</div>
+    <div class="title">{{ layer.type ? layer.type.name : inputLayerType }}</div>
+  </div>
+</ng-template>
+
+<ng-template #modelProperties>
+  <ng-container *ngIf="modelNameParameter">
+    <div class="group">
+      <div class="group-title">Model Properties</div>
+      <div class="group-data">
+        <wb-parameter-details [parameter]="modelNameParameter"></wb-parameter-details>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #nodeProperties>
+  <div class="group">
+    <div class="group-title">Node Properties</div>
+    <div class="group-data" data-test-id="properties">
+      <wb-parameter-details *ngFor="let param of layerPropertiesParameters" [parameter]="param"> </wb-parameter-details>
+    </div>
+  </div>
+</ng-template>

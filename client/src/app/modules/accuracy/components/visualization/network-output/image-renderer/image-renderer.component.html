@@ -1,0 +1,19 @@
+<div class="canvas-container">
+  <wb-painting-canvas
+    *ngIf="drawMode === ImageRendererDrawMode.INPAINTING"
+    [width]="canvasElement.width"
+    [height]="canvasElement.height"
+  >
+  </wb-painting-canvas>
+  <ng-container *ngIf="drawMode === ImageRendererDrawMode.EXPLANATION">
+    <img class="explanation-mask" *ngIf="explanationMask" [src]="explanationMask" data-test-id="explanation-mask" />
+    <div
+      class="explanation-mask-not-selected wb-h3"
+      *ngIf="!explanationMask"
+      data-test-id="explanation-mask-not-selected"
+    >
+      Select prediction to show importance map
+    </div>
+  </ng-container>
+  <canvas class="canvas" #canvasElement data-test-id="image-canvas"></canvas>
+</div>

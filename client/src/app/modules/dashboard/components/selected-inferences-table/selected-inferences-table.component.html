@@ -1,0 +1,46 @@
+<table
+  mat-table
+  [dataSource]="dataSource"
+  matSort
+  (matSortChange)="sortedColumn = $event"
+  [matSortActive]="sortedColumn.active"
+  [matSortDirection]="sortedColumn.direction"
+  class="wb-table"
+  data-test-id="selected-inferences-table"
+>
+  <ng-container matColumnDef="nireq">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      Streams
+      <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: 'nireq' }"></ng-container>
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element.nireq }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="batch">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      Batch size
+      <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: 'batch' }"></ng-container>
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element.batch }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef class="column-actions">Actions</th>
+    <td mat-cell *matCellDef="let element" class="column-actions">
+      <mat-icon (click)="removeItem(element)" svgIcon="delete"></mat-icon>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: displayedColumns"
+    [attr.data-test-id]="'selected_inference_' + row.batch + ':' + row.nireq"
+  ></tr>
+</table>
+
+<ng-template #sortIcon let-columnName="columnName">
+  <ng-container *ngIf="dataSource.data?.length">
+    <wb-table-sort-icon [columnName]="columnName" [sortedColumn]="sortedColumn"></wb-table-sort-icon>
+  </ng-container>
+</ng-template>

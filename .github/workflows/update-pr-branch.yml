@@ -1,0 +1,44 @@
+name: "Update PR Branch on PR Comment"
+on:
+  issue_comment:
+    types: [created]
+jobs:
+  update_pr_branch:
+    name: Update PR Branch on PR Comment
+    if: github.event.issue.pull_request != '' && github.event.comment.body == '/update'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch latest code
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.ACTIONS_PAT }}
+          fetch-depth: 0
+          submodules: 'true'
+      - name: Fetch PR and target branch names
+        id: fetch_pr_and_target_branch
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { issue, repository } = context.payload;
+            const [ owner, repo ] = repository.full_name.split('/');
+            const { data: pullRequest } = await github.pulls.get({
+              owner,
+              repo,
+              pull_number: issue.number
+            });
+            const { ref: prBranch } = pullRequest.head;
+            const { ref: baseBranch } = pullRequest.base;
+            const { clone_url: prRemoteUrl } = pullRequest.head.repo;
+            console.log(`##[set-output name=pr_branch;]${prBranch}`);
+            console.log(`##[set-output name=pr_remote_url;]${prRemoteUrl}`);
+            console.log(`##[set-output name=base_branch;]${baseBranch}`);
+      - name: Update PR branch
+        run: |
+          git remote add pr_remote ${{ steps.fetch_pr_and_target_branch.outputs.pr_remote_url }}
+          git fetch pr_remote
+          git checkout ${{ steps.fetch_pr_and_target_branch.outputs.pr_branch }}
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git merge ${{ steps.fetch_pr_and_target_branch.outputs.base_branch }} --no-edit
+          git push

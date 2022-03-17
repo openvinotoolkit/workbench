@@ -1,0 +1,207 @@
+<wb-page-with-actions ngProjectAs="masterContent">
+  <ng-container [ngTemplateOutlet]="pageContent" ngProjectAs="pageContent"></ng-container>
+  <ng-container [ngTemplateOutlet]="actions" ngProjectAs="pageActions"></ng-container>
+</wb-page-with-actions>
+
+<ng-template #pageContent>
+  <ng-container [ngTemplateOutlet]="navigation"></ng-container>
+  <h1 class="wb-h1 wb-page-header">Optimize INT8</h1>
+
+  <div class="wb-container">
+    <div class="legend">* Required</div>
+
+    <ng-container *ngIf="selectedChildProject$ | async as project">
+      <div class="error-block">
+        <wb-message-box
+          *ngIf="project.status?.errorMessage && CalibrationPipelineStages.includes(project.status?.stage)"
+          [messageType]="NotificationType.ERROR"
+          [message]="calibrationFailedError"
+          [detailedMessage]="project.status?.errorMessage"
+        >
+        </wb-message-box>
+      </div>
+    </ng-container>
+
+    <wb-calibration-dataset-section
+      *ngIf="model?.accuracyConfiguration.taskType as taskType"
+      [taskType]="taskType"
+      [selectedDatasetId]="selectedDataset?.id"
+      [projectDatasetId]="project?.datasetId"
+      (importDataset)="goToImportDataset()"
+      (selected)="onDatasetSelected($event)"
+      (deleted)="onDatasetDeleted($event)"
+    >
+    </wb-calibration-dataset-section>
+
+    <div class="wb-row calibration-content">
+      <div class="wb-col-8">
+        <ng-container [ngTemplateOutlet]="controls"></ng-container>
+      </div>
+
+      <div class="wb-col-4">
+        <div class="wb-panel hints-box">
+          <ng-container [ngTemplateOutlet]="calibrationHints"></ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #navigation>
+  <wb-navigation-bar>
+    <a data-test-id="breadcrumb-to-projects-by-model" (click)="goToModel()"> Model {{ model?.name }} </a>
+    <a (click)="goToProject()"> Project #{{ project?.id }} </a>
+    <a>Optimize INT8</a>
+  </wb-navigation-bar>
+</ng-template>
+
+<ng-template #controls>
+  <form [formGroup]="calibrationForm" class="calibration-form">
+    <div class="wb-panel subset-panel">
+      <wb-config-form-field
+        class="subset-size required"
+        [field]="datasetSubsetFormField"
+        [group]="calibrationForm"
+        [class.disabled]="calibrationForm.get(datasetSubsetFormField.name).disabled"
+      ></wb-config-form-field>
+    </div>
+
+    <div class="wb-panel">
+      <h2 class="wb-h4">Optimization Methods</h2>
+
+      <mat-radio-group formControlName="optimization" class="wb-radio-group controls">
+        <div class="control" *ngFor="let calibrationType of calibrationTypes">
+          <ng-container *ngIf="calibrationOptions[calibrationType] as option">
+            <mat-radio-button
+              [id]="calibrationType"
+              [disabled]="option.disabled"
+              [value]="calibrationType"
+              disableRipple
+            >
+              <wb-markdown-text
+                [ngClass]="calibrationType === calibrationForm.value.optimization ? 'wb-body-3' : 'wb-body-4'"
+                [text]="option.label"
+              ></wb-markdown-text>
+            </mat-radio-button>
+            <wb-markdown-text class="description" [text]="option.hint"></wb-markdown-text>
+
+            <ng-container *ngIf="calibrationType === OptimizationAlgorithm.ACCURACY_AWARE">
+              <wb-info-hint
+                *ngIf="option.disabled"
+                [message]="calibrationTips.disabledAccuracyOptimization"
+              ></wb-info-hint>
+
+              <wb-config-form-field
+                *ngIf="calibrationForm.value.optimization === OptimizationAlgorithm.ACCURACY_AWARE"
+                [field]="accuracyLossField"
+                [group]="calibrationForm"
+                [class.disabled]="calibrationForm.get(accuracyLossField.name).disabled"
+                class="required"
+              ></wb-config-form-field>
+            </ng-container>
+          </ng-container>
+        </div>
+      </mat-radio-group>
+    </div>
+
+    <div class="wb-panel">
+      <h2 class="wb-h4">Calibration Schemes</h2>
+
+      <mat-radio-group formControlName="preset" class="wb-radio-group controls">
+        <div class="control" *ngFor="let preset of algorithmPresets">
+          <mat-radio-button [attr.data-test-id]="preset.value" [id]="preset.label" [value]="preset.value" disableRipple>
+            <wb-markdown-text
+              [ngClass]="calibrationForm.value.preset === preset.value ? 'wb-body-3' : 'wb-body-4'"
+              [text]="preset.label"
+            ></wb-markdown-text>
+          </mat-radio-button>
+          <wb-markdown-text
+            class="description"
+            [attr.data-test-id]="preset.value + '-text'"
+            [text]="preset.hint"
+          ></wb-markdown-text>
+        </div>
+      </mat-radio-group>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #calibrationHints>
+  <wb-tip
+    class="tip-paragraph"
+    data-test-id="set-inference-time"
+    (click)="setInferenceTime()"
+    [tipMessage]="{
+      header: 'Calibration Dataset Tip',
+      content: [calibrationTips.time]
+    }"
+  >
+  </wb-tip>
+
+  <wb-expansion-tip title="Calibration Method: Default" [text]="calibrationTips.maxPerformance"></wb-expansion-tip>
+
+  <wb-expansion-tip title="Calibration Method: AccuracyAware" [text]="calibrationTips.maxAccuracy"></wb-expansion-tip>
+
+  <wb-expansion-tip title="Calibration Scheme: Performance Preset" [text]="calibrationTips.algorithmPresetPerformance">
+  </wb-expansion-tip>
+
+  <wb-expansion-tip title="Calibration Scheme: Mixed Preset" [text]="calibrationTips.algorithmPresetMixed">
+  </wb-expansion-tip>
+</ng-template>
+
+<ng-template #actions>
+  <div class="footer">
+    <div class="footer-actions">
+      <div *ngIf="isAccuracyConfigRequired">
+        <wb-button
+          testId="configure-accuracy"
+          type="primary"
+          text="Configure Accuracy"
+          (handleClick)="configureAccuracy()"
+        >
+        </wb-button>
+
+        <wb-info-hint type="warning" [message]="calibrationTips.configureAccuracy"></wb-info-hint>
+      </div>
+
+      <div>
+        <wb-button
+          class="enlarged-control"
+          testId="calibrate-btn"
+          type="primary"
+          text="Optimize"
+          [pending]="isCalibrationStarted"
+          [disabled]="isOptimizationDisabled || (isTaskRunning$ | async) || !calibrationForm.valid"
+          (handleClick)="calibrate()"
+        >
+        </wb-button>
+
+        <wb-info-hint *ngIf="isAccuracyConfigRequired" [message]="calibrationTips.disabledOptimization"></wb-info-hint>
+
+        <wb-info-hint type="warning" *ngIf="isDatasetIncompatible" [message]="incompatibleDatasetHint"></wb-info-hint>
+
+        <wb-info-hint
+          type="warning"
+          *ngIf="isNotAnnotatedDatasetOptimizationDisabled"
+          [message]="calibrationTips.naDatasetOptimizationDisabled"
+        ></wb-info-hint>
+
+        <wb-info-hint
+          type="warning"
+          *ngIf="isMultiInputNaDatasetOptimizationDisabled"
+          [message]="calibrationTips.multiInputNaDatasetOptimizationDisabled"
+        ></wb-info-hint>
+
+        <wb-info-hint *ngIf="isTaskRunning$ | async" [message]="taskIsRunningMsg"></wb-info-hint>
+
+        <wb-info-hint
+          type="warning"
+          [message]="message"
+          *ngIf="sessionService.startProcessWarningMessage$ | async as message"
+        ></wb-info-hint>
+      </div>
+
+      <wb-button class="enlarged-control" type="default" text="Cancel" (handleClick)="goToProject()"></wb-button>
+    </div>
+  </div>
+</ng-template>

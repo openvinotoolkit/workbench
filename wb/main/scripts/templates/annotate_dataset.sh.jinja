@@ -1,0 +1,13 @@
+sed -i 's@$JOB_BUNDLE_PATH@'"$JOB_BUNDLE_PATH"'@g' ${JOB_BUNDLE_PATH}/{{CONFIG_PATH_IN_ACCURACY_BUNDLE}}
+
+
+echo -n "[RUN COMMAND] "
+
+set -x
+
+python3 \
+    {{DATASET_ANNOTATOR_PATH_IN_BUNDLE}} \
+    --accuracy-config ${JOB_BUNDLE_PATH}/{{CONFIG_PATH_IN_ACCURACY_BUNDLE}} \
+    --model-type {{MODEL_TYPE}} \
+    --images-dir {{IMAGES_DIR}} \
+    --output-dir {{OUTPUT_DIR}}

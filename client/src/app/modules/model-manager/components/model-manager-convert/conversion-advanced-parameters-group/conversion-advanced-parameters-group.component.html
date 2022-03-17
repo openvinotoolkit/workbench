@@ -1,0 +1,32 @@
+<ng-container *ngIf="model" [formGroup]="group">
+  <wb-config-form-field
+    class="hint-first enlarged-control use-outputs"
+    data-test-id="overrideOutputs"
+    [field]="useOutputs"
+    [group]="utilGroup"
+  ></wb-config-form-field>
+
+  <ng-container *ngIf="useOutputsControl.value">
+    <div [formArrayName]="outputLayers" class="output-list" data-test-id="output-list">
+      <wb-input-output-layer-control
+        *ngFor="let outputControl of outputLayersFormArray.controls; index as controlIndex"
+        class="layer"
+        layerType="output"
+        [formControlName]="controlIndex"
+        [controlIndex]="controlIndex"
+        [controlsCount]="outputLayersFormArray.length"
+        [attr.data-test-id]="'output-shape-form-' + controlIndex"
+        (removeInput)="removeOutputLayerControl($event)"
+      ></wb-input-output-layer-control>
+    </div>
+    <wb-button
+      class="add-button enlarged-control"
+      data-test-id="add-output-layer"
+      type="secondary"
+      text="Add Output"
+      icon="add"
+      (click)="addOutputLayerControl()"
+    >
+    </wb-button>
+  </ng-container>
+</ng-container>

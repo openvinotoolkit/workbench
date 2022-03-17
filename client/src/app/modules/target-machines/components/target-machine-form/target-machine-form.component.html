@@ -1,0 +1,98 @@
+<div class="remote-target-container">
+  <ng-container *ngIf="isEditMode && isMachineConfigured">
+    <ng-content select="failedPipelineStages"></ng-content>
+  </ng-container>
+  <div class="remote-target">
+    <div class="remote-target-content">
+      <ng-container [ngTemplateOutlet]="targetMachineFormTemplate"></ng-container>
+      <ng-container [ngTemplateOutlet]="pageActionsTemplate"></ng-container>
+    </div>
+    <div class="remote-target-tip">
+      <div class="remote-target-tip-content">
+        <wb-tip
+          [tipMessage]="{
+            header: 'Remote Machine Tip',
+            content: [remoteProfileTip]
+          }"
+        >
+        </wb-tip>
+      </div>
+      <wb-markdown-text class="wb-text-8" [text]="feedbackDescription"></wb-markdown-text>
+    </div>
+  </div>
+</div>
+
+<ng-template #targetMachineFormTemplate>
+  <div class="remote-target-content-form">
+    <ng-container *ngFor="let field of requiredTargetMachineFields">
+      <wb-config-form-field [field]="field" [group]="targetMachineForm"></wb-config-form-field>
+    </ng-container>
+    <wb-file-upload-field
+      #privateKeyFileUploadField
+      [label]="sshFileField.label"
+      [tooltip]="sshFileField.tooltip"
+      [maxFileSizeMb]="sshFileField.maxFileSize"
+      (fileSelected)="handleSelectSSHPrivateKeyFile($event)"
+    >
+    </wb-file-upload-field>
+
+    <wb-config-form-field [field]="useProxyField" [group]="proxyUtilsFormGroup"></wb-config-form-field>
+
+    <div class="proxy-settings" *ngIf="useProxyControl.value">
+      <wb-config-form-field [field]="useHttpProxyField" [group]="proxyUtilsFormGroup"></wb-config-form-field>
+
+      <div class="proxy-settings-fields" *ngIf="useHttpProxyControl.value">
+        <!-- Proxy common control -->
+        <ng-container *ngFor="let field of proxyCommonFields">
+          <wb-config-form-field [field]="field" [group]="httpProxyForm" idSuffix="http"></wb-config-form-field>
+        </ng-container>
+        <!-- Is proxy requires credentials control -->
+        <wb-config-form-field
+          [field]="useHttpProxyCredentialsField"
+          [group]="proxyUtilsFormGroup"
+        ></wb-config-form-field>
+        <!-- Show proxy credentials controls -->
+        <ng-container *ngIf="useHttpProxyCredentialsControl.value">
+          <ng-container *ngFor="let field of proxyCredentialsFields">
+            <wb-config-form-field [field]="field" [group]="httpProxyForm" idSuffix="https"></wb-config-form-field>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+    <div class="proxy-settings" *ngIf="useProxyControl.value">
+      <wb-config-form-field [field]="useHttpsProxyField" [group]="proxyUtilsFormGroup"></wb-config-form-field>
+
+      <div class="proxy-settings-fields" *ngIf="useHttpsProxyControl.value">
+        <!-- Proxy common control -->
+        <ng-container *ngFor="let field of proxyCommonFields">
+          <wb-config-form-field [field]="field" [group]="httpsProxyForm" idSuffix="https"></wb-config-form-field>
+        </ng-container>
+        <!-- Is proxy requires credentials control -->
+        <wb-config-form-field
+          [field]="useHttpsProxyCredentialsField"
+          [group]="proxyUtilsFormGroup"
+        ></wb-config-form-field>
+        <!-- Show proxy credentials controls -->
+        <ng-container *ngIf="useHttpsProxyCredentialsControl.value">
+          <ng-container *ngFor="let field of proxyCredentialsFields">
+            <wb-config-form-field [field]="field" [group]="httpsProxyForm" idSuffix="https"></wb-config-form-field>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #pageActionsTemplate>
+  <div class="page-actions">
+    <wb-button
+      class="enlarged-control"
+      type="primary"
+      text="Save Target"
+      testId="save-target"
+      [disabled]="targetMachineForm.invalid"
+      (handleClick)="saveTargetMachine()"
+    ></wb-button>
+    <wb-button class="enlarged-control" text="Cancel" testId="cancel" (handleClick)="cancel.emit()"></wb-button>
+  </div>
+</ng-template>

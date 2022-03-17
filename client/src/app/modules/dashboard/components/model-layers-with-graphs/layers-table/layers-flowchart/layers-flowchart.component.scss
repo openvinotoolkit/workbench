@@ -1,0 +1,26 @@
+@import 'variables';
+
+:host {
+  display: flex;
+  padding: 10px;
+}
+
+.layer-box {
+  height: 100%;
+  width: 100%;
+  background-color: $white;
+  border: 2px solid black;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .layer-name {
+    min-width: 0;
+    margin: 0 10px;
+    color: $blue-blue;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

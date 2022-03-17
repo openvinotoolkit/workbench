@@ -1,0 +1,132 @@
+@import 'fonts';
+@import 'colors';
+@import 'variables';
+
+.config-form-field {
+  display: flex;
+  align-items: baseline;
+  &-checkbox,
+  &-radio {
+    margin-bottom: $field-error-message-height;
+  }
+
+  .field-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 10px;
+
+    wb-help-tooltip {
+      margin-left: 5px;
+    }
+  }
+
+  .field-container {
+    display: flex;
+    flex-direction: column;
+
+    .error-message {
+      position: relative;
+      top: -18px;
+      margin: 0;
+      color: $deep-red;
+    }
+  }
+}
+
+.rgb-fields-group {
+  display: flex;
+  flex-direction: row;
+
+  mat-form-field {
+    max-width: 150px;
+
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+
+    ::ng-deep .mat-form-field-prefix {
+      top: 0;
+    }
+  }
+}
+
+:host.hint-first {
+  .field .config-form-field-radio {
+    margin-bottom: 5px;
+  }
+
+  .config-form-field-checkbox {
+    margin-bottom: 13px;
+  }
+
+  .mat-form-field-wrapper {
+    max-width: 300px;
+    padding-bottom: 0;
+  }
+
+  .config-form-field {
+    align-items: center;
+
+    .field-label {
+      position: relative;
+      @include wb-subtitle-1();
+      wb-help-tooltip {
+        order: -1;
+        margin: 0 10px 0 0;
+      }
+    }
+
+    .field-container .field-container.wb-radio-group {
+      flex-direction: row;
+      align-items: center;
+      height: 20px;
+
+      .mat-radio-button:not(:last-child) {
+        margin: 0 15px 0 0;
+      }
+    }
+
+    .error-message {
+      top: 0;
+    }
+  }
+
+  .group .field-label {
+    min-width: 100px;
+  }
+}
+
+:host.enlarged-control {
+  $toggle-input-size: 18px;
+
+  .config-form-field-radio ::ng-deep {
+    .mat-radio-label-content {
+      @include wb-subtitle-1();
+    }
+    .mat-radio-container,
+    .mat-radio-inner-circle,
+    .mat-radio-outer-circle {
+      width: $toggle-input-size;
+      height: $toggle-input-size;
+    }
+  }
+
+  ::ng-deep {
+    .mat-checkbox-inner-container {
+      width: $toggle-input-size;
+      height: $toggle-input-size;
+    }
+
+    wb-help-tooltip mat-icon {
+      $size: 22px;
+
+      width: $size;
+      height: $size;
+    }
+
+    .field-label {
+      @include wb-subtitle-1();
+    }
+  }
+}

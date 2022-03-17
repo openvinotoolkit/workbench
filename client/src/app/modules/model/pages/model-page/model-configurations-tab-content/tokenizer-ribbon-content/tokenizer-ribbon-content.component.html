@@ -1,0 +1,48 @@
+<div class="ribbon-content">
+  <div class="wb-panel table-content" *ngIf="model$ | async as model">
+    <div class="wb-panel__header">
+      <h4 class="wb-panel__title">Select Tokenizer</h4>
+      <wb-button
+        *ngIf="showTable$ | async"
+        class="enlarged-control"
+        testId="import-tokenizer"
+        type="secondary"
+        text="Import Tokenizer"
+        [routerLink]="['/models', model.id, 'tokenizer', 'import']"
+      >
+      </wb-button>
+    </div>
+
+    <div [hidden]="!(showTable$ | async)">
+      <div class="selected-tokenizer">
+        <div class="property" *ngIf="!(selectedTokenizer$ | async)">Selected Tokenizer: Not Selected</div>
+        <ng-container *ngIf="selectedTokenizer$ | async as tokenizer">
+          <div class="property">Selected Tokenizer: {{ tokenizer.name }}</div>
+          <div class="property">Creation Time: {{ tokenizer?.date | date: 'dd/MM/yy, hh:mm' }}</div>
+          <div class="property">Type: {{ TOKENIZER_TYPE_NAME[tokenizer.type] }}</div>
+          <div class="property">Vocab Size: {{ tokenizer.vocabSize }}</div>
+        </ng-container>
+      </div>
+
+      <wb-tokenizers-table [modelId]="model.id"></wb-tokenizers-table>
+    </div>
+
+    <wb-spinner *ngIf="showSpinner$ | async"></wb-spinner>
+
+    <div *ngIf="showFullWidthImportMessage$ | async" class="import-tokenizer">
+      <wb-button
+        class="enlarged-control"
+        testId="import-tokenizer"
+        type="secondary"
+        text="Import Tokenizer"
+        [routerLink]="['/models', model.id, 'tokenizer', 'import']"
+      >
+      </wb-button>
+      <div class="empty-tip">{{ emptyTip }}</div>
+    </div>
+  </div>
+
+  <div class="wb-panel tip">
+    <wb-tip [tipMessage]="tokenizerTip"></wb-tip>
+  </div>
+</div>

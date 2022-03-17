@@ -1,0 +1,150 @@
+<div class="network-output" data-test-id="network-output-container">
+  <div class="input-panel wb-panel">
+    <div class="wb-panel__header">
+      <h4 class="wb-panel__title">{{ accuracyReportMode ? 'Selected Image' : 'Input Image' }}</h4>
+      <ng-container *ngIf="!accuracyReportMode">
+        <div class="wb-chip">{{ taskTypeToNameMap[taskType] }}</div>
+
+        <wb-button
+          class="enlarged-control"
+          testId="select-image"
+          type="secondary"
+          text="Select Image"
+          [disabled]="(infering$ | async) || disabled"
+          (handleClick)="fileInput.click()"
+        >
+        </wb-button>
+        <input
+          type="file"
+          [accept]="ACCEPTED_MIME_TYPES"
+          hidden
+          #fileInput
+          (change)="onFileChange($event.target.files[0])"
+        />
+      </ng-container>
+    </div>
+
+    <wb-info-hint *ngIf="!accuracyReportMode" [message]="hints.selectImage"></wb-info-hint>
+
+    <div #controlsDivElement>
+      <wb-original-image-controls
+        *ngIf="!accuracyReportMode"
+        [parentModelVisualizationAvailable]="parentModelVisualizationAvailable"
+        [disabled]="(infering$ | async) || disabled"
+        [imageSelected]="!!imageFile"
+        [taskType]="taskType"
+        [acceptedMimeTypes]="ACCEPTED_MIME_TYPES"
+        (test)="emitTest($event)"
+        (file)="onFileChange($event)"
+      ></wb-original-image-controls>
+
+      <div class="reference-panel" *ngIf="accuracyReportMode">
+        <div class="wb-panel wb-subtitle-1">
+          <span class="attr">Image name: {{ imageFile?.name }}</span>
+        </div>
+      </div>
+    </div>
+
+    <wb-image-selector
+      *ngIf="!imageFile"
+      [acceptExtensions]="ACCEPTED_MIME_TYPES"
+      [typeError]="fileTypeError"
+      [disabled]="disabled"
+      (fileChange)="onFileChange($event)"
+    >
+    </wb-image-selector>
+
+    <wb-image-renderer
+      *ngIf="imageFile"
+      [drawMode]="getDrawMode()"
+      [image]="imageFile"
+      [predictions]="renderer1Predictions"
+      (wbDropArea)="onFileChange($event[0])"
+      [disabled]="infering$ | async"
+    >
+    </wb-image-renderer>
+
+    <ng-container
+      *ngIf="
+        ['parent_model_predictions', 'dataset_annotations'].includes(mode) &&
+        [modelTaskTypes.INSTANCE_SEGMENTATION, modelTaskTypes.SEMANTIC_SEGMENTATION].includes(taskType)
+      "
+    >
+      <div class="explanation-mask-header">
+        <div class="wb-chip">{{ titles.reference }}</div>
+      </div>
+
+      <wb-image-renderer
+        *ngIf="imageFile"
+        [drawMode]="getDrawMode()"
+        [image]="imageFile"
+        [predictions]="renderer2Predictions"
+        wbScrollIntoView
+      >
+      </wb-image-renderer>
+    </ng-container>
+
+    <ng-container *ngIf="(imagePredictions$ | async)?.predictions[0]?.explanation_mask">
+      <div class="explanation-mask-header">
+        <div class="wb-chip">Importance Map</div>
+      </div>
+
+      <wb-image-renderer
+        wbScrollIntoView
+        [drawMode]="imageRendererDrawMode.EXPLANATION"
+        [image]="imageFile"
+        [predictions]="renderer1Predictions"
+      >
+      </wb-image-renderer>
+    </ng-container>
+
+    <wb-info-hint *ngIf="disabled" [message]="hints.visualizationIsNotAvailable" type="warning"></wb-info-hint>
+  </div>
+  <div class="output-panel wb-panel">
+    <div class="wb-panel__header">
+      <h4 class="wb-panel__title">Model Output</h4>
+    </div>
+
+    <wb-info-hint
+      *ngIf="!accuracyReportMode"
+      [message]="TASK_TYPE_TO_PREDICTION_HINT[taskType] || hints.detectionPredictions"
+    >
+    </wb-info-hint>
+
+    <div
+      *ngIf="taskType !== modelTaskTypes.INSTANCE_SEGMENTATION && taskType !== modelTaskTypes.OBJECT_DETECTION"
+      [style.height.px]="controlsDivElement.offsetHeight"
+    ></div>
+
+    <ng-container *ngIf="imagePredictions$ | async as predictions">
+      <wb-inference-results
+        [mode]="mode"
+        [modelTask]="taskType"
+        [predictions]="predictions.predictions"
+        [refPredictions]="predictions.refPredictions"
+        [accuracyReportMode]="accuracyReportMode"
+        (selectedPredictionsChange)="onSelectedPredictionsChange($event)"
+      >
+      </wb-inference-results>
+
+      <wb-explainable-ai-description *ngIf="predictions.predictions[0]?.explanation_mask">
+      </wb-explainable-ai-description>
+    </ng-container>
+
+    <wb-visualization-progress
+      *ngIf="infering$ | async"
+      [pipeline]="pipeline$ | async"
+      [explain]="mode === 'explain'"
+      (cancel)="cancel()"
+    >
+    </wb-visualization-progress>
+
+    <wb-message-box
+      *ngIf="error$ | async as error"
+      messageType="error"
+      [message]="visualizationError"
+      [detailedMessage]="error"
+    >
+    </wb-message-box>
+  </div>
+</div>

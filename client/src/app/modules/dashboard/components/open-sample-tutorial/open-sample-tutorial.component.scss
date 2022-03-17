@@ -1,0 +1,86 @@
+@import 'colors';
+@import 'fonts';
+
+:host {
+  display: flex;
+  flex-direction: column;
+
+  .sample-types {
+    display: flex;
+
+    .type {
+      display: flex;
+      flex-direction: column;
+      flex: 1 0 calc(100% / 3);
+      box-sizing: border-box;
+    }
+
+    .type + .type {
+      padding-left: 40px;
+    }
+
+    .label {
+      @include wb-subtitle-1();
+      display: flex;
+      align-items: center;
+    }
+
+    .description,
+    .warning {
+      margin-left: 24px;
+    }
+
+    .description {
+      @include wb-label();
+      line-height: 20px;
+      display: block;
+      color: $brownish-grey;
+    }
+  }
+
+  .subheader {
+    margin: 45px 0 0;
+    width: fit-content;
+  }
+
+  .description {
+    white-space: pre-wrap;
+    color: $brownish-grey;
+    line-height: 22px;
+  }
+
+  .project-paths-container {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+
+    .project-path {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      &:not(:first-child) {
+        margin-top: 25px;
+      }
+
+      wb-parameter-details {
+        ::ng-deep .name {
+          flex-shrink: 0;
+        }
+
+        ::ng-deep wb-text-overflow {
+          max-width: 500px;
+        }
+      }
+
+      .copy-button {
+        margin-left: 20px;
+      }
+    }
+  }
+
+  .controls-row,
+  .hint-row {
+    margin-top: 20px;
+  }
+}

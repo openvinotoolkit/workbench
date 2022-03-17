@@ -1,0 +1,95 @@
+<ng-container [ngTemplateOutlet]="navigation"></ng-container>
+<div class="active-projects">
+  <div class="wb-page-header">
+    <div class="wb-page-header__row">
+      <h1 class="wb-h1 wb-page-header__title" data-test-id="available-models-table-title">Start Page</h1>
+    </div>
+  </div>
+  <div class="hero">
+    <img src="assets/svg/wb-stages.svg" alt="DL Workbench Capabilities" data-test-id="capabilities-image" />
+    <div class="annotations" [class.detailed]="!(modelItems$ | async).length">
+      <div class="annotation">
+        <h2 class="wb-h4">Analyze</h2>
+        <p class="wb-text-8">Use a dashboard that makes performance evaluation and model tuning much easier</p>
+      </div>
+      <div class="annotation">
+        <h2 class="wb-h4">Optimize</h2>
+        <p class="wb-text-8">Accelerate the performance using different methods suitable for your model</p>
+      </div>
+      <div class="annotation">
+        <h2 class="wb-h4">Deploy</h2>
+        <p class="wb-text-8">Create a deployment runtime package for your target device</p>
+      </div>
+      <div class="annotation">
+        <h2 class="wb-h4">Learn OpenVINO&trade;</h2>
+        <p class="wb-text-8">
+          Get familiar with the OpenVINO&trade; ecosystem and learn how to use its command-line interface (CLI) and API
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="wb-container">
+    <div class="wb-row">
+      <div class="wb-col-6">
+        <div class="wb-panel">
+          <wb-markdown-text class="wb-label info" [text]="createProjectHint"></wb-markdown-text>
+
+          <wb-button
+            class="enlarged-control btn"
+            type="primary"
+            text="Create Project"
+            (handleClick)="goToCreateProject()"
+            testId="create-new-project"
+          ></wb-button>
+        </div>
+      </div>
+      <div class="wb-col-6">
+        <div class="wb-panel">
+          <wb-markdown-text class="wb-label info" [text]="exploreOmzHint"></wb-markdown-text>
+
+          <wb-button
+            class="enlarged-control btn"
+            type="secondary"
+            text="Explore 100+ OMZ Models"
+            (handleClick)="goToImportModel()"
+          ></wb-button>
+        </div>
+      </div>
+    </div>
+
+    <wb-panel *ngIf="(modelItems$ | async)?.length" class="model-panel" data-test-id="available-models-block">
+      <header wb-heading>
+        <h2 class="title wb-h4">Available Models</h2>
+        <div class="tag">Total Models: {{ (modelItems$ | async).length }}</div>
+        <div class="display-type">
+          <a (click)="displayType = 'grid'" class="type-btn" [class.selected]="displayType === 'grid'"
+            ><mat-icon svgIcon="grid"></mat-icon
+          ></a>
+          <a (click)="displayType = 'list'" class="type-btn" [class.selected]="displayType === 'list'"
+            ><mat-icon svgIcon="list"></mat-icon
+          ></a>
+        </div>
+      </header>
+      <div wb-content>
+        <wb-available-models-table
+          *ngIf="displayType === 'list'"
+          [models]="modelItems$ | async"
+          (openModel)="handleOpenModel($event)"
+        ></wb-available-models-table>
+
+        <div *ngIf="displayType === 'grid'" class="cards">
+          <wb-model-card
+            *ngFor="let model of modelItems$ | async"
+            [model]="model"
+            (openModel)="handleOpenModel($event)"
+          ></wb-model-card>
+        </div>
+      </div>
+    </wb-panel>
+  </div>
+</div>
+
+<ng-template #navigation>
+  <wb-navigation-bar isHomePage="true"></wb-navigation-bar>
+</ng-template>

@@ -1,0 +1,13 @@
+.text-overflow {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &.nowrap {
+    white-space: nowrap;
+  }
+
+  &.sup {
+    overflow: visible;
+  }
+}

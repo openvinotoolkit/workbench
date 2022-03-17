@@ -1,0 +1,23 @@
+<div class="progress-container">
+  <div class="wb-h2">{{ title }}</div>
+
+  <div class="progress">
+    <wb-spinner></wb-spinner>
+    <div data-test-id="progress" class="progress-percent" *ngIf="pipeline?.status.progress && !cancelled">
+      {{ pipeline?.status.progress | number: '1.0-0' }} %
+    </div>
+  </div>
+
+  <div class="footer" *ngIf="cancellable">
+    <wb-button
+      class="btn cancel-button"
+      type="secondary"
+      text="Cancel"
+      [disabled]="cancelled || !pipeline"
+      (handleClick)="cancel.emit(); cancelled = true"
+      testId="cancel-button"
+    ></wb-button>
+
+    <div>{{ message }}</div>
+  </div>
+</div>

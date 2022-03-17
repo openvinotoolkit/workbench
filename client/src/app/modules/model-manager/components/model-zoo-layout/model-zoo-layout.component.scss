@@ -1,0 +1,16 @@
+@import 'variables';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  margin: -$container-padding;
+  height: 620px;
+
+  ::ng-deep wb-model-zoo-content,
+  ::ng-deep wb-model-zoo-details {
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+}

@@ -1,0 +1,78 @@
+@import 'fonts';
+@import 'colors';
+@import 'variables';
+
+$toggle-icon-size: 24px;
+$adviser-block-width: 600px;
+$message-head-min-width: 120px;
+$message-head-max-width: 125px;
+
+.advising {
+  padding-top: 20px;
+
+  &-block {
+    display: flex;
+    max-width: $adviser-block-width;
+    @include wb-text-8();
+    &:not(:first-child) {
+      margin-top: 20px;
+    }
+
+    ::ng-deep wb-markdown-text {
+      margin-left: 5px;
+      white-space: pre-wrap;
+      display: block;
+    }
+    &-title {
+      @include wb-body-2();
+      min-width: $message-head-min-width;
+      max-width: $message-head-max-width;
+    }
+  }
+}
+
+.advice-panel {
+  background-color: $faded-bgr;
+  border: 1px solid $very-light-pink;
+  margin-top: 20px;
+}
+
+.mat-expansion-panel-header {
+  border-bottom: inherit;
+  border-radius: 0;
+}
+
+mat-panel-title {
+  display: flex;
+  align-self: center;
+  align-items: center;
+
+  .panel-title {
+    display: flex;
+    align-self: center;
+    align-items: center;
+    pointer-events: auto;
+    cursor: pointer;
+    min-width: fit-content;
+
+    .warning-icon {
+      $warning-icon-size: 18px;
+      color: $blue-blue;
+      font-size: $warning-icon-size;
+      width: $warning-icon-size;
+      height: $warning-icon-size;
+    }
+
+    .header-toggle-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: $toggle-icon-size;
+      height: $toggle-icon-size;
+    }
+
+    *:not(:first-child) {
+      margin-left: 10px;
+    }
+  }
+}

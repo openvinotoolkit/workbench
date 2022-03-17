@@ -1,0 +1,17 @@
+<div
+  class="prediction-badge"
+  *ngIf="prediction"
+  [ngStyle]="active && prediction.colors.activeStyles"
+  [class.active]="active"
+>
+  <div
+    class="label"
+    data-test-id="prediction-label"
+    [title]="labelSet.labels[prediction.category_id] || '#' + prediction.category_id"
+  >
+    Class: {{ labelSet.labels[prediction.category_id] || '#' + prediction.category_id }}
+  </div>
+  <div *ngIf="isNumber(prediction.score)" data-test-id="prediction-confidence">
+    Confidence: {{ prediction.score | cutNumber: 4 }}
+  </div>
+</div>

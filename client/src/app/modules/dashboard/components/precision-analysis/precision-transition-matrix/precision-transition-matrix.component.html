@@ -1,0 +1,26 @@
+<div class="precision-transition-matrix-container">
+  <table *ngIf="precisionTransitions" data-test-id="precision-transition-matrix">
+    <tr>
+      <th class="top-left-label"></th>
+      <th class="label" *ngFor="let columnLabel of precisions" [attr.data-test-id]="'column_' + columnLabel">
+        {{ columnLabel }}
+      </th>
+    </tr>
+    <tr *ngFor="let rowLabel of precisions">
+      <td class="label" [attr.data-test-id]="'row_' + rowLabel">
+        {{ rowLabel }}
+      </td>
+
+      <ng-container *ngFor="let columnLabel of precisions">
+        <td *ngIf="columnLabel !== rowLabel; else emptyCell" [attr.data-test-id]="columnLabel + '_to_' + rowLabel">
+          {{ precisionTransitions[columnLabel][rowLabel] }}
+        </td>
+      </ng-container>
+    </tr>
+  </table>
+  <wb-tip [tipMessage]="{ header: 'Precision Transition Matrix Tip', content: [transitionMatrixTip] }"> </wb-tip>
+</div>
+
+<ng-template #emptyCell>
+  <td class="empty-cell">&nbsp;</td>
+</ng-template>

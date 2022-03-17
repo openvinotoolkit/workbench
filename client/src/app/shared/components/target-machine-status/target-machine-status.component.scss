@@ -1,0 +1,42 @@
+@import 'colors';
+
+$status-colors: (
+  available: $green,
+  configuration_failure: $deep-red,
+  connection_failure: $deep-red,
+  not_configured: $deep-red,
+  configuring: $blue-blue,
+  connecting: $blue-blue,
+);
+
+:host {
+  @each $status, $color in $status-colors {
+    .remote-target-status-#{$status} {
+      color: $color;
+    }
+  }
+
+  $icon-size: 16px;
+
+  ::ng-deep mat-icon {
+    width: $icon-size;
+    height: $icon-size;
+    font-size: $icon-size;
+  }
+
+  .remote-target-status-configuring,
+  .remote-target-status-connecting {
+    ::ng-deep mat-icon {
+      animation: rotation 2s infinite linear;
+
+      @keyframes rotation {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(359deg);
+        }
+      }
+    }
+  }
+}

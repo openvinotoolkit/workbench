@@ -1,0 +1,95 @@
+<div class="per-layer-distribution">
+  <table
+    mat-table
+    class="wb-table wb-table-on-gray per-layer-distribution-table"
+    data-test-id="per-layer-distribution-table"
+    matSort
+    [matSortActive]="sortedColumn.active"
+    [matSortDirection]="sortedColumn.direction"
+    [dataSource]="dataSource"
+    (matSortChange)="sortedColumn = $event"
+  >
+    <ng-container matColumnDef="layerType">
+      <th mat-header-cell *matHeaderCellDef><div class="sort-header-height-aligner">Layer Type</div></th>
+      <td mat-cell *matCellDef="let element" data-test-id="layerType">
+        <wb-text-overflow [content]="element.layerType"></wb-text-overflow>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="total">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <div class="sort-header-height-aligner">
+          Execution Time, %
+          <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: 'total' }"></ng-container>
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let element" data-test-id="percentage">
+        {{ element.total.toFixed(2) }}
+      </td>
+    </ng-container>
+
+    <ng-container [matColumnDef]="modelPrecisions.FP32">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <wb-help-tooltip [tooltipMessage]="precisionColumnTips.FP32"></wb-help-tooltip>
+        {{ modelPrecisions.FP32 }}
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: modelPrecisions.FP32 }"></ng-container>
+      </th>
+      <td mat-cell *matCellDef="let element" [attr.data-test-id]="element.layerType + '_FP32-layer-count'">
+        {{ element.runtimePrecisions ? element.runtimePrecisions[modelPrecisions.FP32] || 0 : notAvailableLabel }}
+      </td>
+    </ng-container>
+
+    <ng-container [matColumnDef]="modelPrecisions.FP16">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <wb-help-tooltip [tooltipMessage]="precisionColumnTips.FP16"></wb-help-tooltip>
+        {{ modelPrecisions.FP16 }}
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: modelPrecisions.FP16 }"></ng-container>
+      </th>
+      <td mat-cell *matCellDef="let element" [attr.data-test-id]="element.layerType + '_FP16-layer-count'">
+        {{ element.runtimePrecisions ? element.runtimePrecisions[modelPrecisions.FP16] || 0 : notAvailableLabel }}
+      </td>
+    </ng-container>
+
+    <ng-container [matColumnDef]="modelPrecisions.I8">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <wb-help-tooltip [tooltipMessage]="precisionColumnTips.INT8"></wb-help-tooltip>
+        {{ modelPrecisions.I8 + '/' + modelPrecisions.U8 }}
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: modelPrecisions.I8 }"></ng-container>
+      </th>
+      <td mat-cell *matCellDef="let element" [attr.data-test-id]="element.layerType + '_INT8-layer-count'">
+        {{ element.runtimePrecisions ? element.runtimePrecisions[modelPrecisions.I8] || 0 : notAvailableLabel }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="bar">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element" class="ratio-bar">
+        <wb-ratio-bar
+          *ngIf="element.isDisplayed"
+          [normalizeTo]="maxScore"
+          [percent]="element.total"
+          [baseHue]="getColorForLayer(element.layerType)"
+        ></wb-ratio-bar>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="isDisplayed">
+      <th mat-header-cell *matHeaderCellDef>
+        <div class="sort-header-height-aligner">Include to Distribution Chart</div>
+      </th>
+      <td mat-cell *matCellDef="let element" class="display-cell">
+        <mat-checkbox [checked]="element.isDisplayed" (change)="element.isDisplayed = $event.checked"></mat-checkbox>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" data-test-id="layer-info-row"></tr>
+  </table>
+</div>
+
+<ng-template #sortIcon let-columnName="columnName">
+  <ng-container *ngIf="dataSource.data?.length">
+    <wb-table-sort-icon [columnName]="columnName" [sortedColumn]="sortedColumn"></wb-table-sort-icon>
+  </ng-container>
+</ng-template>

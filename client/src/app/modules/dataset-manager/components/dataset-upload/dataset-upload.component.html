@@ -1,0 +1,120 @@
+<div class="upload-dataset">
+  <ng-container [ngTemplateOutlet]="uploadDatasetFormTemplate"></ng-container>
+  <ng-container [ngTemplateOutlet]="uploadDatasetTipsTemplate"></ng-container>
+</div>
+
+<div class="upload-buttons">
+  <wb-button
+    class="enlarged-control"
+    testId="import-button"
+    type="primary"
+    text="Import"
+    [pending]="isUploadingStarted"
+    [disabled]="!uploadDatasetForm.valid || !uploadingFile"
+    (handleClick)="importFile()"
+  >
+  </wb-button>
+  <wb-button
+    class="enlarged-control"
+    text="Cancel"
+    testId="cancel-button"
+    (handleClick)="navigateBack.emit()"
+  ></wb-button>
+</div>
+
+<ng-template #uploadDatasetFormTemplate>
+  <div id="import-file-page" class="selection">
+    <div class="uploader-tooltip">
+      <mat-icon class="icon" svgIcon="error_outline"></mat-icon>
+      <span class="wb-label tooltip-txt">
+        Import a dataset in one of the supported formats:
+        <a [matTooltip]="tooltips.imagenetFormatTooltip">ImageNet</a>,
+        <a [matTooltip]="tooltips.pascalFormatTooltip">Pascal VOC</a>,
+        <a [matTooltip]="tooltips.msCocoFormatTooltip">COCO</a>,
+        <a [matTooltip]="tooltips.cssTooltip">Common Semantic Segmentation</a>,
+        <a [matTooltip]="tooltips.csrTooltip">Common Super-resolution</a>,
+        <a [matTooltip]="tooltips.lfwTooltip">LFW</a>, <a [matTooltip]="tooltips.vggTooltip">VGGFaces2</a>,
+        <a [matTooltip]="tooltips.widerTooltip">WIDER FACE</a>,
+        <a [matTooltip]="tooltips.openImagesTooltip">Open Images</a>,
+        <a [matTooltip]="tooltips.cityscapesTooltip">Cityscapes</a>, or
+        <a [matTooltip]="tooltips.unAnnotatedTooltip">Not Annotated</a>.
+      </span>
+    </div>
+    <div class="uploader-body">
+      <div class="model-input uploader-row wb-label">
+        <wb-file-upload-field
+          class="enlarged-control"
+          [id]="datasetUploadFileField.name"
+          [label]="datasetUploadFileField.label"
+          [maxFileSizeMb]="datasetUploadFileField.maxFileSizeMb"
+          [acceptedFiles]="datasetUploadFileField.acceptedFiles"
+          [tooltip]="datasetUploadFileField.tooltip"
+          (fileSelected)="onFileChange($event)"
+        >
+        </wb-file-upload-field>
+      </div>
+      <div class="uploader-row wb-label">
+        <wb-config-form-field [field]="datasetFormControls.datasetName" [group]="uploadDatasetForm">
+        </wb-config-form-field>
+      </div>
+      <div class="uploader-row wb-label">
+        <wb-config-form-field [field]="datasetFormControls.datasetType" [group]="uploadDatasetForm">
+        </wb-config-form-field>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #uploadDatasetTipsTemplate>
+  <div class="tips wb-text-8">
+    <div class="tip-content">
+      <wb-tip [tipMessage]="{ header: importTip?.tipHeader, content: [importTip?.tipContent] }"></wb-tip>
+
+      <wb-expansion-tip title="Not Annotated" [text]="hints.notAnnotated"></wb-expansion-tip>
+
+      <wb-expansion-tip title="ImageNet" [text]="hints.imagenet" data-test-id="imagenet-dataset-tip">
+      </wb-expansion-tip>
+
+      <wb-expansion-tip title="Pascal VOC" [text]="hints.voc" data-test-id="voc-dataset-tip"></wb-expansion-tip>
+
+      <wb-expansion-tip title="COCO" [text]="hints.coco" data-test-id="coco-dataset-tip"></wb-expansion-tip>
+
+      <wb-expansion-tip title="Common Semantic Segmentation" [text]="hints.css"></wb-expansion-tip>
+
+      <wb-expansion-tip title="Common Super-Resolution" [text]="hints.csr"></wb-expansion-tip>
+
+      <wb-expansion-tip title="LFW" [text]="hints.lfw"></wb-expansion-tip>
+
+      <wb-expansion-tip title="VGGFace2" [text]="hints.vggface2"></wb-expansion-tip>
+
+      <wb-expansion-tip title="WIDER FACE" [text]="hints.wider"></wb-expansion-tip>
+
+      <wb-expansion-tip title="Open Images" [text]="hints.openImages"></wb-expansion-tip>
+
+      <wb-expansion-tip title="Cityscapes" [text]="hints.cityscapes"></wb-expansion-tip>
+
+      <span class="wb-h5">Supported Dataset Tasks:</span>
+
+      <span>ImageNet: Classification, Inpainting, Style Transfer</span>
+
+      <span>Pascal VOC: Object Detection, Semantic Segmentation, Inpainting, Style Transfer</span>
+
+      <span>COCO: Object Detection, Instance Segmentation, Inpainting, Style Transfer</span>
+
+      <span>Common Semantic Segmentation: Semantic Segmentation, Inpainting, Style Transfer</span>
+
+      <span>Common Super-Resolution: Super-Resolution, Inpainting, Style Transfer</span>
+
+      <span>LFW: Face Recognition</span>
+
+      <span>VGGFace2: Facial Landmark Detection</span>
+
+      <span>Wider: Object Detection</span>
+
+      <span>Open Images: Object Detection</span>
+
+      <span>Cityscapes: Semantic Segmentation</span>
+    </div>
+    <wb-markdown-text class="feedback-info" [text]="feedbackDescription"></wb-markdown-text>
+  </div>
+</ng-template>

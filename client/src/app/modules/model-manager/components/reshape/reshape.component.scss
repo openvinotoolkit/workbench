@@ -1,0 +1,86 @@
+@import 'fonts';
+@import 'colors';
+@import 'variables';
+
+.panel-header-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.wb-chip {
+  margin-left: auto;
+}
+
+.panel-header {
+  margin: 0;
+}
+
+.main-content {
+  padding-bottom: 20px;
+}
+
+div[wb-content] {
+  counter-reset: layer_rows;
+}
+
+.layer-row {
+  margin: 0 -$container-padding;
+  padding: $container-padding;
+
+  & + & {
+    border-top: 1px solid $very-light-pink;
+  }
+
+  .layer-name {
+    margin-bottom: $container-padding;
+
+    &::before {
+      counter-increment: layer_rows;
+      content: counter(layer_rows, upper-latin) '. ';
+    }
+  }
+
+  .layer-name-value {
+    @include wb-subtitle-strong();
+    margin-left: 15px;
+  }
+
+  ::ng-deep .field-container {
+    width: 180px;
+  }
+}
+
+:host .layer-row {
+  ::ng-deep .config-form-field .field-label,
+  .field-label {
+    min-width: 108px;
+    margin-right: 20px;
+  }
+}
+
+wb-message-box {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.actions {
+  padding: 20px 0;
+  display: flex;
+
+  wb-button + wb-button {
+    margin-left: 20px;
+  }
+}
+
+wb-info-hint {
+  display: block;
+  padding-bottom: 20px;
+}
+
+.tip-column {
+  @include wb-text-8();
+
+  .title:not(:first-child) {
+    margin-top: 10px;
+  }
+}

@@ -1,0 +1,8 @@
+@import 'mixins';
+
+:host {
+  display: flex;
+  margin-bottom: 20px;
+
+  @include wb-property-key-value();
+}

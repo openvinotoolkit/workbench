@@ -1,0 +1,79 @@
+@import 'fonts';
+@import 'colors';
+
+.canvas-container {
+  position: relative;
+  min-height: 250px;
+  margin-left: auto;
+  margin-right: auto;
+
+  canvas {
+    user-select: none;
+  }
+}
+
+#chartjs-tooltip {
+  opacity: 1;
+  position: absolute;
+  background: $black80;
+  color: $white;
+  border-radius: 3px;
+  -webkit-transition: all 0.1s ease;
+  transition: all 0.1s ease;
+  pointer-events: none;
+  max-height: max-content;
+  width: 200px;
+
+  .tooltip-details-item {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
+    margin-top: 5px;
+  }
+}
+
+.chartjs-tooltip-key {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 10px;
+}
+
+.tooltip-items {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  span {
+    @include wb-label();
+  }
+
+  div:not(:first-child) {
+    margin-top: 10px;
+  }
+}
+
+.bar-chart-labels {
+  display: flex;
+  flex-direction: row;
+  justify-self: center;
+  justify-content: center;
+  margin: auto;
+
+  .label-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-basis: 50%;
+
+    span {
+      margin-left: 10px;
+      @include wb-subtitle-1();
+    }
+  }
+
+  .label-item:first-child {
+    margin-left: 60px;
+  }
+}

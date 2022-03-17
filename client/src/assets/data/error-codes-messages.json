@@ -1,0 +1,14 @@
+{
+  "ACCURACY_ERROR": "Error occurred while measuring accuracy",
+  "DATABASE_ERROR": "Error occurred while updating database",
+  "DEFECTIVE_CONFIG_ERROR": "Error occurred due to invalid request data",
+  "GENERAL_SERVER_ERROR": "General server error",
+  "INT8CALIBRATION_ERROR": "Error occurred during INT8 calibration",
+  "MODEL_ANALYZER_ERROR": "Error occurred while retrieving model parameters",
+  "MODEL_DOWNLOADER_ERROR": "Error occurred while downloading model",
+  "MODEL_OPTIMIZER_ERROR": "Error occurred while optimizing model",
+  "PROFILING_ERROR": "Error occurred while measuring performance",
+  "REMOVED_DATASET": "Error occurred while uploading dataset",
+  "REMOVED_UPLOAD": "Upload has been cancelled",
+  "RESHAPE_MODEL_ERROR": "Configure Model Inputs failed"
+}

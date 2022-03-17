@@ -1,0 +1,2 @@
+OD/yolo_v2/yolo_v2.xml
+classification/inception_v3/inception_v3.xml

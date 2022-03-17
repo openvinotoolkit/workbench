@@ -1,0 +1,269 @@
+{
+  "uploadFilePage": {
+    "imagenetFormatTooltip": "ImageNet is used for classification models. Only the validation dataset 2012 is supported. See tips on the right.",
+    "pascalFormatTooltip": "Pascal VOC is used for object detection, semantic-segmentation, image inpainting, and style transfer models. Only validation datasets 2007, 2010, and 2021 are supported. See tips on the right.",
+    "msCocoFormatTooltip": "COCO is used for object detection, instance segmentation, image inpainting, and style transfer models. Only validation datasets 2014 and 2017 are supported. See tips on the right.",
+    "cssTooltip": "Common Semantic Segmentation is an OpenVINO™ dataset type for semantic segmentation, image inpainting, and style transfer models. See tips on the right.",
+    "csrTooltip": "Common Super-resolution is an OpenVINO™ dataset type for super resolution, image inpainting, and style transfer models. See tips on the right.",
+    "vggTooltip": "Visual Geometry Group Face 2 is used for facial landmarks detection. Only the validation format is supported. See tips on the right.",
+    "lfwTooltip": "Labeled Faces in the Wild is used for face recognition. Only the validation format is supported. See tips on the right.",
+    "widerTooltip": "Wider is used for object detection models. Only training and validation formats are supported. See tips on the right.",
+    "openImagesTooltip": "Open Images is used for object-detection models. Only the validation format is supported. See tips on the right.",
+    "cityscapesTooltip": "Cityscapes is used for semantic segmantation models. To import Cityscapes dataset, specify it in the Dataset Type. See tips on the right.",
+    "unAnnotatedTooltip": "A set of images without annotations",
+    "modelTask": "Select the use case for which your model was trained. If there is no such a use case in the list, select Generic. Note that you cannot measure accuracy of a generic model.",
+    "modelMethod": "Select the object detection inference method.",
+    "imageDatasetFile": "Select image dataset file (.zip, .gz or .tar archive)",
+    "name": "Supported characters: Latin letters, digits, hyphen (-), underscore (_), dot (.)",
+    "datasetType": "Select the dataset type or use auto-detect function",
+    "irTooltip": "Intermediate Representation (IR) is a pair of files describing the model: \nXML - Describes the network topology \nBIN - Contains the weights and biases binary data"
+  },
+  "uploadTextDatasetPage": {
+    "textDatasetFile": "Select text dataset file (.csv)",
+    "separator": "Select the separator for your data. If the file is incorrectly split into columns in the Raw Dataset Preview, try to select another separator.",
+    "encoding": "Specify the type of encoding for your dataset. If you see incorrect symbols in the Dataset Preview, try to select a different encoding.",
+    "header": "Specify whether the first row of the file is a header to exclude it from the dataset.",
+    "textColumn": "Specify the number of the column that contains the input Text.",
+    "premiseColumn": "Specify the number of the column that contains the Premise (first input text).",
+    "hypothesisColumn": "Specify the number of the column that contains the Hypothesis (second input text).",
+    "labelColumn": "Specify the number of the column that contains the Label."
+  },
+  "uploadTokenizerPage": {
+    "lowerCase": "Convert all characters to lowercase",
+    "name": "Supported characters: Latin letters, digits, hyphen (-), underscore (_), dot (.)",
+    "vocabFile": "File with a dictionary",
+    "mergesFile": "TXT file with most frequent symbol pairs"
+  },
+  "dashboardPage": {
+    "archivedProject": "You cannot perform tasks on this project because a dataset, a model, or a device is absent on the machine.",
+    "deprecatedIRVersion": "You cannot perform tasks on this project because it uses a deprecated version of model IR.",
+    "optimizationMethod": "Optimization method",
+    "int8Optimization": "Optimization method - Calibration method - Calibration scheme"
+  },
+  "modelAnalysis": {
+    "batch": "Specifies the number of images to be propagated to the neural network at a time.",
+    "gFlops": "Total number of floating-point operations required to infer a model. Summed up over known layers only.",
+    "gIops": "Total number of integer operations required to infer a model. Summed up over known layers only.",
+    "mParams": "Total number of trainable network parameters excluding custom constants. Summed up over known layers only.",
+    "minimumMemory": "Theoretical minimum of memory used by a network for inference given that the memory is reused as much as possible. Minimum Memory Consumption does not depend on weights.\nUnit of measurement: Number of activations",
+    "maximumMemory": "Theoretical maximum of memory used by a network for inference given that the memory is not reused, which means all internal feature maps are stored in the memory simultaneously. Maximum Memory Consumption does not depend on weights.\nUnit of measurement: Number of activations",
+    "sparsity": "Percentage of zero weights in the model."
+  },
+  "accuracyParams": {
+    "NAAccuracyEmpty": "Accuracy measurements results are not available yet.",
+    "NAAccuracyUnannotatedDataset": "Accuracy measurements are not available for projects that use unannotated datasets.",
+    "NARemoteAccuracy": "Accuracy measurements are not available for the current project because it uses a remote machine.",
+    "resize.size": "Resizes images to fit input dimensions of the model.",
+    "bgr_to_rgb": "Sets the color space of the original model.",
+    "has_background": "Specifies whether the selected model was trained on a dataset with an additional background class.",
+    "normalization.mean": "Specifies the values to be subtracted from the corresponding image channels.",
+    "normalization.std": "Specifies the values to divide image channels by.",
+    "metric": "Specifies the system of measurement to evaluate performance of the model.",
+    "accuracy.top_k": "Specifies the number of initial predictions to estimate accuracy on.",
+    "resize_prediction_boxes": "Choose to resize images in postprocessing or set Non-Maximum Suppression (NMS) to make sure detected objects are identified only once.",
+    "nms.overlap": "Specifies the Non-Maximum Suppression overlap threshold for merging detections.",
+    "map.integral": "Specifies the integral type for average precision calculation.",
+    "map.overlap_threshold": "Specifies the minimum value for intersection over union (IOU) that allows to decide whether the bounding box of precision is true positive.",
+    "headerLabel": "Advanced Configuration",
+    "headerTooltip": "Advanced parameters for preprocessing and postprocessing models. Modifying these will have an impact on estimated accuracy calculation.",
+    "coco_precision.max_detections": "Maximum number of predicted results per image. If you have more predictions, results with minimum confidence are ignored.",
+    "use_full_label_map": "Specifies the label to class mapping the DL Workbench should use when interpreting model results and mapping the predicted classes IDs to their names (labels).",
+    "image_info_input": "Name of the layer with image metadata such as height, width, and depth",
+    "raw_masks_out": "Detected object mask coordinates",
+    "boxes_out": "ONNX-specific parameter. Box coordinates for detected objects",
+    "classes_out": "ONNX-specific parameter. Classes of detected objects",
+    "scores_out": "ONNX-specific parameter. Confidence score for detected objects",
+    "detection_out": "TensorFlow-specific parameter. Classes, boxes, and confidence scores for detected objects",
+    "encode_segmentation_mask.apply_to": "Transfers mask colors to class labels using the color mapping from metadata.",
+    "resize_segmentation_mask.apply_to": "Resizes the model output to the initial values.",
+    "mean_iou.use_argmax": "Applying argmax on output is required to enable accuracy measurements for models that do not perform argmaxing internally.",
+    "threshold.start": "Lower threshold of the intersection over union (IoU) value",
+    "threshold.step": "Increment in the intersection over union (IoU) value",
+    "threshold.end": "Upper threshold of the intersection over union (IoU) value",
+    "mask_type": "Specifies whether the mask cut from an original image is a rectangle or a free form.",
+    "free_form_mask.parts": "Specifies the number of autogenerated forms.",
+    "free_form_mask.max_brush_width": "Specifies the width of a shape line in pixels.",
+    "free_form_mask.max_length": "Specifies the maximum length of a shape edge in pixels.",
+    "free_form_mask.max_vertex": "Specifies the maximum number of the vertices.",
+    "free_form_mask.inverse_mask": "Check if your model uses inverse masking.",
+    "rect_mask.dst_width": "Specifies the rectangle width in pixels.",
+    "rect_mask.dst_height": "Specifies the rectangle height in pixels.",
+    "rect_mask.inverse_mask": "Check if your model uses inverse masking.",
+    "two_streams": "Specifies whether the model has the second input for the upscaled image.",
+    "normalize_landmarks_points": "Specifies the way in which final landmark coordinates are processed to be matched with the image shape.",
+    "subset_count": "Specifies the number of sets the images are divided into for pairwise testing. Make sure the number of sets is not too big compared to the dataset size, so that the number of images in the set is greater than one."
+  },
+  "accuracyDetails": {
+    "usage": "The task solved by the model (object detection, semantic segmentation, instance segmentation, classification, super-resolution, image inpainting, style transfer, face recognition, or facial landmarks detection). The model is considered to be generic if the task is not specified.",
+    "method": "Model architecture",
+    "preprocessing": "Parameters that specify how to process input data before the model inference.",
+    "postprocessing": "Parameters that specify how to process raw output of the model inference.",
+    "metric": "System of measurement to evaluate performance of the model."
+  },
+  "convertionDetails": {
+    "dataType": "Precision type in which model weights are stored",
+    "IRChannelsOrder": "Order of color channels in the converted IR model. By default, OpenVINO runtime expects the IR to work with three channels (BGR) inputs or one channel (Grayscale) inputs.",
+    "originalChannelsOrder": "Order of color channels in images that was used during model training. Depends on a specific model used.",
+    "originalLayout": "Order of input channels that was used during model training. Usually, TensorFlow models use the NHWC format, but this may vary for custom models.",
+    "advanced": "Modify these parameters if the default configuration fails.",
+    "framework": "Framework of the original model",
+    "batch": "Specifies the number of images to be propagated to the neural network at a time.",
+    "irVersion": "OpenVINO Intermediate Representation version",
+    "frozen": "True if the model is frozen, which is one of TensorFlow export formats. The model is likely to be frozen if it consists of a single .pb file or of a .pb file and a config.json file.",
+    "checkpoint": "File with weights of an unfrozen TensorFlow model. Does not contain the graph of the model.",
+    "metaGraph": "File with the graph definition and additional metainformation about an unfrozen TensorFlow model",
+    "transformationsConfig": "Configuration file with custom operation description",
+    "output": "Specifies the name of the output layer.",
+    "objectDetectionApiPipelineConfig": "File describing the topology hyperparameters and structure of the TensorFlow Object Detection API model",
+    "legacyMxnetModel": "True if the model was trained with an MXNet version lower than 1.0.0.",
+    "enableSsdGluoncv": "True if the model was trained with the MXNet GluonCV API."
+  },
+  "inferenceForm": {
+    "parallelStreams": "If the number of streams is greater than 1, inferences will run in parallel.",
+    "parallelInfers": "Specifies the number of inferences that can run in parallel. Multiple infers use multithreaded and multicore target processing units.",
+    "batch": "Specifies the number of images to be propagated to the neural network at a time.",
+    "minBatch": "Specifies the minimum number of images to process at a time during profiling.",
+    "maxBatch": "Specifies the maximum number of images to process at a time during profiling.",
+    "stepBatch": "Specifies the increment in the images number during profiling.",
+    "minStreams": "Specifies the number of parallel inference streams to begin profiling with.",
+    "maxStreams": "Specifies the number of parallel inference streams.",
+    "stepStreams": "Specifies the increment in the parallel inference streams number to test next.",
+    "minInfers": "Specifies the number of parallel inference requests to begin profiling with.",
+    "maxInfers": "Specifies the number of parallel inference requests.",
+    "stepInfers": "Specifies the increment in the parallel inference requests number to test next.",
+    "useRanges": "Set up multiple experiments with minimum, maximum, and step parameters.",
+    "configureGroupInference": "Configure Group Inference to run multiple inferences.",
+    "singleInference": "Run a single combination of a streams number and a batch size.",
+    "groupInference": "Run several combinations of a streams number and a batch size."
+  },
+  "networkOutputVisualization": {
+    "explainableAI": "Shows how much each pixel influenced the prediction",
+    "noPredictions": "There is no predictions available within given threshold"
+  },
+  "optimizationForm": {
+    "maxAccuracyDrop": "Specifies the maximum acceptable percent of accuracy drop during INT8 calibration. Layers exceeding this threshold will remain in their original precision.",
+    "subset": "Portion of a calibration dataset used during calibration",
+    "calibrationDataset": "Dataset for calibration",
+    "calibrationMethod": "Collection of algorithms applied to a model during calibration",
+    "calibrationScheme": "Configuration of algorithms used in a selected calibration method"
+  },
+  "convertModel": {
+    "batch": "Specifies the number of images to be propagated to the neural network at a time.",
+    "precision": "Specifies the precision in which model weights should be stored. Consider using FP16 (16-bit floating-point numbers) at this stage as it is supported by all OpenVINO plugins while keeping good accuracy and speed gains over FP32 (32-bit floating-point values).",
+    "colorSpace": "Specifies the order of color channels in images that were used during model training. RGB (stands for Red-Green-Blue) is more common, but some libraries, like OpenCV, use BGR or Grayscale.",
+    "input": "Specifies the name of the input layer.",
+    "output": "To convert some models, a layer different from their last layer(s) needs to be marked as an output layer. Specify outputs only in advanced scenarios and when you are sure that you need output layers different from the default ones.",
+    "freezePlaceholderWithValue": "Replaces input layer with constant node with provided value.",
+    "shape": "Defines the dimensionality of the input tensor.",
+    "scales": "Specifies the values to divide image channels by.",
+    "means": "Specifies the values to be subtracted from the corresponding image channels.",
+    "legacyMxnet": "Specifies whether the model was trained with an MXNet version lower than 1.0.0.",
+    "isFrozen": "Specifies whether the model is \"frozen\", which is one of TensorFlow export formats. If you use TensorFlow Object-Detection API, your model is likely to be \"frozen\" if it consists of a single .pb file or of a .pb file plus a config.json file.",
+    "pipelineConfig": "Specifies a file with information about a model built with TensorFlow Object-Detection API. Model Optimizer requires the model hyperparameters provided in this file to produce the Intermediate Representation (IR) of the model.",
+    "checkpointFile": "Specifies a files with weights of an unfrozen TensorFlow model. Does not contain the graph of the model. Select a file with the graph separately.",
+    "metaFile": "Specifies a file with the graph definition and additional metainformation about an unfrozen TensorFlow model.",
+    "indexFile": "Specifies a file that indicates weights of an unfrozen TensorFlow model and checkpoint shards they are stored in.",
+    "dataFile": "Specifies a file that represents a single shard with weights of an unfrozen TensorFlow model.",
+    "transformationsConfig": "Specifies a file that represents a set of predefined settings from the Model Optimizer that correspond to a particular topology and version of the framework.",
+    "enableSsdGluoncv": "Specifies whether the model was trained with the MXNet GluonCV API.",
+    "opSets": "Sets of operations used in the model.",
+    "useTransformationsConfig": "Specific configuration file for model conversion (Model Optimizer transformations config)",
+    "originalLayout": "Order of input channels used during model training. Usually, TensorFlow models use the NHWC format. By default, OpenVINO runtime expects the IR model in NCHW format. If your model is in the NHWC format, it will be changed to NCHW."
+  },
+  "tables": {
+    "precisionsColumn": "The list of model data types used during the inference"
+  },
+  "global": {
+    "taskIsRunning": "The server is collecting performance data. Wait until it is done and continue.",
+    "cookieUsage": "Retain your privacy and help us improve. Please accept cookies so we can track anonymous usage data. Thank you."
+  },
+  "createProject": {
+    "archivedModel": "You cannot create a project with this model, as it does not exist on the server.",
+    "deprecatedIRVersion": "You cannot create a project, as it uses a deprecated version of model IR.",
+    "archivedDataset": "You cannot create a project with this dataset, as it does not exist on the server."
+  },
+  "deployment": {
+    "pythonBindings": "Python API enables the use of OpenVINO runtime from Python applications.",
+    "installScripts": "Scripts that install OpenVINO dependencies and drivers for selected targets"
+  },
+  "exportProject": {
+    "accuracyConfig": "Cannot include the accuracy configuration because you did not configure accuracy settings for your model.",
+    "calibrationConfig": "Cannot include the calibration configuration because you did not calibrate your model.",
+    "selectExportFiles": "Export is not available until you include at least one item to the package."
+  },
+  "generateDatasetForm": {
+    "size": "Height and width values should be in the range 1-1920."
+  },
+  "targetMachineForm": {
+    "hostname": "Hostname or IP address of the remote machine. \nExample: my-machine.remote-host.com",
+    "port": "Port for the SSH connection to the remote machine. \nDefault: 22",
+    "name": "Alias name of the remote machine in the DL Workbench. \nExample: My Machine",
+    "username": "Username for the SSH connection to the remote machine. \nExample: root \nIf you use MYRIAD or VPU devices, sudo privileges for this username are required.",
+    "useProxy": "Configure proxy settings if the remote machine is behind a proxy server.",
+    "httpProxy": "Proxy settings on the remote machine for the HTTP protocol",
+    "httpsProxy": "Proxy settings on the remote machine for the HTTPS protocol",
+    "passwordRequired": "Select if the proxy server on the remote machine requires a password.",
+    "privateKey": "Private SSH key for authenticated connection to the remote machine.",
+    "proxyHostname": "Hostname or IP address for the proxy server connection",
+    "proxyPort": "Port for the proxy server connection on the remote machine",
+    "proxyUsername": "Username for the proxy server connection on the remote machine",
+    "proxyPassword": "Password for the proxy server connection on the remote machine"
+  },
+  "targetMachinePage": {
+    "os": "Operating system on the remote machine. \nUbuntu 18.04 is required",
+    "rootPrivileges": "Sudo privileges are required to set up GPU and MYRIAD devices.",
+    "internetConnection": "Indicates whether there is internet connection on the remote machine.",
+    "pythonVersion": "Python version on the remote machine. \nSupported versions: 3.5, 3.6, 3.7, 3.8",
+    "cpuUsage": "CPU utilization at the moment of the last refresh",
+    "ramUsage": "RAM utilization at the moment of the last refresh",
+    "filesystemUsage": "Disk space utilization on the remote machine"
+  },
+  "netronModelName": {
+    "name": "name"
+  },
+  "netronLayerProperties": {
+    "type": "type",
+    "name": "name"
+  },
+  "netronLayerAttributes": {
+    "execOrder": "executionOrder",
+    "execTimeMcs": "executionTime",
+    "originalLayersNames": "originalLayersNames",
+    "outputLayouts": "outputLayouts",
+    "outputPrecisions": "outputPrecision",
+    "primitiveType": "primitiveType",
+    "runtimePrecision": "runtimePrecision",
+    "dilations": "dilations",
+    "output_padding": "output_padding",
+    "output_type": "output_type",
+    "pads_begin": "pads_begin",
+    "pads_end": "pads_end",
+    "strides": "strides",
+    "rounding_type": "rounding_type",
+    "kernel": "kernel",
+    "axis": "axis",
+    "element_type": "element_type",
+    "shape": "shape",
+    "keep_dims": "keep_dims",
+    "special_zero": "special_zero",
+    "transpose_a": "transpose_a",
+    "transpose_b": "transpose_b",
+    "num_splits": "num_splits",
+    "pad_mode": "pad_mode",
+    "pad_value": "pad_value",
+    "across_channels": "across_channels",
+    "eps": "eps",
+    "normalize_variance": "normalize_variance"
+  },
+  "modelManager": {
+    "prepareFrameworkDescription": "Wait for this task to be completed. If you reload or leave this page, the task could be canceled or fail."
+  },
+  "accuracyAnalysis": {
+    "configureAccuracy": "Accuracy is not yet configured, set configuration to continue",
+    "selectOutputToDisplay": "If the model has multiple outputs, select the output to display. For models with a single output, it is selected by default."
+  },
+  "model": {
+    "cvDomain": "Computer Vision Model",
+    "nlpDomain": "Natural Language Processing Model"
+  }
+}

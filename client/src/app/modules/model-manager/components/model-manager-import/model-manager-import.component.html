@@ -1,0 +1,205 @@
+<div class="wb-row">
+  <div
+    [class]="
+      selectedImportModelRibbonValue === ImportModelRibbonIds.ORIGINAL_MODEL && !uploadingModel
+        ? 'wb-col-8'
+        : 'wb-col-12'
+    "
+  >
+    <wb-panel>
+      <div wb-heading>
+        <h3 class="wb-h4 panel-header">Import</h3>
+        <mat-button-toggle-group
+          *ngIf="!uploadingModel"
+          [value]="selectedImportModelRibbonValue"
+          class="wb-ribbon enlarged-control import-stage-ribbon"
+        >
+          <mat-button-toggle
+            *ngFor="let item of importModelRibbonValues"
+            [value]="item.id"
+            [aria-label]="item.title"
+            [attr.data-test-id]="item.title.toLowerCase().split(' ').join('_')"
+            (change)="handleImportModelRibbonSelection(item.id)"
+          >
+            <mat-icon class="wb-ribbon-icon" [svgIcon]="item.icon"></mat-icon>
+            {{ item.title }}
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+        <wb-button
+          class="back-button"
+          text="Back to Create Project"
+          icon="back_arrow"
+          (handleClick)="cancelEvent.emit()"
+        ></wb-button>
+      </div>
+      <div wb-content>
+        <ng-container *ngIf="!uploadingModel; else uploadingStatusContent">
+          <ng-container [ngSwitch]="selectedImportModelRibbonValue">
+            <ng-container *ngSwitchCase="ImportModelRibbonIds.OMZ">
+              <ng-container [ngTemplateOutlet]="importFromOMZTabContent"></ng-container>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="ImportModelRibbonIds.ORIGINAL_MODEL">
+              <ng-container [ngTemplateOutlet]="uploadModelTabContent"></ng-container>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="ImportModelRibbonIds.OMZ_REDESIGNED">
+              <wb-omz-import-ribbon-content></wb-omz-import-ribbon-content>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="ImportModelRibbonIds.HUGGING_FACE">
+              <wb-hugging-face-import-ribbon-content></wb-hugging-face-import-ribbon-content>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </div>
+    </wb-panel>
+  </div>
+  <div
+    *ngIf="!uploadingModel && selectedImportModelRibbonValue === ImportModelRibbonIds.ORIGINAL_MODEL"
+    class="wb-col-4"
+  >
+    <div class="wb-panel">
+      <wb-tip [tipMessage]="{ header: importTip?.header, content: importTip?.content }"></wb-tip>
+    </div>
+  </div>
+</div>
+
+<ng-template #uploadModelTabContent>
+  <form #formEl="ngForm">
+    <div class="framework">
+      <wb-config-form-field
+        [field]="modelDomainField"
+        [group]="uploadModelFormGroup"
+        class="enlarged-control"
+        testId="model-domain"
+      ></wb-config-form-field>
+      <wb-config-form-field
+        [field]="modelFrameworkField"
+        [group]="uploadModelFormGroup"
+        class="enlarged-control"
+      ></wb-config-form-field>
+      <ng-container *ngIf="!uploadingModel">
+        <wb-config-form-field
+          *ngIf="isTfModel()"
+          [field]="tfModelUtilFieldsMap.tfVersion"
+          [group]="tfModelFormGroup"
+          class="enlarged-control"
+        ></wb-config-form-field>
+
+        <wb-config-form-field
+          *ngIf="isTF1Model()"
+          [field]="tfModelUtilFieldsMap.isFrozenModel"
+          [group]="tfModelFormGroup"
+          class="enlarged-control"
+        ></wb-config-form-field>
+
+        <wb-config-form-field
+          *ngIf="isTF1Model() && !isTfFrozenModel()"
+          [field]="tfModelUtilFieldsMap.inputFilesType"
+          [group]="tfModelFormGroup"
+          class="enlarged-control"
+        ></wb-config-form-field>
+
+        <wb-config-form-field
+          *ngIf="isTF2Model()"
+          [field]="tfModelUtilFieldsMap.isKerasModel"
+          [group]="tfModelFormGroup"
+          class="enlarged-control"
+        ></wb-config-form-field>
+
+        <wb-file-upload-field
+          *ngFor="let fileField of getModelFrameworkFileFields()"
+          [id]="fileField.name + 'Input'"
+          [label]="fileField.label"
+          [acceptedFiles]="fileField.acceptedFiles"
+          [optional]="fileField.optional"
+          [maxFileSizeMb]="fileField.maxFileSizeMb"
+          [tooltip]="fileField.tooltip"
+          [uploadingDir]="fileField.uploadingDir"
+          [multiple]="fileField.multiple"
+          [submitted]="formEl.submitted"
+          (fileSelected)="handleFileSelected(filesFormGroup, fileField.name, $event)"
+          class="enlarged-control"
+        ></wb-file-upload-field>
+
+        <wb-config-form-field
+          *ngIf="modelFrameworkControl.value"
+          class="import-model-name-field enlarged-control"
+          [field]="modelNameField"
+          [group]="uploadModelFormGroup"
+        ></wb-config-form-field>
+      </ng-container>
+    </div>
+
+    <div *ngIf="isGettingFrameworksAvailabilityFailed; else importNotification" class="error-container">
+      <wb-message-box
+        messageType="error"
+        message="Error on getting available frameworks information"
+        [detailedMessage]="frameworksAvailability.error"
+      >
+      </wb-message-box>
+    </div>
+
+    <div class="panel-row panel-row--footer actions" *ngIf="uploadModelFormGroup.enabled">
+      <wb-button
+        class="enlarged-control"
+        testId="import-model-button"
+        type="primary"
+        text="Import"
+        (handleClick)="handleUploadModel()"
+        [disabled]="isImportDisabled"
+      >
+      </wb-button>
+      <wb-button class="enlarged-control" text="Cancel" (handleClick)="cancelEvent.emit()"></wb-button>
+    </div>
+
+    <div
+      class="no-connect-message"
+      *ngIf="!isConnected && modelFrameworkControl.value && !isSelectedFrameworkConfigured"
+    >
+      <wb-info-hint [message]="noConnectionMessage"></wb-info-hint>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #importNotification>
+  <div *ngIf="modelFrameworkControl.value && !isSelectedFrameworkConfigured" class="import-notification">
+    <span>Note:</span>
+    <span [textContent]="frameworkAvailabilityNote"></span>
+  </div>
+</ng-template>
+
+<ng-template #uploadingStatusContent>
+  <div class="key-val">
+    <div class="key-val__key">Model Name:</div>
+    <div class="key-val__val" [title]="uploadingModel.name">{{ uploadingModel.name }}</div>
+  </div>
+  <div class="key-val">
+    <div class="key-val__key">Model Domain:</div>
+    <div class="key-val__val">{{ modelDomainNames[uploadingModel.domain] }}</div>
+  </div>
+  <div class="key-val">
+    <div class="key-val__key">Model Framework:</div>
+    <div class="key-val__val">{{ modelFrameworkNamesMap[uploadingModel.originalModelFramework] }}</div>
+  </div>
+  <div class="key-val" *ngIf="selectedImportModelRibbonValue !== ImportModelRibbonIds.HUGGING_FACE">
+    <div class="key-val__key">Status:</div>
+    <wb-status-bar [status]="getUploadModelStage(uploadingModel)" class="inline-status" mode="circle"></wb-status-bar>
+  </div>
+</ng-template>
+
+<ng-template #importFromOMZTabContent>
+  <div class="tab-content">
+    <wb-model-downloader-table
+      [models]="omzModels"
+      [isLoading]="omzModelsAreLoading"
+      [isConnected]="isConnected"
+      [detailsShown]="sidenavOpened"
+      [frameworksAvailability]="frameworksAvailability"
+      (importOMZModel)="handleImportOMZModel($event)"
+      (modelDetailsClick)="showModelInfo.emit($event)"
+      (cancel)="cancelEvent.emit()"
+    ></wb-model-downloader-table>
+  </div>
+</ng-template>

@@ -1,0 +1,71 @@
+<div class="section">
+  <div class="section-content" *ngIf="!isNil(isDevCloud); else imagesLoading">
+    <div class="colorspace-transformations">
+      <wb-info-hint [message]="'Choose one or several transformations. ' + augmentationTipMessage"></wb-info-hint>
+      <div class="row">
+        <div class="col" *ngFor="let preset of colorSpacePresets">
+          <div class="transform-img" data-test-id="transform-img" *ngIf="defaultImagePath" (click)="addPreset(preset)">
+            <img
+              [ngStyle]="{
+                filter: 'brightness(' + preset.brightness + ') contrast(' + preset.contrast + ')'
+              }"
+              [src]="defaultImagePath | safeResourceUrl"
+              alt="dog"
+            />
+            <div class="img-overlay selected" *ngIf="selectedPresets.includes(preset)">
+              <mat-icon svgIcon="check"></mat-icon>
+            </div>
+            <div class="img-overlay transform-info">
+              <span>Brightness: {{ getPercentageValue(preset.brightness) }}</span>
+              <span>Contrast: {{ getPercentageValue(preset.contrast) }}</span>
+            </div>
+          </div>
+          <mat-checkbox [checked]="selectedPresets.includes(preset)" (change)="addPreset(preset)">
+            {{ preset.name }}
+          </mat-checkbox>
+        </div>
+      </div>
+    </div>
+    <div class="result-img">
+      <div class="img-preview">
+        <span>Preview</span>
+      </div>
+      <div class="image-card" *ngIf="defaultImagePath">
+        <img [src]="defaultImagePath | safeResourceUrl" alt="default-image" />
+        <div class="preview-text">
+          <span>Before</span>
+        </div>
+      </div>
+      <div class="image-card" *ngIf="defaultImagePath">
+        <ng-container *ngIf="selectedPresets.length === 0">
+          <img [src]="defaultImagePath | safeResourceUrl" alt="default-image" />
+          <div class="preview-text select-preset">
+            <span>Select preset</span>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="selectedPresets.length !== 0">
+          <img
+            [ngStyle]="{
+              filter:
+                'brightness(' +
+                selectedPresets[selectedPresets.length - 1].brightness +
+                ') contrast(' +
+                selectedPresets[selectedPresets.length - 1].contrast +
+                ')'
+            }"
+            [src]="defaultImagePath | safeResourceUrl"
+            alt="default-image"
+          />
+          <div class="preview-text">
+            <span>{{ selectedPresets[selectedPresets.length - 1].name }}</span>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <wb-section-summary [images]="selectedPresets.length"></wb-section-summary>
+</div>
+
+<ng-template #imagesLoading>
+  <wb-spinner data-test-id="images-loading"></wb-spinner>
+</ng-template>

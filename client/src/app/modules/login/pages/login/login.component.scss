@@ -1,0 +1,48 @@
+.login {
+  display: flex;
+  width: 100%;
+  height: 100%;
+
+  &-form {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    align-self: center;
+    margin: auto;
+    width: 400px;
+    height: 440px;
+    padding: 20px 30px 30px 30px;
+
+    &-header {
+      display: flex;
+      flex-direction: column;
+      align-self: flex-start;
+
+      wb-info-hint {
+        ::ng-deep .hint-container {
+          align-items: flex-start;
+        }
+
+        ::ng-deep .markdown-text-block {
+          line-height: 20px;
+        }
+      }
+    }
+
+    &-content {
+      margin-top: 60px;
+
+      wb-config-form-field {
+        ::ng-deep .config-form-field {
+          ::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {
+            margin: 0.7em 0;
+          }
+        }
+      }
+    }
+
+    &-actions {
+      margin-top: auto;
+    }
+  }
+}

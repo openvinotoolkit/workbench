@@ -1,0 +1,85 @@
+<wb-message-box
+  *ngIf="error$ | async as error"
+  messageType="error"
+  message="Configure Model Inputs failed"
+  [detailedMessage]="error"
+  [attr.data-test-id]="'reshape-error-box'"
+>
+</wb-message-box>
+<div class="wb-row main-content">
+  <div class="wb-col-8">
+    <wb-panel [showFooter]="true">
+      <div wb-heading class="panel-header-wrapper">
+        <h3 class="wb-h4 panel-header import-stage-header">Configure Model Inputs</h3>
+      </div>
+      <div wb-content [formGroup]="group">
+        <ng-container *ngIf="!(reshapePipeline$ | async); else reshapeProgress" formArrayName="inputs">
+          <ng-container *ngFor="let inputGroup of inputs.controls; let i = index">
+            <div [formGroup]="inputGroup" class="layer-row wb-subtitle-1" data-test-id="layer-row">
+              <wb-config-form-field
+                [field]="inputNameField"
+                [group]="inputGroup"
+                [hidden]="true"
+              ></wb-config-form-field>
+              <wb-config-form-field
+                [field]="inputIndexField"
+                [group]="inputGroup"
+                [hidden]="true"
+              ></wb-config-form-field>
+              <div class="layer-name">
+                Input Name:
+                <span class="layer-name-value" data-test-id="layer-name">{{
+                  inputGroup.get(inputProperties.name).value
+                }}</span>
+              </div>
+
+              <div class="row input-shape-row">
+                <wb-dimensions-layouts
+                  [index]="i"
+                  [parentGroup]="inputGroup"
+                  [dimensionsCount]="getDimensionsCount(i)"
+                  [minDimensionValue]="isDynamicAllowed ? -1 : 0"
+                ></wb-dimensions-layouts>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+      <div wb-footer>
+        <div class="actions">
+          <wb-button
+            class="enlarged-control"
+            type="primary"
+            text="Validate and Import"
+            [disabled]="group.invalid || denySave"
+            (handleClick)="save()"
+            [attr.data-test-id]="'validate-and-import'"
+          >
+          </wb-button>
+          <wb-button class="enlarged-control" type="default" text="Cancel" (handleClick)="cancel.emit()"> </wb-button>
+        </div>
+        <wb-info-hint *ngIf="inputs.errors?.inputLayers as error" type="warning" [message]="error"></wb-info-hint>
+      </div>
+    </wb-panel>
+  </div>
+  <div class="wb-col-4">
+    <div class="wb-panel tip-column">
+      <wb-tip [tipMessage]="{ header: 'Shape Tip', content: [] }"></wb-tip>
+      <div class="wb-body-2 title">Input Shape</div>
+      <wb-markdown-text ngProjectAs="checklist-item-details" [text]="conversionTips.inputShape"></wb-markdown-text>
+      <div class="wb-body-2 title">Original Layout</div>
+      <wb-markdown-text
+        ngProjectAs="checklist-item-details"
+        [text]="isNLPModel ? conversionTips.originalLayoutNLP : conversionTips.originalLayoutCV"
+      ></wb-markdown-text>
+      <div class="wb-body-2 title">Dimension</div>
+      <wb-markdown-text ngProjectAs="checklist-item-details" [text]="conversionTips.dimension"></wb-markdown-text>
+      <div class="wb-body-2 title">Layout Role</div>
+      <wb-markdown-text ngProjectAs="checklist-item-details" [text]="conversionTips.layoutRole"></wb-markdown-text>
+    </div>
+  </div>
+</div>
+
+<ng-template #reshapeProgress>
+  <wb-progress-panel title="Reshape Model" [pipeline]="reshapePipeline$ | async"></wb-progress-panel>
+</ng-template>

@@ -1,0 +1,44 @@
+@import 'colors';
+@import 'fonts';
+
+:host {
+  display: block;
+}
+
+.report-types {
+  display: flex;
+
+  .type {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 calc(100% / 3);
+    box-sizing: border-box;
+  }
+
+  .type + .type {
+    padding-left: 40px;
+  }
+
+  .label {
+    @include wb-subtitle-1();
+    display: flex;
+    align-items: center;
+  }
+
+  .description,
+  .warning {
+    margin-left: 24px;
+  }
+
+  .description {
+    @include wb-label();
+    line-height: 20px;
+    display: block;
+    color: $brownish-grey;
+  }
+
+  .warning {
+    display: block;
+    margin-top: 15px;
+  }
+}

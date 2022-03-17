@@ -1,0 +1,157 @@
+<ng-container *ngIf="!(accuracyPipeline$ | async); else progressTemplate">
+  <ng-container *ngIf="areReportsAvailable" [ngTemplateOutlet]="accuracyReportTypeTemplate"></ng-container>
+
+  <ng-container [ngTemplateOutlet]="accuracyReportPanelTemplate"></ng-container>
+</ng-container>
+
+<ng-template #accuracyReportTypeTemplate>
+  <wb-panel>
+    <div wb-heading>
+      <div class="wb-h4">Accuracy Report Type</div>
+      <ng-container [ngTemplateOutlet]="createNewReportButton"></ng-container>
+    </div>
+    <ng-container wb-content>
+      <wb-accuracy-report-type-radio-group
+        [formControl]="accuracyReportTypeControl"
+        [accuracyReportOptions]="accuracyReportOptions"
+      ></wb-accuracy-report-type-radio-group>
+    </ng-container>
+  </wb-panel>
+</ng-template>
+
+<ng-template #accuracyReportPanelTemplate>
+  <wb-panel>
+    <div wb-heading>
+      <div class="wb-h4">Accuracy Report</div>
+      <div *ngIf="accuracyReportTypeControl.value as reportType" class="wb-chip">
+        {{ accuracyReportTypeNames[reportType] }}
+      </div>
+      <ng-container *ngIf="!areReportsAvailable" [ngTemplateOutlet]="createNewReportButton"></ng-container>
+    </div>
+    <div wb-content>
+      <ng-container
+        *ngIf="areReportsAvailable; else noReportTemplate"
+        [ngTemplateOutlet]="accuracyReportContentTemplate"
+      ></ng-container>
+      <ng-template #noReportTemplate>
+        <wb-info-hint [message]="hints.reportNotReadyYet"></wb-info-hint>
+      </ng-template>
+    </div>
+  </wb-panel>
+</ng-template>
+
+<ng-template #accuracyReportContentTemplate>
+  <wb-parameter-details
+    class="accuracy-result-parameter"
+    *ngIf="
+      accuracyReportTypeControl.value === AccuracyReportType.DATASET_ANNOTATIONS || !accuracyReportTypeControl.value
+    "
+    [parameter]="accuracyResultParameter"
+  ></wb-parameter-details>
+
+  <ng-container *ngIf="areReportsAvailable">
+    <div class="accuracy-report-metric-field">
+      <span class="wb-label">Metric:</span>
+      <mat-form-field appearance="outline">
+        <mat-select [formControl]="reportMetricControl">
+          <mat-option *ngFor="let report of reportsOfSelectedType" [value]="report">
+            <!-- Handle empty metric name for accuracy measurements after migrations -->
+            {{ report.metricName || report.metricType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <ng-container *ngIf="reportMetricControl.value as report" [ngSwitch]="accuracyReportTypeControl.value">
+      <ng-container
+        *ngSwitchCase="AccuracyReportType.PARENT_MODEL_PER_TENSOR"
+        [ngTemplateOutlet]="perTensorReportContentTemplate"
+      >
+      </ng-container>
+
+      <ng-container *ngSwitchDefault [ngTemplateOutlet]="taskTypeReportContentTemplate"></ng-container>
+
+      <ng-template #taskTypeReportContentTemplate>
+        <ng-container *ngIf="reportMetricControl.value as report">
+          <ng-container [ngSwitch]="report.taskType">
+            <wb-classification-accuracy-report-table
+              #accuracyReportTable
+              *ngSwitchCase="ModelTaskTypes.CLASSIFICATION"
+              [projectId]="project?.id"
+              [report]="report"
+              (visualize)="visualizePredictions($event)"
+            >
+            </wb-classification-accuracy-report-table>
+            <wb-detection-accuracy-report-table
+              #accuracyReportTable
+              *ngSwitchCase="ModelTaskTypes.OBJECT_DETECTION"
+              [projectId]="project?.id"
+              [report]="report"
+              (visualize)="visualizePredictions($event)"
+            >
+            </wb-detection-accuracy-report-table>
+            <wb-semantic-segmentation-accuracy-report-table
+              #accuracyReportTable
+              *ngSwitchCase="ModelTaskTypes.SEMANTIC_SEGMENTATION"
+              [projectId]="project?.id"
+              [report]="report"
+              (visualize)="visualizePredictions($event)"
+            >
+            </wb-semantic-segmentation-accuracy-report-table>
+            <wb-instance-segmentation-accuracy-report-table
+              #accuracyReportTable
+              *ngSwitchCase="ModelTaskTypes.INSTANCE_SEGMENTATION"
+              [projectId]="project?.id"
+              [report]="report"
+              (visualize)="visualizePredictions($event)"
+            >
+            </wb-instance-segmentation-accuracy-report-table>
+          </ng-container>
+          <wb-reference-predictions
+            #imageVisualization
+            class="accuracy-report-image-visualization"
+            *ngIf="datasetImage"
+            [image]="datasetImage"
+            [mode]="getVisualizationMode(report.reportType)"
+            [taskType]="report.taskType"
+          >
+          </wb-reference-predictions>
+        </ng-container>
+      </ng-template>
+
+      <ng-template #perTensorReportContentTemplate>
+        <wb-per-tensor-accuracy-report-table
+          #accuracyReportTable
+          [projectId]="project.id"
+          [report]="report"
+          (visualize)="visualizeImageMSE($event, report?.targetDatasetId)"
+        ></wb-per-tensor-accuracy-report-table>
+
+        <wb-per-tensor-image-visualization
+          #imageVisualization
+          class="accuracy-report-image-visualization"
+          *ngIf="datasetImage"
+          [image]="datasetImage"
+          [outputsMSEInfo]="outputsMSEInfo"
+        ></wb-per-tensor-image-visualization>
+      </ng-template>
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #createNewReportButton>
+  <wb-button
+    class="enlarged-control"
+    text="Create New Report"
+    type="secondary"
+    testId="create-new-report"
+    (handleClick)="openCreateReport.emit()"
+  >
+  </wb-button>
+</ng-template>
+
+<ng-template #progressTemplate>
+  <div class="wb-panel">
+    <wb-progress-panel title="Creating Accuracy Report" [pipeline]="accuracyPipeline$ | async"></wb-progress-panel>
+  </div>
+</ng-template>

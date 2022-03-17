@@ -1,0 +1,53 @@
+<table
+  mat-table
+  [dataSource]="dataSource"
+  class="wb-table wb-table-on-gray precision-distribution-table"
+  data-test-id="precisions-distribution-table"
+  matSort
+  [matSortActive]="sortedColumn.active"
+  [matSortDirection]="sortedColumn.direction"
+  (matSortChange)="sortedColumn = $event"
+>
+  <ng-container matColumnDef="precision">
+    <th mat-header-cell *matHeaderCellDef>Precision</th>
+    <td mat-cell *matCellDef="let element" [attr.data-test-id]="element.precision + '_precision'">
+      <wb-text-overflow [content]="element.precision"></wb-text-overflow>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="total">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      Execution Time, %
+      <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: 'total' }"></ng-container>
+    </th>
+    <td mat-cell *matCellDef="let element" [attr.data-test-id]="element.precision + '_total-distribution'">
+      <wb-text-overflow [content]="element.total.toFixed(2)"></wb-text-overflow>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="bar">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element" width="300">
+      <wb-ratio-bar *ngIf="element.isDisplayed" [normalizeTo]="maxScore" [percent]="element.total"></wb-ratio-bar>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="isDisplayed">
+    <th mat-header-cell *matHeaderCellDef>Include to Distribution Chart</th>
+    <td mat-cell *matCellDef="let element" width="100" class="display-cell">
+      <mat-checkbox
+        [checked]="element.isDisplayed"
+        (change)="redisplayRatioBar(element, $event.checked)"
+      ></mat-checkbox>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+  <tr mat-row *matRowDef="let row; columns: displayedColumns" [attr.data-test-id]="'row_name_' + row.name"></tr>
+</table>
+
+<ng-template #sortIcon let-columnName="columnName">
+  <ng-container *ngIf="dataSource.data?.length">
+    <wb-table-sort-icon [columnName]="columnName" [sortedColumn]="sortedColumn"></wb-table-sort-icon>
+  </ng-container>
+</ng-template>

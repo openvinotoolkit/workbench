@@ -1,0 +1,74 @@
+#!/bin/bash
+
+set -e
+
+while test $# -gt 0; do
+    case "$1" in
+    -result-archive)
+        ARCHIVE_ARTIFACT_PATH=$2
+        shift 2
+        ;;
+    -venv-path)
+        PYTHON_ENVIRONMENT_PATH=$2
+        shift 2
+        ;;
+    *)
+        echo "Unsupported option $1"
+        exit 1
+        ;;
+    esac
+done
+
+CURRENT_PATH=$(pwd)
+CURRENT_SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+JOB_BUNDLE_PATH="$(dirname ${CURRENT_SCRIPT_PATH})"
+
+if [[ -z "${ARCHIVE_ARTIFACT_PATH}" ]]; then
+    ARTIFACTS_PATH="${JOB_BUNDLE_PATH}/{{JOB_ARTIFACT_PATH}}"
+    ARCHIVE_ARTIFACT_PATH="${ARTIFACTS_PATH}/{{DEFAULT_ARCHIVE_ARTIFACT_NAME}}"
+else
+    case ${ARCHIVE_ARTIFACT_PATH} in
+    /*)
+        # ARCHIVE_ARTIFACT_PATH is set as an absolute path
+        ;;
+    *)
+        # ARCHIVE_ARTIFACT_PATH is set as a relative path
+        ARCHIVE_ARTIFACT_PATH="${CURRENT_PATH}/${ARCHIVE_ARTIFACT_PATH}"
+        ;;
+    esac
+    ARTIFACTS_PATH=$(dirname ${ARCHIVE_ARTIFACT_PATH})
+fi
+
+mkdir -p "${ARTIFACTS_PATH}"
+
+# Activate virtualenv
+if [[ -f "${PYTHON_ENVIRONMENT_PATH}/bin/activate" ]]; then
+    source "${PYTHON_ENVIRONMENT_PATH}/bin/activate"
+fi
+
+{% if job_type == JobTypesEnum.profiling_type.value -%}
+  {% include 'profiling.sh.jinja' %}
+{% elif job_type == JobTypesEnum.int8calibration_type.value -%}
+  {% include 'int8_calibration.sh.jinja' %}
+{% elif job_type == JobTypesEnum.accuracy_type.value -%}
+  {% include 'accuracy.sh.jinja' %}
+{% elif job_type == JobTypesEnum.per_tensor_report_type.value -%}
+  {% include 'create_tensor_distance_report.sh.jinja' %}
+{% elif job_type == JobTypesEnum.annotate_dataset.value -%}
+  {% include 'annotate_dataset.sh.jinja' %}
+{% elif job_type == JobTypesEnum.reshape_model.value -%}
+    {% include 'reshape_model.sh.jinja' %}
+{% else -%}
+  {{ raise("Unsupported job type") }}
+{% endif %}
+
+
+if [ ! -z "$(ls -A ${ARTIFACTS_PATH})" ]; then
+  pushd "${ARTIFACTS_PATH}" || exit 1
+
+    tar cfz "${ARCHIVE_ARTIFACT_PATH}" -C "${ARTIFACTS_PATH}" *
+
+  popd || exit 1
+fi
+
+echo "{{JOB_FINISH_MARKER}}"

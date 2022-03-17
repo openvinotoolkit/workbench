@@ -1,0 +1,47 @@
+{
+  "server": {
+    "unrecognizedServerError": "Got unrecognized code error from the server"
+  },
+  "remote-target-machine": {
+    "ssh_auth_error": "Could not authenticate to the remote machine. Either the hostname, port, user name, or SSH key was not recognized.",
+    "incorrect_username": "Could not authenticate to the remote machine. The user name was not recognized.",
+    "timeout": "Could not connect to the remote machine. Check your connection and port.",
+    "incorrect_hostname_port": "Could not connect to the remote machine. The hostname was not recognized.",
+    "incorrect_key": "Could not authenticate to the remote machine. The SSH key was not recognized.",
+    "incorrect_key_content": "Could not authenticate to the remote machine. The structure of the SSH key was not recognized.",
+    "no_python": "Python is not installed on the remote machine.",
+    "python_version_error": "The Python version on the remote machine is not supported. Use Python 3.5, 3.6, 3.7, or 3.8.",
+    "os_version_error": "The OS version on the remote machine is not supported. Use Ubuntu 18.",
+    "no_internet_connection": "There is no internet connection on the remote machine. Check the internet connection or proxy settings.",
+    "pip_version_error": "The pip version on the remote machine is not supported. Use pip 18 or higher."
+  },
+  "modelUpload": {
+    "deprecatedIRVersionTitle": "Deprecated IR version",
+    "deprecatedIRVersionDescription": "Version of the imported IR is deprecated. DL Workbench supports only IR version 11, which you get when importing an original model to the DL Workbench or using the highest version of the Model Optimizer."
+  },
+  "importModelStatus": {
+    "WaitModelUploadJob": "Model Upload failed",
+    "ModelAnalyzerJob": "Model Analyzer failed",
+    "ModelOptimizerJob": "Model Optimizer failed",
+    "ModelOptimizerScanJob": "Model Optimizer Scan failed",
+    "ConvertKerasJob": "Conversion to Keras failed",
+    "setupEnvironmentJob": "Environment setup failed",
+    "defaultErrorMessage": "Conversion failed"
+  },
+  "projectStatus": {
+    "accuracyFailed": "Accuracy configuration failed",
+    "int8CalibrationFailed": "INT8 calibration failed",
+    "profilingFailed": "Benchmark tool failed",
+    "projectStatusFailed": "Project status failed",
+    "projectExportFailed": "Project export failed"
+  },
+  "networkOutputVisualization": {
+    "visualizationFailed": "Output visualization failed"
+  },
+  "datasetStatus": {
+    "uploadFailed": "Dataset upload failed"
+  },
+  "environmentSetup": {
+    "alreadyRunning": "The import of several models simultaneously resulted in the environment setup error. Click on the button below to cancel the import process and try to import your models one by one."
+  }
+}

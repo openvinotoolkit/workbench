@@ -1,0 +1,35 @@
+<div class="wb-panel">
+  <div class="wb-panel__header"><h4 class="wb-panel__title">Import Tokenizer</h4></div>
+
+  <wb-config-form-field [field]="fields.type" [group]="form"></wb-config-form-field>
+
+  <wb-file-upload-field
+    class="enlarged-control"
+    *ngIf="fields.vocabFile as field"
+    [id]="field.name"
+    [label]="field.label"
+    [tooltip]="field.tooltip"
+    [maxFileSizeMb]="field.maxFileSizeMb"
+    [acceptedFiles]="field.acceptedFiles"
+    (fileSelected)="onVocabFileChange($event)"
+  >
+  </wb-file-upload-field>
+
+  <ng-container *ngIf="form.controls[fields.mergesFile.name]">
+    <wb-file-upload-field
+      class="enlarged-control"
+      *ngIf="fields.mergesFile as field"
+      [id]="field.name"
+      [label]="field.label"
+      [tooltip]="field.tooltip"
+      [maxFileSizeMb]="field.maxFileSizeMb"
+      [acceptedFiles]="field.acceptedFiles"
+      (fileSelected)="onMergesFileChange($event)"
+    >
+    </wb-file-upload-field>
+  </ng-container>
+
+  <wb-config-form-field [field]="fields.lowerCase" [group]="form"></wb-config-form-field>
+
+  <wb-config-form-field [field]="fields.name" [group]="form"></wb-config-form-field>
+</div>

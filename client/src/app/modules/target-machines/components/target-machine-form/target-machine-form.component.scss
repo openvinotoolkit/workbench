@@ -1,0 +1,107 @@
+@import 'fonts';
+@import 'variables';
+
+$field-min-width: 225px;
+$field-label-min-width: 90px;
+
+:host {
+  .remote-target-container {
+    display: flex;
+    flex-direction: column;
+    margin: $container-padding 0 0 0;
+    height: calc(100% - #{$header-height});
+  }
+
+  .remote-target {
+    display: flex;
+    flex-direction: row;
+    margin-top: $container-padding;
+    height: 100%;
+
+    &-content {
+      display: flex;
+      flex-direction: column;
+      flex-basis: 60%;
+
+      &-form {
+        margin-left: $container-padding;
+        max-width: fit-content;
+
+        wb-config-form-field,
+        wb-file-upload-field {
+          ::ng-deep .field-label {
+            width: 100px !important;
+          }
+        }
+
+        wb-file-upload-field ::ng-deep .field-label {
+          @include wb-body-4();
+        }
+
+        .proxy-settings {
+          display: flex;
+          flex-direction: row;
+
+          &-fields {
+            margin-left: 20px;
+            margin-top: -10px;
+            display: flex;
+            flex-direction: column;
+
+            wb-config-form-field ::ng-deep .config-form-field-checkbox > .field-label {
+              width: auto !important;
+            }
+          }
+        }
+      }
+
+      wb-config-form-field,
+      wb-file-upload-field {
+        ::ng-deep .config-form-field {
+          display: flex;
+          align-items: baseline;
+        }
+
+        ::ng-deep .field-label {
+          width: $field-label-min-width;
+          margin-right: $container-padding;
+        }
+
+        ::ng-deep mat-form-field {
+          min-width: $field-min-width;
+        }
+
+        ::ng-deep .file-upload-field {
+          min-width: $field-min-width;
+        }
+      }
+
+      &-controls {
+        margin-left: $container-padding;
+        display: flex;
+        flex-direction: row;
+        margin-top: auto;
+
+        *:not(:first-child) {
+          margin-left: 10px;
+        }
+      }
+    }
+
+    &-tip-content {
+      display: flex;
+      color: $black;
+      line-height: 20px;
+    }
+  }
+
+  .page-actions {
+    display: flex;
+    flex-direction: row;
+    margin: auto 0 $container-padding $container-padding;
+
+    wb-button + wb-button {
+      margin-left: $container-padding;
+    }
+  }
+}

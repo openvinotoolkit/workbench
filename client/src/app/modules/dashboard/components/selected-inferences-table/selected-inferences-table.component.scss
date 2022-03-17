@@ -1,0 +1,13 @@
+@import 'colors';
+
+.column-actions {
+  text-align: right;
+
+  mat-icon {
+    cursor: pointer;
+    color: $cool-grey;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}

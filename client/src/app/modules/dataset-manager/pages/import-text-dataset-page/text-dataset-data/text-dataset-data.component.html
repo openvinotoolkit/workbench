@@ -1,0 +1,40 @@
+<div class="wb-panel dataset-form">
+  <div class="wb-panel__header"><h4 class="wb-panel__title">Text Dataset Data</h4></div>
+
+  <wb-file-upload-field
+    class="enlarged-control"
+    *ngIf="formFields.file as field"
+    [id]="field.name"
+    [label]="field.label"
+    [tooltip]="field.tooltip"
+    [maxFileSizeMb]="field.maxFileSizeMb"
+    [acceptedFiles]="field.acceptedFiles"
+    (fileSelected)="onFileChange($event)"
+    testId="upload-text-dataset"
+  >
+  </wb-file-upload-field>
+
+  <wb-config-form-field [field]="formFields.name" [group]="form" testId="dataset-name"></wb-config-form-field>
+  <wb-config-form-field [field]="formFields.encoding" [group]="form" testId="dataset-encoding"></wb-config-form-field>
+  <wb-config-form-field [field]="formFields.separator" [group]="form" testId="separator"></wb-config-form-field>
+  <wb-config-form-field [field]="formFields.header" [group]="form" testId="header"></wb-config-form-field>
+  <wb-config-form-field [field]="formFields.taskType" [group]="form" testId="task-type"></wb-config-form-field>
+
+  <wb-markdown-text [text]="taskTypeHints[form.value.taskType]"></wb-markdown-text>
+
+  <wb-classification-columns-form
+    *ngIf="form.controls.taskType.value === ModelTaskTypes.TEXT_CLASSIFICATION"
+    [formControl]="form.controls.columns"
+    [columnsNumber]="datasetSlice?.[0]?.length"
+  >
+  </wb-classification-columns-form>
+
+  <wb-entailment-columns-form
+    *ngIf="form.controls.taskType.value === ModelTaskTypes.TEXTUAL_ENTAILMENT"
+    [formControl]="form.controls.columns"
+    [columnsNumber]="datasetSlice?.[0]?.length"
+  >
+  </wb-entailment-columns-form>
+</div>
+
+<wb-text-dataset-preview [dataset]="datasetSlice" [formattedDataset]="formattedDataset"></wb-text-dataset-preview>

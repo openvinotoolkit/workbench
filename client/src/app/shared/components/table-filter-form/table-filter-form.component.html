@@ -1,0 +1,104 @@
+<form [formGroup]="mainFormGroup">
+  <div formArrayName="filters" class="table-filter-form">
+    <ng-container *ngFor="let filter of filtersFormArray.controls; index as index">
+      <ng-container [formGroupName]="index">
+        <!-- Select Column input -->
+        <mat-form-field class="select-column-control" floatLabel="always">
+          <mat-label>{{ labels.selectColumn }}</mat-label>
+          <mat-select #columnField data-test-id="select-column-field" [formControlName]="controlNamesMap.column">
+            <mat-option *ngFor="let column of getAvailableColumnsToFilter(index)" [value]="column.name">
+              {{ column.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <ng-container [ngSwitch]="getFilterTypeForColumn(columnField.value)">
+          <ng-container *ngSwitchCase="'set'" [ngTemplateOutlet]="setFilterTemplate"></ng-container>
+          <ng-container *ngSwitchCase="'number'" [ngTemplateOutlet]="numberFilterTemplate"></ng-container>
+          <ng-container *ngSwitchCase="'time'" [ngTemplateOutlet]="numberFilterTemplate"></ng-container>
+          <ng-container *ngSwitchDefault [ngTemplateOutlet]="setFilterTemplate"></ng-container>
+        </ng-container>
+
+        <!-- Remove Filter button -->
+        <button
+          class="remove-filter-button"
+          *ngIf="filtersFormArray.controls.length !== 1"
+          [disabled]="disabled || isFilterApplied"
+          (click)="removeFilterFromFiltersFormArray(index)"
+          mat-icon-button
+          disableRipple
+        >
+          <mat-icon svgIcon="close_circle"></mat-icon>
+        </button>
+
+        <ng-template #setFilterTemplate>
+          <wb-multiple-select
+            data-test-id="set-filter-field"
+            [control]="filter.get(controlNamesMap.value)"
+            [options]="getValueOptionsForColumn(columnField.value)"
+            [label]="labels.selectFilter"
+          >
+          </wb-multiple-select>
+        </ng-template>
+
+        <ng-template #numberFilterTemplate>
+          <!-- Select Filter input -->
+          <mat-form-field class="value-condition-control" floatLabel="always">
+            <mat-label>{{ labels.selectFilter }}</mat-label>
+            <mat-select
+              data-test-id="number-filter-field"
+              [formControlName]="controlNamesMap.valueCondition"
+              disableRipple
+            >
+              <mat-option
+                *ngFor="let option of getValueConditionOptionsForColumn(columnField.value)"
+                [value]="option.value"
+              >
+                {{ option.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <!-- Enter Value input -->
+          <mat-form-field class="number-value-control" floatLabel="always">
+            <mat-label>{{ labels.enterValue }}</mat-label>
+            <label>
+              <input
+                matInput
+                type="number"
+                [numberType]="isIntColumnType(columnField.value) ? 'integer' : 'long_float'"
+                [formControlName]="controlNamesMap.value"
+              />
+            </label>
+          </mat-form-field>
+        </ng-template>
+      </ng-container>
+    </ng-container>
+
+    <wb-button
+      class="add-filter-button"
+      text="Add new filter"
+      icon="add"
+      iconPosition="before"
+      [disabled]="disabled || isFilterApplied || filtersFormArray?.length === columns?.length || mainFormGroup.invalid"
+      (handleClick)="addFilterToFiltersFormArray()"
+    ></wb-button>
+
+    <div class="filter-form-buttons-container">
+      <wb-button
+        class="apply-filter-button"
+        type="secondary"
+        [text]="'Apply Filter'"
+        testId="apply-filter-button"
+        [disabled]="disabled || mainFormGroup.pristine || mainFormGroup.invalid || isFilterApplied"
+        (handleClick)="onApplyFilter()"
+      >
+      </wb-button>
+      <wb-button
+        [text]="'Clear Filter'"
+        [disabled]="disabled || mainFormGroup.pristine || !isFilterApplied"
+        (handleClick)="onResetFilter()"
+      >
+      </wb-button>
+    </div>
+  </div>
+</form>

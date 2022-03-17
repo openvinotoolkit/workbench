@@ -1,0 +1,11 @@
+`--input_model_is_text` | TensorFlow*: treat the input model file as a text protobuf format. If not specified, the Model Optimizer treats it as a binary file by default.
+`--input_checkpoint` | TensorFlow*: variables file to load.
+`--input_meta_graph` | Tensorflow*: a file with a meta-graph of the model before freezing.
+`--saved_model_dir` | TensorFlow*: directory with a model in SavedModel format of TensorFlow 1.x or 2.x version.
+`--saved_model_tags` | Group of tag(s) of the MetaGraphDef to load, in string format, separated by ','. For tag-set contains multiple tags, all tags must be passed in.
+`--tensorflow_custom_operations_config_update` | TensorFlow*: update the configuration file with node name patterns with input/output nodes information.
+`--tensorflow_use_custom_operations_config` | Use the configuration file with custom operation description.
+`--tensorflow_object_detection_api_pipeline_config` | TensorFlow*: path to the pipeline configuration file used to generate model created with help of Object Detection API.
+`--tensorboard_logdir` | TensorFlow*: dump the input graph to a given directory that should be used with TensorBoard.
+`--tensorflow_custom_layer_libraries` | TensorFlow*: comma separated list of shared libraries with TensorFlow* custom operations implementation.
+`--disable_nhwc_to_nchw` | Disables default translation from NHWC to NCHW.

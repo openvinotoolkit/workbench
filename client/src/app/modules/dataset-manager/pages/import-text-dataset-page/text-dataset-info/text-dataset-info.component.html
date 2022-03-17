@@ -1,0 +1,24 @@
+<mat-accordion displayMode="flat" [multi]="true">
+  <mat-expansion-panel #rootExpansionPanel hideToggle class="wb-panel mat-elevation-z0">
+    <mat-expansion-panel-header class="wb-panel-header">
+      <mat-icon [svgIcon]="rootExpansionPanel.expanded ? 'arrow_up' : 'arrow_down'" class="wb-panel-icon"></mat-icon>
+      <h3 class="wb-h4 wb-panel-title">Dataset Info</h3>
+    </mat-expansion-panel-header>
+
+    <ng-template matExpansionPanelContent [ngTemplateOutlet]="datasetInfoTmpl"></ng-template>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<ng-template #datasetInfoTmpl>
+  <div class="dataset-info-content-divider"></div>
+  <div class="dataset-info-content">
+    <wb-markdown-text [text]="hints.requirements"></wb-markdown-text>
+    <div class="structure-header header">Text Dataset Structure</div>
+    <div class="structure-content">
+      <wb-text-classification-dataset-info></wb-text-classification-dataset-info>
+      <wb-textual-entailment-dataset-info></wb-textual-entailment-dataset-info>
+    </div>
+
+    <wb-markdown-text [text]="hints.links"></wb-markdown-text>
+  </div>
+</ng-template>

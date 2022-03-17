@@ -1,0 +1,25 @@
+@import 'fonts';
+@import 'variables';
+
+:host {
+  display: flex;
+}
+
+.property {
+  display: flex;
+
+  & + &:before {
+    margin: 0 10px;
+    content: ' • ';
+    @include wb-subtitle-strong();
+  }
+
+  .key {
+    margin-right: 5px;
+    @include wb-subtitle-strong();
+  }
+
+  .value {
+    @include wb-subtitle-1();
+  }
+}

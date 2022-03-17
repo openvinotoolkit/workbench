@@ -1,0 +1,21 @@
+@import 'fonts';
+@import 'variables';
+
+.key-val {
+  display: flex;
+  align-items: center;
+  min-height: 30px;
+
+  & + & {
+    margin-top: 10px;
+  }
+
+  &__key {
+    @include wb-subtitle-1();
+    margin-right: 10px;
+  }
+
+  &__val {
+    @include wb-subtitle-strong();
+  }
+}

@@ -1,0 +1,49 @@
+@import 'colors';
+@import 'fonts';
+
+.modal {
+  background: $faded-bgr;
+  border-radius: 3px;
+  width: 520px;
+  padding: 25px;
+  box-sizing: border-box;
+  text-align: center;
+
+  &__info {
+    @include wb-text-14();
+    color: $brownish-grey;
+    white-space: pre-wrap;
+
+    &:last-child {
+      margin-top: 15px;
+    }
+  }
+
+  &__cancel {
+    margin: 30px auto 0;
+  }
+}
+
+wb-status-bar {
+  display: block;
+  margin-top: 35px;
+
+  ::ng-deep mat-icon.static-icon {
+    $size: 40px;
+    width: $size;
+    height: $size;
+  }
+}
+
+.status-row {
+  margin-top: 10px;
+
+  .status-row__txt {
+    @include wb-subtitle-1();
+    margin-right: 10px;
+  }
+
+  .status-row__progress {
+    @include wb-subtitle-strong();
+  }
+}

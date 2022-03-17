@@ -1,0 +1,21 @@
+<ng-content select="wb-model-zoo-notification"></ng-content>
+
+<div class="content-row">
+  <div class="wb-col-4 filter-block">
+    <ng-content select="model-zoo-filters"></ng-content>
+  </div>
+
+  <div class="wb-col-8 main-block">
+    <div class="block-header">
+      <div class="block-header-row">
+        <ng-content select="model-zoo-search"></ng-content>
+        <ng-content select="wb-model-zoo-counter"></ng-content>
+      </div>
+      <div class="block-header-row">
+        <ng-content select="model-zoo-paginator"></ng-content>
+      </div>
+    </div>
+
+    <ng-content select="wb-card-grid"></ng-content>
+  </div>
+</div>

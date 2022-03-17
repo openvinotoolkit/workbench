@@ -1,0 +1,214 @@
+// declares global fonts
+
+// components usage:
+// @import 'fonts';
+// .label {
+//   @include wb-label();
+// }
+
+// template usage:
+// there is wb-full-font-set-declaration mixin which is imported once in fonts-imports and provides utilities
+// for template usage
+// <div class="wb-label">label</div>
+
+@mixin wb-h1 {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 30px;
+}
+
+@mixin wb-h2 {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+@mixin wb-h3 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+@mixin wb-h4 {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 21px;
+}
+
+@mixin wb-h5 {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+}
+
+@mixin wb-body-1 {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+// Text style 6
+@mixin wb-body-2 {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+@mixin wb-body-3 {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+@mixin wb-body-4 {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+@mixin wb-body-5 {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
+  text-decoration: underline;
+}
+
+@mixin wb-body-6 {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+}
+
+@mixin wb-body-7 {
+  font-size: 10px;
+  font-weight: 700;
+}
+
+@mixin wb-input {
+  font-size: 18px;
+  font-weight: 300;
+  font-style: italic;
+}
+
+// Text style 5
+@mixin wb-subtitle-1 {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+}
+
+// Text style 4
+@mixin wb-subtitle-strong {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19px;
+}
+
+@mixin wb-subtitle-2 {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+@mixin wb-label {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+@mixin wb-text-1 {
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: underline;
+}
+
+@mixin wb-text-2 {
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+// Text style 8
+@mixin wb-text-8 {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+// Text style 13
+@mixin wb-text-13 {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14px;
+}
+
+// Text style 14
+@mixin wb-text-14 {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+@mixin wb-full-font-set-declaration {
+  .wb-h1 {
+    @include wb-h1();
+  }
+  .wb-h2 {
+    @include wb-h2();
+  }
+  .wb-h3 {
+    @include wb-h3();
+  }
+  .wb-h4 {
+    @include wb-h4();
+  }
+  .wb-h5 {
+    @include wb-h5();
+  }
+  .wb-body-1 {
+    @include wb-body-1();
+  }
+  .wb-body-2 {
+    @include wb-body-2();
+  }
+  .wb-body-3 {
+    @include wb-body-3();
+  }
+  .wb-body-4 {
+    @include wb-body-4();
+  }
+  .wb-body-5 {
+    @include wb-body-5();
+  }
+  .wb-body-6 {
+    @include wb-body-6();
+  }
+  .wb-body-7 {
+    @include wb-body-7();
+  }
+  .wb-input {
+    @include wb-input();
+  }
+  .wb-subtitle-1 {
+    @include wb-subtitle-1();
+  }
+  .wb-subtitle-strong {
+    @include wb-subtitle-strong();
+  }
+  .wb-subtitle-2 {
+    @include wb-subtitle-2();
+  }
+  .wb-label {
+    @include wb-label();
+  }
+  .wb-text-1 {
+    @include wb-text-1();
+  }
+  .wb-text-2 {
+    @include wb-text-2();
+  }
+  .wb-text-8 {
+    @include wb-text-8();
+  }
+  .wb-text-13 {
+    @include wb-text-13();
+  }
+  .wb-text-14 {
+    @include wb-text-14();
+  }
+}

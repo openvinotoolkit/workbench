@@ -1,0 +1,26 @@
+<ng-container [ngTemplateOutlet]="navigation"></ng-container>
+<h1 class="wb-h1 wb-page-header">Edit Remote Target</h1>
+<div class="edit-page-container">
+  <wb-target-machine-form
+    [editingTargetMachine]="targetMachine$ | async"
+    (save)="handleEditTargetMachine($event)"
+    (cancel)="navigateToTargetMachinesList()"
+  >
+    <ng-container ngProjectAs="failedPipelineStages" [ngTemplateOutlet]="failedPipelineTemplate"></ng-container>
+  </wb-target-machine-form>
+</div>
+
+<ng-template #navigation>
+  <wb-navigation-bar>
+    <a (click)="toCreateProject()">Create Project</a>
+    <a (click)="navigateToTargetMachinesList()">Target Machines</a>
+    <a>Edit #{{ (targetMachine$ | async)?.targetId }}</a>
+  </wb-navigation-bar>
+</ng-template>
+
+<ng-template #failedPipelineTemplate>
+  <div class="failed-pipeline">
+    <span class="wb-body-1">Configuration Log</span>
+    <wb-pipeline-stages [stages]="failedPipelineStages$ | async"></wb-pipeline-stages>
+  </div>
+</ng-template>

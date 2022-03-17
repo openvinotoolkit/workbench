@@ -1,0 +1,38 @@
+<h4 class="wb-subtitle-1 subtitle">Thresholds</h4>
+<form *ngIf="form" [formGroup]="form" class="threshold-form group">
+  <div class="config-form-field">
+    <div class="field-label">
+      <label>Start:</label>
+      <wb-help-tooltip [tooltipMessage]="tooltipService.getTooltip('accuracyParams', 'threshold.start')">
+      </wb-help-tooltip>
+    </div>
+    <mat-form-field appearance="outline" floatLabel="never">
+      <input matInput type="number" step="0.01" formControlName="start" />
+      <mat-error *ngIf="getError(form.controls.start)">{{ getError(form.controls.start) }}</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="config-form-field">
+    <div class="field-label">
+      <label>Step:</label>
+      <wb-help-tooltip [tooltipMessage]="tooltipService.getTooltip('accuracyParams', 'threshold.step')">
+      </wb-help-tooltip>
+    </div>
+    <mat-form-field appearance="outline" floatLabel="never">
+      <input matInput type="number" step="0.01" formControlName="step" />
+      <mat-error *ngIf="getError(form.controls.step)">{{ getError(form.controls.step) }}</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="config-form-field">
+    <div class="field-label">
+      <label>End:</label>
+      <wb-help-tooltip [tooltipMessage]="tooltipService.getTooltip('accuracyParams', 'threshold.end')">
+      </wb-help-tooltip>
+    </div>
+    <mat-form-field appearance="outline" floatLabel="never">
+      <input matInput type="number" step="0.01" formControlName="end" />
+      <mat-error *ngIf="getError(form.controls.end)">{{ getError(form.controls.end) }}</mat-error>
+    </mat-form-field>
+  </div>
+</form>

@@ -1,0 +1,46 @@
+<div class="head">
+  <h3 class="wb-h4 title">Select Dataset</h3>
+
+  <ng-container *ngIf="(datasets$ | async).length">
+    <ng-container *ngTemplateOutlet="importButtons"></ng-container>
+  </ng-container>
+</div>
+
+<div class="form" [class.empty]="!(datasets$ | async).length">
+  <wb-dataset-list
+    *ngIf="(datasets$ | async).length; else noDatasetsTemplate"
+    class="table dataset-table"
+    [datasets]="datasets$ | async"
+    [taskIsRunning]="taskIsRunning"
+    [selectedDatasetId]="selectedDataset?.id"
+    (datasetSelected)="selected.emit($event)"
+  >
+  </wb-dataset-list>
+</div>
+
+<ng-template #importButtons>
+  <wb-button
+    class="enlarged-control"
+    testId="import-dataset-file"
+    type="secondary"
+    text="Import Image Dataset"
+    (handleClick)="openDatasetUpload.emit()"
+  >
+  </wb-button>
+
+  <wb-button
+    class="enlarged-control"
+    testId="import-text-dataset"
+    type="secondary"
+    text="Import Text Dataset"
+    (handleClick)="openTextDatasetUpload.emit()"
+  >
+  </wb-button>
+</ng-template>
+
+<ng-template #noDatasetsTemplate>
+  <div class="buttons">
+    <ng-container *ngTemplateOutlet="importButtons"></ng-container>
+  </div>
+  <wb-markdown-text class="empty-message" [text]="messages.emptyTip"></wb-markdown-text>
+</ng-template>

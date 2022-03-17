@@ -1,0 +1,38 @@
+<div class="wb-row">
+  <div class="wb-col-8">
+    <wb-panel>
+      <div class="wb-h4" wb-heading>OpenVINO Notebooks</div>
+      <ng-container wb-content>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Notebook link</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let notebookLink of openvinoNotebooksLinks">
+                <td>
+                  <a class="notebook-link" (click)="openOpenvinoNotebook(notebookLink)">{{ notebookLink.name }}</a>
+                </td>
+                <td class="wb-body-4">{{ notebookLink.description }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+    </wb-panel>
+  </div>
+  <div class="wb-col-4">
+    <div class="wb-panel">
+      <wb-tip
+        [tipMessage]="{
+          header: 'OpenVINO Notebooks Tip',
+          content: [openvinoNotebooksDescription]
+        }"
+      >
+      </wb-tip>
+    </div>
+  </div>
+</div>

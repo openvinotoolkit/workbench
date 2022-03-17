@@ -1,0 +1,34 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+      - id: no-commit-to-branch
+        args: ['--pattern', '^(master|releases\/)']
+        always_run: true
+        stages: [commit]
+  - repo: local
+    hooks:
+      - id: check-git-remote-pre-push
+        name: Check protected git remote before push
+        entry: python ./scripts/development/check_git_remote_pre_push.py
+        language: python
+        language_version: python3
+        pass_filenames: false
+        always_run: true
+        stages: [push]
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: ''
+    hooks:
+      - id: prettier
+        name: Prettier auto-formatter for client
+        entry: bash -c 'prettier "$@"; git add -u' --
+        files: '^client/'
+        args: [
+            '--write',
+            '--loglevel', 'debug',
+            '--list-different',
+            '--ignore-unknown',
+            '--config', './client/.prettierrc',
+            '--ignore-path', './client/.prettierignore'
+        ]
+        stages: [commit]

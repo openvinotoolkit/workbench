@@ -1,0 +1,59 @@
+@import 'colors';
+@import 'fonts';
+
+.wb-panel__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wb-panel + .wb-panel {
+  margin-top: 0;
+}
+
+.selected-tokenizer {
+  display: flex;
+  margin-bottom: 20px;
+
+  .property {
+    color: $brownish-grey;
+    display: flex;
+    @include wb-subtitle-1();
+  }
+
+  .property + .property:before {
+    margin: 0 10px;
+    content: ' • ';
+  }
+}
+
+.ribbon-content {
+  display: flex;
+  gap: 20px;
+
+  .table-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tip {
+    flex: 0 0 440px;
+  }
+}
+
+.import-tokenizer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .empty-tip {
+    margin-top: 15px;
+    color: $brownish-grey;
+
+    @include wb-text-8();
+  }
+}

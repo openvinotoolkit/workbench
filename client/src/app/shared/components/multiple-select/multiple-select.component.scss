@@ -1,0 +1,43 @@
+@import 'colors';
+@import 'fonts';
+
+$mat-menu-side-padding: 16px !default;
+$reset-icon-size: 18px;
+$scrollbar-width: 17px;
+$search-height: 46px;
+
+.select-search {
+  position: static;
+  padding: 0;
+  height: $search-height;
+  border-bottom: 1px solid $light-blue-grey;
+  &-wrapper {
+    position: absolute;
+    width: calc(100% + #{2 * $mat-menu-side-padding + $scrollbar-width});
+    z-index: 1;
+    top: 0;
+    background: $white;
+    border-bottom: 1px solid $light-blue-grey;
+  }
+  &-content {
+    display: flex;
+    align-items: center;
+  }
+  &-input {
+    padding: 14px $mat-menu-side-padding;
+    @include wb-subtitle-1();
+    box-sizing: border-box;
+  }
+  &-icon {
+    width: $reset-icon-size;
+    height: $reset-icon-size;
+    padding-right: $mat-menu-side-padding;
+    color: $plum;
+    cursor: pointer;
+  }
+}
+
+.not-found {
+  padding: $mat-menu-side-padding;
+  @include wb-label();
+}

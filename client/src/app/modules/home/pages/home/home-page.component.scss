@@ -1,0 +1,117 @@
+@import 'colors';
+@import 'fonts';
+
+wb-navigation-bar ::ng-deep .navigation-bar {
+  padding-bottom: 0;
+}
+
+.hero {
+  text-align: center;
+  margin: 40px auto 30px;
+  max-width: 1160px;
+
+  img {
+    width: 100%;
+  }
+}
+
+.btn {
+  margin-top: 20px;
+}
+
+.info {
+  line-height: 22px;
+  color: $brownish-grey;
+}
+
+.model-panel {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 3px;
+
+  .title {
+    margin: 10px 0;
+  }
+
+  header {
+    display: flex;
+  }
+
+  .tag {
+    @include wb-label();
+
+    padding: 0 30px;
+    border-radius: 30px;
+    line-height: 40px;
+    background-color: $very-light-pink;
+    color: $brownish-grey;
+    margin-left: auto;
+  }
+}
+
+.display-type {
+  border-left: 1px solid $very-light-pink;
+  margin: -20px -20px -20px 20px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+
+  .type-btn {
+    display: flex;
+    color: $brownish-grey;
+
+    &:hover {
+      cursor: pointer;
+
+      &:not(.selected) {
+        color: $black;
+      }
+    }
+
+    mat-icon {
+      $size: 30px;
+      width: $size;
+      height: $size;
+    }
+  }
+
+  .type-btn + .type-btn {
+    margin-left: 10px;
+  }
+
+  .selected {
+    color: $plum;
+  }
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px;
+}
+
+.annotations {
+  display: flex;
+  justify-content: space-between;
+
+  &.detailed p {
+    display: block;
+    color: $cool-grey;
+    margin: 10px 0 0;
+  }
+}
+
+.annotation {
+  width: 265px;
+  text-align: center;
+
+  h2 {
+    color: $brownish-grey;
+    margin: 10px 0 0;
+  }
+
+  p {
+    display: none;
+  }
+}

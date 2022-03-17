@@ -1,0 +1,210 @@
+<table
+  mat-table
+  [dataSource]="dataSource"
+  class="wb-table wb-table-on-gray models-table"
+  data-test-id="models-table"
+  matSort
+  [matSortActive]="sortedColumn.active"
+  [matSortDirection]="sortedColumn.direction"
+  [@highlight]="animationInProgress"
+  (@highlight.done)="highlightFinished()"
+  (matSortChange)="sortedColumn = $event"
+  multiTemplateDataRows
+>
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef class="name" mat-sort-header>
+      Model Name
+      <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: 'name' }"></ng-container>
+    </th>
+    <td mat-cell *matCellDef="let element" class="name" data-test-id="model-name">
+      <div class="name-cell">
+        <mat-icon
+          *ngIf="element.domain === ModelDomain.CV"
+          class="domain-icon"
+          svgIcon="image"
+          [matTooltip]="modelTooltips.cvDomain"
+          matTooltipPosition="right"
+        >
+        </mat-icon>
+        <mat-icon
+          *ngIf="element.domain === ModelDomain.NLP"
+          class="domain-icon"
+          svgIcon="text_fields"
+          [matTooltip]="modelTooltips.nlpDomain"
+          matTooltipPosition="right"
+        >
+        </mat-icon>
+        <wb-text-overflow [content]="element.name"></wb-text-overflow>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="details">
+    <th mat-header-cell *matHeaderCellDef class="details"></th>
+    <td mat-cell *matCellDef="let element" class="details">
+      <wb-button
+        text="Details"
+        type="secondary"
+        data-test-id="model-details"
+        [disabled]="!isDetailsAvailable(element)"
+        (click)="selectModelDetails(element); $event.stopPropagation()"
+      >
+      </wb-button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="date">
+      <span class="nobr">Import Time</span>
+      <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: 'date' }"></ng-container>
+    </th>
+    <td mat-cell *matCellDef="let element" class="date">
+      {{ element.date | date: 'dd/MM/yy, hh:mm' }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="size">
+    <th mat-header-cell *matHeaderCellDef class="size">Size</th>
+    <td mat-cell *matCellDef="let element" class="size">
+      {{ formatSize(element.size) }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef class="status">Status</th>
+    <td mat-cell *matCellDef="let element" class="status">
+      <div class="status-content">
+        <wb-status-bar
+          *ngIf="isConversionStatusRunning(element)"
+          mode="circle"
+          [status]="element.status"
+          [cancellationEnabled]="true"
+          [readonlyTipMsg]="getReadOnlyTipMessage(element)"
+          [errorMessage]="getErrorMessage(element.status)"
+          [displayDoneMsg]="true"
+          (cancelProgress)="cancelModelUpload(element); $event.stopPropagation()"
+        ></wb-status-bar>
+        <ng-container *ngIf="!isConversionStatusRunning(element) || isNotConfigured(element)">
+          <div class="special-status">
+            <mat-icon
+              class="special-status__icon"
+              [matTooltip]="notReadyModelLabel(element)"
+              data-test-id="model-status-not-configured"
+              svgIcon="error_outline"
+            ></mat-icon>
+            <wb-text-overflow [content]="notReadyModelLabel(element)"></wb-text-overflow>
+          </div>
+        </ng-container>
+        <wb-button
+          *ngIf="needToConfigure(element)"
+          class="edit-button"
+          type="secondary"
+          text="Edit"
+          testId="edit-model-convert-button"
+          [routerLink]="'/model-manager/' + element.id + '/edit'"
+        >
+        </wb-button>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="usage">
+    <th mat-header-cell *matHeaderCellDef class="usage">Usage</th>
+    <td mat-cell *matCellDef="let element" id="file-type" class="usage">
+      {{ TaskTypeToNameMap[element.accuracyConfiguration?.taskType] }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="precisions">
+    <th mat-header-cell *matHeaderCellDef class="precisions">Precisions</th>
+    <td mat-cell *matCellDef="let element" class="precisions">
+      {{ element?.bodyPrecisions?.join(', ') }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef class="actions">Actions</th>
+    <td mat-cell *matCellDef="let element" class="actions">
+      <div class="cell-content">
+        <button
+          [disabled]="
+            ![projectStatusNames.READY, projectStatusNames.ARCHIVED, projectStatusNames.ERROR].includes(
+              element.status.name
+            ) || element.isDownloading
+          "
+          class="actions-trigger"
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+          aria-label="Model Actions"
+          data-test-id="model-actions-trigger"
+        >
+          <mat-icon svgIcon="more"></mat-icon>
+        </button>
+        <mat-menu class="wb-menu model-actions-menu-test-id" #menu="matMenu">
+          <button
+            mat-menu-item
+            *ngIf="element.status.name === projectStatusNames.READY && element.isConfigured"
+            [routerLink]="['/models', element.id]"
+            (click)="$event.stopPropagation()"
+            data-test-id="visualize-model"
+          >
+            Open
+          </button>
+          <button
+            mat-menu-item
+            *ngIf="!element.isDownloading && element.status.name === projectStatusNames.READY"
+            (click)="download({ modelId: element.id, name: element.name })"
+          >
+            Download
+          </button>
+
+          <button
+            mat-menu-item
+            *ngIf="
+              [projectStatusNames.READY, projectStatusNames.ARCHIVED, projectStatusNames.ERROR].includes(
+                element.status.name
+              ) && !element.isDownloading
+            "
+            data-test-id="delete-model-file"
+            svgIcon="delete"
+            [disabled]="taskIsRunning"
+            (click)="remove(element); $event.stopPropagation()"
+          >
+            Delete
+          </button>
+        </mat-menu>
+
+        <div class="actions-content">
+          <ng-container
+            [ngTemplateOutlet]="progressSpinner"
+            *ngIf="element.status.name === projectStatusNames.READY && element.isDownloading"
+          >
+          </ng-container>
+        </div>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+  <tr
+    mat-row
+    *matRowDef="let row; columns: displayedColumns"
+    [class.selected]="selectedModelId === row.id"
+    [class.error]="row.status.name === projectStatusNames.ERROR"
+    [class.disabled]="!isModelAvailable(row)"
+    [class.inactive]="row.status.name === projectStatusNames.CANCELLED"
+    [attr.data-test-id]="'row_name_' + row.name"
+    (click)="selectRow(row)"
+  ></tr>
+</table>
+
+<ng-template #progressSpinner>
+  <wb-spinner diameter="24"></wb-spinner>
+</ng-template>
+
+<ng-template #sortIcon let-columnName="columnName">
+  <ng-container *ngIf="dataSource.data?.length">
+    <wb-table-sort-icon [columnName]="columnName" [sortedColumn]="sortedColumn"></wb-table-sort-icon>
+  </ng-container>
+</ng-template>

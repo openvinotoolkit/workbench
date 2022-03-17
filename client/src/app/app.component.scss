@@ -1,0 +1,41 @@
+@import 'variables';
+
+:host {
+  min-width: $min-layout-width;
+  display: block;
+}
+
+.app-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.app-header {
+  .dev-cloud-warning-message {
+    ::ng-deep .message-box-container {
+      border-width: 0 0 1px 0;
+      align-items: center;
+    }
+  }
+}
+
+.app-notifications {
+  position: absolute;
+  top: $header-height;
+  right: 0;
+  z-index: 2;
+}
+
+.app-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: auto;
+
+  ::ng-deep mat-sidenav-container {
+    flex-grow: 1;
+    height: 100%;
+  }
+}

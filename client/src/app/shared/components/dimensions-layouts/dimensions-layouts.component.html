@@ -1,0 +1,56 @@
+<div class="row">
+  <wb-config-form-field
+    class="enlarged-control layout-type"
+    [field]="layoutTypeField"
+    [group]="utilGroup"
+    [idSuffix]="index"
+  ></wb-config-form-field>
+</div>
+<div class="container">
+  <div class="labels" [class.has-error]="this.isValidationMessageVisible">
+    <div class="label wb-subtitle-1">Shape:</div>
+    <div class="label wb-subtitle-1">Layout Role:</div>
+  </div>
+  <form [formGroup]="group" data-test-id="dimensions-input">
+    <div formArrayName="inputs" class="items" [class.has-error]="this.isValidationMessageVisible">
+      <div *ngFor="let inputGroup of inputs.controls; let i = index" class="item">
+        <div class="wb-body-6 num">Dimension {{ i + 1 }}</div>
+        <div class="inputs-block wb-subtitle-1">
+          <div class="inputs">
+            <wb-config-form-field
+              [field]="dimensionField"
+              [group]="inputGroup"
+              [attr.data-test-id]="'dimension-field'"
+            ></wb-config-form-field>
+            <wb-config-form-field
+              [hidden]="!isSpecifyLayout"
+              [field]="layoutField"
+              [group]="inputGroup"
+              testId="layout-field"
+            ></wb-config-form-field>
+            <div *ngIf="!isSpecifyLayout" class="layout-value">{{ getLayoutValue(inputs.controls[i]) }}</div>
+          </div>
+          <div class="action">
+            <wb-button
+              *ngIf="removableFields && inputs.controls?.length !== 1"
+              class="remove"
+              (click)="removeItem(i)"
+              icon="delete"
+              [attr.data-test-id]="'remove-dimension-' + i"
+            >
+            </wb-button>
+          </div>
+        </div>
+        <wb-button
+          *ngIf="i + 1 === inputs?.controls?.length && removableFields && inputs.controls?.length < maxDimensions"
+          class="remove"
+          (click)="addItem()"
+          icon="add"
+          text="Add Dimension"
+          testId="add-dimension"
+        >
+        </wb-button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,136 @@
+@import 'variables';
+
+.models-table {
+  td {
+    vertical-align: middle;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    line-height: 24px;
+  }
+}
+
+.name {
+  .name-cell {
+    display: flex;
+    align-items: center;
+
+    .domain-icon {
+      $size: 20px;
+      width: $size;
+      height: $size;
+      margin-right: 10px;
+      color: $black;
+
+      &:hover {
+        color: $plum;
+      }
+    }
+  }
+}
+
+.status {
+  width: 205px;
+}
+
+.details {
+  overflow: hidden;
+  width: 80px;
+
+  span {
+    color: $plum;
+    cursor: pointer;
+  }
+}
+
+wb-model-details {
+  display: block;
+}
+
+.actions {
+  width: 50px;
+  text-align: right;
+
+  .cell-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.actions-content {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  wb-button {
+    margin-right: 10px;
+  }
+
+  mat-icon {
+    cursor: pointer;
+    color: $cool-grey;
+
+    &:hover {
+      color: $black;
+    }
+  }
+
+  > *:not(:first-child) {
+    margin-left: 5px;
+  }
+}
+
+.actions-trigger {
+  $size: 20px;
+
+  width: $size;
+  height: $size;
+  line-height: $size;
+  color: $brownish-grey;
+
+  &:hover:not([disabled]) {
+    color: $black;
+  }
+}
+
+.status-content {
+  display: flex;
+  align-items: center;
+
+  wb-status-bar {
+    flex-grow: 1;
+  }
+
+  .edit-button {
+    margin-right: 0;
+    margin-left: auto;
+  }
+}
+
+.empty-list-column {
+  border: none;
+}
+
+.disabled-cell {
+  opacity: 0.3;
+}
+
+.nobr {
+  white-space: nowrap;
+}
+
+.special-status {
+  display: flex;
+  overflow: hidden;
+  margin-right: 10px;
+
+  &__icon {
+    flex-shrink: 0;
+    color: $deep-red;
+    margin-right: 10px;
+  }
+}
+
+tr.inactive .name mat-icon.domain-icon {
+  color: $cool-grey;
+}

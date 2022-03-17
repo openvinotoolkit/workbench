@@ -1,0 +1,40 @@
+.header {
+  margin: 0 0 25px;
+}
+
+.controls {
+  display: flex;
+  align-items: flex-start;
+
+  .col {
+    width: 35%;
+  }
+
+  .radio-button-with-tooltip {
+    display: flex;
+    align-items: center;
+
+    .tip {
+      margin-left: 8px;
+    }
+  }
+}
+
+.profiling-form {
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  ::ng-deep .config-form-field {
+    flex-direction: column;
+  }
+}
+
+.action-block {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+
+  .hint {
+    margin-left: 10px;
+  }
+}

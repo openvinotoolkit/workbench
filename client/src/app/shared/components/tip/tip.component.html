@@ -1,0 +1,4 @@
+<h3>{{ tipMessage?.header }}</h3>
+<p *ngFor="let tip of tipMessage?.content">
+  <wb-markdown-text [text]="tip"></wb-markdown-text>
+</p>

@@ -1,0 +1,138 @@
+<div class="head">
+  <h3 class="wb-h4 title">Select Environment</h3>
+
+  <wb-button
+    class="enlarged-control"
+    testId="add-machine"
+    type="secondary"
+    text="Add Remote Target"
+    (handleClick)="openAddTargetMachine()"
+  >
+  </wb-button>
+</div>
+
+<div class="form">
+  <ng-container
+    [ngTemplateOutlet]="
+      (isDevCloudNotAvailable$ | async) ? environmentNotAvailableTemplate : environmentContentTemplate
+    "
+  ></ng-container>
+</div>
+
+<div class="stage-actions">
+  <wb-button
+    class="button enlarged-control"
+    type="secondary"
+    text="Next Step"
+    [disabled]="!setSelectedTargetDevice || !(selectedTargetMachine$ | async)"
+    (handleClick)="toStage.emit(createProjectStages.DATASET)"
+  >
+  </wb-button>
+  <wb-button
+    class="button enlarged-control"
+    type="secondary"
+    text="Previous Step"
+    (handleClick)="toStage.emit(createProjectStages.MODEL)"
+  >
+  </wb-button>
+</div>
+
+<ng-template #environmentNotAvailableTemplate>
+  <wb-message-box
+    class="environment-warning-message"
+    messageType="error"
+    [message]="devCloudMessages.notRespondingWarning"
+    [detailedMessage]="devCloudMessages.troubleshootDetailedHint"
+  >
+  </wb-message-box>
+</ng-template>
+
+<ng-template #environmentContentTemplate>
+  <div class="ribbon-wrapper">
+    <mat-button-toggle-group
+      [value]="(isTargetBasedView$ | async) ? environmentTypes.TARGET : environmentTypes.PLATFORM"
+      class="wb-ribbon enlarged-control ribbon"
+    >
+      <mat-button-toggle
+        *ngFor="let item of environmentRibbonValues"
+        [value]="item.id"
+        [aria-label]="item.title"
+        [attr.data-test-id]="item.id + '-ribbon'"
+        (change)="isTargetBasedView$.next(item.id === environmentTypes.TARGET)"
+        >{{ item.title }}</mat-button-toggle
+      >
+    </mat-button-toggle-group>
+  </div>
+
+  <ng-container
+    [ngTemplateOutlet]="(isTargetBasedView$ | async) ? targetBasedViewTemplate : platformBasedViewTemplate"
+  ></ng-container>
+
+  <ng-template #targetBasedViewTemplate>
+    <div class="table-wrapper">
+      <wb-target-list
+        class="table targets-table"
+        [targets]="targets$ | async"
+        [isDevCloudMode]="isDevCloudMode$ | async"
+        [selectedTargetId]="(selectedTargetMachine$ | async)?.targetId"
+        (targetSelected)="selectedTargetMachine$.next($event)"
+        (toTargetMachine)="toTargetMachine($event)"
+      >
+      </wb-target-list>
+    </div>
+  </ng-template>
+
+  <ng-template #platformBasedViewTemplate>
+    <div class="wb-config-form-field">
+      <div class="field-label">Base Platform:</div>
+      <mat-form-field
+        class="wb-form-field base-platform-select"
+        data-test-id="base-platform-select"
+        appearance="outline"
+        floatLabel="never"
+      >
+        <mat-select
+          [value]="selectedBasePlatform$ | async"
+          (selectionChange)="selectedBasePlatform$.next($event.value)"
+          [disabled]="(availablePlatforms$ | async)?.length === 1"
+        >
+          <mat-option
+            *ngFor="let platform of availablePlatforms$ | async"
+            [value]="platform"
+            [attr.data-test-id]="'platform_' + platform"
+            >{{ cpuPlatformTypeNamesMap[platform] }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="table-wrapper">
+      <wb-platform-list
+        class="table platforms-table"
+        [targets]="targets$ | async"
+        [selectedTargetId]="(selectedTargetMachine$ | async)?.targetId"
+        (targetSelected)="selectedTargetMachine$.next($event)"
+      >
+      </wb-platform-list>
+    </div>
+  </ng-template>
+
+  <div class="wb-config-form-field device-select">
+    <div class="field-label">
+      <label>Device:</label>
+    </div>
+    <div class="field-container">
+      <mat-form-field data-test-id="device-select" appearance="outline" floatLabel="never" class="device-field">
+        <mat-select [value]="selectedTargetDevice" (selectionChange)="setDevice($event.value)">
+          <mat-option
+            *ngFor="let device of activeDevicesForSelectedTarget$ | async"
+            [disabled]="isDeviceDisabled(device)"
+            [value]="device"
+            [attr.data-test-id]="'device_' + device.type"
+          >
+            {{ device.productName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</ng-template>

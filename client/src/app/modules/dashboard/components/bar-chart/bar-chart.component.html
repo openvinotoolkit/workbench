@@ -1,0 +1,17 @@
+<div class="canvas-container">
+  <canvas #canvasElement></canvas>
+  <div id="chartjs-tooltip" #barChartTooltip>
+    <div class="tooltip-items"></div>
+  </div>
+</div>
+<div id="js-legend" class="chart-legend"></div>
+<div class="bar-chart-labels" *ngIf="chartLabels.length">
+  <div class="label-item">
+    <img src="assets/svg/point-a.svg" />
+    <span>{{ chartLabels[0] }}</span>
+  </div>
+  <div class="label-item">
+    <img src="assets/svg/point-b.svg" />
+    <span>{{ chartLabels[1] }}</span>
+  </div>
+</div>

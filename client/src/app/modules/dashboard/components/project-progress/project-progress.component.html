@@ -1,0 +1,25 @@
+<div class="wb-panel">
+  <ng-container *ngIf="runningProfilingPipeLinePerProjectMap[project?.id] as pipeline">
+    <header class="header">
+      <h3 class="wb-h1 title">Project Profiling</h3>
+      <div class="tag">In progress</div>
+    </header>
+    <wb-status-bar
+      mode="vertical"
+      [cancellationEnabled]="true"
+      [status]="pipeline | profilingStatus | async"
+      [performance]="LOCAL_PIPELINE_TYPES_WITH_PROFILING.includes(pipeline.type)"
+      (cancelProgress)="cancelProfiling.emit(pipeline.id)"
+    >
+    </wb-status-bar>
+    <p class="description">{{ getProjectProgressNote('profiling') }}</p>
+  </ng-container>
+  <ng-container *ngIf="runningInt8CalibrationPipeLinePerProjectMap[project?.id] as pipeline">
+    <header class="header">
+      <h3 class="wb-h1 title">INT8 Calibration</h3>
+      <div class="tag">In progress</div>
+    </header>
+    <wb-status-bar mode="vertical" [status]="pipeline | profilingStatus | async"> </wb-status-bar>
+    <p class="description">{{ getProjectProgressNote('INT8 calibration') }}</p>
+  </ng-container>
+</div>

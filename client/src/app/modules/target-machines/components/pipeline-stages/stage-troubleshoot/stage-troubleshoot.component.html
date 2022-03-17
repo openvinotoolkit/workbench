@@ -1,0 +1,12 @@
+<div [class]="'trouble-shooting ' + messageType" data-test-id="troubleshooting-part">
+  <div class="trouble-shooting-content">
+    <wb-status-text [icon]="'warning'" [text]="getErrorName(message)" data-test-id="error-name"></wb-status-text>
+
+    <span class="wb-body-5" data-test-id="show-more-details">
+      {{ expanded ? 'Show less information' : 'Show more information' }}
+    </span>
+  </div>
+  <div class="trouble-shooting-message" data-test-id="troubleshooting-message" (click)="$event.stopPropagation()">
+    <wb-markdown-text [text]="getMessage(message)"> </wb-markdown-text>
+  </div>
+</div>

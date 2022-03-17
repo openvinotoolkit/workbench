@@ -1,0 +1,21 @@
+<div class="wb-panel">
+  <div class="header">
+    <h2 class="wb-subtitle-1">Calibration Dataset</h2>
+    <wb-button testId="import-calibration-dataset" type="secondary" text="Select" (handleClick)="importDataset.emit()">
+    </wb-button>
+  </div>
+
+  <wb-info-hint message="Calibration dataset has to be representative."></wb-info-hint>
+</div>
+
+<div class="wb-panel">
+  <wb-dataset-list
+    usage="dashboard"
+    [datasets]="datasetsToShow$ | async"
+    [selectedDatasetId]="selectedDatasetId"
+    [taskIsRunning]="isTaskRunning$ | async"
+    [undeletableDatasetId]="projectDatasetId"
+    (datasetSelected)="selected.emit($event)"
+    (datasetDeleted)="deleted.emit($event)"
+  ></wb-dataset-list>
+</div>

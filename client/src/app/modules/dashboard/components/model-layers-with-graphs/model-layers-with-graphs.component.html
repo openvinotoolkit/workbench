@@ -1,0 +1,37 @@
+<div class="layers-graphs-content">
+  <div class="layers-table" [class.layers-table-collapsed]="isGraphsBlockExpanded">
+    <wb-layers-single-table
+      id="layers-single-table"
+      class="layers-single-table"
+      [layers]="inferenceResult.runtimeRepresentation"
+      [selectedLayerName]="selectedLayerName"
+      [isGraphsBlockExpanded]="isGraphsBlockExpanded"
+      [attr.data-selected-id]="project?.id"
+      [attr.data-job-id]="inferenceResult.jobId"
+      [attr.data-inference-result-id]="inferenceResult.inferenceResultId"
+      [attr.data-model-id]="model?.id"
+      (changeSelectedLayerName)="selectedLayerName = $event"
+    ></wb-layers-single-table>
+  </div>
+  <div class="netron-graphs">
+    <div class="netron-graphs-expand-block">
+      <wb-button
+        class="toggle-width-btn enlarged-control"
+        [text]="isGraphsBlockExpanded ? 'Collapse Graph' : 'Expand Graph'"
+        type="default"
+        [icon]="isGraphsBlockExpanded ? 'close_full' : 'open_full'"
+        (handleClick)="isGraphsBlockExpanded = !isGraphsBlockExpanded"
+      ></wb-button>
+    </div>
+    <wb-model-graph-visualization
+      [modelName]="model?.name"
+      [runtimeGraph]="runtimeGraph"
+      [originalGraph]="originalGraph"
+      [selectedLayerName]="selectedLayerName"
+      [isRuntimePrecisionAvailable]="inferenceResult.runtimePrecisionsAvailable"
+      [disabledOriginalGraph]="project?.status.name === projectStatusNames.ARCHIVED"
+      (changeSelectedLayerName)="selectedLayerName = $event"
+      (loadOriginalGraph)="loadOriginalGraph.emit()"
+    ></wb-model-graph-visualization>
+  </div>
+</div>

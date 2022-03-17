@@ -1,0 +1,6 @@
+scripts/linux/install_dependencies.sh
+scripts/linux/README.md
+scripts/mac/install_dependencies.sh
+scripts/mac/README.md
+scripts/windows/install_dependencies.bat
+scripts/windows/README.md

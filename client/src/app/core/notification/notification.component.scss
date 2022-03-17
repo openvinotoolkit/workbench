@@ -1,0 +1,95 @@
+@import 'variables';
+@import 'fonts';
+@import 'colors';
+
+$notification-width: 440px;
+$time-width: 70px;
+$close-icon-size: 20px;
+
+.notification {
+  width: $notification-width;
+  position: relative;
+  margin: $container-padding $container-padding 5px;
+  border-radius: 3px;
+  border: 1px solid $very-light-pink;
+  background-color: $faded-bgr;
+  box-shadow: 0 2px 5px $black30;
+
+  &--error {
+    box-shadow: 0 2px 5px $deep-red-dark25;
+
+    .notification__header {
+      color: $black;
+      background-color: $deep-red-light;
+    }
+  }
+  &--success .notification__header {
+    background-color: $light-green;
+  }
+  &--default .notification__header {
+    background-color: $ice-blue;
+  }
+}
+
+.notification__header {
+  display: flex;
+  justify-content: space-between;
+  border-top-left-radius: 3px;
+  align-items: center;
+  padding: $container-padding 17px;
+  border-bottom: 1px solid $very-light-pink;
+
+  .title {
+    color: $black;
+  }
+
+  .time {
+    width: $time-width;
+    margin-left: $container-padding;
+    color: $plum-light;
+  }
+}
+
+.notification__content {
+  &:not(:empty) {
+    padding: $container-padding;
+  }
+
+  .message + .error-link {
+    display: block;
+    margin-top: $container-padding;
+  }
+
+  .message {
+    margin: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    color: $brownish-grey;
+    white-space: break-spaces;
+  }
+
+  .error-link {
+    color: $plum;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+.close-button,
+.close-icon {
+  width: $close-icon-size;
+  height: $close-icon-size;
+}
+
+.close-button {
+  border-radius: 50%;
+  background-color: $white;
+  color: $plum;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  cursor: pointer;
+}

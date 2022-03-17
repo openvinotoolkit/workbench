@@ -1,0 +1,107 @@
+<div class="row" data-test-id="name-row">
+  <span class="wb-subtitle-1 layer-label">
+    <span class="index"></span>
+    {{ isInputLayer() ? 'Input' : 'Output' }} Name:
+  </span>
+
+  <wb-select-autocomplete
+    class="field"
+    placeholder="Input name..."
+    [control]="layerNameFormControl"
+    [testId]="layerType + '-layer-name-' + controlIndex"
+    [options]="availableLayers"
+    [skipOptionsValidation]="true"
+  ></wb-select-autocomplete>
+
+  <wb-button
+    *ngIf="controlsCount > 1"
+    testId="remove-layer"
+    class="layer-remove"
+    icon="delete"
+    (click)="removeInput.emit(controlIndex)"
+  >
+  </wb-button>
+</div>
+
+<ng-container *ngIf="isInputLayer()">
+  <!--  Shape control row  -->
+  <div class="row narrow-fields" data-test-id="specify-shape-row">
+    <wb-config-form-field
+      class="enlarged-control shape"
+      testId="overrideShape"
+      [field]="inputLayerUtilFieldsMap.overrideShape"
+      [group]="utilFormGroup"
+    ></wb-config-form-field>
+  </div>
+  <ng-container *ngIf="overrideInputShapesControl.value">
+    <div class="row narrow-fields" data-test-id="shapes-row">
+      <wb-dimensions-layouts
+        [parentGroup]="inputOutputLayerFormGroup"
+        [index]="controlIndex"
+        [removableFields]="true"
+        [dimensionsCount]="inputDimensionsCount"
+        [minDimensionValue]="isDynamicSupported ? -1 : 0"
+      ></wb-dimensions-layouts>
+    </div>
+  </ng-container>
+  <!--  Freeze input control row  -->
+  <div class="row" data-test-id="freeze-row">
+    <wb-config-form-field
+      class="hint-first enlarged-control freeze-placeholder"
+      [field]="inputLayerUtilFieldsMap.useFreezePlaceholderWithValue"
+      [group]="utilFormGroup"
+    ></wb-config-form-field>
+    <mat-form-field
+      *ngIf="useFreezePlaceholderWithValueControl.value"
+      class="field"
+      appearance="outline"
+      floatLabel="never"
+    >
+      <input
+        matInput
+        [attr.data-test-id]="'freeze-placeholder-input-' + controlIndex"
+        [formControl]="freezePlaceholderWithValueControl"
+      />
+    </mat-form-field>
+  </div>
+  <!--  Means control row  -->
+  <div
+    class="row narrow-fields"
+    data-test-id="means-row"
+    *ngIf="utilFormGroup.contains(inputLayerUtilFieldsMap.useMeans.name)"
+  >
+    <wb-config-form-field
+      class="hint-first enlarged-control means"
+      [field]="inputLayerUtilFieldsMap.useMeans"
+      [group]="utilFormGroup"
+    ></wb-config-form-field>
+    <wb-dimensions-input
+      *ngIf="useMeansInputShapesControl.value"
+      [removableFields]="false"
+      [dimensionsCount]="channelPrefixes.length"
+      [initialInputValues]="meansControl.value"
+      [inputPrefixes]="channelPrefixes"
+      (changeInputValues)="meansControl.setValue($event)"
+    ></wb-dimensions-input>
+  </div>
+  <!--  Scales control row  -->
+  <div
+    class="row narrow-fields"
+    data-test-id="scales-row"
+    *ngIf="utilFormGroup.contains(inputLayerUtilFieldsMap.useScales.name)"
+  >
+    <wb-config-form-field
+      class="hint-first enlarged-control scales"
+      [field]="inputLayerUtilFieldsMap.useScales"
+      [group]="utilFormGroup"
+    ></wb-config-form-field>
+    <wb-dimensions-input
+      *ngIf="useScalesInputShapesControl.value"
+      [removableFields]="false"
+      [dimensionsCount]="channelPrefixes.length"
+      [initialInputValues]="scalesControl.value"
+      [inputPrefixes]="channelPrefixes"
+      (changeInputValues)="scalesControl.setValue($event)"
+    ></wb-dimensions-input>
+  </div>
+</ng-container>

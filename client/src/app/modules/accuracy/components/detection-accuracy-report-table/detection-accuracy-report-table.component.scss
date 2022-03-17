@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+  flex-direction: column;
+
+  wb-switch-button {
+    margin-left: auto;
+  }
+
+  wb-dynamic-table {
+    min-height: 450px;
+  }
+}

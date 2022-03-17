@@ -1,0 +1,4 @@
+scikit-learn==0.24.2
+matplotlib==3.3.4
+networkx==2.5.1
+tifffile==2020.9.3

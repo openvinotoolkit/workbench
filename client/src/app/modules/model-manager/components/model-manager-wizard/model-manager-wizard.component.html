@@ -1,0 +1,296 @@
+<!-- TODO Remove master detail -->
+<wb-master-detail #wbMasterDetail [width]="'450px'" mode="over">
+  <ng-container [ngTemplateOutlet]="modelWizard" ngProjectAs="masterContent"></ng-container>
+  <wb-omz-model-info ngProjectAs="detailsContent" *ngIf="selectedForDetailsModel" [modelInfo]="selectedForDetailsModel">
+  </wb-omz-model-info>
+</wb-master-detail>
+
+<ng-template #modelWizard>
+  <ng-container [ngTemplateOutlet]="navigation"></ng-container>
+  <h1 class="wb-h1 wb-page-header">Import Model</h1>
+  <div class="wb-container">
+    <div *ngIf="importError$ | async as error" class="error-container common">
+      <wb-message-box
+        class="common-error"
+        [messageType]="NOTIFICATION_TYPE.ERROR"
+        [message]="isObject(error) ? modelImportFailedMessage : error"
+        [detailedMessage]="isObject(error) ? (error | linkify) : null"
+      >
+      </wb-message-box>
+      <div *ngIf="environmentError === error" class="wb-panel environment-error-panel">
+        <wb-info-hint class="wb-full-width" [message]="environmentAlreadyRunningMessage" type="warning"></wb-info-hint>
+        <wb-button
+          class="enlarged-control"
+          text="Cancel"
+          type="primary"
+          [pending]="(environmentSetup$ | async)?.isCancelling"
+          (handleClick)="handleCancelEnvironment()"
+        ></wb-button>
+      </div>
+    </div>
+
+    <div *ngIf="MODEL_WIZARD_STAGES.UPLOAD < modelWizardStage" data-test-id="model-upload-tab">
+      <wb-panel>
+        <div wb-heading>
+          <h3 class="wb-h4 panel-header import-stage-header">{{ stagesHeader.upload }}</h3>
+        </div>
+        <div wb-content>
+          <ng-container *ngIf="model">
+            <div class="key-val">
+              <div class="key-val__key">Model Name:</div>
+              <div class="key-val__val">{{ model.name }}</div>
+            </div>
+            <div class="key-val">
+              <div class="key-val__key">Model Domain:</div>
+              <div class="key-val__val">{{ modelDomainNames[model.domain] }}</div>
+            </div>
+            <div class="key-val">
+              <div class="key-val__key">Model Framework:</div>
+              <div class="key-val__val">{{ modelFrameworkNamesMap[model.originalModelFramework] }}</div>
+            </div>
+          </ng-container>
+          <div class="key-val" *ngIf="modelSource !== ModelSources.HUGGINGFACE">
+            <div class="key-val__key">Status:</div>
+            <wb-status-bar
+              class="status inline-status"
+              mode="circle"
+              [status]="getFinishedStage('Uploaded')"
+              [displayDoneMsg]="true"
+            ></wb-status-bar>
+          </div>
+        </div>
+      </wb-panel>
+    </div>
+    <div
+      *ngIf="MODEL_WIZARD_STAGES.PREPARING_ENVIRONMENT < modelWizardStage && !isIRModel"
+      data-test-id="prepare-environment-stage"
+    >
+      <ng-container
+        [ngTemplateOutlet]="stagePlaceholder"
+        [ngTemplateOutletContext]="{ stageName: stagesHeader.environment, isDone: true, doneMsg: 'Prepared' }"
+      >
+      </ng-container>
+    </div>
+
+    <div
+      *ngIf="MODEL_WIZARD_STAGES.IMPORT_HUGGINGFACE_MODEL_JOB < modelWizardStage && isHuggingFaceModel"
+      data-test-id="download-from-huggingface"
+    >
+      <ng-container
+        [ngTemplateOutlet]="stagePlaceholder"
+        [ngTemplateOutletContext]="{
+          stageName: stagesHeader.importFromHuggingface,
+          isDone: true,
+          doneMsg: 'Downloaded'
+        }"
+      >
+      </ng-container>
+    </div>
+
+    <div *ngIf="MODEL_WIZARD_STAGES.CONVERTING < modelWizardStage" data-test-id="convert-stage">
+      <ng-container
+        [ngTemplateOutlet]="stagePlaceholder"
+        [ngTemplateOutletContext]="{
+          stageName: modelOptimizerStageHeader,
+          isDone: true,
+          doneMsg: 'Converted'
+        }"
+      >
+      </ng-container>
+    </div>
+    <div *ngIf="MODEL_WIZARD_STAGES.RESHAPING < modelWizardStage">
+      <ng-container
+        [ngTemplateOutlet]="stagePlaceholder"
+        [ngTemplateOutletContext]="{ stageName: stagesHeader.reshape, isDone: true, doneMsg: 'Reshaped' }"
+      >
+      </ng-container>
+    </div>
+
+    <!-- Uploading stage -->
+    <wb-model-manager-import
+      *ngIf="modelWizardStage === MODEL_WIZARD_STAGES.UPLOAD"
+      [uploadingModel]="model"
+      [omzModels]="omzModels$ | async"
+      [omzModelsAreLoading]="omzModelsAreLoading$ | async"
+      [sidenavOpened]="wbMasterDetail.detailsSidenav.opened"
+      [isConnected]="isConnected$ | async"
+      [frameworksAvailability]="frameworksAvailability$ | async"
+      [areModelZooFeaturesEnabled]="areModelZooFeaturesEnabled$ | async"
+      (uploadModel)="handleUploadModelFiles($event)"
+      (uploadSavedModel)="handleUploadSavedModelFiles($event)"
+      (selectModelSource)="modelSource = $event"
+      (cancelEvent)="toCreateProject()"
+      (showModelInfo)="onModelDetailsClick($event)"
+      (closeModelInfo)="hideModelDetails()"
+    ></wb-model-manager-import>
+
+    <!-- Preparing environment stage -->
+    <wb-panel *ngIf="modelWizardStage === MODEL_WIZARD_STAGES.PREPARING_ENVIRONMENT && !isIRModel">
+      <div wb-heading>
+        <h3 class="wb-h4 panel-header import-stage-header">{{ stagesHeader.environment }}</h3>
+      </div>
+      <div wb-content>
+        <div class="key-val">
+          <div class="key-val__key">Status:</div>
+          <wb-status-bar
+            class="status inline-status"
+            mode="circle"
+            [status]="setupEnvironmentStage"
+            [errorMessage]="errorMessageTitle"
+          >
+          </wb-status-bar>
+        </div>
+        <wb-markdown-text class="description" [text]="prepareFrameworkDescription"></wb-markdown-text>
+      </div>
+    </wb-panel>
+
+    <!-- Download from huggingface stage -->
+    <wb-panel *ngIf="modelWizardStage === MODEL_WIZARD_STAGES.IMPORT_HUGGINGFACE_MODEL_JOB && isHuggingFaceModel">
+      <div wb-heading>
+        <h3 class="wb-h4 panel-header import-stage-header">{{ stagesHeader.importFromHuggingface }}</h3>
+      </div>
+      <div wb-content>
+        <div class="key-val">
+          <div class="key-val__key">Status:</div>
+          <wb-status-bar
+            class="status inline-status"
+            mode="circle"
+            [status]="importFromHuggingfaceStage"
+            [errorMessage]="errorMessageTitle"
+          >
+          </wb-status-bar>
+        </div>
+      </div>
+    </wb-panel>
+
+    <!-- Conversion stage -->
+    <div class="convert-form-section" [class.show]="modelWizardStage === MODEL_WIZARD_STAGES.CONVERT_FORM">
+      <wb-message-box
+        class="common-error"
+        *ngIf="model?.mo?.errorMessage || model?.status?.errorMessage as errorMessage"
+        [messageType]="NOTIFICATION_TYPE.ERROR"
+        [message]="modelImportFailedMessage"
+        [detailedMessage]="getDetailedErrorMessage(errorMessage) | linkify"
+      >
+      </wb-message-box>
+      <wb-model-manager-convert
+        class="conversion-form"
+        [model]="model"
+        (cancel)="toCreateProject()"
+        (convertModel)="handleConvertModel($event, model.modelOptimizerJobId)"
+        (updateInputsState)="isInputsSpecified = $event"
+      >
+      </wb-model-manager-convert>
+    </div>
+    <ng-container *ngIf="modelWizardStage === MODEL_WIZARD_STAGES.CONVERTING">
+      <wb-message-box
+        class="common-error"
+        *ngIf="model?.status?.errorMessage as error"
+        [messageType]="NOTIFICATION_TYPE.ERROR"
+        [message]="errorMessageTitle"
+        [detailedMessage]="getDetailedErrorMessage(error)"
+      >
+      </wb-message-box>
+      <wb-panel *ngIf="convertingStage">
+        <div wb-heading>
+          <h3 class="wb-h4 panel-header import-stage-header">{{ modelOptimizerStageHeader }}</h3>
+        </div>
+        <div wb-content>
+          <div class="key-val">
+            <div class="key-val__key">Status:</div>
+
+            <wb-status-bar
+              class="status inline-status"
+              mode="circle"
+              [status]="convertingStage"
+              [errorMessage]="errorMessageTitle"
+            >
+            </wb-status-bar>
+          </div>
+          <wb-button
+            *ngIf="isErrorStatus(convertingStage)"
+            type="secondary"
+            text="Try again"
+            (handleClick)="reloadPage()"
+            class="enlarged-control try-again-btn"
+          >
+          </wb-button>
+        </div>
+      </wb-panel>
+    </ng-container>
+
+    <!-- Reshaping stage -->
+    <ng-container *ngIf="!isInputsSpecified">
+      <wb-reshape
+        [class.show]="modelWizardStage === MODEL_WIZARD_STAGES.RESHAPE_FORM"
+        [importingModel]="model"
+        [isNLPModel]="this.model?.domain === ModelDomain.NLP"
+        (cancel)="toCreateProject()"
+      ></wb-reshape>
+    </ng-container>
+    <ng-container *ngIf="modelWizardStage === MODEL_WIZARD_STAGES.RESHAPING">
+      <wb-panel>
+        <div wb-heading>
+          <h3 class="wb-h4 panel-header import-stage-header">{{ stagesHeader.reshape }}</h3>
+        </div>
+        <div wb-content *ngIf="configurePipeline$ | async">
+          <div class="key-val">
+            <div class="key-val__key">Status:</div>
+            <wb-status-bar class="status inline-status" mode="circle" [status]="reshapeStage"></wb-status-bar>
+          </div>
+        </div>
+      </wb-panel>
+    </ng-container>
+
+    <div *ngIf="MODEL_WIZARD_STAGES.PREPARING_ENVIRONMENT > modelWizardStage && !isIRModel">
+      <ng-container
+        [ngTemplateOutlet]="stagePlaceholder"
+        [ngTemplateOutletContext]="{ stageName: stagesHeader.environment }"
+      ></ng-container>
+    </div>
+    <div *ngIf="MODEL_WIZARD_STAGES.IMPORT_HUGGINGFACE_MODEL_JOB > modelWizardStage && isHuggingFaceModel">
+      <ng-container
+        [ngTemplateOutlet]="stagePlaceholder"
+        [ngTemplateOutletContext]="{ stageName: stagesHeader.importFromHuggingface }"
+      ></ng-container>
+    </div>
+    <div *ngIf="MODEL_WIZARD_STAGES.CONVERT_FORM > modelWizardStage">
+      <ng-container
+        [ngTemplateOutlet]="stagePlaceholder"
+        [ngTemplateOutletContext]="{ stageName: modelOptimizerStageHeader }"
+      ></ng-container>
+    </div>
+    <div *ngIf="MODEL_WIZARD_STAGES.RESHAPE_FORM > modelWizardStage && !isInputsSpecified">
+      <ng-container
+        [ngTemplateOutlet]="stagePlaceholder"
+        [ngTemplateOutletContext]="{ stageName: stagesHeader.reshape }"
+      ></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #navigation>
+  <wb-navigation-bar>
+    <a (click)="toCreateProject()">Create Project</a>
+    <a>Import Model</a>
+  </wb-navigation-bar>
+</ng-template>
+
+<ng-template #stagePlaceholder let-stageName="stageName" let-isDone="isDone" let-doneMsg="doneMsg">
+  <wb-panel [showContent]="isDone">
+    <div wb-heading>
+      <h3 class="wb-h4 panel-header import-stage-header">{{ stageName }}</h3>
+    </div>
+    <div wb-content>
+      <div class="key-val">
+        <div class="key-val__key">Status:</div>
+        <wb-status-bar
+          class="status inline-status"
+          mode="circle"
+          [status]="getFinishedStage(doneMsg)"
+          [displayDoneMsg]="!!doneMsg"
+        ></wb-status-bar>
+      </div>
+    </div>
+  </wb-panel>
+</ng-template>

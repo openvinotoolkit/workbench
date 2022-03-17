@@ -1,0 +1,27 @@
+@import 'colors';
+@import 'variables';
+@import 'fonts';
+
+.details-header-item {
+  padding: 0 $container-padding;
+  display: flex;
+  align-self: stretch;
+  align-items: center;
+
+  &:not(:first-child) {
+    border-left: 1px solid $very-light-pink;
+  }
+
+  .details-header-title {
+    @include wb-h4();
+    color: $black;
+
+    .model-name {
+      color: $plum;
+    }
+  }
+
+  &.hide-details-button {
+    margin-left: auto;
+  }
+}

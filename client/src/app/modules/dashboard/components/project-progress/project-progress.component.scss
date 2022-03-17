@@ -1,0 +1,46 @@
+@import 'colors';
+@import 'fonts';
+
+.wb-panel {
+  max-width: 520px;
+  margin: 40px auto;
+}
+
+.header {
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  margin: 0;
+}
+
+.tag {
+  line-height: 30px;
+  padding: 0 10px;
+  @include wb-body-3();
+  color: $blue-blue;
+  background-color: $ice-blue;
+  margin: 0 10px;
+}
+
+.subheader {
+  margin: 10px 0;
+  text-align: center;
+}
+
+.description {
+  padding: 25px 0;
+  margin: 0;
+  text-align: center;
+  white-space: pre-wrap;
+  @include wb-text-8();
+}
+
+.model-link {
+  color: $blue-blue;
+  text-decoration: underline;
+  cursor: pointer;
+}

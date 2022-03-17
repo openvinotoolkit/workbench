@@ -1,0 +1,40 @@
+<div class="project-selection">
+  <div class="wb-h4 title">Select Project {{ side | titlecase }}</div>
+
+  <mat-form-field appearance="outline" class="project-selector" data-test-id="project-selector">
+    <mat-select [formControl]="selectedProjectControl" [compareWith]="compareProjects">
+      <mat-option
+        *ngFor="let project of projects"
+        [value]="project"
+        [title]="getProjectTitle(project)"
+        [attr.data-test-id]="side + '_' + project.modelName + '_' + project.datasetName + '_' + project.deviceName"
+      >
+        {{ getProjectTitle(project) }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<ng-container *ngIf="inferenceList$ | async as inferences">
+  <div class="experiment-selection">
+    <div class="wb-h4 title">Select Experiment {{ side | titlecase }}</div>
+    <wb-points-table
+      class="points-table"
+      [disabled]="isInferenceResultLoading$ | async"
+      [selectedPoint]="selectedInferenceHistory"
+      [throughputUnit]="selectedProject?.execInfo?.throughputUnit"
+      [points]="inferences"
+      (selectPoint)="onExperimentSelect($event)"
+    ></wb-points-table>
+  </div>
+  <wb-benchmark-chart
+    class="chart"
+    graphId="inference-results-graph"
+    [mode]="side"
+    [project]="selectedProject"
+    [inferenceResults]="inferences"
+    [normalizationResults]="inferenceNormalizationList$ | async"
+    [selectedPoint]="selectedInferenceHistory"
+    (pointSelectedChange)="onExperimentSelect($event)"
+  >
+  </wb-benchmark-chart>
+</ng-container>

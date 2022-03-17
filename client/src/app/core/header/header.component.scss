@@ -1,0 +1,71 @@
+@import 'variables';
+
+$default-margin: 20px;
+
+:host {
+  .header {
+    background-color: $plum;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .header-item {
+    height: $header-height;
+    padding: 0 $default-margin;
+    display: flex;
+    align-items: center;
+  }
+
+  .header-item + .header-item {
+    border-left: 1px solid $plum-light50;
+  }
+
+  .logo {
+    display: block;
+    height: 35px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 0.8;
+      color: $white80;
+    }
+  }
+
+  .home,
+  .settings,
+  .open-jupyter-lab-button {
+    display: block;
+    color: $white;
+    cursor: pointer;
+    transition: color 0.2s;
+
+    &:hover {
+      color: $white80;
+    }
+  }
+
+  .open-jupyter-lab-button {
+    text-transform: uppercase;
+  }
+
+  .info {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+
+    .header-item:last-child {
+      border-left: 1px solid $plum-light50;
+    }
+  }
+
+  .timer {
+    margin-right: 5px;
+  }
+
+  .settings {
+    height: 23px;
+    width: 23px;
+  }
+}

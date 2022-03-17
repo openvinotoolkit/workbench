@@ -1,0 +1,24 @@
+@import 'variables';
+
+.upload-dataset-error {
+  display: block;
+  margin: 0 $container-padding $container-padding $container-padding;
+}
+
+wb-text-dataset-info {
+  display: block;
+  margin: 0 $container-padding $container-padding $container-padding;
+}
+
+wb-text-dataset-data {
+  max-height: 850px;
+  margin: 0 $container-padding $container-padding $container-padding;
+}
+
+.actions {
+  display: flex;
+
+  wb-button + wb-button {
+    margin-left: 20px;
+  }
+}

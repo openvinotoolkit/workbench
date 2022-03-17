@@ -1,0 +1,106 @@
+<div class="status-bar status-bar--{{ mode }}">
+  <ng-container
+    [ngTemplateOutlet]="
+      isRunning ? statusProgressBarTemplate : isReadOnly ? statusReadOnlyTemplate : statusIconTemplate
+    "
+  >
+  </ng-container>
+</div>
+
+<ng-template #statusIconTemplate>
+  <mat-icon
+    class="status-bar-icon"
+    *ngIf="status?.name !== ProjectStatusNames.QUEUED"
+    [ngClass]="'status-bar-icon-' + status?.name"
+    [matTooltipDisabled]="!statusErrorMessage"
+    [matTooltip]="statusErrorMessage"
+    [attr.data-test-id]="'model-status-' + status?.name"
+    [svgIcon]="statusIcon"
+  ></mat-icon>
+  <wb-spinner *ngIf="status?.name === ProjectStatusNames.QUEUED" diameter="24" [performance]="performance"></wb-spinner>
+
+  <div class="status-txt" *ngIf="displayDoneMsg && status?.stage">{{ getStageName(status?.stage) }}</div>
+</ng-template>
+
+<ng-template #statusReadOnlyTemplate>
+  <div class="read-only-status" [matTooltip]="readonlyTipMsg">
+    <mat-icon svgIcon="error_outline"></mat-icon>
+    <span>Read-Only</span>
+  </div>
+</ng-template>
+
+<ng-template #statusProgressBarTemplate>
+  <ng-container [ngSwitch]="mode">
+    <ng-container *ngSwitchCase="StatusBarTypes.BAR">
+      <div class="status-bar-progress" data-test-id="status-bar-progress">
+        <div
+          [ngStyle]="{ width: status?.progress + '%' }"
+          class="status-bar-progress-bar"
+          [class.animated]="animated"
+        ></div>
+        <div class="status-bar-progress-blend-color"></div>
+        <div *ngIf="displayProgress" class="status-bar-progress-value wb-subtitle-2">
+          <span class="status-bar-progress-value-stage" *ngIf="status?.stage">{{ getStageName(status?.stage) }}</span>
+          <span *ngIf="status?.progress" data-test-id="current-percent">{{ status?.progress | number: '1.0-0' }}</span>
+        </div>
+      </div>
+
+      <mat-icon
+        *ngIf="isRunning && cancellationEnabled"
+        data-test-id="cancel-progress"
+        class="cancel-icon"
+        (click)="cancelProgress.emit($event)"
+        svgIcon="close_circle"
+      ></mat-icon>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="StatusBarTypes.CIRCLE">
+      <wb-spinner diameter="24" [value]="status.progress" [performance]="performance"></wb-spinner>
+      <div class="status" data-test-id="status-bar-progress">
+        <div class="status-txt" *ngIf="status?.stage">{{ getStageName(status?.stage) }}</div>
+        <div *ngIf="displayProgress && status?.progress" class="status-progress" data-test-id="current-percent">
+          {{ status?.progress | number: '1.0-0' }} %
+        </div>
+      </div>
+
+      <wb-button
+        class="btn cancel-button"
+        type="secondary"
+        text="Cancel"
+        testId="cancel-process"
+        *ngIf="isRunning && cancellationEnabled"
+        (handleClick)="cancelProgress.emit($event)"
+      ></wb-button>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="StatusBarTypes.VERTICAL">
+      <wb-spinner diameter="50" [value]="status.progress" [performance]="performance"></wb-spinner>
+      <div class="status" data-test-id="status-bar-progress">
+        <div class="status-txt" *ngIf="status?.stage">{{ getStageName(status?.stage) }}</div>
+        <div *ngIf="status?.progress" class="status-progress" data-test-id="current-percent">
+          {{ status?.progress | number: '1.0-0' }} % Complete
+        </div>
+      </div>
+
+      <wb-button
+        class="btn cancel-button enlarged-control"
+        type="secondary"
+        text="Cancel"
+        testId="cancel-process"
+        *ngIf="isRunning && cancellationEnabled"
+        (handleClick)="cancelProgress.emit($event)"
+      ></wb-button>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="StatusBarTypes.MODAL">
+      <wb-spinner diameter="40" [value]="status.progress" [performance]="performance"></wb-spinner>
+
+      <div class="status" data-test-id="status-bar-progress">
+        <span class="status-txt" *ngIf="status?.stage">{{ getStageName(status?.stage) }}:</span>
+        <span class="status-progress" data-test-id="current-percent">
+          {{ status?.progress | number: '1.0-0' }} % Complete
+        </span>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-template>

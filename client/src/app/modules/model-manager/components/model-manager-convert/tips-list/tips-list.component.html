@@ -1,0 +1,56 @@
+<wb-markdown-text class="wb-text-8" [text]="conversionTips.general"></wb-markdown-text>
+<wb-markdown-text
+  *ngIf="isTfOdAPI"
+  class="wb-text-8"
+  [text]="conversionTips.useTFObjectDetectionAPI"
+></wb-markdown-text>
+
+<div class="model-conversion-checklist">
+  <wb-help-checklist>
+    <wb-help-checklist-item
+      *ngFor="let tip of tipsFields"
+      [attr.data-test-id]="tip.name + '-tip'"
+      [label]="tipsFieldsLabelsMap[tip.name]"
+      [name]="tip.name"
+      [checked]="tip.isValid"
+    >
+      <wb-markdown-text
+        *ngIf="tip.name !== 'inputs'"
+        ngProjectAs="checklist-item-details"
+        [text]="conversionTips[tip.name]"
+      ></wb-markdown-text>
+
+      <ng-container
+        *ngIf="tip.name === 'inputs'"
+        ngProjectAs="checklist-item-details"
+        [ngTemplateOutlet]="inputsChecklistDetails"
+      >
+      </ng-container>
+    </wb-help-checklist-item>
+  </wb-help-checklist>
+</div>
+
+<wb-markdown-text class="wb-text-8" [text]="feedbackDescription"></wb-markdown-text>
+
+<ng-template #inputsChecklistDetails>
+  <div class="wb-body-2 title">{{ tipsFieldsLabelsMap['inputs'] }}</div>
+  <wb-markdown-text ngProjectAs="checklist-item-details" [text]="conversionTips.inputLayerName"></wb-markdown-text>
+  <div class="wb-body-2 title">Input Shape</div>
+  <wb-markdown-text ngProjectAs="checklist-item-details" [text]="conversionTips.inputShape"></wb-markdown-text>
+  <div class="wb-body-2 title">Original Layout</div>
+  <wb-markdown-text
+    ngProjectAs="checklist-item-details"
+    [text]="isNLPModel ? conversionTips.originalLayoutNLP : conversionTips.originalLayoutCV"
+  ></wb-markdown-text>
+  <div class="wb-body-2 title">Dimension</div>
+  <wb-markdown-text ngProjectAs="checklist-item-details" [text]="conversionTips.dimension"></wb-markdown-text>
+  <div class="wb-body-2 title">Layout Role</div>
+  <wb-markdown-text ngProjectAs="checklist-item-details" [text]="conversionTips.layoutRole"></wb-markdown-text>
+  <div class="wb-body-2 title">Freeze Placeholder with Value</div>
+  <wb-markdown-text
+    ngProjectAs="checklist-item-details"
+    [text]="conversionTips.freezePlaceholderWithValue"
+  ></wb-markdown-text>
+  <div class="wb-body-2 title">Means and Scales</div>
+  <wb-markdown-text ngProjectAs="checklist-item-details" [text]="conversionTips.inputMeansAndScales"></wb-markdown-text>
+</ng-template>

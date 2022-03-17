@@ -1,0 +1,74 @@
+#ide
+.idea
+.vs
+
+# python
+__pycache__
+*.pyc
+*.egg-info
+
+# python virtual wnvironment
+.env
+env
+venv
+venv_tf2
+.venv
+.unified_venv
+
+# data path
+wb/data
+
+# WB public directory
+.workbench
+
+# FE build
+static
+build
+dist
+
+# client e2e
+client/e2e/*.map
+client/e2e/reports
+
+# client compiled output
+client/dist
+client/dist-server
+client/tmp
+client/out-tsc
+client/.npmrc
+
+# client unit tests reports
+client/reports
+
+# client dependencies
+client/node_modules
+
+# Netron files
+client/src/app/modules/dashboard/components/model-layers-with-graphs/model-graph-visualization/netron-graph/lib/netron
+client/src/assets/netron
+
+# misc
+npm-debug.log
+yarn-error.log
+testem.log
+
+# logging
+*.log
+*.log.[0-9]
+*.dot
+
+# env files
+*.env
+!docker/dc_dev_config/server/environment.env
+
+# HDDL
+thread.info
+
+# Windows
+*.DS_Store
+
+# jupyter
+.ipynb_checkpoints
+
+# bundles
+bundles/

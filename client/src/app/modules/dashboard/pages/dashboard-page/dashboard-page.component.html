@@ -1,0 +1,525 @@
+<wb-navigation-bar>
+  <a data-test-id="to-model-page" (click)="goToModel()">Model {{ (parentProject$ | async)?.modelName }}</a>
+  <a>Project #{{ (project$ | async)?.id }}</a>
+</wb-navigation-bar>
+
+<div class="wb-page-header">
+  <div class="wb-page-header__row">
+    <h1 class="wb-page-header__title wb-h1">
+      Project #<span data-test-id="project-id">{{ (project$ | async)?.id }}</span>
+    </h1>
+    <div class="tag">
+      Model:
+      <a class="tag-link" (click)="goToModel()">{{ (project$ | async)?.modelName }}</a>
+    </div>
+    <ng-container *ngIf="(project$ | async)?.configParameters?.optimizationType as optimizationType">
+      <div *ngIf="optimizationJobNamesMap[optimizationType]" class="tag">
+        Optimized by {{ optimizationJobNamesMap[optimizationType] }}
+        from
+        <a
+          data-test-id="link-to-original-project"
+          *ngIf="parentProject$ | async as parentProject"
+          class="tag-link"
+          (click)="goToProject(parentProject)"
+          >{{ parentProject.modelName }}</a
+        >
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="project$ | async as project">
+      <wb-button
+        class="btn enlarged-control compare-btn"
+        data-test-id="compare-btn"
+        type="secondary"
+        text="Compare"
+        [disabled]="
+          (project.status.name !== projectStatusNames.READY && project.status.name !== projectStatusNames.ARCHIVED) ||
+          !project.execInfo?.throughput
+        "
+        (handleClick)="goToCompare(project)"
+      ></wb-button>
+
+      <wb-button
+        class="btn enlarged-control"
+        type="secondary"
+        text="Delete"
+        (handleClick)="deleteProject(project)"
+        [disabled]="!(areProjectPipelinesCompleted$ | async)"
+      >
+      </wb-button>
+    </ng-container>
+  </div>
+</div>
+
+<div class="wb-container" data-test-id="project-info">
+  <wb-project-info-panel
+    *ngIf="project$ | async as project"
+    class="wb-panel"
+    [domain]="(selectedProjectModel$ | async)?.domain"
+    [project]="project"
+    [devices]="devicesNamesMap$ | async"
+    [runningProfilingPipeLinePerProjectMap]="runningProfilingPipeLinePerProjectMap$ | async"
+    [runningInt8CalibrationPipeLinePerProjectMap]="runningInt8CalibrationPipeLinePerProjectMap$ | async"
+    (cancelProfiling)="handleCancelInference($event)"
+  >
+  </wb-project-info-panel>
+
+  <ng-container *ngIf="project$ | async as project">
+    <wb-message-box
+      *ngIf="project?.status?.errorMessage as detailedMessage"
+      class="error-block"
+      [messageType]="NotificationType.ERROR"
+      [message]="getProjectErrorMessage(project.status)"
+      [detailedMessage]="detailedMessage"
+      [isTryAgainAvailable]="true"
+      (tryAgain)="goToFailedToolPage(project)"
+    >
+    </wb-message-box>
+  </ng-container>
+</div>
+
+<ng-container *ngIf="areProjectPipelinesCompleted$ | async; else statusBlock" [ngTemplateOutlet]="tabs"></ng-container>
+
+<ng-template #statusBlock>
+  <ng-container *ngIf="!(isInferenceOverlayOpened$ | async)">
+    <wb-project-progress
+      *ngIf="project$ | async as project"
+      [project]="project"
+      [runningProfilingPipeLinePerProjectMap]="runningProfilingPipeLinePerProjectMap$ | async"
+      [runningInt8CalibrationPipeLinePerProjectMap]="runningInt8CalibrationPipeLinePerProjectMap$ | async"
+      (cancelProfiling)="handleCancelInference($event)"
+    ></wb-project-progress>
+  </ng-container>
+</ng-template>
+
+<ng-template #tabs>
+  <ng-container *ngIf="project$ | async">
+    <ng-container *ngIf="hasSuccessfulOrProcessingInference; else projectTabsNotAvailableTemplate">
+      <mat-tab-group
+        class="wb-tab-group enlarged-control tabs"
+        animationDuration="0ms"
+        disableRipple
+        [(selectedIndex)]="selectedDashboardTabIndex"
+      >
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span data-test-id="analyze-tab">Analyze</span>
+          </ng-template>
+          <ng-template matTabContent>
+            <mat-button-toggle-group [value]="selectedAnalyzeRibbonValue" class="wb-ribbon enlarged-control">
+              <mat-button-toggle
+                *ngFor="let item of analyzeRibbonValues"
+                [value]="item.id"
+                [aria-label]="item.title"
+                [attr.data-test-id]="item.id + '-ribbon'"
+                (change)="selectedAnalyzeRibbonValue = item.id"
+                >{{ item.title }}</mat-button-toggle
+              >
+            </mat-button-toggle-group>
+
+            <ng-container [ngSwitch]="selectedAnalyzeRibbonValue">
+              <ng-container
+                *ngSwitchCase="ANALYZE_RIBBON_IDS.PERFORMANCE"
+                [ngTemplateOutlet]="analyzePerformanceTemplate"
+              ></ng-container>
+              <wb-analyze-accuracy-ribbon-content
+                *ngSwitchCase="ANALYZE_RIBBON_IDS.ACCURACY"
+                [projectId]="(project$ | async)?.id"
+                [model]="selectedProjectModel$ | async"
+                [dataset]="selectedProjectDataset$ | async"
+                [isInt8Available]="isInt8Available$ | async"
+                (openCreateReport)="onOpenCreateReport()"
+              >
+              </wb-analyze-accuracy-ribbon-content>
+            </ng-container>
+          </ng-template>
+        </mat-tab>
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span data-test-id="perform-tab">Perform</span>
+          </ng-template>
+          <ng-template matTabContent>
+            <mat-button-toggle-group [value]="selectedPerformRibbonValue" class="wb-ribbon enlarged-control">
+              <mat-button-toggle
+                *ngFor="let item of performRibbonValues"
+                [value]="item.id"
+                [aria-label]="item.title"
+                [attr.data-test-id]="item.id + '-ribbon'"
+                (change)="selectedPerformRibbonValue = item.id"
+                >{{ item.title }}</mat-button-toggle
+              >
+            </mat-button-toggle-group>
+
+            <ng-container [ngSwitch]="selectedPerformRibbonValue">
+              <ng-container *ngSwitchCase="PERFORM_RIBBON_IDS.OPTIMIZE" [ngTemplateOutlet]="optimizeTemplate">
+              </ng-container>
+              <ng-container *ngSwitchCase="PERFORM_RIBBON_IDS.TUNE">
+                <wb-profile-configuration
+                  [project]="project$ | async"
+                  [target]="selectedTargetMachine$ | async"
+                  [disabled]="profilingOptimizationDisabled$ | async"
+                  [disabledMessage]="profilingOptimizationDisabledMessage"
+                  (infer)="handleRunInference($event)"
+                >
+                </wb-profile-configuration>
+              </ng-container>
+              <wb-create-accuracy-report-ribbon-content
+                *ngSwitchCase="PERFORM_RIBBON_IDS.CREATE_ACCURACY_REPORT"
+                [projectId]="(project$ | async)?.id"
+                [model]="selectedProjectModel$ | async"
+                [dataset]="selectedProjectDataset$ | async"
+                [isInt8Available]="isInt8Available$ | async"
+                [isTaskRunning]="isTaskRunning$ | async"
+                (createReport)="onCreateReport()"
+              >
+              </wb-create-accuracy-report-ribbon-content>
+              <ng-container *ngSwitchCase="PERFORM_RIBBON_IDS.TEST">
+                <wb-network-output-visualizer
+                  [project]="project$ | async"
+                  [model]="selectedProjectModel$ | async"
+                  [disabled]="!(isVisualizationEnabled$ | async)"
+                  [target]="selectedTargetMachine$ | async"
+                ></wb-network-output-visualizer>
+              </ng-container>
+              <ng-container *ngSwitchCase="PERFORM_RIBBON_IDS.CREATE">
+                <wb-deployment-manager
+                  [disabled]="isInferenceRunning"
+                  [project]="project$ | async"
+                  [selectedModelSize]="(selectedProjectModel$ | async)?.size"
+                ></wb-deployment-manager>
+              </ng-container>
+              <ng-container *ngSwitchCase="PERFORM_RIBBON_IDS.EXPORT">
+                <wb-project-export
+                  [project]="project$ | async"
+                  [model]="selectedProjectModel$ | async"
+                  [dataset]="selectedProjectDataset$ | async"
+                  [disabled]="isInferenceRunning"
+                  [readOnly]="(project$ | async)?.status.name === projectStatusNames.ARCHIVED"
+                  (startExportProject)="handleStartExportProject($event)"
+                ></wb-project-export>
+              </ng-container>
+            </ng-container>
+          </ng-template>
+        </mat-tab>
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span data-test-id="details-tab">Details</span>
+          </ng-template>
+          <ng-template matTabContent>
+            <wb-model-details
+              usage="panel"
+              [model]="selectedProjectModel$ | async"
+              [project]="project$ | async"
+              [target]="selectedTargetMachine$ | async"
+            ></wb-model-details>
+          </ng-template>
+        </mat-tab>
+
+        <mat-tab *ngIf="isJupyterAvailable$ | async">
+          <ng-template mat-tab-label>
+            <span data-test-id="learn-openvino-tab">Learn OpenVINO</span>
+          </ng-template>
+          <ng-template matTabContent>
+            <mat-button-toggle-group [value]="selectedLearnOpenvinoRibbonValue" class="wb-ribbon enlarged-control">
+              <mat-button-toggle
+                *ngFor="let item of learnOpenvinoRibbonValues"
+                [value]="item.id"
+                [aria-label]="item.title"
+                [attr.data-test-id]="item.id + '-ribbon'"
+                (change)="selectedLearnOpenvinoRibbonValue = item.id"
+                >{{ item.title }}</mat-button-toggle
+              >
+            </mat-button-toggle-group>
+            <ng-container [ngSwitch]="selectedLearnOpenvinoRibbonValue">
+              <ng-container *ngSwitchCase="LEARN_OPENVINO_RIBBON_IDS.SAMPLE_TUTORIAL">
+                <wb-open-sample-tutorial
+                  [model]="selectedProjectModel$ | async"
+                  [dataset]="selectedProjectDataset$ | async"
+                  [deviceName]="(project$ | async)?.deviceName"
+                  [bestConfiguration]="bestInferenceResult$ | async"
+                  [selectedSampleType]="selectedSampleTutorialType"
+                  (select)="selectedSampleTutorialType = $event"
+                ></wb-open-sample-tutorial>
+              </ng-container>
+              <ng-container *ngSwitchCase="LEARN_OPENVINO_RIBBON_IDS.GENERATED_TUTORIAL">
+                <wb-open-generated-tutorial
+                  [jupyterNotebookPath]="(project$ | async)?.jupyterNotebookPath"
+                  [modelName]="(selectedProjectModel$ | async)?.name"
+                ></wb-open-generated-tutorial>
+              </ng-container>
+              <ng-container *ngSwitchCase="LEARN_OPENVINO_RIBBON_IDS.OPENVINO_NOTEBOOKS">
+                <wb-openvino-notebooks-tutorial></wb-openvino-notebooks-tutorial>
+              </ng-container>
+            </ng-container>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #inferenceResults>
+  <ng-container
+    *ngIf="(selectedInferenceResult$ | async)?.execInfo as info"
+    [ngTemplateOutlet]="projectSummary"
+    [ngTemplateOutletContext]="{ info: info }"
+  >
+  </ng-container>
+
+  <div
+    *ngIf="selectedPointExpanded"
+    class="flex-row inference-results"
+    [class.expanded]="benchmarkChartExpanded || inferenceHistoryTableExpanded"
+  >
+    <wb-benchmark-chart
+      class="graph"
+      *ngIf="!inferenceHistoryTableExpanded"
+      [project]="project$ | async"
+      [inferenceResults]="readyInferenceItems$ | async"
+      [selectedPoint]="(selectedInferenceResult$ | async)?.execInfo"
+      [expandable]="true"
+      [expanded]="benchmarkChartExpanded"
+      (toggleExpand)="benchmarkChartExpanded = !benchmarkChartExpanded"
+      (pointSelectedChange)="handleSelectInferResultFromGraph($event)"
+    >
+    </wb-benchmark-chart>
+    <div class="inference-history" *ngIf="!benchmarkChartExpanded">
+      <div class="inference-history-header">
+        <wb-button
+          class="toggle-width-btn enlarged-control"
+          [text]="inferenceHistoryTableExpanded ? 'Collapse Table' : 'Expand Table'"
+          type="default"
+          [icon]="inferenceHistoryTableExpanded ? 'close_full' : 'open_full'"
+          (handleClick)="inferenceHistoryTableExpanded = !inferenceHistoryTableExpanded"
+        >
+        </wb-button>
+      </div>
+      <wb-inference-history
+        class="inference-history-table"
+        [inferenceResults]="inferenceItems$ | async"
+        [selectedId]="(selectedInferenceResult$ | async)?.inferenceResultId"
+        [hiddenIds]="hiddenInferences$ | async"
+        [throughputUnit]="(project$ | async)?.execInfo?.throughputUnit"
+        (hiddenIdsChange)="handleChangeVisibilityInferenceItems($event)"
+        (selected)="handleSelectInferResultFromTable($event)"
+      ></wb-inference-history>
+
+      <wb-info-hint
+        *ngIf="selectTokenizerHint$ | async as message"
+        class="wb-full-width"
+        [message]="message"
+      ></wb-info-hint>
+
+      <wb-info-hint class="wb-full-width" [message]="autoBenchmarkHintMessage"></wb-info-hint>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #projectSummary let-info="info">
+  <div class="wb-subtitle-1 execution-summary">
+    <span class="attr">Batch: {{ toInferenceExecutionInfoType(info).batch }}</span>
+    <span class="attr">Stream: {{ toInferenceExecutionInfoType(info).nireq }}</span>
+    <span class="attr">
+      Throughput: {{ toInferenceExecutionInfoType(info).throughput }}&nbsp;
+      {{ toInferenceExecutionInfoType(info).throughputUnit }}
+    </span>
+    <span class="attr">Latency: {{ toInferenceExecutionInfoType(info).latency }} ms</span>
+  </div>
+</ng-template>
+
+<ng-template #analyzePerformanceTemplate>
+  <section class="wb-panel selected-point">
+    <div class="wb-panel__header">
+      <div class="toggle-section" (click)="selectedPointExpanded = !selectedPointExpanded">
+        <mat-icon [svgIcon]="selectedPointExpanded ? 'arrow_up' : 'arrow_down'" class="icon"></mat-icon>
+        <h4 class="wb-panel__title">Selected Experiment</h4>
+      </div>
+      <wb-button
+        class="action-btn enlarged-control"
+        [disabled]="(projectReportGenerating$ | async) || (isTaskRunning$ | async)"
+        [text]="'Download Report'"
+        type="secondary"
+        testId="download-report"
+        (handleClick)="exportReport()"
+      >
+      </wb-button>
+      <wb-button
+        *ngIf="isJupyterAvailable$ | async"
+        class="action-btn enlarged-control"
+        [text]="'Use Streams and Batches in Your Application'"
+        type="secondary"
+        (handleClick)="openSampleTutorialRibbonContent()"
+      >
+      </wb-button>
+
+      <div
+        *ngIf="
+          !(childProjects$ | async).length &&
+          (selectedInferenceResult$ | async)?.runtimePrecisionsAvailable &&
+          hasAdvisingMessages
+        "
+        class="wb-panel wb-panel--blue performance-available-info"
+      >
+        <mat-icon svgIcon="lightbulb" class="bulb-icon"></mat-icon>
+        <a class="link" (click)="navigateAndScrollToAdvice()">Performance Improvement Is Available</a>
+      </div>
+    </div>
+
+    <ng-container [ngTemplateOutlet]="inferenceResults"></ng-container>
+  </section>
+
+  <mat-button-toggle-group
+    data-test-id="analyze-layers-tabs"
+    [value]="selectedAnalyzePerformanceRibbonValue"
+    class="wb-ribbon enlarged-control"
+    *ngIf="!(isTaskRunning$ | async); else taskIsRunningHint"
+  >
+    <mat-button-toggle
+      *ngFor="let item of analyzePerformanceRibbonValues"
+      [value]="item.id"
+      [aria-label]="item.title"
+      [attr.data-test-id]="item.id + '-ribbon'"
+      (change)="selectedAnalyzePerformanceRibbonValue = item.id"
+      >{{ item.title }}</mat-button-toggle
+    >
+  </mat-button-toggle-group>
+
+  <ng-container [ngSwitch]="selectedAnalyzePerformanceRibbonValue">
+    <ng-container *ngSwitchCase="ANALYZE_PERFORMANCE_RIBBON_IDS.PRECISION" [ngTemplateOutlet]="precisionTemplate">
+    </ng-container>
+    <ng-container
+      *ngSwitchCase="ANALYZE_PERFORMANCE_RIBBON_IDS.METRICS"
+      [ngTemplateOutlet]="metricsTemplate"
+    ></ng-container>
+    <ng-container *ngSwitchCase="ANALYZE_PERFORMANCE_RIBBON_IDS.KERNEL" [ngTemplateOutlet]="performanceTemplate">
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #precisionTemplate>
+  <wb-precision-analysis
+    class="wb-row"
+    [selectedInferenceResult]="selectedInferenceResult$ | async"
+    [selectedProject]="project$ | async"
+    [selectedModel]="selectedProjectModel$ | async"
+    [availableOptimizations]="optimizations$ | async"
+  ></wb-precision-analysis>
+</ng-template>
+
+<ng-template #metricsTemplate>
+  <section *ngIf="selectedInferenceResult$ | async as selectedResult" class="accumulated-metric">
+    <div class="wb-row">
+      <div [class.wb-col-8]="!layerSummaryTableExpanded" [class.wb-col-12]="layerSummaryTableExpanded">
+        <div class="wb-panel table">
+          <div class="wb-panel__header">
+            <h4 class="wb-panel__title">Per-layer Accumulated Metrics</h4>
+            <wb-button
+              class="toggle-width-btn enlarged-control"
+              *ngIf="selectedResult.runtimePrecisionsAvailable"
+              [text]="layerSummaryTableExpanded ? 'Collapse Table' : 'Expand Table'"
+              type="default"
+              [icon]="layerSummaryTableExpanded ? 'close_full' : 'open_full'"
+              (handleClick)="layerSummaryTableExpanded = !layerSummaryTableExpanded"
+              testId="expand-layer-summary-table"
+            >
+            </wb-button>
+          </div>
+
+          <wb-layers-distribution
+            *ngIf="
+              selectedResult.layerTimeDistribution && selectedResult.runtimePrecisionsAvailable;
+              else infoUnavailable
+            "
+            [expanded]="layerSummaryTableExpanded"
+            [layerTimePrecisionDistribution]="selectedResult.layerTimeDistribution"
+          >
+          </wb-layers-distribution>
+
+          <wb-precision-analysis-advisor
+            *ngIf="selectedResult.runtimePrecisionsAvailable"
+            class="precision-analysis-advisor"
+            [layersPrecisionDistribution]="selectedResult.layerTimeDistribution"
+            [project]="project$ | async"
+            [model]="selectedProjectModel$ | async"
+            [optimizations]="optimizations$ | async"
+            [layers]="selectedResult.runtimeRepresentation"
+          >
+          </wb-precision-analysis-advisor>
+        </div>
+      </div>
+
+      <div class="wb-col-4" *ngIf="!layerSummaryTableExpanded">
+        <div class="wb-panel" *ngIf="selectedResult.execInfo as info">
+          <wb-execution-attributes [execInfo]="info"></wb-execution-attributes>
+        </div>
+      </div>
+    </div>
+  </section>
+</ng-template>
+
+<ng-template #performanceTemplate>
+  <ng-container *ngIf="(selectedInferenceResult$ | async)?.runtimeRepresentation?.length; else infoUnavailable">
+    <div class="wb-panel layers-table">
+      <div class="wb-panel__header">
+        <h4 class="wb-h4 wb-panel__title">Layers</h4>
+        <wb-button
+          class="download-report enlarged-control"
+          [disabled]="inferenceReportGenerating$ | async"
+          type="secondary"
+          text="Download Report"
+          testId="download-per-layer-report"
+          (handleClick)="handleExportPerLayerReport()"
+        ></wb-button>
+        <wb-info-hint [message]="inferenceReportTipMessage"></wb-info-hint>
+      </div>
+      <wb-model-layers-with-graphs
+        [model]="selectedProjectModel$ | async"
+        [project]="project$ | async"
+        [inferenceResult]="selectedInferenceResult$ | async"
+        [runtimeGraph]="runtimeGraph$ | async"
+        [originalGraph]="originalGraph$ | async"
+        (loadOriginalGraph)="handleDispatchLoadOriginalGraphAction()"
+      ></wb-model-layers-with-graphs>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #optimizeTemplate>
+  <wb-optimize-performance-ribbon-content
+    [project]="project$ | async"
+    [model]="selectedProjectModel$ | async"
+    [doesDeviceSupportInt8]="isInt8Available$ | async"
+    [disabled]="profilingOptimizationDisabled$ | async"
+    [disabledMessage]="profilingOptimizationDisabledMessage"
+    (configureOptimization)="goToConfigureCalibration($event)"
+  ></wb-optimize-performance-ribbon-content>
+</ng-template>
+
+<ng-template #infoUnavailable>
+  <div class="not-available">
+    <wb-info-hint type="warning" [message]="analysisUnavailableTipMessage"></wb-info-hint>
+  </div>
+</ng-template>
+
+<ng-template #taskIsRunningHint>
+  <wb-info-hint class="hint" type="warning" [message]="taskIsRunningMessage"></wb-info-hint>
+</ng-template>
+
+<ng-template #projectTabsNotAvailableTemplate>
+  <ng-container *ngIf="selectedProjectModel$ | async as selectedProjectModel">
+    <div *ngIf="selectedProjectModel?.status?.name !== projectStatusNames.ERROR" class="wb-container">
+      <div class="wb-panel panel-with-reason">
+        <wb-info-hint class="wb-full-width" type="warning" [message]="onlyCanceledProfilingMessage"></wb-info-hint>
+        <wb-button
+          text="Run Profiling"
+          type="primary"
+          class="enlarged-control"
+          [pending]="isInferenceRunning"
+          (handleClick)="rerunCanceledInference()"
+        ></wb-button>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

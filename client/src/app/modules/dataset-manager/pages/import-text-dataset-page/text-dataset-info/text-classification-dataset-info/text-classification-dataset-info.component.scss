@@ -1,0 +1,22 @@
+@import 'colors';
+@import '../../text-dataset-data/text-dataset-preview/text-dataset-preview-table';
+
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: $brownish-grey;
+}
+
+wb-markdown-text {
+  color: $brownish-grey;
+  margin-bottom: 10px;
+}
+
+.text-dataset-preview-table {
+  margin-top: auto;
+}

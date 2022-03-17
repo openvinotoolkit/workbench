@@ -1,0 +1,120 @@
+<ng-container [ngTemplateOutlet]="navigation"></ng-container>
+<h1 class="wb-h1 wb-page-header">Configure Group Inference</h1>
+<form class="configuration" [formGroup]="matrixFormGroup">
+  <wb-project-full-name class="project-name" [project]="project$ | async"></wb-project-full-name>
+
+  <div class="content">
+    <div class="left-part">
+      <div class="axis-label">
+        <wb-help-tooltip [tooltipMessage]="messagesService.tooltipMessages.inferenceForm.maxBatch"></wb-help-tooltip>
+        <span class="wb-body-2">{{ 'Batch size (1-' + matrixFormGroup.controls.maxBatches.value + ')' }}</span>
+      </div>
+
+      <div class="axis-label">
+        <wb-help-tooltip [tooltipMessage]="messagesService.hintMessages.inferenceTips.powerOfTwo"></wb-help-tooltip>
+        <mat-checkbox formControlName="batchRowsPower">Range 2<sup>0</sup>-2<sup>8</sup></mat-checkbox>
+      </div>
+    </div>
+    <div class="center-part">
+      <div class="center-part-header">
+        <div class="axis-label">
+          <wb-help-tooltip
+            [tooltipMessage]="messagesService.tooltipMessages.inferenceForm.maxStreams"
+          ></wb-help-tooltip>
+          <span class="wb-body-2">{{ 'Streams (1-' + matrixFormGroup.controls.maxStreams.value + ')' }}</span>
+        </div>
+
+        <wb-button
+          text="Show Next 10 Columns and Rows"
+          icon="add"
+          [disabled]="matrixFormGroup.hasError('noNextColumns') && matrixFormGroup.hasError('noNextRows')"
+          (handleClick)="add()"
+        ></wb-button>
+      </div>
+
+      <wb-inference-matrix-select
+        [matrix]="matrix"
+        [inferenceExecInfo]="inferenceHistory$ | async"
+        [formControl]="matrixControl"
+      >
+      </wb-inference-matrix-select>
+    </div>
+    <div class="right-part">
+      <ng-container [ngTemplateOutlet]="legend"></ng-container>
+
+      <div class="selected-inferences">
+        <div class="wb-body-1">Selected Inferences</div>
+        <wb-selected-inferences-table [data]="matrixControl.value" (remove)="onSelectedInferenceRemove($event)">
+        </wb-selected-inferences-table>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span class="wb-label">Complete In (Estimated):</span>
+    <span class="wb-body-2">{{ estimatedInferenceDuration ? (estimatedInferenceDuration | estimatedTime) : '-' }}</span>
+  </div>
+</form>
+
+<div class="page-actions">
+  <wb-button
+    class="enlarged-control"
+    type="primary"
+    text="Execute"
+    testId="run-group-inference-button"
+    [pending]="isProfilingStarted"
+    [disabled]="!matrixControl.value.length"
+    (handleClick)="runInference()"
+  ></wb-button>
+  <wb-button class="enlarged-control" text="Cancel" (handleClick)="goToProject()"></wb-button>
+  <wb-info-hint
+    *ngIf="sessionService.startProcessWarningMessage$ | async as message"
+    type="warning"
+    [message]="message"
+  ></wb-info-hint>
+</div>
+
+<ng-template #legend>
+  <div class="legend">
+    <div class="line">
+      <div class="cell">
+        <mat-icon svgIcon="check"></mat-icon>
+      </div>
+      <span class="wb-label">- Selected</span>
+    </div>
+    <div class="line">
+      <div class="cell"></div>
+      <span class="wb-label">- Unselected</span>
+    </div>
+    <div class="line">
+      <div class="cell has-info"></div>
+      <span class="wb-label">- Previously Executed</span>
+    </div>
+
+    <div class="line">
+      <div class="cell selected has-info">
+        <mat-icon svgIcon="check"></mat-icon>
+      </div>
+      <span class="wb-label">- Selected Previously Executed</span>
+    </div>
+
+    <div class="hint-line">
+      <wb-info-hint
+        data-test-id="set-inference-time"
+        (click)="reduceInferenceTime()"
+        [message]="messagesService.hintMessages.inferenceTips.previouslySelectedTip"
+      >
+      </wb-info-hint>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #navigation>
+  <wb-navigation-bar>
+    <a data-test-id="breadcrumb-to-projects-by-model" (click)="goToModel()">
+      Model {{ (project$ | async)?.modelName }}
+    </a>
+    <a (click)="goToProject()"> Projects #{{ (project$ | async)?.id }} </a>
+    <a>Configure Group Inference</a>
+  </wb-navigation-bar>
+</ng-template>

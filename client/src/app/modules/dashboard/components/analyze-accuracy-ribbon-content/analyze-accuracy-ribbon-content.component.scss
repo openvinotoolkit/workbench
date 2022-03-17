@@ -1,0 +1,36 @@
+@import 'variables';
+
+wb-panel:not(:first-child) {
+  margin-top: $container-padding;
+}
+
+div[wb-heading] {
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .wb-chip {
+    margin-left: $container-padding;
+    margin-right: auto;
+  }
+}
+
+.accuracy-result-parameter + .accuracy-report-metric-field {
+  margin-top: $container-padding;
+}
+
+.accuracy-report-metric-field {
+  mat-form-field {
+    margin-left: $container-padding;
+  }
+}
+
+.accuracy-report-image-visualization {
+  margin-top: $container-padding;
+}
+
+wb-progress-panel {
+  display: block;
+  height: 300px;
+}

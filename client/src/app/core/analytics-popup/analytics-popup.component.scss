@@ -1,0 +1,43 @@
+@import 'fonts';
+@import 'colors';
+
+.analytics-popup {
+  display: flex;
+  flex-direction: column;
+  line-height: 20px;
+  @include wb-label();
+  color: $white;
+  width: 330px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 100%;
+
+  &-controls {
+    display: flex;
+    flex-direction: row;
+    margin-top: 40px;
+
+    ::ng-deep.button {
+      &-secondary {
+        background-color: $white;
+      }
+
+      &-default {
+        color: $white;
+      }
+    }
+
+    span {
+      @include wb-body-4();
+      text-decoration: underline;
+      align-self: center;
+      margin-left: auto;
+      cursor: pointer;
+    }
+  }
+}
+
+.button + .button {
+  margin-left: 20px;
+}

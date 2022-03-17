@@ -1,0 +1,51 @@
+@import 'colors';
+
+.table-container {
+  position: relative;
+  flex: 1 0 auto;
+  display: block;
+  border: 1px solid $very-light-pink;
+  border-radius: 3px;
+  overflow: auto;
+
+  .loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: $black15;
+    z-index: 101;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.status-container {
+  display: flex;
+  align-items: center;
+
+  .try-again-button {
+    margin-left: 10px;
+    padding: 8px 0;
+  }
+}
+
+.actions-column {
+  text-align: right;
+
+  mat-icon {
+    margin-left: auto;
+    cursor: pointer;
+    color: $brownish-grey;
+
+    &:hover {
+      color: $black;
+    }
+  }
+}
+
+.disabled-cell {
+  opacity: 0.3;
+}

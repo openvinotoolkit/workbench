@@ -1,0 +1,56 @@
+@import 'colors';
+@import 'fonts';
+
+.image-selector {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 3px;
+  box-sizing: border-box;
+
+  background-color: $faded-bgr;
+  border: 1px solid $very-light-pink;
+
+  &.wb-drop-area-active {
+    .drag-n-drop-area {
+      border-color: $brownish-grey;
+    }
+  }
+
+  .header {
+    flex: 0 0 50px;
+    border-bottom: 1px solid $very-light-pink;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $brownish-grey;
+
+    mat-icon {
+      margin-right: 10px;
+    }
+  }
+
+  .drag-n-drop-area {
+    flex: 1;
+    margin: 20px;
+    border-radius: 3px;
+    border: dashed 2px $very-light-pink;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    cursor: pointer;
+
+    mat-icon {
+      width: 40px;
+      height: 40px;
+      color: $brownish-grey;
+    }
+
+    mat-error {
+      margin-top: 10px;
+    }
+  }
+}

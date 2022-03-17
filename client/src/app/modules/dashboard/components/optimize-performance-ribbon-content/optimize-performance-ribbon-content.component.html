@@ -1,0 +1,43 @@
+<div class="wb-panel">
+  <div class="wb-panel__header">
+    <h4 class="wb-panel__title">Optimize Performance with INT8 Calibration</h4>
+  </div>
+
+  <div class="wb-row panel-content">
+    <div class="wb-col-8">
+      <div class="int8-calibration-content">
+        <wb-markdown-text class="description" [text]="int8CalibrationDescription"></wb-markdown-text>
+        <wb-optimization-banner
+          [modelSizeImprovement]="modelSizeImprovement"
+          [performanceImprovement]="performanceImprovement"
+          [disabled]="!!optimizationDisabledMessage"
+        ></wb-optimization-banner>
+      </div>
+    </div>
+    <div class="wb-col-4">
+      <div class="int8-calibration-diagram">
+        <img src="assets/img/int8-calibration-diagram.svg" alt="INT8 Calibration Model Flow Diagram" />
+      </div>
+    </div>
+  </div>
+
+  <div class="wb-panel__footer">
+    <div class="actions">
+      <wb-button
+        class="enlarged-control"
+        testId="calibrate-to-int8"
+        type="primary"
+        text="Configure Optimization"
+        (handleClick)="configureOptimization.emit(project)"
+        [disabled]="!!optimizationDisabledMessage"
+      >
+      </wb-button>
+      <wb-info-hint
+        class="warning-hint"
+        *ngIf="optimizationDisabledMessage as message"
+        [message]="message"
+        type="warning"
+      ></wb-info-hint>
+    </div>
+  </div>
+</div>

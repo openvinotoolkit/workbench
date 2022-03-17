@@ -1,0 +1,24 @@
+<div class="parameter" [attr.data-test-id]="parameter.label.replace(' ', '-').toLowerCase() + '-detail'">
+  <div class="name">
+    <wb-help-tooltip *ngIf="parameter.tooltip" [tooltipMessage]="parameter.tooltip"></wb-help-tooltip>
+    <span class="label">{{ parameter.label }}:</span>
+  </div>
+  <ng-container *ngIf="!isLinkParameter(parameter.value); else linksParameterTemplate">
+    <wb-text-overflow
+      class="value"
+      *ngIf="!isNil(parameter.value); else NAPlaceholder"
+      [content]="parameter.value"
+      data-test-id="value"
+    ></wb-text-overflow>
+  </ng-container>
+</div>
+
+<ng-template #linksParameterTemplate>
+  <div class="links-value">
+    <a class="link" *ngFor="let link of parameter.value" [href]="link.url">{{ link.text }}</a>
+  </div>
+</ng-template>
+
+<ng-template #NAPlaceholder>
+  <span class="na-color">N/A</span>
+</ng-template>

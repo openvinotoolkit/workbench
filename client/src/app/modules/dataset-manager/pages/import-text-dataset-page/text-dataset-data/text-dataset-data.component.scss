@@ -1,0 +1,42 @@
+@import 'colors';
+@import 'fonts';
+
+:host {
+  display: flex;
+
+  .dataset-form {
+    $form-width: 600px;
+    max-width: $form-width;
+    min-width: $form-width;
+    flex: 0 0 $form-width;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  wb-text-dataset-preview {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+}
+
+wb-classification-columns-form,
+wb-entailment-columns-form,
+:host {
+  ::ng-deep .field-label {
+    @include wb-subtitle-1;
+    min-width: 180px;
+  }
+}
+
+wb-file-upload-field ::ng-deep .field-label {
+  @include wb-subtitle-1;
+  min-width: 170px;
+}
+
+wb-markdown-text {
+  @include wb-label;
+  display: block;
+  color: $brownish-grey;
+  margin-bottom: 20px;
+  max-width: 390px;
+}

@@ -1,0 +1,37 @@
+@import 'fonts';
+@import 'colors';
+
+.project-selection {
+  margin-bottom: 30px;
+
+  .title {
+    margin-bottom: 20px;
+  }
+
+  .project-selector {
+    @include wb-subtitle-1();
+    width: 100%;
+  }
+}
+
+.experiment-selection {
+  .title {
+    margin-bottom: 20px;
+  }
+
+  margin-bottom: 30px;
+}
+
+.points-table {
+  display: block;
+  margin-bottom: 36px;
+  height: 260px;
+
+  overflow-y: auto;
+  border-bottom: 1px solid $very-light-pink;
+}
+
+.chart {
+  display: block;
+  margin-bottom: 32px;
+}

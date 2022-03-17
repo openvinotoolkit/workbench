@@ -1,0 +1,23 @@
+.device-select {
+  margin-top: 20px;
+
+  ::ng-deep .mat-form-field-infix {
+    width: 410px;
+  }
+}
+
+.ribbon {
+  margin: 0;
+}
+
+.table-wrapper {
+  min-height: 100px;
+
+  .table {
+    max-height: 100%;
+  }
+}
+
+.device-field ::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0;
+}

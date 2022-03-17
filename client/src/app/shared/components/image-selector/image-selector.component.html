@@ -1,0 +1,22 @@
+<div class="image-selector" (wbDropArea)="onFileDrop($event[0])" [disabled]="disabled">
+  <div class="header">
+    <mat-icon svgIcon="upload"></mat-icon>
+    <div class="wb-label">Drag & drop image here</div>
+  </div>
+
+  <div class="drag-n-drop-area" (click)="fileInput.click()">
+    <mat-icon svgIcon="add"></mat-icon>
+
+    <mat-error *ngIf="typeError">{{ hints.fileExtensionError }}</mat-error>
+
+    <input
+      type="file"
+      data-test-id="test-image"
+      [accept]="acceptExtensions"
+      [disabled]="disabled"
+      hidden
+      #fileInput
+      (change)="fileChanged($event)"
+    />
+  </div>
+</div>

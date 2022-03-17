@@ -1,0 +1,64 @@
+<div class="wb-panel__header">
+  <h4 class="wb-panel__title">Experiment Attributes</h4>
+</div>
+<div data-test-id="execution-attributes">
+  <ng-container
+    [ngTemplateOutlet]="execAttribute"
+    [ngTemplateOutletContext]="{
+      testId: 'fps',
+      label: 'Throughput',
+      param: execInfo?.throughput,
+      unit: execInfo?.throughputUnit,
+      tip: execAttributeTipMessages?.throughput
+    }"
+  >
+  </ng-container>
+  <ng-container
+    [ngTemplateOutlet]="execAttribute"
+    [ngTemplateOutletContext]="{
+      testId: 'latency',
+      label: 'Latency',
+      param: execInfo?.latency,
+      unit: 'ms',
+      tip: execAttributeTipMessages?.latency
+    }"
+  >
+  </ng-container>
+
+  <ng-container
+    [ngTemplateOutlet]="execAttribute"
+    [ngTemplateOutletContext]="{
+      testId: 'batch',
+      label: 'Batch',
+      param: execInfo?.batch,
+      tip: execAttributeTipMessages?.batch
+    }"
+  >
+  </ng-container>
+
+  <ng-container
+    [ngTemplateOutlet]="execAttribute"
+    [ngTemplateOutletContext]="{
+      testId: 'nireq',
+      label: 'Streams',
+      param: execInfo?.nireq,
+      tip: execAttributeTipMessages?.nireq
+    }"
+  >
+  </ng-container>
+</div>
+
+<ng-template #execAttribute let-param="param" let-label="label" let-testId="testId" let-unit="unit" let-tip="tip">
+  <div class="attr-row">
+    <wb-help-tooltip [tooltipMessage]="tip"></wb-help-tooltip>
+    <div class="wb-label">{{ label }} :</div>
+    <div class="wb-body-2">
+      <span [attr.data-test-id]="testId">
+        {{ param }}
+      </span>
+      <span *ngIf="unit">
+        {{ unit }}
+      </span>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,13 @@
+{
+  "fromAdvancedToBasicConfirmation": "Are you sure you want to proceed to basic mode?\nSwitching to Basic will remove any edits you have made in Advanced.",
+  "externalLinkMessage": "You are redirected to an external website.\nClick OK to proceed and Cancel to stay on the current page.",
+  "importModelMessage": "You are leaving Import Model page.\nIf you press OK, current model will be deleted.",
+  "browserInformation": {
+    "title": "Browser Information",
+    "message": "We recommend to use Chrome browser to improve your experience using DL Workbench."
+  },
+  "inferenceOverlay": {
+    "operationInfo": "Server is collecting performance data.\nWait until is done before continuing.",
+    "cancellationWarning": "Wait for this task to complete.\nIf you reload this page or navigate away \nthe task could be canceled or fail."
+  }
+}

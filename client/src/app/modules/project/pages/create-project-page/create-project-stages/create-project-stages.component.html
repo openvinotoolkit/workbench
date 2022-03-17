@@ -1,0 +1,93 @@
+<div
+  class="stage"
+  [class.selected]="currentStage === createProjectStages.MODEL"
+  (click)="toStage.emit(createProjectStages.MODEL)"
+>
+  <div class="head">
+    <span class="wb-subtitle-1 name" data-test-id="select-model-stage">Select Model</span>
+    <wb-button
+      *ngIf="selectedModel"
+      class="clear"
+      type="default"
+      icon="close"
+      text="Clear Selection"
+      (handleClick)="resetStage.emit(createProjectStages.MODEL)"
+    >
+    </wb-button>
+  </div>
+  <div class="wb-label info">
+    <div class="info-row">
+      <dt class="term">Model</dt>
+      <dd class="value">
+        <ng-container *ngIf="selectedModel; else selectionRequiredText">
+          <wb-text-overflow [content]="selectedModel.name"></wb-text-overflow>
+        </ng-container>
+      </dd>
+    </div>
+  </div>
+</div>
+<div
+  class="stage two-line-info"
+  [class.selected]="currentStage === createProjectStages.ENVIRONMENT"
+  (click)="toStage.emit(createProjectStages.ENVIRONMENT)"
+>
+  <div class="head">
+    <span class="wb-subtitle-1 name" data-test-id="select-environment-stage">Select Environment</span>
+    <wb-button
+      *ngIf="defaultTarget?.targetId !== selectedTarget?.targetId"
+      class="clear"
+      type="default"
+      icon="close"
+      text="Reset Selection"
+      (handleClick)="resetStage.emit(createProjectStages.ENVIRONMENT)"
+    ></wb-button>
+  </div>
+  <div class="wb-label info">
+    <div class="info-row">
+      <dt class="term">Target</dt>
+      <dd class="value">
+        <ng-container *ngIf="selectedTarget; else selectionRequiredText">
+          <wb-text-overflow [content]="selectedTarget?.name"></wb-text-overflow>
+        </ng-container>
+      </dd>
+    </div>
+    <div class="info-row">
+      <dt class="term">Device</dt>
+      <dd class="value">
+        <ng-container *ngIf="selectedDevice; else selectionRequiredText">
+          <wb-text-overflow [content]="selectedDevice?.productName"></wb-text-overflow>
+        </ng-container>
+      </dd>
+    </div>
+  </div>
+</div>
+<div
+  class="stage"
+  [class.selected]="currentStage === createProjectStages.DATASET"
+  (click)="toStage.emit(createProjectStages.DATASET)"
+>
+  <div class="head">
+    <span class="wb-subtitle-1 name" data-test-id="select-dataset-stage">Select Validation Dataset</span>
+    <wb-button
+      *ngIf="selectedDataset"
+      class="clear"
+      type="default"
+      icon="close"
+      text="Clear Selection"
+      (handleClick)="resetStage.emit(createProjectStages.DATASET)"
+    >
+    </wb-button>
+  </div>
+  <div class="wb-label info">
+    <div class="info-row">
+      <dt class="term">Validation Dataset</dt>
+      <dd class="value">
+        <ng-container *ngIf="selectedDataset; else selectionRequiredText">
+          <wb-text-overflow [content]="selectedDataset.name"></wb-text-overflow>
+        </ng-container>
+      </dd>
+    </div>
+  </div>
+</div>
+
+<ng-template #selectionRequiredText> to be Completed </ng-template>

@@ -1,0 +1,82 @@
+@import 'colors';
+@import 'fonts';
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.status-block {
+  @include wb-label();
+  box-sizing: border-box;
+  border-radius: 3px;
+  padding: 20px;
+
+  &.VALID {
+    background-color: $light-green;
+    border: 1px solid $green;
+
+    wb-status-text ::ng-deep {
+      .mat-icon {
+        color: $green;
+      }
+    }
+  }
+
+  &.PENDING {
+    background-color: $ice-blue;
+    border: 1px solid $blue-blue;
+
+    wb-status-text ::ng-deep {
+      .mat-icon {
+        color: $blue-blue;
+        animation: rotation 2s infinite linear;
+      }
+    }
+  }
+
+  &.INVALID {
+    background-color: $deep-red-light;
+    border: 1px solid $deep-red;
+
+    wb-status-text ::ng-deep {
+      .mat-icon {
+        color: $deep-red;
+      }
+    }
+  }
+
+  wb-status-text ::ng-deep {
+    .mat-icon {
+      $icon-size: 20px;
+      width: $icon-size;
+      height: $icon-size;
+      font-size: $icon-size;
+    }
+
+    .status-text-label {
+      @include wb-label();
+    }
+  }
+
+  .error-messages {
+    padding-left: 20px;
+    margin-top: 20px;
+    white-space: pre-line;
+
+    > div {
+      margin-bottom: 20px;
+    }
+  }
+
+  .toggle-link {
+    text-decoration-line: underline;
+    color: $blue-blue;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,35 @@
+@import 'fonts';
+@import 'colors';
+
+:host {
+  @include wb-subtitle-1();
+  color: $brownish-grey;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &.label {
+    color: $black;
+    @include wb-label();
+
+    .property {
+      vertical-align: top;
+    }
+  }
+}
+
+.property {
+  vertical-align: bottom;
+
+  & + &:before {
+    content: '\2022';
+    margin: 0 10px;
+    font-size: 12px;
+  }
+}
+
+wb-text-overflow {
+  max-width: 300px;
+  display: inline-block;
+  overflow: hidden;
+}

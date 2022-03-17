@@ -1,0 +1,7 @@
+<ng-container *ngIf="!isDetailsOpened; else detailsTemplate">
+  <ng-content select="wb-model-zoo-content"></ng-content>
+</ng-container>
+
+<ng-template #detailsTemplate>
+  <ng-content select="wb-model-zoo-details"></ng-content>
+</ng-template>

@@ -1,0 +1,86 @@
+@import 'variables';
+@import 'fonts';
+
+.legend {
+  color: $deep-red;
+  margin-bottom: 20px;
+}
+
+.header {
+  margin: 0 0 28px;
+  display: flex;
+  align-items: center;
+}
+
+.header-txt {
+  margin-right: 10px;
+
+  &.required:after {
+    display: inline-block;
+    margin-left: 10px;
+    content: '*';
+    font-size: 20px;
+    color: $deep-red;
+  }
+}
+
+.label {
+  margin-right: 50px;
+}
+
+.form {
+  width: 100%;
+}
+
+mat-radio-group.wb-radio-group .mat-radio-button {
+  margin-bottom: 0;
+}
+
+.controls-items {
+  display: flex;
+  align-items: center;
+
+  &:last-child {
+    margin-bottom: 5px;
+  }
+
+  mat-checkbox + mat-checkbox,
+  mat-radio-button + mat-radio-button {
+    margin-left: 45px;
+  }
+}
+
+.package-size-info {
+  display: flex;
+  flex-direction: row;
+}
+
+.controls {
+  margin: 20px 0 10px;
+
+  wb-info-hint {
+    margin-left: 10px;
+  }
+}
+
+// FIXME: replace txt class in hint component
+.hint ::ng-deep .markdown-text-block {
+  @include wb-label();
+}
+
+.tip ::ng-deep .ui-tip {
+  max-width: none;
+}
+
+.package-size-panel {
+  display: block;
+
+  .size-row {
+    display: flex;
+    margin-bottom: 20px;
+  }
+
+  .size-title {
+    margin-right: 10px;
+  }
+}

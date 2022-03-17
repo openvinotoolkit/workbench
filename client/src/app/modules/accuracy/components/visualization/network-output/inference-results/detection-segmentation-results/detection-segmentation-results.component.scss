@@ -1,0 +1,46 @@
+@import '../../network-output.component.variables';
+
+.threshold-control {
+  align-items: center;
+  display: flex;
+  margin-bottom: 20px;
+  height: 80px;
+
+  > *:not(:first-child) {
+    margin-left: 20px;
+  }
+}
+
+wb-object-detection-predictions {
+  display: block;
+  height: $image-renderer-height;
+}
+
+.columns-container {
+  display: flex;
+
+  wb-object-detection-predictions {
+    flex: 1 0 50%;
+  }
+
+  wb-object-detection-predictions:not(:only-child) ::ng-deep .wb-panel {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  wb-object-detection-predictions + wb-object-detection-predictions ::ng-deep .wb-panel {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: none;
+  }
+}
+
+.rows-container {
+  wb-object-detection-predictions + wb-object-detection-predictions {
+    margin-top: $badge-header-height;
+  }
+}
+
+mat-form-field ::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0;
+}

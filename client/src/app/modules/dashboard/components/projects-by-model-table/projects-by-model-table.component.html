@@ -1,0 +1,234 @@
+<table class="wb-table" mat-table [dataSource]="projectItems" data-test-id="projects-by-model-table">
+  <tr mat-header-row *matHeaderRowDef="columns; sticky: true"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: columns"
+    [attr.data-deep]="row.pathFromRoot.length"
+    [class.selected]="selectedProjectId === row.id"
+    [attr.data-test-id]="'row_' + row.modelName + '_' + row.datasetName"
+  ></tr>
+  <tr mat-footer-row *matFooterRowDef="['footer']" [style.display]="projectItems?.length ? 'none' : 'table-row'"></tr>
+
+  <ng-container matColumnDef="modelName">
+    <th mat-header-cell *matHeaderCellDef class="wb-header-cell id">Project ID</th>
+
+    <td mat-cell *matCellDef="let element" class="wb-cell name">
+      <div class="cell-content">
+        <div class="project-id" data-test-id="project-id">{{ element.id }}</div>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="optimizationType">
+    <th mat-header-cell *matHeaderCellDef class="wb-header-cell optimization">Optimizations</th>
+
+    <td mat-cell *matCellDef="let element" class="wb-cell optimization">
+      <div *ngIf="element?.configParameters?.optimizationType as optimizationType" class="optimization-type-row">
+        <span *ngIf="!optimizationJobNamesMap[optimizationType]" class="wb-disabled-color not-optimized">
+          Not Optimized
+        </span>
+
+        <wb-help-tooltip
+          *ngIf="optimizationJobNamesMap[optimizationType]"
+          [tooltipMessage]="
+            optimizationType === OptimizationJobTypes.INT_8
+              ? dashboardTooltips.int8Optimization
+              : dashboardTooltips.optimizationMethod
+          "
+        ></wb-help-tooltip>
+
+        <div class="hide-overflow">
+          {{ optimizationJobNamesMap[optimizationType] }}
+          <span *ngIf="element?.configParameters?.algorithm as algorithm" data-test-id="optimization-type">
+            - {{ optimizationAlgorithmNamesMap[algorithm] }}
+          </span>
+          <ng-container *ngIf="element?.configParameters?.preset as preset">
+            - {{ optimizationAlgorithmPresetNames[preset] }}
+          </ng-container>
+        </div>
+      </div>
+      <div *ngIf="element?.configParameters?.calibrationDatasetName as datasetName" class="optimization-type-row">
+        <wb-help-tooltip [tooltipMessage]="int8ConfigTooltipMap.calibrationDataset"></wb-help-tooltip>
+
+        <span data-test-id="calibration-dataset-name" [title]="datasetName">{{ datasetName }}</span>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="datasetName">
+    <th mat-header-cell *matHeaderCellDef class="wb-header-cell dataset">Validation<br />Dataset</th>
+
+    <td mat-cell *matCellDef="let element" class="wb-cell dataset">
+      <div class="cell-content">
+        <wb-text-overflow class="hide-overflow" [content]="element?.datasetName"></wb-text-overflow>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="deviceName">
+    <th mat-header-cell *matHeaderCellDef class="wb-header-cell device">Target</th>
+
+    <td mat-cell *matCellDef="let element" class="wb-cell device">
+      <div class="cell-content">
+        <wb-text-overflow class="hide-overflow" [content]="'Machine: ' + element.targetName"></wb-text-overflow>
+        <wb-text-overflow class="hide-overflow" [content]="'Device: ' + devices[element?.deviceId]"></wb-text-overflow>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="precisions">
+    <th mat-header-cell *matHeaderCellDef class="wb-header-cell precisions">Precisions</th>
+
+    <td mat-cell *matCellDef="let element" class="wb-cell precisions">
+      <div class="cell-content">
+        {{ element?.runtimePrecisions?.join(', ') }}
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="execInfo.throughput">
+    <th mat-header-cell *matHeaderCellDef class="wb-header-cell throughput">Throughput,<br />{{ throughputUnit }}</th>
+
+    <td mat-cell *matCellDef="let element" class="wb-cell throughput">
+      <div class="cell-content" data-test-id="throughput-value">
+        <ng-container *ngIf="element?.execInfo?.throughput || element?.execInfo?.throughput === 0; else NAPlaceholder">
+          {{ element?.execInfo?.throughput | number: '1.0-2' }}
+        </ng-container>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="execInfo.accuracy">
+    <th mat-header-cell *matHeaderCellDef class="wb-header-cell accuracy">Accuracy,<br />%</th>
+
+    <td mat-cell *matCellDef="let element" class="wb-cell accuracy">
+      <div class="cell-content">
+        <wb-help-tooltip
+          *ngIf="!hasAccuracyResult(element) && element?.isAccuracyAvailable && !isRemoteTarget(element)"
+          [tooltipMessage]="tooltipService.tooltipMessages.accuracyParams.NAAccuracyEmpty"
+        ></wb-help-tooltip>
+        <wb-help-tooltip
+          *ngIf="!element?.isAccuracyAvailable"
+          [tooltipMessage]="tooltipService.tooltipMessages.accuracyParams.NAAccuracyUnannotatedDataset"
+        ></wb-help-tooltip>
+        <wb-help-tooltip
+          *ngIf="isRemoteTarget(element)"
+          [tooltipMessage]="tooltipService.tooltipMessages.accuracyParams.NARemoteAccuracy"
+        ></wb-help-tooltip>
+
+        <span *ngIf="hasAccuracyResult(element); else NAPlaceholder">
+          {{ element?.execInfo?.accuracy | number: '1.0-2' }}
+        </span>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="creationTimestamp">
+    <th mat-header-cell *matHeaderCellDef class="wb-header-cell time">Creation<br />Time</th>
+
+    <td mat-cell *matCellDef="let element" class="wb-cell time">
+      <div class="cell-content">
+        {{ element?.creationTimestamp | date: 'dd/MM/yy, hh:mm' }}
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef class="wb-header-cell status">Status</th>
+
+    <td mat-cell *matCellDef="let element" class="wb-cell status">
+      <div class="cell-content">
+        <wb-status-bar
+          *ngIf="runningProfilingPipeLinePerProjectMap[element.id] as pipeline"
+          mode="circle"
+          [status]="pipeline | profilingStatus | async"
+          (cancelProgress)="cancelProfiling.emit(pipeline.id)"
+        >
+        </wb-status-bar>
+        <wb-status-bar
+          *ngIf="runningInt8CalibrationPipeLinePerProjectMap[element.id] as pipeline"
+          mode="circle"
+          [status]="pipeline | profilingStatus | async"
+        >
+        </wb-status-bar>
+        <wb-status-bar
+          *ngIf="
+            !runningProfilingPipeLinePerProjectMap[element.id] &&
+            !runningInt8CalibrationPipeLinePerProjectMap[element.id]
+          "
+          mode="circle"
+          [status]="getProjectStatusWithDescendants(element)"
+          [readonlyTipMsg]="getReadOnlyTipMessage(element)"
+        >
+        </wb-status-bar>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="details">
+    <th mat-header-cell *matHeaderCellDef class="wb-header-cell details"></th>
+
+    <td mat-cell *matCellDef="let element" class="wb-cell details">
+      <div class="cell-content">
+        <wb-button
+          *ngIf="element.status.name === projectStatusNames.READY"
+          class="btn"
+          type="secondary"
+          text="Details"
+          (handleClick)="selectProjectDetails(element)"
+        ></wb-button>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="open">
+    <th mat-header-cell *matHeaderCellDef class="wb-header-cell open"></th>
+
+    <td mat-cell *matCellDef="let element" class="wb-cell open">
+      <div class="cell-content">
+        <wb-button
+          testId="open-project"
+          class="btn"
+          type="secondary"
+          text="Open"
+          (handleClick)="openProject.emit(element)"
+        ></wb-button>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef class="wb-header-cell actions">Actions</th>
+
+    <td mat-cell *matCellDef="let element" class="wb-cell actions">
+      <div class="cell-content">
+        <button
+          *ngIf="isDeleteAvailable(element) || isComparisonAvailable(element)"
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+          aria-label="Project Actions"
+        >
+          <mat-icon svgIcon="more"></mat-icon>
+        </button>
+        <mat-menu class="wb-menu" #menu="matMenu">
+          <button mat-menu-item *ngIf="isDeleteAvailable(element)" (click)="deleteProjectItem.emit(element)">
+            Delete
+          </button>
+          <button mat-menu-item *ngIf="isComparisonAvailable(element)" (click)="goToCompare.emit(element)">
+            Compare
+          </button>
+        </mat-menu>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="footer">
+    <td mat-footer-cell *matFooterCellDef [attr.colspan]="columns.length" class="empty-list-column">
+      <wb-info-hint [message]="projectsTableHints.emptyTip"></wb-info-hint>
+    </td>
+  </ng-container>
+</table>
+
+<ng-template #NAPlaceholder>
+  <span class="wb-disabled-color">N/A</span>
+</ng-template>

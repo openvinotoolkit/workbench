@@ -1,0 +1,8 @@
+<div aria-label="popup" class="analytics-popup wb-body-3">
+  {{ data?.message }}
+  <div class="analytics-popup-controls">
+    <wb-button class="button" type="secondary" text="Accept" (handleClick)="handleAction(true)"></wb-button>
+    <wb-button class="button" text="Block" (handleClick)="handleAction(false)" testId="refuse-analytics"> </wb-button>
+    <span (click)="router.navigate(['information-collection'])">More information</span>
+  </div>
+</div>

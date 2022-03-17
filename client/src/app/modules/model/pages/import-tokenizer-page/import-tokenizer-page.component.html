@@ -1,0 +1,47 @@
+<wb-page-with-actions class="gray-footer">
+  <ng-container ngProjectAs="pageContent">
+    <wb-navigation-bar>
+      <a *ngIf="model$ | async as model" [routerLink]="['/models', model.id]">Model {{ model.name }}</a>
+      <a>Import Tokenizer</a>
+    </wb-navigation-bar>
+    <h1 class="wb-h1 wb-page-header">Import Tokenizer</h1>
+
+    <wb-message-box
+      class="upload-dataset-error"
+      *ngIf="(failedTokenizer$ | async)?.status.errorMessage as errorMessage"
+      messageType="error"
+      [message]="'Tokenizer upload failed'"
+      [detailedMessage]="errorMessage"
+    >
+    </wb-message-box>
+
+    <div class="content">
+      <wb-import-tokenizer-form #formComponent (tokenizerChange)="onTokenizerChange($event)"></wb-import-tokenizer-form>
+
+      <div class="wb-panel tip"><wb-tip [tipMessage]="tip"></wb-tip></div>
+    </div>
+  </ng-container>
+
+  <ng-container [ngTemplateOutlet]="actions" ngProjectAs="pageActions"></ng-container>
+</wb-page-with-actions>
+
+<ng-template #actions>
+  <div class="actions">
+    <wb-button
+      class="enlarged-control"
+      testId="import-button"
+      type="primary"
+      text="Import"
+      (handleClick)="submit()"
+      [disabled]="formComponent.form.invalid || submitted"
+    >
+    </wb-button>
+    <wb-button
+      *ngIf="model$ | async as model"
+      class="enlarged-control"
+      type="default"
+      text="Cancel"
+      [routerLink]="['/models', model.id, 'configuration', 'tokenizer']"
+    ></wb-button>
+  </div>
+</ng-template>

@@ -1,0 +1,27 @@
+:host {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.wb-page-header {
+  margin-bottom: 5px;
+}
+
+.wb-page-header__row {
+  justify-content: space-between;
+}
+
+.wb-tab-group {
+  padding-top: 20px;
+}
+
+.tab-container {
+  margin: 20px;
+  flex-grow: 1;
+  position: relative;
+}
+
+wb-model-info {
+  margin-top: 10px;
+}

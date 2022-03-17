@@ -1,0 +1,68 @@
+<div class="table-controls">
+  <wb-table-filter-form
+    [columns]="filterableColumns"
+    [valueConditionOptions]="valueConditionOptions"
+  ></wb-table-filter-form>
+
+  <mat-paginator
+    [length]="dataSource?.total$ | async"
+    [pageSize]="paginatorPageSizeOptions[0]"
+    [pageSizeOptions]="paginatorPageSizeOptions"
+  ></mat-paginator>
+</div>
+
+<wb-info-hint class="wb-full-width" [message]="columnsDescriptionHint"></wb-info-hint>
+
+<div class="table-container">
+  <div class="loading-shade" *ngIf="dataSource?.loading$ | async">
+    <wb-spinner></wb-spinner>
+  </div>
+
+  <mat-table
+    class="dynamic-table"
+    matSort
+    matSortDisableClear
+    [dataSource]="dataSource"
+    (matSortChange)="currentSort = $event"
+    [matSortActive]="currentSort.active"
+    [matSortDirection]="currentSort.direction"
+    data-test-id="data-table"
+  >
+    <ng-container *ngFor="let column of columns" [matColumnDef]="column.name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span class="header-cell-content">{{ column.header }}</span>
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: column.name }"></ng-container>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span class="cell-content" [attr.data-test-id]="column.name + '-data'">
+          {{ element[column.name] | dynamic: column.options?.transform }}
+        </span>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container [matColumnDef]="actionsColumnLabels.name">
+      <mat-header-cell *matHeaderCellDef>
+        <span class="header-cell-content">{{ actionsColumnLabels.header }}</span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span>
+          <wb-button
+            type="secondary"
+            testId="action-button"
+            [text]="actionsColumnLabels.buttonText"
+            (handleClick)="onAction(element)"
+          ></wb-button>
+        </span>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container *ngIf="columnNames as columnNames">
+      <mat-header-row *matHeaderRowDef="columnNames"></mat-header-row>
+      <mat-row *matRowDef="let rows; columns: columnNames"></mat-row>
+    </ng-container>
+  </mat-table>
+</div>
+
+<ng-template #sortIcon let-columnName="columnName">
+  <wb-table-sort-icon [columnName]="columnName" [sortedColumn]="currentSort"></wb-table-sort-icon>
+</ng-template>

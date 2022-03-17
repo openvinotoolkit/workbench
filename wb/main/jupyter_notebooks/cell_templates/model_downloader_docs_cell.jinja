@@ -1,0 +1,18 @@
+### OpenVINO Tool: Model Downloader
+
+#### Main usage
+
+Model Downloader allows to download models from the Open Model Zoo.
+
+#### Description
+
+Open Model Zoo includes a set of Intel pretrained models and public models which can be downloaded with Model Downloader. Intel pretrained models are already in IR format, so you can just download and use them.
+Public models are not trained by Intel but have proven quality and are recommended for use.
+Public models need to be converted to IR with Model Converter. You can find the full list of available models in the [documentation](https://docs.openvino.ai/latest/model_zoo.html).
+or directly in the DL Workbench.
+
+#### Used Command-Line Arguments
+
+{{ CLIToolEnum.model_downloader.format_to_markdown_table() | safe }}
+
+Refer to the [documentation](https://docs.openvino.ai/latest/omz_tools_downloader.html) for more details.

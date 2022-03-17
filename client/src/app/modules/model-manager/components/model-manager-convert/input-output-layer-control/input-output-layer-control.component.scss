@@ -1,0 +1,78 @@
+@import 'fonts';
+@import 'variables';
+
+:host {
+  display: block;
+}
+
+.index {
+  padding-right: 5px;
+
+  &:before {
+    counter-increment: input-layer-counter;
+    content: counter(input-layer-counter, upper-alpha) '. ';
+  }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 62px;
+
+  &.narrow-fields ::ng-deep .field {
+    width: 80px;
+  }
+
+  .layer-label {
+    display: flex;
+    margin-top: 13px;
+    margin-right: 20px;
+  }
+
+  .layer-remove {
+    margin-top: 12px;
+    margin-left: 15px;
+
+    ::ng-deep {
+      button {
+        min-width: 20px;
+      }
+
+      mat-icon {
+        margin: 0;
+      }
+    }
+  }
+}
+
+.shape,
+.freeze-placeholder,
+.means,
+.scales {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: 20px;
+}
+
+.shape {
+  align-items: flex-start;
+  margin-top: 14px;
+}
+
+wb-config-form-field {
+  ::ng-deep .field-label {
+    min-width: unset;
+    margin-right: $container-padding;
+  }
+}
+
+:host ::ng-deep {
+  .field {
+    @include wb-subtitle-1();
+  }
+
+  .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+}

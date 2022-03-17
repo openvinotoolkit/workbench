@@ -1,0 +1,57 @@
+@import 'fonts';
+@import 'variables';
+
+.panel-header {
+  margin: 0;
+  vertical-align: middle;
+}
+
+.actions {
+  display: flex;
+
+  wb-button + wb-button {
+    margin-left: 20px;
+  }
+}
+
+.error-container {
+  max-width: 500px;
+  margin-bottom: $container-padding;
+}
+
+:host ::ng-deep {
+  .import-stage-ribbon {
+    margin: 20px 0 20px 24px;
+  }
+
+  .back-button {
+    margin-left: auto;
+  }
+
+  .field-label {
+    min-width: 170px;
+  }
+
+  .no-connect-message,
+  .unavailable-model-message {
+    margin-top: $container-padding;
+  }
+
+  .import-notification {
+    @include wb-text-8();
+    max-width: 500px;
+    box-sizing: border-box;
+    margin-bottom: $container-padding;
+    padding: $container-padding;
+    border: 1px solid $plum;
+    border-radius: 3px;
+    display: flex;
+    align-items: baseline;
+    white-space: pre;
+
+    span:first-child {
+      @include wb-h5();
+      margin-right: 10px;
+    }
+  }
+}

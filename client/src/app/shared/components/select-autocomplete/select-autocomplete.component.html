@@ -1,0 +1,34 @@
+<form class="select-autocomplete-form">
+  <mat-form-field class="select-autocomplete-form-field" [appearance]="appearance" floatLabel="never">
+    <mat-placeholder class="select-autocomplete-form-placeholder">{{ placeholder }}</mat-placeholder>
+    <input
+      [id]="controlId"
+      type="text"
+      aria-label="Select"
+      matInput
+      [formControl]="control"
+      [matAutocomplete]="auto"
+      [attr.data-test-id]="testId"
+    />
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      class="virtual-autocomplete-container"
+      [panelWidth]="cdkOverlayPanelWidth"
+      (opened)="virtualScroll.checkViewportSize()"
+      (optionSelected)="changeSelectedLayerName.emit($event.option.value)"
+    >
+      <cdk-virtual-scroll-viewport
+        [itemSize]="optionHeightPx"
+        [minBufferPx]="bufferSizePx"
+        [maxBufferPx]="bufferSizePx"
+        [style.height.px]="getAutocompleteHeightPx((filteredOptions$ | async)?.length)"
+        style="overflow-x: hidden"
+      >
+        <mat-option *cdkVirtualFor="let option of filteredOptions$ | async" [value]="option">
+          {{ option }}
+        </mat-option>
+      </cdk-virtual-scroll-viewport>
+    </mat-autocomplete>
+    <mat-icon matSuffix svgIcon="search"></mat-icon>
+  </mat-form-field>
+</form>

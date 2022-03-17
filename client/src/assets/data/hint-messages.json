@@ -1,0 +1,262 @@
+{
+  "homePageHints": {
+    "createProject": "Welcome to the DL Workbench. \nCreate a project by selecting a model, a dataset, and an environment.",
+    "exploreOMZ": "You can start your experiments in DL Workbench with models from OpenVINO Open Model Zoo (OMZ).\nClick Explore 100+ OMZ Models to view the list of available models."
+  },
+  "wizardHints": {
+    "unsupportedPrecisions": "The selected device ${deviceName} does not support the model ${selectedModelName} precision${pluralSuffix} (${commaJoinedPrecisions}). Choose another device or use another model."
+  },
+  "inferenceTips": {
+    "inferenceFormTips": "Finding the best combination of streams and batches is essential for efficient execution of any model. Inference is the stage in which a pretrained model is executed on the selected accelerator. During inference, the model uses specified inputs to make predictions.\n\nVarious combinations of streams and batch sizes result in different performance (throughput and latency values) for each model. Run Single Inference on the selected configuration or use Group Inference to profile multiple combinations of parameters. Refer to the [documentation](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Run_Single_Inference.html) to learn more.",
+    "previouslySelectedTip": "You can select a previously executed combination of streams and a batch size.",
+    "powerOfTwo": "Show batch size values as degrees of 2.",
+    "NARemoteProfiling": "Inference is not available for the current project because it uses not configured remote machine."
+  },
+  "deploymentTips": {
+    "deployTip": "Download the deployment package, transfer it to the target hardware and unarchive it there. Then you can execute the model.\n The package size depends on the number of selected plugins. If you do not include the model in the package, the archive contains only libraries for selected plugins.\n Once you click Pack, the packaging process starts on the server followed by an automatic archive download.\n [Read more](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Deployment_Package.html)",
+    "infoTip": "Prepare a deployment package with a minimum set of libraries to infer a model on target hardware.",
+    "archiveSizeTip": "The estimated size is specified for unarchived files. The deployment package archive will be smaller."
+  },
+  "projectExportTips": {
+    "exportTip": "You can download an archive with artifacts of your project: \n the model, \n the dataset, \n accuracy measurement configuration delivered as a valid configuration file for the [Accuracy Checker](https://docs.openvino.ai/latest/omz_tools_accuracy_checker.html), \n [Post-training Optimization Tool](https://docs.openvino.ai/latest/pot_README.html) calibration configuration file. \n\n A downloaded archive also contains information on the project, best model performance, corresponding performance reports, and the execution graph of the model on the device that you used in the project. \n\n Once you click Export, the exporting process starts on the server followed by an automatic archive download. \n\nIf you submit a ticket about model support to the [OpenVINO team](https://github.com/openvinotoolkit/openvino/issues), it is highly recommended to attach the model and its execution graph, which you can obtain on this tab. "
+  },
+  "optimizationHints": {
+    "int8Disabled": "INT8 Calibration is not available for already optimized models.",
+    "nlpInt8Disabled": "INT8 Calibration is not available for NLP models.",
+    "obsoleteIrInt8Disabled": "INT8 Calibration is not available for deprecated version of model IR. [Create](/projects/create) a project with a supported IR version model or [import](/model-manager/import) a new model.",
+    "targetDisabled": "INT8 Calibration is not available for ${target} targets. [Choose](/projects/create?modelId=${modelId}&datasetId=${datasetId}) a target that supports ${optimization} and try again.",
+    "fakeQuantizeDisabled": "${modelName} model is already in the INT8 format and does not need calibration. Experiment with the model on the Explore Inference Configurations tab."
+  },
+  "optimizationTips": {
+    "int8Description": "[INT8 Calibration](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Int_8_Quantization.html) accelerates Deep Learning model inference while reducing model size at the cost of reduced accuracy.\nINT8 Calibration converts 32-bit floating-point operations to the nearest 8-bit integer operations.\n\nINT8 Calibration with OpenVINO:\n\n- significantly improves performance on Intel CPU and Intel GPU platforms,\n- does not require model retraining,\n- allows you to control the accuracy drop (for projects with an annotated dataset).\n\nModel size reduction is measured by dividing the size of the FP model by the INT8 model size. Performance boost is measured by dividing the throughput of optimized INT8 model by FP model throughput."
+  },
+  "calibrationTips": {
+    "maxPerformance": "[Default](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Int_8_Quantization.html#default-method) method optimizes your model to achieve best performance. A model optimized by the Default method translates all layers that support INT8 execution into the INT8 precision.",
+    "maxAccuracy": "[AccuracyAware](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Int_8_Quantization.html#accuracyaware-method) method optimizes your model to achieve the best performance with the specified maximum acceptable accuracy drop. A model optimized by the AccuracyAware method translates only those layers that both can be executed in the INT8 precision and almost do not increase accuracy drop.",
+    "time": "There is a direct relationship between calibration time and selected calibration subset. It is recommended to use dataset different from a validation dataset due to possible overfitting of a calibrated model. Amount of data required for calibration is usually equivalent to 3-5% of a validation dataset size (300-1000 images).",
+    "algorithmPresetPerformance": "Performance preset means that both weights and activations are calibrated in a symmetric mode. This preset is a default option because it provides maximum performance speedup and is independent of a target platform.",
+    "algorithmPresetMixed": "Mixed preset means that weights and activations are calibrated in symmetric and asymmetric modes correspondingly. Compared to the performance preset, the mixed preset may result in a more accurate model at the cost of performance drop. Depending on a target platform and a model, performance drop usually varies from 5 to 15%. For example, use this preset if a model has convolutional or fully-connected layers with both negative and positive activations, for example, a model with non-ReLU activations.",
+    "defaultCalibrationTitle": "Default Method",
+    "defaultCalibration": "Uncontrollable minor drop of model accuracy\nSignificant increase of model speed\nAnnotated or not annotated datasets",
+    "acAwareCalibrationTitle": "AccuracyAware Method",
+    "acAwareCalibration": "Controllable drop of model accuracy\nIncrease of model speed\nAnnotated datasets only",
+    "incompatibleDataset": "Select a dataset that supports the ${selectedModelTask} task. Currently selected ${selectedDatasetName} does not support ${selectedModelTask}.",
+    "disabledAccuracyOptimization": "Cannot perform this optimization type on a not annotated dataset.",
+    "disabledOptimization": "Cannot start optimization without accuracy settings provided.",
+    "performancePreset": "Uncompromising performance",
+    "mixedPreset": "Tradeoff between accuracy and performance",
+    "naDatasetOptimizationDisabled": "Can not perform calibration of this model on Not Annotated dataset.",
+    "multiInputNaDatasetOptimizationDisabled": "Can not perform calibration of this multi-input model on Not Annotated dataset.",
+    "configureAccuracy": "Your model is not yet configured for INT8 Calibration. Specify the model type and other accuracy-related attributes, such as image resizing settings and a metric.",
+    "incompatibleDatasetAndModel": "Selected dataset cannot be used for the selected ${taskName} model ${modelName}.\nChoose another dataset to proceed with accuracy measurements."
+  },
+  "conversionTips": {
+    "general": "At this stage, you are converting the model to the OpenVINO Intermediate Representation (IR). The model should be in the ONNX format or trained using one of the supported frameworks.",
+    "useTFObjectDetectionAPI": "Uploaded TensorFlow model uses an Object-Detection API.",
+    "dataType": "Defines the precision in which model weights should be stored. Consider using FP16 at this stage, as it is supported by all OpenVINO plugins while keeping good accuracy and speed gains over FP32. After model conversion and import, you can further optimize the model with optimization techniques like INT8 Calibration.",
+    "originalChannelsOrder": "Describes the color channel order in images of your training dataset. Wrong color space parameter impacts your model accuracy, while the performance stays the same.",
+    "pipelineConfigFile": "Contains information about the model built with the TensorFlow Object-Detection API. The file is a part of the model and includes the detection head structure.\n [Samples of pretrained models](https://github.com/tensorflow/models/tree/master/research/object_detection/samples/configs)",
+    "predefinedTransformationsConfig": "Some models require specific structure transformations to be converted to the IR. Predefined configuration file contains the description of the necessary transformations. Select the file that suits your model. Learn more about configuration files for each particular model in the documentation.",
+    "customTransformationsConfig": "Some models require specific structure transformations to be converted to the IR. Custom configuration file contains the description of the necessary transformations. Select the file that suits your model. Learn more about configuration files in the [documentation](https://docs.openvino.ai/latest/openvino_docs_MO_DG_prepare_model_customize_model_optimizer_Customize_Model_Optimizer.html#generic-transformations-config-front-phase-transformations).",
+    "inputLayerName": "Specifies the name of the input layer. Necessary for conversion use cases like cutting the training part of a model graph.\n[Read more](https://docs.openvino.ai/latest/openvino_docs_MO_DG_prepare_model_convert_model_Cutting_Model.html)",
+    "inputShape": "Defines the dimensionality of the input tensor. If possible, the DL Workbench tries to predict the input shape based on the analysis of your model.\n-1 means that you need to explicitly set the dimension.\n [Read more](https://docs.openvino.ai/latest/openvino_docs_MO_DG_prepare_model_convert_model_Converting_Model.html#when-to-specify-input-shapes)",
+    "freezePlaceholderWithValue": "Replaces input placeholder layer with a constant node containing the provided value, for example: False, True, [1 2], [[3 5] [224 224]] \n [Read more](https://docs.openvino.ai/latest/openvino_docs_MO_DG_prepare_model_convert_model_Converting_Model.html)",
+    "inputMeansAndScales": "If you used normalization parameters like means and scales when training your model, specify them here. Not setting them correctly impacts your model, while the performance stays the same.\n Example: [mobilenet from ONNX Model Zoo](https://github.com/onnx/models/tree/master/vision/classification/mobilenet#preprocessing) \n[More on means and scales](https://docs.openvino.ai/latest/openvino_docs_MO_DG_prepare_model_convert_model_Converting_Model.html#when-to-specify-mean-and-scale-values)",
+    "inputSpecification": "Specify the input shapes of your model or skip this option and the DL Workbench will detect the inputs automatically.",
+    "inputDynamicDimensionNote": "You can leave dimensions as undefined by using -1 to enable dynamic shapes in your model. This will allow to get a very flexible IR that can adopt to data and target hardware and as a result make your IR more accurate. You can always define a static shape to get better performance.",
+    "originalLayoutCV": "Layout describes the role of each dimension of input tensors:\n- Batch (N) – number of images in the batch\n- Height (H) – image height\n- Width (W) – image width\n- Channels (C) – number of image channels  (3 for RGB/BGR, 1 for Grayscale)\n- Depth – the depth of the data with which the model works\n- Other – any other dimension role that does not refer to the number of channels or batch\nDefining the roles of layouts during the conversion to IR is required for working with the OpenVINO tools in the DL Workbench. The role of dimensions may differ depending on the model and the way the data was fed to the model during training. Usually, NCHW is used for ONNX models, and NHWC for TensorFlow models. If you want to specify different dimension roles, select Custom.\n[Learn more](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Select_Models.html)",
+    "originalLayoutNLP": "Layout describes the value of each dimension of input tensors:\n- Batch (N) – number of text samples in the batch\n- Channels (C) – maximum length of text that the model can process\n- Other – any other dimension role that does not refer to the number of channels or batch\nDefining the roles of layouts during the conversion to IR is required for working with the OpenVINO tools in the DL Workbench. If you want to specify different dimension roles, select Custom.\n[Learn more](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Select_Models.html)",
+    "dimension": "The shape should not contain empty or -1 dimensions.",
+    "layoutRole": "At least one of the Layout Role fields must be defined as Batch (N).",
+    "validationFails": "Conversion form has validation errors. See Conversion Tip in the right column for details."
+  },
+  "importDatasetTips": {
+    "imagenet": "ImageNet is a dataset for classification and object-detection models. Currently, the DL Workbench supports only classification ImageNet datasets of the 2012 version. \n \n[Dataset Type Details](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Dataset_Types.html#imagenet)\n \nThe archive consists of images and an annotation file (<version>_val.txt): \n\n|-- imagenet.zip\n\t|-- <version>_val.txt\n\t|-- 0001.jpg\n\t|-- 0002.jpg\n\t|...  \n\t|-- n.jpg  ",
+    "notAnnotated": "Not annotated dataset is a set of images without annotations. Projects with such datasets have limited functionalities. In particular, a model can be calibrated only in the Default mode and cannot be used for accuracy measurements. \n\n [Dataset Type Details](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Dataset_Types.html#unannotated)\n \nThe archive is organized as follows: \n\n|-- unannotated.zip\n\t|-- 0001.jpg\n\t|-- 0002.jpg\n\t|...  \n\t|-- n.jpg  ",
+    "voc": "Pascal Visual Object Classes (Pascal VOC) dataset is used for object detection, semantic segmentation, image inpainting, and style  transfer models. \n \n[Dataset Type Details](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Dataset_Types.html#voc)\n \nThe archive consists of several folders containing images, image indices, and  .xml annotations for every image. The latter are stored in the Annotations folder:\n\n |-- voc.tar.gz\n\t|-- VOCdevkit\n\t\t|-- VOC\n\t\t\t|-- Annotations\n\t\t\t|-- ImageSets\n\t\t\t|-- JPEGImages\n\t\t\t|-- SegmentationClass\n\t\t\t|-- SegmentationObject",
+    "coco": "Common Objects in Context (COCO) dataset is used for object detection, instance segmentation, image inpainting, and style transfer models. \n \n[Dataset Type Details](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Dataset_Types.html#coco)\n \nA dataset is downloaded as two separate archives, but you have to create one archive with a folder for images and a folder for annotations, where images go to the val folder:\n\n|-- coco.zip\n\t|-- val\n\t\t|-- 0001.jpg\n\t\t|-- 0002.jpg\n\t\t...\n\t\t|-- n.jpg\n\t|-- annotations  \n\t\t|-- instances_val.json",
+    "css": "Common Semantic Segmentation (CSS) is an OpenVINO dataset type for semantic segmentation, image inpainting, and style transfer models. \n\n [Dataset Type Details](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Dataset_Types.html#css) \n \nThe archive consists of folders with images and masks, and a JSON file with meta information:\n\n|-- css.zip\n\t|-- dataset_meta.json\n\t|--Images\n\t\t|-- 0001.jpg\n\t\t|-- 0002.jpg\n\t\t|...  \n\t\t|-- n.jpg\n\t|--Masks\n\t\t|-- 0001.png\n\t\t|-- 0002.png\n\t\t|...  \n\t\t|-- n.png  ",
+    "csr": "Common Super-resolution (CSR) is an OpenVINO dataset type for super resolution, image inpainting, and style transfer models. \n\n [Dataset Type Details](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Dataset_Types.html#csr) \n \nThe archive consists of three separate folders for high-resolution images, low-resolution images, and upsampled low-resolution images:\n\n|-- csr.zip\n\t|-- HR\n\t\t|-- 0001.jpg\n\t\t|-- 0002.jpg\n\t\t...\n\t\t|-- n.jpg\n\t|-- LR\n\t\t|-- 0001.jpg\n\t\t|-- 0002.jpg\n\t\t...\n\t\t|-- n.jpg\n\t|-- upsampled\n\t\t|-- 0001.png\n\t\t|-- 0002.png\n\t\t...\n\t\t|-- n.png",
+    "lfw": "Labeled Faces in the Wild (LFW) is used for face recognition. \n\n [Dataset Type Details](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Dataset_Types.html#lfw)\n\nAn LFW dataset archive consists of folders with images and annotations. The Images folder contains separate folders with photographs of a particular person. The Annotations folder contains two files: pairs.txt (required) and landmarks.txt (optional).  \n\n|-- LFW\n\t|-- Images\n\t\t|-- Person_1\n\t\t\t|-- Person_1_0001.jpg\n\t\t\t...\n\t\t\t|-- Person_1_n.jpg\n\t\t...\n\t\t|-- Person_N\n\t\t\t|-- Person_N_0001.jpg\n\t\t\t...\n\t\t\t|-- Person_N_n.jpg\n\t|-- Annotations\n\t\t|-- pairs.txt\n\t\t|-- landmarks.txt",
+    "vggface2": "Visual Geometry Group Face 2 (VGGFace2) is used for facial landmarks detection. \n\n [Dataset Type Details](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Dataset_Types.html#vgg)\n\nA VGGFace2 dataset archive consists of folders with images and annotations. The Images folder contains separate subfolders with photographs of a particular person. The Annotations folder contains the loose_landmark_test.csv file. \n\n|-- VGGFaces2\n\t|-- Images\n\t\t|-- 0001\n\t\t\t|-- 0001_01.jpg\n\t\t\t|-- 0002_02.jpg\n\t\t\t|...\n\t\t\t|-- nnnn_1.jpg\n\t\t|-- 0002\n\t\t...\n\t\t|-- nnnn\n\t|-- Annotations\n\t\t|-- loose_landmark_test.csv ",
+    "wider": "Wider (Web Image Dataset for Event Recognition) dataset is used for object detection.\n\n [Dataset Type Details](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Dataset_Types.html#wider-face)\n\n A Wider dataset archive consists of folders with images and annotations. The Images folder contains separate subfolders with photographs of a particular event. The Annotations folder contains the wider_face_subset.txt file. \n\n|-- Wider\n\t|-- Images\n\t\t|-- Event_1\n\t\t\t|-- Event_1_001.jpg\n\t\t\t...\n\t\t\t|-- Event_1_n.jpg\n\t\t...\n\t\t|-- Event_N\n\t\t\t|-- Event_N_001.jpg\n\t\t\t...\n\t\t\t|-- Event_N_n.jpg\n\t|-- Annotations\n\t\t|-- wider_face_subset.txt",
+    "openImages": "Open Images dataset is used for object detection. \n\n [Dataset Type Details](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Dataset_Types.html#open-images)\n\n An Open Images dataset archive consists of the folder with images, csv file with annotations, and object class descriptions file with meta information. \n\n|-- OpenImages\n\t|-- Images\n\t\t|-- 0001.jpg\n\t\t|-- 0002.jpg\n\t\t|...  \n\t\t|-- n.jpg\n\t|-- annotations-bbox.csv\n\t|-- class-descriptions-boxable.csv",
+    "cityscapes": "Cityscapes dataset is used for semantic segmentation of urban street scenes. To import Cityscapes dataset, specify it in the Dataset Type.\n\n [Dataset Type Details](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Dataset_Types.html#cityscapes)\n\n The dataset contains the fine annotations for validation. Annotations are encoded using json files containing the individual polygons. Imgs folder contains png images, where pixel values encode labels. \n\n|--Cityscapes\n\t|-- gtFine\n\t\t|-- val\n\t\t\t|-- city\n\t\t\t\t|-- city_gtFine_color.png \n\t\t\t\t|-- city_gtFine_instanceIds.png \n\t\t\t\t|-- city_gtFine_labelIds.png \n\t\t\t\t|-- city_gtFine_labels.png \n\t\t\t\t|-- city_gtFine_labelTrainIds.png \n\t\t\t\t|-- city_gtFine_polygons.json\n\t|-- imgsFine\n\t\t|-- leftImg8bit\n\t\t\t|-- val\n\t\t\t\t|-- city\n\t\t\t\t\t|-- city.png",
+    "importValidationDataset": "Validation of the model is always performed against specific data combined into datasets.\nTo obtain trustworthy results, a dataset must satisfy two requirements:\n  - Content: a dataset must be representative. The data needs to be aligned with the model use case (for example, images of people for face detection).\n  - Size: a dataset should contain a sufficient number of items (100+).\n\nA dataset can be either Annotated or Not Annotated:\n  - Not Annotated dataset contains only images and allows using most of the DL Workbench features: measure performance, optimize, and visualize the model, etc.\n  - Annotated dataset contains images and information about what each image is showing. It expands the possibilities of working with a model and allows measuring accuracy and optimizing the model within a controllable accuracy drop.\n\nBelow is the list of supported validation dataset formats.",
+    "importCalibrationDataset": "Calibration dataset should be representative in order for a resulting calibrated model to be accurate enough on all classes from dataset."
+  },
+  "createDatasetTips": {
+    "createMessage": "Once you click import, a dataset with ${imagesLength} images will be created in the DL Workbench.",
+    "createWarningMessage": "Upload limit is ${uploadLimit} images, you have selected ${imagesLength}. You need to remove ${removeImages} to proceed.",
+    "augmentationTip": "Find more detailed information about this augmentation type in the [documentation](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Generate_Datasets.html#enlarge-dataset-using-augmentation).",
+    "recommendedSize": "Note that calibration task requires representative data to avoid possible overfitting of a calibrated model. Amount of data recommended for calibration is usually no less than 100 images."
+  },
+  "autogenerateDatasetTips": {
+    "content": "Autogenerated datasets comprise noise images and do not include annotations.",
+    "noCalibration": "Because autogenerated datasets are made of noise images and do not contain annotations, they cannot be used for accuracy measurement and calibration."
+  },
+  "downloaderTips": {
+    "cannotLoadModelWithoutConnection": "Models cannot be downloaded due to network connectivity issues on the server. Check the internet connection of your server and specify proxies if necessary. For details, see [Troubleshooting](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html#omz).",
+    "cannotConvertModelWithoutConnection": "Model cannot be converted due to network connectivity issues on the server. Cannot download required framework. Check the internet connection of your server and specify proxies if necessary. For details, see [Troubleshooting](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html#omz).",
+    "unavailableOmzModel": "Model cannot be downloaded. The model source is not available in your region. For details, see [Troubleshooting](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html#omz)."
+  },
+  "importHuggingFaceTips": {
+    "externalResourceNotification": "Hugging Face is an external source, there may be connection problems. Contains unverified models, we do not guarantee their performance."
+  },
+  "login": {
+    "loginTip": "To enter the DL Workbench, use a token that is generated once you start the application. Copy it from the console.\n [Read more](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html#omz)"
+  },
+  "createProject": {
+    "selectionHint": "Select model, target, device, and dataset to create a project",
+    "projectTips": "Project is a combination of a model, a dataset,\na target machine, and a device that you use\nto run experiments in the DL Workbench.",
+    "modelDatasetIncompatibleWarning": "Selected model and dataset are incompatible. Check the model and dataset types, and try again.",
+    "modelDatasetDomainIncompatibleWarning": "Selected model and dataset are incompatible. Check the model and dataset domains, and try again."
+  },
+  "datasetsTable": {
+    "emptyTip": "To work with a model in the DL Workbench, you need to import a dataset. \nImport Image Dataset for Computer Vision models or Text Dataset for Natural Language Processing models. \n[Learn more](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Generate_Datasets.html)"
+  },
+  "modelsTable": {
+    "emptyTip": "No models available. Import a model to continue."
+  },
+  "projectsTable": {
+    "emptyTip": "To continue working, create a project."
+  },
+  "tokenizersTable": {
+    "emptyTip": "No tokenizers available. Import a tokenizer to continue.",
+    "selectTokenizer": "Tokenizers are used to convert text to numerical data because the model cannot work with the text directly.\n\nHow tokenizers work:\nTokenizer splits text into tokens. A token can be a word, part of a word, a symbol, or a couple of symbols. Then tokenizer replaces each token with the corresponding index and stores the map between tokens and indices.\n\nTo work with the model using text from the imported dataset, you must:\n- Import tokenizer\n- Select tokenizer\n\nA tokenizer is defined before the training and depends on the model. DL Workbench supports two types of tokenizers: WordPiece and Byte-Pair Encoding (BPE).\n\n[Learn more](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Tutorial_NLP.html)",
+    "importTokenizer": "WordPiece contains vocab.txt file used to map text to tokens. The token IDs are based on the row number of the token in vocab.txt.\n\nByte-Pair Encoding (BPE) contains two files: vocab.json and merges.txt. Merges.txt contains the most frequent symbol pair in the format \"a m\".  Vocab.json contains a list of these token pairs represented as a dictionary of string keys and their IDs {\"am\": 0,...}."
+  },
+  "compare": {
+    "underTitleHint": "Compare experiments on the ${modelName} model. Select project A and one of its experiments as a baseline. Project B is selected automatically as the project where the ${modelName} model demonstrated the best throughput. \nFeel free to select any projects and experiments.",
+    "barTypeHint": "Select a parameter to compare. Higher throughput value means better performance, while higher latency value means poorer performance."
+  },
+  "informationCollection": {
+    "softwareImprovementProgram": "To improve our software and customer experience, Intel would like to collect technical information about your software installation and runtime status (such as installation metrics, license/support types, software SKU/serial, counter flags, and timestamps) and development environment (such as operating system, CPU architecture and other Intel products installed).\n Intel may collect this information directly or optionally through the use of Google Analytics. If Google Analytics is used to collect the information, Google will aggregate the information with that of other users and present the aggregated results to intel without any personal identifiers. Information collected by Google will be retained by Google under its own data collection [policies](https://www.google.com/policies/privacy/partners).\n The information collected under this notice directly by Intel through its Intel Software Improvement Program may be retained indefinitely but it will not be shared outside of Intel or its wholly-owned subsidiaries.\n The aggregated information provided to Intel by Google through its Intel Software Improvement Program may be retained by Intel indefinitely but it will not be shared outside of Intel or its wholly-owned subsidiaries. \n More information: [https://www.intel.com/content/www/us/en/privacy/intel-privacy-notice.html](https://www.intel.com/content/www/us/en/privacy/intel-privacy-notice.html)",
+    "moreInfo": "Read more [information](/information-collection) about Google Analytics cookies.",
+    "infoLink": "For more information, visit the Intel Cookie Notice\n    at [https://www.intel.com/content/www/us/en/privacy/intel-cookie-notice.html](https://www.intel.com/content/www/us/en/privacy/intel-cookie-notice.html)."
+  },
+  "common": {
+    "archivedProjectWarning": "${actionName} is not available because the selected project has the Read-Only status.",
+    "downloadReport": "Download the ${reportName} report in the .csv format.",
+    "onlyCanceledProfiling": "Profiling was canceled. The metrics are not collected. To work with this project, run profiling again."
+  },
+  "targetMachines": {
+    "configureTargetMachineTips": "DL Workbench can collect performance data not only on the machine on which you run it, but also on other machines connected to your local network. The remote machine should meet the following requirements: \n1. Ubuntu* 18.04 OS \n2. Python 3.5, 3.6, 3.7, or 3.8 \n3. Pip 18 or higher \n4. Internet connection \n5. Additional configurations as described in the [documentation](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Setup_Remote_Target.html)."
+  },
+  "netronGraph": {
+    "modelNotAvailable": "The model graph is not available.",
+    "layersNotFoundInRuntimeGraph": "Layer is not found in runtime graph.",
+    "layersNotFoundInOriginalGraph": "Layer is not found in original graph."
+  },
+  "importModel": {
+    "tf1ImportTips": "TensorFlow 1.x models come in two formats:\n\t- Frozen Model is an official and recommended format for imported models.\n\t- Non-Frozen models can be of the following types:\n\t\t- Checkpoint is a binary file, which includes all parameters used by a model and requires an additional data file containing training variables.\n\t\t- MetaGraph is a protocol buffer, which saves the complete TensorFlow graph to meta, index, and data files.",
+    "tf2ImportTips": "TensorFlow 2.0 models come in two formats:\n\t- SavedModel is an official and recommended format for imported models.\n\t- Keras H5 format is available for Keras models with a TensorFlow 2.0 backend and not with a Keras backend.\n Model Optimizer does not support Keras H5 models, so the DL Workbench converts Keras H5 models to the Saved Model format and then to the OpenVINO format with the Model Optimizer.",
+    "commonImportTips": "Select a framework and upload required files.\nIf a model is not in the OpenVINO format, the DL Workbench will convert it with the [Model Optimizer](https://docs.openvino.ai/latest/openvino_docs_MO_DG_Deep_Learning_Model_Optimizer_DevGuide.html) tool.",
+    "cvModelsHint": "Computer vision (CV) models are used to extract meaningful data from digital images and act or make predictions based on that information. Computer vision use cases include object detection, classification, segmentation, image inpainting, style transfer, etc.",
+    "nlpModelsHint": "Natural language processing (NLP) models are used to process and interpret the human language through different use cases, for example, text classification, textual entailment, etc."
+  },
+  "session": {
+    "expiresSoon": "DL Workbench session expires soon. Processes that exceed the session time will be aborted.",
+    "terminating": "DL Workbench will be terminated within several minutes."
+  },
+  "devCloud": {
+    "notRespondingWarning": "Intel(R) DevCloud for the Edge is not responding",
+    "notRespondingGlobalWarning": "Intel(R) DevCloud for the Edge is not responding. Refresh the page. [Troubleshoot](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html)",
+    "troubleshootDetailedHint": "To troubleshoot:\n1. Refresh the page.\n2. Wait for 10-15 minutes. If the error persists, restart the DL Workbench via the Dev Cloud UI. \n\n[Documentation](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html)\n\n",
+    "differentMachinesHint": "The same environment in the Intel(R) DevCloud for the Edge does not mean the same physical machine, so inference results may slightly vary for identical environment configurations."
+  },
+  "networkOutputVisualization": {
+    "selectImage": "Drag and drop or upload an image and select [visualization type](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Visualize_Accuracy.html) to visualize the model output.",
+    "classificationPredictions": "Model predictions with corresponding confidence levels.",
+    "ganPrediction": "Output image",
+    "detectionPredictions": "Select a label below to display the corresponding object box.",
+    "notConfiguredAccuracy": "Your model is not yet configured for test. Specify model type and other accuracy-related attributes, such as image resizing settings, metric, etc.",
+    "notAvailableAccuracy": "Model output visualization is not available for configurations that use not annotated or autogenerated datasets.",
+    "fileExtensionError": "Unsupported image format. Upload a .jpeg or .png image.",
+    "threshold": "Filter out classes with a lower confidence score.",
+    "visualizationIsNotSupported": "Model output visualization for this task type is not currently supported.",
+    "nlpModelVisualizationIsNotSupported": "NLP model output visualization is not currently supported.",
+    "visualizationIsNotAvailable": "Visualization is not available",
+    "explainableAiDescription": "The increasing size and complexity of deep learning models make it difficult to understand how models arrive at their predictions. Importance map generated by Randomized Input Sampling for Explanation ([RISE](https://arxiv.org/pdf/1806.07421.pdf)) algorithm shows how much each pixel contributed to a given class prediction.",
+    "progressMessage": "Wait for this task to complete. If you reload this page or navigate away the task will be canceled.",
+    "remoteVisualizationIsNotSupported": "Visualization will be performed on the local target. Visualization on the remote targets is not supported."
+  },
+  "precisionAnalysis": {
+    "analysisUnavailable": "Information on layer runtime precision is not available in this version of the OpenVINO runtime.",
+    "transitionTip": "The transition matrix shows how inference precision changed during model execution. For example, if the cell at the FP32 row and the FP16 column shows 8, this means that eight times there was a pattern of an FP32 layer being followed by an FP16 layer."
+  },
+  "jupyterLab": {
+    "sampleTutorialDescription": "You can continue experimenting with your model using the OpenVINO Python or C++ API.\nWhen you click Open, a new browser tab with the Jupyter notebook with a ${taskType} tutorial opens. Follow the tutorial first, then write your own application on top of it.\nFind the detailed instructions in the notebook.\n\nTo run the sample, you need the paths to the ${modelName} Intermediate Representation (IR) and, optionally, to one of the images in your ${datasetName} dataset.\nCopy the paths below and paste them into the appropriate places as described in the notebook.\n\nTo use the same device for the JupyterLab as in the current project, copy the device name and paste it into the appropriate place as described in the notebook.",
+    "openVINONotebooksDescription": "You can experiment with the OpenVINO™ Toolkit using official\nready-to-run Jupyter* notebooks. Select and run\nthe preconfigured notebook to learn the toolkit basics and use\nOpenVINO API for optimized deep learning inference. \nLearn more at the OpenVINO Notebooks [GitHub repository](https://github.com/openvinotoolkit/openvino_notebooks)",
+    "generatedTutorialDescription": "Deep Learning model development is a complex multi-step process. We have prepared a JupyterLab environment to guide you through the stages of working with a model using OpenVINO toolkit. Learn which OpenVINO tool solves each specific task to prepare your model for production.\n\nJupyterLab contains generated document with code snippets that you can run and experiment with the model workflow. Find out how different tools interact with your model using their command-line interface (CLI) and quick start with OpenVINO™ in a preconfigured environment:\n\t- obtain a model\n\t- evaluate performance\n\t- measure accuracy\n\t- optimize the model to accelerate the performance\n\nWhen you click Open, a new browser tab with the Jupyter notebook for ${modelName} model opens. Follow the tutorial first, then experiment with the workflow. Find the detailed instructions in the notebook.",
+    "notebookNotAvailable": "Jupyter notebook is not available for the selected project."
+  },
+  "accuracyConfiguration": {
+    "advancedMode": "Add and edit content in the editor below to customize the accuracy validation to the needs of your project.",
+    "basicMode": "We recommend running an accuracy check without changing any parameters in Basic first. If you want to tweak or make more advanced changes to an accuracy validation, make the required adjustments."
+  },
+  "advancedAccuracyConfiguration": {
+    "pathPrefixes": "DL Workbench measures model accuracy with the help of the [Accuracy Checker](https://docs.openvino.ai/latest/omz_tools_accuracy_checker.html). When using Advanced mode, you need to manually create a valid Accuracy Checker configuration file, which contains all necessary information for accuracy measurement, such as data pre-processing or metric settings. You must follow the [YAML syntax](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html). See [examples](https://github.com/openvinotoolkit/open_model_zoo/tree/master/tools/accuracy_checker/configs). \n\nRecommended workflow: \n1. Find the closest model from the [Open Model Zoo (OMZ)](/model-manager/import) in terms of usage, topology, number of inputs, and type of data required.\n2. Obtain the accuracy configuration for this similar model from the OMZ. This can be done in two ways: \n\ta. Import this model into the DL Workbench, create a project with it and the dataset you use in the current project, and go to the advanced accuracy settings for this model. \n\tb. Search for the accuracy configuration file in the [OMZ GitHub](https://github.com/openvinotoolkit/open_model_zoo/tree/master/tools/accuracy_checker/configs) repository. \n3. Copy the contents of the OMZ model configuration and paste them into the code editor on the left. Do not override the original content of the editor. \n4. In the copied configuration, replace the model name, paths to the model files, and dataset information with the values you have in the original configuration. Once you have adapted the copied configuration, erase the original one. Adapt other parameters if needed. \n5. Click Run Accuracy Check."
+  },
+  "execAttributes": {
+    "throughput": "Number of images (CV) or text samples (NLP) processed per second",
+    "latency": "Time required to process the data",
+    "batch": "Number of images (CV) or text samples (NLP) propagated to the network at a time",
+    "nireq": "Number of requests running in parallel"
+  },
+  "precisionColumn": {
+    "FP32": "Number of layers in the FP32 precision",
+    "FP16": "Number of layers in the FP16 precision",
+    "INT8": "Number of layers in the I8/U8 precision"
+  },
+  "feedback": {
+    "messageBoxFeedback": "Have any questions? Contact our team on the [Intel Community Forum](https://community.intel.com/t5/Intel-Distribution-of-OpenVINO/bd-p/distribution-openvino-toolkit).",
+    "navigationPanelFeedback": "[Contact the DL Workbench Team](https://community.intel.com/t5/Intel-Distribution-of-OpenVINO/bd-p/distribution-openvino-toolkit)",
+    "modelConversionTipFeedback": "You can share your feedback and ask questions about Model Conversion on the [Intel Community Forum](https://community.intel.com/t5/Intel-Distribution-of-OpenVINO/bd-p/distribution-openvino-toolkit).",
+    "validationDatasetTipFeedback": "You can share your feedback and ask questions about Validation Dataset on the [Intel Community Forum](https://community.intel.com/t5/Intel-Distribution-of-OpenVINO/bd-p/distribution-openvino-toolkit).",
+    "remoteTargetTipFeedback": "You can share your feedback and ask questions about Remote Target on the [Intel Community Forum](https://community.intel.com/t5/Intel-Distribution-of-OpenVINO/bd-p/distribution-openvino-toolkit)"
+  },
+  "frameworksAvailability": {
+    "note": "This is the first time you download ${frameworkName} model. The environment setup will take 5-7 minutes.\n Next time no additional configuration will be run for such models."
+  },
+  "createAccuracyReportRibbon": {
+    "validationDatasetTypeDescription": "Compare model predictions with the validation dataset annotations. Requires annotated dataset and specified Accuracy Configuration.",
+    "parentModelPredictionsTypeDescription": "Compare Optimized model predictions with Parent model predictions used as optimal references. Find out on which validation dataset images the model predictions became different after optimization. Requires specified Accuracy Configuration.",
+    "parentModelTensorDistanceDescription": "Evaluate the mean squared error between Optimized and Parent models output on tensor level for each image in validation dataset. ",
+    "notOptimizedModelDisabledMessage": "This report is not available for not optimized model. [Perform INT8 Calibration](/projects/edit-calibration/${projectId}) to optimize the model.",
+    "externallyOptimizedModelDisabledMessage": "This report is not available for the models optimized outside of the DL Workbench.",
+    "notAnnotatedDatasetReportDisabledMessage": "This report is not available for projects with not annotated dataset. [Import annotated dataset](/dataset-manager/import) to create Accuracy Report.",
+    "multiInputTopologyMessage": "This report is not available for multi-input topologies.",
+    "targetInt8NotSupported": "INT8 Calibration is not available for the selected device. [Select](/projects/create?modelId=${modelId}&datasetId=${datasetId}) a target that supports INT8 Calibration.",
+    "notSupportedModelTaskTypeDisabledMessage": "This report is not available for ${taskTypeName} use case.\nAvailable use cases: ${supportedTaskTypesNames}.\nYou can change the use case in accuracy configuration.",
+    "provideAccuracyConfigurationDescription": "To create Accuracy Report, specify accuracy configurations, such as data preprocessing, metric settings, etc.",
+    "noAccuracyConfigDisabledMessage": "Accuracy Report is not available because you have not specified accuracy configuration.",
+    "nlpModelAccuracyDisabledMessage": "Accuracy Report is not available for NLP models."
+  },
+  "analyzeAccuracyReportRibbon": {
+    "reportNotReadyYetShort": "Cannot display Accuracy Report because you have not created it yet.",
+    "reportNotReadyYet": "Cannot display Accuracy Report because you have not created it yet. To do that, click Create New Report.",
+    "perTensorVisualization": "All model outputs for the selected image.",
+    "tableColumnsDescription": "To learn more about each column of the Accuracy Report, refer to the [documentation](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Accuracy_Report_Results.html)."
+  },
+  "projectProgress": {
+    "note": "Wait until the ${progressType} is completed before performing any actions on this project.\nDuring ${progressType}, you can still work with other projects in DL Workbench."
+  },
+  "autoBenchmark": {
+    "defaultOptimalParameters": "The parameters are set automatically based on the model topology to achieve a near-optimal performance on the selected accelerator. Batch and Stream combinations help accelerate models used in high-performance applications, where many images are being processed simultaneously. While automatic selection usually provides a near-optimal performance, you can further accelerate it by experimenting with different Batch and Stream combinations.\nFor more details, refer to the [documentation](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Run_Single_Inference.html)."
+  },
+  "tokenizer": {
+    "selectForRealData": "The model was inferred on the autogenerated data. The results may differ from those obtained using the imported dataset. To infer the model on the text dataset, you need to [import a tokenizer](/models/${modelId}/configuration/tokenizer).",
+    "autogenerated": "The model was inferred on the autogenerated data. The results may differ from those obtained using the imported dataset."
+  },
+  "textDatasetInfo": {
+    "requirements": "To create a project and benchmark your model, you need to import a dataset. To obtain trustworthy results, a dataset must satisfy two requirements:\n  - Content: a dataset must be representative. The data needs to be aligned with the model use case.\n  - Size: a dataset should contain a sufficient number of items (100+).",
+    "textClassification": "A text dataset should be represented as a table in СSV/TSV format of at least two columns with Text and Label for Text Classification use case. ",
+    "textualEntailment": "Textual Entailment task requires a СSV/TSV table of at least three columns with Premise, Hypothesis, and Label.",
+    "links": "HuggingFace’s datasets [library](https://huggingface.co/datasets) provides access to different text datasets.\nIf you do not have a dataset for your model, you can download [CoLa](https://dl.fbaipublicfiles.com/glue/data/CoLA.zip) dataset for Text Classification or [MNLI](https://dl.fbaipublicfiles.com/glue/data/MNLI.zip) dataset for Textual Entailment. [Learn more](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Dataset_Types.html)"
+  },
+  "textDatasetTaskType": {
+    "textClassification": "Text classification is the task of assigning a sentence or document an appropriate category (also called label or class). Specify the number of the dataset column that contains Text and Label for classification.",
+    "textualEntailment": "Textual entailment is the task of deciding whether the meaning of the Hypothesis (second text) can be inferred from the Premise (first text). The entailment relation is specified by the Label. Use textual entailment pattern for classification tasks that require two texts as input."
+  }
+}

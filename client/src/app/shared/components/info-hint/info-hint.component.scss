@@ -1,0 +1,40 @@
+@import 'variables';
+
+:host {
+  .hint-container {
+    display: flex;
+    flex-direction: row;
+    white-space: normal;
+
+    [svgIcon='info_outline'] {
+      $error-icon-size: 20px;
+      font-size: $error-icon-size;
+      width: $error-icon-size;
+      height: $error-icon-size;
+      flex: 0 0 $error-icon-size;
+    }
+
+    .warning-icon {
+      $warning-icon-size: 19px;
+      color: $deep-red;
+      font-size: $warning-icon-size;
+      width: $warning-icon-size;
+      height: $warning-icon-size;
+      flex-shrink: 0;
+    }
+
+    wb-markdown-text {
+      word-wrap: break-word;
+      margin-left: 5px;
+      max-width: 420px;
+    }
+  }
+
+  &.wb-full-width {
+    .hint-container {
+      wb-markdown-text {
+        max-width: unset;
+      }
+    }
+  }
+}

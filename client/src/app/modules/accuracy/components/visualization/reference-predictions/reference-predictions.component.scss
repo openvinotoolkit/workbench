@@ -1,0 +1,5 @@
+@import 'variables';
+
+:host ::ng-deep .network-output {
+  margin-top: $container-padding;
+}

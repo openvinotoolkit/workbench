@@ -1,0 +1,32 @@
+<ng-container *ngIf="model">
+  <div class="field-row">
+    <wb-config-form-field class="hint-first" [field]="fields.precision" [group]="group"></wb-config-form-field>
+    <a
+      class="tip-link"
+      [attr.data-test-id]="'more-' + fields.precision.name + '-tip'"
+      (click)="helpChecklistService.expandItem(fields.precision.name)"
+    >
+      Learn More
+    </a>
+  </div>
+
+  <div class="field-row" *ngIf="(isOriginalModel || isHuggingfaceModel) && group.contains(fields.colorSpace.name)">
+    <wb-config-form-field class="hint-first" [field]="fields.colorSpace" [group]="group"></wb-config-form-field>
+    <a
+      class="tip-link"
+      [attr.data-test-id]="'more-' + fields.colorSpace.name + '-tip'"
+      (click)="helpChecklistService.expandItem(fields.colorSpace.name)"
+    >
+      Learn More
+    </a>
+  </div>
+
+  <ng-container *ngIf="isOriginalModel || isHuggingfaceModel">
+    <wb-config-form-field
+      *ngFor="let field of frameworkSpecificFields"
+      class="hint-first checkbox-field"
+      [field]="field"
+      [group]="group"
+    ></wb-config-form-field>
+  </ng-container>
+</ng-container>

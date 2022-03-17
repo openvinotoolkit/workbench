@@ -1,0 +1,14 @@
+<span class="session-timer">
+  <ng-container *ngIf="sessionService.remainingTime$ | async as timer; else terminationTemplate">
+    <mat-icon *ngIf="timer > sessionService.WARNING_THRESHOLD" svgIcon="watch"></mat-icon>
+    <mat-icon *ngIf="timer < sessionService.WARNING_THRESHOLD" svgIcon="warning"></mat-icon>
+
+    <span>DL Workbench Session Time Left:</span>
+    <span class="timer">{{ timer | sessionDuration }}</span>
+  </ng-container>
+</span>
+
+<ng-template #terminationTemplate>
+  <mat-icon svgIcon="warning"></mat-icon>
+  <span>{{ messagesService.hintMessages.session.terminating }}</span>
+</ng-template>

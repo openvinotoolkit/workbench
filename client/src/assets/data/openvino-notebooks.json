@@ -1,0 +1,43 @@
+[
+  {
+    "name": "001-hello-world",
+    "description": "Classify an image with OpenVINO"
+  },
+  {
+    "name": "002-openvino-api",
+    "description": "Learn the OpenVINO Python API"
+  },
+  {
+    "name": "003-hello-segmentation",
+    "description": "Semantic segmentation with OpenVINO"
+  },
+  {
+    "name": "004-hello-detection",
+    "description": "Text detection with OpenVINO"
+  },
+  {
+    "name": "101-tensorflow-to-openvino",
+    "description": "Convert TensorFlow models to OpenVINO IR"
+  },
+  {
+    "name": "102-pytorch-onnx-to-openvino",
+    "description": "Convert PyTorch models to OpenVINO IR"
+  },
+  {
+    "name": "103-paddle-onnx-to-openvino",
+    "filename": "103-paddle-onnx-to-openvino-classification.ipynb",
+    "description": "Convert PaddlePaddle models to OpenVINO IR"
+  },
+  {
+    "name": "104-model-tools",
+    "description": "Download, convert and benchmark models from Open Model Zoo"
+  },
+  {
+    "name": "205-vision-background-removal",
+    "description": "Image segmentation and removing/adding background with U^2-Net and OpenVINO"
+  },
+  {
+    "name": "206-vision-paddlegan-anime",
+    "description": "Convert PaddlePaddle/PaddleGAN AnimeGAN model to OpenVINO IR"
+  }
+]

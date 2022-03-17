@@ -1,0 +1,238 @@
+<wb-table-filter-form
+  [columns]="filterableColumns"
+  [columnOptions]="filterableColumnOptions"
+  [valueConditionOptions]="valueConditionOptions"
+  [disabled]="masterDetail.detailsSidenav.opened"
+  (applyFilter)="applyFilter($event)"
+  (resetFilter)="resetFilter()"
+></wb-table-filter-form>
+
+<wb-master-detail #masterDetail (closeDetails)="openedLayer = null; openedDetailsTab = 0">
+  <ng-container ngProjectAs="masterContent" [ngTemplateOutlet]="layerTable"></ng-container>
+  <ng-container ngProjectAs="detailsContent" [ngTemplateOutlet]="layerDetails"></ng-container>
+</wb-master-detail>
+
+<ng-template #layerTable>
+  <table mat-table matSort (matSortChange)="sortedColumn = $event" [dataSource]="layersDataSource" id="layers-table">
+    <!-- Combined Layer (name + type) Definition -->
+    <ng-container [cdkColumnDef]="ColumnNames.LAYER">
+      <th mat-header-cell *cdkHeaderCellDef rowspan="2">Layer</th>
+      <td
+        mat-cell
+        *cdkCellDef="let row; index as index"
+        class="layer-name-cell"
+        [title]="row.layerName"
+        (click)="
+          masterDetail.detailsSidenav.open(); openedLayer = row; openedLayerIndex = index; updateOpenedDetailsTab()
+        "
+      >
+        <span class="layer-name-cell-name-row">{{ row.layerName }}</span>
+        <span class="layer-name-cell-type-row">{{ row.layerType }}</span>
+      </td>
+    </ng-container>
+
+    <!-- Layer Name Definition -->
+    <ng-container [cdkColumnDef]="ColumnNames.LAYER_NAME">
+      <th mat-header-cell mat-sort-header *cdkHeaderCellDef rowspan="2">
+        Layer Name
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: ColumnNames.LAYER_NAME }"></ng-container>
+      </th>
+      <td
+        mat-cell
+        *cdkCellDef="let row; index as index"
+        class="layer-name-cell"
+        [title]="row.layerName"
+        (click)="
+          masterDetail.detailsSidenav.open();
+          openedLayer = row;
+          scrollToRowAndBackOnClose(index);
+          updateOpenedDetailsTab()
+        "
+      >
+        {{ row.layerName }}
+      </td>
+    </ng-container>
+
+    <!-- Layer Type Definition -->
+    <ng-container [cdkColumnDef]="ColumnNames.LAYER_TYPE">
+      <th mat-header-cell mat-sort-header *cdkHeaderCellDef rowspan="2">
+        Layer Type
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: ColumnNames.LAYER_TYPE }"></ng-container>
+      </th>
+      <td mat-cell *cdkCellDef="let row">{{ row.layerType }}</td>
+    </ng-container>
+
+    <!-- Execution Time Definition -->
+    <ng-container [cdkColumnDef]="ColumnNames.EXEC_TIME">
+      <th mat-header-cell mat-sort-header *cdkHeaderCellDef>
+        <span class="formula-header">Execution Time (t<sub>A</sub>), ms</span>
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: ColumnNames.EXEC_TIME }"></ng-container>
+      </th>
+      <td mat-cell [class.disabled]="!isFinite(row.execTime[0])" *cdkCellDef="let row">
+        {{ layersTableService.getExecTimeValue(row.execTime[0]) }}
+      </td>
+    </ng-container>
+
+    <!-- Precision Definition -->
+    <ng-container [cdkColumnDef]="ColumnNames.PRECISION">
+      <th mat-header-cell mat-sort-header *cdkHeaderCellDef>
+        Runtime Precision
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: ColumnNames.PRECISION }"></ng-container>
+      </th>
+      <td mat-cell [class.disabled]="!row.runtimePrecision" *cdkCellDef="let row">
+        {{ row.runtimePrecision || notAvailableLabel }}
+      </td>
+    </ng-container>
+
+    <!-- Execution Time Definition -->
+    <ng-container [cdkColumnDef]="ColumnNames.EXEC_TIME_B">
+      <th mat-header-cell mat-sort-header *cdkHeaderCellDef>
+        <span class="formula-header">Execution Time (t<sub>B</sub>), ms</span>
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: ColumnNames.EXEC_TIME_B }"></ng-container>
+      </th>
+      <td mat-cell [class.disabled]="!isFinite(row.execTime[1])" *cdkCellDef="let row">
+        {{ layersTableService.getExecTimeValue(row.execTime[1]) }}
+      </td>
+    </ng-container>
+
+    <!-- Precision Definition -->
+    <ng-container [cdkColumnDef]="ColumnNames.PRECISION_B">
+      <th mat-header-cell mat-sort-header *cdkHeaderCellDef>
+        Runtime Precision
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: ColumnNames.PRECISION_B }"></ng-container>
+      </th>
+      <td mat-cell [class.disabled]="!row.runtimePrecisionB" *cdkCellDef="let row">
+        {{ row.runtimePrecisionB || notAvailableLabel }}
+      </td>
+    </ng-container>
+
+    <!-- Delta Definition -->
+    <ng-container [cdkColumnDef]="ColumnNames.DELTA">
+      <th mat-header-cell mat-sort-header [disabled]="!!openedLayer" *cdkHeaderCellDef rowspan="2">
+        <span> Delta time, ms </span>
+        <span class="formula-header">(t<sub>B</sub> - t<sub>A</sub>)</span>
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: ColumnNames.DELTA }"></ng-container>
+      </th>
+      <td
+        mat-cell
+        [ngClass]="{ disabled: isNil(row.delta), better: row.delta < 0, worse: row.delta > 0 }"
+        *cdkCellDef="let row"
+      >
+        {{ isNil(row.delta) ? notAvailableLabel : row.delta }}
+        <mat-icon *ngIf="row.delta < 0" class="icon-delta icon-delta-up" svgIcon="expand_less"></mat-icon>
+        <mat-icon *ngIf="row.delta > 0" class="icon-delta icon-delta-down" svgIcon="expand_more"></mat-icon>
+      </td>
+    </ng-container>
+
+    <!-- Ratio Definition -->
+    <ng-container [cdkColumnDef]="ColumnNames.RATIO">
+      <th mat-header-cell mat-sort-header [disabled]="!!openedLayer" *cdkHeaderCellDef rowspan="2">
+        <span> Ratio </span>
+        <span class="formula-header">(t<sub>B</sub> / t<sub>A</sub>)</span>
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: ColumnNames.RATIO }"></ng-container>
+      </th>
+      <td
+        mat-cell
+        [ngClass]="{
+          disabled: isNil(row.ratio),
+          better: !isNil(row.ratio) && row.ratio < 1,
+          worse: !isNil(row.ratio) && row.ratio > 1
+        }"
+        *cdkCellDef="let row"
+      >
+        {{ isNil(row.ratio) ? notAvailableLabel : row.ratio }}
+        <mat-icon *ngIf="row.ratio && row.ratio < 1" class="icon-ratio icon-ratio-up" svgIcon="expand_less"></mat-icon>
+        <mat-icon
+          *ngIf="row.ratio && row.ratio > 1"
+          class="icon-ratio icon-ratio-down"
+          svgIcon="expand_more"
+        ></mat-icon>
+      </td>
+    </ng-container>
+
+    <!-- First Header Row -->
+    <tr
+      mat-header-row
+      class="first-header-row"
+      *cdkHeaderRowDef="
+        masterDetail.detailsSidenav.opened ? collapsedTableColumns : groupedHeaderRowColumns;
+        sticky: true
+      "
+    ></tr>
+
+    <!-- First Header Row Groups -->
+    <ng-container [matColumnDef]="ColumnNames.CONFIGURATION_A">
+      <th mat-header-cell *matHeaderCellDef colspan="2">A.&nbsp;{{ executionConfigurations[0] }}</th>
+    </ng-container>
+    <ng-container [matColumnDef]="ColumnNames.CONFIGURATION_B">
+      <th mat-header-cell *matHeaderCellDef colspan="2">B.&nbsp;{{ executionConfigurations[1] }}</th>
+    </ng-container>
+    <ng-container matColumnDef="-">
+      <th mat-header-cell [ngStyle]="{ display: 'none' }" *matHeaderCellDef></th>
+    </ng-container>
+
+    <!-- Second Table Header Row -->
+    <tr
+      mat-header-row
+      *cdkHeaderRowDef="masterDetail.detailsSidenav.opened ? [] : placeholderHeaderRowColumns; sticky: true"
+    ></tr>
+
+    <!-- Content Rows -->
+    <tr
+      #layerRow
+      mat-row
+      [class.details-opened]="masterDetail.detailsSidenav.opened"
+      [class.selected]="openedLayer?.layerName === row.layerName"
+      *cdkRowDef="let row; columns: masterDetail.detailsSidenav.opened ? collapsedTableColumns : tableColumns"
+    ></tr>
+  </table>
+</ng-template>
+
+<ng-template #layerDetails>
+  <div class="layer-details-sidenav-content">
+    <h3 class="layer-details-sidenav-content-layer-name" [title]="openedLayer?.layerName">
+      {{ openedLayer?.layerName }}
+    </h3>
+    <div class="layer-details-sidenav-content-tabs">
+      <mat-tab-group
+        animationDuration="0ms"
+        disableRipple
+        [selectedIndex]="openedDetailsTab"
+        (selectedIndexChange)="openedDetailsTab = $event"
+      >
+        <!--  Configuration A Details  -->
+        <mat-tab>
+          <ng-template mat-tab-label> A.&nbsp;{{ executionConfigurations[0] }} </ng-template>
+          <ng-template matTabContent>
+            <div class="layer-details-container">
+              <wb-layer-details
+                [layerName]="openedLayer?.layerName"
+                [deviceName]="getDeviceName(executionConfigurations[0])"
+                [layerDetails]="(openedLayer?.details)[0]"
+              ></wb-layer-details>
+            </div>
+          </ng-template>
+        </mat-tab>
+        <!--  Configuration B Details  -->
+        <mat-tab>
+          <ng-template mat-tab-label> B.&nbsp;{{ executionConfigurations[1] }} </ng-template>
+          <ng-template matTabContent>
+            <div class="layer-details-container">
+              <wb-layer-details
+                [layerName]="openedLayer?.layerNameB"
+                [deviceName]="getDeviceName(executionConfigurations[1])"
+                [layerDetails]="(openedLayer?.details)[1]"
+              ></wb-layer-details>
+            </div>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #sortIcon let-columnName="columnName">
+  <ng-container *ngIf="layersDataSource.data?.length">
+    <wb-table-sort-icon [columnName]="columnName" [sortedColumn]="sortedColumn"></wb-table-sort-icon>
+  </ng-container>
+</ng-template>

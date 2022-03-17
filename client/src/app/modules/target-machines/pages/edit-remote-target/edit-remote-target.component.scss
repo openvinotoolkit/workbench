@@ -1,0 +1,25 @@
+@import 'fonts';
+@import 'variables';
+
+.edit-page-container {
+  height: calc(100% - #{$header-height});
+}
+
+.failed-pipeline {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+
+  span {
+    margin-left: 20px;
+  }
+
+  .header-subitem {
+    margin-top: 10px;
+    color: $brownish-grey;
+  }
+
+  wb-pipeline-stages {
+    margin-top: $container-padding;
+  }
+}

@@ -1,0 +1,23 @@
+@import 'colors';
+@import 'fonts';
+
+@mixin wb-property-key-value() {
+  .property {
+    flex-grow: 1;
+  }
+
+  .property + .property {
+    margin-left: 20px;
+  }
+
+  .key {
+    @include wb-h5();
+    margin-bottom: 20px;
+  }
+
+  .value {
+    @include wb-label();
+    line-height: 22px;
+    white-space: pre-wrap;
+  }
+}

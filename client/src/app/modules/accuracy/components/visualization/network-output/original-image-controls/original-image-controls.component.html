@@ -1,0 +1,23 @@
+<div class="controls wb-panel">
+  <wb-config-form-field class="enlarged-control" [group]="visualizationOptionsForm" [field]="visualizationOptionsField">
+  </wb-config-form-field>
+
+  <wb-button
+    class="enlarged-control"
+    type="secondary"
+    text="Visualize"
+    testId="image-test"
+    [disabled]="disabled || !imageSelected"
+    (handleClick)="emitTest()"
+  >
+  </wb-button>
+
+  <wb-button
+    *ngIf="paintingCanvasManagerService.available$ | async"
+    icon="close"
+    text="Clear Selected Area"
+    [disabled]="paintingCanvasManagerService.clearDisabled$ | async"
+    (handleClick)="paintingCanvasManagerService.clear$.next()"
+  >
+  </wb-button>
+</div>

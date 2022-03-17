@@ -1,0 +1,45 @@
+@import 'variables';
+
+$details-content-padding: 15px;
+$close-icon-size: 20px;
+
+:host {
+  height: 100%;
+
+  .master-container {
+    border-right: 0;
+    overflow: auto;
+
+    ::ng-deep .mat-drawer-backdrop {
+      position: static;
+    }
+  }
+
+  .details-sidenav {
+    border: 1px $light-blue-grey solid;
+    background-color: $white;
+    box-shadow: none;
+
+    &-content {
+      position: relative;
+      height: 100%;
+
+      .close-icon {
+        cursor: pointer;
+        position: absolute;
+        top: $details-content-padding;
+        right: $details-content-padding;
+        color: $black;
+        font-size: $close-icon-size;
+        height: $close-icon-size;
+        width: $close-icon-size;
+      }
+    }
+  }
+
+  :host.wb-master-detail-type-over .details-sidenav {
+    box-shadow: 0 2px 5px 0 $black25;
+    margin: 20px;
+    background: $faded-bgr;
+  }
+}

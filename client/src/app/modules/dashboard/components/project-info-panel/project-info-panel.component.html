@@ -1,0 +1,70 @@
+<div class="property">
+  <div class="key">Domain</div>
+  <div class="value">
+    {{ modelDomainNames[domain] }}
+  </div>
+</div>
+<div class="property">
+  <div class="key">Validation Dataset</div>
+  <div class="value">
+    {{ project?.datasetName }}
+  </div>
+</div>
+<div class="property">
+  <div class="key">Target</div>
+  <div class="value">
+    <div>Machine: {{ project?.targetName }}</div>
+    <div>Device: {{ devices[project?.deviceId] }}</div>
+  </div>
+</div>
+<div class="property">
+  <div class="key">Throughput, {{ project?.execInfo?.throughputUnit }}</div>
+  <div class="value" data-test-id="fps-value">
+    <ng-container *ngIf="!isNA(project?.execInfo?.throughput); else NAPlaceholder">
+      {{ project?.execInfo?.throughput | number: '1.0-2' }}
+    </ng-container>
+  </div>
+</div>
+<div class="property">
+  <div class="key">Accuracy, %</div>
+  <div class="value" data-test-id="accuracy-value">
+    <span id="accuracy-span" class="column-accuracy-value">
+      <ng-container *ngIf="!isNA(project?.execInfo?.accuracy); else NAPlaceholder">
+        {{ project?.execInfo?.accuracy | number: '1.0-2' }}
+      </ng-container>
+    </span>
+  </div>
+</div>
+<div class="property">
+  <div class="key">Status</div>
+  <div class="value">
+    <wb-status-bar
+      *ngIf="runningProfilingPipeLinePerProjectMap[project?.id] as pipeline"
+      mode="circle"
+      [cancellationEnabled]="true"
+      [status]="pipeline | profilingStatus | async"
+      [performance]="LOCAL_PIPELINE_TYPES_WITH_PROFILING.includes(pipeline.type)"
+      (cancelProgress)="cancelProfiling.emit(pipeline.id)"
+    >
+    </wb-status-bar>
+    <wb-status-bar
+      *ngIf="runningInt8CalibrationPipeLinePerProjectMap[project?.id] as pipeline"
+      mode="circle"
+      [status]="pipeline | profilingStatus | async"
+    >
+    </wb-status-bar>
+    <wb-status-bar
+      *ngIf="
+        !runningProfilingPipeLinePerProjectMap[project?.id] && !runningInt8CalibrationPipeLinePerProjectMap[project?.id]
+      "
+      mode="circle"
+      [status]="project?.status"
+      [readonlyTipMsg]="readOnlyTipMessage"
+    >
+    </wb-status-bar>
+  </div>
+</div>
+
+<ng-template #NAPlaceholder>
+  <span class="wb-disabled-color">N/A</span>
+</ng-template>

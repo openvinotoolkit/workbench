@@ -1,0 +1,42 @@
+@import 'colors';
+
+$btn-width: 90px;
+
+:host {
+  min-width: 0;
+}
+
+.card ::ng-deep .heading {
+  padding: 10px 20px;
+}
+
+[wb-heading] {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  color: $plum;
+  margin: 0 10px 0 0;
+  overflow: hidden;
+}
+
+.btn {
+  margin-left: auto;
+
+  ::ng-deep .button {
+    min-width: $btn-width;
+  }
+}
+
+.attr {
+  display: flex;
+}
+
+.attr + .attr {
+  margin-top: 20px;
+}
+
+.value {
+  margin-left: 5px;
+}

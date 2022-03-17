@@ -1,0 +1,7 @@
+`--input_proto` | Deploy-ready prototxt file that contains a topology structure and layer attributes.
+`--caffe_parser_path` | Path to Python Caffe* parser generated from caffe.proto.
+`-k` | Path to CustomLayersMapping.xml to register custom layers.
+`--mean_file` | Mean image to be used for the input. Should be a binaryproto file.
+`--mean_file_offsets` | Mean image offsets to be used for the input binaryproto file. When the mean image is bigger than the expected input, it is cropped.
+`--disable_omitting_optional` | Disable omitting optional attributes to be used for custom layers. Use this option if you want to transfer all attributes of a custom layer to IR.
+`--enable_flattening_nested_params` | Enable flattening optional params to be used for custom layers. Use this option if you want to transfer attributes of a custom layer to IR with flattened nested parameters. Default behavior is to transfer the attributes without flattening nested parameters.

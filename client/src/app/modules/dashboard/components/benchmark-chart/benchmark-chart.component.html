@@ -1,0 +1,72 @@
+<div class="inference-points-graph-container">
+  <div class="wb-config-form-field device-select" [formGroup]="maxLatencyForm">
+    <div class="field-label">Latency Threshold (0-1000):</div>
+    <mat-form-field class="wb-form-field" appearance="outline" floatLabel="never">
+      <input matInput formControlName="maxLatency" type="number" />
+      <mat-error *ngIf="maxLatencyControl.invalid && maxLatencyControl.errors.min">
+        Could not be less than 0
+      </mat-error>
+      <mat-error *ngIf="maxLatencyControl.invalid && maxLatencyControl.errors.max">
+        Could not be more than 1000
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="chart-header">
+    <span class="wb-subtitle-2">Throughput, {{ project?.execInfo?.throughputUnit }}</span>
+    <wb-button
+      class="toggle-width-btn enlarged-control"
+      *ngIf="expandable"
+      [text]="expanded ? 'Collapse Chart' : 'Expand Chart'"
+      type="default"
+      [icon]="expanded ? 'close_full' : 'open_full'"
+      (handleClick)="toggleExpand.emit()"
+    >
+    </wb-button>
+  </div>
+  <div class="inference-points-graph">
+    <canvas #canvasElement data-test-id="inference-results-graph" (click)="linesPoints = getLinesPoints()"></canvas>
+    <!-- Canvas points coordinates for data-test-id tests -->
+    <div data-test-id="inference-points-coordinates" class="graph-points-coordinates">
+      <div
+        *ngFor="let point of linesPoints"
+        data-test-id="graph-point-element"
+        [attr.x]="point.x"
+        [attr.y]="point.y"
+        [attr.batch]="point.batch"
+        [attr.stream]="point.stream"
+        [attr.type]="point.type"
+      ></div>
+    </div>
+  </div>
+  <div class="chart-footer"><span class="wb-subtitle-2">Latency, ms</span></div>
+
+  <div class="compare-chart-legend" *ngIf="inferenceResults.length">
+    <div class="compare-chart-legend-item">
+      <img *ngIf="!mode || mode === 'a'" src="assets/img/first-line-legend.svg" />
+      <img *ngIf="mode === 'b'" src="assets/img/second-line-legend.svg" />
+      <span class="graph-label">
+        {{ ' - ' }}
+        <wb-project-full-name class="label" [project]="project"></wb-project-full-name>
+      </span>
+    </div>
+    <div class="compare-chart-legend-item">
+      <ng-container *ngIf="!mode">
+        <img src="assets/svg/point-a.svg" />
+        <span class="graph-label"> - Selected Point</span>
+      </ng-container>
+      <ng-container *ngIf="mode === 'a'">
+        <img src="assets/svg/point-a.svg" />
+        <span class="graph-label"> - First Selected Point</span>
+      </ng-container>
+      <ng-container *ngIf="mode === 'b'">
+        <img src="assets/svg/point-b.svg" />
+        <span class="graph-label"> - Second Selected Point</span>
+      </ng-container>
+    </div>
+    <div class="compare-chart-legend-item">
+      <img src="assets/svg/sweet-spot-point.svg" />
+      <span class="graph-label"> - Sweet Spot Point </span>
+    </div>
+  </div>
+</div>

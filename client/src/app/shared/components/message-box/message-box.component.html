@@ -1,0 +1,41 @@
+<div
+  [attr.data-test-id]="'message-box-' + messageType"
+  [@highlight]="animationInProgress"
+  (@highlight.done)="highlightFinished()"
+  class="message-box"
+>
+  <div [ngClass]="['message-box-header', messageType]">
+    <div class="message">
+      <mat-icon *ngIf="messageType === errorMessageType" svgIcon="warning" class="warning-icon"></mat-icon>
+      <wb-markdown-text
+        data-test-id="message-title"
+        class="message-title wb-body-2"
+        [text]="message"
+      ></wb-markdown-text>
+      <wb-button
+        *ngIf="isTryAgainAvailable"
+        type="primary"
+        text="Try Again"
+        data-test-id="try-again-button"
+        (click)="tryAgain.emit()"
+      >
+      </wb-button>
+    </div>
+    <wb-copy-button *ngIf="detailedMessage" [valueToCopy]="detailedMessage" [label]="labels.copyLog"> </wb-copy-button>
+  </div>
+  <div *ngIf="detailedMessage" class="message-content wb-text-8">
+    <div class="feedback">
+      <wb-markdown-text [text]="feedbackDescription"></wb-markdown-text>
+    </div>
+    <div class="details">
+      <div *ngIf="showDetails" class="details-message">
+        <wb-markdown-text data-test-id="message-details" [text]="detailedMessage"></wb-markdown-text>
+      </div>
+      <div [ngClass]="['details-footer', showDetails ? detailsButton.HIDE : detailsButton.SHOW]">
+        <span class="details-button" data-test-id="details-button" (click)="showDetails = !showDetails">{{
+          showDetails ? labels.hideDetails : labels.showDetails
+        }}</span>
+      </div>
+    </div>
+  </div>
+</div>

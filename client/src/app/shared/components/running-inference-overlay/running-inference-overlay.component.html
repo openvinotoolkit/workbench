@@ -1,0 +1,51 @@
+<div class="modal" data-test-id="running-inference-overlay">
+  <div class="modal__info">{{ operationInfoMessage }}</div>
+
+  <ng-container *ngIf="profilingPipeline$ | async as pipeline">
+    <ng-container *ngIf="pipeline | profilingStatus | async as status">
+      <wb-status-bar
+        mode="modal"
+        [status]="status"
+        [performance]="LOCAL_PIPELINE_TYPES_WITH_PROFILING.includes(pipeline.type)"
+      ></wb-status-bar>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="optimizationPipeline$ | async as pipeline">
+    <ng-container *ngIf="pipeline | profilingStatus | async as status">
+      <wb-status-bar
+        mode="modal"
+        [status]="status"
+        [performance]="LOCAL_PIPELINE_TYPES_WITH_PROFILING.includes(pipeline.type)"
+      ></wb-status-bar>
+    </ng-container>
+  </ng-container>
+
+  <div *ngIf="(profilingPipeline$ | async)?.type !== pipelineType.DEV_CLOUD_PROFILING" class="status-row">
+    <span class="status-row__txt">Complete In (Estimated):</span>
+    <span *ngIf="!isCancelling; else cancelling" class="status-row__progress">
+      <ng-container *ngIf="estimatedTime$ | async as estimatedTime; else finishingUp">
+        <ng-container *ngIf="estimatedTime > -1; else calculating">
+          {{ estimatedTime | estimatedTime }}
+        </ng-container>
+      </ng-container>
+    </span>
+  </div>
+
+  <ng-container *ngIf="profilingPipeline$ | async as pipeline">
+    <wb-button
+      *ngIf="pipeline.status.stage === pipelineStage.PROFILING && !isCancelling"
+      class="enlarged-control modal__cancel"
+      type="secondary"
+      text="Cancel"
+      (handleClick)="cancelProfilingPipeline(pipeline)"
+    >
+    </wb-button>
+  </ng-container>
+
+  <div class="modal__info">{{ cancellationWarningMessage }}</div>
+</div>
+
+<ng-template #calculating>Calculating...</ng-template>
+<ng-template #finishingUp>Finishing Up...</ng-template>
+<ng-template #cancelling>Cancelling...</ng-template>

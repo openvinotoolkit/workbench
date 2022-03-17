@@ -1,0 +1,44 @@
+@import 'colors';
+@import 'fonts';
+@import 'variables';
+
+$layers-table-width: 40%;
+$layers-table-min-width: 300px;
+$layer-graphs-expand-block-height: 40px;
+
+.layers-graphs-content {
+  display: flex;
+  align-items: flex-end;
+  .layers-table {
+    width: $layers-table-width;
+    min-width: $layers-table-min-width;
+    &-collapsed {
+      width: $layers-table-width * 0.5 !important;
+    }
+  }
+  .netron-graphs {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    &-expand-block {
+      display: flex;
+      align-items: center;
+      padding-left: 20px;
+      box-sizing: border-box;
+      height: $layer-table-row-height;
+      border-bottom: 1px solid $light-blue-grey;
+    }
+    wb-model-graph-visualization {
+      flex-grow: 1;
+    }
+    border: 1px solid $light-blue-grey;
+    border-left: none;
+    height: $layers-graphs-height;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+  }
+}
+
+.layers-single-table {
+  display: block;
+}

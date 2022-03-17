@@ -1,0 +1,236 @@
+<ng-container [ngTemplateOutlet]="navigation"></ng-container>
+<div class="wb-page-header">
+  <div class="wb-page-header__row">
+    <h1 class="wb-h1 wb-page-header__title">Target Machines</h1>
+    <wb-button text="Add" (handleClick)="goToAddMachinePage()" type="secondary" testId="add-machine"></wb-button>
+  </div>
+</div>
+<div class="target-machines">
+  <span class="wb-body-1 machines-table-header">Machines</span>
+  <wb-master-detail #targetMachinesMasterDetail [width]="'450px'">
+    <ng-container [ngTemplateOutlet]="machineMasterContent" ngProjectAs="masterContent"></ng-container>
+    <div ngProjectAs="detailsContent">
+      <wb-target-machine-details [machine]="selectedMachine$ | async"></wb-target-machine-details>
+    </div>
+  </wb-master-detail>
+  <ng-container [ngTemplateOutlet]="machineInfo"></ng-container>
+</div>
+
+<ng-template #navigation>
+  <wb-navigation-bar>
+    <a (click)="toCreateProject()">Create Project</a>
+    <a>Target Machines</a>
+  </wb-navigation-bar>
+</ng-template>
+
+<ng-template #machineMasterContent>
+  <ng-container [ngTemplateOutlet]="machinesTable"></ng-container>
+  <ng-container [ngTemplateOutlet]="configurationStatus" *ngIf="isSelectedMachineConfigured$ | async"></ng-container>
+  <ng-container [ngTemplateOutlet]="connectionStatus" *ngIf="isSelectedMachineConfigured$ | async"></ng-container>
+</ng-template>
+
+<ng-template #machinesTable>
+  <div class="target-machines-machines-table">
+    <div class="machines-list">
+      <wb-target-machines-table
+        [machines]="targetMachines$ | async"
+        [detailsShown]="targetMachinesMasterDetail.detailsSidenav.opened"
+        [selectedMachineId]="(selectedMachine$ | async)?.targetId"
+        (selectRow)="handleSelectTargetMachine($event)"
+        (openDetails)="handleOpenDetailsForTargetMachine($event)"
+        (removeTargetEvent)="removeTarget($event)"
+        (pingEvent)="pingTarget($event)"
+      >
+      </wb-target-machines-table>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #configurationStatus>
+  <div class="target-machines-pipeline">
+    <span class="wb-body-1">Configuration Status</span>
+    <span class="wb-subtitle-1 header-subitem">
+      <ng-container [ngTemplateOutlet]="fullTargetMachineNameTemplate"></ng-container>
+    </span>
+    <div class="target-machines-pipeline-content" *ngIf="selectedMachine$ | async">
+      <div
+        class="ignore-container-padding"
+        *ngIf="!isLocalTargetMachineSelected(selectedMachine$ | async); else localMachineSelectedTemplate"
+      >
+        <ng-container>
+          <wb-pipeline-stages [stages]="configurationStages$ | async"></wb-pipeline-stages>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #connectionStatus>
+  <div class="target-machines-pipeline">
+    <span class="wb-body-1">Connection Status</span>
+    <span class="wb-subtitle-1 header-subitem">
+      <ng-container [ngTemplateOutlet]="fullTargetMachineNameTemplate"></ng-container>
+    </span>
+    <div class="target-machines-pipeline-content" *ngIf="selectedMachine$ | async">
+      <div
+        class="ignore-container-padding"
+        *ngIf="!isLocalTargetMachineSelected(selectedMachine$ | async); else localMachineSelectedTemplate"
+      >
+        <wb-pipeline-stages [stages]="connectionStages$ | async"></wb-pipeline-stages>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #machineInfo>
+  <div class="target-machines-machine-info">
+    <div class="target-machines-machine-info-devices">
+      <span class="wb-body-1">Available Devices</span>
+      <span class="wb-subtitle-1 header-subitem">
+        <ng-container [ngTemplateOutlet]="fullTargetMachineNameTemplate"></ng-container>
+      </span>
+      <div class="target-machines-machine-info-content">
+        <ng-container
+          *ngIf="
+            (isSelectedMachineConfigured$ | async) &&
+            !(isSelectedMachineConfiguring$ | async) &&
+            !(isSelectedMachineConfiguredWithError$ | async) &&
+            (selectedMachine$ | async)?.devices
+          "
+        >
+          <div class="device-name" *ngFor="let device of (selectedMachine$ | async).devices">
+            <mat-icon svgIcon="check"></mat-icon>
+            <span data-test-id="device" class="wb-label">{{ device.productName }}</span>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="isSelectedMachineConfiguring$ | async" [ngTemplateOutlet]="deviceConfiguring">
+        </ng-container>
+        <ng-container
+          *ngIf="
+            (!(selectedMachine$ | async)?.devices && !(isSelectedMachineConfiguring$ | async)) ||
+            (isSelectedMachineConfiguredWithError$ | async)
+          "
+          [ngTemplateOutlet]="deviceNotAvailable"
+        >
+        </ng-container>
+      </div>
+    </div>
+    <div class="target-machines-machine-info-resources">
+      <span class="wb-body-1">System Resources</span>
+      <span class="wb-subtitle-1 header-subitem">
+        <ng-container [ngTemplateOutlet]="fullTargetMachineNameTemplate"></ng-container>
+      </span>
+      <div class="target-machines-machine-info-content">
+        <div class="resource-usage-item" data-test-id="cpu-usage">
+          <ng-template
+            *ngIf="(selectedMachine$ | async)?.targetType !== targetMachineTypes.LOCAL"
+            [ngTemplateOutlet]="machineAttribute"
+            [ngTemplateOutletContext]="{
+              tip: tooltips.cpuUsage,
+              label: 'CPU usage:',
+              parameter: (selectedMachine$ | async)?.systemResources?.cpuUsage
+            }"
+          >
+          </ng-template>
+        </div>
+        <div class="resource-usage-item" data-test-id="ram-usage">
+          <ng-template
+            [ngTemplateOutlet]="machineAttribute"
+            [ngTemplateOutletContext]="{
+              tip: tooltips.ramUsage,
+              label: 'Memory usage:',
+              parameter: (selectedMachine$ | async)?.systemResources?.ram.used
+            }"
+          >
+          </ng-template>
+        </div>
+        <div class="resource-usage-item" data-test-id="disk-usage">
+          <ng-template
+            [ngTemplateOutlet]="machineAttribute"
+            [ngTemplateOutletContext]="{
+              tip: tooltips.filesystemUsage,
+              label: 'Filesystem usage:',
+              parameter: (selectedMachine$ | async)?.systemResources?.disk.percentage
+            }"
+          >
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #machineAttribute let-tip="tip" let-label="label" let-parameter="parameter">
+  <span class="item-name">
+    <wb-help-tooltip [tooltipMessage]="tip"></wb-help-tooltip>
+    {{ label }}
+  </span>
+  <span class="item-value" data-test-id="value">
+    <ng-container
+      *ngIf="
+        (isSelectedMachineConfigured$ | async) &&
+        !(isSelectedMachineConfiguring$ | async) &&
+        !(isSelectedMachineConfiguredWithError$ | async)
+      "
+    >
+      <ng-container *ngIf="parameter; else naLabelTemplate"> {{ parameter | number: '1.0-2' }}% </ng-container>
+    </ng-container>
+    <ng-template *ngIf="isSelectedMachineConfiguring$ | async" [ngTemplateOutlet]="configurationInProgressTemplate">
+    </ng-template>
+    <ng-template
+      *ngIf="
+        !(isSelectedMachineConfigured$ | async) &&
+        !(isSelectedMachineConfiguring$ | async) &&
+        !(isSelectedMachineConfiguredWithError$ | async)
+      "
+      [ngTemplateOutlet]="naLabelTemplate"
+    >
+    </ng-template>
+    <ng-template *ngIf="isSelectedMachineConfiguredWithError$ | async" [ngTemplateOutlet]="configurationErrorTemplate">
+    </ng-template>
+  </span>
+</ng-template>
+
+<ng-template #naLabelTemplate>{{ naLabel }}</ng-template>
+<ng-template #configurationInProgressTemplate>
+  <div class="device-configuring">
+    <mat-icon class="status-text-icon" svgIcon="spinner"></mat-icon>
+    <span class="wb-body-2 status">Connecting...</span>
+  </div>
+</ng-template>
+<ng-template #configurationErrorTemplate>
+  <div class="device-error">
+    <mat-icon class="status-text-icon" svgIcon="warning"></mat-icon>
+    <span class="wb-body-2 status">Configuration Failure</span>
+  </div>
+</ng-template>
+
+<ng-template #fullTargetMachineNameTemplate>
+  <ng-container *ngIf="selectedMachine$ | async; else noMachineSelectedTemplate">
+    {{ getFullTargetMachineName(selectedMachine$ | async) }}
+  </ng-container>
+</ng-template>
+
+<ng-template #noMachineSelectedTemplate>
+  <wb-info-hint message="No machine selected."></wb-info-hint>
+</ng-template>
+
+<ng-template #localMachineSelectedTemplate>
+  <wb-info-hint message="You selected the local target machine. No configuration is required."></wb-info-hint>
+</ng-template>
+
+<ng-template #deviceConfiguring>
+  <div class="device-configuring">
+    <mat-icon class="status-text-icon" svgIcon="spinner"></mat-icon>
+    <span class="wb-label">Device: </span>
+    <span class="wb-body-2 status">Connecting...</span>
+  </div>
+</ng-template>
+
+<ng-template #deviceNotAvailable>
+  <div class="device-not-available">
+    <mat-icon color="warn" svgIcon="close"></mat-icon>
+    <span class="wb-label">Device:</span>
+    <mat-error class="wb-body-2">Not Available</mat-error>
+  </div>
+</ng-template>

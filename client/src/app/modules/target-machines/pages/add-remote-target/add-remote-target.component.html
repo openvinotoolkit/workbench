@@ -1,0 +1,13 @@
+<ng-container [ngTemplateOutlet]="navigation"></ng-container>
+<h1 class="wb-h1 wb-page-header">Add Remote Target</h1>
+<div class="page-content">
+  <wb-target-machine-form (save)="handleMachineAdd($event)" (cancel)="handleCancel()"></wb-target-machine-form>
+</div>
+
+<ng-template #navigation>
+  <wb-navigation-bar>
+    <a (click)="toCreateProject()">Create Project</a>
+    <a (click)="handleCancel()">Target Machines</a>
+    <a>Add Remote Target</a>
+  </wb-navigation-bar>
+</ng-template>

@@ -1,0 +1,60 @@
+@import 'fonts';
+@import 'colors';
+@import 'variables';
+
+.mat-button-toggle-group.wb-ribbon {
+  margin: 10px 0 20px;
+
+  .mat-button-toggle-appearance-standard {
+    background: $faded-bgr;
+    @include wb-body-4();
+  }
+
+  .mat-button-toggle-button {
+    display: flex;
+    align-items: center;
+    height: 30px;
+  }
+
+  .mat-button-toggle .mat-button-toggle-label-content {
+    padding: 0 $container-padding 0 $container-padding;
+    display: flex;
+    align-items: center;
+
+    .wb-ribbon-icon {
+      $icon-size: 20px;
+      width: $icon-size;
+      height: $icon-size;
+      margin-right: 10px;
+    }
+  }
+
+  .mat-button-toggle.mat-button-toggle-checked {
+    .mat-button-toggle-button {
+      background: $white;
+    }
+
+    .mat-button-toggle-label-content {
+      @include wb-body-3();
+      color: $plum;
+    }
+  }
+
+  &.enlarged-control {
+    .mat-button-toggle-appearance-standard {
+      @include wb-label();
+    }
+
+    .mat-button-toggle .mat-button-toggle-label-content {
+      padding: 0 30px;
+    }
+
+    .mat-button-toggle-button {
+      height: 40px;
+    }
+
+    .mat-button-toggle.mat-button-toggle-checked .mat-button-toggle-label-content {
+      @include wb-body-2();
+    }
+  }
+}

@@ -1,0 +1,35 @@
+@import 'variables';
+@import 'fonts';
+
+.content {
+  display: flex;
+  gap: 20px;
+  padding: 0 $container-padding $container-padding $container-padding;
+  flex-grow: 1;
+
+  wb-import-tokenizer-form {
+    flex: 1;
+  }
+
+  .tip {
+    flex: 0 0 440px;
+  }
+}
+
+.upload-dataset-error {
+  display: block;
+  margin: 0 $container-padding $container-padding $container-padding;
+}
+
+wb-text-dataset-data {
+  margin-top: 20px;
+  height: 600px;
+}
+
+.actions {
+  display: flex;
+
+  wb-button + wb-button {
+    margin-left: 20px;
+  }
+}

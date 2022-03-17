@@ -1,0 +1,53 @@
+@import 'colors';
+
+:host {
+  display: block;
+  width: 100%;
+
+  ::ng-deep .master-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  wb-master-detail::ng-deep .details-sidenav {
+    box-shadow: -1px 5px 15px $black38;
+    border-left: none;
+  }
+}
+
+.btn + .btn {
+  margin-left: 20px;
+}
+
+div[wb-heading] {
+  display: flex;
+  align-items: center;
+
+  .panel-header {
+    margin: 0 auto 0 0;
+  }
+}
+
+div[wb-content] {
+  overflow: auto;
+}
+
+.actions {
+  display: flex;
+  margin-bottom: 20px;
+
+  .btn {
+    margin-right: 10px;
+  }
+}
+
+.page-content {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 50px;
+}
+
+.hint {
+  display: block;
+  margin-bottom: 20px;
+}

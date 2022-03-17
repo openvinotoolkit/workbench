@@ -1,0 +1,7 @@
+<wb-status-text
+  [ngClass]="'pipeline-stage-status-' + status"
+  [icon]="statusToIconMap[status]"
+  [text]="statusToTextMap[status]"
+  [attr.data-test-id]="status"
+>
+</wb-status-text>

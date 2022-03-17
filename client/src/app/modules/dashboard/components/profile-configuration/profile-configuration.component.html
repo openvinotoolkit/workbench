@@ -1,0 +1,99 @@
+<ng-container *ngIf="profileConfigurationForm">
+  <div class="wb-row">
+    <div class="wb-col-8">
+      <div class="wb-panel">
+        <form class="profiling-content" [formGroup]="profileConfigurationForm">
+          <div class="wb-panel__header">
+            <h4 class="wb-panel__title">Inference Methods</h4>
+          </div>
+
+          <mat-radio-group [formControlName]="'type'" class="controls">
+            <div class="col">
+              <div class="radio-button-with-tooltip">
+                <mat-radio-button
+                  [value]="PROFILE_CONFIGURATION_TYPE.SINGLE"
+                  data-test-id="single-inference-radio-button"
+                >
+                  Single Inference
+                </mat-radio-button>
+                <wb-help-tooltip
+                  class="tip"
+                  [tooltipMessage]="messagesService.tooltipMessages.inferenceForm.singleInference"
+                ></wb-help-tooltip>
+              </div>
+
+              <ng-container
+                *ngIf="
+                  profileConfigurationForm.get('type').value === PROFILE_CONFIGURATION_TYPE.SINGLE &&
+                  profileConfigurationForm
+                "
+                [ngTemplateOutlet]="profileConfigForm"
+              ></ng-container>
+            </div>
+
+            <div class="col radio-button-with-tooltip">
+              <mat-radio-button [value]="PROFILE_CONFIGURATION_TYPE.GROUP" data-test-id="group-inference-radio-button">
+                Group Inference
+              </mat-radio-button>
+              <wb-help-tooltip
+                class="tip"
+                [tooltipMessage]="messagesService.tooltipMessages.inferenceForm.groupInference"
+              ></wb-help-tooltip>
+            </div>
+          </mat-radio-group>
+        </form>
+      </div>
+    </div>
+    <div class="wb-col-4">
+      <div class="wb-panel">
+        <div class="profiling-tip" data-test-id="set-inference-time" (click)="reduceInferenceTime()">
+          <wb-tip [tipMessage]="{ header: 'Inference Tip', content: [inferenceTips] }"></wb-tip>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wb-row">
+    <div class="wb-col-12 action-block">
+      <wb-button
+        class="enlarged-control"
+        type="primary"
+        text="Execute"
+        testId="execute-inference-button"
+        *ngIf="profileConfigurationForm.get('type').value === PROFILE_CONFIGURATION_TYPE.SINGLE"
+        [disabled]="isExecutionDisabled || !profileConfigurationForm.valid"
+        (handleClick)="submit()"
+      ></wb-button>
+      <wb-button
+        class="enlarged-control"
+        type="primary"
+        text="Configure Group Inference"
+        testId="configure-inference-button"
+        *ngIf="profileConfigurationForm.get('type').value === PROFILE_CONFIGURATION_TYPE.GROUP"
+        [disabled]="isExecutionDisabled"
+        (handleClick)="submit()"
+      ></wb-button>
+
+      <wb-info-hint
+        class="hint"
+        *ngIf="inferenceHint as hint"
+        [message]="hint.message"
+        [type]="hint.type"
+      ></wb-info-hint>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #profileConfigForm>
+  <div class="profiling-form">
+    <wb-config-form-field
+      class="field"
+      [field]="fieldsMetaData.stream"
+      [group]="profileConfigurationForm"
+    ></wb-config-form-field>
+    <wb-config-form-field
+      class="field"
+      [field]="fieldsMetaData.batch"
+      [group]="profileConfigurationForm"
+    ></wb-config-form-field>
+  </div>
+</ng-template>

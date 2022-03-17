@@ -1,0 +1,26 @@
+<mat-form-field floatLabel="always">
+  <mat-label>{{ label }}</mat-label>
+  <mat-select [formControl]="control" disableRipple multiple>
+    <div class="select-search">
+      <div class="select-search-wrapper">
+        <div class="select-search-content">
+          <input
+            matInput
+            [formControl]="searchControl"
+            type="text"
+            [placeholder]="searchInputPlaceholder"
+            class="select-search-input"
+            data-test-id="search-input"
+          />
+          <ng-container *ngIf="searchControl.value">
+            <mat-icon class="select-search-icon" svgIcon="undo" (click)="searchControl.setValue('')"></mat-icon>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <mat-option *ngFor="let option of filteredOptions$ | async" [value]="option.value" [title]="option.name">
+      {{ option.name }}
+    </mat-option>
+    <div *ngIf="!(filteredOptions$ | async).length" class="not-found">{{ noItemsMatchTitle }}</div>
+  </mat-select>
+</mat-form-field>

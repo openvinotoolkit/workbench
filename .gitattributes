@@ -1,0 +1,3 @@
+# Set line endings to LF (not CRLF) for .sh scripts.
+# Docker execution fails otherwise.
+*.sh text eol=lf

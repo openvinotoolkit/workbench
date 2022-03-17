@@ -1,0 +1,69 @@
+<div class="file-upload-field-container">
+  <label *ngIf="label" class="field-label wb-label" [for]="id">
+    {{ label }}:
+    <span class="field-label-optional wb-body-4" *ngIf="optional">({{ optionalLabel }})</span>
+    <wb-help-tooltip
+      *ngIf="tooltip"
+      [tooltipMessage]="tooltipService.getTooltip(tooltip.prefix, tooltip.value)"
+    ></wb-help-tooltip>
+  </label>
+  <div class="file-upload-field">
+    <div class="file-upload-field-row">
+      <ng-container [ngTemplateOutlet]="uploadingDir ? dirUpload : fileUpload"></ng-container>
+      <span *ngIf="!hasErrors(); else fieldError" class="file-upload-field-selected">
+        <ng-container *ngIf="!selectedFile">{{ noFileSelectedLabel }}</ng-container>
+        <ng-container *ngIf="selectedFile">
+          <ng-container *ngIf="!selectedFile.length">{{ selectedFile.name }}</ng-container>
+          <ng-container *ngIf="selectedFile.length">Selected {{ selectedFile.length }} checkpoint file(s)</ng-container>
+        </ng-container>
+      </span>
+    </div>
+    <div *ngIf="!optional && !selectedFile && (submitted || touched)" class="file-upload-field-required">
+      <wb-info-hint type="warning" [message]="requiredFieldMessage"></wb-info-hint>
+    </div>
+  </div>
+</div>
+
+<ng-template #fieldError>
+  <span class="file-upload-field-selected file-upload-field-error">
+    {{ error }}
+  </span>
+</ng-template>
+
+<ng-template #fileUpload>
+  <wb-button
+    class="enlarged-control"
+    type="secondary"
+    [text]="chooseFiledLabel"
+    (handleClick)="fileInput.click(); touched = true"
+  ></wb-button>
+  <input
+    #fileInput
+    hidden
+    type="file"
+    [id]="id"
+    [accept]="acceptedFiles"
+    [attr.multiple]="multiple"
+    (change)="onFileSelected($event)"
+    [attr.data-test-id]="testId"
+  />
+</ng-template>
+
+<ng-template #dirUpload>
+  <wb-button
+    class="enlarged-control"
+    type="secondary"
+    [text]="chooseFolderLabel"
+    (handleClick)="folderInput.click(); touched = true"
+  >
+  </wb-button>
+  <input
+    #folderInput
+    type="file"
+    hidden
+    webkitDirectory
+    [id]="id"
+    (change)="filesPicked(folderInput.files)"
+    [attr.data-test-id]="testId"
+  />
+</ng-template>

@@ -1,0 +1,128 @@
+@use "sass:math";
+
+@import 'fonts';
+@import 'colors';
+
+.actions {
+  display: flex;
+}
+
+.hint {
+  display: block;
+  padding-top: 15px;
+}
+
+.btn + .btn {
+  margin-left: 20px;
+}
+
+.layout {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .wizard {
+    $page-title-height: 280px;
+    $stages-list-height: 460px;
+
+    flex-grow: 1;
+    display: flex;
+    max-height: calc(100vh - #{page-title-height});
+    min-height: $stages-list-height;
+  }
+
+  .content {
+    flex-grow: 1;
+    border: 1px solid $very-light-pink;
+    background-color: $faded-bgr;
+    border-radius: 3px;
+    margin: 0 20px 20px;
+  }
+
+  .stages {
+    padding: 0 0 20px;
+    flex-shrink: 0;
+    width: percentage(math.div(1, 3));
+  }
+}
+
+.content {
+  display: none;
+  flex-direction: column;
+
+  &.show {
+    display: flex;
+  }
+
+  ::ng-deep {
+    .head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      border-bottom: 1px solid $very-light-pink;
+      height: 80px;
+      flex-shrink: 0;
+    }
+
+    .title {
+      margin: 0;
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
+      flex-grow: 1;
+      box-sizing: border-box;
+      padding: 20px;
+
+      &.empty {
+        align-items: center;
+        justify-content: center;
+      }
+
+      .empty-message {
+        text-align: center;
+        margin-top: 15px;
+        color: $brownish-grey;
+
+        @include wb-text-8();
+      }
+    }
+
+    .stage-actions {
+      display: flex;
+      padding: 20px;
+      margin-top: auto;
+      margin-bottom: 0;
+      border-top: 1px solid $very-light-pink;
+    }
+  }
+}
+
+:host ::ng-deep {
+  .form {
+    .ribbon-wrapper {
+      margin: 0 0 20px;
+    }
+
+    .environment-warning-message {
+      padding: 0 20px;
+      flex-shrink: 0;
+    }
+  }
+
+  .table {
+    display: block;
+    border: 1px solid $very-light-pink;
+    border-radius: 3px;
+    overflow: auto;
+  }
+
+  .stage-actions {
+    .button + .button {
+      margin-left: 20px;
+    }
+  }
+}

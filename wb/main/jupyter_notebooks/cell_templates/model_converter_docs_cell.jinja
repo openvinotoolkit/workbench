@@ -1,0 +1,24 @@
+We have imported a model from Open Model Zoo with Model Downloader.
+Next we will proceed working with this model and convert it to IR with Model Converter.
+
+### OpenVINO Tool: Model Converter
+
+#### Motivation
+
+To work with public models from Open Model Zoo in OpenVINO, you need to convert them to IR with Model Converter.
+
+#### Main usage
+
+Model Converter is used to convert public models downloaded from Open Model Zoo to the IR format.
+
+#### Description
+
+Model Converter helps to convert your model to IR format. In OpenVINO toolkit an IR version of your model is produced by Model Optimizer.
+Model Converter prepares the model for conversion and works as a wrapper for Model Optimizer.
+Therefore, Model Converter can not replace Model Optimizer.
+
+#### Used Command-Line Arguments
+
+{{ CLIToolEnum.model_converter.format_to_markdown_table() | safe }}
+
+Refer to the [documentation](https://docs.openvino.ai/latest/omz_tools_downloader.html) for more details.

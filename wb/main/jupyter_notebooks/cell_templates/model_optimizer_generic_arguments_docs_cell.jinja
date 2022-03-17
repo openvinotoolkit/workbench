@@ -1,0 +1,31 @@
+`--framework` | Name of the framework used to train the input model. Available options: `tf`, `caffe`, `mxnet`, `kaldi`, `onnx`.
+`--input_model` | Tensorflow*: a file with a pre-trained model (binary or text .pb file after freezing). Caffe*: a model proto file with model weights.
+`--model_name` | Model_name parameter passed to the final create_ir transform. This parameter is used to name a network in a generated IR and output .xml/.bin files.
+`--output_dir` | Directory that stores the generated IR. By default, it is the directory from where the Model Optimizer is launched.
+`--input_shape` | Input shape(s) that should be fed to an input node(s) of the model. Shape is defined as a comma-separated list of integer numbers enclosed in parentheses or square brackets, for example [1,3,227,227] or (1,227,227,3), where the order of dimensions depends on the framework input layout of the model.
+`--scale` | All input values coming from original network inputs will be divided by this value.
+`--reverse_input_channels` | Switch the input channels order from RGB to BGR (or vice versa).
+`--log_level` | Logger level. Available options: `CRITICAL`, `ERROR`, `WARN`, `WARNING`, `INFO`, `DEBUG`, `NOTSET`.
+`--input` | Quoted list of comma-separated input nodes names with shapes, data types, and values for freezing.
+`--output` | The name of the output operation of the model. For TensorFlow*, do not add :0 to this name.
+`--mean_values` | Mean values to be used for the input image per channel. Values to be provided in the (R,G,B) or [R,G,B] format.
+`--scale_values` | Scale values to be used for the input image per channel. Values are provided in the (R,G,B) or [R,G,B] format.
+`--data_type` | Data type for all intermediate tensors and weights. If original model is in FP32 and --data_type=FP16 is specified, all model weights and biases are quantized to FP16.
+`--disable_fusing` | Turn off fusing of linear operations to Convolution.
+`--disable_resnet_optimization` | Turn off resnet optimization.
+`--finegrain_fusing` | Regex for layers/operations that won't be fused.
+`--disable_gfusing` | Turn off fusing of grouped convolutions.
+`--enable_concat_optimization` | Turn on Concat optimization.
+`--move_to_preprocess` | Move mean values to IR preprocess section.
+`--extensions` | Directory or a comma separated list of directories with extensions. To disable all extensions including those that are placed at the default location, pass an empty string.
+`--batch` | Input batch size.
+`--version` | Version of Model Optimizer.
+`--silent` | Prevent any output messages except those that correspond to log level equals ERROR, that can be set with the following option: --log_level. By default, log level is already ERROR.
+`--freeze_placeholder_with_value` | Replaces input layer with constant node with provided value, for example: "node_name->True". It will be DEPRECATED in future releases. Use --input option to specify a value for freezing.
+`--generate_deprecated_IR_V7` | Force to generate deprecated IR V7 with layers from old IR specification.
+`--static_shape` | Enables IR generation for fixed input shape (folding `ShapeOf` operations and shape-calculating sub-graphs to `Constant`). Changing model input shape using the Inference Engine API in runtime may fail for such an IR.
+`--keep_shape_ops` | The option is ignored. Expected behavior is enabled by default.
+`--disable_weights_compression` | Disable compression and store weights with original precision.
+`--progress` | Enable model conversion progress display.
+`--stream_output` | Switch model conversion progress display to a multiline mode.
+`--transformations_config` | Use the configuration file with transformations description.

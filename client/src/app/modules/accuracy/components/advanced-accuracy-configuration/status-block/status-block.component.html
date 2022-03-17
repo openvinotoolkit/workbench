@@ -1,0 +1,19 @@
+<div class="status-block" [ngClass]="status" [attr.data-test-id]="status">
+  <wb-status-text *ngIf="status === 'VALID'" icon="check" text="Valid Configuration"></wb-status-text>
+  <wb-status-text *ngIf="status === 'PENDING'" icon="spinner" text="Validating Configuration"></wb-status-text>
+  <wb-status-text *ngIf="status === 'INVALID'" icon="warning" text="Invalid Configuration"></wb-status-text>
+
+  <div class="error-messages" *ngIf="expanded && status === 'INVALID'">
+    <div *ngIf="errors.required">Required</div>
+
+    <div *ngIf="errors.yaml as error">{{ error.message }}</div>
+
+    <ng-container *ngIf="errors.schema as errors">
+      <div *ngFor="let error of errors" data-test-id="error-message">{{ error.message }}</div>
+    </ng-container>
+  </div>
+
+  <div class="toggle-link" *ngIf="status === 'INVALID'" (click)="expanded = !expanded" data-test-id="show-error-info">
+    {{ expanded ? 'Hide information' : 'Show information' }}
+  </div>
+</div>

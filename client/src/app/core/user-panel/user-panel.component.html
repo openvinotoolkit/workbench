@@ -1,0 +1,56 @@
+<div class="user-panel">
+  <div class="user-panel-header">
+    <h2 class="wb-h3">Settings</h2>
+    <wb-button
+      *ngIf="isLogoutAvailable"
+      testId="logout-button"
+      type="secondary"
+      text="Log Out"
+      (handleClick)="logoutUser.emit()"
+      class="logout-button"
+    >
+    </wb-button>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="user-panel-content">
+    <div class="system-info">
+      <h3 class="wb-subtitle-1 subheader">System Information</h3>
+      <div class="info-row version">
+        <span class="text-label">
+          <mat-icon svgIcon="error_outline"></mat-icon>
+          <span>Version:</span>
+        </span>
+        <span class="version-value wb-body-2">{{ version || versionPlaceholder }}</span>
+      </div>
+      <div class="info-row download-log">
+        <wb-button
+          type="default"
+          text="Download Log"
+          icon="download"
+          class="download-log-button"
+          (handleClick)="downloadLog.emit()"
+        >
+        </wb-button>
+      </div>
+    </div>
+    <div class="info-row">
+      <wb-button
+        type="default"
+        text="Erase All"
+        icon="delete"
+        testId="erase-all-button"
+        (handleClick)="eraseAll.emit()"
+      ></wb-button>
+    </div>
+    <div class="cookies-info">
+      <h3 class="wb-subtitle-1 subheader">Cookies Setting</h3>
+      <wb-info-hint class="hint" [message]="GATip"></wb-info-hint>
+      <div class="wb-body-3">
+        <mat-radio-group class="ga-toggle" (change)="setGAStatusEvent.emit($event.value)">
+          <mat-radio-button [value]="true" [checked]="userMeta?.agreedCookies">Accept</mat-radio-button>
+          <mat-radio-button [value]="false" [checked]="!userMeta?.agreedCookies">Block</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+  </div>
+</div>

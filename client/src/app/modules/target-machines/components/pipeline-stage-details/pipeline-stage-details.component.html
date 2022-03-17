@@ -1,0 +1,12 @@
+<div class="stage-details" #stageLogsDetails>
+  <span class="wb-body-4 stage-details-logs" [innerText]="stage?.logs" data-test-id="stage-logs"></span>
+  <span class="stage-details-progress-indicator" #logsInProgressIndicator>
+    <ng-container *ngIf="isStageInProgress">...</ng-container>
+  </span>
+  <span
+    class="wb-body-3 stage-details-error-message"
+    *ngIf="stage?.errorMessage as message"
+    data-test-id="stage-error"
+    >{{ getErrorName(message) }}</span
+  >
+</div>

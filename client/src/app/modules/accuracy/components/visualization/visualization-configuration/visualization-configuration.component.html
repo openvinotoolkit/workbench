@@ -1,0 +1,95 @@
+<mat-accordion displayMode="flat" [multi]="true">
+  <mat-expansion-panel
+    #rootExpansionPanel
+    hideToggle
+    class="wb-panel mat-elevation-z0"
+    [expanded]="expanded"
+    (expandedChange)="expandedChange.emit($event)"
+  >
+    <mat-expansion-panel-header class="wb-panel-header">
+      <mat-icon [svgIcon]="rootExpansionPanel.expanded ? 'arrow_up' : 'arrow_down'" class="wb-panel-icon"></mat-icon>
+      <h3 class="wb-h4 wb-panel-title">Visualization Configuration</h3>
+    </mat-expansion-panel-header>
+
+    <ng-template matExpansionPanelContent [ngTemplateOutlet]="configurationFormTemplate"></ng-template>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<ng-template #configurationFormTemplate>
+  <form *ngIf="formHandler" [formGroup]="formHandler.form">
+    <div class="wb-panel">
+      <wb-config-form-field class="field" [field]="formHandler.fields.taskType" [group]="formHandler.form">
+      </wb-config-form-field>
+
+      <wb-config-form-field
+        class="field next-fieldset"
+        *ngIf="formHandler.fields.taskMethod.options.length > 1"
+        [field]="formHandler.fields.taskMethod"
+        [group]="formHandler.form"
+      >
+      </wb-config-form-field>
+    </div>
+
+    <mat-accordion displayMode="flat" [multi]="true">
+      <mat-expansion-panel
+        *ngIf="formHandler.adapterGroup as adapterGroup"
+        expanded
+        hideToggle
+        class="wb-panel mat-elevation-z0"
+        #matExpansionPanel
+        data-test-id="adapter-configuration"
+      >
+        <mat-expansion-panel-header class="wb-panel-header">
+          <mat-icon [svgIcon]="matExpansionPanel.expanded ? 'arrow_up' : 'arrow_down'" class="wb-panel-icon"></mat-icon>
+          <h3 class="wb-h4 wb-panel-title">Adapter Configuration</h3>
+        </mat-expansion-panel-header>
+
+        <ng-template matExpansionPanelContent>
+          <ng-container *ngIf="adapterGroup.handlers.maskrcnn">
+            <wb-config-form-field
+              [field]="adapterGroup.handlers.maskrcnn.inputField.field"
+              [group]="adapterGroup.handlers.maskrcnn.inputField.group"
+            ></wb-config-form-field>
+            <h4 class="wb-subtitle-1 subtitle">Output Layers</h4>
+          </ng-container>
+
+          <wb-config-form-field
+            class="field"
+            *ngFor="let field of adapterGroup.orderedFields"
+            [field]="field.field"
+            [group]="field.group"
+          >
+          </wb-config-form-field>
+        </ng-template>
+      </mat-expansion-panel>
+
+      <ng-container *ngIf="formHandler.preprocessorGroup as preprocessorGroup">
+        <mat-expansion-panel
+          *ngIf="preprocessorGroup.orderedFields.length"
+          expanded
+          hideToggle
+          class="wb-panel mat-elevation-z0"
+          #matExpansionPanel
+          data-test-id="preprocessing-config"
+        >
+          <mat-expansion-panel-header class="wb-panel-header">
+            <mat-icon
+              [svgIcon]="matExpansionPanel.expanded ? 'arrow_up' : 'arrow_down'"
+              class="wb-panel-icon"
+            ></mat-icon>
+            <h3 class="wb-h4 wb-panel-title">Preprocessing Configuration</h3>
+          </mat-expansion-panel-header>
+
+          <ng-template matExpansionPanelContent>
+            <wb-config-form-field
+              class="field next-fieldset"
+              *ngFor="let field of preprocessorGroup.orderedFields"
+              [field]="field.field"
+              [group]="field.group"
+            ></wb-config-form-field>
+          </ng-template>
+        </mat-expansion-panel>
+      </ng-container>
+    </mat-accordion>
+  </form>
+</ng-template>

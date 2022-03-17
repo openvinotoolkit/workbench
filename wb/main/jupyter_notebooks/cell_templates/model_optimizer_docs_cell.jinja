@@ -1,0 +1,38 @@
+### OpenVINO Tool: Model Optimizer
+
+#### Motivation
+
+Intermediate Representation (IR) is a preferred model format to work with OpenVINO toolkit.
+Conversion into the IR with Model Optimizer is a mandatory step to work with your original model,
+trained in one of the supported frameworks.
+
+#### Main usage
+
+Model Optimizer takes a model as an input, optimizes it and gives an IR as an output.
+This enables you to deploy the model regardless of the target hardware specifics.
+
+#### Description
+
+Model Optimizer is a Python application for converting and optimizing your model. It is recommended to use Model Optimizer as
+a command-line tool. The command-line interface offers a wide range of conversion parameters.
+Learn more about these parameters in the [documentation](https://docs.openvino.ai/latest/openvino_docs_MO_DG_prepare_model_convert_model_Converting_Model.html).
+
+Model Optimizer imports models from specific frameworks such as TensorFlow*, Kaldi*, MXNet*, Caffe*, and format, like ONNX*,
+optimizes it, and converts to the IR.
+The model in IR format is represented in two files:
+- `.xml` - describes the network topology
+- `.bin` - contains the weights and biases data.
+
+
+#### Used Command-Line Arguments
+
+<details>
+    <summary>View Model Optimizer command-line arguments for {{ SupportedFrameworksEnum.get_name(project_model_framework) }} framework</summary>
+
+{{ CLIToolEnum.model_optimizer.format_to_markdown_table() | safe }}
+
+</details>
+
+
+
+Refer to the [documentation](https://docs.openvino.ai/latest/openvino_docs_MO_DG_Deep_Learning_Model_Optimizer_DevGuide.html) for more details.

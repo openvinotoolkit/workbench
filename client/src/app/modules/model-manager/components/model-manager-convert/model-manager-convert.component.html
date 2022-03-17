@@ -1,0 +1,102 @@
+<div class="wb-row">
+  <div class="wb-col-8" [formGroup]="group" data-test-id="model-conversion-form">
+    <wb-panel>
+      <div wb-heading>
+        <h3 class="wb-h4 panel-header import-stage-header">Convert Model to IR - General Parameters</h3>
+      </div>
+      <div wb-content>
+        <wb-info-hint
+          class="wb-full-width hint"
+          message="Settings to convert model to OpenVINO format (Intermediate Representation)"
+        ></wb-info-hint>
+
+        <wb-conversion-general-parameters-group
+          class="form-group"
+          [model]="model"
+          [parentGroup]="group"
+          data-test-id="general-parameters"
+        ></wb-conversion-general-parameters-group>
+
+        <div *ngIf="isOriginalModel || isHuggingfaceModel" class="panel-row panel-row--section">
+          <div class="panel-row panel-row--subheader">
+            <h3 class="wb-h4 panel-title">Configuration Files</h3>
+          </div>
+
+          <wb-conversion-configuration-files-group
+            class="form-group"
+            [model]="model"
+            [parentGroup]="group"
+            (usePipelineConfigChecked)="usePipelineConfigChecked()"
+          >
+          </wb-conversion-configuration-files-group>
+        </div>
+
+        <div *ngIf="isOriginalModel || isHuggingfaceModel" class="panel-row panel-row--section inputs-panel">
+          <div class="panel-row panel-row--subheader">
+            <h3 class="wb-h4 panel-title">Inputs</h3>
+            <a
+              *ngIf="isInputsSpecified"
+              class="tip-link"
+              data-test-id="more-inputs-tip"
+              (click)="helpChecklistService.expandItem('inputs')"
+            >
+              Learn More
+            </a>
+          </div>
+
+          <wb-conversion-inputs-group
+            class="form-group"
+            [model]="model"
+            [parentGroup]="group"
+            [colorSpace]="colorSpace"
+          >
+          </wb-conversion-inputs-group>
+        </div>
+
+        <div
+          *ngIf="isOriginalModel || isHuggingfaceModel"
+          class="panel-row panel-row--section"
+          data-test-id="advanced-parameters"
+        >
+          <div class="panel-row panel-row--subheader">
+            <h3 class="wb-h4 panel-title">Advanced Parameters</h3>
+          </div>
+
+          <wb-conversion-advanced-parameters-group class="form-group" [model]="model" [parentGroup]="group">
+          </wb-conversion-advanced-parameters-group>
+        </div>
+
+        <div class="panel-row panel-row--footer">
+          <wb-button
+            class="enlarged-control"
+            type="primary"
+            [text]="isInputsSpecified ? 'Convert and Import' : 'Convert'"
+            testId="convert-button"
+            (handleClick)="submit()"
+            [pending]="isConversionStarted"
+            [disabled]="!model || group.invalid"
+          >
+          </wb-button>
+          <wb-button class="enlarged-control" text="Cancel" type="default" (handleClick)="cancel.emit()"></wb-button>
+        </div>
+        <wb-info-hint
+          *ngIf="group.invalid"
+          class="wb-full-width"
+          type="warning"
+          [message]="conversionTipValidationMessage"
+        ></wb-info-hint>
+      </div>
+    </wb-panel>
+  </div>
+  <div class="wb-col-4">
+    <div class="wb-panel">
+      <h3 class="wb-h5 panel-title panel-title--tip">Conversion Tip</h3>
+
+      <wb-tips-list
+        [modelOptimizerForm]="group"
+        [isTfOdAPI]="isTFObjectDetectionAPI"
+        [isNLPModel]="this.model?.domain === ModelDomain.NLP"
+      ></wb-tips-list>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,113 @@
+<form *ngIf="formHandler" class="advanced-configuration" [formGroup]="formHandler.form">
+  <div class="wb-panel">
+    <wb-config-form-field class="field" [field]="formHandler.fields.taskType" [group]="formHandler.form">
+    </wb-config-form-field>
+
+    <wb-config-form-field
+      class="field next-fieldset"
+      *ngIf="formHandler.fields.taskMethod.options.length > 1"
+      [field]="formHandler.fields.taskMethod"
+      [group]="formHandler.form"
+    >
+    </wb-config-form-field>
+  </div>
+
+  <mat-accordion displayMode="flat" *ngIf="formHandler.adapterGroup as groupHandler">
+    <mat-expansion-panel [expanded]="true" hideToggle class="wb-panel mat-elevation-z0" #matExpansionPanel>
+      <mat-expansion-panel-header class="wb-panel-header">
+        <mat-icon [svgIcon]="matExpansionPanel.expanded ? 'arrow_up' : 'arrow_down'" class="wb-panel-icon"></mat-icon>
+        <h3 class="wb-h4 wb-panel-title">Adapter Configuration</h3>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>
+        <ng-container *ngIf="groupHandler.handlers.maskrcnn">
+          <wb-config-form-field
+            [field]="groupHandler.handlers.maskrcnn.inputField.field"
+            [group]="groupHandler.handlers.maskrcnn.inputField.group"
+          ></wb-config-form-field>
+          <h4 class="wb-subtitle-1 subtitle">Output Layers</h4>
+        </ng-container>
+
+        <wb-config-form-field
+          class="field"
+          *ngFor="let field of groupHandler.orderedFields"
+          [field]="field.field"
+          [group]="field.group"
+        >
+        </wb-config-form-field>
+      </ng-template>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-accordion displayMode="flat" *ngIf="formHandler.preprocessorGroup as groupHandler">
+    <mat-expansion-panel [expanded]="true" hideToggle class="wb-panel mat-elevation-z0" #matExpansionPanel>
+      <mat-expansion-panel-header class="wb-panel-header">
+        <mat-icon [svgIcon]="matExpansionPanel.expanded ? 'arrow_up' : 'arrow_down'" class="wb-panel-icon"></mat-icon>
+        <h3 class="wb-h4 wb-panel-title">Preprocessing Configuration</h3>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>
+        <wb-config-form-field
+          class="field next-fieldset"
+          *ngFor="let field of groupHandler.orderedFields"
+          [field]="field.field"
+          [group]="field.group"
+        ></wb-config-form-field>
+      </ng-template>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-accordion displayMode="flat" *ngIf="formHandler.postprocessorGroup as groupHandler">
+    <mat-expansion-panel [expanded]="true" hideToggle class="wb-panel mat-elevation-z0" #matExpansionPanel>
+      <mat-expansion-panel-header class="wb-panel-header">
+        <mat-icon [svgIcon]="matExpansionPanel.expanded ? 'arrow_up' : 'arrow_down'" class="wb-panel-icon"></mat-icon>
+        <h3 class="wb-h4 wb-panel-title">Post-Processing Configuration</h3>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>
+        <wb-config-form-field
+          class="field"
+          *ngFor="let field of groupHandler.orderedFields"
+          [field]="field.field"
+          [group]="field.group"
+        ></wb-config-form-field>
+      </ng-template>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-accordion displayMode="flat" *ngIf="formHandler.metricGroup as groupHandler">
+    <mat-expansion-panel [expanded]="true" hideToggle class="wb-panel mat-elevation-z0" #matExpansionPanel>
+      <mat-expansion-panel-header class="wb-panel-header">
+        <mat-icon [svgIcon]="matExpansionPanel.expanded ? 'arrow_up' : 'arrow_down'" class="wb-panel-icon"></mat-icon>
+        <h3 class="wb-h4 wb-panel-title">Metric Configuration</h3>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>
+        <wb-config-form-field
+          class="field"
+          *ngFor="let field of groupHandler.orderedFields"
+          [field]="field.field"
+          [group]="field.group"
+        ></wb-config-form-field>
+      </ng-template>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-accordion displayMode="flat" *ngIf="formHandler.annotationConversionGroup as groupHandler">
+    <mat-expansion-panel [expanded]="true" hideToggle class="wb-panel mat-elevation-z0" #matExpansionPanel>
+      <mat-expansion-panel-header class="wb-panel-header">
+        <mat-icon [svgIcon]="matExpansionPanel.expanded ? 'arrow_up' : 'arrow_down'" class="wb-panel-icon"></mat-icon>
+        <h3 class="wb-h4 wb-panel-title">Annotation Conversion Configuration</h3>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>
+        <wb-config-form-field
+          class="field"
+          *ngFor="let field of groupHandler.orderedFields"
+          [field]="field.field"
+          [group]="field.group"
+        ></wb-config-form-field>
+      </ng-template>
+    </mat-expansion-panel>
+  </mat-accordion>
+</form>

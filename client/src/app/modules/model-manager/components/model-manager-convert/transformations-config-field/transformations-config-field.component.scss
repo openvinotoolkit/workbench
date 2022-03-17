@@ -1,0 +1,53 @@
+@import 'colors';
+
+.field-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 10px;
+
+  wb-help-tooltip {
+    margin-left: 5px;
+  }
+}
+
+.field-container {
+  display: flex;
+}
+
+.error-message {
+  position: relative;
+  top: -18px;
+  margin: 0;
+}
+
+.transformations-config-wrapper {
+  border: 1px solid $very-light-pink;
+  border-radius: 3px;
+  width: 600px;
+  height: 160px;
+  overflow: auto;
+
+  ::ng-deep {
+    table.wb-table.wb-table-on-gray thead tr {
+      height: 40px;
+    }
+
+    table.wb-table.wb-table-on-gray thead th {
+      padding-top: 0;
+      vertical-align: middle;
+    }
+
+    tbody tr {
+      cursor: pointer;
+    }
+  }
+}
+
+.documentation-col {
+  text-align: right;
+}
+
+a {
+  color: $plum;
+}

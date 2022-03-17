@@ -1,0 +1,9 @@
+<div class="navigation-bar">
+  <wb-breadcrumbs *ngIf="!isHomePage">
+    <ng-content></ng-content>
+  </wb-breadcrumbs>
+  <div class="navigation-bar-feedback">
+    <mat-icon class="feedback-icon" svgIcon="feedback"></mat-icon>
+    <wb-markdown-text [text]="feedbackDescription" (click)="linkClicked()"></wb-markdown-text>
+  </div>
+</div>

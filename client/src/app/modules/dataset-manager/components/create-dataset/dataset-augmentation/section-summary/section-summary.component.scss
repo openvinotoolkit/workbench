@@ -1,0 +1,9 @@
+@import 'colors';
+@import 'fonts';
+@import 'variables';
+
+.summary {
+  @include wb-label();
+  color: $brownish-grey;
+  margin: $container-padding 0 $container-padding 25px;
+}

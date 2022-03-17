@@ -1,0 +1,62 @@
+@import 'colors';
+@import 'fonts';
+
+table {
+  max-width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  table-layout: fixed;
+  border-collapse: collapse;
+  width: fit-content;
+  height: fit-content;
+
+  tr {
+    th {
+      position: sticky;
+      top: 0;
+      background-color: $white;
+
+      &.top-left-label {
+        border: none;
+        width: 60px;
+        height: auto;
+        left: 0;
+        z-index: 1;
+      }
+
+      &.label {
+        border: none;
+        height: auto;
+        padding-bottom: 10px;
+        @include wb-body-4();
+      }
+    }
+
+    td {
+      mat-icon {
+        color: $green;
+      }
+
+      &.selected {
+        background-color: $ice-blue;
+      }
+
+      &.label {
+        border: none;
+        width: auto;
+        position: sticky;
+        left: 0;
+        background-color: $white;
+      }
+    }
+
+    td,
+    th {
+      width: 60px;
+      height: 60px;
+      border: 1px solid $cool-grey;
+      text-align: center;
+      padding: 0;
+    }
+  }
+}

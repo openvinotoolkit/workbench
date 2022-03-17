@@ -1,0 +1,25 @@
+<wb-panel class="card size-s" [attr.data-test-id]="'model-card_' + model?.name">
+  <header wb-heading>
+    <h5 class="wb-body-2 title">
+      <wb-text-overflow [content]="model?.name" testId="model-name"></wb-text-overflow>
+    </h5>
+
+    <wb-button
+      class="btn enlarged-control"
+      type="secondary"
+      text="Open"
+      testId="open-model"
+      (handleClick)="openModel.emit(model)"
+    ></wb-button>
+  </header>
+  <div wb-content class="info">
+    <div class="attr">
+      <div class="wb-label">Usage:</div>
+      <div class="wb-body-2 value">{{ taskTypeToNameMap[model?.accuracyConfiguration?.taskType] }}</div>
+    </div>
+    <div class="attr">
+      <div class="wb-label">Import Time:</div>
+      <div class="wb-body-2 value">{{ model?.date | date: 'dd/MM/yy, hh:mm' }}</div>
+    </div>
+  </div>
+</wb-panel>

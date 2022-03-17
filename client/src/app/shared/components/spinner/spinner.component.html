@@ -1,0 +1,24 @@
+<ng-container
+  *ngIf="!performance; else staticSpinnerTemplate"
+  [ngTemplateOutlet]="mode === 'determinate' ? cssSpinnerTemplate : gifSpinnerTemplate"
+></ng-container>
+
+<ng-template #staticSpinnerTemplate>
+  <mat-icon svgIcon="watch" class="static-icon"></mat-icon>
+</ng-template>
+
+<ng-template #cssSpinnerTemplate>
+  <div
+    class="spinner-background"
+    [ngStyle]="{
+      'width.px': diameter,
+      'height.px': diameter,
+      'border-width.px': strokeWidth
+    }"
+  ></div>
+  <mat-spinner [diameter]="diameter" [mode]="mode" [strokeWidth]="strokeWidth" [value]="value"></mat-spinner>
+</ng-template>
+
+<ng-template #gifSpinnerTemplate>
+  <img src="assets/img/md_progress_spinner.gif" [width]="diameter" [height]="diameter" alt="Progress Spinner" />
+</ng-template>

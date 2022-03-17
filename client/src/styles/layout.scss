@@ -1,0 +1,14 @@
+@import 'variables';
+
+.page-container {
+  display: flex;
+  padding: $container-padding;
+  box-sizing: border-box;
+
+  &-title {
+    display: flex;
+    align-items: center;
+    margin-top: 0;
+    margin-bottom: $container-padding;
+  }
+}

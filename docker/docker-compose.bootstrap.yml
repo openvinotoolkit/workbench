@@ -1,0 +1,52 @@
+version: '2.4'
+
+volumes:
+  front:
+
+services:
+  rabbitmq:
+    image: library/rabbitmq:3.8.5-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=openvino
+      - RABBITMQ_DEFAULT_PASS=openvino
+      - RABBITMQ_DEFAULT_VHOST=openvino_vhost
+    restart: on-failure
+
+  postgres:
+    image: library/postgres:12.2
+    environment:
+      - POSTGRES_USER=workbench
+      - POSTGRES_PASSWORD=openvino
+      - POSTGRES_DB=workbench
+    restart: on-failure
+
+  nginx:
+    build:
+      context: ..
+      dockerfile: ./docker/dc_dev_config/nginx/Dockerfile
+    ports:
+      - "${EXTERNAL_PORT:-5675}:80"
+    volumes:
+      - ../wb/data:/data
+      - front:/front
+      - ./dc_dev_config/nginx/app.conf:/etc/nginx/conf.d/default.conf.template
+      - ./dc_dev_config/nginx/proxy_params_ws:/etc/nginx/proxy_params_ws
+      - ../nginx/security.conf:/etc/nginx/snippets/security.conf
+    environment:
+      - SERVER_ADDR=${LOCAL_ADDR:-host.docker.internal}
+    restart: on-failure
+
+  workbench:
+    build:
+      context: ..
+      dockerfile: ./docker/bootstrap/Dockerfile
+      args:
+        - GIT_USER_NAME=${USERNAME}
+        - GIT_PASSWORD=${PASSWORD}
+    depends_on:
+      - rabbitmq
+      - postgres
+    volumes:
+      - front:/front
+    environment:
+      - DB_URL=postgres

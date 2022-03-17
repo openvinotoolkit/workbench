@@ -1,0 +1,53 @@
+<mat-accordion displayMode="flat" class="pipeline-stages-accordion">
+  <div class="left-indent" *ngIf="isEmpty(stages)">
+    <wb-info-hint message="Stages are not available."></wb-info-hint>
+  </div>
+  <mat-expansion-panel
+    #stageExpansionPanel
+    *ngFor="let stage of stages; trackBy: trackStageByType"
+    hideToggle="true"
+    [attr.data-test-id]="stage.stage"
+  >
+    <mat-expansion-panel-header
+      [collapsedHeight]="stage?.errorMessage || stage?.warningMessage ? '136px' : '36px'"
+      [expandedHeight]="stage?.errorMessage || stage?.warningMessage ? '136px' : '36px'"
+      [class.expanded]="stageExpansionPanel.expanded"
+    >
+      <mat-panel-title [class.has-message]="stage?.errorMessage || stage?.warningMessage">
+        <div class="stage-status">
+          <wb-pipeline-stage-status [status]="stage?.status"></wb-pipeline-stage-status>
+        </div>
+        <mat-divider [vertical]="true"></mat-divider>
+        <div class="stage-name">
+          {{ pipelineStagesNamesMap[stage.stage] }}
+        </div>
+        <div class="wb-body-5 show-details" *ngIf="stage?.logs">
+          <span data-test-id="details">{{ stageExpansionPanel.expanded ? 'Hide details' : 'Details' }} </span>
+        </div>
+        <div *ngIf="stage?.errorMessage" class="trouble-shooting">
+          <wb-stage-troubleshoot
+            [message]="stage?.errorMessage"
+            [messageType]="'error'"
+            [expanded]="stageExpansionPanel.expanded"
+          >
+          </wb-stage-troubleshoot>
+        </div>
+        <div class="trouble-shooting" *ngIf="stage?.warningMessage">
+          <wb-stage-troubleshoot
+            [message]="stage?.warningMessage"
+            [messageType]="'warning'"
+            [expanded]="stageExpansionPanel.expanded"
+          >
+          </wb-stage-troubleshoot>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-template matExpansionPanelContent>
+      <wb-pipeline-stage-details
+        class="stage-details"
+        *ngIf="stageExpansionPanel.expanded"
+        [stage]="stage"
+      ></wb-pipeline-stage-details>
+    </ng-template>
+  </mat-expansion-panel>
+</mat-accordion>

@@ -1,0 +1,26 @@
+<div class="images-preview">
+  <div class="subheader">
+    <mat-icon svgIcon="upload"></mat-icon>
+    <div class="wb-label">Drag & drop images here</div>
+  </div>
+  <cdk-virtual-scroll-viewport [itemSize]="imageSize" class="image-container">
+    <div *cdkVirtualFor="let images of dataSource.data; templateCacheSize: 100; trackBy: trackBy" class="image-row">
+      <ng-container *ngFor="let image of images">
+        <div
+          class="image-card image-card-uploaded"
+          *ngIf="image.id !== null; else addImageTemplate"
+          [attr.data-test-id]="image.name"
+        >
+          <mat-icon svgIcon="close_circle" (click)="removeImage(image)"></mat-icon>
+          <img *ngIf="image.src" [src]="image.src | safeResourceUrl" [alt]="image.name" />
+        </div>
+      </ng-container>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</div>
+
+<ng-template #addImageTemplate>
+  <div class="image-card image-card-placeholder" (click)="addImageEvent.emit()">
+    <mat-icon svgIcon="add"></mat-icon>
+  </div>
+</ng-template>

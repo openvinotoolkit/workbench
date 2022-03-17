@@ -1,0 +1,20 @@
+@import 'colors';
+
+:host {
+  a {
+    transition: 0.2s color;
+  }
+
+  a,
+  a:visited {
+    color: $plum;
+  }
+
+  a:hover {
+    color: $plum-light;
+  }
+
+  a:active {
+    color: $plum-dark;
+  }
+}

@@ -1,0 +1,33 @@
+name: "Check Pull Request Name"
+
+on: [pull_request, push]
+
+jobs:
+
+  pr-name-check:
+    name: Check Pull Request Name
+    runs-on: ubuntu-20.04
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Compare PR Name to the Template
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const prNameRegExp = /^(?:\[\d+\]\s)+\w+.*/;
+            const skipLabel = '[skip-name]';
+            const prName = context.payload.pull_request.title;
+            console.log(`Pull Request Name is ${prName}`);
+
+            if (prName.includes(skipLabel)) {
+              console.log('Skipping PR name checks');
+              return;
+            }
+
+            if (!prNameRegExp.test(prName)) {
+              console.log('Template: [issue_number] ([another_issue_number] ...) Short description');
+              core.setFailed('Your Pull Request title does not confirm to the template');
+              return;
+            }
+
+            console.log('Your Pull Request name confirm to the provided template');

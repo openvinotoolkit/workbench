@@ -1,0 +1,164 @@
+<div class="netron-graph-container">
+  <div class="netron-graph-content">
+    <ng-container
+      *ngTemplateOutlet="graphHeader; context: graphTypeTemplateContextMap[ModelGraphType.RUNTIME]"
+    ></ng-container>
+    <div class="netron-graph">
+      <wb-master-detail #runtimeGraphMasterDetail mode="over" [width]="masterDetailWidth">
+        <ng-container ngProjectAs="masterContent">
+          <wb-netron-graph
+            [graphType]="ModelGraphType.RUNTIME"
+            [graphContent]="runtimeGraph.xmlContent"
+            [isLoading]="runtimeGraph.isLoading"
+            [coloringOption]="selectedColoringOption[ModelGraphType.RUNTIME]"
+            [selectedNodesIds]="getSelectedNodesIdsInGraph(ModelGraphType.RUNTIME)"
+            (changeSelectedNode)="handleChangeSelectedNodeIds(ModelGraphType.RUNTIME, $event)"
+            (openLayerDetailsPanel)="
+              setOpenedNodeIdInGraph(ModelGraphType.RUNTIME, $event);
+              getMasterDetailComponent(ModelGraphType.RUNTIME).detailsSidenav.open()
+            "
+          ></wb-netron-graph>
+        </ng-container>
+        <div ngProjectAs="detailsContent">
+          <ng-container
+            *ngTemplateOutlet="layerPropertiesTemplate; context: graphTypeTemplateContextMap[ModelGraphType.RUNTIME]"
+          >
+          </ng-container>
+        </div>
+      </wb-master-detail>
+    </div>
+  </div>
+  <div class="netron-graph-content" *ngIf="isOriginalGraphExpanded">
+    <ng-container
+      *ngTemplateOutlet="graphHeader; context: graphTypeTemplateContextMap[ModelGraphType.ORIGINAL]"
+    ></ng-container>
+    <div class="netron-graph">
+      <wb-master-detail #originalGraphMasterDetail mode="over" [width]="masterDetailWidth">
+        <ng-container ngProjectAs="masterContent">
+          <wb-netron-graph
+            [graphType]="ModelGraphType.ORIGINAL"
+            [graphContent]="originalGraph.xmlContent"
+            [isLoading]="originalGraph.isLoading"
+            [coloringOption]="selectedColoringOption[ModelGraphType.ORIGINAL]"
+            [disabled]="disabledOriginalGraph"
+            [selectedNodesIds]="getSelectedNodesIdsInGraph(ModelGraphType.ORIGINAL)"
+            (changeSelectedNode)="handleChangeSelectedNodeIds(ModelGraphType.ORIGINAL, $event)"
+            (openLayerDetailsPanel)="
+              setOpenedNodeIdInGraph(ModelGraphType.ORIGINAL, $event);
+              getMasterDetailComponent(ModelGraphType.ORIGINAL).detailsSidenav.open()
+            "
+          ></wb-netron-graph>
+        </ng-container>
+        <div ngProjectAs="detailsContent">
+          <ng-container
+            *ngTemplateOutlet="layerPropertiesTemplate; context: graphTypeTemplateContextMap[ModelGraphType.ORIGINAL]"
+          >
+          </ng-container>
+        </div>
+      </wb-master-detail>
+    </div>
+  </div>
+</div>
+
+<ng-template #graphHeader let-graphType>
+  <div class="graph-header">
+    <div class="graph-header-toolbar">
+      <ng-container
+        *ngTemplateOutlet="titleToolbarBlock; context: graphTypeTemplateContextMap[graphType]"
+      ></ng-container>
+      <ng-container
+        *ngTemplateOutlet="functionalToolbarBlock; context: graphTypeTemplateContextMap[graphType]"
+      ></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #titleToolbarBlock let-graphType>
+  <div class="graph-header-toolbar-block">
+    <ng-container *ngTemplateOutlet="graphButtons; context: graphTypeTemplateContextMap[graphType]"></ng-container>
+    <ng-container *ngIf="!isOriginalModelGraph(graphType); else closeButton">
+      <wb-button
+        type="secondary"
+        text="Visualize Original IR"
+        testId="visualize-ir-button"
+        [disabled]="isOriginalGraphExpanded"
+        (handleClick)="toggleOriginalGraphExpanded()"
+      ></wb-button>
+      <ng-container *ngIf="!isOriginalGraphExpanded">
+        <ng-container *ngTemplateOutlet="searchButton; context: graphTypeTemplateContextMap[graphType]"></ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #functionalToolbarBlock let-graphType>
+  <div class="graph-header-toolbar-block" [class.graph-header-toolbar-block-padding]="isOriginalGraphExpanded">
+    <mat-form-field floatLabel="always" [attr.data-test-id]="graphType + '-coloring-field'">
+      <mat-label>Coloring</mat-label>
+      <mat-select
+        #coloringField
+        [(value)]="selectedColoringOption[graphType]"
+        (selectionChange)="reportColoringGA($event)"
+      >
+        <mat-option *ngFor="let select of getGraphColoringOptions(graphType)" [value]="select.value">
+          {{ select.text }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <ng-container *ngIf="isOriginalGraphExpanded">
+      <ng-container *ngTemplateOutlet="searchButton; context: graphTypeTemplateContextMap[graphType]"></ng-container>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #graphButtons let-graphType>
+  <div class="graph-header-toolbar-buttons">
+    <div class="graph-header-toolbar-title">
+      {{ isOriginalModelGraph(graphType) ? originalGraphTitle : runtimeGraphTitle }}
+    </div>
+    <div
+      class="graph-header-toolbar-download"
+      [matMenuTriggerFor]="menu"
+      [attr.data-test-id]="graphType + '-download-field'"
+    >
+      <mat-icon svgIcon="download" class="custom-svg-icon"></mat-icon>
+    </div>
+    <mat-menu #menu="matMenu">
+      <div *ngFor="let format of GraphFormatsToDownload" mat-menu-item (click)="exportGraphImage(graphType, format)">
+        Download Graph as .{{ format }}
+      </div>
+    </mat-menu>
+    <div class="graph-header-toolbar-zoom" (click)="zoomIn(graphType)">
+      <mat-icon svgIcon="zoom_in" class="custom-svg-icon"></mat-icon>
+    </div>
+    <div class="graph-header-toolbar-zoom" (click)="zoomOut(graphType)">
+      <mat-icon svgIcon="zoom_out" class="custom-svg-icon"></mat-icon>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #searchButton let-graphType>
+  <div class="graph-header-toolbar-search-layer">
+    <wb-select-autocomplete
+      placeholder="Search Layer"
+      [testId]="graphType + '-search-layer'"
+      [control]="getSearchLayerFormControl(graphType)"
+      [options]="getGraphLayersNamesToSearch(graphType)"
+      appearance="legacy"
+      (changeSelectedLayerName)="changeLayerNameToSearch(graphType, $event)"
+    ></wb-select-autocomplete>
+  </div>
+</ng-template>
+
+<ng-template #closeButton>
+  <mat-icon
+    class="close-icon"
+    svgIcon="close"
+    (click)="toggleOriginalGraphExpanded()"
+    data-test-id="close-graph-button"
+  ></mat-icon>
+</ng-template>
+
+<ng-template #layerPropertiesTemplate let-graphType>
+  <wb-layer-properties [modelName]="modelName" [layer]="getOpenedLayerInGraph(graphType)"></wb-layer-properties>
+</ng-template>

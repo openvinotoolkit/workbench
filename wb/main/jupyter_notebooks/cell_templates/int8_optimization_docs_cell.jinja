@@ -1,0 +1,57 @@
+## Optimize Model with INT8 Calibration {% if is_optimized_project %}(Optional){% endif %} <a name="optimize-model-with-int8-calibration"></a>
+
+{% if is_optimized_project %}
+> **NOTE**: This step is optional. If you do not want to learn more detailed information about the model optimization process, proceed to the [next step](#evaluate-model-performance).
+{% endif %}
+
+### Motivation
+
+One of the recommended ways to accelerate your model performance is to perform 8-bit integer (INT8) calibration.
+A model in INT8 precision takes up less memory and has higher throughput capacity.
+Often this performance boost is achieved at the cost of a small accuracy reduction.
+
+In OpenVINO toolkit INT8 calibration is performed by Post-Training Optimization Tool (POT).
+
+### OpenVINO Tool: Post-Training Optimization Tool (POT)
+
+#### Main usage
+
+Post-training Optimization Tool is designed to accelerate model inference by applying quantization techniques without
+changing the model structure.
+
+#### Description
+
+POT is used to calibrate a model and then execute it in the INT8 precision.
+Calibration is the process of lowering the precision of a model from floating-point precision
+(for example, FP32 or FP16) to integer precision (INT8). Calibration significantly increases the performance of models on hardware that supports inference in INT8 precision.
+
+To calibrate a model, you need:
+
+- A full precision model, FP32 or FP16, converted into the OpenVINO Intermediate Representation (IR) format
+- A dataset representing a use case scenario
+
+Currently, POT offers two methods for INT8 calibration. Default method optimizes your model to achieve best performance.
+You cannot increase the ratio of layers executed in the 8-bit integer precision after calibration with the Default method.
+AccuracyAware method allows to control accuracy drop by reducing the ratio of 8-bit integer layers, which leads to a slight performance loss.
+
+Refer to the [documentation](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Int_8_Quantization.html) for more details.
+
+#### Used Command-Line Arguments
+
+{{ CLIToolEnum.pot.format_to_markdown_table() | safe }}
+
+Refer to the [documentation](https://docs.openvino.ai/latest/pot_compression_cli_README.html#command-line-arguments) for the full list of available command-line arguments.
+
+> **NOTE**: In this tutorial path to configuration file for POT (`-c` argument) is set according to your last INT8 calibration for this model in the DL Workbench.
+
+#### INT8 Calibration Configuration
+
+Post-Training Optimization Tool (POT) requires configuration file as an argument.
+Open [INT8 calibration configuration file]({{ int8_optimization_config_path }}) to view its content.
+Refer to the [documentation](https://docs.openvino.ai/latest/pot_configs_README.html) for more details about configuration file.
+
+INT8 calibration configuration file is filled automatically each time you perform INT8 calibration in the DL Workbench.
+
+Let's check that your INT8 calibration configuration file is not empty and has valid format.
+If it is empty, return to the DL Workbench and run INT8 calibration or fill up this file manually.
+

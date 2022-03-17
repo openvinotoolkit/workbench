@@ -1,0 +1,18 @@
+@import 'fonts';
+@import 'colors';
+
+:host {
+  display: flex;
+  align-items: center;
+
+  .status-text-icon {
+    display: flex;
+    align-items: center;
+    color: inherit;
+  }
+
+  .status-text-label {
+    margin-left: 10px;
+    color: inherit;
+  }
+}

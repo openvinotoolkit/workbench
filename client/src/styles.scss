@@ -1,0 +1,238 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'variables';
+@import 'fonts';
+@import 'layout';
+@import 'styles/global/tabs';
+@import 'styles/global/grid';
+@import 'styles/global/table';
+@import 'styles/global/ribbon';
+@import 'styles/global/radio-group';
+@import 'styles/global/page-header';
+@import 'styles/global/dialog';
+@import 'styles/global/snack-bar';
+@import 'styles/global/menu';
+@import 'styles/global/config-form-field';
+@import 'styles/global/chip';
+@import 'styles/global/key-val';
+
+// Angular Material global styles
+
+@include wb-radio-group();
+@include wb-dialog();
+
+.virtual-autocomplete-container {
+  max-height: fit-content !important;
+  overflow-y: hidden !important;
+}
+
+table .table-header {
+  background-color: $light-blue-grey;
+
+  .mat-header-cell {
+    color: $black;
+  }
+}
+
+.mat-sort-header-arrow {
+  display: none !important;
+}
+
+table .table-row:hover {
+  background-color: $ice-blue;
+}
+
+div.mat-slider-thumb {
+  border-radius: 0;
+  background-color: $plum !important;
+  width: 5%;
+  margin-right: 3px;
+}
+
+div.mat-slider-track-fill {
+  background-color: $plum !important;
+}
+
+div.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+}
+
+h4 {
+  font-weight: $font-weight-default;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+mat-icon.custom-svg-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+mat-icon > svg {
+  pointer-events: none;
+}
+
+// Field styles
+mat-form-field {
+  mat-select {
+    .mat-select-arrow-wrapper {
+      transform: none !important;
+    }
+  }
+
+  .mat-form-field-infix {
+    border-top: 0;
+    padding: 1em 0 0.8em 0 !important;
+  }
+
+  .mat-form-field-prefix {
+    top: 0 !important;
+  }
+}
+
+.mat-select-panel {
+  transform: none !important;
+}
+
+.cdk-virtual-scroll-content-wrapper {
+  position: static !important;
+}
+
+.popup-container {
+  white-space: pre-line;
+
+  &-red {
+    background-color: $deep-red;
+    color: $white;
+  }
+}
+
+.dashboard-page-container {
+  display: flex;
+  flex-direction: column;
+  background-color: $white;
+  border: 1px $light-blue-grey solid;
+  padding: $container-padding;
+  box-sizing: content-box;
+}
+
+.container-section {
+  display: flex;
+  flex-direction: column;
+
+  &-header {
+    color: $white;
+    background-color: $light-blue-grey;
+    margin: 0 -1 * $container-padding 25px -1 * $container-padding;
+    padding: 10px;
+  }
+
+  &-content {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+
+    .content-block {
+      display: flex;
+      flex-direction: column;
+      flex-basis: 50%;
+      margin: 0 $container-padding * 0.5;
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 35px;
+  }
+}
+
+.netron-graph-dialog-container .mat-dialog-container {
+  padding: 0;
+  position: relative;
+  display: inline;
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', Helvetica, Arial, sans-serif;
+  font-weight: $font-weight-default;
+  font-style: $font-style-default;
+
+  & ::-webkit-scrollbar {
+    width: 15px;
+  }
+  & ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    border: 4px solid transparent;
+    background-color: $very-light-pink;
+    background-clip: content-box;
+
+    &:hover {
+      background-color: $cool-grey;
+    }
+  }
+  & ::-webkit-scrollbar-track {
+    border: 1px solid $very-light-pink;
+  }
+}
+
+.back {
+  width: fit-content;
+  padding-left: $container-padding;
+}
+
+.cdk-overlay-container .mat-tooltip {
+  white-space: pre-line;
+  border: 1px solid $black;
+  background-color: $black90;
+  padding: 20px;
+  margin: 2px;
+  border-radius: 10px;
+  max-width: 400px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 5px $black30;
+
+  @include wb-text-8();
+}
+
+mat-tooltip-component {
+  .mat-tooltip.wb-multiline-tooltip {
+    white-space: pre-line;
+    text-align: left;
+    line-height: 25px;
+    padding: 10px;
+  }
+}
+
+.mat-radio-button {
+  .mat-radio-container {
+    margin-left: 2px;
+  }
+
+  .mat-radio-container,
+  .mat-radio-outer-circle,
+  .mat-radio-inner-circle {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.toggle-width-btn {
+  .button .mat-button-wrapper .mat-icon {
+    width: 16px;
+    height: 16px;
+  }
+}

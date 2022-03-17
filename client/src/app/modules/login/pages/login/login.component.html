@@ -1,0 +1,26 @@
+<div class="login">
+  <div class="login-form mat-elevation-z8">
+    <div class="login-form-header">
+      <h1 class="wb-h2">Enter OpenVINO DL Workbench</h1>
+      <wb-info-hint [message]="loginHint"></wb-info-hint>
+    </div>
+    <div class="login-form-content">
+      <wb-config-form-field [field]="tokenField" [group]="loginForm"></wb-config-form-field>
+      <wb-info-hint
+        *ngIf="authErrorMessage$ | async as authErrorMessage"
+        type="warning"
+        [message]="authErrorMessage"
+      ></wb-info-hint>
+    </div>
+    <div class="login-form-actions">
+      <wb-button
+        type="primary"
+        text="Start"
+        testId="login-button"
+        [disabled]="loginForm.invalid"
+        (handleClick)="login(loginToken)"
+      >
+      </wb-button>
+    </div>
+  </div>
+</div>

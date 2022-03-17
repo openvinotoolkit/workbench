@@ -1,0 +1,8 @@
+<wb-status-text
+  [ngClass]="'remote-target-status-' + status"
+  [icon]="statusToIconMap[status]"
+  [text]="statusToTextMap[status]"
+  [attr.data-test-id]="[status]"
+  [matTooltip]="messagesService.getError(errorKey, errorMessage)"
+>
+</wb-status-text>

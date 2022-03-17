@@ -1,0 +1,136 @@
+<div class="per-layer-distribution" id="per-layer-distribution-comparison">
+  <table
+    mat-table
+    class="wb-table per-layer-distribution-table"
+    data-test-id="per-layer-distribution-table"
+    matSort
+    [matSortActive]="sortedColumn.active"
+    [matSortDirection]="sortedColumn.direction"
+    [dataSource]="dataSource"
+    (matSortChange)="sortedColumn = $event"
+  >
+    <ng-container matColumnDef="projectNum">
+      <th class="position" mat-header-cell *matHeaderCellDef>#</th>
+      <td mat-cell *matCellDef>
+        <div class="layers-compare-row">
+          <span class="position"></span>
+          <span class="position"></span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="layerType">
+      <th mat-header-cell *matHeaderCellDef>Layer Type</th>
+      <td mat-cell *matCellDef="let element" data-test-id="layerType">
+        <div class="layers-compare-row">
+          <wb-text-overflow [content]="element.layerType"></wb-text-overflow>
+          <span>&nbsp;</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="total">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Execution Time, %
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: 'total' }"></ng-container>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="layers-compare-row">
+          <span>{{ element.total.toFixed(2) }}</span>
+          <span>{{ element.totalB.toFixed(2) }}</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container [matColumnDef]="modelPrecisions.FP32">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <wb-help-tooltip [tooltipMessage]="precisionColumnTips.FP32"></wb-help-tooltip>
+        {{ modelPrecisions.FP32 }}
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: modelPrecisions.FP32 }"></ng-container>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="layers-compare-row">
+          <span>{{
+            element.runtimePrecisions ? element.runtimePrecisions[modelPrecisions.FP32] || 0 : notAvailableLabel
+          }}</span>
+          <span>{{
+            element.runtimePrecisionsB ? element.runtimePrecisionsB[modelPrecisions.FP32] || 0 : notAvailableLabel
+          }}</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container [matColumnDef]="modelPrecisions.FP16">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <wb-help-tooltip [tooltipMessage]="precisionColumnTips.FP16"></wb-help-tooltip>
+        {{ modelPrecisions.FP16 }}
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: modelPrecisions.FP16 }"></ng-container>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="layers-compare-row">
+          <span>{{
+            element.runtimePrecisions ? element.runtimePrecisions[modelPrecisions.FP16] || 0 : notAvailableLabel
+          }}</span>
+          <span>{{
+            element.runtimePrecisionsB ? element.runtimePrecisionsB[modelPrecisions.FP16] || 0 : notAvailableLabel
+          }}</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container [matColumnDef]="modelPrecisions.I8">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <wb-help-tooltip [tooltipMessage]="precisionColumnTips.INT8"></wb-help-tooltip>
+        {{ modelPrecisions.I8 + '/' + modelPrecisions.U8 }}
+        <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: modelPrecisions.I8 }"></ng-container>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="layers-compare-row">
+          <span>{{
+            element.runtimePrecisions ? element.runtimePrecisions[modelPrecisions.I8] || 0 : notAvailableLabel
+          }}</span>
+          <span>{{
+            element.runtimePrecisionsB ? element.runtimePrecisionsB[modelPrecisions.I8] || 0 : notAvailableLabel
+          }}</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="bar">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element" class="ratio-bars">
+        <div class="layers-compare-row" *ngIf="element.isDisplayed">
+          <wb-ratio-bar
+            [normalizeTo]="maxScore"
+            [percent]="element.total"
+            [baseHue]="getColorForLayer(element.layerType, colorScheme.A)"
+          ></wb-ratio-bar>
+          <wb-ratio-bar
+            [normalizeTo]="maxScore"
+            [percent]="element.totalB"
+            [baseHue]="getColorForLayer(element.layerType, colorScheme.B)"
+          ></wb-ratio-bar>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="isDisplayed">
+      <th mat-header-cell *matHeaderCellDef class="display-cell">Include to Distribution Chart</th>
+      <td mat-cell *matCellDef="let element" class="display-cell">
+        <div>
+          <mat-checkbox [checked]="element.isDisplayed" (change)="element.isDisplayed = $event.checked"></mat-checkbox>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" data-test-id="layer-info-row"></tr>
+  </table>
+</div>
+
+<ng-template #sortIcon let-columnName="columnName">
+  <ng-container *ngIf="dataSource.data?.length">
+    <wb-table-sort-icon [columnName]="columnName" [sortedColumn]="sortedColumn"></wb-table-sort-icon>
+  </ng-container>
+</ng-template>

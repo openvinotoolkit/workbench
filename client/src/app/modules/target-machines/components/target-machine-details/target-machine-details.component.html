@@ -1,0 +1,38 @@
+<div class="model-details" *ngIf="machine" data-test-id="machine-details">
+  <ng-container [ngTemplateOutlet]="header"></ng-container>
+
+  <div class="content">
+    <div class="content-title">Proxy Settings</div>
+
+    <div class="group">
+      <div class="group-data" data-test-id="proxy-settings">
+        <wb-parameter-details *ngFor="let param of proxyParameters" [parameter]="param"></wb-parameter-details>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="content-title">Machine Information</div>
+    <div class="group">
+      <div class="group-data" data-test-id="machine-information">
+        <wb-parameter-details
+          *ngFor="let param of machineInformationParameters"
+          [parameter]="param"
+        ></wb-parameter-details>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #header>
+  <div class="header">
+    <div class="sub-title">Remote Target Machine</div>
+    <div class="title">{{ machine?.name }}</div>
+
+    <div class="machine-details">
+      <div class="machine-full-name">
+        {{ getFullTargetMachineName(machine) }}
+      </div>
+      <div>Creation Time: {{ machine.lastConnected ? (machine.lastConnected | date: 'dd/MM/yy, hh:mm') : 'N/A' }}</div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,23 @@
+@import 'colors';
+
+$columns-padding-left: 10px;
+$sort-icon-size: 16px;
+
+.sort-icon {
+  color: $brownish-grey;
+  margin-left: $columns-padding-left;
+  height: $sort-icon-size;
+  width: $sort-icon-size;
+  font-size: $sort-icon-size;
+  display: flex;
+  align-self: baseline;
+  visibility: hidden;
+
+  &.active {
+    visibility: visible;
+  }
+
+  &.asc {
+    transform: scale(1, -1);
+  }
+}

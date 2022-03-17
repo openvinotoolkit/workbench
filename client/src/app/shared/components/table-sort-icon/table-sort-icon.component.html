@@ -1,0 +1,6 @@
+<mat-icon
+  class="sort-icon"
+  [class.active]="sortedColumn?.active === columnName && !!sortedColumn?.direction"
+  [class.asc]="sortedColumn?.direction === 'asc'"
+  svgIcon="sort"
+></mat-icon>

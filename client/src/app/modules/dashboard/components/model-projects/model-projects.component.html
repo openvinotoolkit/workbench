@@ -1,0 +1,69 @@
+<wb-master-detail
+  #wbMasterDetail
+  width="450px"
+  mode="over"
+  hasBackdrop="false"
+  (closeDetails)="onProjectDetailsReset()"
+>
+  <ng-container ngProjectAs="masterContent" [ngTemplateOutlet]="projects"></ng-container>
+  <wb-model-details
+    ngProjectAs="detailsContent"
+    [target]="selectedTargetMachine$ | async"
+    [model]="selectedProjectModel$ | async"
+    [project]="selectedProject$ | async"
+    *ngIf="selectedProject$ | async"
+  ></wb-model-details>
+</wb-master-detail>
+
+<ng-template #projects>
+  <wb-panel>
+    <div wb-heading>
+      <h2 class="panel-header wb-h4">Model Projects</h2>
+      <wb-button
+        class="btn enlarged-control"
+        testId="new-project"
+        type="secondary"
+        text="Create Project"
+        (handleClick)="createProject()"
+      ></wb-button>
+      <wb-button
+        *ngIf="selectedProject$ | async as project"
+        class="btn enlarged-control"
+        data-test-id="compare-btn"
+        type="secondary"
+        text="Compare Projects"
+        [disabled]="
+          (project.status.name !== projectStatusNames.READY && project.status.name !== projectStatusNames.ARCHIVED) ||
+          !project.execInfo?.throughput
+        "
+        (handleClick)="goToCompare(project)"
+      ></wb-button>
+    </div>
+    <div wb-content>
+      <wb-info-hint
+        class="hint"
+        *ngIf="(selectedProject$ | async)?.status.name === projectStatusNames.ARCHIVED"
+        [message]="archivedTipMessage"
+      ></wb-info-hint>
+      <wb-projects-by-model-table
+        *ngIf="!(projectItemsIsLoading$ | async); else progressSpinner"
+        [devices]="devicesNamesMap$ | async"
+        [projectItems]="projectItems$ | async"
+        [selectedProjectId]="(selectedProject$ | async)?.id"
+        [targetMachines]="targetMachineEntities$ | async"
+        [runningProfilingPipeLinePerProjectMap]="runningProfilingPipeLinePerProjectMap$ | async"
+        [runningInt8CalibrationPipeLinePerProjectMap]="runningInt8CalibrationPipeLinePerProjectMap$ | async"
+        [domain]="(model$ | async)?.domain"
+        (cancelProfiling)="handleCancelInference($event)"
+        (openProject)="handleOpenProject($event)"
+        (goToCompare)="goToCompare($event)"
+        (deleteProjectItem)="handleDeleteProjectItem($event)"
+        (selectedDetails)="onProjectDetailsSelected($event)"
+      ></wb-projects-by-model-table>
+    </div>
+  </wb-panel>
+</ng-template>
+
+<ng-template #progressSpinner>
+  <wb-spinner></wb-spinner>
+</ng-template>

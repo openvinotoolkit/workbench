@@ -1,0 +1,33 @@
+<mat-expansion-panel
+  data-test-id="tip-panel"
+  class="checklist-item mat-elevation-z0"
+  #checklistItemPanel
+  hideToggle="true"
+  [disabled]="!checklistItemDetails.innerHTML.trim()"
+  [expanded]="(helpChecklistService.expandedItemName$ | async) === name"
+  (opened)="helpChecklistService.expandItem(name)"
+  (closed)="helpChecklistService.collapseItem(name)"
+>
+  <mat-expansion-panel-header expandedHeight="48px" collapsedHeight="48px">
+    <mat-panel-title>
+      <mat-icon
+        data-test-id="tip-status"
+        class="custom-svg-icon checklist-item-status-icon"
+        [class.checklist-item-status-icon-checked]="checked"
+        [svgIcon]="!!checked ? 'check' : 'warning'"
+      ></mat-icon>
+      <span class="checklist-item-label wb-body-2">
+        {{ label }}&nbsp;
+        <span class="checklist-item-label-selection wb-text-8" [class.not-defined]="!checked">defined</span>
+      </span>
+      <mat-icon
+        [svgIcon]="checklistItemPanel.expanded ? 'arrow_up' : 'arrow_down'"
+        class="custom-svg-icon checklist-item-toggle-icon"
+        [class.hidden]="!checklistItemDetails.innerHTML.trim()"
+      ></mat-icon>
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="checklist-item-details wb-text-8" #checklistItemDetails>
+    <ng-content select="checklist-item-details"></ng-content>
+  </div>
+</mat-expansion-panel>

@@ -1,0 +1,29 @@
+<div class="banner-content" [class.disabled]="disabled">
+  <span class="banner-header">{{
+    haveObtainedImprovements ? labels.obtainedImprovementHeader : labels.expectedImprovementHeader
+  }}</span>
+  <div class="improvements">
+    <ng-container
+      [ngTemplateOutlet]="improvementTemplate"
+      [ngTemplateOutletContext]="{
+        label: labels.modelSizeImprovement,
+        value: formattedModelSizeImprovement
+      }"
+    ></ng-container>
+    <ng-container
+      [ngTemplateOutlet]="improvementTemplate"
+      [ngTemplateOutletContext]="{
+        label: labels.performanceImprovement,
+        value: formattedPerformanceImprovement
+      }"
+    ></ng-container>
+  </div>
+</div>
+
+<ng-template #improvementTemplate let-label="label" let-value="value">
+  <div class="improvement">
+    <span class="up-to-label" *ngIf="!haveObtainedImprovements">{{ labels.upTo }}</span>
+    <span class="value">{{ value }}</span>
+    <span class="description-label">{{ label }}</span>
+  </div>
+</ng-template>

@@ -1,0 +1,63 @@
+@import 'colors';
+@import 'fonts';
+
+.wb-panel__header {
+  margin-bottom: 0;
+}
+
+.wb-panel__footer {
+  margin-top: 0;
+}
+
+.panel-content {
+  margin-left: -20px;
+  margin-right: -20px;
+
+  & > [class^='wb-col-'] {
+    padding: 30px 20px 20px;
+
+    &:not(:first-child) {
+      border-left: 1px solid $very-light-pink;
+    }
+  }
+}
+
+.int8-calibration-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  .description {
+    color: $brownish-grey;
+    @include wb-text-8();
+  }
+
+  wb-optimization-banner {
+    margin-top: 20px;
+    display: flex;
+    flex-grow: 1;
+  }
+}
+
+.int8-calibration-diagram {
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+
+  & > img {
+    width: 100%;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+
+  .warning-hint {
+    margin-top: 15px;
+
+    ::ng-deep wb-markdown-text {
+      max-width: none;
+    }
+  }
+}

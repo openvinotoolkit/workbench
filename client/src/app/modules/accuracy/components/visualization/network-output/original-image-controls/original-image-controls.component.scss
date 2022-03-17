@@ -1,0 +1,21 @@
+@import 'colors';
+@import 'variables';
+@import 'fonts';
+
+.controls {
+  display: flex;
+  align-items: center;
+  height: 80px;
+
+  wb-config-form-field {
+    margin-right: auto;
+  }
+
+  > wb-button + wb-button {
+    margin-left: 20px;
+  }
+}
+
+wb-config-form-field ::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0;
+}

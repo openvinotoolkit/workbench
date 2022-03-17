@@ -1,0 +1,40 @@
+@import 'fonts';
+@import 'variables';
+
+.container {
+  display: flex;
+
+  .control {
+    display: flex;
+
+    & + .control {
+      margin-left: 20px;
+    }
+
+    .remove {
+      margin-top: 12px;
+      margin-left: 15px;
+
+      ::ng-deep {
+        mat-icon {
+          margin: 0;
+        }
+
+        button {
+          min-width: 20px;
+        }
+      }
+    }
+  }
+
+  .add {
+    margin-top: 12px;
+    margin-left: 25px;
+  }
+
+  .prefix {
+    @include wb-subtitle-1();
+    margin-top: 15px;
+    margin-right: 20px;
+  }
+}

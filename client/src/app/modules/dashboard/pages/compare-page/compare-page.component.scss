@@ -1,0 +1,85 @@
+@import 'variables';
+@import 'fonts';
+
+.compare-page {
+  padding: 0 $container-padding 25px $container-padding;
+
+  .device-row {
+    margin-top: 53px;
+  }
+}
+
+.row {
+  display: flex;
+  margin-left: -$container-padding;
+  margin-right: -$container-padding;
+}
+
+.half {
+  flex-grow: 1;
+  width: 100%;
+  max-width: 50%;
+
+  box-sizing: border-box;
+  padding: 0 $container-padding;
+}
+
+.full {
+  padding: 0 $container-padding;
+}
+
+.btn-with-tooltip {
+  display: flex;
+  align-items: center;
+}
+
+.tooltip {
+  margin-left: 12px;
+}
+
+.tabs-container {
+  margin-top: 65px;
+}
+
+.tab-group {
+  margin-left: -$container-padding;
+  margin-right: -$container-padding;
+
+  ::ng-deep .mat-tab-label-content {
+    @include wb-label();
+  }
+
+  ::ng-deep .mat-tab-body-content {
+    border-bottom: none;
+  }
+}
+
+wb-layers-compare-table {
+  display: block;
+}
+
+.label-item {
+  display: flex;
+  align-items: center;
+  flex-basis: 50%;
+
+  span {
+    margin-left: 10px;
+    @include wb-label();
+  }
+}
+
+.label-item:first-child {
+  margin-left: 60px;
+}
+
+.bar-chart-container {
+  wb-switch-button {
+    margin-bottom: 20px;
+  }
+}
+
+.bar-hint {
+  display: block;
+  margin-bottom: 20px;
+}

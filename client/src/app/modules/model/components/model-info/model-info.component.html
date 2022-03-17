@@ -1,0 +1,20 @@
+<ng-container *ngIf="model">
+  <div class="property">
+    <div class="key">Domain:</div>
+    <div class="value">
+      {{ modelDomainNames[model.domain] }}
+    </div>
+  </div>
+  <div class="property">
+    <div class="key">Usage:</div>
+    <div class="value">
+      {{ taskTypeToNameMap[model.accuracyConfiguration?.taskType] }}
+    </div>
+  </div>
+  <div class="property">
+    <div class="key">Date:</div>
+    <div class="value">
+      {{ model.date | date: 'dd/MM/yy, hh:mm' }}
+    </div>
+  </div>
+</ng-container>

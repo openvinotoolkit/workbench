@@ -1,0 +1,96 @@
+@import 'colors';
+@import 'fonts';
+
+.model-header {
+  padding: 20px 30px;
+  border-bottom: solid $light-blue-grey 1px;
+
+  .sub-title {
+    color: $brownish-grey;
+  }
+
+  .top-title {
+    padding-top: 5px;
+    @include wb-h3();
+    overflow-wrap: break-word;
+  }
+
+  .project-details {
+    padding-top: 20px;
+    color: $brownish-grey;
+
+    wb-project-full-name {
+      display: block;
+      padding-bottom: 5px;
+    }
+  }
+}
+
+.content {
+  padding: 30px;
+
+  .content-title {
+    @include wb-h2();
+    margin: 0 0 20px;
+  }
+}
+
+.header {
+  @include wb-h2();
+  padding: 0;
+  margin: 0 0 25px;
+  border: none;
+}
+
+.column-content {
+  display: block;
+}
+
+.model-params-content {
+  display: flex;
+
+  > div + div {
+    margin-left: 140px;
+  }
+}
+
+.subheader,
+.title {
+  margin: 0 0 22px;
+}
+
+.subheader {
+  @include wb-subtitle-1();
+}
+
+.title {
+  @include wb-label();
+  color: $brownish-grey;
+}
+
+.attr {
+  display: block;
+}
+
+.attr + .attr {
+  margin-top: 10px;
+}
+
+.group-data + .group-data {
+  margin-top: 10px;
+}
+
+.group {
+  padding: 0;
+  margin-bottom: 40px;
+}
+
+.as-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .content {
+    overflow: auto;
+  }
+}

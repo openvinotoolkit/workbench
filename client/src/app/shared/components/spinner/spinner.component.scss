@@ -1,0 +1,26 @@
+@import 'colors';
+
+:host {
+  display: flex;
+  justify-content: center;
+  position: relative;
+
+  .spinner-background {
+    border-color: $blue-blue;
+    border-radius: 50%;
+    border-style: solid;
+    box-sizing: border-box;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0.12;
+  }
+
+  .mat-spinner {
+    overflow: visible;
+  }
+
+  ::ng-deep .mat-spinner circle {
+    stroke: $blue-blue;
+  }
+}

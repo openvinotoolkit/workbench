@@ -1,0 +1,51 @@
+// besides the importing this file into component.scss there are also utilities classes for main palettes colors
+// defined at _theme-utils.scss globally.
+// note that palette for $plum is not implemented yet
+$white: #ffffff;
+$black: #383838;
+
+$brownish-grey: #757575;
+$light-blue-grey: #d1d8da;
+$cloudy-blue: #bec6c8;
+$very-light-pink: #e3e3e3;
+$blue-blue: #1738c6; // accent palette
+$plum: #6d0f3f; // primary palette
+$plum-dark: #440726;
+$plum-light: #a36f8a;
+
+$deep-red: #a70505; // warn palette
+$deep-red-dark: #6c0f0f;
+$deep-red-light: #f6e5e5;
+
+$ice-blue: #e5f0fb;
+$cool-grey: #acafaf;
+$green: #0a5818;
+$light-green: #dae6dc;
+$faded-bgr: #f8f8f8;
+$green-bgr: #c4d0c7;
+
+$dark-yellow: #808000;
+$light-yellow: #ffffe6;
+$pale-yellow: #f3cf5a;
+$orange: #e69900;
+
+$panel-shadow: rgba($cool-grey, 0.4);
+
+$black90: rgba($black, 0.9);
+$black87: rgba($black, 0.87);
+$black80: rgba($black, 0.8);
+$black70: rgba($black, 0.7);
+$black54: rgba($black, 0.54);
+$black38: rgba($black, 0.38);
+$black30: rgba($black, 0.3);
+$black26: rgba($black, 0.26);
+$black25: rgba($black, 0.25);
+$black15: rgba($black, 0.15);
+$black04: rgba($black, 0.04);
+
+$white15: rgba($white, 0.15);
+$white50: rgba($white, 0.5);
+$white80: rgba($white, 0.8);
+
+$plum-light50: rgba($plum-light, 0.5);
+$deep-red-dark25: rgba($deep-red-dark, 0.25);

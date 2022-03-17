@@ -1,0 +1,125 @@
+<component name="RunManager" selected="Python.Celery">
+    <configuration name="Celery" type="PythonConfigurationType" factoryName="Python">
+      <module name="workbench" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="PYTHONPATH" value="$USER_HOME$/intel/openvino/python/python3.6:$USER_HOME$/intel/openvino/python/python3:$USER_HOME$/intel/openvino/tools/model_optimizer:$USER_HOME$/intel/openvino/extras/opencv/python/:$USER_HOME$/intel/openvino/python/python3.6:$USER_HOME$/openvino/python/python3:$PROJECT_DIR$/model_analyzer" />
+        <env name="LD_LIBRARY_PATH" value="$USER_HOME$/intel/openvino/extras/opencv/lib:$USER_HOME$/intel/openvino/tools/compile_tool:$USER_HOME$/intel/openvino/runtime/3rdparty/tbb/lib:$USER_HOME$/intel/openvino/runtime/3rdparty/hddl/lib:$USER_HOME$/intel/openvino/runtime/lib/intel64" />
+        <env name="INTEL_OPENVINO_DIR" value="$USER_HOME$/intel/openvino_2021" />
+        <env name="VENV_TF2_PYTHON" value="$PROJECT_DIR$/.unified_venv/bin/python" />
+        <env name="SERVER_MODE" value="development" />
+        <env name="PUBLIC_PORT" value="4200" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/.venv/bin/celery" />
+      <option name="PARAMETERS" value="-A wb.main.tasks.task worker --loglevel=DEBUG" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="DB upgrade" type="PythonConfigurationType" factoryName="Python">
+      <module name="workbench" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="PYTHONPATH" value="$USER_HOME$/intel/openvino/python/python3.6:$USER_HOME$/intel/openvino/python/python3:$USER_HOME$/intel/openvino/tools/model_optimizer:$USER_HOME$/intel/openvino/extras/opencv/python/:$USER_HOME$/intel/openvino/python/python3.6:$USER_HOME$/openvino/python/python3:$PROJECT_DIR$/model_analyzer" />
+        <env name="LD_LIBRARY_PATH" value="$USER_HOME$/intel/openvino/extras/opencv/lib:$USER_HOME$/intel/openvino/tools/compile_tool:$USER_HOME$/intel/openvino/runtime/3rdparty/tbb/lib:$USER_HOME$/intel/openvino/runtime/3rdparty/hddl/lib:$USER_HOME$/intel/openvino/runtime/lib/intel64" />
+        <env name="INTEL_OPENVINO_DIR" value="$USER_HOME$/intel/openvino_2021" />
+        <env name="VENV_TF2_PYTHON" value="$PROJECT_DIR$/.unified_venv" />
+        <env name="SERVER_MODE" value="development" />
+        <env name="FLASK_APP" value="$PROJECT_DIR$/migrations/migration:APP" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/.venv/bin/flask" />
+      <option name="PARAMETERS" value="db upgrade" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Gunicorn" type="PythonConfigurationType" factoryName="Python">
+      <module name="workbench" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="PYTHONPATH" value="$USER_HOME$/intel/openvino/python/python3.6:$USER_HOME$/intel/openvino/python/python3:$USER_HOME$/intel/openvino/tools/model_optimizer:$USER_HOME$/intel/openvino/extras/opencv/python/:$USER_HOME$/intel/openvino/python/python3.6:$USER_HOME$/openvino/python/python3:$PROJECT_DIR$/model_analyzer" />
+        <env name="LD_LIBRARY_PATH" value="$USER_HOME$/intel/openvino/extras/opencv/lib:$USER_HOME$/intel/openvino/tools/compile_tool:$USER_HOME$/intel/openvino/runtime/3rdparty/tbb/lib:$USER_HOME$/intel/openvino/runtime/3rdparty/hddl/lib:$USER_HOME$/intel/openvino/runtime/lib/intel64" />
+        <env name="INTEL_OPENVINO_DIR" value="$USER_HOME$/intel/openvino_2021" />
+        <env name="VENV_TF2_PYTHON" value="$PROJECT_DIR$/.unified_venv" />
+        <env name="SERVER_MODE" value="development" />
+        <env name="PUBLIC_PORT" value="4200" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/.venv/bin" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/.venv/bin/gunicorn" />
+      <option name="PARAMETERS" value="--worker-class eventlet -w 1 -b 0.0.0.0:5676 workbench:APP --log-level DEBUG --no-sendfile --timeout 500" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Workbench" type="docker-deploy" factoryName="docker-compose.yml" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="envFilePath" value="" />
+          <option name="envVars">
+            <list>
+              <DockerEnvVarImpl>
+                <option name="name" value="LOCAL_ADDR" />
+                <option name="value" value="172.17.0.1" />
+              </DockerEnvVarImpl>
+            </list>
+          </option>
+          <option name="services">
+            <list>
+              <option value="nginx" />
+              <option value="postgres" />
+              <option value="rabbitmq" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker/docker-compose.local.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="Workbench Client" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/client/package.json" />
+      <command value="start" />
+      <arguments value="--scripts-prepend-node-path" />
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Docker.Workbench" />
+      <item itemvalue="npm.Workbench Client" />
+      <item itemvalue="Python.Gunicorn" />
+      <item itemvalue="Python.Celery" />
+      <item itemvalue="Python.DB upgrade" />
+    </list>
+  </component>

@@ -1,0 +1,34 @@
+@import 'fonts';
+@import 'colors';
+
+.progress-container {
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  .progress {
+    @include wb-h2();
+    display: flex;
+    align-items: center;
+
+    .progress-percent {
+      margin-left: 20px;
+    }
+  }
+
+  .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: $brownish-grey;
+
+    wb-button {
+      margin-bottom: 20px;
+    }
+  }
+}

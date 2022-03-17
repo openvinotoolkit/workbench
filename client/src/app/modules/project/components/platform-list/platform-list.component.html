@@ -1,0 +1,83 @@
+<table
+  mat-table
+  [dataSource]="dataSource"
+  class="wb-table wb-table-on-gray"
+  data-test-id="platforms-table"
+  matSort
+  (matSortChange)="sortedColumn = $event"
+  [matSortActive]="sortedColumn.active"
+  [matSortDirection]="sortedColumn.direction"
+>
+  <!--Processor Family Column-->
+  <ng-container [cdkColumnDef]="ColumnNames.PROCESSOR_FAMILY">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="processor-family-column">
+      Processor Family
+      <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: ColumnNames.PROCESSOR_FAMILY }"></ng-container>
+    </th>
+    <td mat-cell *matCellDef="let element" class="processor-family-column">
+      {{ element?.cpuInfo?.processorFamily }}
+    </td>
+  </ng-container>
+
+  <!--Processor Numbers Column-->
+  <ng-container [cdkColumnDef]="ColumnNames.PROCESSOR_NUMBERS">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      Processor Numbers
+      <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: ColumnNames.PROCESSOR_NUMBERS }"></ng-container>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      {{ getProcessorNumberValue(element) }}
+    </td>
+  </ng-container>
+
+  <!--Available Devices Column-->
+  <ng-container [cdkColumnDef]="ColumnNames.AVAILABLE_DEVICES">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      Available Devices
+      <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: ColumnNames.AVAILABLE_DEVICES }"></ng-container>
+    </th>
+    <td mat-cell *matCellDef="let element" data-test-id="devices">
+      {{ getAvailableDevices(element) }}
+    </td>
+  </ng-container>
+
+  <!--Platform Tag Column-->
+  <ng-container [cdkColumnDef]="ColumnNames.PLATFORM_TAG">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="platform-tag-column">
+      Platform Tag
+      <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: ColumnNames.PLATFORM_TAG }"></ng-container>
+    </th>
+    <td mat-cell *matCellDef="let element" class="platform-tag-column" [attr.data-test-id]="element.host">
+      {{ element.name }}
+    </td>
+  </ng-container>
+
+  <!--Configuration Details Column-->
+  <ng-container [cdkColumnDef]="ColumnNames.CONFIGURATION_DETAILS">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="configuration-details-column">
+      Configuration Details
+      <ng-container
+        *ngTemplateOutlet="sortIcon; context: { columnName: ColumnNames.CONFIGURATION_DETAILS }"
+      ></ng-container>
+    </th>
+    <td mat-cell *matCellDef="let element" class="configuration-details-column">
+      {{ getPlatformConfigurationValue(element) }}
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+  <tr
+    mat-row
+    *matRowDef="let row; columns: displayedColumns"
+    [class.selected]="selectedTargetId === row.targetId"
+    [attr.data-test-id]="'row_name_' + row.name.replace(' ', '_')"
+    (click)="selectRow(row)"
+  ></tr>
+</table>
+
+<ng-template #sortIcon let-columnName="columnName">
+  <ng-container *ngIf="dataSource.data?.length">
+    <wb-table-sort-icon [columnName]="columnName" [sortedColumn]="sortedColumn"></wb-table-sort-icon>
+  </ng-container>
+</ng-template>

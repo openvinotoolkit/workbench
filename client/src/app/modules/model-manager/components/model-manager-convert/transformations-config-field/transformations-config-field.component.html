@@ -1,0 +1,36 @@
+<div class="field-container" [formGroup]="group">
+  <input hidden matInput type="text" [formControlName]="field.name" [attr.data-test-id]="testId || field.name" />
+
+  <div class="transformations-config-wrapper">
+    <table mat-table [dataSource]="field.options" class="wb-table wb-table-on-gray configs-table">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Configuration name</th>
+        <td
+          mat-cell
+          *matCellDef="let option"
+          class="transformations-config-row"
+          [attr.data-test-id]="'transformations-config-' + option.name"
+          [textContent]="option.name"
+        ></td>
+      </ng-container>
+
+      <ng-container matColumnDef="link">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let option" class="documentation-col">
+          <a *ngIf="option?.documentation" [href]="option.documentation">Documentation</a>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['name', 'link']; sticky: true"></tr>
+      <tr
+        mat-row
+        *matRowDef="let option; columns: ['name', 'link']"
+        [class.selected]="option.name === group.controls[field.name].value"
+        (click)="updateConfigValue(option.name)"
+      ></tr>
+    </table>
+  </div>
+</div>
+<div *ngIf="group?.get(field.name)?.invalid && group?.get(field.name)?.touched" class="error-message">
+  <wb-info-hint type="warning" [message]="getError()"></wb-info-hint>
+</div>

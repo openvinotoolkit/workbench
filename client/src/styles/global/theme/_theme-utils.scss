@@ -1,0 +1,35 @@
+@use '~@angular/material' as mat;
+@mixin wb-theme-color-utils($theme) {
+  $foreground: map-get($theme, foreground);
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  .wb-primary-color {
+    color: mat.get-color-from-palette($primary);
+  }
+
+  .wb-primary-background-color {
+    background-color: mat.get-color-from-palette($primary);
+  }
+
+  .wb-accent-color {
+    color: mat.get-color-from-palette($accent);
+  }
+
+  .wb-accent-background-color {
+    background-color: mat.get-color-from-palette($accent);
+  }
+
+  .wb-warn-color {
+    color: mat.get-color-from-palette($warn);
+  }
+
+  .wb-warn-background-color {
+    background-color: mat.get-color-from-palette($warn);
+  }
+
+  .wb-disabled-color {
+    color: mat.get-color-from-palette($foreground, hint-text) !important;
+  }
+}

@@ -1,0 +1,41 @@
+## Evaluate Model Accuracy <a name="evaluate-model-accuracy"></a>
+
+### Motivation
+
+Evaluation of your model performance is an integral part of the model development process. Accuracy is one of the evaluation 
+metrics, alongside with performance assessments, used to measure the quality of a model.
+
+In OpenVINO toolkit accuracy evaluation is performed by Deep Learning Accuracy Validation Framework (Accuracy Checker).
+
+### OpenVINO Tool: Deep Learning Accuracy Validation Framework (Accuracy Checker)
+
+#### Main usage
+
+Accuracy Checker is used to evaluate model accuracy on the given dataset by collecting one or several metric values.
+
+#### Description
+
+Accuracy Checker is a Python application for validating model accuracy. It is recommended to use Accuracy Checker as
+a command-line tool. Accuracy Checker has a highly extensible architecture. It is adaptable for models trained 
+to solve numerous tasks. Accuracy is the quality of predictions made by a model. Quality is measured differently for various use cases, 
+so an accuracy metric depends on a particular model task.
+
+#### Used Command-Line Arguments
+
+{{ CLIToolEnum.accuracy_checker.format_to_markdown_table() | safe }}
+
+Refer to the [documentation](https://docs.openvinotoolkit.org/latest/omz_tools_accuracy_checker.html) for the full list of available command-line arguments.
+
+Accuracy Checker behavior is fully defined by the special configuration file. When the tool is started, it uses this configuration file 
+for bootstrapping, processing the data, inferring the model, processing the results and accumulating metrics values.
+
+> **NOTE**: In this tutorial path to configuration file for Accuracy Checker (`-c` argument) is set according to your last accuracy measurement for this model in the DL Workbench.
+
+#### Accuracy Configuration
+
+Accuracy Checker tool requires configuration file as an argument.
+Open [accuracy configuration file]({{ yaml_config_path }}) to view its content. Refer to the [documentation](https://docs.openvinotoolkit.org/latest/omz_tools_accuracy_checker_configs.html) for more details about configuration file.
+
+Accuracy configuration file is filled automatically each time you perform accuracy measurement in the DL Workbench with corresponding parameters.
+
+Let's check that your accuracy configuration file is not empty and has valid format. If it is empty, return to the DL Workbench and perform accuracy measurement or fill up this file manually.

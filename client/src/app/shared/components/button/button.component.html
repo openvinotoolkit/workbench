@@ -1,0 +1,16 @@
+<button
+  mat-button
+  [disabled]="disabled || pending"
+  [ngClass]="classNamesDict"
+  [disableRipple]="true"
+  type="button"
+  (click)="handleClick.emit($event)"
+  [attr.data-test-id]="testId"
+>
+  <mat-spinner *ngIf="pending; else iconTemplate" class="spinner" mode="indeterminate" diameter="20"></mat-spinner>
+  <span class="button-text">{{ text }}</span>
+</button>
+
+<ng-template #iconTemplate>
+  <mat-icon *ngIf="icon" [svgIcon]="icon"></mat-icon>
+</ng-template>

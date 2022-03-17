@@ -1,0 +1,16 @@
+@import 'colors';
+@import 'fonts';
+@import 'variables';
+
+.wb-chip {
+  @include wb-subtitle-strong();
+
+  display: flex;
+  align-items: center;
+  background-color: $very-light-pink;
+  border-radius: 30px;
+  height: 40px;
+  box-sizing: border-box;
+  padding: 0 $container-padding;
+  cursor: default;
+}

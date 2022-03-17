@@ -1,0 +1,45 @@
+<table mat-table [dataSource]="dataSource" class="wb-table wb-table-on-gray" data-test-id="targets-table">
+  <!--Target Name Column-->
+  <ng-container matColumnDef="targetName">
+    <th mat-header-cell *matHeaderCellDef class="name-column">Target Name</th>
+    <td mat-cell *matCellDef="let element" class="name-column" data-test-id="select-row-button">
+      {{ element.name }}
+    </td>
+  </ng-container>
+
+  <!--Available Devices Column-->
+  <ng-container matColumnDef="availableDevices">
+    <th mat-header-cell *matHeaderCellDef>Available Devices</th>
+    <td mat-cell *matCellDef="let element" data-test-id="devices">
+      {{ getAvailableDevices(element) }}
+    </td>
+  </ng-container>
+
+  <!--Status Column-->
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef class="status-column">Status</th>
+    <td mat-cell *matCellDef="let element" class="status-column" [attr.data-test-id]="element.lastConnectionStatus">
+      <wb-target-machine-status [status]="element.lastConnectionStatus"></wb-target-machine-status>
+    </td>
+  </ng-container>
+
+  <!--Action Column-->
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef class="actions-column">Actions</th>
+    <td mat-cell *matCellDef="let element" class="actions-column">
+      <span class="review-target" data-test-id="review-target" (click)="toTargetMachine.emit(element.targetId)"
+        >Review</span
+      >
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+  <tr
+    mat-row
+    *matRowDef="let row; columns: displayedColumns"
+    [class.selected]="selectedTargetId === row.targetId"
+    [attr.data-test-id]="'row_name_' + row.name.replace(' ', '_')"
+    (click)="selectRow(row)"
+  ></tr>
+</table>

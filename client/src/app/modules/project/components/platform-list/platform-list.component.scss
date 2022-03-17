@@ -1,0 +1,24 @@
+@import 'fonts';
+@import 'colors';
+
+:host {
+  .name-column {
+    width: 30%;
+  }
+
+  .actions-column {
+    text-align: right;
+
+    .review-target {
+      color: $plum;
+      @include wb-body-5();
+      cursor: pointer;
+    }
+
+    &-cell {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
+}

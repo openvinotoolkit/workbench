@@ -1,0 +1,182 @@
+@import 'fonts';
+@import 'variables';
+@import 'colors';
+
+$header-padding: 20px;
+$zoom-icon-padding: 15px;
+$zoom-icon-size: 22px;
+$toolbar-height: 100px;
+
+$netron-type-input-output: #9d9d9d;
+$netron-type-layer: #135e76;
+$netron-type-activation: #6e3737;
+$netron-type-pool: #0a5818;
+$netron-type-normalization: #1d8888;
+$netron-type-dropout: #0f236d;
+$netron-type-shape: #335588;
+$netron-type-tensor: #882c42;
+$netron-type-transform: #a54b18;
+$netron-type-data: #8a2975;
+$netron-type-custom: #9e9a75;
+
+:host {
+  position: relative;
+  display: block;
+  height: 100%;
+  width: 100%;
+
+  .graph-window {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 100%;
+    flex-grow: 1;
+    overflow: hidden;
+    background-color: $faded-bgr;
+
+    .progress-block,
+    .error-block {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+      &-content {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    .canvas {
+      width: 100%;
+      height: 100%;
+      cursor: default;
+    }
+
+    .layer-warning-message {
+      padding: $header-padding;
+    }
+  }
+
+  .graph-coloring {
+    position: absolute;
+    width: 100%;
+    box-sizing: border-box;
+    padding: $header-padding;
+    z-index: 1;
+    background-color: $faded-bgr;
+
+    &-header {
+      text-align: left;
+      &-title {
+        @include wb-subtitle-1();
+        padding-bottom: $header-padding;
+      }
+
+      &-content {
+        display: flex;
+        @include wb-body-4();
+
+        wb-heatmap {
+          padding-right: 10px;
+        }
+
+        wb-color-label:not(:only-child) {
+          padding-right: 40px;
+        }
+      }
+    }
+    .layer-warning-message {
+      padding-top: $header-padding;
+    }
+  }
+}
+
+::ng-deep {
+  .node-item {
+    path {
+      fill: $black;
+    }
+    text {
+      @include wb-body-3();
+      fill: $white;
+    }
+    .details {
+      @include wb-body-5();
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    &:hover .details {
+      fill: $plum;
+    }
+  }
+
+  .node-name-coloring .node-item {
+    text {
+      fill: $black;
+    }
+    &:hover path {
+      fill: $white !important;
+    }
+  }
+
+  .graph-item-input,
+  .graph-item-output {
+    path {
+      fill: $netron-type-input-output;
+    }
+    &:hover text {
+      fill: $black;
+    }
+  }
+
+  .node-item-type {
+    &-layer path {
+      fill: $netron-type-layer;
+    }
+    &-activation path {
+      fill: $netron-type-activation;
+    }
+    &-pool path {
+      fill: $green;
+    }
+    &-normalization path {
+      fill: $netron-type-normalization;
+    }
+    &-dropout path {
+      fill: $netron-type-dropout;
+    }
+    &-shape path {
+      fill: $netron-type-shape;
+    }
+    &-tensor path {
+      fill: $netron-type-tensor;
+    }
+    &-transform path {
+      fill: $netron-type-transform;
+    }
+    &-data path {
+      fill: $netron-type-data;
+    }
+    &-custom path {
+      fill: $netron-type-custom;
+    }
+  }
+
+  .node.select .border {
+    stroke: $black70;
+    stroke-width: 1;
+  }
+
+  .selection-rect {
+    fill: none;
+    stroke: $blue-blue;
+    stroke-width: 2;
+    stroke-dasharray: 7, 4;
+    &.primary-select {
+      stroke-dasharray: none;
+    }
+  }
+}

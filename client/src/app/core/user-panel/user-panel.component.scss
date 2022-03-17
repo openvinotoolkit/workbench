@@ -1,0 +1,106 @@
+@import 'fonts';
+@import 'variables';
+
+$user-panel-padding: 20px 20px 20px 40px;
+$user-panel-icon-size: 20px;
+
+.user-panel {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  .user-panel-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: $user-panel-padding;
+    margin: 0;
+
+    .wb-h3 {
+      margin: 0;
+    }
+
+    .logout-button {
+      margin-left: 20px;
+    }
+  }
+
+  .user-panel-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: $user-panel-padding;
+    overflow: auto;
+
+    .version {
+      margin-top: 15px;
+    }
+
+    .version-value {
+      color: $black;
+    }
+
+    .system-info {
+      margin-top: 5px;
+    }
+
+    .cookies-info {
+      margin-top: 40px;
+      line-height: 1.4;
+    }
+
+    .hint {
+      display: block;
+      margin-top: 15px;
+    }
+
+    .ga-toggle {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      justify-self: flex-start;
+      @include wb-body-4();
+
+      mat-radio-button:not(:first-child) {
+        margin-top: 10px;
+      }
+    }
+
+    .text-label {
+      @include wb-label();
+      color: $black;
+      display: flex;
+      align-items: center;
+
+      mat-icon {
+        color: $blue-blue;
+        font-size: $user-panel-icon-size;
+        width: $user-panel-icon-size;
+        height: $user-panel-icon-size;
+
+        margin-left: 2px;
+      }
+
+      &:not(:last-child),
+      & > *:not(:last-child) {
+        margin-right: 8px;
+      }
+    }
+  }
+
+  .subheader {
+    margin: 0;
+  }
+}
+
+.mat-divider {
+  border-color: $very-light-pink;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+}

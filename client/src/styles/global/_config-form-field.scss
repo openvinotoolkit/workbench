@@ -1,0 +1,40 @@
+@import 'colors';
+@import 'fonts';
+
+.wb-config-form-field {
+  display: flex;
+  align-items: baseline;
+
+  .field-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 20px;
+
+    @include wb-subtitle-1();
+  }
+
+  .field-container {
+    display: flex;
+    flex-direction: column;
+
+    .error-message {
+      position: relative;
+      top: -18px;
+      margin: 0;
+    }
+  }
+
+  .mat-form-field-type-mat-select,
+  .mat-input-element {
+    @include wb-subtitle-1();
+  }
+
+  .mat-form-field-appearance-outline {
+    .mat-form-field-outline-start,
+    .mat-form-field-outline-gap,
+    .mat-form-field-outline-end {
+      border-color: $brownish-grey;
+    }
+  }
+}

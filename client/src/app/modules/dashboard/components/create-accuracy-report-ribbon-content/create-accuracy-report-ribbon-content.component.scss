@@ -1,0 +1,33 @@
+@import 'colors';
+
+.wb-panel {
+  margin: 0;
+}
+
+// TODO Move to wb-panel styles
+.wb-h4[wb-heading] {
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+wb-panel {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.accuracy-configuration {
+  margin-top: 50px;
+  display: flex;
+
+  wb-info-hint {
+    margin-left: 20px;
+  }
+}
+
+.footer {
+  wb-info-hint {
+    display: block;
+    margin-top: 10px;
+  }
+}

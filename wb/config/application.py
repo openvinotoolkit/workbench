@@ -1,0 +1,104 @@
+"""
+ OpenVINO DL Workbench
+ Classes and functions for configure Flask application
+
+ Copyright (c) 2018 Intel Corporation
+
+ LEGAL NOTICE: Your use of this software and any required dependent software (the “Software Package”) is subject to
+ the terms and conditions of the software license agreements for Software Package, which may also include
+ notices, disclaimers, or license terms for third party or open source software
+ included in or with the Software Package, and your use indicates your acceptance of all such terms.
+ Please refer to the “third-party-programs.txt” or other similarly-named text file included with the Software Package
+ for additional details.
+ You may obtain a copy of the License at
+      https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
+"""
+import datetime
+import secrets
+from typing import Type
+
+from config.constants import DEFAULT_TOKEN_SIZE, \
+    DB_NAME, DB_URL, DB_USERNAME, DB_PASSWORD, \
+    BROKER_HOST, BROKER_USER, BROKER_VHOST, BROKER_PASSWORD, \
+    IS_TEST_DEV, SSL_VERIFIED_ENABLED, API_PORT, PROXY_PORT, APP_HOST, IS_TLS_ENABLED, ENABLE_AUTH, \
+    SAVE_TOKEN_TO_FILE, JWT_SECRET_KEY, PUBLIC_PORT, WORKBENCH_NETWORK_ALIAS, SERVER_MODE, BASE_PREFIX
+
+
+class Config:
+    # app
+    app_host = APP_HOST
+    app_port = API_PORT
+    proxy_port = PROXY_PORT
+    public_port = PUBLIC_PORT
+
+    workbench_network_alias = WORKBENCH_NETWORK_ALIAS
+
+    ssl_verify_enabled = SSL_VERIFIED_ENABLED
+
+    IS_TEST_DEV = IS_TEST_DEV
+
+    SESSION_COOKIE_SECURE = True
+
+    # celery config
+    broker_url = f'amqp://{BROKER_USER}:{BROKER_PASSWORD}@{BROKER_HOST}/{BROKER_VHOST}'
+    celery_backend_url = 'rpc://'
+    worker_prefetch_multiplier = 1
+    task_acks_late = True
+    imports = ['wb.main.tasks.task']
+
+    # JWT config
+    JWT_SECRET_KEY = secrets.token_hex(DEFAULT_TOKEN_SIZE) if ENABLE_AUTH else JWT_SECRET_KEY
+    JWT_TOKEN_LOCATION = ('headers', 'cookies')
+    JWT_COOKIE_CSRF_PROTECT = True
+    JWT_COOKIE_SECURE = IS_TLS_ENABLED
+    JWT_BLACKLIST_ENABLED = True
+    JWT_BLACKLIST_TOKEN_CHECKS = ['access', 'refresh']
+    JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=10) if ENABLE_AUTH else False
+    JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(days=15) if ENABLE_AUTH else False
+
+    # SSL config
+    is_tls_enabled = IS_TLS_ENABLED
+
+    # Token saving to file
+    save_token_to_file = SAVE_TOKEN_TO_FILE
+
+    @classmethod
+    def _get_protocol_prefix(cls) -> str:
+        return 'https' if cls.is_tls_enabled else 'http'
+
+    @classmethod
+    def _get_app_protocol_and_host(cls) -> str:
+        return f'{cls._get_protocol_prefix()}://{cls.app_host}'
+
+    @classmethod
+    def get_public_app_url(cls) -> str:
+        return f'{cls._get_app_protocol_and_host()}:{cls.public_port}{BASE_PREFIX}'
+
+    @classmethod
+    def get_url_for_cloud(cls) -> str:
+        return f'{cls._get_protocol_prefix()}://{cls.workbench_network_alias}:{cls.proxy_port}'
+
+
+class ProductionConfig(Config):
+    # database config
+    SQLALCHEMY_DATABASE_URI = f'postgresql+pg8000://{DB_USERNAME}:{DB_PASSWORD}@{DB_URL}/{DB_NAME}'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+
+class DevelopmentConfig(ProductionConfig):
+    # Disable JWT secret key generation for development environment
+    JWT_SECRET_KEY = JWT_SECRET_KEY
+
+
+class TestingConfig(ProductionConfig):
+    TESTING = True
+    WTF_CSRF_ENABLED = False
+
+
+def get_config() -> Type[Config]:
+    configs = {
+        'testing': TestingConfig,
+        'development': DevelopmentConfig,
+        'production': ProductionConfig
+    }
+    return configs[SERVER_MODE]

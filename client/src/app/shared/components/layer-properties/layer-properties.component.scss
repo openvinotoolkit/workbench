@@ -1,0 +1,53 @@
+@import '_colors';
+@import 'fonts';
+
+$padding: 20px;
+
+:host {
+  .header {
+    padding: $padding;
+    border-bottom: solid $light-blue-grey 1px;
+
+    .sub-title {
+      color: $brownish-grey;
+    }
+
+    .title {
+      padding-top: 5px;
+      @include wb-h3();
+      overflow-wrap: break-word;
+    }
+  }
+
+  .content {
+    padding: $padding;
+    padding-bottom: 40px;
+  }
+
+  .group {
+    padding-top: 35px;
+
+    &-title {
+      @include wb-subtitle-1();
+      padding-bottom: $padding;
+    }
+
+    &-sub-title {
+      @include wb-label();
+      color: $brownish-grey;
+      padding-bottom: 15px;
+    }
+
+    &-data {
+      padding-left: $padding;
+      &:not(:last-child) {
+        margin-bottom: 20px;
+      }
+
+      > wb-parameter-details:not(:last-child) {
+        display: block;
+        margin-bottom: 15px;
+      }
+    }
+  }
+}

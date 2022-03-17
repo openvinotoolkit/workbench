@@ -1,0 +1,19 @@
+<div class="wb-panel object-detection-predictions">
+  <div class="wb-panel__header">
+    <h4 class="wb-panel__title">{{ title }}</h4>
+  </div>
+  <div class="inference-results" data-test-id="predictions-table">
+    <wb-prediction-badge
+      *ngFor="let prediction of predictions"
+      [prediction]="prediction"
+      [labelSet]="labelSet"
+      [active]="isActive(prediction)"
+      (click)="onPredictionClick(prediction)"
+      (mouseenter)="onPredictionMouseEnter(prediction)"
+      (mouseleave)="onPredictionMouseLeave()"
+    >
+    </wb-prediction-badge>
+  </div>
+
+  <wb-info-hint *ngIf="!predictions.length" [message]="noPredictionsTip"></wb-info-hint>
+</div>

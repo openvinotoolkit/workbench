@@ -1,0 +1,177 @@
+@import 'colors';
+@import 'variables';
+
+//host styles to support sticky footer
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
+.configuration {
+  padding: 0 $container-padding $container-padding $container-padding;
+  box-sizing: border-box;
+
+  .project-name {
+    display: block;
+  }
+
+  .content {
+    $left-part-width: 140px;
+    $right-part-width: 500px;
+
+    $center-part-header-height: 50px;
+    $matrix-height: 660px;
+    margin-top: 25px;
+    display: flex;
+    height: $center-part-header-height + $matrix-height;
+
+    .left-part {
+      padding-top: $center-part-header-height + 38px;
+      flex: 0 0 140px;
+
+      .axis-label:not(:first-child) {
+        margin-top: 20px;
+      }
+    }
+
+    .center-part {
+      flex: 0 0 auto;
+      max-width: calc(100% - #{$left-part-width} - #{$right-part-width});
+      padding-right: 40px;
+      box-sizing: border-box;
+
+      wb-inference-matrix-select {
+        display: block;
+        width: fit-content;
+        overflow: auto;
+        will-change: transform;
+        position: relative;
+        padding-right: 1px;
+        max-width: 100%;
+        max-height: $matrix-height;
+
+        &::-webkit-scrollbar-track {
+          margin-top: 24px;
+          margin-left: 60px;
+          border: 0;
+        }
+      }
+    }
+
+    .right-part {
+      margin-left: auto;
+      padding-top: $center-part-header-height + 24px;
+      flex: 0 0 500px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .center-part-header {
+      height: $center-part-header-height;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-left: 60px;
+
+      wb-button {
+        margin-left: 10px;
+      }
+    }
+  }
+
+  .footer {
+    margin-top: auto;
+    padding-top: 20px;
+    span:first-child {
+      margin-right: 10px;
+    }
+  }
+
+  .axis-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    wb-help-tooltip {
+      margin-right: 10px;
+    }
+  }
+
+  .legend {
+    .line {
+      display: flex;
+      align-items: center;
+
+      &:not(:first-child) {
+        margin-top: 20px;
+      }
+    }
+
+    .hint-line {
+      margin-left: 50px;
+    }
+
+    .cell {
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+      border: 1px solid $cool-grey;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &.has-info {
+        &.selected {
+          mat-icon {
+            color: $white;
+          }
+        }
+        background-color: $plum;
+      }
+
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+        color: $plum;
+      }
+    }
+  }
+
+  .selected-inferences {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex: 0 1 100%;
+
+    wb-selected-inferences-table {
+      margin-top: 20px;
+      border: 1px solid $very-light-pink;
+      display: block;
+      overflow: auto;
+      flex: 1 1 100%;
+    }
+  }
+}
+
+.page-actions {
+  position: sticky;
+  bottom: 0;
+  flex-shrink: 0;
+  margin-top: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 20px;
+  box-shadow: 0 -1px 10px 3px $panel-shadow;
+  z-index: 1000;
+  background-color: $faded-bgr;
+  border-top: 1px solid $very-light-pink;
+
+  wb-button + wb-button {
+    margin-left: $container-padding;
+  }
+}

@@ -1,0 +1,94 @@
+<wb-page-with-actions ngProjectAs="masterContent">
+  <ng-container [ngTemplateOutlet]="pageContent" ngProjectAs="pageContent"></ng-container>
+  <ng-container [ngTemplateOutlet]="actions" ngProjectAs="pageActions"></ng-container>
+</wb-page-with-actions>
+
+<ng-template #pageContent>
+  <ng-container [ngTemplateOutlet]="navigation"></ng-container>
+  <h1 class="wb-h1 wb-page-header">Configure Accuracy Validation</h1>
+  <div class="wb-container">
+    <ng-container *ngIf="model$ | async as model">
+      <ng-container *ngIf="project$ | async as project">
+        <div class="error-block">
+          <wb-message-box
+            *ngIf="project.status?.errorMessage && accuracyPipelineStages.includes(project.status.stage)"
+            messageType="error"
+            [message]="accuracyFailed"
+            [detailedMessage]="project.status?.errorMessage"
+          >
+          </wb-message-box>
+        </div>
+
+        <div class="wb-panel switch-panel">
+          <wb-switch-button
+            leftOptionLabel="Basic"
+            rightOptionLabel="Advanced"
+            [leftOptionChecked]="(mode$ | async) === 'basic'"
+            (leftOptionCheckedChange)="onModeChange($event ? 'basic' : 'advanced')"
+          ></wb-switch-button>
+          <div class="wb-label mode-hint">{{ mode$.value === 'basic' ? hint.basicMode : hint.advancedMode }}</div>
+        </div>
+
+        <div>
+          <wb-basic-accuracy-configuration
+            *ngIf="mode$.value === 'basic'"
+            [project]="project"
+            [model]="model"
+            [datasetType]="(dataset$ | async)?.type"
+            (usageChanged)="handleUsageChange($event)"
+            (validityChanged)="onValidityChange($event)"
+          >
+          </wb-basic-accuracy-configuration>
+
+          <wb-advanced-accuracy-configuration
+            *ngIf="mode$.value === 'advanced'"
+            [project]="project"
+            (validityChanged)="onValidityChange($event)"
+          >
+          </wb-advanced-accuracy-configuration>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #actions>
+  <div class="actions">
+    <wb-button
+      class="enlarged-control"
+      testId="save-accuracy"
+      type="primary"
+      text="Save"
+      *ngIf="areTypesMatch$ | async"
+      [disabled]="
+        !formValid ||
+        (savePending$ | async) ||
+        ((taskType$ | async) === modelTaskTypes.GENERIC && (mode$ | async) === 'basic')
+      "
+      (handleClick)="save()"
+    >
+    </wb-button>
+    <wb-button
+      class="enlarged-control"
+      type="primary"
+      text="Choose Another Project"
+      testId="choose-another-config"
+      *ngIf="!(areTypesMatch$ | async)"
+      (handleClick)="chooseAnother()"
+    >
+    </wb-button>
+
+    <wb-button class="enlarged-control" type="default" (handleClick)="navigateBack()" text="Cancel"></wb-button>
+
+    <wb-info-hint *ngIf="warningHint$ | async as hint" [message]="hint.message" [type]="hint.type"></wb-info-hint>
+  </div>
+</ng-template>
+
+<ng-template #navigation>
+  <wb-navigation-bar>
+    <a (click)="goToModel()">Model {{ (model$ | async)?.name }}</a>
+    <a (click)="goToProject()">Project #{{ (project$ | async)?.id }}</a>
+    <a *ngIf="queryParams.fromCalibration" (click)="goToCalibrationPage()">Optimize INT8</a>
+    <a>Configure Accuracy Validation</a>
+  </wb-navigation-bar>
+</ng-template>

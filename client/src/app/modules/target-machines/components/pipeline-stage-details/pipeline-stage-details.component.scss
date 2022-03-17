@@ -1,0 +1,25 @@
+@import 'colors';
+
+:host {
+  display: flex;
+
+  .stage-details {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    max-height: 200px;
+    overflow-y: scroll;
+    word-break: break-all;
+    pointer-events: auto;
+
+    &-logs,
+    &-error-message,
+    &-progress-indicator {
+      font-family: Monaco, monospace;
+    }
+
+    &-error-message {
+      color: $deep-red;
+    }
+  }
+}

@@ -1,0 +1,3 @@
+numpy==1.19.5
+matplotlib==3.3.4
+virtualenv==20.0.30

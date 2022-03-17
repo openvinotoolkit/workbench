@@ -1,0 +1,28 @@
+## Evaluate Model Performance <a name="evaluate-model-performance"></a>
+
+### Motivation
+
+Model performance is the amount of information that your model can process per unit of time. In Computer Vision model performance defines how fast your model can process a number of images and generate the desired output. Usually it is measured in Frames Per Second (FPS).
+OpenVINO uses the term Inference to denote the stage of a single network execution.
+Inference is the stage in which a trained model is used to infer/predict the testing samples and comprises of a similar forward pass as training to predict the values.
+
+In OpenVINO toolkit inference is performed by Benchmark Tool.
+
+### OpenVINO Tool: Benchmark Tool
+
+#### Main usage
+
+Benchmark Tool estimates deep learning inference performance on supported devices.
+
+#### Description
+
+There are two inference modes: synchronous (latency-oriented) and asynchronous (throughput-oriented).
+Refer to the [documentation](https://docs.openvino.ai/latest/openvino_inference_engine_tools_benchmark_tool_README.html) for more details.
+
+#### Used Command-Line Arguments
+
+{{ CLIToolEnum.benchmark_tool.format_to_markdown_table() | safe }}
+
+Refer to the [documentation](https://docs.openvino.ai/latest/openvino_inference_engine_tools_benchmark_tool_README.html) for the full list of available command-line arguments.
+
+> **NOTE**: In this tutorial arguments `-b`,`-nstreams`, and `-t` values for Benchmark Tool are set according to your last profiling experiment with this model in the DL Workbench.

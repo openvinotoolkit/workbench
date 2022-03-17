@@ -1,0 +1,16 @@
+@import 'colors';
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+
+  wb-button {
+    margin-left: 30px;
+  }
+}
+
+wb-dataset-list ::ng-deep table.wb-table.wb-table-on-gray {
+  border: 1px solid $very-light-pink;
+  border-radius: 3px;
+}

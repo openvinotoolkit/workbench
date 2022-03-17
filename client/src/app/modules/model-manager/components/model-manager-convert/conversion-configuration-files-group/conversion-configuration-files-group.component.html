@@ -1,0 +1,78 @@
+<ng-container *ngIf="model">
+  <div class="checkbox-and-file" *ngIf="isTfModel">
+    <wb-config-form-field
+      class="hint-first enlarged-control checkbox"
+      testId="use-pipeline-config"
+      [field]="utilFields.usePipelineConfig"
+      [group]="utilGroup"
+    ></wb-config-form-field>
+    <div *ngIf="usePipelineConfigControl.value" class="pipeline-row">
+      <wb-file-upload-field
+        #pipelineConfigFileUploadField
+        class="hint-first file"
+        [testId]="fields.tfODApiPipelineConfigFile.name + 'Input'"
+        [label]="fields.tfODApiPipelineConfigFile.label"
+        [acceptedFiles]="fields.tfODApiPipelineConfigFile.acceptedFiles"
+        [maxFileSizeMb]="fields.tfODApiPipelineConfigFile.maxFileSizeMb"
+        (fileSelected)="handleSelectPipelineConfigFile($event)"
+      ></wb-file-upload-field>
+
+      <a
+        class="tip-link"
+        [attr.data-test-id]="'more-' + fields.tfODApiPipelineConfigFile.name + '-tip'"
+        (click)="helpChecklistService.expandItem(fields.tfODApiPipelineConfigFile.name)"
+      >
+        Learn More
+      </a>
+    </div>
+  </div>
+
+  <wb-config-form-field
+    class="hint-first enlarged-control use-config"
+    testId="use-transformations-config"
+    [field]="utilFields.useTransformationsConfig"
+    [group]="utilGroup"
+  ></wb-config-form-field>
+
+  <div *ngIf="useTransformationsConfigControl.value" class="transformations-config-container">
+    <wb-config-form-field
+      class="enlarged-control"
+      testId="transformations-config-type-"
+      [field]="utilFields.transformationsConfigType"
+      [group]="utilGroup"
+    ></wb-config-form-field>
+
+    <wb-transformations-config-field
+      #predefinedTransformationsConfigField
+      *ngIf="isPredefinedConfig"
+      class="predefined-config"
+      [field]="fields.predefinedConfig"
+      [group]="group"
+    ></wb-transformations-config-field>
+    <a
+      *ngIf="isPredefinedConfig"
+      class="tip-link preconfigured"
+      [attr.data-test-id]="'more-' + fields.predefinedConfig.name + '-tip'"
+      (click)="helpChecklistService.expandItem(fields.predefinedConfig.name)"
+      >Learn More</a
+    >
+
+    <div class="custom-config-row" *ngIf="isCustomConfig">
+      <wb-file-upload-field
+        #customTransformationsConfigField
+        [testId]="fields.customConfigFile.name + 'Input'"
+        [label]="fields.customConfigFile.label"
+        [acceptedFiles]="fields.customConfigFile.acceptedFiles"
+        [maxFileSizeMb]="fields.customConfigFile.maxFileSizeMb"
+        (fileSelected)="handleSelectTransformationsConfigFile($event)"
+      ></wb-file-upload-field>
+      <a
+        class="tip-link"
+        [attr.data-test-id]="'more-' + fields.customConfigFile.name + '-tip'"
+        (click)="helpChecklistService.expandItem(fields.customConfigFile.name)"
+      >
+        Learn More
+      </a>
+    </div>
+  </div>
+</ng-container>

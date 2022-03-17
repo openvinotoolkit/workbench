@@ -1,0 +1,13 @@
+# This docker file is used for building ci workbench images
+
+FROM ${INTERNAL_DOCKER_REPOSITORY}:ubu18
+
+USER root
+
+# Due to the error: Failed to fetch https://packagecloud.io/github/git-lfs/ubuntu/dists/bionic/InRelease 402 Payment Required
+RUN rm /etc/apt/sources.list.d/github_git-lfs.list
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gettext-base && \
+    rm -rf /var/lib/apt/lists/*
+
+USER ${INTERNAL_CI_USER}

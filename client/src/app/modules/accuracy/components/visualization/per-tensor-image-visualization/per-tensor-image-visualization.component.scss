@@ -1,0 +1,68 @@
+@import 'colors';
+@import 'fonts';
+
+:host {
+  display: block;
+}
+
+.per-tensor-image-info {
+  display: flex;
+
+  .image {
+    flex-basis: 50%;
+  }
+
+  .table-info {
+    display: flex;
+    flex-basis: 50%;
+    flex-direction: column;
+
+    wb-info-hint {
+      margin-bottom: 25px;
+    }
+
+    table,
+    td,
+    th {
+      border: 1px solid $very-light-pink;
+    }
+
+    thead {
+      tr {
+        height: 40px;
+
+        th {
+          @include wb-subtitle-2();
+          color: $black;
+          text-align: left;
+          padding-left: 20px;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        height: 40px;
+
+        td {
+          text-align: left;
+          padding-left: 20px;
+        }
+      }
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      max-width: 660px;
+    }
+  }
+
+  .wb-panel {
+    margin: 0;
+  }
+}
+
+.section-header {
+  margin: 0 0 25px 10px;
+}

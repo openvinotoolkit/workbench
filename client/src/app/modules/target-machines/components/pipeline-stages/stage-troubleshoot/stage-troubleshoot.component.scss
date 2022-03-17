@@ -1,0 +1,65 @@
+@import 'colors';
+@import 'fonts';
+
+:host {
+  display: flex;
+  height: 100px;
+  flex-basis: 100%;
+  $icon-size: 16px;
+
+  .error {
+    background-color: $deep-red-light;
+    border: $deep-red 1px solid;
+
+    .trouble-shooting-content {
+      color: $deep-red;
+    }
+  }
+
+  .warning {
+    background-color: $light-yellow;
+    border: $pale-yellow 1px solid;
+
+    .trouble-shooting-content {
+      color: $dark-yellow;
+    }
+  }
+
+  .trouble-shooting {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-radius: 3px;
+
+    ::ng-deep mat-icon {
+      width: $icon-size;
+      height: $icon-size;
+      font-size: $icon-size;
+    }
+
+    &-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-basis: 30%;
+      margin: 20px;
+    }
+
+    &-message {
+      display: flex;
+      flex-basis: 70%;
+      @include wb-label();
+      margin: 20px;
+      wb-markdown-text {
+        ::ng-deep a {
+          pointer-events: auto;
+        }
+      }
+    }
+
+    span {
+      color: $plum;
+      pointer-events: auto;
+    }
+  }
+}

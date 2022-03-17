@@ -1,0 +1,31 @@
+@import 'colors';
+@import 'variables';
+@import 'fonts';
+
+$feedback-icon-size: 16px;
+
+.navigation-bar {
+  display: flex;
+  align-items: center;
+  padding: $container-padding $container-padding 40px;
+
+  &-feedback {
+    @include wb-body-2();
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-grow: 1;
+
+    ::ng-deep a {
+      color: $plum;
+      text-decoration: none;
+    }
+
+    .feedback-icon {
+      width: $feedback-icon-size;
+      height: $feedback-icon-size;
+      color: $plum;
+      margin-right: 10px;
+    }
+  }
+}

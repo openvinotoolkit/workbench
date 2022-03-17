@@ -1,0 +1,139 @@
+<table
+  mat-table
+  [dataSource]="dataSource"
+  class="wb-table wb-table-on-gray"
+  data-test-id="datasets-table"
+  matSort
+  [matSortActive]="sortedColumn.active"
+  [matSortDirection]="sortedColumn.direction"
+  [@highlight]="animationInProgress"
+  (@highlight.done)="highlightFinished()"
+  (matSortChange)="sortedColumn = $event"
+>
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="name-column">
+      Dataset Name
+      <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: 'name' }"></ng-container>
+    </th>
+    <td
+      mat-cell
+      *matCellDef="let element"
+      class="name-column"
+      data-test-id="dataset-name"
+      [attr.data-test-dataset-id]="element.id"
+    >
+      {{ element.name }}
+    </td>
+  </ng-container>
+
+  <!--Date Column-->
+  <ng-container matColumnDef="date">
+    <th class="date-column" mat-header-cell *matHeaderCellDef mat-sort-header>
+      Import Time
+      <ng-container *ngTemplateOutlet="sortIcon; context: { columnName: 'date' }"></ng-container>
+    </th>
+    <td class="date-column" mat-cell *matCellDef="let element">
+      {{ element.date ? (element.date | date: 'dd/MM/yy, hh:mm') : '' }}
+    </td>
+  </ng-container>
+
+  <!--Size Column-->
+  <ng-container matColumnDef="size">
+    <th class="size-column" mat-header-cell *matHeaderCellDef>Size</th>
+    <td class="size-column" mat-cell *matCellDef="let element">{{ getSize(element) }}</td>
+  </ng-container>
+
+  <!--Status Column-->
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef class="status-column">Status</th>
+    <td mat-cell *matCellDef="let element" class="status-column">
+      <div class="status-content">
+        <wb-status-bar
+          mode="circle"
+          [status]="element.status"
+          [errorMessage]="uploadDatasetFailedMessage"
+          [cancellationEnabled]="true"
+          [readonlyTipMsg]="archivedDatasetMsg"
+          (cancelProgress)="cancelFileUploading(element, $event)"
+        >
+        </wb-status-bar>
+        <wb-button
+          *ngIf="element?.status?.name === ProjectStatusNames.ERROR"
+          class="try-again-button"
+          type="secondary"
+          text="Try Again"
+          testId="edit-import-dataset-button"
+          [routerLink]="
+            element?.type !== DatasetTypes.CSV ? ['/dataset-manager/import'] : ['/dataset-manager/text-dataset/import']
+          "
+          [queryParams]="getDatasetQueryParam(element)"
+        >
+        </wb-button>
+      </div>
+    </td>
+  </ng-container>
+
+  <!--Type Column-->
+  <ng-container matColumnDef="type">
+    <th class="type-column" mat-header-cell *matHeaderCellDef>Type</th>
+    <td class="type-column" mat-cell *matCellDef="let element">
+      <div class="cell-content">
+        <span id="file-type" data-test-id="dataset-type">{{
+          DatasetTypeToNameMap[element.type] || notAvailableLabel
+        }}</span>
+      </div>
+    </td>
+  </ng-container>
+
+  <!--Task Column-->
+  <ng-container matColumnDef="task">
+    <th class="task-column" mat-header-cell *matHeaderCellDef>Task</th>
+    <td class="task-column" mat-cell *matCellDef="let element">
+      <div class="cell-content">
+        <span data-test-id="dataset-task">
+          {{ getTaskNames(element) }}
+        </span>
+      </div>
+    </td>
+  </ng-container>
+
+  <!--Action Column-->
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef class="actions-column">Action</th>
+    <td mat-cell *matCellDef="let element" class="actions-column">
+      <div class="actions-column-cell">
+        <mat-icon
+          *ngIf="
+            [ProjectStatusNames.READY, ProjectStatusNames.ARCHIVED, ProjectStatusNames.ERROR].includes(
+              element?.status?.name
+            ) && element.id !== undeletableDatasetId
+          "
+          data-test-id="delete-file"
+          svgIcon="delete"
+          [class.disabled-cell]="taskIsRunning"
+          class="custom-svg-icon"
+          [matTooltip]="'Delete Dataset'"
+          (click)="removeFile(element); $event.stopPropagation()"
+        ></mat-icon>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+  <tr
+    mat-row
+    *matRowDef="let row; columns: displayedColumns"
+    [class.selected]="selectedDatasetId === row.id"
+    [class.error]="row.status.name === ProjectStatusNames.ERROR"
+    [class.disabled]="!isDatasetAvailable(row)"
+    [attr.data-test-id]="'row_name_' + row.name"
+    (click)="selectRow(row)"
+  ></tr>
+</table>
+
+<ng-template #sortIcon let-columnName="columnName">
+  <ng-container *ngIf="dataSource.data?.length">
+    <wb-table-sort-icon [columnName]="columnName" [sortedColumn]="sortedColumn"></wb-table-sort-icon>
+  </ng-container>
+</ng-template>

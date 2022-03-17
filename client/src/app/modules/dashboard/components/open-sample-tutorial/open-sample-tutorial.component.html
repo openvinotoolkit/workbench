@@ -1,0 +1,53 @@
+<div class="wb-row">
+  <div class="wb-col-8">
+    <wb-panel>
+      <div class="wb-h4" wb-heading>Tutorials</div>
+      <ng-container wb-content>
+        <!--TODO move to generic component for radio groups-->
+        <mat-radio-group class="wb-radio-group sample-types" [formControl]="sampleTypeControl">
+          <div *ngFor="let sample of sampleTypeOptions" class="type">
+            <mat-radio-button [value]="sample.type">
+              <div class="label">{{ sample.label }}</div>
+            </mat-radio-button>
+            <wb-markdown-text class="description" [text]="sample.description"> </wb-markdown-text>
+          </div>
+        </mat-radio-group>
+
+        <div class="wb-chip subheader">{{ sampleTutorialHeaders[selectedSampleType] }}</div>
+
+        <div class="project-paths-container">
+          <div class="project-path" *ngFor="let parameter of projectPathsParameters">
+            <wb-parameter-details [parameter]="parameter"></wb-parameter-details>
+            <wb-copy-button
+              *ngIf="parameter.value"
+              class="copy-button"
+              [valueToCopy]="parameter.value"
+            ></wb-copy-button>
+          </div>
+        </div>
+      </ng-container>
+    </wb-panel>
+  </div>
+  <div class="wb-col-4">
+    <div class="wb-panel">
+      <wb-tip
+        [tipMessage]="{
+          header: 'Tutorials Tip',
+          content: [sampleTutorialDescription]
+        }"
+      >
+      </wb-tip>
+    </div>
+  </div>
+</div>
+
+<div class="controls-row">
+  <wb-button
+    class="enlarged-control"
+    type="primary"
+    text="Open"
+    testId="open-sample-tutorial-button"
+    (handleClick)="openSampleTutorial()"
+  >
+  </wb-button>
+</div>

@@ -1,0 +1,88 @@
+@import 'fonts';
+@import 'variables';
+
+:host {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.panel-header {
+  margin: 0;
+}
+
+.panel-title {
+  margin: 0;
+
+  &.panel-title--tip {
+    color: $plum;
+    margin-bottom: 10px;
+  }
+}
+
+.wb-row .wb-col-8 {
+  flex-direction: column;
+}
+
+.hint {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.form-group {
+  display: block;
+  padding-top: 15px;
+  counter-reset: input-layer-counter;
+}
+
+:host ::ng-deep {
+  .field-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    ::ng-deep .mat-form-field-wrapper {
+      padding-bottom: 0;
+    }
+  }
+
+  .tip-link {
+    margin-left: 20px;
+    cursor: pointer;
+    color: $plum;
+    text-decoration: underline;
+  }
+
+  .button-text {
+    @include wb-body-2();
+  }
+
+  .mat-form-field-type-mat-select {
+    @include wb-subtitle-1();
+  }
+}
+
+.model-conversion-tips-header {
+  color: $blue-blue;
+}
+
+.panel-row--footer {
+  display: flex;
+  align-content: center;
+
+  wb-button + wb-button {
+    margin-left: 20px;
+  }
+}
+
+wb-info-hint {
+  display: block;
+  margin-top: 20px;
+}
+
+.inputs-panel {
+  position: relative;
+}

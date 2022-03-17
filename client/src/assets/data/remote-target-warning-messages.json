@@ -1,0 +1,3 @@
+{
+  "no_sudo_warning": "Specified remote machine does not have the sudo package installed. You might be unable to profile on Intel(R) Movidius(TM) Neural Compute Stick and Intel(R) Graphics devices. To profile on Intel(R) Movidius(TM) Neural Compute Stick or Intel(R) Graphics devices, see [documentation](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html#sudo)."
+}

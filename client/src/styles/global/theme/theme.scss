@@ -1,0 +1,75 @@
+@use '~@angular/material' as mat;
+@import '../../../../node_modules/@angular/material/theming';
+@import 'colors';
+@import 'palletes';
+@import 'theme-utils';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$wb-app-primary: mat.define-palette(mat.$indigo-palette);
+$wb-app-accent: mat.define-palette($wb-accent);
+
+// The warn palette is optional (defaults to red).
+$wb-app-warn: mat.define-palette($wb-warn);
+
+$wb-light-theme-foreground: (
+  base: $black,
+  // FIXME: shold set as $very-light-pink, but it set inputs frame non contrast
+  divider: $dark-dividers,
+  dividers: $cloudy-blue,
+  disabled: $dark-disabled-text,
+  disabled-button: $black26,
+  disabled-text: $dark-disabled-text,
+  elevation: $black,
+  hint-text: $dark-disabled-text,
+  secondary-text: $dark-secondary-text,
+  icon: $black54,
+  icons: $black54,
+  text: $black,
+  slider-min: $black87,
+  slider-off: $black26,
+  slider-off-active: $black38,
+);
+
+$wb-light-theme-background: (
+  status-bar: map_get(mat.$grey-palette, 300),
+  app-bar: map_get(mat.$grey-palette, 100),
+  background: $white,
+  hover: $black04,
+  card: $white,
+  dialog: $white,
+  disabled-button: $cloudy-blue,
+  raised-button: $white,
+  focused-button: $dark-focused,
+  selected-button: map_get(mat.$grey-palette, 300),
+  selected-disabled-button: map_get(mat.$grey-palette, 400),
+  disabled-button-toggle: map_get(mat.$grey-palette, 200),
+  unselected-chip: map_get(mat.$grey-palette, 300),
+  disabled-list-option: map_get(mat.$grey-palette, 200),
+);
+
+// Create the theme object (a Sass map containing all of the palettes).
+//$wb-app-theme: mat.define-light-theme($wb-app-primary, $wb-app-accent, $wb-app-warn);
+
+$wb-app-theme: (
+  primary: $wb-app-primary,
+  accent: $wb-app-accent,
+  warn: $wb-app-warn,
+  is-dark: false,
+  foreground: $wb-light-theme-foreground,
+  background: $wb-light-theme-background,
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($wb-app-theme);
+
+@include wb-theme-color-utils($wb-app-theme);

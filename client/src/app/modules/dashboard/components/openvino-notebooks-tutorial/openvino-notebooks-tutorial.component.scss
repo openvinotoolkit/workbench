@@ -1,0 +1,57 @@
+@import 'colors';
+@import 'fonts';
+
+:host {
+  display: flex;
+  flex-direction: column;
+
+  wb-panel {
+    width: 100%;
+  }
+
+  .table-container {
+    overflow: auto;
+    height: 400px;
+    table,
+    td,
+    th {
+      border: 1px solid $very-light-pink;
+    }
+
+    thead {
+      tr {
+        height: 40px;
+
+        th {
+          @include wb-subtitle-2();
+          background-color: $faded-bgr;
+          color: $black;
+          text-align: left;
+          padding-left: 20px;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        height: 40px;
+
+        td {
+          text-align: left;
+          padding-left: 20px;
+
+          a.notebook-link {
+            @include wb-body-5();
+            color: $plum;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+  }
+}

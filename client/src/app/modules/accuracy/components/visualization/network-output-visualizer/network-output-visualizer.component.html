@@ -1,0 +1,42 @@
+<ng-container *ngIf="model; else loading">
+  <ng-container *ngIf="model.domain === ModelDomain.CV; else nlpNotSupported">
+    <wb-visualization-configuration
+      *ngIf="model.modelSource !== ModelSources.OMZ"
+      [model]="model"
+      [expanded]="visualizationConfigState === 'expanded'"
+      (expandedChange)="visualizationConfigState = $event ? 'expanded' : 'collapsed'"
+      data-test-id="visualization-configuration"
+    >
+    </wb-visualization-configuration>
+
+    <wb-info-hint
+      *ngIf="!supportedTaskType"
+      type="warning"
+      [message]="hints.visualizationIsNotSupported"
+    ></wb-info-hint>
+    <wb-info-hint
+      *ngIf="!early && !isLocalTarget"
+      type="warning"
+      [message]="hints.remoteVisualizationIsNotSupported"
+    ></wb-info-hint>
+
+    <wb-network-output
+      *ngIf="supportedTaskType"
+      [parentModelVisualizationAvailable]="parentModelVisualizationAvailable"
+      [taskType]="taskType"
+      [disabled]="disabled"
+      (test)="test($event)"
+    >
+    </wb-network-output>
+  </ng-container>
+</ng-container>
+
+<ng-template #loading>
+  <wb-spinner></wb-spinner>
+</ng-template>
+
+<ng-template #nlpNotSupported>
+  <div class="wb-panel">
+    <wb-info-hint type="warning" [message]="hints.nlpModelVisualizationIsNotSupported"></wb-info-hint>
+  </div>
+</ng-template>

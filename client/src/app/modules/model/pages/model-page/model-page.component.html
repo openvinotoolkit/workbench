@@ -1,0 +1,50 @@
+<ng-container *ngIf="model$ | async as model">
+  <wb-navigation-bar>
+    <a>Model {{ model.name }}</a>
+  </wb-navigation-bar>
+
+  <div class="wb-page-header">
+    <div class="wb-page-header__row">
+      <h1 class="wb-h1 wb-page-header__title">Model: {{ model.name }}</h1>
+    </div>
+    <wb-model-info [model]="model"></wb-model-info>
+  </div>
+
+  <nav mat-tab-nav-bar class="wb-tab-group enlarged-control" disableRipple>
+    <div mat-tab-link routerLink="./projects" routerLinkActive="mat-tab-link-active" data-test-id="projects-tab">
+      Projects
+    </div>
+    <div
+      *ngIf="model.domain === ModelDomain.NLP"
+      mat-tab-link
+      routerLink="./configuration"
+      routerLinkActive="mat-tab-link-active"
+      data-test-id="configuration-tab"
+    >
+      Model Configurations
+    </div>
+    <div
+      mat-tab-link
+      routerLink="./visualize-output"
+      routerLinkActive="mat-tab-link-active"
+      data-test-id="visualize-output"
+    >
+      Visualize Model Output
+    </div>
+    <div
+      mat-tab-link
+      routerLink="./visualize-topology"
+      routerLinkActive="mat-tab-link-active"
+      data-test-id="visualize-topology-tab"
+    >
+      Visualize Model
+    </div>
+    <div mat-tab-link routerLink="./details" routerLinkActive="mat-tab-link-active" data-test-id="details-tab">
+      Model Details
+    </div>
+  </nav>
+
+  <div class="tab-container">
+    <router-outlet></router-outlet>
+  </div>
+</ng-container>

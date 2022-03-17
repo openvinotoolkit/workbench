@@ -1,0 +1,85 @@
+@import 'variables';
+@import 'fonts';
+
+$warning-icon-size: 20px;
+
+.message-box {
+  border: 1px solid $very-light-pink;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px $deep-red-dark25;
+  background-color: $faded-bgr;
+}
+
+.message-box-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid $very-light-pink;
+
+  &.error {
+    background-color: $deep-red-light;
+  }
+  &.success {
+    background-color: $light-green;
+  }
+  &.default {
+    background-color: $ice-blue;
+  }
+
+  .message {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    &-title {
+      margin-right: $container-padding;
+    }
+
+    .warning-icon {
+      color: $deep-red;
+      margin-right: $container-padding * 0.5;
+      width: $warning-icon-size;
+      height: $warning-icon-size;
+    }
+  }
+}
+
+.message-content {
+  color: $brownish-grey;
+  max-height: 400px;
+  overflow-y: auto;
+
+  .feedback {
+    position: sticky;
+    top: 0;
+    background-color: $faded-bgr;
+    padding: $container-padding;
+  }
+
+  .details {
+    &-message {
+      padding-left: $container-padding;
+      margin-bottom: $container-padding;
+    }
+
+    &-footer {
+      position: sticky;
+      bottom: 0;
+      background-color: $faded-bgr;
+      display: block;
+      padding: $container-padding;
+
+      &.hide {
+        padding-top: $container-padding * 2;
+      }
+
+      .details-button {
+        color: $plum;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+}

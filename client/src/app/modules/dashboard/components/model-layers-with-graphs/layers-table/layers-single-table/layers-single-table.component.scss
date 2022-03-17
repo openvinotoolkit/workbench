@@ -1,0 +1,152 @@
+@import 'fonts';
+@import 'colors';
+@import 'variables';
+
+$layer-table-row-expanded-height: 60px;
+$selected-layer-row-color: $ice-blue;
+$layer-details-container-padding: 20px;
+$layer-row-max-width: 180px;
+
+@mixin layer-name {
+  @include wb-body-2();
+  color: $plum;
+  cursor: pointer;
+  text-decoration: underline;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+:host {
+  wb-table-filter-form {
+    display: flex;
+    margin: 20px 0;
+  }
+
+  ::ng-deep .master-container {
+    height: $layers-graphs-height !important;
+  }
+
+  ::ng-deep mat-sidenav-container mat-sidenav.details-sidenav {
+    width: 50%;
+  }
+
+  .table-on-gray-wrapper {
+    background: $faded-bgr;
+    border: 1px solid $very-light-pink;
+
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+  }
+
+  // Shared styles for both single and compare tables
+  #layers-table {
+    width: 100%;
+
+    tr.mat-header-row {
+      background-color: $light-blue-grey;
+
+      th.mat-header-cell {
+        font-size: 14px;
+        font-weight: 700;
+        color: $black;
+        white-space: pre-line;
+
+        &.cdk-column-delta,
+        &.cdk-column-ratio {
+          ::ng-deep .mat-sort-header-button {
+            flex-direction: column;
+            align-items: flex-start;
+
+            span:first-child {
+              display: flex;
+            }
+          }
+        }
+      }
+    }
+
+    tr.mat-row,
+    tr.mat-header-row {
+      border-bottom: 1px $light-blue-grey solid;
+      height: $layer-table-row-height;
+
+      &:last-child {
+        border-bottom: 0;
+      }
+
+      td.mat-cell {
+        vertical-align: top;
+        padding: $layer-details-container-padding;
+      }
+
+      th.mat-header-cell {
+        padding-left: $layer-details-container-padding;
+      }
+
+      td.mat-cell:not(:last-of-type),
+      th.mat-header-cell:not(:last-of-type) {
+        border-right: 1px $light-blue-grey solid;
+      }
+
+      .layer-name-cell {
+        line-height: 1.55;
+        max-width: $layer-row-max-width;
+
+        &-name-row {
+          @include layer-name();
+          display: block;
+        }
+
+        &-type-row {
+          color: $black;
+          text-decoration: none;
+          display: inline-block;
+        }
+      }
+
+      td.mat-cell {
+        @include wb-label();
+
+        &.layer-name-cell {
+          @include layer-name();
+          max-width: $layer-row-max-width;
+        }
+
+        &.layer-information-cell {
+          padding: 20px;
+          max-width: $layer-row-max-width;
+        }
+      }
+    }
+
+    .disabled {
+      color: $light-blue-grey;
+    }
+
+    tr.mat-row.selected {
+      background-color: $selected-layer-row-color;
+    }
+  }
+
+  .layer-property {
+    display: flex;
+    padding-bottom: $layer-details-container-padding;
+    &-label {
+      padding-right: $layer-details-container-padding;
+    }
+    &-value {
+      @include wb-body-2();
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      &.layer-name-cell {
+        @include layer-name();
+        max-width: $layer-row-max-width;
+      }
+    }
+    &:last-child {
+      padding-bottom: 0;
+    }
+  }
+}

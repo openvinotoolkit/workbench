@@ -1,0 +1,29 @@
+<wb-classification-results
+  *ngIf="modelTask === taskTypes.CLASSIFICATION"
+  [mode]="mode"
+  [labelSet]="labelSet"
+  [predictions]="predictions"
+  [refPredictions]="refPredictions"
+  [accuracyReportMode]="accuracyReportMode"
+  (selectedPredictionsChange)="selectedPredictionsChange.emit($event)"
+>
+</wb-classification-results>
+
+<wb-detection-segmentation-results
+  *ngIf="
+    [taskTypes.OBJECT_DETECTION, taskTypes.SEMANTIC_SEGMENTATION, taskTypes.INSTANCE_SEGMENTATION].includes(modelTask)
+  "
+  [labelSet]="labelSet"
+  [taskType]="modelTask"
+  [mode]="mode"
+  [predictions]="predictions"
+  [refPredictions]="refPredictions"
+  (selectedPredictionsChange)="selectedPredictionsChange.emit($event)"
+>
+</wb-detection-segmentation-results>
+
+<wb-image-renderer
+  *ngIf="[taskTypes.INPAINTING, taskTypes.STYLE_TRANSFER, taskTypes.SUPER_RESOLUTION].includes(modelTask)"
+  [image]="predictions[0]?.image"
+>
+</wb-image-renderer>

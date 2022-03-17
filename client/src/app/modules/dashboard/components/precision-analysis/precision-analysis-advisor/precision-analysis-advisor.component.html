@@ -1,0 +1,53 @@
+<mat-accordion multi displayMode="flat" *ngIf="!isEmpty(advisorMessages)">
+  <mat-expansion-panel
+    [expanded]="true"
+    hideToggle
+    class="advice-panel mat-elevation-z0"
+    (closed)="advice.opened = false"
+    (opened)="advice.opened = true"
+    *ngFor="let advice of advisorMessages"
+    [@highlight]="animationInProgress"
+    (@highlight.done)="highlightFinished()"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <div class="panel-title">
+          <mat-icon svgIcon="lightbulb" class="warning-icon"></mat-icon>
+          <span class="wb-h5" data-test-id="precision-improvement">Precision Improvements Are Available</span>
+          <mat-icon
+            [svgIcon]="advice.opened ? 'arrow_up' : 'arrow_down'"
+            class="custom-svg-icon header-toggle-icon"
+          ></mat-icon>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <ng-template matExpansionPanelContent>
+      <div class="advising">
+        <div class="advising-content">
+          <div class="advising-block">
+            <span class="advising-block-title">Area of Improvement:</span>
+            <wb-markdown-text
+              [attr.data-test-id]="'advising-summary-' + advice.testId"
+              [text]="advice.summary"
+            ></wb-markdown-text>
+          </div>
+          <div class="advising-block">
+            <span class="advising-block-title">Recommendation:</span>
+            <wb-markdown-text
+              [attr.data-test-id]="'advising-next-steps-' + advice.testId"
+              [text]="advice.nextSteps"
+            ></wb-markdown-text>
+          </div>
+          <div class="advising-block" *ngIf="advice.theory">
+            <span class="advising-block-title">OpenVINO Theory:</span>
+            <wb-markdown-text
+              [attr.data-test-id]="'advising-theory-' + advice.testId"
+              [text]="advice.theory"
+            ></wb-markdown-text>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </mat-expansion-panel>
+</mat-accordion>

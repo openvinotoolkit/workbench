@@ -1,0 +1,18 @@
+@import 'colors';
+
+@mixin wb-dialog {
+  .wb-dialog-backdrop {
+    background-color: $black80;
+  }
+
+  .wb-running-inference-overlay-panel .mat-dialog-container {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .wb-confirm-dialog .mat-dialog-container {
+    position: relative;
+    padding: 0;
+    overflow: visible;
+  }
+}

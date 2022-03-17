@@ -1,0 +1,103 @@
+<form [formGroup]="exportProjectForm">
+  <div class="wb-row">
+    <div class="wb-col-8">
+      <div class="wb-panel">
+        <h4 class="wb-h4 header">Include Model</h4>
+        <div class="controls-items">
+          <mat-radio-group
+            formControlName="includeModel"
+            class="wb-radio-group"
+            (change)="calcPackageSize($event.value, model.size)"
+          >
+            <mat-radio-button [value]="true" data-test-id="tab-export-include-model">Yes</mat-radio-button>
+            <mat-radio-button [value]="false">No</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="wb-row-divider"></div>
+
+        <h4 class="wb-h4 header">Include Dataset</h4>
+        <div class="controls-items">
+          <mat-radio-group
+            formControlName="includeDataset"
+            class="wb-radio-group"
+            (change)="calcPackageSize($event.value, dataset.size)"
+          >
+            <mat-radio-button [value]="true" data-test-id="tab-export-include-dataset">Yes</mat-radio-button>
+            <mat-radio-button [value]="false">No</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="wb-row-divider"></div>
+
+        <h4 class="wb-h4 header">Include Accuracy Configuration</h4>
+        <div class="controls-items">
+          <mat-radio-group formControlName="includeAccuracyConfig" class="wb-radio-group">
+            <mat-radio-button
+              [value]="true"
+              data-test-id="tab-export-include-accuracy-config"
+              [disabled]="!isExportAccuracyAvailable"
+            >
+              Yes
+            </mat-radio-button>
+            <mat-radio-button [value]="false">No</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <wb-info-hint
+          *ngIf="!isExportAccuracyAvailable"
+          class="controls-hint wb-full-width"
+          [message]="accuracyConfigWarning.message"
+          [type]="accuracyConfigWarning.type"
+        ></wb-info-hint>
+        <div class="wb-row-divider"></div>
+
+        <h4 class="wb-h4 header">Include Calibration Configuration</h4>
+        <div class="controls-items">
+          <mat-radio-group formControlName="includeCalibrationConfig" class="wb-radio-group">
+            <mat-radio-button
+              [value]="true"
+              [disabled]="!isCalibrationConfigAvailable"
+              data-test-id="tab-packaging-include-calibration-config"
+            >
+              Yes
+            </mat-radio-button>
+            <mat-radio-button [value]="false">No</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <wb-info-hint
+          *ngIf="!isCalibrationConfigAvailable"
+          class="controls-hint wb-full-width"
+          [message]="calibrationConfigWarning.message"
+          [type]="calibrationConfigWarning.type"
+        ></wb-info-hint>
+      </div>
+    </div>
+    <div class="wb-col-4">
+      <div class="wb-panel">
+        <wb-tip [tipMessage]="{ header: 'Export Tip', content: [exportTip] }"></wb-tip>
+      </div>
+    </div>
+  </div>
+</form>
+<div class="wb-panel size-row" *ngIf="!exportProjectForm.errors?.exportDisabled">
+  <span class="wb-label">Estimated Export Package Size:</span>
+  <span class="wb-body-2"> {{ estimatedSize || '< 1 ' }} Mb </span>
+</div>
+<div class="controls-row">
+  <wb-button
+    class="enlarged-control"
+    type="primary"
+    text="Export"
+    testId="export-project"
+    [disabled]="exportProjectForm.errors?.exportDisabled"
+    [pending]="isExportRunning"
+    (handleClick)="startExport()"
+  >
+  </wb-button>
+</div>
+<div class="hint-row">
+  <wb-info-hint
+    *ngIf="packagingHint as hint"
+    class="wb-full-width"
+    [message]="hint.message"
+    [type]="hint.type"
+  ></wb-info-hint>
+</div>

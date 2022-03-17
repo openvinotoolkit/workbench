@@ -1,0 +1,68 @@
+@font-face {
+  font-family: 'codicon';
+  font-weight: normal;
+  font-style: normal;
+  src: url('~monaco-editor/min/vs/base/browser/ui/codicons/codicon/codicon.ttf') format('truetype');
+}
+
+:host ::ng-deep {
+  @import 'node_modules/monaco-editor/min/vs/editor/editor.main';
+
+  .hint-container .markdown-text-block {
+    white-space: pre-wrap;
+  }
+}
+
+.model-type-selection {
+  display: flex;
+  flex-direction: column;
+
+  ::ng-deep .config-form-field {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: flex-start;
+    margin: 0;
+
+    .field-label {
+      min-width: 100px;
+    }
+
+    ::ng-deep .mat-form-field-infix {
+      padding: 0 0 7px 0;
+      width: 100%;
+      min-width: 200px;
+    }
+  }
+}
+
+.wb-panel {
+  margin-bottom: 20px;
+}
+
+.editor-schema-container {
+  display: flex;
+  flex-direction: row;
+
+  .editor-container {
+    width: 50%;
+    margin-right: 40px;
+  }
+
+  .schema-container {
+    width: 50%;
+  }
+}
+
+.editor-container {
+  .editor {
+    height: 700px;
+  }
+}
+
+.schema-container {
+  wb-status-block {
+    margin-bottom: 20px;
+    display: block;
+  }
+}

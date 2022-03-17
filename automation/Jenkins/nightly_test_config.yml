@@ -1,0 +1,108 @@
+# ---------------CHROME---------------
+# TODO: 76783
+#e2e_nightly_Openvino_int8:
+#    platform: workbench=true
+#    tests: nightly:openvino:int8
+#    cpu: 6
+#    memory: 24G
+#    memory_limit: 24G
+#    browser: chrome
+
+# TODO: 76783
+#e2e_nightly_Openvino_accuracy:
+#    platform: workbench=true
+#    tests: nightly:openvino:accuracy
+#    cpu: 9
+#    memory: 24G
+#    memory_limit: 24G
+#    browser: chrome
+
+e2e_nightly_caffe_accuracy:
+    platform: workbench=true
+    tests: nightly:caffe:accuracy
+    cpu: 9
+    memory: 24G
+    memory_limit: 24G
+    browser: chrome
+
+e2e_nightly_MxNet_accuracy:
+    platform: workbench=true
+    tests: nightly:mxnet:accuracy
+    cpu: 10
+    memory: 24G
+    memory_limit: 24G
+    browser: chrome
+
+e2e_nightly_Pytorch_accuracy:
+    platform: workbench=true
+    tests: nightly:pytorch:accuracy
+    cpu: 9
+    memory: 24G
+    memory_limit: 24G
+    browser: chrome
+
+e2e_nightly_TF_accuracy:
+    platform: workbench=true
+    tests: nightly:tf:accuracy
+    cpu: 10
+    memory: 50G
+    memory_limit: 50G
+    browser: chrome
+
+e2e_nightly_caffe_performance:
+    platform: workbench=true
+    tests: nightly:caffe:performance
+    cpu: 9
+    memory: 24G
+    memory_limit: 24G
+    browser: chrome
+
+e2e_nightly_MxNet_performance:
+    platform: workbench=true
+    tests: nightly:mxnet:performance
+    cpu: 9
+    memory: 24G
+    memory_limit: 24G
+    browser: chrome
+
+e2e_nightly_Pytorch_performance:
+    platform: workbench=true
+    tests: nightly:pytorch:performance
+    cpu: 9
+    memory: 24G
+    memory_limit: 24G
+    browser: chrome
+
+e2e_nightly_TF_performance:
+    platform: workbench=true
+    tests: nightly:tf:performance
+    cpu: 9
+    memory: 28G
+    memory_limit: 28G
+    browser: chrome
+
+# TODO: 76783
+#e2e_nightly_Openvino_performance:
+#    platform: workbench=true
+#    tests: nightly:openvino:performance
+#    cpu: 9
+#    memory: 24G
+#    memory_limit: 24G
+#    browser: chrome
+
+e2e_nightly_large_dataset_uploading:
+    platform: workbench=true
+    tests: nightly:large-dataset-uploading
+    cpu: 4
+    memory: 8G
+    memory_limit: 8G
+    browser: chrome
+
+# Used machines with 16 cores
+e2e_performance:
+    platform: workbench_perf=true
+    tests:  e2e:performance
+    cpu: 15
+    memory: 25G
+    memory_limit: 25G
+    browser: chrome

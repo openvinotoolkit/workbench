@@ -1,0 +1,46 @@
+@import 'fonts';
+
+@mixin wb-radio-group() {
+  $size: 14px;
+
+  mat-radio-group.wb-radio-group {
+    .mat-radio-container {
+      height: $size;
+      width: $size;
+    }
+
+    .mat-radio-outer-circle {
+      height: $size;
+      width: $size;
+    }
+
+    .mat-radio-inner-circle {
+      height: $size;
+      width: $size;
+    }
+
+    .mat-radio-button {
+      .mat-radio-ripple {
+        height: 2 * $size;
+        width: 2 * $size;
+        left: calc(50% - #{$size});
+        top: calc(50% - #{$size});
+
+        .mat-ripple-element {
+          height: 2 * $size !important;
+          width: 2 * $size !important;
+          left: calc(50% - #{$size}) !important;
+          top: calc(50% - #{$size}) !important;
+        }
+      }
+
+      &.mat-radio-checked .mat-radio-label-content {
+        @include wb-body-3();
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 15px;
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+<div class="error-block">
+  <wb-status-text icon="warning" [text]="title" data-test-id="error-title"></wb-status-text>
+
+  <div class="error-message" *ngIf="expanded">{{ error }}</div>
+
+  <div class="toggle-link" (click)="expanded = !expanded">
+    {{ expanded ? 'Hide information' : 'Show information' }}
+  </div>
+</div>

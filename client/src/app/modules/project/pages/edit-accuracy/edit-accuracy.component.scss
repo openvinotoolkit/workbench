@@ -1,0 +1,22 @@
+@import 'fonts';
+@import 'colors';
+@import 'variables';
+
+.switch-panel,
+.error-block {
+  margin-bottom: $container-padding;
+}
+
+.actions {
+  display: flex;
+
+  > * + * {
+    margin-left: 20px;
+  }
+}
+
+.mode-hint {
+  max-width: 500px;
+  color: $brownish-grey;
+  margin-top: 15px;
+}

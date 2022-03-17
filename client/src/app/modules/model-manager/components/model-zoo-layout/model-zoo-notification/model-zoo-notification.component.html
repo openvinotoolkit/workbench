@@ -1,0 +1,4 @@
+<div class="model-zoo-notification" *ngIf="isShown">
+  <wb-info-hint class="wb-full-width" [message]="message"></wb-info-hint>
+  <wb-button class="hide-notification-button" text="Hide Notification" (handleClick)="isShown = false"></wb-button>
+</div>

@@ -1,0 +1,167 @@
+@import 'fonts';
+@import 'colors';
+
+:host {
+  $button-side-padding: 20px;
+  $button-height: 28px;
+  $icon-margin: 10px;
+  $icon-size: 20px;
+
+  display: flex;
+  width: fit-content;
+
+  .button {
+    display: flex;
+    padding: 0 $button-side-padding;
+    height: $button-height;
+    justify-content: center;
+    align-items: center;
+    transition: box-shadow 0.2s ease-in-out, color 0.2s ease-in-out;
+
+    ::ng-deep .mat-button-wrapper {
+      display: flex;
+      align-items: center;
+    }
+
+    &.cdk-focused {
+      outline: 1px solid $plum-light50;
+    }
+
+    &[disabled] {
+      cursor: not-allowed;
+    }
+
+    &:hover ::ng-deep .mat-button-focus-overlay,
+    ::ng-deep .mat-button-focus-overlay {
+      opacity: 0;
+    }
+
+    ::ng-deep mat-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: $icon-size;
+      width: $icon-size;
+      height: $icon-size;
+      margin-right: $icon-margin;
+    }
+
+    &.icon-suffix {
+      ::ng-deep .mat-button-wrapper {
+        flex-direction: row-reverse;
+
+        mat-icon {
+          margin-right: 0;
+          margin-left: $icon-margin;
+        }
+      }
+    }
+
+    .spinner {
+      margin-right: $icon-margin;
+
+      & ::ng-deep circle {
+        stroke: $brownish-grey;
+      }
+    }
+
+    &-primary {
+      @include wb-subtitle-2();
+      background-color: $plum;
+      border: 1px solid $plum;
+      color: $white;
+
+      ::ng-deep mat-icon {
+        color: $white;
+      }
+
+      &:hover:not(.disabled) {
+        box-shadow: 0 2px 5px $deep-red-dark25;
+      }
+
+      &:active:not(.disabled) {
+        box-shadow: inset 0 0 4px 2px $deep-red-dark25;
+      }
+
+      &[disabled] {
+        @include wb-body-4();
+        line-height: $button-height;
+        background-color: $cool-grey;
+        border-color: $cool-grey;
+        color: $very-light-pink;
+      }
+
+      & .spinner ::ng-deep circle {
+        stroke: $very-light-pink;
+      }
+    }
+
+    &-secondary {
+      @include wb-body-3();
+      background-color: transparent;
+      border-color: $plum;
+      color: $plum;
+
+      &:hover:not(.disabled) {
+        box-shadow: 0 2px 5px $deep-red-dark25;
+      }
+
+      &:active:not(.disabled) {
+        box-shadow: inset 0 0 4px 2px $deep-red-dark25;
+      }
+
+      &[disabled] {
+        border-color: $cool-grey;
+        color: $cool-grey;
+      }
+    }
+
+    &-default {
+      @include wb-body-3();
+      background: none;
+      border: none;
+      color: $plum;
+      padding: 0;
+      min-width: unset;
+
+      &:hover:not(.disabled) {
+        color: $plum-light;
+      }
+
+      &:active:not(.disabled) {
+        color: $plum-dark;
+      }
+
+      &[disabled] {
+        color: $cool-grey;
+        border-color: transparent;
+        background-color: transparent;
+      }
+
+      &.cdk-focused {
+        outline: none;
+        color: $plum-dark;
+      }
+    }
+  }
+
+  &.enlarged-control .button {
+    align-items: center;
+    height: 40px;
+    padding: 0 30px;
+
+    @include wb-body-2();
+
+    &-primary {
+      @include wb-h5();
+    }
+
+    &.button-default {
+      padding: 0;
+    }
+
+    &.button-secondary {
+      @include wb-label();
+    }
+  }
+}

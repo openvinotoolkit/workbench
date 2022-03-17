@@ -1,0 +1,25 @@
+.wb-panel__header {
+  margin-bottom: 20px;
+}
+
+.object-detection-predictions {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.inference-results {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: auto;
+
+  // hack to stick scrolling bar to the right border of wb-panel
+  margin-right: -20px;
+  padding-right: 20px;
+
+  wb-prediction-badge {
+    display: block;
+    margin-bottom: 20px;
+    margin-right: 20px;
+  }
+}

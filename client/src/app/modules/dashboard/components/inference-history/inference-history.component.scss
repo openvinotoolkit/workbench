@@ -1,0 +1,28 @@
+@import 'colors';
+
+.table-container {
+  overflow-y: auto;
+  max-height: 304px;
+  border: 1px solid $very-light-pink;
+  border-radius: 3px;
+
+  .wb-table.inference-history-table {
+    width: 100%;
+    counter-reset: inference_items_rows;
+
+    thead > tr {
+      height: 60px;
+    }
+
+    td:first-child::before {
+      counter-increment: inference_items_rows;
+      content: counter(inference_items_rows, upper-latin);
+    }
+  }
+}
+
+.empty-data-container {
+  box-sizing: border-box;
+  text-align: center;
+  padding: 15px;
+}

@@ -1,0 +1,184 @@
+"""
+ OpenVINO DL Workbench
+ Class for ORM model described an Inference Job
+
+ Copyright (c) 2018 Intel Corporation
+
+ LEGAL NOTICE: Your use of this software and any required dependent software (the “Software Package”) is subject to
+ the terms and conditions of the software license agreements for Software Package, which may also include
+ notices, disclaimers, or license terms for third party or open source software
+ included in or with the Software Package, and your use indicates your acceptance of all such terms.
+ Please refer to the “third-party-programs.txt” or other similarly-named text file included with the Software Package
+ for additional details.
+ You may obtain a copy of the License at
+      https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
+"""
+import json
+
+from sqlalchemy import Column, Float, Text, Integer, ForeignKey, DateTime, Boolean
+from sqlalchemy.orm import relationship, backref, Session
+
+from wb.main.enumerates import JobTypesEnum, StatusEnum
+from wb.main.models.jobs_model import JobsModel
+from wb.main.models.profiling_model import ProfilingJobModel
+from wb.main.utils.profiling_run_info import SingleProfilingRunInfo
+
+
+# pylint: disable=too-many-instance-attributes
+class SingleInferenceInfoModel(JobsModel):
+    __tablename__ = 'single_inference_info'
+
+    __mapper_args__ = {
+        'polymorphic_identity': JobTypesEnum.single_inference_type.value
+    }
+
+    job_id = Column(Integer, ForeignKey(JobsModel.job_id), primary_key=True)
+
+    profiling_job_id = Column(Integer, ForeignKey(ProfilingJobModel.job_id), nullable=True)
+
+    latency = Column(Float, nullable=True)
+    throughput = Column(Float, nullable=True)
+    total_execution_time = Column(Float, nullable=True)
+
+    exec_graph = Column(Text, nullable=True)
+    runtime_representation = Column(Text, nullable=True)
+    layer_time_distribution = Column(Text, nullable=True)
+    runtime_precisions_available = Column(Boolean, nullable=False, default=False)
+    precision_transitions = Column(Text, nullable=True)
+    precision_distribution = Column(Text, nullable=True)
+
+    batch = Column(Integer, nullable=False, default=1)
+    nireq = Column(Integer, nullable=False, default=1)
+    is_auto_benchmark = Column(Boolean, nullable=False, default=False)
+
+    started_timestamp = Column(DateTime, nullable=True)
+
+    profiling_job = relationship(ProfilingJobModel,
+                                 backref=backref('profiling_results', lazy='subquery', cascade='delete,all'),
+                                 foreign_keys=[profiling_job_id], cascade='delete,all')
+
+    def __init__(self, data: dict):
+        super().__init__(data)
+        self.profiling_job_id = data['profilingJobId']
+        self.batch = data['batch']
+        self.nireq = data['nireq']
+        self.is_auto_benchmark = self.batch == 0 and self.nireq == 0
+
+    def update(self, profiling_results: SingleProfilingRunInfo):
+        if self.throughput and profiling_results.throughput and self.throughput > profiling_results.throughput:
+            return
+
+        if self.batch == 0 and profiling_results.batch > 0:
+            self.batch = profiling_results.batch
+
+        if self.nireq == 0 and profiling_results.num_stream > 0:
+            self.nireq = profiling_results.num_stream
+
+        self.throughput = profiling_results.throughput
+        self.latency = profiling_results.latency or self.latency
+        self.total_execution_time = profiling_results.total_execution_time or self.total_execution_time
+
+        self.exec_graph = profiling_results.exec_graph or self.exec_graph
+
+        self.runtime_representation = json.dumps(profiling_results.per_layer_report) or self.runtime_representation
+        self.layer_time_distribution = json.dumps(profiling_results.layer_distribution) or self.layer_time_distribution
+        precision_distribution, precision_transitions = profiling_results.precision_info
+        self.precision_distribution = json.dumps(precision_distribution) or self.precision_distribution
+        self.precision_transitions = json.dumps(precision_transitions) or self.precision_transitions
+        self.runtime_precisions_available = profiling_results.runtime_analysis_available or \
+                                            self.runtime_precisions_available
+
+        self.progress = profiling_results.progress or self.progress
+        self.status = profiling_results.status or self.status
+        if not self.started_timestamp:
+            self.started_timestamp = profiling_results.start_time
+
+    def short_json(self):
+        return {
+            'id': self.job_id,
+            'profilingJobId': self.profiling_job_id,
+            'projectId': self.project_id,
+            'status': self.status_to_json(),
+            'batch': self.batch,
+            'nireq': self.nireq,
+            'isAutoBenchmark': self.is_auto_benchmark,
+            'autogenerated': self.profiling_job.autogenerated,
+            'latency': self.latency,
+            'throughput': self.throughput,
+            'throughputUnit': self.profiling_job.project.throughput_unit.value,
+            'totalExecutionTime': self.total_execution_time,
+            'inferenceTime': self.profiling_job.inference_time,
+            'created': self.timestamp_to_milliseconds(self.creation_timestamp),
+            'started': self.timestamp_to_milliseconds(self.started_timestamp) if self.started_timestamp else None,
+            'updated': self.timestamp_to_milliseconds(self.last_modified),
+            'deviceType': self.project.device.type,
+        }
+
+    def json(self):
+        return {
+            'execInfo': {
+                'nireq': self.nireq,
+                'batch': self.batch,
+                'latency': self.latency,
+                'throughput': self.throughput,
+                'throughputUnit': self.profiling_job.project.throughput_unit.value,
+                'totalExecutionTime': self.total_execution_time,
+                'autogenerated': self.profiling_job.autogenerated,
+            },
+            'runtimeRepresentation': json.loads(self.runtime_representation) if self.runtime_representation else [],
+            'layerTimeDistribution': json.loads(self.layer_time_distribution) if self.layer_time_distribution else [],
+            'runtimePrecisionsAvailable': self.runtime_precisions_available,
+            'precisionTransitions': json.loads(self.precision_transitions) if self.precision_transitions else {},
+            'precisionDistribution': json.loads(self.precision_distribution) if self.precision_distribution else {},
+        }
+
+    def get_inference_runtime_precisions(self):
+        precision_distribution = json.loads(self.precision_distribution) if self.precision_distribution else {}
+        return [k for k, v in precision_distribution.items() if v['execTime']]
+
+    @staticmethod
+    def get_or_create_single_inference_model(batch: int, nireq: int,
+                                             project_id: int,
+                                             profiling_job_id: int,
+                                             session: Session) -> 'SingleInferenceInfoModel':
+        is_auto_benchmark = batch == 0 and nireq == 0
+        if is_auto_benchmark:
+            single_inference = session.query(SingleInferenceInfoModel).filter_by(
+                is_auto_benchmark=True,
+                project_id=project_id,
+            ).first()
+        else:
+            single_inference = session.query(SingleInferenceInfoModel).filter(
+                SingleInferenceInfoModel.batch == batch,
+                SingleInferenceInfoModel.nireq == nireq,
+                SingleInferenceInfoModel.project_id == project_id,
+            ).first()
+
+        if not single_inference:
+            return SingleInferenceInfoModel.create_single_inference_job(batch, nireq,
+                                                                        project_id=project_id,
+                                                                        profiling_job_id=profiling_job_id)
+        SingleInferenceInfoModel.update_single_inference(single_inference=single_inference,
+                                                         profiling_job_id=profiling_job_id)
+        return single_inference
+
+    @staticmethod
+    def create_single_inference_job(batch: int, nireq: int,
+                                    project_id: int,
+                                    profiling_job_id: int) -> 'SingleInferenceInfoModel':
+        single_inference = SingleInferenceInfoModel({
+            'profilingJobId': profiling_job_id,
+            'projectId': project_id,
+            'batch': batch,
+            'nireq': nireq
+        })
+        return single_inference
+
+    @staticmethod
+    def update_single_inference(single_inference: 'SingleInferenceInfoModel',
+                                profiling_job_id: int):
+        single_inference.profiling_job_id = profiling_job_id
+
+        single_inference.started_timestamp = None
+        single_inference.status = StatusEnum.queued
+        single_inference.progress = 0

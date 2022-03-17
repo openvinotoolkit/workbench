@@ -1,0 +1,46 @@
+@import 'colors';
+
+.text-dataset-preview-table {
+  overflow-y: auto;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th {
+    white-space: nowrap;
+  }
+
+  table,
+  th,
+  td {
+    border: 1px solid $very-light-pink;
+    background-color: unset;
+  }
+
+  tr {
+    height: 40px;
+
+    &:hover {
+      background-color: unset;
+    }
+  }
+
+  th,
+  td {
+    padding: 0 20px;
+    text-align: left;
+  }
+
+  .cell {
+    max-width: 140px;
+
+    pre {
+      margin: 0;
+      white-space: pre;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+}

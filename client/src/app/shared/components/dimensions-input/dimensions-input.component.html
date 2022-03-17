@@ -1,0 +1,34 @@
+<form [formGroup]="dimensionsFormGroup" class="container" data-test-id="container">
+  <div class="control" *ngFor="let fieldIndex of dimensionFields; first as isFirst">
+    <div *ngIf="inputPrefixes[fieldIndex - 1]" class="prefix">{{ inputPrefixes[fieldIndex - 1] }}:</div>
+    <mat-form-field class="field" appearance="outline" floatLabel="never">
+      <input
+        matInput
+        type="number"
+        [maxNumber]="1e12"
+        [attr.data-test-id]="'input-dimension-' + fieldIndex"
+        [numberType]="dimensionsInputNumberType"
+        [formControlName]="'input-dimension-' + fieldIndex"
+      />
+    </mat-form-field>
+
+    <wb-button
+      *ngIf="removableFields && dimensionsCount !== 1"
+      data-test-id="remove-dimension"
+      class="remove"
+      (click)="removeDimensionField(fieldIndex)"
+      [testId]="'remove-dimension-' + (fieldIndex - 1)"
+      icon="delete"
+    >
+    </wb-button>
+  </div>
+  <wb-button
+    testId="add-dimension"
+    class="add"
+    icon="add"
+    text="Add Dimension"
+    *ngIf="removableFields && dimensionsCount < maxDimensionFields"
+    (click)="addDimensionField()"
+  >
+  </wb-button>
+</form>

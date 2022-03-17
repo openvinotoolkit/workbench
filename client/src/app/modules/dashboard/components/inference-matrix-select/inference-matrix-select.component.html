@@ -1,0 +1,30 @@
+<table *ngIf="matrix" data-test-id="inference-matrix-select">
+  <tr>
+    <th class="top-left-label"></th>
+    <th class="label" *ngFor="let label of matrix.columnLabels">
+      Stream <br />
+      {{ label }}
+    </th>
+  </tr>
+  <tr *ngFor="let _ of matrix.rowLabels; let rowIndex = index">
+    <td class="label">
+      Batch <br />
+      {{ matrix.rowLabels[rowIndex] }}
+    </td>
+
+    <ng-container *ngFor="let _ of matrix.columnLabels; let columnIndex = index">
+      <td
+        *ngIf="matrix.rows[rowIndex][columnIndex] as element"
+        [attr.data-test-id]="'cell_' + element.batch + ':' + element.nireq"
+        (click)="toggleElement(element)"
+      >
+        <wb-inference-matrix-cell
+          [config]="element"
+          [execInfo]="inferenceExecInfoMap.get(getConfigKey(element))"
+          [selected]="selectedItems.has(getConfigKey(element))"
+        >
+        </wb-inference-matrix-cell>
+      </td>
+    </ng-container>
+  </tr>
+</table>

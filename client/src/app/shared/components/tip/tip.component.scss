@@ -1,0 +1,19 @@
+@import 'fonts';
+@import 'colors';
+
+:host {
+  max-width: 420px;
+  color: $black;
+
+  p {
+    margin: 0 0 20px;
+    text-align: left;
+    @include wb-text-8();
+  }
+
+  h3 {
+    color: $plum;
+    @include wb-h5();
+    margin: 0 0 15px;
+  }
+}

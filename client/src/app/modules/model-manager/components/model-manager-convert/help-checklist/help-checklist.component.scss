@@ -1,0 +1,12 @@
+@import 'variables';
+
+:host {
+  display: block;
+  margin: 30px 0;
+}
+
+.checklist-content {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+}

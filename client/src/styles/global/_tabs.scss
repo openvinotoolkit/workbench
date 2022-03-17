@@ -1,0 +1,133 @@
+@import 'fonts';
+@import 'colors';
+@import 'variables';
+
+mat-tab-group,
+nav[mat-tab-nav-bar] {
+  display: block;
+
+  .mat-tab-labels,
+  .mat-tab-links {
+    border-bottom: 1px solid $cool-grey;
+  }
+
+  &.mat-tab-nav-bar {
+    border-bottom: none;
+  }
+
+  .mat-tab-label,
+  .mat-tab-link {
+    @include wb-body-4();
+
+    min-width: 100px;
+    height: 35px;
+    opacity: 1;
+    border: 1px solid $cool-grey;
+    padding: 0;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    background-color: $ice-blue;
+    color: $black;
+    bottom: -1px;
+  }
+
+  .mat-tab-label-content,
+  .mat-tab-link {
+    padding: 0;
+    padding-left: $container-padding;
+    padding-right: $container-padding;
+  }
+
+  .mat-tab-label-active,
+  .mat-tab-link-active {
+    @include wb-subtitle-2();
+
+    background-color: $white;
+    border-bottom-color: $white;
+  }
+
+  .mat-tab-label,
+  .mat-tab-link {
+    margin-left: $container-padding;
+  }
+
+  mat-ink-bar {
+    display: none;
+  }
+
+  .mat-tab-header {
+    border-bottom: none;
+  }
+
+  .mat-tab-body-content {
+    box-sizing: border-box;
+    border-bottom: 1px solid $cool-grey;
+    padding: $container-padding;
+  }
+
+  .tab-content {
+    h3 {
+      margin-top: 0;
+      display: flex;
+      flex-direction: row;
+    }
+  }
+}
+
+mat-tab-group.wb-tab-group,
+nav[mat-tab-nav-bar].wb-tab-group {
+  .mat-tab-labels,
+  .mat-tab-links {
+    border-bottom: 1px solid $very-light-pink;
+  }
+
+  .mat-tab-label,
+  .mat-tab-link {
+    min-width: 80px;
+    height: 30px;
+    border-color: $very-light-pink;
+    background-color: $faded-bgr;
+  }
+
+  .mat-tab-label-active,
+  .mat-tab-link-active {
+    @include wb-body-3();
+
+    color: $plum;
+    background-color: $white;
+    border-bottom-color: $white;
+  }
+
+  .mat-tab-label + .mat-tab-label,
+  .mat-tab-link + .mat-tab-link {
+    margin-left: $container-padding * 2;
+  }
+
+  .mat-tab-body-content {
+    border-color: $very-light-pink;
+  }
+}
+
+mat-tab-group.wb-tab-group.enlarged-control,
+nav[mat-tab-nav-bar].wb-tab-group.enlarged-control {
+  .mat-tab-label,
+  .mat-tab-link {
+    height: 40px;
+    @include wb-label();
+  }
+
+  .mat-tab-label-content,
+  .mat-tab-link {
+    padding: 0 30px;
+  }
+
+  .mat-tab-label-active,
+  .mat-tab-link-active {
+    @include wb-body-2();
+  }
+
+  .mat-tab-label + .mat-tab-label,
+  .mat-tab-link + .mat-tab-link {
+    margin-left: $container-padding;
+  }
+}

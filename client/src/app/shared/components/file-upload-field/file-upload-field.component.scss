@@ -1,0 +1,53 @@
+@import 'fonts';
+@import 'variables';
+
+:host {
+  display: flex;
+
+  .file-upload-field-container {
+    display: flex;
+    align-items: baseline;
+    width: 100%;
+    margin-bottom: $mat-field-padding-bottom;
+
+    wb-help-tooltip {
+      margin-left: 5px;
+    }
+
+    .field-label {
+      @include wb-subtitle-1();
+      display: flex;
+      margin-right: 20px;
+
+      &-optional {
+        position: absolute;
+        margin-top: 14px;
+        color: $light-blue-grey;
+      }
+    }
+
+    .file-upload-field {
+      &-row {
+        display: flex;
+        align-items: center;
+      }
+
+      &-selected {
+        margin-left: $container-padding;
+        color: $brownish-grey;
+        max-width: 260px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      &-required {
+        margin-top: 7px;
+      }
+    }
+
+    &-error {
+      color: $deep-red;
+    }
+  }
+}

@@ -1,0 +1,110 @@
+<div class="legend">* Required</div>
+<div class="wb-row">
+  <div class="wb-col-8">
+    <form [formGroup]="deploymentForm" class="form">
+      <div class="wb-panel">
+        <h4 class="wb-h4 header">
+          <span class="header-txt required">Select OS</span>
+        </h4>
+        <mat-radio-group formControlName="selectedOS" class="wb-radio-group controls-items">
+          <div *ngFor="let OS of osTypes">
+            <mat-radio-button [value]="OS" [attr.data-test-id]="OS">
+              <div class="label">{{ osTypeToNameMap[OS] }}</div>
+            </mat-radio-button>
+          </div>
+        </mat-radio-group>
+
+        <div class="wb-row-divider"></div>
+
+        <h4 class="wb-h4 header">
+          <span class="header-txt required">Select Target</span>
+        </h4>
+        <div class="controls-items">
+          <mat-checkbox
+            *ngFor="let device of devices"
+            [checked]="selectedTargets?.includes(device)"
+            (change)="targetChecked(device)"
+            [attr.data-test-id]="'tab-packaging-checkbox-' + device"
+          >
+            {{ device }}
+          </mat-checkbox>
+        </div>
+
+        <div class="wb-row-divider"></div>
+
+        <h4 class="wb-h4 header">
+          <span class="header-txt required">Include Model</span>
+        </h4>
+        <mat-radio-group
+          formControlName="includeModel"
+          class="wb-radio-group controls-items"
+          (change)="calcEstimatedSize()"
+        >
+          <mat-radio-button [value]="true" data-test-id="tab-packaging-include-model">Yes</mat-radio-button>
+          <mat-radio-button [value]="false">No</mat-radio-button>
+        </mat-radio-group>
+
+        <div class="wb-row-divider"></div>
+
+        <h4 class="wb-h4 header">
+          <span class="header-txt required">Include Python API</span>
+          <wb-help-tooltip [tooltipMessage]="pythonBindingsTooltip"></wb-help-tooltip>
+        </h4>
+        <mat-radio-group
+          formControlName="pythonBindings"
+          class="wb-radio-group controls-items"
+          (change)="calcEstimatedSize()"
+        >
+          <mat-radio-button [value]="true" data-test-id="tab-packaging-include-python-bindings">Yes</mat-radio-button>
+          <mat-radio-button [value]="false">No</mat-radio-button>
+        </mat-radio-group>
+
+        <div class="wb-row-divider"></div>
+
+        <h4 class="wb-h4 header">
+          <span class="header-txt required">Include Install Scripts</span>
+          <wb-help-tooltip class="wb-full-width" [tooltipMessage]="installScriptsTooltip"></wb-help-tooltip>
+        </h4>
+        <mat-radio-group
+          formControlName="installScripts"
+          class="wb-radio-group controls-items"
+          (change)="calcEstimatedSize()"
+        >
+          <mat-radio-button [value]="true" data-test-id="tab-packaging-include-python-bindings">Yes</mat-radio-button>
+          <mat-radio-button [value]="false">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="wb-panel package-size-panel">
+        <div class="size-row">
+          <span class="wb-subtitle-1 size-title">Estimated Package Size:</span>
+          <span class="wb-subtitle-strong">{{ (estimatedSize | number: '1.0-1') + ' Mb' }}</span>
+        </div>
+        <wb-info-hint class="wb-full-width" [message]="archiveSizeTip"></wb-info-hint>
+      </div>
+    </form>
+  </div>
+  <div class="wb-col-4">
+    <div class="wb-panel">
+      <wb-tip class="tip" [tipMessage]="{ header: 'Pack Tip', content: [deployTip] }"></wb-tip>
+    </div>
+  </div>
+</div>
+<div class="controls">
+  <wb-button
+    class="enlarged-control"
+    type="primary"
+    text="Pack"
+    testId="tab-packaging-button-pack"
+    [disabled]="isPackagingDisabled"
+    [pending]="isDeploymentArchivePreparing$ | async"
+    (handleClick)="startPackaging()"
+  >
+  </wb-button>
+  <wb-info-hint
+    *ngIf="packagingHint as hint"
+    [message]="hint.message"
+    [type]="hint.type"
+    class="wb-full-width"
+  ></wb-info-hint>
+</div>

@@ -1,0 +1,21 @@
+@use '../text-dataset-preview-table';
+@import 'colors';
+
+.wb-panel__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+:host > .wb-panel {
+  border-left: none;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+
+  border-bottom: none;
+  border-bottom-right-radius: 0;
+
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+}

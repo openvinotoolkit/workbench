@@ -1,0 +1,70 @@
+<ng-container [ngTemplateOutlet]="navigation"></ng-container>
+<h1 class="wb-h1 wb-page-header">Import Image Dataset</h1>
+<div class="dataset-manager-import-page">
+  <div class="dataset-manager-import-page-content">
+    <ng-container [ngTemplateOutlet]="datasetWizardTabGroup"></ng-container>
+  </div>
+</div>
+<ng-template #navigation>
+  <wb-navigation-bar>
+    <a (click)="toCreateProject()">Create Project</a>
+    <a>Import Image Dataset</a>
+  </wb-navigation-bar>
+</ng-template>
+
+<ng-template #datasetWizardTabGroup>
+  <mat-tab-group
+    class="wb-tab-group enlarged-control"
+    animationDuration="0ms"
+    disableRipple
+    [(selectedIndex)]="selectedTabIndex"
+  >
+    <!--  Create Dataset Tab  -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span data-test-id="create-dataset-tab">{{ tabsLabelsMap.createDataset }}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <ng-container [ngTemplateOutlet]="createDatasetTabContent"></ng-container>
+      </ng-template>
+    </mat-tab>
+    <!--  Upload Dataset Tab  -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span data-test-id="upload-dataset-tab">{{ tabsLabelsMap.uploadDataset }}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <ng-container [ngTemplateOutlet]="uploadDatasetTabContent"></ng-container>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</ng-template>
+
+<ng-template #createDatasetTabContent>
+  <wb-create-dataset
+    [isDevCloud]="isDevCloud$ | async"
+    [defaultImages]="defaultImages$ | async"
+    (createNADataset)="handleNADatasetCreation($event)"
+    (navigateBack)="toCreateProject()"
+  >
+  </wb-create-dataset>
+</ng-template>
+
+<ng-template #uploadDatasetTabContent>
+  <div class="upload-dataset-error">
+    <wb-message-box
+      *ngIf="(selectedDataset$ | async)?.status?.errorMessage as errorMessage"
+      messageType="error"
+      [message]="uploadDatasetFailedMessage"
+      [detailedMessage]="errorMessage"
+    >
+    </wb-message-box>
+  </div>
+  <wb-dataset-upload
+    [editingDataset]="selectedDataset$ | async"
+    [importTip]="importDatasetTip"
+    (uploadDataset)="uploadDataset($event)"
+    (navigateBack)="toCreateProject()"
+  >
+  </wb-dataset-upload>
+</ng-template>

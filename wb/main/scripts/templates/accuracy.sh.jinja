@@ -1,0 +1,11 @@
+sed -i 's@$JOB_BUNDLE_PATH@'"$JOB_BUNDLE_PATH"'@g' ${JOB_BUNDLE_PATH}/{{CONFIG_PATH_IN_ACCURACY_BUNDLE}}
+
+
+echo -n "[RUN COMMAND] "
+
+set -x
+
+python3 \
+    {{ACCURACY_WRAPPER_PATH_IN_BUNDLE}} \
+    --yml-config ${JOB_BUNDLE_PATH}/{{CONFIG_PATH_IN_ACCURACY_BUNDLE}} \
+    --log-dir ${ARTIFACTS_PATH} {{PROFILE_FLAGS}}

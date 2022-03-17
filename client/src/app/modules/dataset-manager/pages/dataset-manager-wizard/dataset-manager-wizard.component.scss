@@ -1,0 +1,19 @@
+@import 'variables';
+
+.dataset-manager-import-page {
+  &-content {
+    ::ng-deep mat-ink-bar {
+      display: none;
+    }
+
+    ::ng-deep.mat-tab-body-content {
+      padding: 0;
+      overflow: hidden;
+      border-bottom: none;
+    }
+
+    .upload-dataset-error {
+      margin: $container-padding $container-padding 0;
+    }
+  }
+}

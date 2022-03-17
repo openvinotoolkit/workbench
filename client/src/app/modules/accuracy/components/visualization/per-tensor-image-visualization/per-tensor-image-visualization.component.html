@@ -1,0 +1,24 @@
+<div class="per-tensor-image-info" *ngIf="image" data-test-id="network-output-container">
+  <div class="image wb-panel">
+    <div class="wb-h4 section-header">Selected Image</div>
+    <wb-image-renderer [image]="image"></wb-image-renderer>
+  </div>
+  <div class="table-info wb-panel" *ngIf="outputsMSEInfo">
+    <div class="wb-h4 section-header">Outputs</div>
+    <wb-info-hint [message]="hints.perTensorVisualization"></wb-info-hint>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Mean Squared Error</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let info of outputsMSEInfo">
+          <td class="wb-subtitle-2" data-test-id="output-name">{{ info.output_name }}</td>
+          <td data-test-id="mse-value">{{ formatMse(info.mse) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

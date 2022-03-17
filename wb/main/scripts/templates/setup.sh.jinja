@@ -1,0 +1,173 @@
+#!/bin/bash
+
+set -e
+
+SUPPORTED_SCOPES=("full" "profiling" "calibration" "accuracy")
+SCOPE=${SUPPORTED_SCOPES[0]}
+
+while test $# -gt 0; do
+    case "$1" in
+    -install-dir)
+        INSTALL_DIR=$2
+        shift 2
+        ;;
+    -scope)
+        SCOPE=$2
+        shift 2
+        ;;
+    -venv-path)
+        PYTHON_ENVIRONMENT_PATH=$2
+        shift 2
+        ;;
+    *)
+        echo "Unsupported option $1"
+        exit 1
+        ;;
+    esac
+done
+
+CURRENT_SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+BUNDLE_ROOT_PATH="$(dirname ${CURRENT_SCRIPT_PATH})"
+
+
+if [[ ! " ${SUPPORTED_SCOPES[@]} " =~ " ${SCOPE} " ]]; then
+  echo "Scope ${SCOPE} is not supported, available scopes are: ${SUPPORTED_SCOPES[@]}"
+  exit 1
+fi
+
+echo "Checking system requirements."
+
+#====================================
+echo "Checking the OS of the target."
+
+source "${CURRENT_SCRIPT_PATH}/is_supported_os.sh"
+
+if [[ -z "${INSTALL_DIR}" ]]; then
+
+  DESTINATION_BUNDLE_PATH="${HOME}/{{WORKBENCH_HIDDEN_FOLDER}}"
+  mkdir -p ${DESTINATION_BUNDLE_PATH}
+  rm -rf ${DESTINATION_BUNDLE_PATH}/*
+  cp -r ${BUNDLE_ROOT_PATH}/* ${DESTINATION_BUNDLE_PATH}/
+
+else
+  DESTINATION_BUNDLE_PATH=${INSTALL_DIR}
+fi
+
+if [[ -z "${PYTHON_ENVIRONMENT_PATH}" ]]; then
+  PYTHON_ENVIRONMENT_PATH=${DESTINATION_BUNDLE_PATH}/{{PYTHON_ENVIRONMENT_PATH}}
+fi
+
+echo "The home directory is ${HOME}."
+
+SCRIPTS_PATH=${DESTINATION_BUNDLE_PATH}/{{SCRIPTS_PATH}}
+DEPENDENCIES_PATH=${DESTINATION_BUNDLE_PATH}/{{DEPENDENCIES_PATH}}
+
+#====================================
+echo "Checking the Python version."
+
+${SCRIPTS_PATH}/is_supported_python_version.sh
+
+#====================================
+echo "Checking the pip version."
+
+${SCRIPTS_PATH}/is_supported_pip_version.sh
+
+#====================================
+echo "Checking internet connection."
+
+${SCRIPTS_PATH}/has_internet_connection.sh
+
+#====================================
+
+echo "Configuring Python environment."
+
+python3 -m pip install --user semver==2.13.0
+
+NEED_CREATE_NEW_PYTHON_ENV=1
+
+# Finding wheels
+# Get Python version
+PYTHON_VERSION=$(python3 -c 'import sys; print(sys.version_info.major, sys.version_info.minor, sep="")')
+
+# ~+ stands for the absolute current directory path - it is required for "find" to return the absolute path
+RUNTIME_WHEEL_PATH=$(find ~+ -type f -name "openvino-*cp${PYTHON_VERSION}*.whl" -print -quit)
+DEV_WHEEL_PATH=$(find ~+ -type f -name "openvino_dev-*.whl" -print -quit)
+
+export PYTHONPATH=
+export LD_LIBRARY_PATH=
+
+if [[ -d "${PYTHON_ENVIRONMENT_PATH}" ]]; then
+  set +e
+
+  if [[ ! -f "${SCRIPTS_PATH}/edge_node_setup.py" ]]; then
+    echo "No such script: ${SCRIPTS_PATH}/edge_node_setup.py"
+    exit 1
+  fi
+
+  python3 ${SCRIPTS_PATH}/edge_node_setup.py \
+      --python-environment-path "${PYTHON_ENVIRONMENT_PATH}" \
+      --validate \
+      --runtime-wheel "${RUNTIME_WHEEL_PATH}" \
+      --dev-wheel "${DEV_WHEEL_PATH}"
+
+  NEED_CREATE_NEW_PYTHON_ENV=$?
+  if [[ ${NEED_CREATE_NEW_PYTHON_ENV} -ne 0 ]]; then
+      echo "Validation Python environment at  ${PYTHON_ENVIRONMENT_PATH} has failed"
+      PYTHON_ENVIRONMENT_PATH=${DESTINATION_BUNDLE_PATH}/{{PYTHON_ENVIRONMENT_PATH}}
+      echo "A new python environment will be created in ${PYTHON_ENVIRONMENT_PATH}"
+  fi
+
+  set -e
+fi
+
+if [[ ${NEED_CREATE_NEW_PYTHON_ENV} -ne 0 ]]; then
+
+  if [[ -f "${SCRIPTS_PATH}/edge_node_setup.py" ]]; then
+      echo "Installing Python requirements to ${PYTHON_ENVIRONMENT_PATH}"
+
+      python3 ${SCRIPTS_PATH}/edge_node_setup.py \
+              --python-environment-path "${PYTHON_ENVIRONMENT_PATH}" \
+              --runtime-wheel "${RUNTIME_WHEEL_PATH}" \
+              --dev-wheel "${DEV_WHEEL_PATH}"
+  else
+      echo "No such script: ${SCRIPTS_PATH}/edge_node_setup.py"
+  fi
+
+fi # if need create a new python env
+
+#====================================
+
+echo "Checking paswordless sudo."
+
+set +e
+${SCRIPTS_PATH}/check_passwordless_sudo.sh
+PASSWORDLESS_SUDO_RETVAL=$?
+set -e
+
+if [[ ${PASSWORDLESS_SUDO_RETVAL} -eq 0 ]]; then
+
+  echo "The current user has paswordless sudo."
+
+  set +e
+  echo "Setting up dependencies for the GPU device."
+  sudo -E ${DESTINATION_BUNDLE_PATH}/install_dependencies/install_NEO_OCL_driver.sh -y --auto
+
+  echo "Setting up dependencies for the MYRIAD device."
+  ${DESTINATION_BUNDLE_PATH}/install_dependencies/install_NCS_udev_rules.sh
+
+else
+  echo "{{NO_SUDO_SETUP_MESSAGE}}"
+  echo "USB rules are not loaded to this target."
+fi
+
+# Activate virtualenv
+source "${PYTHON_ENVIRONMENT_PATH}/bin/activate"
+# Printing PYTHON_ENVIRONMENT_PATH in order to parse it for next job script
+echo "PYTHON_ENVIRONMENT_PATH=${PYTHON_ENVIRONMENT_PATH}"
+
+#====================================
+
+# print CPU name
+python "${SCRIPTS_PATH}/print_cpu_name.py"
+
+echo "{{JOB_FINISH_MARKER}}"

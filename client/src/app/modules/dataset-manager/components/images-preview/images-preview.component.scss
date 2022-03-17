@@ -1,0 +1,70 @@
+@import 'colors';
+@import 'variables';
+
+$image-card-size: 150px;
+$image-card-margin: 10px;
+
+:host {
+  display: block;
+}
+
+.images-preview {
+  .subheader {
+    align-items: center;
+    border-bottom: 1px solid $very-light-pink;
+    display: flex;
+    color: $brownish-grey;
+    height: 50px;
+    justify-content: center;
+    mat-icon {
+      margin-right: 10px;
+    }
+  }
+  .image-container {
+    min-height: 370px;
+
+    .image-row {
+      display: flex;
+      margin: $container-padding;
+
+      .image-card {
+        height: $image-card-size;
+        width: $image-card-size;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+
+        &-uploaded {
+          border: 1px solid $very-light-pink;
+          position: relative;
+          mat-icon {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            z-index: 1000;
+            border-radius: 50%;
+            background: $faded-bgr;
+            cursor: pointer;
+          }
+          img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        &-placeholder {
+          border: 1px dashed $very-light-pink;
+          color: $brownish-grey;
+          cursor: pointer;
+        }
+
+        &:not(:first-child) {
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+}

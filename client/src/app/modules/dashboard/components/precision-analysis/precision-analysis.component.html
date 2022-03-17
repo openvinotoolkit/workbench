@@ -1,0 +1,44 @@
+<div class="wb-col-6">
+  <div class="wb-panel">
+    <div class="wb-panel__header">
+      <h4 class="wb-panel__title">Precision Distribution</h4>
+    </div>
+    <wb-precision-distribution
+      *ngIf="selectedInferenceResult?.runtimePrecisionsAvailable; else infoUnavailable"
+      [precisions]="selectedInferenceResult?.precisionDistribution"
+    >
+    </wb-precision-distribution>
+    <wb-precision-analysis-advisor
+      *ngIf="selectedInferenceResult?.runtimePrecisionsAvailable"
+      class="precision-analysis-advisor"
+      [layersPrecisionDistribution]="selectedInferenceResult?.layerTimeDistribution"
+      [project]="selectedProject"
+      [model]="selectedModel"
+      [optimizations]="availableOptimizations"
+      [layers]="selectedInferenceResult?.runtimeRepresentation"
+    >
+    </wb-precision-analysis-advisor>
+  </div>
+</div>
+<div class="wb-col-3">
+  <div class="wb-panel">
+    <div class="wb-panel__header">
+      <h4 class="wb-panel__title">Precision Transitions Matrix</h4>
+    </div>
+    <wb-precision-transition-matrix
+      *ngIf="selectedInferenceResult?.runtimePrecisionsAvailable; else infoUnavailable"
+      [precisionTransitions]="selectedInferenceResult?.precisionTransitions"
+    ></wb-precision-transition-matrix>
+  </div>
+</div>
+<div class="wb-col-3">
+  <div class="wb-panel" *ngIf="selectedInferenceResult?.execInfo">
+    <wb-execution-attributes [execInfo]="selectedInferenceResult?.execInfo"></wb-execution-attributes>
+  </div>
+</div>
+
+<ng-template #infoUnavailable>
+  <div class="not-available">
+    <wb-info-hint type="warning" [message]="analysisUnavailableTipMessage"></wb-info-hint>
+  </div>
+</ng-template>

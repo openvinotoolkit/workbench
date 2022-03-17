@@ -1,0 +1,22 @@
+<mat-radio-group
+  data-test-id="accuracy-report-type-radio-group"
+  class="wb-radio-group report-types"
+  (change)="selectedReportType = $event.value"
+>
+  <div *ngFor="let reportType of accuracyReportTypes" class="type">
+    <ng-container *ngIf="accuracyReportOptions[reportType] as option">
+      <mat-radio-button
+        [checked]="selectedReportType === reportType"
+        [disabled]="option.disabled"
+        [id]="reportType"
+        [value]="reportType"
+        [attr.data-test-id]="reportType + '-button'"
+      >
+        <div class="label" [attr.data-test-id]="reportType + '-report'">{{ option.label }}</div>
+      </mat-radio-button>
+      <wb-markdown-text class="description" [text]="option.description"> </wb-markdown-text>
+      <wb-info-hint class="warning" type="warning" *ngIf="option.disabled" [message]="option.disabledMessage">
+      </wb-info-hint>
+    </ng-container>
+  </div>
+</mat-radio-group>

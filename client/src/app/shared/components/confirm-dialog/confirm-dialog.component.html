@@ -1,0 +1,22 @@
+<div class="title wb-h4" mat-dialog-title data-test-id="dialog-window">{{ confirmationTitle }}</div>
+<mat-dialog-content class="content wb-text-8">{{ message }}</mat-dialog-content>
+<mat-dialog-actions class="actions">
+  <wb-button
+    class="enlarged-control"
+    type="primary"
+    testId="confirm"
+    [text]="confirmButtonText"
+    [mat-dialog-close]="true"
+  ></wb-button>
+  <wb-button
+    class="enlarged-control"
+    type="default"
+    testId="cancel"
+    [text]="cancelButtonText"
+    [mat-dialog-close]="false"
+  ></wb-button>
+</mat-dialog-actions>
+
+<div class="close-button" [mat-dialog-close]="false">
+  <mat-icon svgIcon="close_circle" class="close-icon"></mat-icon>
+</div>

@@ -1,0 +1,94 @@
+<div class="create-dataset">
+  <div class="wb-container">
+    <div class="wb-row">
+      <div class="wb-col-6">
+        <wb-panel class="selection">
+          <div wb-heading>
+            <h3 class="subheader wb-h4">Select Images for Not Annotated Dataset</h3>
+          </div>
+          <div wb-content>
+            <div class="wb-label create-dataset-name">
+              <wb-config-form-field [field]="datasetFormControls.datasetName" [group]="uploadDatasetForm">
+              </wb-config-form-field>
+            </div>
+            <div class="preview" (wbDropArea)="onFileChange($event)">
+              <div class="drop-area-active-overlay"></div>
+              <wb-images-preview
+                *ngIf="!isNil(isDevCloud); else imagesLoading"
+                [images]="images"
+                (removeImageEvent)="handleImageRemove($event)"
+                (addImageEvent)="fileInput.click()"
+              ></wb-images-preview>
+            </div>
+          </div>
+        </wb-panel>
+      </div>
+      <div class="wb-col-6">
+        <wb-dataset-augmentation [isDevCloud]="isDevCloud" (formChangeEvent)="setAugmentationConfig($event)">
+        </wb-dataset-augmentation>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <div class="upload-buttons">
+    <wb-button
+      class="enlarged-control"
+      testId="import-button"
+      type="primary"
+      text="Import"
+      [pending]="isDatasetImporting"
+      (handleClick)="importDataset()"
+      [disabled]="
+        isEmpty(images) || !uploadDatasetForm.valid || images.length > uploadLimit || !isAugmentationFormValid
+      "
+    >
+    </wb-button>
+    <wb-button
+      class="enlarged-control"
+      text="Cancel"
+      testId="cancel-button"
+      (handleClick)="navigateBack.emit()"
+    ></wb-button>
+    <input
+      type="file"
+      data-test-id="image-input"
+      hidden
+      #fileInput
+      [accept]="imageFileInputAccept"
+      (change)="fileChanged($event)"
+    />
+    <input
+      type="file"
+      data-test-id="image-input-folder"
+      hidden
+      webkitdirectory
+      #fileInput
+      (change)="fileChanged($event)"
+    />
+  </div>
+  <div class="result-images">
+    <wb-info-hint
+      class="wb-full-width"
+      data-test-id="images-size-hint"
+      [attr.data-test-images]="images.length"
+      *ngIf="images.length <= uploadLimit; else warning"
+      [message]="infoMessage"
+    ></wb-info-hint>
+    <wb-info-hint
+      *ngIf="totalImages <= recommendedSize"
+      class="wb-full-width"
+      [message]="recommendedSizeMessage"
+    ></wb-info-hint>
+  </div>
+</div>
+
+<ng-template #warning>
+  <wb-info-hint type="warning" [message]="warningMessage"></wb-info-hint>
+</ng-template>
+
+<ng-template #imagesLoading>
+  <div class="loading" data-test-id="images-loading">
+    <wb-spinner></wb-spinner>
+  </div>
+</ng-template>

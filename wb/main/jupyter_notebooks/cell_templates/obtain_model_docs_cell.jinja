@@ -1,0 +1,31 @@
+## Obtain Model in OpenVINO IR Format (Optional) <a name="obtain-model"></a>
+
+> **NOTE**: This step is optional. You have already imported a model in the DL Workbench. If you do not want to learn more detailed information about obtaining the model,
+proceed to the [next step](#evaluate-model-performance).
+
+**What is a model:** A model is a network that has been trained over a set of data using a certain framework.
+
+**Where to get a model**: To work with OpenVINO tools you need to obtain a model in Intermediate Representation (IR) format.
+
+![](obtain_model_flow_diagram.png)
+
+In this tutorial we are working with the following model:
+
+- Model Name: **{{ project_model_name }}**
+
+- Model Source: {{ 'Open Model Zoo' if project_model_source == ModelSourceEnum.omz.value else 'User provided model' }}
+
+- Model Framework: {{ SupportedFrameworksEnum.get_name(project_model_framework) }}
+
+- Steps to obtain IR:
+{% if project_model_source == ModelSourceEnum.ir.value %}
+No additional steps required. Proceed working with your model.
+{% elif project_model_source == ModelSourceEnum.omz.value %}
+{%      if project_model_framework == SupportedFrameworksEnum.openvino.value %}
+No conversion to IR required. Download the model with the Model Downloader and proceed working with it.
+{%      else %}
+Download the model with Model Downloader and then convert it to IR format with Model Converter.
+{%      endif %}
+{% elif project_model_source == ModelSourceEnum.original.value %}
+Your original model is in one of the supported frameworks. Convert model to IR format with Model Optimizer.
+{% endif %}

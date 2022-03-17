@@ -1,0 +1,70 @@
+@import 'colors';
+@import 'fonts';
+
+.parameter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  > *:not(:last-child) {
+    margin-right: 10px;
+  }
+
+  .name {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-self: flex-start;
+
+    > *:not(:last-child) {
+      margin-right: 10px;
+    }
+
+    ::ng-deep wb-help-tooltip {
+      align-self: center;
+      mat-icon {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .label {
+      @include wb-label();
+    }
+  }
+
+  .value {
+    @include wb-body-2();
+
+    max-width: 50%;
+
+    ::ng-deep sup {
+      // Prevent superscript from affecting line height
+      vertical-align: baseline;
+      position: relative;
+      top: -0.4em;
+    }
+  }
+}
+
+.links-value {
+  @include wb-body-2();
+
+  & > a.link {
+    color: $plum;
+    display: block;
+
+    &:not(:last-child) {
+      margin-bottom: 10px;
+
+      &::after {
+        content: ',';
+      }
+    }
+  }
+}
+
+.na-color {
+  color: $cool-grey;
+  align-self: center;
+}

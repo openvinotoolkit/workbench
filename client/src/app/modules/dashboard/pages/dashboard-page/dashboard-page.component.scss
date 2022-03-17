@@ -1,0 +1,251 @@
+@import 'colors';
+@import 'fonts';
+@import 'variables';
+
+$tree-table-height: 260px;
+
+:host ::ng-deep {
+  .ui-tip strong {
+    display: block;
+    @include wb-h5();
+  }
+}
+
+.model-link {
+  color: $blue-blue;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.btn + .btn {
+  margin-left: 20px;
+}
+
+.compare-btn {
+  margin-left: auto;
+}
+
+.error-block {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.tabs {
+  margin-top: 40px;
+}
+
+.toggle-width-btn {
+  margin-left: auto;
+}
+
+.header-txt {
+  margin: 0;
+}
+
+.accumulated-metric {
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.layers-table {
+  .header {
+    margin: 0 0 15px;
+    display: flex;
+    align-items: center;
+  }
+
+  .download-report {
+    margin: 0 18px;
+  }
+}
+
+.advising {
+  padding: 20px;
+
+  .header {
+    margin: 0 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .icon {
+    color: $deep-red;
+    width: 18px;
+    margin-right: 10px;
+  }
+
+  .info {
+    margin: 0;
+    line-height: 20px;
+  }
+
+  .info + .info {
+    margin-top: 15px;
+  }
+}
+
+.wb-page-header {
+  wb-info-hint {
+    margin-top: 5px;
+  }
+}
+
+.configurations-table-container {
+  margin-bottom: 30px;
+
+  .error-block {
+    padding: 0 $container-padding;
+  }
+}
+
+.execution-summary {
+  margin-bottom: 10px;
+  color: $brownish-grey;
+
+  .attr {
+    display: inline-block;
+  }
+
+  .attr + .attr:before {
+    content: '•';
+    margin: 0 10px;
+  }
+}
+
+.flex-row {
+  display: flex;
+  margin: 20px 0 15px;
+}
+
+.inference-results {
+  &.expanded {
+    wb-benchmark-chart,
+    .inference-history {
+      width: 100%;
+      padding: 0;
+    }
+  }
+
+  .graph {
+    width: 50%;
+    box-sizing: border-box;
+    padding-right: 30px;
+  }
+
+  .inference-history {
+    margin-top: 77px;
+    width: 50%;
+    box-sizing: border-box;
+    padding-left: 30px;
+
+    .inference-history-header {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0 10px 7px 10px;
+    }
+
+    wb-info-hint + wb-info-hint {
+      margin-top: 20px;
+      display: block;
+    }
+  }
+}
+
+.inference-history-table {
+  display: block;
+  margin-bottom: $container-padding;
+}
+
+.selected-point {
+  padding: $container-padding;
+  box-sizing: border-box;
+  margin-bottom: 30px;
+
+  .toggle-section {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .icon {
+    margin-right: 10px;
+  }
+
+  .action-btn {
+    margin-left: 20px;
+  }
+}
+
+.performance-available-info {
+  width: auto;
+  margin-left: auto;
+  flex-grow: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  height: 40px;
+  @include wb-body-5();
+
+  .bulb-icon {
+    $size: 18px;
+
+    color: $blue-blue;
+    width: $size;
+    height: $size;
+    margin-right: 10px;
+  }
+
+  .link {
+    color: $blue-blue;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.wb-panel.wb-panel--blue {
+  border-color: $blue-blue;
+  background-color: $ice-blue;
+}
+
+.not-available {
+  margin-top: 25px;
+}
+
+.tag {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  background-color: $faded-bgr;
+  border-radius: 30px;
+  padding: 0 30px;
+
+  @include wb-subtitle-strong();
+
+  & + & {
+    margin-left: 20px;
+  }
+}
+
+.tag-link {
+  color: $plum;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: 5px;
+
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.panel-with-reason {
+  margin-bottom: 20px;
+
+  wb-button {
+    margin-top: 20px;
+  }
+}

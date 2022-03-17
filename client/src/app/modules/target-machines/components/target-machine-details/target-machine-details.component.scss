@@ -1,0 +1,71 @@
+@import 'colors';
+@import 'fonts';
+
+.model-details {
+  .header {
+    padding: 20px 30px;
+    border-bottom: solid $black25 0.5px;
+
+    .sub-title {
+      color: $brownish-grey;
+    }
+
+    .title {
+      padding-top: 5px;
+      @include wb-h3();
+      overflow-wrap: break-word;
+    }
+
+    .machine-details {
+      padding-top: 20px;
+
+      .machine-full-name {
+        @include wb-subtitle-1();
+        color: $brownish-grey;
+        padding-bottom: 5px;
+      }
+    }
+  }
+
+  .content {
+    padding: 30px;
+
+    .content-title {
+      @include wb-h2();
+    }
+  }
+
+  .group {
+    padding-top: 35px;
+
+    &.sub-group {
+      padding-top: 25px;
+    }
+
+    .group-title {
+      @include wb-subtitle-1();
+      padding-bottom: 20px;
+    }
+
+    .group-sub-title {
+      @include wb-label();
+      color: $brownish-grey;
+      padding-bottom: 15px;
+    }
+
+    .group-data {
+      &:not(:last-child) {
+        margin-bottom: 20px;
+      }
+
+      > wb-parameter-details:not(:last-child) {
+        display: block;
+        margin-bottom: 15px;
+      }
+
+      &.outputs-data {
+        padding-top: 5px;
+      }
+    }
+  }
+}

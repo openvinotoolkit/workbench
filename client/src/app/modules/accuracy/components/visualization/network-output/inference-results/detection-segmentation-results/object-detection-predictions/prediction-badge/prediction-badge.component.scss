@@ -1,0 +1,26 @@
+@use '~@angular/material' as mat;
+
+.prediction-badge {
+  transition-property: color, background-color, border-color, box-shadow;
+  transition-duration: 280ms;
+  cursor: pointer;
+
+  border-radius: 30px;
+  border: solid 1px;
+  width: 120px;
+  height: 50px;
+  box-sizing: border-box;
+  padding: 8px 14px;
+  line-height: 16px;
+
+  &:hover,
+  &.active {
+    @include mat.elevation(3);
+  }
+
+  .label {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}

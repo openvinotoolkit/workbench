@@ -1,0 +1,6 @@
+<span *ngIf="project">
+  <wb-text-overflow class="property" [content]="project.modelName"></wb-text-overflow>
+  <span class="property">{{ project.datasetName }}</span>
+  <span class="property">{{ project.targetName }}</span>
+  <span class="property">{{ getDeviceName(project.deviceName) }}</span>
+</span>

@@ -1,0 +1,13 @@
+<div class="notification wb-label" [ngClass]="'notification--' + type" data-test-id="notification">
+  <div class="notification__header">
+    <div class="wb-body-2">{{ title }}</div>
+    <div *ngIf="type === NotificationType.ERROR" class="time wb-body-4">{{ time | date: 'mediumTime' }}</div>
+  </div>
+  <div class="notification__content wb-text-8">
+    <p *ngIf="description" class="message">{{ description }}</p>
+    <span *ngIf="isErrorNavigationAvailable" class="error-link" (click)="goToError()">Go to the Error</span>
+  </div>
+  <div class="close-button" data-test-id="close-button" (click)="close.emit()">
+    <mat-icon svgIcon="close_circle" class="close-icon"></mat-icon>
+  </div>
+</div>
