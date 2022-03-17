@@ -25,7 +25,7 @@ export class ModelZooFilterOptionComponent<T> {
 
   @HostBinding('class.selected') @Input() selected = false;
 
-  @Input() disabled = false;
+  @HostBinding('class.disabled') @Input() disabled = false;
 
   @Output() selectionChange = new EventEmitter<IModelZooFilterOptionChangeEvent<T>>();
 
