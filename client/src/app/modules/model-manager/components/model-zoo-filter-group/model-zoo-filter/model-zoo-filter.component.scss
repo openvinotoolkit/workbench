@@ -10,14 +10,24 @@
   }
 }
 
-.icon-container {
-  order: 1;
+.title-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 
-  .show-more,
-  .show-less {
-    @include wb-label();
-    color: $brownish-grey;
-    cursor: pointer;
+  ::ng-deep wb-model-zoo-filter-title {
+    display: flex;
+    @include wb-subtitle-1();
+    color: $black;
+  }
+
+  .clear-selection-button {
+    margin-left: auto;
+    height: 0;
+
+    ::ng-deep .button {
+      height: auto;
+    }
   }
 }
 
@@ -28,9 +38,13 @@
   align-items: center;
 }
 
-::ng-deep wb-model-zoo-filter-title {
-  display: flex;
-  @include wb-subtitle-1();
-  color: $black;
-  margin-bottom: 20px;
+.icon-container {
+  order: 1;
+
+  .show-more,
+  .show-less {
+    @include wb-label();
+    color: $brownish-grey;
+    cursor: pointer;
+  }
 }

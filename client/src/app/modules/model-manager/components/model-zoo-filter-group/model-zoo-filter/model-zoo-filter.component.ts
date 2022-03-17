@@ -63,12 +63,24 @@ export class ModelZooFilterComponent<T> implements AfterContentInit, OnDestroy {
 
     const changedOrDestroyed$ = merge(this.options.changes, this._unsubscribe$);
 
-    merge(...this.options.map((filter) => filter.selectionChange))
+    merge(...this.options.map((filterOptionComponent) => filterOptionComponent.selectionChange))
       .pipe(takeUntil(changedOrDestroyed$))
       .subscribe(({ selected, value }) => {
         selected ? this.selectedOptions.add(value) : this.selectedOptions.delete(value);
+        this._cdr.detectChanges();
         this.optionsChange.next(Array.from(this.selectedOptions.values()));
       });
+  }
+
+  get isClearSelectionAvailable(): boolean {
+    return !!this.options.find(({ selected, disabled }) => selected && !disabled);
+  }
+
+  clearSelectedOptions(): void {
+    const availableSelectedOptions = this.options.filter(({ selected, disabled }) => selected && !disabled);
+    for (const option of availableSelectedOptions) {
+      option.deselect(new Event('click'));
+    }
   }
 
   hideOptions(): void {
@@ -91,5 +103,4 @@ export class ModelZooFilterComponent<T> implements AfterContentInit, OnDestroy {
   template: '<ng-content></ng-content>',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-// TODO Consider moving to separate file with own template and styles
 export class ModelZooFilterTitleComponent {}
