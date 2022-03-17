@@ -8,6 +8,8 @@
       </mat-select>
     </mat-form-field>
 
+    <ng-container ngProjectAs="wb-model-zoo-filter-group" [ngTemplateOutlet]="filterGroupTemplate"></ng-container>
+
     <wb-search-field ngProjectAs="model-zoo-search" (search)="searchModels($event)"></wb-search-field>
 
     <wb-model-zoo-counter
@@ -86,3 +88,21 @@
     </wb-model-zoo-details-footer>
   </wb-model-zoo-details>
 </wb-model-zoo-layout>
+
+<ng-template #filterGroupTemplate>
+  <wb-model-zoo-filter-group [formControl]="filtersControl">
+    <wb-model-zoo-filter group="precision">
+      <wb-model-zoo-filter-title>Precisions</wb-model-zoo-filter-title>
+      <wb-model-zoo-filter-option *ngFor="let option of precisionOptions" [value]="option">
+        {{ option }}
+      </wb-model-zoo-filter-option>
+    </wb-model-zoo-filter>
+
+    <wb-model-zoo-filter group="precision">
+      <wb-model-zoo-filter-title>Precisions</wb-model-zoo-filter-title>
+      <wb-model-zoo-filter-option *ngFor="let option of precisionOptions" [value]="option">
+        {{ option }}
+      </wb-model-zoo-filter-option>
+    </wb-model-zoo-filter>
+  </wb-model-zoo-filter-group>
+</ng-template>

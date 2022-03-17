@@ -1,6 +1,15 @@
 @import 'fonts';
 @import 'colors';
 
+:host {
+  display: flex;
+  flex-direction: column;
+
+  &:not(:first-child) {
+    margin-top: 30px;
+  }
+}
+
 .icon-container {
   order: 1;
 }
@@ -17,8 +26,4 @@
   @include wb-subtitle-1();
   color: $black;
   margin-bottom: 20px;
-
-  &:not(:first-child) {
-    margin-top: 30px;
-  }
 }

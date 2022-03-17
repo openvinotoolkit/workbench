@@ -71,7 +71,7 @@
   <wb-model-zoo-filter-group [formControl]="filterControl">
     <ng-container *ngIf="appliedTags">
       <wb-model-zoo-filter group="pipeline_tag">
-        <h3 title>Tasks</h3>
+        <wb-model-zoo-filter-title>Tasks</wb-model-zoo-filter-title>
         <wb-model-zoo-filter-option
           selected="true"
           disabled="true"
@@ -83,7 +83,7 @@
       </wb-model-zoo-filter>
 
       <wb-model-zoo-filter group="library">
-        <h3 title>Library</h3>
+        <wb-model-zoo-filter-title>Library</wb-model-zoo-filter-title>
         <wb-model-zoo-filter-option
           selected="true"
           disabled="true"
@@ -97,21 +97,21 @@
 
     <ng-container *ngIf="availableTags">
       <wb-model-zoo-filter group="modelTypes">
-        <h3 title>Model types</h3>
+        <wb-model-zoo-filter-title>Model types</wb-model-zoo-filter-title>
         <wb-model-zoo-filter-option *ngFor="let modelType of availableTags.modelTypes" [value]="modelType">
           {{ modelType }}
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
 
       <wb-model-zoo-filter group="languages">
-        <h3 title>Languages</h3>
+        <wb-model-zoo-filter-title>Languages</wb-model-zoo-filter-title>
         <wb-model-zoo-filter-option *ngFor="let language of availableTags.languages" [value]="language">
           {{ language }}
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
 
       <wb-model-zoo-filter group="licenses">
-        <h3 title>Licenses</h3>
+        <wb-model-zoo-filter-title>Licenses</wb-model-zoo-filter-title>
         <wb-model-zoo-filter-option *ngFor="let license of availableTags.licenses" [value]="license">
           {{ license }}
         </wb-model-zoo-filter-option>

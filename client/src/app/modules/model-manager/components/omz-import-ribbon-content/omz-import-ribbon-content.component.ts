@@ -35,6 +35,9 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
   readonly dataSource = new OpenModelZooDataSource();
 
   readonly sortControl = this._fb.control(this.dataSource.defaultSortOption);
+  readonly filtersControl = this._fb.control({});
+
+  readonly precisionOptions = ['FP16', 'FP32', 'INT8'];
 
   get selectedModel(): ModelDownloaderDTO {
     return this._selectedModel;
