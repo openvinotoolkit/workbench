@@ -10,38 +10,40 @@ export PYTHON_ENVIRONMENT_PATH=${OPENVINO_WORKBENCH_ROOT}/.venv
 python3 -m virtualenv ${PYTHON_ENVIRONMENT_PATH}
 
 source ${PYTHON_ENVIRONMENT_PATH}/bin/activate
-source ~/intel/openvino_2022/setupvars.sh
-pip install --upgrade pip==19.3.1
-pip install -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_bootstrap.txt
+pip install -U pip wheel setuptools
 
 export ARCHFLAGS="-arch x86_64"
 
-printf "\n Installing accuracy checker \n\n"
-pushd ${INTEL_OPENVINO_DIR}/extras/open_model_zoo/tools/accuracy_checker/
-    python setup.py install
-popd
 
-printf "\n Installing Post Training Optimization Toolkit \n\n"
-pushd ${INTEL_OPENVINO_DIR}/tools/post_training_optimization_tool
-    python setup.py install
-popd
+VERSIONS_FILE="automation/Jenkins/openvino_version.yml"
+WHEELS_FOLDER="wheels"
+if [[ ! -d ${WHEELS_FOLDER} ]]; then
+  WHEELS_VERSION=$(grep 'openvino_wheels_version'  ${VERSIONS_FILE} | awk '{print $2}')
+  mkdir ${WHEELS_FOLDER}
+  pushd ${WHEELS_FOLDER}
+    pip download "openvino==${WHEELS_VERSION}" -d . --no-deps
+    pip download "openvino-dev==${WHEELS_VERSION}" -d . --no-deps
+  popd
+fi
 
-printf "\n Installing Benchmark Tool and Model Analyzer \n\n"
-python -m pip install -r ${INTEL_OPENVINO_DIR}/python/python3.6/requirements.txt
-python -m pip install -r ${INTEL_OPENVINO_DIR}/tools/benchmark_tool/requirements.txt
-python -m pip install -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements.txt
-python -m pip install -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_dev.txt
-python -m pip install -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_jupyter.txt
-python -m pip install -r ${OPENVINO_WORKBENCH_ROOT}/client/automation/requirements_dev.txt
-python -m pip install -r ${OPENVINO_WORKBENCH_ROOT}/model_analyzer/requirements.txt
+PYTHON_VERSION=$(python3 -c 'import sys; print(sys.version_info.major, sys.version_info.minor, sep="")')
+OPENVINO_WHEELS=$(find ${WHEELS_FOLDER} -name "openvino-202*cp${PYTHON_VERSION}*linux*.whl" -print -quit)
+OPENVINO_DEV_WHEELS=$(find ${WHEELS_FOLDER} -name "openvino_dev*.whl" -print -quit)
+
+python3 -m pip install ${OPENVINO_WHEELS}
+python3 -m pip install ${OPENVINO_DEV_WHEELS}[caffe,mxnet,onnx,pytorch,tensorflow2]
+python3 -m pip install -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements.txt
+python3 -m pip install -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_dev.txt
+python3 -m pip install -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_jupyter.txt
+python3 -m pip install -r ${OPENVINO_WORKBENCH_ROOT}/client/automation/requirements_dev.txt
+python3 -m pip install -r ${OPENVINO_WORKBENCH_ROOT}/model_analyzer/requirements.txt
 deactivate
 
 printf "\n Installing dependecies of deep learning frameworks \n\n"
 
 python3 -m virtualenv ${OPENVINO_WORKBENCH_ROOT}/.unified_venv
 source ${OPENVINO_WORKBENCH_ROOT}/.unified_venv/bin/activate
-python -m pip install -r ${INTEL_OPENVINO_DIR}/tools/model_optimizer/requirements_tf2.txt
-python -m pip install -r ${INTEL_OPENVINO_DIR}/extras/open_model_zoo/tools/model_tools/requirements.in
-python -m pip install -r ${INTEL_OPENVINO_DIR}/extras/open_model_zoo/tools/model_tools/requirements-pytorch.in
-python -m pip install -r ${INTEL_OPENVINO_DIR}/extras/open_model_zoo/tools/model_tools/requirements-caffe2.in
+python3 -m pip install -U pip wheel setuptools
+python3 -m pip install ${OPENVINO_WHEELS}
+python3 -m pip install ${OPENVINO_DEV_WHEELS}[caffe,mxnet,onnx,pytorch,tensorflow2]
 deactivate
