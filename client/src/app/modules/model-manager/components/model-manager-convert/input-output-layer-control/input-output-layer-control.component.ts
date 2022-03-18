@@ -120,6 +120,8 @@ export class InputOutputLayerControlComponent implements OnInit, OnDestroy, Cont
     scales: 'scales',
   };
 
+  readonly nameFieldValidators = [Validators.required];
+
   private _unsubscribe$ = new Subject<void>();
 
   private _cvDomainSubscription: Subscription = null;
@@ -130,10 +132,10 @@ export class InputOutputLayerControlComponent implements OnInit, OnDestroy, Cont
     });
 
     this.inputOutputLayerFormGroup.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe((values) => {
-      if (this.isInputLayer() && !values.shape) {
+      if (this.isInputLayer && !values.shape) {
         delete values.shape;
       }
-      this.propagateChange(this.isInputLayer() ? values : values[this.controlNamesMap.name]);
+      this.propagateChange(this.isInputLayer ? values : values[this.controlNamesMap.name]);
     });
 
     this.utilFormGroup = this._fb.group({});
@@ -148,7 +150,7 @@ export class InputOutputLayerControlComponent implements OnInit, OnDestroy, Cont
       throw Error('controlIndex is required input of InputOutputLayerControlComponent');
     }
 
-    if (!this.isInputLayer()) {
+    if (!this.isInputLayer) {
       return;
     }
 
@@ -270,7 +272,7 @@ export class InputOutputLayerControlComponent implements OnInit, OnDestroy, Cont
     return this.utilFormGroup.get(this.inputLayerUtilFieldsMap.useScales.name);
   }
 
-  isInputLayer(): boolean {
+  get isInputLayer(): boolean {
     return this.layerType === 'input';
   }
 

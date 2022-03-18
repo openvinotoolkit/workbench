@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { DatasetAugmentationDTO, IImageCorrection } from '@store/dataset-store/dataset.model';
 
 import { FormUtils } from '@shared/utils/form-utils';
+import { AdvancedConfigField } from '@shared/components/config-form-field/config-form-field.component';
 
 import { dataAugmentationFormFieldsMap, AugmentationFormFieldNames } from './dataset-augmentation-fields';
 
@@ -145,5 +146,11 @@ export class DatasetAugmentationComponent {
       additionalImages += this.selectedPresets.length;
     }
     return additionalImages;
+  }
+
+  setCheckboxState(checked: boolean, group: FormGroup, field: AdvancedConfigField): void {
+    const control = group.get(field.name);
+
+    control.setValue(checked);
   }
 }

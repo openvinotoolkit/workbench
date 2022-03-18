@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
@@ -16,12 +15,15 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
+import { MessagesService } from '@core/services/common/messages.service';
+
 import { matchesOptionsValidator } from '@shared/form-validators/matches-options.validator';
+import { Tooltip } from '@shared/components/config-form-field/config-form-field.component';
 
 @Component({
   selector: 'wb-select-autocomplete',
   templateUrl: './select-autocomplete.component.html',
-  styleUrls: ['./select-autocomplete.component.scss'],
+  styleUrls: ['../config-form-field/config-form-field.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectAutocompleteComponent implements OnInit, OnChanges {
@@ -49,14 +51,21 @@ export class SelectAutocompleteComponent implements OnInit, OnChanges {
   @Input()
   skipOptionsValidation = false;
 
+  // TODO: unify with AdvancedConfigField type
+  @Input() label: string;
+  @Input() tooltip: Tooltip;
+  @Input() validators: Validators[];
+
   public filteredOptions$: Observable<string[]>;
 
   @ViewChild(CdkVirtualScrollViewport, { static: true })
   public virtualScroll: CdkVirtualScrollViewport;
 
-  public optionHeightPx = 48;
-  public visibleOptionsCount = 6;
-  public cdkOverlayPanelWidth = 300;
+  readonly optionHeightPx = 48;
+  readonly visibleOptionsCount = 6;
+  readonly cdkOverlayPanelWidth = 300;
+
+  constructor(public tooltipService: MessagesService) {}
 
   ngOnInit(): void {
     if (!this.control) {
@@ -94,5 +103,19 @@ export class SelectAutocompleteComponent implements OnInit, OnChanges {
   private filterSelectOptions(value: string): string[] {
     const filterValue = value?.toLowerCase();
     return this.options.filter((option) => (option ? option.toLowerCase().includes(filterValue) : null));
+  }
+
+  get isRequired(): boolean {
+    return this.validators?.includes(Validators.required);
+  }
+
+  get shouldDisplayErrorMessage(): boolean {
+    return this.control?.invalid && this.control?.touched;
+  }
+
+  get getError(): string {
+    if (this.control.hasError('required')) {
+      return 'This field is required';
+    }
   }
 }

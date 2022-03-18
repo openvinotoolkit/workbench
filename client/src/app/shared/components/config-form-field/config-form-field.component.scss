@@ -1,132 +1,256 @@
 @import 'fonts';
 @import 'colors';
 @import 'variables';
+@import 'mixins';
 
-.config-form-field {
-  display: flex;
-  align-items: baseline;
-  &-checkbox,
-  &-radio {
-    margin-bottom: $field-error-message-height;
-  }
+$row-height: 40px;
+$border-radius: 3px;
+$field-bgr: $faded-bgr;
 
-  .field-label {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-right: 10px;
+:host {
+  display: block;
+  margin-bottom: 20px;
 
-    wb-help-tooltip {
-      margin-left: 5px;
-    }
-  }
-
-  .field-container {
-    display: flex;
-    flex-direction: column;
-
-    .error-message {
-      position: relative;
-      top: -18px;
-      margin: 0;
-      color: $deep-red;
-    }
-  }
-}
-
-.rgb-fields-group {
-  display: flex;
-  flex-direction: row;
-
-  mat-form-field {
-    max-width: 150px;
-
-    &:not(:last-child) {
-      margin-right: 10px;
-    }
-
-    ::ng-deep .mat-form-field-prefix {
-      top: 0;
-    }
-  }
-}
-
-:host.hint-first {
-  .field .config-form-field-radio {
-    margin-bottom: 5px;
-  }
-
-  .config-form-field-checkbox {
-    margin-bottom: 13px;
-  }
-
-  .mat-form-field-wrapper {
-    max-width: 300px;
-    padding-bottom: 0;
-  }
-
-  .config-form-field {
-    align-items: center;
-
-    .field-label {
-      position: relative;
-      @include wb-subtitle-1();
-      wb-help-tooltip {
-        order: -1;
-        margin: 0 10px 0 0;
-      }
-    }
-
-    .field-container .field-container.wb-radio-group {
-      flex-direction: row;
-      align-items: center;
-      height: 20px;
-
-      .mat-radio-button:not(:last-child) {
-        margin: 0 15px 0 0;
-      }
-    }
-
-    .error-message {
-      top: 0;
-    }
-  }
-
-  .group .field-label {
-    min-width: 100px;
-  }
-}
-
-:host.enlarged-control {
-  $toggle-input-size: 18px;
-
-  .config-form-field-radio ::ng-deep {
-    .mat-radio-label-content {
-      @include wb-subtitle-1();
-    }
-    .mat-radio-container,
-    .mat-radio-inner-circle,
-    .mat-radio-outer-circle {
-      width: $toggle-input-size;
-      height: $toggle-input-size;
-    }
+  &[hidden] {
+    display: none;
   }
 
   ::ng-deep {
-    .mat-checkbox-inner-container {
-      width: $toggle-input-size;
-      height: $toggle-input-size;
+    .mat-form-field {
+      min-width: 200px;
     }
 
-    wb-help-tooltip mat-icon {
-      $size: 22px;
+    .mat-form-field-wrapper {
+      margin: 0;
+      padding: 0;
+    }
 
+    .mat-input-element:disabled {
+      color: $cool-grey;
+    }
+
+    mat-form-field .mat-form-field-infix {
+      padding: 10px 0 !important;
+    }
+
+    .mat-form-field-appearance-outline .mat-form-field-suffix {
+      top: 0;
+      align-self: center;
+      display: flex;
+      color: $brownish-grey;
+    }
+
+    .mat-form-field-appearance-outline .mat-form-field-wrapper {
+      margin: 0;
+    }
+
+    .mat-form-field-appearance-outline {
+      font-size: 16px;
+      line-height: 20px;
+    }
+
+    .mat-select .mat-select-arrow {
+      border: none;
+      width: 14px;
+      height: 8px;
+      background: url('~assets/svg/arrow-down.svg') center;
+    }
+
+    .mat-form-field-appearance-outline .mat-form-field-flex {
+      margin: 0;
+    }
+
+    .mat-form-field-appearance-outline .mat-form-field-outline {
+      top: 0;
+    }
+
+    .mat-form-field-appearance-outline .mat-form-field-outline-start,
+    .mat-form-field-appearance-outline .mat-form-field-outline-thick .mat-form-field-outline-start {
+      background: $field-bgr;
+      border-radius: $border-radius 0 0 $border-radius;
+    }
+
+    .mat-form-field-appearance-outline .mat-form-field-outline-end,
+    .mat-form-field-appearance-outline .mat-form-field-outline-thick .mat-form-field-outline-end {
+      background: $field-bgr;
+      border-radius: 0 $border-radius $border-radius 0;
+    }
+
+    .mat-form-field-appearance-outline {
+      .mat-form-field-outline-start,
+      .mat-form-field-outline-end {
+        border-color: $very-light-pink;
+        border-width: 1px;
+      }
+    }
+
+    .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+      // hover
+      .mat-form-field-outline-start,
+      .mat-form-field-outline-end {
+        border-color: $brownish-grey;
+        border-width: 1px;
+      }
+    }
+
+    .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+      // focus
+      .mat-form-field-outline-start,
+      .mat-form-field-outline-end {
+        border-color: $plum;
+        border-width: 1px;
+      }
+    }
+
+    .mat-form-field-appearance-outline.mat-form-field-invalid {
+      // invalid
+      .mat-form-field-outline-start,
+      .mat-form-field-outline-end {
+        border-color: $deep-red;
+        border-width: 1px;
+      }
+    }
+
+    .mat-checkbox-inner-container {
+      $size: 18px;
       width: $size;
       height: $size;
     }
 
-    .field-label {
+    .mat-checkbox-frame {
+      border-color: $brownish-grey;
+    }
+
+    .mat-radio-group {
+      display: flex;
+      align-items: center;
+      height: $row-height;
+    }
+
+    .mat-radio-label-content {
+      padding-left: 10px;
+
       @include wb-subtitle-1();
     }
+
+    .mat-radio-button + .mat-radio-button {
+      margin-left: 20px;
+    }
+
+    .mat-radio-button:not(.mat-radio-checked):hover .mat-radio-outer-circle {
+      border-color: $black;
+    }
+
+    .mat-radio-outer-circle {
+      border-color: $brownish-grey;
+    }
+
+    .mat-radio-button .mat-radio-container,
+    .mat-radio-button .mat-radio-outer-circle,
+    .mat-radio-button .mat-radio-inner-circle {
+      $size: 20px;
+      width: $size;
+      height: $size;
+    }
+  }
+
+  &.wb-config-form-field--vertical-radio {
+    .mat-radio-group {
+      flex-direction: column;
+      align-items: flex-start;
+      height: auto;
+    }
+
+    .mat-radio-button {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      margin-left: 0;
+    }
+  }
+}
+
+.config-form-field {
+  display: flex;
+  align-items: flex-start;
+}
+
+.label-container {
+  display: flex;
+  align-items: center;
+  min-height: $row-height;
+
+  @include wb-subtitle-1();
+}
+
+.label {
+  margin-right: 20px;
+  position: relative;
+}
+
+.control-container {
+  min-height: $row-height;
+  min-width: 100px;
+}
+
+.error-message {
+  margin-top: 10px;
+  color: $deep-red;
+
+  @include wb-text-14();
+}
+
+.tooltip {
+  margin-right: 10px;
+}
+
+.config-form-field.config-form-field--checkbox {
+  align-items: center;
+
+  .control-container {
+    display: flex;
+    align-items: center;
+    margin: 0 10px 0 3px;
+  }
+
+  .control-container:hover ::ng-deep .mat-checkbox:not(.mat-checkbox-checked) .mat-checkbox-frame {
+    border-color: $black;
+  }
+
+  ::ng-deep {
+    .mat-checkbox-inner-container {
+      margin-right: 10px;
+    }
+
+    .mat-checkbox-label {
+      @include wb-subtitle-1();
+    }
+
+    .mat-checkbox-frame {
+      transition: border-color 0.2s ease-in-out;
+      border-color: $brownish-grey;
+    }
+
+    .mat-checkbox-checked .mat-checkbox-frame {
+      border-color: $plum;
+    }
+
+    .mat-checkbox-background {
+      background: transparent;
+    }
+
+    .mat-checkbox-checkmark {
+      fill: $plum;
+
+      path {
+        stroke: $plum !important;
+      }
+    }
+  }
+}
+
+.config-form-field.config-form-field--required {
+  .label:after {
+    @include wb-required-asterix();
   }
 }

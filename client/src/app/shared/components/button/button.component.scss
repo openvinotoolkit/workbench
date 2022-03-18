@@ -97,7 +97,7 @@
     }
 
     &-secondary {
-      @include wb-body-3();
+      @include wb-body-4();
       background-color: transparent;
       border-color: $plum;
       color: $plum;
@@ -150,7 +150,7 @@
     height: 40px;
     padding: 0 30px;
 
-    @include wb-body-2();
+    @include wb-text-10();
 
     &-primary {
       @include wb-h5();

@@ -104,10 +104,8 @@ export class ModelDownloaderTableComponent implements OnChanges, AfterViewInit {
   public modelFrameworkNamesMap = modelFrameworkNamesMap;
   public ModelFrameworks = ModelFrameworks;
 
-  public noConnectionMessage: string = this.messagesService.hintMessages.downloaderTips
-    .cannotLoadModelWithoutConnection;
-
-  public unavailableOmzModelMessage: string = this.messagesService.hintMessages.downloaderTips.unavailableOmzModel;
+  readonly noConnectionMessage = this.messagesService.hintMessages.downloaderTips.cannotLoadModelWithoutConnection;
+  readonly unavailableOmzModelMessage = this.messagesService.hintMessages.downloaderTips.unavailableOmzModel;
 
   public getModelDownloaderDTOId = ModelDownloaderDTO.getId;
 
@@ -121,7 +119,6 @@ export class ModelDownloaderTableComponent implements OnChanges, AfterViewInit {
     name: 'precision',
     value: OMZModelPrecisionEnum.FP16,
     options: [OMZModelPrecisionEnum.FP32, OMZModelPrecisionEnum.FP16, OMZModelPrecisionEnum.INT8],
-    validators: [Validators.required],
     tooltip: {
       prefix: 'convertModel',
       value: 'precision',
@@ -252,5 +249,9 @@ export class ModelDownloaderTableComponent implements OnChanges, AfterViewInit {
       !this.isConnected ||
       (this.selectedModel.framework !== ModelFrameworks.OPENVINO && this.isGettingFrameworksAvailabilityFailed)
     );
+  }
+
+  get isUnavailableModel(): boolean {
+    return this.isConnected && this.selectedModel && !this.selectedModel.isAvailable;
   }
 }

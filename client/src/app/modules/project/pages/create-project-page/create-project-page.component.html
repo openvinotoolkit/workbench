@@ -87,7 +87,11 @@
     >
     </wb-button>
     <wb-button class="btn enlarged-control" type="default" text="Cancel" (handleClick)="cancel()"> </wb-button>
+    <wb-info-hint
+      *ngIf="pageHint"
+      class="hint wb-full-width"
+      [message]="pageHint.message"
+      [type]="pageHint.type"
+    ></wb-info-hint>
   </div>
-  <wb-info-hint *ngIf="pageHint" class="hint wb-full-width" [message]="pageHint.message" [type]="pageHint.type">
-  </wb-info-hint>
 </ng-template>

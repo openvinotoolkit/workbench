@@ -28,7 +28,7 @@ enum EditButtonDataTestId {
   DATASETS = 'edit-import-dataset-button',
 }
 
-export enum TranformationOptions {
+export enum TransformationOptions {
   HORIZONTAL = 'applyHorizontalFlip',
   VERTICAL = 'applyVerticalFlip',
   ERASE = 'applyErase',
@@ -1280,21 +1280,21 @@ export class ConfigurationWizardPage {
   }
 
   async selectAllTransformation(): Promise<void> {
-    await this.selectTransformationOption(TranformationOptions.HORIZONTAL);
-    await this.selectTransformationOption(TranformationOptions.VERTICAL);
-    await this.selectTransformationOption(TranformationOptions.ERASE);
-    await this.selectTransformationOption(TranformationOptions.NOISE);
-    await this.selectTransformationOption(TranformationOptions.COLOR);
+    await this.selectTransformationOption(TransformationOptions.HORIZONTAL);
+    await this.selectTransformationOption(TransformationOptions.VERTICAL);
+    await this.selectTransformationOption(TransformationOptions.ERASE);
+    await this.selectTransformationOption(TransformationOptions.NOISE);
+    await this.selectTransformationOption(TransformationOptions.COLOR);
   }
 
   async selectTransformationOption(option: string): Promise<void> {
-    const checkBox = TestUtils.getElementByDataTestId(option);
-    await TestUtils.scrollToElement(checkBox);
+    const augmentationTypeSection = TestUtils.getElementByDataTestId(option);
+    await TestUtils.scrollToElement(augmentationTypeSection);
     await browser.sleep(1000);
-    await checkBox.click();
+    await augmentationTypeSection.click();
     await browser.sleep(1000);
 
-    if (option === TranformationOptions.COLOR) {
+    if (option === TransformationOptions.COLOR) {
       await this.selectAllColorPresets();
     }
   }
@@ -1312,10 +1312,10 @@ export class ConfigurationWizardPage {
   async checkImagesInDataset(datasetName: string, transformation: string): Promise<boolean> {
     let transformedImagePath;
     switch (transformation) {
-      case TranformationOptions.HORIZONTAL:
+      case TransformationOptions.HORIZONTAL:
         transformedImagePath = browser.params.precommit_scope.resources.transformedImages.horizontalFlip.pathToImage;
         break;
-      case TranformationOptions.VERTICAL:
+      case TransformationOptions.VERTICAL:
         transformedImagePath = browser.params.precommit_scope.resources.transformedImages.verticalFlip.pathToImage;
     }
     console.log('Get hash from transformed image');
