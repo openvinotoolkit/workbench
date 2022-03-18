@@ -14,7 +14,7 @@
 @import 'styles/global/config-form-field';
 @import 'styles/global/chip';
 @import 'styles/global/key-val';
-
+@import 'app/modules/model-manager/components/hugging-face-import-ribbon-content/huggingface-model-details/markdown/markdown';
 // Angular Material global styles
 
 @include wb-radio-group();

@@ -26,6 +26,14 @@ import { ModelStoreActions, RootStoreState } from '@store';
 import { HuggingfaceModelZooDataSource } from '@shared/models/model-zoo-data-source/huggingface-model-zoo-data-source';
 import { IHuggingfaceModel } from '@shared/models/huggingface/huggingface-model';
 
+export interface IHuggingfaceTagsSets {
+  pipelineTags: Set<string>;
+  libraries: Set<string>;
+  languages: Set<string>;
+  licenses: Set<string>;
+  modelTypes: Set<string>;
+}
+
 @Component({
   selector: 'wb-hugging-face-import-ribbon-content',
   templateUrl: './hugging-face-import-ribbon-content.component.html',
@@ -41,6 +49,7 @@ export class HuggingFaceImportRibbonContentComponent implements OnInit, AfterVie
 
   appliedTags: IHuggingfaceAppliedModelTags = null;
   availableTags: IHuggingfaceAvailableTags = null;
+  tagsSets: IHuggingfaceTagsSets = null;
 
   readonly dataSource = new HuggingfaceModelZooDataSource();
 
@@ -65,6 +74,13 @@ export class HuggingFaceImportRibbonContentComponent implements OnInit, AfterVie
         this.dataSource.data = models;
         this.appliedTags = applied;
         this.availableTags = available;
+        this.tagsSets = {
+          libraries: new Set(applied.libraries),
+          pipelineTags: new Set(applied.pipelineTags),
+          modelTypes: new Set(available.modelTypes),
+          languages: new Set(available.languages),
+          licenses: new Set(available.licenses),
+        };
         this._cdr.detectChanges();
       });
 

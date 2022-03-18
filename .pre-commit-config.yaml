@@ -31,4 +31,5 @@ repos:
             '--config', './client/.prettierrc',
             '--ignore-path', './client/.prettierignore'
         ]
+        pass_filenames: false
         stages: [commit]
