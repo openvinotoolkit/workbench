@@ -25,11 +25,10 @@ repos:
         files: '^client/'
         args: [
             '--write',
-            '--loglevel', 'debug',
             '--list-different',
             '--ignore-unknown',
             '--config', './client/.prettierrc',
             '--ignore-path', './client/.prettierignore'
         ]
-        pass_filenames: false
+        require_serial: true
         stages: [commit]
