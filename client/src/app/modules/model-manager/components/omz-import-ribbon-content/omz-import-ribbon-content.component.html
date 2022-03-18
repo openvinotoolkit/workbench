@@ -91,18 +91,31 @@
 
 <ng-template #filterGroupTemplate>
   <wb-model-zoo-filter-group [formControl]="filtersControl">
-    <wb-model-zoo-filter group="precision">
-      <wb-model-zoo-filter-title>Precisions</wb-model-zoo-filter-title>
-      <wb-model-zoo-filter-option *ngFor="let option of precisionOptions" [value]="option">
-        {{ option }}
-      </wb-model-zoo-filter-option>
+    <wb-model-zoo-filter group="taskType">
+      <wb-model-zoo-filter-title>Task Type</wb-model-zoo-filter-title>
+      <wb-model-zoo-filter-option
+        *ngFor="let option of taskTypeOptions"
+        [value]="option"
+        [label]="option"
+      ></wb-model-zoo-filter-option>
     </wb-model-zoo-filter>
 
     <wb-model-zoo-filter group="precision">
       <wb-model-zoo-filter-title>Precisions</wb-model-zoo-filter-title>
-      <wb-model-zoo-filter-option *ngFor="let option of precisionOptions" [value]="option">
-        {{ option }}
-      </wb-model-zoo-filter-option>
+      <wb-model-zoo-filter-option
+        *ngFor="let option of precisionOptions"
+        [value]="option"
+        [label]="option"
+      ></wb-model-zoo-filter-option>
+    </wb-model-zoo-filter>
+
+    <wb-model-zoo-filter group="framework">
+      <wb-model-zoo-filter-title>Framework</wb-model-zoo-filter-title>
+      <wb-model-zoo-filter-option
+        *ngFor="let option of frameworkOptions"
+        [value]="option"
+        [label]="option.toString()"
+      ></wb-model-zoo-filter-option>
     </wb-model-zoo-filter>
   </wb-model-zoo-filter-group>
 </ng-template>

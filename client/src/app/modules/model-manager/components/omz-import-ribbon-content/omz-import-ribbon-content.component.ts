@@ -37,7 +37,7 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
   readonly sortControl = this._fb.control(this.dataSource.defaultSortOption);
   readonly filtersControl = this._fb.control({});
 
-  readonly precisionOptions = ['FP16', 'FP32', 'INT8'];
+  // readonly precisionOptions = ['FP16', 'FP32', 'INT8'];
 
   get selectedModel(): ModelDownloaderDTO {
     return this._selectedModel;
@@ -125,6 +125,31 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
     return this._messagesService.getHint('frameworksAvailability', 'note', {
       frameworkName: modelFrameworkNamesMap[this.selectedModel?.framework],
     });
+  }
+
+  private _getOptionsByKey(key: keyof ModelDownloaderDTO): string[] {
+    const availableOptions = this.dataSource.data?.reduce((acc, item) => {
+      const fieldValue = item[key];
+      if (Array.isArray(fieldValue)) {
+        acc.push(...fieldValue.flat());
+      } else {
+        acc.push(fieldValue);
+      }
+      return acc;
+    }, []);
+    return Array.from(new Set(availableOptions));
+  }
+
+  get taskTypeOptions(): string[] {
+    return this._getOptionsByKey('task_type');
+  }
+
+  get precisionOptions(): string[] {
+    return this._getOptionsByKey('precision');
+  }
+
+  get frameworkOptions(): string[] {
+    return this._getOptionsByKey('framework');
   }
 
   importModel(): void {

@@ -6,7 +6,7 @@ export class ModelDownloaderDTO {
   name: string;
   task_type: string;
   framework: ModelFrameworksType;
-  precision: string;
+  precision: string[];
   isAvailable: boolean;
   path: string;
   description: string;
