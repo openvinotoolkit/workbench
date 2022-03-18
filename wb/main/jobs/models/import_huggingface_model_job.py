@@ -60,14 +60,14 @@ class ImportHuggingfaceModelJob(BaseModelRelatedJob):
             onnx_model_path=Path(topology.path),
         )
 
-        parser = HuggingfaceModelDownloaderParser()
+        parser = HuggingfaceModelDownloaderParser(self._job_state_subject)
         runner = LocalRunner(tool, parser)
 
         return_code, message = runner.run_console_tool(self)
 
         if return_code:
             self._job_state_subject.update_state(status=StatusEnum.error, error_message='error')
-            raise ModelOptimizerError(message, self.job_id)
+            raise ModelOptimizerError(parser.warning, self.job_id)
 
         self._job_state_subject.update_state(progress=100, status=StatusEnum.ready)
         self._job_state_subject.detach_all_observers()

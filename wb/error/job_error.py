@@ -45,6 +45,10 @@ class ModelOptimizerError(JobGeneralError):
     code = CodeRegistry.get_model_optimizer_error_code()
 
 
+class HuggingFaceONNXConvertorError(JobGeneralError):
+    pass
+
+
 class DatasetGenerationError(JobGeneralError):
     code = CodeRegistry.get_model_optimizer_error_code()
 
