@@ -5,6 +5,7 @@ import { Helpers } from './pages/helpers';
 import { Frameworks, TestUtils } from './pages/test-utils';
 import { LoginPage } from './pages/login.po';
 import { AnalyticsPopup } from './pages/analytics-popup.po';
+import { ModelPrecisionEnum } from '@store/model-store/model.model';
 
 describe('UI tests on Downloading Models', () => {
   let homePage: AppPage;
@@ -29,6 +30,21 @@ describe('UI tests on Downloading Models', () => {
   beforeEach(async () => {
     await testUtils.testPreparation();
     await homePage.openConfigurationWizard();
+  });
+
+  // TODO: remove/adapt other tests once the old OMZ tab is deleted
+  fit('select model from table, download it and delete (OMZv2)', async () => {
+    const model = { name: 'squeezenet1.1', precision: ModelPrecisionEnum.FP16 };
+    const uploadedElementsCount = await testUtils.configurationWizard.uploadsModelsTableElementsCount();
+    await testUtils.modelManagerPage.goToModelManager();
+    await testUtils.modelDownloadPage.selectAndDownloadModel(model.name);
+    await testUtils.modelDownloadPage.convertDownloadedModelToIR(model.precision);
+    await browser.wait(
+      () => testUtils.configurationWizard.isUploadReady(model.name),
+      browser.params.defaultTimeout * 9
+    );
+    await testUtils.configurationWizard.deleteUploadedModel(model.name);
+    expect(await testUtils.configurationWizard.uploadsModelsTableElementsCount()).toEqual(uploadedElementsCount);
   });
 
   it('list of models available for downloading is fetched', async () => {
