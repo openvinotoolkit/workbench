@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  LOCALE_ID,
+  Output,
+} from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 import { HuggingfaceService } from '@core/services/api/rest/huggingface.service';
 
@@ -48,7 +58,8 @@ export class HuggingfaceModelDetailsComponent {
   constructor(
     private readonly _hfService: HuggingfaceService,
     private readonly _cdr: ChangeDetectorRef,
-    private readonly _mdService: MarkdownService
+    private readonly _mdService: MarkdownService,
+    @Inject(LOCALE_ID) private readonly _localeId: string
   ) {}
 
   private _extractTags(tags: string[], tag_group: Set<string>): string {
@@ -63,7 +74,7 @@ export class HuggingfaceModelDetailsComponent {
       { label: 'Languages', value: this._extractTags(model.tags, this.tagsSets.languages) },
       { label: 'Licenses', value: this._extractTags(model.tags, this.tagsSets.licenses) },
       { label: 'Downloads', value: model.downloads },
-      { label: 'Updated', value: model.lastModified },
+      { label: 'Updated', value: new DatePipe(this._localeId).transform(model.lastModified, 'dd/MM/yy, hh:mm') },
     ];
   }
 
