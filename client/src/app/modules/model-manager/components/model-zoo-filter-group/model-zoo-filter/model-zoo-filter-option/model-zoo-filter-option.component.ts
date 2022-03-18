@@ -21,6 +21,10 @@ export interface IModelZooFilterOptionChangeEvent<T> {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModelZooFilterOptionComponent<T> {
+  @Input() label: string;
+
+  @Input() icon: string = null;
+
   @Input() value: T = null;
 
   @HostBinding('class.selected') @Input() selected = false;
