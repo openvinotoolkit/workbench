@@ -28,7 +28,8 @@ RUN apt-get update && \
     libgtk-3-0
 
 COPY --chown=${USER_NAME} . ${OPENVINO_WORKBENCH_ROOT}
-RUN chmod +x -R ${OPENVINO_WORKBENCH_ROOT}/automation/bootstrap/
+RUN chmod +x -R ${OPENVINO_WORKBENCH_ROOT}/automation/bootstrap/ && \
+    chmod +x ${OPENVINO_WORKBENCH_ROOT}/docker/bootstrap/docker-entrypoint.sh
 
 RUN mkdir -p -m 777 ~/Downloads
 RUN git config --global credential.helper "!f() { echo username=\\${GIT_USER_NAME}; echo password=\\${GIT_PASSWORD}; }; f"
