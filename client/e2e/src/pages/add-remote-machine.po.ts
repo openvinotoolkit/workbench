@@ -99,7 +99,7 @@ export class AddRemoteMachinePo {
 
   async populateMachineInfo(machineInfo) {
     // Populating machine info fields
-    await this.fillInput('host', browser.params.remoteMachine);
+    await this.fillInput('host', machineInfo.hostName || browser.params.remoteMachine);
     await this.fillInput('port', machineInfo.port);
     await this.fillInput('name', machineInfo.name);
     await this.fillInput('username', machineInfo.user);
