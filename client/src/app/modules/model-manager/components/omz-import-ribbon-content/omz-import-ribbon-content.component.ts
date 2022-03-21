@@ -63,6 +63,15 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
 
   readonly ModelTaskTypeToNameMap = TaskTypeToNameMap;
   readonly modelFrameworkNamesMap = modelFrameworkNamesMap;
+  readonly modelFrameworkIconsMap = {
+    [ModelFrameworks.OPENVINO]: 'openvino',
+    [ModelFrameworks.CAFFE]: 'caffe',
+    [ModelFrameworks.CAFFE2]: 'caffe',
+    [ModelFrameworks.TF]: 'tensorflow',
+    [ModelFrameworks.MXNET]: 'mxnet',
+    [ModelFrameworks.ONNX]: 'onnx',
+    [ModelFrameworks.PYTORCH]: 'pytorch',
+  };
 
   readonly noConnectionMessage = this._messagesService.hintMessages.downloaderTips.cannotLoadModelWithoutConnection;
   readonly unavailableOmzModelMessage = this._messagesService.hintMessages.downloaderTips.unavailableOmzModel;

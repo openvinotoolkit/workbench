@@ -120,7 +120,8 @@
       <wb-model-zoo-filter-option
         *ngFor="let option of frameworkOptions"
         [value]="option"
-        [label]="option.toString()"
+        [label]="modelFrameworkNamesMap[option]"
+        [icon]="modelFrameworkIconsMap[option]"
       ></wb-model-zoo-filter-option>
     </wb-model-zoo-filter>
   </wb-model-zoo-filter-group>
