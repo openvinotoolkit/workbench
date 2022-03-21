@@ -38,3 +38,4 @@ def upgrade():
 
 def downgrade():
     raise NotImplementedError(f'Downgrade is not implemented for the {revision} migration')
+  
