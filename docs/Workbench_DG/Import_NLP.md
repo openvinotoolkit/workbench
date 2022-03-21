@@ -1,10 +1,10 @@
-# Tutorial Natural Language Processing Model {#workbench_docs_Workbench_DG_Tutorial_Import_NLP}
+# Tutorial Natural Language Processing Model {#workbench_docs_Workbench_DG_Tutorial_NLP}
 
 The tutorial shows how to import an original [Bert model](https://huggingface.co/bhadresh-savani/distilbert-base-uncased-emotion) of text classification use case, and [ONNX](https://onnx.ai) framework.
 
 | Model  | Use Case | Framework | Source | Dataset |
 | :---: | :---: | :---: | :---: | :---: |
-| [distilbert-base-uncased-emotion](https://huggingface.co/bhadresh-savani/distilbert-base-uncased-emotion)  | Text Classification | [ONNX](https://onnx.ai/) | [Huggingface](https://huggingface.co/bhadresh-savani/distilbert-base-uncased-emotion)| [CoLa](https://nyu-mll.github.io/CoLA/) |
+| [distilbert-base-uncased-emotion](https://huggingface.co/bhadresh-savani/distilbert-base-uncased-emotion)  | [Text Classification](https://huggingface.co/tasks/text-classification) | [ONNX](https://onnx.ai/) | [Huggingface](https://huggingface.co/bhadresh-savani/distilbert-base-uncased-emotion)| [CoLa](https://nyu-mll.github.io/CoLA/) |
 
 In this tutorial, you will learn how to:
 

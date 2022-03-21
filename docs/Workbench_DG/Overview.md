@@ -2,16 +2,17 @@
 
 Deep Learning Workbench (DL Workbench) is an official OpenVINO™ graphical interface designed to make the production of pretrained deep learning Computer Vision and Natural Language Processing models significantly easier. 
 
-DL Workbench combines OpenVINO™ tools to assist you with the most commonly used tasks: import a model, analyze its performance and accuracy, visualize the outputs, optimize and prepare the model for deployment in a matter of minutes. DL Workbench will take you through the full OpenVINO™ workflow, providing the opportunity to learn about various toolkit components.
+Minimize the inference-to-deployment workflow timing for neural models right in your browser: import a model, analyze its performance and accuracy, visualize the outputs, optimize and make the final model deployment-ready in a matter of minutes. DL Workbench takes you through the full OpenVINO™ workflow, providing the opportunity to learn about various toolkit components.
  
 ![](img/diagrams/openvino_dl_wb.png)
 
 
 @sphinxdirective
 
-.. raw:: html
-
-   <a href="workbench_docs_Workbench_DG_Install.html" class="button bttn-prm button-size-m" id="install-workbench">Install DL Workbench</a>
+.. link-button:: workbench_docs_Workbench_DG_Install
+    :type: ref
+    :text: Install DL Workbench 
+    :classes: btn-primary btn-block
 
 @endsphinxdirective
 
@@ -78,13 +79,16 @@ Component  |                 Description
 
 @sphinxdirective
 
-.. raw:: html
-
-   <a href="workbench_docs_Workbench_DG_Install.html" class="button bttn-prm button-size-m" id="install-workbench">Install DL Workbench</a>
+.. link-button:: workbench_docs_Workbench_DG_Install
+    :type: ref
+    :text: Install DL Workbench 
+    :classes: btn-outline-primary 
 
 @endsphinxdirective
 
 ## Contact Us
+
+* [DL Workbench GitHub Repository](https://github.com/openvinotoolkit/workbench)
 
 * [DL Workbench on Intel Community Forum](https://community.intel.com/t5/Intel-Distribution-of-OpenVINO/bd-p/distribution-openvino-toolkit)
 

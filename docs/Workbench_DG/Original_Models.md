@@ -2,6 +2,16 @@
 
 @sphinxdirective
 
+.. toctree::
+   :maxdepth: 1
+   :hidden:
+   
+   workbench_docs_Workbench_DG_Tutorial_Import_Original
+   
+@endsphinxdirective
+
+@sphinxdirective
+
 To import original model in the DL Workbench, you need to:
 
 1. Upload a model.

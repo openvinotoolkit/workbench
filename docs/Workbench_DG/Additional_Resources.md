@@ -95,60 +95,52 @@ Part 2. Quantization and Throughput mode. [Link](https://habr.com/ru/company/int
 
 ## YouTube Tutorials 
 
-
 @sphinxdirective
 
 .. list-table::
 
    * - .. raw:: html
 
-           <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
-           src="https://www.youtube.com/embed/on8xSSTKCt8">
-           </iframe>
+        <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
+        src="https://www.youtube.com/embed/on8xSSTKCt8">
+        </iframe>
 
-      - .. raw:: html
+     - .. raw:: html
 
-           <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
-           src="https://www.youtube.com/embed/K2zWPq2Oxzw">
-           </iframe>
+        <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
+        src="https://www.youtube.com/embed/K2zWPq2Oxzw">
+        </iframe>
     
-      - .. raw:: html
+     - .. raw:: html
 
-           <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
-           src="https://www.youtube.com/embed/PWDyoOIaFLM">
-           </iframe>
+        <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
+        src="https://www.youtube.com/embed/PWDyoOIaFLM">
+        </iframe>
 
-      - .. raw:: html
+     - .. raw:: html
 
-           <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
-           src="https://www.youtube.com/embed/yQTh-0gobcM">
-           </iframe>
+        <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
+        src="https://www.youtube.com/embed/yQTh-0gobcM">
+        </iframe>
 
-      - .. raw:: html
+     - .. raw:: html
 
-           <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
-           src="https://www.youtube.com/embed/JBDG2g5hsoM">
-           </iframe>
-
-      - .. raw:: html
-
-           <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
-           src="https://www.youtube.com/embed/rygSRiKn0oY">
-           </iframe>
+        <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
+        src="https://www.youtube.com/embed/rygSRiKn0oY">
+        </iframe>
            
      - .. raw:: html
 
-           <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
-           src="https://www.youtube.com/embed/gzUFYxomjn8">
-           </iframe>
+        <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
+        src="https://www.youtube.com/embed/gzUFYxomjn8">
+        </iframe>
 
    * - **Introduction to DL Workbench**
-      - **Run DL Workbench on Linux**
-      - **Run DL Workbench on MacOS**
-      - **Run DL Workbench on Windows**
-     - **How to Run DL Workbench on local machine**
-     - **How to Run DL Workbench in the Intel® DevCloud**
-     - **Get Started**
+     - **Run DL Workbench on Linux**
+     - **Run DL Workbench on MacOS**
+     - **Run DL Workbench on Windows**
+     - **Run DL Workbench in the Intel® DevCloud for the Edge**
+     - **DL Workbench Get Started Guide**
 
 @endsphinxdirective
 
@@ -159,15 +151,15 @@ Part 2. Quantization and Throughput mode. [Link](https://habr.com/ru/company/int
 
    * - .. raw:: html
 
-           <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
-           src="https://youtu.be/embed/20ROqz5j1y8">
-           </iframe>
+        <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
+        src="https://youtu.be/embed/20ROqz5j1y8">
+        </iframe>
            
      - .. raw:: html
 
-           <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
-           src="https://youtu.be/embed/DaR49bs8qwk">
-           </iframe>
+        <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
+        src="https://youtu.be/embed/DaR49bs8qwk">
+        </iframe>
 
    * - **DL Workbench | OpenVINO™ toolkit | Ep. 42 | Intel Software**
      - **DL Workbench - The Full Flow | OpenVINO™ toolkit | Ep. 43 | Intel Software**

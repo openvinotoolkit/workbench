@@ -8,11 +8,6 @@
    
    workbench_docs_Workbench_DG_OMZ_Models
    workbench_docs_Workbench_DG_Original_Model_Import
-   workbench_docs_Workbench_DG_Tutorial_Import_Original
-   workbench_docs_Workbench_DG_Tutorial_Import_YOLO
-   workbench_docs_Workbench_DG_Tutorial_Import_NLP
-   workbench_docs_Workbench_DG_Import_ONNX
-   workbench_docs_Workbench_DG_Import_TensorFlow
    
 @endsphinxdirective
 
@@ -25,10 +20,6 @@ Click **Create Project** on the Start Page to import a model or select **Explore
 
     Import your original model to start experiments in the DL Workbench and maximize the performance. 
 
-    .. image:: _static/images/original_model_banner.png
-       :width: 300px
-       :align: center
-
     +++
 
     .. link-button:: workbench_docs_Workbench_DG_Original_Model_Import
@@ -39,10 +30,6 @@ Click **Create Project** on the Start Page to import a model or select **Explore
     ---
 
     Import models from OpenVINO Open Model Zoo (OMZ) in a quick intuitive way to get started with the pretrained high-quality models (100+).
-
-    .. image:: _static/images/omz_banner.png
-       :width: 300px
-       :align: center
 
     +++
 

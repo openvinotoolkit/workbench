@@ -1,10 +1,10 @@
 # Tutorial Darknet* YOLOv4 Model {#workbench_docs_Workbench_DG_Tutorial_Import_YOLO}
 
-The tutorial follows the [recommendations on importing an original model](Import_Custom_Model.md) and shows how to import an original [Darknet* YOLOv4 model](https://docs.openvino.ai/latest/omz_models_model_yolo_v4_tf.html) of [object detection](https://machinelearningmastery.com/object-recognition-with-deep-learning/) use case, and [Darknet*](https://pjreddie.com/darknet/) framework.
+The tutorial follows the [recommendations on importing an original model](Import_Custom_Model.md) and shows how to import an original [Darknet* YOLOv4 model](https://github.com/AlexeyAB/darknet/releases/tag/yolov4) of [object detection](https://machinelearningmastery.com/object-recognition-with-deep-learning/) use case, and [Darknet*](https://pjreddie.com/darknet/) framework.
 
 | Model  | Use Case | Framework | Source | Dataset | 
 | :---: | :---: | :---: | :---: | :---: | 
-| [yolo-v4](https://docs.openvino.ai/latest/omz_models_model_yolo_v4_tf.html)  | [Object Detection](https://machinelearningmastery.com/object-recognition-with-deep-learning/) | [Darknet*](https://pjreddie.com/darknet/) | [Github repository](https://github.com/AlexeyAB/darknet/releases/tag/yolov4)| [Not Annotated](http://openvino-docs.inn.intel.com/latest/workbench_docs_Workbench_DG_Generate_Datasets.html#upload-not-annotated-datasets) |
+| [yolo-v4](https://github.com/AlexeyAB/darknet/releases/tag/yolov4)  | [Object Detection](https://machinelearningmastery.com/object-recognition-with-deep-learning/) | [Darknet](https://pjreddie.com/darknet/) | [Github repository](https://github.com/AlexeyAB/darknet/releases/tag/yolov4)| [Not Annotated](http://openvino-docs.inn.intel.com/latest/workbench_docs_Workbench_DG_Generate_Datasets.html) |
 
 In this tutorial, you will learn how to:
 
@@ -213,7 +213,7 @@ In this tutorial, you will learn how to:
 
    - Specify Inputs:  
 
-   .. image:: _static/images/inputs.png
+   .. image:: _static/images/inputs_defined.png
 
    - Check Specify Inputs (Optional)
    - Select NHWC layout as the Original Layout
@@ -254,7 +254,7 @@ In this tutorial, you will learn how to:
 
    .. image:: _static/images/yolov4_imported.png
 
-   On the Select Environment stage you can choose a hardware accelerator on which the model will be executed. Choose Core i7-10700T and proceed to select a dataset.
+   On the Select Environment stage you can choose a hardware accelerator on which the model will be executed.
 
    .. image:: _static/images/select_environment.png
 

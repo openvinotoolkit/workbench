@@ -101,9 +101,9 @@ and optimizing the model within a controllable accuracy drop.
 
     **NOTE**: Sample datasets must consist of a small sampling of images and be in
     ImageNet, Pascal Visual Object Classes (Pascal VOC), Common Objects in Context
-    (COCO), Common Semantic Segmentation, Labeled Faces in the Wild (LFW), Visual Geometry Group Face 2 (VGGFace2), Wider Face, Open Images
+    (COCO), Common Semantic Segmentation, Labeled Faces in the Wild (LFW), Visual Geometry Group Face 2 (VGGFace2), Wider Face, Open Images, Cityscapes
     or unannotated format. To learn more about
-    the formats, refer to [Dataset Types](Dataset_Types.md).
+    the formats, refer to Dataset Types.
 
    On the **Create Project** page, go to **Select a Validation Dataset** tab and click **Import Image Dataset**:
 
