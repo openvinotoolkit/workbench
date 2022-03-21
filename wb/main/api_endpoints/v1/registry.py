@@ -13,6 +13,7 @@
  You may obtain a copy of the License at
       https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
 """
+import os
 import shutil
 import time
 from contextlib import closing
@@ -25,7 +26,8 @@ from config.constants import (ARTIFACTS_PATH, CLOUD_SERVICE_URL, MODEL_DOWNLOADS
                               SHORT_TRANSFORMATIONS_CONFIGS, UPLOAD_FOLDER_DATASETS,
                               UPLOAD_FOLDER_MODELS,
                               DISABLE_JUPYTER, ENABLE_AUTH, JUPYTER_NOTEBOOKS_FOLDER, PYTHON_WRAPPER,
-                              PRC_URL_TO_CHECK_CONNECTION, GENERAL_URL_TO_CHECK_CONNECTION, CLOUD_SHARED_FOLDER)
+                              PRC_URL_TO_CHECK_CONNECTION, GENERAL_URL_TO_CHECK_CONNECTION, CLOUD_SHARED_FOLDER,
+                              ENVIRONMENTS_FOLDER)
 from wb.config.application import get_config
 from wb.error.code_registry import CodeRegistry
 from wb.extensions_factories.database import get_db_for_app
@@ -168,10 +170,10 @@ def clear_assets_paths():
     assets_paths = (
         ARTIFACTS_PATH, MODEL_DOWNLOADS_FOLDER, PROFILING_ARTIFACTS_REPORT_DIR,
         UPLOAD_FOLDER_DATASETS, UPLOAD_FOLDER_MODELS, JUPYTER_NOTEBOOKS_FOLDER,
-        CLOUD_SHARED_FOLDER
+        ENVIRONMENTS_FOLDER, CLOUD_SHARED_FOLDER
     )
     for path in assets_paths:
-        if not path:
+        if not path or not os.path.exists(path):
             continue
         shutil.rmtree(path)
 

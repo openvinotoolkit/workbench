@@ -1,7 +1,7 @@
 """Instant assets sharing
 
 Revision ID: c2f12b313b48
-Revises: 5be51e1d42ff
+Revises: f7fcb58b99cd
 Create Date: 2022-03-01 13:48:42.551162
 
 """
