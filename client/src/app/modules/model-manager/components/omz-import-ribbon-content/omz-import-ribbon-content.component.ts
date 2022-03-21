@@ -162,6 +162,7 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
   }
 
   resetAllFilters(): void {
+    // TODO Unify filters setting and deselecting depending on form control value
     const filters = this.filtersControl.value as Record<keyof ModelDownloaderDTO, string[]>;
     const clearedFilters = Object.fromEntries(Object.entries(filters).map(([key]) => [key, []]));
     this.filtersControl.setValue(clearedFilters);
