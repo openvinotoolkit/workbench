@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -33,7 +34,7 @@ export class ModelZooFilterOptionComponent<T> {
 
   @Output() selectionChange = new EventEmitter<IModelZooFilterOptionChangeEvent<T>>();
 
-  constructor(readonly elementRef: ElementRef) {}
+  constructor(readonly elementRef: ElementRef, private readonly _cdr: ChangeDetectorRef) {}
 
   @HostListener('click') select(): void {
     if (!this.selected && !this.disabled) {
@@ -46,6 +47,7 @@ export class ModelZooFilterOptionComponent<T> {
     if (this.selected && !this.disabled) {
       event.stopPropagation();
       this.selected = false;
+      this._cdr.detectChanges();
       this._emitChange();
     }
   }
