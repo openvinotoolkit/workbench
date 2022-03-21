@@ -96,8 +96,14 @@ class HuggingfaceModelDownloaderParser(ConsoleToolOutputParser):
         self._job_state_subject.update_state(progress=self.current_pct)
 
     def parse_download_stage(self, string: str):
-        current_size = float(self.current.search(string).group(1))
-        total_size = float(self.total.search(string).group(1))
+        current_size_match = self.current.search(string)
+        total_size_match = self.total.search(string)
+
+        if not current_size_match or not total_size_match:
+            return
+
+        current_size = float(current_size_match.group(1))
+        total_size = float(total_size_match.group(1))
 
         ratio = 0 if current_size > total_size else current_size / total_size
 
@@ -119,7 +125,7 @@ class HuggingfaceModelDownloaderParser(ConsoleToolOutputParser):
             self.parse_validation_stage(string)
 
     def parse_validation_stage(self, string: str) -> None:
-        self.current_pct = min(self.current_pct + 1, 100)
+        self.current_pct = min(self.current_pct + 4, 100)
 
         if TOLERANCE_CHECK_FAILED in string:
             self.error = True
