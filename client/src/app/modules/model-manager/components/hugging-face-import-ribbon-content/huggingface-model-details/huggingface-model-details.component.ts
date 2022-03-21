@@ -27,7 +27,7 @@ import { IHuggingfaceTagsSets } from '../hugging-face-import-ribbon-content.comp
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HuggingfaceModelDetailsComponent {
-  _model: IHuggingfaceModel = null;
+  private _model: IHuggingfaceModel = null;
 
   @Input() set huggingfaceModel(value: IHuggingfaceModel) {
     this._model = value;
@@ -74,7 +74,7 @@ export class HuggingfaceModelDetailsComponent {
       { label: 'Languages', value: this._extractTags(model.tags, this.tagsSets.languages) },
       { label: 'Licenses', value: this._extractTags(model.tags, this.tagsSets.licenses) },
       { label: 'Downloads', value: model.downloads },
-      { label: 'Updated', value: new DatePipe(this._localeId).transform(model.lastModified, 'dd/MM/yy, hh:mm') },
+      { label: 'Updated', value: new DatePipe(this._localeId).transform(model.lastModified, 'YYYY/MM/dd, hh:mm') },
     ];
   }
 
