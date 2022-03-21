@@ -81,6 +81,7 @@
           *ngFor="let tag of appliedTags.pipelineTags"
           [value]="tag"
           [label]="tag"
+          icon="list_alt"
         >
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
@@ -121,7 +122,12 @@
 
       <wb-model-zoo-filter group="licenses">
         <wb-model-zoo-filter-title>Licenses</wb-model-zoo-filter-title>
-        <wb-model-zoo-filter-option *ngFor="let license of availableTags.licenses" [value]="license" [label]="license">
+        <wb-model-zoo-filter-option
+          *ngFor="let license of availableTags.licenses"
+          [value]="license"
+          [label]="license"
+          icon="license"
+        >
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
     </ng-container>
