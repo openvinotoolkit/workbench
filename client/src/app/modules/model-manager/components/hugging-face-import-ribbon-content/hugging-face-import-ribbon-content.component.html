@@ -125,7 +125,7 @@
         <wb-model-zoo-filter-option
           *ngFor="let license of availableTags.licenses"
           [value]="license"
-          [label]="license"
+          [label]="license.replace('license:', '')"
           icon="license"
         >
         </wb-model-zoo-filter-option>
