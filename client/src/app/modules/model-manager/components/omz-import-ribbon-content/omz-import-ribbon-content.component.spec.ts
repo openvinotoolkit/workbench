@@ -9,6 +9,7 @@ import { RootStoreState } from '@store';
 import { SharedModule } from '@shared/shared.module';
 
 import { OmzImportRibbonContentComponent } from './omz-import-ribbon-content.component';
+import { ModelZooFilterGroupComponent } from '../model-zoo-filter-group/model-zoo-filter-group.component';
 
 describe('OmzImportRibbonContentComponent', () => {
   let component: OmzImportRibbonContentComponent;
@@ -24,7 +25,7 @@ describe('OmzImportRibbonContentComponent', () => {
           ...RootStoreState.reducers,
         }),
       ],
-      declarations: [OmzImportRibbonContentComponent],
+      declarations: [OmzImportRibbonContentComponent, ModelZooFilterGroupComponent],
     }).compileComponents();
   });
 
