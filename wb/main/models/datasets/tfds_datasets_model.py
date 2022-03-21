@@ -14,13 +14,11 @@
       https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
 """
 import json
-from typing import Optional
 
 from sqlalchemy import Column, Integer, Text, String
 
 from wb.main.models.base_model import BaseModel
 from wb.main.models.enumerates import DATASET_TYPES_ENUM_SCHEMA
-from wb.main.shared.enumerates import DatasetTypesEnum
 
 
 class TFDSDatasetModel(BaseModel):
@@ -31,20 +29,22 @@ class TFDSDatasetModel(BaseModel):
     name = Column(String, nullable=True)
     description = Column(Text, nullable=True)
     default_format = Column(DATASET_TYPES_ENUM_SCHEMA, nullable=False)
-    doc_url = Column(String, nullable=True)
-    license_url = Column(String, nullable=True)
+    homepage = Column(String, nullable=True)
+    version = Column(String, nullable=True)
+    download_size = Column(Integer, nullable=True)
+    num_classes = Column(Integer, nullable=True)
     subset_data = Column(String, nullable=True)
 
-    def __init__(self, label: str, name: Optional[str], description: Optional[str],
-                 default_format: DatasetTypesEnum, doc_url: Optional[str], license_url: Optional[list],
-                 subset_data: dict):
-        self.label = label
-        self.name = name
-        self.description = description
-        self.default_format = default_format
-        self.doc_url = doc_url
-        self.license_url = license_url
-        self.subset_data = str(subset_data)
+    def __init__(self, data: dict):
+        self.label = data['label']
+        self.name = data['name']
+        self.description = data['description']
+        self.default_format = data['default_format']
+        self.homepage = data['homepage']
+        self.version = data['version']
+        self.download_size = data['download_size']
+        self.num_classes = data['num_classes']
+        self.subset_data = json.dumps(data['subset_data'])
 
     def json(self):
         return {
@@ -52,7 +52,9 @@ class TFDSDatasetModel(BaseModel):
             'name': self.name,
             'description': self.description,
             'default_format': self.default_format.value,
-            'doc_url': self.doc_url,
-            'license_url': self.license_url,
+            'homepage': self.homepage,
+            'version': self.version,
+            'download_size': self.download_size,
+            'num_classes': self.num_classes,
             'subset_data': json.loads(self.subset_data),
         }

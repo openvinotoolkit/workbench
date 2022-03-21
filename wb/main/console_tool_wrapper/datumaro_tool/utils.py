@@ -1,6 +1,6 @@
 """
  OpenVINO DL Workbench
- Utils for work with OMZ tools
+ Utils for working with Datumaro functions
 
  Copyright (c) 2018 Intel Corporation
 
@@ -14,153 +14,50 @@
       https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
 """
 import json
-import logging
-import pathlib
-from itertools import chain
-from pathlib import Path
-from typing import Union, Dict, Optional
 
-import yaml
-from sqlalchemy.sql.elements import and_
-from model_analyzer.constants import YoloAnchors
-
-from config.constants import ACCURACY_CHECKER_PATH, OPEN_MODEL_ZOO_MODELS_PATH, DATASET_DEFINITIONS_PATH
 from wb.extensions_factories.database import get_db_session_for_app
-from wb.main.accuracy_utils.yml_abstractions import Adapter
-from wb.main.accuracy_utils.yml_templates.adapter_templates import format_yolo_anchors
-from wb.main.accuracy_utils.yml_templates.registry import ConfigRegistry
-from wb.main.console_tool_wrapper.model_downloader.info_dumper_parser import InfoDumperParser
-from wb.main.console_tool_wrapper.model_downloader.info_dumper_tool import InfoDumperTool
-from wb.main.enumerates import TaskMethodEnum, SupportedFrameworksEnum, ModelPrecisionEnum
+from wb.main.console_tool_wrapper.datumaro_tool.tool import DatumaroTool
+from wb.main.enumerates import DatumaroModesEnum
 from wb.main.jobs.tools_runner.local_runner import LocalRunner
-from wb.main.models import ModelPrecisionsModel, OMZTopologyModel, WBInfoModel
-from wb.main.shared.enumerates import TaskEnum
+from wb.main.models.datasets.tfds_datasets_model import TFDSDatasetModel
+from wb.main.shared.enumerates import DatasetTypesEnum
+
 
 #TODO: proper filtering
 def fetch_tfds_datasets():
-    metadata_from_accuracy_configs = get_metadata_from_accuracy_configs()
-    omz_models_from_info_dumper = get_omz_models_data_from_info_dumper()
-    default_metadata = get_default_metadata()
 
-    for model_data_from_info_dumper in omz_models_from_info_dumper:
-        model_name = model_data_from_info_dumper['name']
-        model_metadata_from_accuracy_config = metadata_from_accuracy_configs.get(model_name, default_metadata)
+    tool = DatumaroTool()
+    tool.set_mode(DatumaroModesEnum.download_info)
+    report_path = DATASET_RECOGNITION_REPORTS_FOLDER / 'tfds_list.json'
+    tool.set_path('json-report', report_path)
 
-        if model_data_from_info_dumper['framework'] == 'dldt':
-            model_data_from_info_dumper['framework'] = SupportedFrameworksEnum.openvino.value
+    runner = LocalRunner(tool)
+    return_code, _ = runner.run_console_tool()
+    if return_code:
+        pass
+    with open(report_path, 'r') as fp:
+        datasets = json.load(fp)
 
-        try:
-            SupportedFrameworksEnum(model_data_from_info_dumper['framework'])
-        except ValueError:
-            logging.warning('Skip %s model due to unsupported framework %s', model_data_from_info_dumper['name'],
-                            model_data_from_info_dumper['framework'])
-            continue
-
-        task_type = get_topology_task_by_task_method(model_metadata_from_accuracy_config['topology_type'],
-                                                     model_data_from_info_dumper)
-
-        config = dict(
-            data=model_data_from_info_dumper,
-            task_type=task_type,
-            topology_type=model_metadata_from_accuracy_config['topology_type'],
-            advanced_configuration=model_metadata_from_accuracy_config['advanced_configuration'],
-            inputs=model_metadata_from_accuracy_config.get('inputs', []),
-        )
-
-        precisions = []
-        for precision in model_data_from_info_dumper['precisions']:
-            precisions.append(precision.split('-'))
-
-        for full_precision in precisions:
-            # for each model with mixed precision, e.g. FP32-FP16, a duplicate row in OMZTopologyModel table is created
-            config['source'] = get_model_files_source(model_name)
-            omz_record = OMZTopologyModel(**config)
-            omz_record.write_record(get_db_session_for_app())
-
-            for precision in full_precision:
-                precision_record = ModelPrecisionsModel(
-                    omz_record.id,
-                    ModelPrecisionEnum(precision)
-                )
-                precision_record.write_record(get_db_session_for_app())
+    for dataset_id, dataset_data in datasets.items():
+        params = {
+            'label': dataset_id,
+            'name': dataset_data['human_name'],
+            'description': dataset_data['description'],
+            'default_format': dataset_data['default_output_format'],
+            'homepage': dataset_data['home_url'],
+            'version': dataset_data['version'],
+            'download_size': dataset_data['download_size'],
+            'num_classes': dataset_data['num_classes'],
+            'subset_data': dataset_data['subsets'],
+        }
+        dataset_record = TFDSDatasetModel(**params)
+        dataset_record.write_record(get_db_session_for_app())
 
 
-def filter_unsupported_datasets():
-    # Filter rule #1: Show only models with not generic type
-    not_supported_topologies = ('aclnet',
-                                'asl-recognition-0004',
-                                'common-sign-language-0001',
-                                'common-sign-language-0002',
-                                'facial-landmarks-35-adas-0002',
-                                'i3d-rgb-tf',
-                                'mixnet-l',
-                                'netvlad-tf',
-                                'open-closed-eye-0001',
-                                # TODO: unskip when 65499 will be fixed
-                                'densenet-161-tf',
-                                'se-resnet-101',
-                                'se-resnet-50',
-                                'se-resnet-152',
-                                'drn-d-38',
-                                'se-inception',
-                                'densenet-169',
-                                'se-resnext-50',
-                                'ssd512',
-                                'Sphereface',
-                                'densenet-121',
-                                'densenet-161',
-                                'ssd300',
-                                'densenet-201',
-                                'se-resnext-101',
-                                'mobilenet-ssd',
-                                )
-
-    supported_topologies = OMZTopologyModel.query \
+def filter_supported_datasets():
+    supported_datasets = TFDSDatasetModel.query \
         .filter(
-        and_(
-            OMZTopologyModel.task_type != TaskEnum.generic,
-            OMZTopologyModel.name.notin_(not_supported_topologies),
-        )
-    ).all()
+            TFDSDatasetModel.default_format.notin_(DatasetTypesEnum),
+        ).all()
 
-    semantic_segmentation_necessary_postprocessing_type = ('encode_segmentation_mask',)
-    aggregated_models = []
-    for model in supported_topologies:
-        precisions = [p.precision.value for p in model.precisions]
-
-        # Filter rule #2: Show any precision except INT1
-        if set(precisions) & {ModelPrecisionEnum.i1.value}:
-            continue
-
-        # Filter rule #3: Show VOC Segmentation-compatible Semantic Segmentation models only "
-        if model.task_type == TaskEnum.semantic_segmentation:
-            advanced_configuration = json.loads(model.advanced_configuration)
-            postprocessing = advanced_configuration['postprocessing']
-            is_supported = list(filter(
-                lambda postprocessing: postprocessing['type'] in semantic_segmentation_necessary_postprocessing_type,
-                postprocessing
-            ))
-            if not is_supported:
-                continue
-
-        if model.name in not_supported_topologies:
-            continue
-
-        share_same_name = [x for x in aggregated_models if model.name == x['name']]
-
-        if not share_same_name:
-            model_data = {
-                **model.json(),
-                'precision': precisions,
-                'isAvailable': is_model_available(model)
-            }
-            aggregated_models.append(model_data)
-            continue
-
-        existing_json_model = share_same_name[0]
-
-        for precision_value in precisions:
-            if precision_value not in existing_json_model['precision']:
-                existing_json_model['precision'].append(precision_value)
-
-    return aggregated_models
+    return supported_datasets

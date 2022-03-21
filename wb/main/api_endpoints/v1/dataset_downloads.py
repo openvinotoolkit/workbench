@@ -16,6 +16,7 @@
 from flask import jsonify
 
 from wb.main.api_endpoints.v1 import V1_MODELS_API
+from wb.main.console_tool_wrapper.datumaro_tool.utils import fetch_tfds_datasets, filter_supported_datasets
 from wb.main.models.datasets.tfds_datasets_model import TFDSDatasetModel
 from wb.main.utils.safe_runner import safe_run
 
@@ -25,7 +26,7 @@ from wb.main.utils.safe_runner import safe_run
 def list_tfds_datasets():
     if not TFDSDatasetModel.query.all():
         fetch_tfds_datasets()
-    result = filter_unsupported_datasets()
+    result = filter_supported_datasets()
     return jsonify(result)
 
 
