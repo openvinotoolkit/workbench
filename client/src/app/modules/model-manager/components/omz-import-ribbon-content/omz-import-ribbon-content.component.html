@@ -8,6 +8,11 @@
       </mat-select>
     </mat-form-field>
 
+    <wb-model-zoo-filters-header
+      [appliedFiltersCount]="appliedFiltersCount$ | async"
+      (resetAllFilters)="resetAllFilters()"
+    ></wb-model-zoo-filters-header>
+
     <ng-container ngProjectAs="wb-model-zoo-filter-group" [ngTemplateOutlet]="filterGroupTemplate"></ng-container>
 
     <wb-search-field ngProjectAs="model-zoo-search" (search)="searchModels($event)"></wb-search-field>

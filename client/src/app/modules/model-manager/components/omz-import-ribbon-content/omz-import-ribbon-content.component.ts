@@ -4,7 +4,7 @@ import { FormBuilder } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 
 import { MessagesService } from '@core/services/common/messages.service';
 
@@ -37,7 +37,12 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
   readonly sortControl = this._fb.control(this.dataSource.defaultSortOption);
   readonly filtersControl = this._fb.control({});
 
-  // readonly precisionOptions = ['FP16', 'FP32', 'INT8'];
+  readonly appliedFiltersCount$ = this.filtersControl.valueChanges.pipe(
+    map(
+      (filters: Record<keyof ModelDownloaderDTO, string[]>) =>
+        Object.entries(filters).filter(([, value]) => value.length).length
+    )
+  );
 
   get selectedModel(): ModelDownloaderDTO {
     return this._selectedModel;
@@ -154,6 +159,12 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
 
   get frameworkOptions(): string[] {
     return this._getOptionsByKey('framework');
+  }
+
+  resetAllFilters(): void {
+    const filters = this.filtersControl.value as Record<keyof ModelDownloaderDTO, string[]>;
+    const clearedFilters = Object.fromEntries(Object.entries(filters).map(([key]) => [key, []]));
+    this.filtersControl.setValue(clearedFilters);
   }
 
   importModel(): void {

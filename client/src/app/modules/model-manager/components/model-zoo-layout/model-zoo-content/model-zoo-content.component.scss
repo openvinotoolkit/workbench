@@ -39,7 +39,7 @@
   height: 100%;
 
   .model-zoo-sort-label,
-  .model-zoo-filters-label {
+  ::ng-deep .model-zoo-filters-label {
     display: flex;
     align-items: center;
     margin-right: 20px;
@@ -60,10 +60,6 @@
         padding: 0;
       }
     }
-  }
-
-  .reset-filters-button {
-    margin-left: auto;
   }
 
   ::ng-deep wb-model-zoo-filter-group {
