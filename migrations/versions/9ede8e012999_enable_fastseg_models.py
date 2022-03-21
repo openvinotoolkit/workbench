@@ -7,7 +7,9 @@ Create Date: 2022-02-11 15:23:34.127963
 """
  OpenVINO DL Workbench
  Migration: Enable fastseg models to appear in the OMZ table
+
  Copyright (c) 2022 Intel Corporation
+
  LEGAL NOTICE: Your use of this software and any required dependent software (the “Software Package”) is subject to
  the terms and conditions of the software license agreements for Software Package, which may also include
  notices, disclaimers, or license terms for third party or open source software
@@ -17,6 +19,7 @@ Create Date: 2022-02-11 15:23:34.127963
  You may obtain a copy of the License at
       https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
 """
+
 from alembic import op
 import sqlalchemy as sa
 
