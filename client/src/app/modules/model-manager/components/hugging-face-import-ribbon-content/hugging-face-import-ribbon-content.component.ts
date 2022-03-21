@@ -11,7 +11,7 @@ import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { MessagesService } from '@core/services/common/messages.service';
@@ -25,6 +25,7 @@ import { ModelStoreActions, RootStoreState } from '@store';
 
 import { HuggingfaceModelZooDataSource } from '@shared/models/model-zoo-data-source/huggingface-model-zoo-data-source';
 import { IHuggingfaceModel } from '@shared/models/huggingface/huggingface-model';
+import { ModelDownloaderDTO } from '@shared/models/dto/model-downloader-dto';
 
 @Component({
   selector: 'wb-hugging-face-import-ribbon-content',
@@ -48,6 +49,13 @@ export class HuggingFaceImportRibbonContentComponent implements OnInit, AfterVie
   selectedModel: IHuggingfaceModel = null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  readonly appliedFiltersCount$ = this.filterControl.valueChanges.pipe(
+    map(
+      (filters: Record<keyof ModelDownloaderDTO, string[]>) =>
+        Object.entries(filters).filter(([, value]) => value.length).length
+    )
+  );
 
   private readonly _unsubscribe$ = new Subject<void>();
 

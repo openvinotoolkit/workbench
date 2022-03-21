@@ -8,6 +8,8 @@
       </mat-select>
     </mat-form-field>
 
+    <wb-model-zoo-filters-header [appliedFiltersCount]="appliedFiltersCount$ | async"></wb-model-zoo-filters-header>
+
     <ng-container ngProjectAs="wb-model-zoo-filter-group" [ngTemplateOutlet]="filterGroupTemplate"></ng-container>
 
     <wb-model-zoo-notification [message]="externalResourceNotification"></wb-model-zoo-notification>
