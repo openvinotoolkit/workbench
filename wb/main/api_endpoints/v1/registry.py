@@ -13,6 +13,7 @@
  You may obtain a copy of the License at
       https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
 """
+import os
 import shutil
 import time
 from contextlib import closing
@@ -170,6 +171,8 @@ def clear_assets_paths():
         UPLOAD_FOLDER_DATASETS, UPLOAD_FOLDER_MODELS, JUPYTER_NOTEBOOKS_FOLDER,
     )
     for path in assets_paths:
+        if not os.path.exists(path):
+            continue
         shutil.rmtree(path)
 
 
