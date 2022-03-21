@@ -26,7 +26,7 @@ from config.constants import (ARTIFACTS_PATH, CLOUD_SERVICE_URL, MODEL_DOWNLOADS
                               SHORT_TRANSFORMATIONS_CONFIGS, UPLOAD_FOLDER_DATASETS,
                               UPLOAD_FOLDER_MODELS,
                               DISABLE_JUPYTER, ENABLE_AUTH, JUPYTER_NOTEBOOKS_FOLDER, PYTHON_WRAPPER,
-                              PRC_URL_TO_CHECK_CONNECTION, GENERAL_URL_TO_CHECK_CONNECTION)
+                              PRC_URL_TO_CHECK_CONNECTION, GENERAL_URL_TO_CHECK_CONNECTION, ENVIRONMENTS_FOLDER)
 from wb.config.application import get_config
 from wb.error.code_registry import CodeRegistry
 from wb.extensions_factories.database import get_db_for_app
@@ -169,6 +169,7 @@ def clear_assets_paths():
     assets_paths = (
         ARTIFACTS_PATH, MODEL_DOWNLOADS_FOLDER, PROFILING_ARTIFACTS_REPORT_DIR,
         UPLOAD_FOLDER_DATASETS, UPLOAD_FOLDER_MODELS, JUPYTER_NOTEBOOKS_FOLDER,
+        ENVIRONMENTS_FOLDER
     )
     for path in assets_paths:
         if not os.path.exists(path):
