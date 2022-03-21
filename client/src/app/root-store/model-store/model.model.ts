@@ -160,15 +160,6 @@ export enum ModelFrameworks {
   PYTORCH = 'pytorch',
 }
 
-export type ModelFrameworksType =
-  | ModelFrameworks.OPENVINO
-  | ModelFrameworks.CAFFE
-  | ModelFrameworks.CAFFE2
-  | ModelFrameworks.MXNET
-  | ModelFrameworks.ONNX
-  | ModelFrameworks.PYTORCH
-  | ModelFrameworks.TF;
-
 export const modelFrameworkNamesMap = {
   [ModelFrameworks.OPENVINO]: 'OpenVINO IR',
   [ModelFrameworks.CAFFE]: 'Caffe',
@@ -282,9 +273,9 @@ export interface ModelItem extends Artifact {
   stages?: ProjectStatus[]; // Statuses of each job
   bodyPrecisions: ModelPrecisionType[];
   modelSource: ModelSources;
-  framework: ModelFrameworksType;
+  framework: ModelFrameworks;
   domain: ModelDomain;
-  originalModelFramework?: ModelFrameworksType;
+  originalModelFramework?: ModelFrameworks;
   modelOptimizerJobId?: number;
   selectedTokenizerId?: number;
   mo?: ModelOptimizerData;
@@ -340,13 +331,13 @@ export interface TF2SavedModel {
 
 export interface UploadingModelDTO {
   modelName: string;
-  framework?: ModelFrameworksType;
+  framework?: ModelFrameworks;
   files: Dictionary<File | File[] | FileInfo | FileInfo[]>;
 }
 
 export interface UploadingTF2SavedModelDTO {
   modelName: string;
-  framework?: ModelFrameworksType;
+  framework?: ModelFrameworks;
   files: {
     savedModelDir: TF2SavedModel;
   };
@@ -445,7 +436,7 @@ export interface EditModelConvertConfigDTO extends ModelConvertConfig {
 }
 
 export interface ModelOptimizerParameters {
-  framework: ModelFrameworksType;
+  framework: ModelFrameworks;
   dataType: ModelPrecisionType;
   batch: number;
   reverseInputChannels: boolean;
