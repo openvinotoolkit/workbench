@@ -35,6 +35,9 @@ def upgrade():
     op.rename_table('downloadable_artifacts', 'shared_artifacts')
     op.drop_column('create_profiling_bundle_jobs', 'tab_id')
 
+    op.execute("UPDATE artifacts SET type='downloadable_artifact' WHERE type='downloadable_artifacts';")
+
+    op.execute("UPDATE shared_artifacts SET job_id=create_profiling_bundle_jobs.job_id FROM create_profiling_bundle_jobs WHERE shared_artifacts.id=create_profiling_bundle_jobs.bundle_id;")
     # Connect bundles from downloadable_artifacts with jobs throw job_id instead of bundle_id
     op.execute("UPDATE shared_artifacts SET job_id=create_profiling_bundle_jobs.job_id FROM create_profiling_bundle_jobs WHERE shared_artifacts.id=create_profiling_bundle_jobs.bundle_id;")
     op.drop_constraint('create_profiling_bundle_jobs_bundle_id_fkey', 'create_profiling_bundle_jobs', type_='foreignkey')

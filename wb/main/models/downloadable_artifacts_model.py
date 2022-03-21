@@ -16,8 +16,6 @@
 import os
 from typing import Tuple, Optional
 
-from sqlalchemy import Column, Integer, ForeignKey
-
 from config.constants import ARTIFACTS_PATH
 from wb.main.models.shared_artifact_model import SharedArtifactModel
 
@@ -25,7 +23,7 @@ from wb.main.models.shared_artifact_model import SharedArtifactModel
 class DownloadableArtifactsModel(SharedArtifactModel):
 
     __mapper_args__ = {
-        'polymorphic_identity': 'downloadable_artifacts'
+        'polymorphic_identity': 'downloadable_artifact'
     }
 
     @property
