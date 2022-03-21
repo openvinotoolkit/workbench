@@ -17,7 +17,7 @@
 import re
 from pathlib import Path
 
-from wb.error.job_error import HuggingFaceONNXConvertorError
+from wb.error.job_error import TransformersONNXConversionError
 from wb.main.console_tool_wrapper.console_parameter_validator import ConsoleParametersTypes
 from wb.main.console_tool_wrapper.python_console_tool import PythonModuleTool
 from wb.main.jobs.interfaces.job_state import JobStateSubject
@@ -61,14 +61,21 @@ class HuggingfaceModelDownloaderParser(ConsoleToolOutputParser):
         self.current = re.compile(r"(\d+\.?\d*)[Mk]?/\d+\.?\d*")
         self.total = re.compile(r"\d+\.?\d*[Mk]?/(\d+\.?\d*)")
 
-        self.warning = None
-
         self.downloaded = False
         self.converted = False
 
+        self.error = False
+
     @skip_empty_line_decorator
     def parse(self, string: str):
+        if self.error:
+            return
+
         string = string.strip()
+
+        if "error" in string.lower():
+            self.error = True
+            return
 
         if not self.downloaded:
             if string.startswith(DOWNLOAD_PROGRESS_STRING_START):
@@ -102,15 +109,13 @@ class HuggingfaceModelDownloaderParser(ConsoleToolOutputParser):
 
     def parse_convert_stage(self, string: str) -> None:
         if NOT_ALL_WEIGHTS_USED in string:
-            self.warning = string
-            raise HuggingFaceONNXConvertorError(self.warning, self._job_state_subject.job_id)
-        if VALIDATING_ONNX_MODEL in string:
+            self.error = True
+        elif VALIDATING_ONNX_MODEL in string:
             self.converted = True
             self.parse_validation_stage(string)
 
     def parse_validation_stage(self, string: str) -> None:
         if TOLERANCE_CHECK_FAILED in string:
-            self.warning = string
-            raise HuggingFaceONNXConvertorError(self.warning, self._job_state_subject.job_id)
-        if MODEL_SAVED in string:
+            self.error = True
+        elif MODEL_SAVED in string:
             self.current_pct = 100

@@ -45,6 +45,7 @@ class CodeRegistry:
         'DEPLOYMENT_MANAGER_ERROR': 4008,
         'DATUMARO_ERROR': 4009,
         'RESHAPE_MODEL_ERROR': 4010,
+        'TRANSFORMERS_ONNX_ERROR': 4020,
 
         # DATABASE ERRORS
         'DATABASE_ERROR': 5001,
@@ -159,3 +160,7 @@ class CodeRegistry:
     @classmethod
     def get_reshape_model_error_code(cls):
         return cls.CODES['RESHAPE_MODEL_ERROR']
+
+    @classmethod
+    def get_transformers_onnx_error_code(cls):
+        return cls.CODES['TRANSFORMERS_ONNX_ERROR']

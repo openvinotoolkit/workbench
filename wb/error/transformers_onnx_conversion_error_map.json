@@ -1,0 +1,8 @@
+{
+    "RuntimeError: 0INTERNAL ASSERT FAILED": "PyTorch JiT trace error",
+    "onnxruntime.capi.onnxruntime_pybind11_state.InvalidArgument": "Wrong tokenizer type in the repository. To convert the model you could create a repository with the same model and right tokenizer type and use it instead.",
+    "Connection error, and we cannot find the requested files in the cached path": "Connection error. Check the internet connection.",
+    "TypeError: not a string": "Cannot initialize tokenizer from the repository.",
+    "Error(s) in loading state_dict": "Cannot initialize the the model from the repository. Try to connect the repository creator of the repository.",
+    "sequence item 0: expected str instance": "[unk] and [pad] tokens for tokenizer are not set."
+}

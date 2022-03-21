@@ -18,7 +18,7 @@ from pathlib import Path
 
 from sqlalchemy.orm import Session
 
-from wb.error.job_error import ModelOptimizerError
+from wb.error.job_error import TransformersONNXConversionError
 from wb.extensions_factories.database import get_db_session_for_celery
 from wb.main.console_tool_wrapper.huggingface_model_downloader.tool import (HuggingfaceModelDownloaderTool,
                                                                             HuggingfaceModelDownloaderParser)
@@ -67,7 +67,7 @@ class ImportHuggingfaceModelJob(BaseModelRelatedJob):
 
         if return_code:
             self._job_state_subject.update_state(status=StatusEnum.error, error_message='error')
-            raise ModelOptimizerError(parser.warning, self.job_id)
+            raise TransformersONNXConversionError(message, self.job_id)
 
         self._job_state_subject.update_state(progress=100, status=StatusEnum.ready)
         self._job_state_subject.detach_all_observers()

@@ -13,6 +13,8 @@
  You may obtain a copy of the License at
       https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
 """
+import json
+
 from config.constants import CELERY_RETRY_COUNTDOWN, CELERY_RETRY_MAX_RETRY
 from wb.error.general_error import GeneralError
 from wb.error.code_registry import CodeRegistry
@@ -43,10 +45,6 @@ class ModelDownloaderError(JobGeneralError):
 
 class ModelOptimizerError(JobGeneralError):
     code = CodeRegistry.get_model_optimizer_error_code()
-
-
-class HuggingFaceONNXConvertorError(JobGeneralError):
-    pass
 
 
 class DatasetGenerationError(JobGeneralError):
@@ -106,3 +104,21 @@ class SetupTargetError(JobGeneralError):
         RemoteSetupStatusMessagesEnum.PIP_VERSION_ERROR.value:
             RemoteSetupStatusCodeEnum.PIP_VERSION_ERROR.value,
     }
+
+
+class TransformersONNXConversionError(JobGeneralError):
+    code = CodeRegistry.get_transformers_onnx_error_code()
+
+    with open('wb/error/transformers_onnx_conversion_error_map.json') as f:
+        message_map = json.load(f)
+
+    def __init__(self, message: str,  job_id: int):
+        message = self.replace_error_message(message)
+        super().__init__(message, job_id)
+
+    def replace_error_message(self, message: str) -> str:
+        for substring, replacement_string in self.message_map.items():
+            if substring in message:
+                return replacement_string
+
+        return f'Unexpected error: {message}'
