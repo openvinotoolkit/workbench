@@ -1,7 +1,9 @@
 """Enable fastseg models to appear in the OMZ table
+
 Revision ID: 9ede8e012999
 Revises: f7fcb58b99cd
 Create Date: 2022-02-11 15:23:34.127963
+
 """
 
 """
