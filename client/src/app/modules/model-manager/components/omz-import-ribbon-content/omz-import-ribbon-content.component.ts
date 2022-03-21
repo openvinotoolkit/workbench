@@ -92,6 +92,10 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
     this.sortControl.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe((sort) => {
       this.dataSource.sort = sort;
     });
+
+    this.filtersControl.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe((filters) => {
+      this.dataSource.appliedFilters = filters;
+    });
   }
 
   get isImportDisabled(): boolean {

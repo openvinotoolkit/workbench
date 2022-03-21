@@ -28,8 +28,7 @@ export abstract class BaseModelZooDataSource<T> implements DataSource<T> {
     this._originalData = value;
     this._matDataSource.data = value;
     this._matDataSource.paginator?.firstPage();
-    // TODO Persist current sorting
-    this.sort = this.sortOptions[0];
+    // TODO Persist current sorting, consider implementing `_updateChangeSubscription`
   }
 
   get data(): T[] {
