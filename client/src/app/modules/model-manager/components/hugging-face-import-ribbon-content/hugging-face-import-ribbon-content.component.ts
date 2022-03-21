@@ -51,6 +51,8 @@ export class HuggingFaceImportRibbonContentComponent implements OnInit, AfterVie
   availableTags: IHuggingfaceAvailableTags = null;
   tagsSets: IHuggingfaceTagsSets = null;
 
+  idSearch = '';
+
   readonly dataSource = new HuggingfaceModelZooDataSource();
 
   selectedModel: IHuggingfaceModel = null;
@@ -86,11 +88,9 @@ export class HuggingFaceImportRibbonContentComponent implements OnInit, AfterVie
 
     this.sortControl.valueChanges
       .pipe(takeUntil(this._unsubscribe$))
-      .subscribe((sort) => (this.dataSource.sort = sort));
+      .subscribe((sort) => (this.dataSource.sort = { active: sort, direction: 'desc' }));
 
-    this.filterControl.valueChanges
-      .pipe(takeUntil(this._unsubscribe$))
-      .subscribe((value: IHuggingfaceAppliedModelTags) => (this.dataSource.filterTags = Object.values(value).flat()));
+    this.filterControl.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe(() => this._filter());
   }
 
   ngAfterViewInit(): void {
@@ -103,10 +103,18 @@ export class HuggingFaceImportRibbonContentComponent implements OnInit, AfterVie
   }
 
   searchModels(value: string): void {
-    this.dataSource.filter = value;
+    this.idSearch = value;
+    this._filter();
   }
 
   handleUploadModel(): void {
     this._store$.dispatch(ModelStoreActions.importHuggingfaceModel({ huggingface_model_id: this.selectedModel.id }));
+  }
+
+  private _filter(): void {
+    this.dataSource.filter = {
+      id: this.idSearch,
+      tags: Object.values(this.filterControl?.value || {}).flat() as string[],
+    };
   }
 }

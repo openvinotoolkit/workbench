@@ -2,18 +2,18 @@ import { IHuggingfaceModel } from '@shared/models/huggingface/huggingface-model'
 
 import { BaseModelZooDataSource } from './base-model-zoo-data-source';
 
-export class HuggingfaceModelZooDataSource extends BaseModelZooDataSource<IHuggingfaceModel> {
-  protected _searchIdentityField: keyof IHuggingfaceModel = 'id';
+interface IHuggingfaceModelZooFilter {
+  id: string;
+  tags: string[];
+}
 
-  // todo: filter on data set
-  set filterTags(value: string[]) {
-    this._matDataSource.data = this._filterTags(this._originalData.slice(), value);
-    this._matDataSource.paginator.firstPage();
-  }
-
-  private _filterTags(data: IHuggingfaceModel[], tags: string[]): IHuggingfaceModel[] {
-    return data.filter((model) => {
-      return tags.every((tag) => model.tags.indexOf(tag) !== -1);
-    });
+export class HuggingfaceModelZooDataSource extends BaseModelZooDataSource<
+  IHuggingfaceModel,
+  IHuggingfaceModelZooFilter
+> {
+  filterPredicate(data: IHuggingfaceModel, { id, tags }: { id: string; tags: string[] }): boolean {
+    const idMatched = data.id.toLowerCase().includes(id.trim().toLowerCase());
+    const tagsMatched = tags.every((tag) => data.tags.indexOf(tag) !== -1);
+    return idMatched && tagsMatched;
   }
 }
