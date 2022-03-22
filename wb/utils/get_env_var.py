@@ -15,12 +15,13 @@
 """
 
 import os
+from pathlib import Path
 from typing import Union, Callable
 
 from wb.error.parse_env_error import ParseEnvError
 
 
-EnvVarType = Union[str, int, bool, None]
+EnvVarType = Union[Path, str, int, bool, None]
 
 
 def get_env_var(name: str, default: EnvVarType = None,

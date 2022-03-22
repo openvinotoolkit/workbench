@@ -307,27 +307,27 @@ export class CreateProjectPageComponent implements OnInit, OnDestroy {
 
     // Device and model precision mismatch warning
     if (!this.isSupportedPrecision && this.selectedModel && this.selectedDataset && this.selectedTargetDevice) {
-      return { message: this.unsupportedPrecisionsHint, type: 'warning' };
+      return { message: this.unsupportedPrecisionsHint, type: 'attention' };
     }
 
     // Model and dataset domain mismatch warning
     if (this.selectedModel && this.selectedDataset && !this.isDomainMatch) {
-      return { message: this.createProjectMessages.modelDatasetDomainIncompatibleWarning, type: 'warning' };
+      return { message: this.createProjectMessages.modelDatasetDomainIncompatibleWarning, type: 'attention' };
     }
 
     // Model and dataset mismatch warning
     if (!this.areTypesMatch && this.selectedModel && this.selectedDataset) {
-      return { message: this.createProjectMessages.modelDatasetIncompatibleWarning, type: 'warning' };
+      return { message: this.createProjectMessages.modelDatasetIncompatibleWarning, type: 'attention' };
     }
 
     // Task is running warning
     if (this._isTaskRunning) {
-      return { message: this.taskIsRunningMsg, type: 'warning' };
+      return { message: this.taskIsRunningMsg, type: 'attention' };
     }
 
     // Session expires soon warning
     if (this._sessionStartProcessWarningMessage) {
-      return { message: this._sessionStartProcessWarningMessage, type: 'warning' };
+      return { message: this._sessionStartProcessWarningMessage, type: 'attention' };
     }
 
     return { message: this.createProjectMessages.selectionHint, type: 'default' };

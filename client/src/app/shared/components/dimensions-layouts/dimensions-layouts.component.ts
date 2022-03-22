@@ -3,7 +3,7 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '
 
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { reduce } from 'lodash';
+import { reduce, omit } from 'lodash';
 
 import { AdvancedConfigField, SelectOption } from '@shared/components/config-form-field/config-form-field.component';
 import { CustomValidators } from '@shared/components/config-form-field/custom-validators';
@@ -83,6 +83,8 @@ export class DimensionsLayoutsComponent implements OnInit, OnDestroy {
     4: [LayoutTypes.NHWC, LayoutTypes.NCHW],
   };
 
+  private readonly _batchDimensionKey = 'wrongBatchDimension';
+
   private readonly _unsubscribe$ = new Subject<void>();
 
   constructor(private _fb: FormBuilder) {
@@ -107,6 +109,7 @@ export class DimensionsLayoutsComponent implements OnInit, OnDestroy {
       }
 
       this.updateDimensions(inputs.length);
+      this._updateShapeValidity(inputs);
     });
 
     this.layoutTypeControl.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe((type) => {
@@ -145,6 +148,9 @@ export class DimensionsLayoutsComponent implements OnInit, OnDestroy {
       });
 
       this.parentGroup.get('layout').setValue(layouts);
+
+      const inputs = this.group.value?.inputs;
+      this._updateShapeValidity(inputs);
     });
 
     this.populate();
@@ -244,5 +250,25 @@ export class DimensionsLayoutsComponent implements OnInit, OnDestroy {
 
   get isValidationMessageVisible(): boolean {
     return this.group.touched && this.group.invalid;
+  }
+
+  private _updateShapeValidity(inputs: { layout: string; dimension: number }[]): void {
+    inputs?.forEach(({ layout, dimension }, index) => {
+      const dimensionControl = (this.group?.get('inputs') as FormArray).at(index).get('dimension');
+      let errors = dimensionControl.errors;
+
+      errors = omit(errors, this._batchDimensionKey);
+
+      if (!Object.keys(errors).length) {
+        errors = null;
+      }
+
+      if (layout === 'N' && dimension < 1) {
+        errors = errors || {};
+        errors[this._batchDimensionKey] = { message: 'Batch shape must be > 0' };
+      }
+
+      dimensionControl?.setErrors(errors);
+    });
   }
 }

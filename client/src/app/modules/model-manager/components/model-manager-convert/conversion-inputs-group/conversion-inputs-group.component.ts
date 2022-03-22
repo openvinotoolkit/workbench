@@ -47,9 +47,10 @@ export class ConversionInputsGroupComponent implements OnChanges, OnDestroy {
 
   public readonly inputLayers = 'inputs';
 
-  public readonly inputSpecification = this.messagesService.hintMessages.conversionTips.inputSpecification;
-  public readonly inputDynamicDimensionNote = this.messagesService.hintMessages.conversionTips
-    .inputDynamicDimensionNote;
+  public readonly inputSpecification = this._messagesService.hintMessages.conversionTips.inputSpecification;
+  public readonly inputDynamicDimensionNote =
+    this._messagesService.hintMessages.conversionTips.inputDynamicDimensionNote;
+  readonly neededBatchMessage = this._messagesService.hintMessages.conversionTips.neededBatch;
 
   public isDynamicSupported = false;
 
@@ -58,7 +59,7 @@ export class ConversionInputsGroupComponent implements OnChanges, OnDestroy {
   constructor(
     private store$: Store<RootStoreState.State>,
     private fb: FormBuilder,
-    public messagesService: MessagesService
+    private readonly _messagesService: MessagesService
   ) {
     this.store$
       .select(GlobalsStoreSelectors.selectIsFeaturePreviewSupported(SupportedFeaturesPreview.DYNAMIC_SHAPES))

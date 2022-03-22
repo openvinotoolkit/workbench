@@ -1,71 +1,45 @@
-.checkbox-and-file {
-  display: flex;
-  margin-bottom: 20px;
-  min-height: 40px;
+@import 'mixins';
 
-  .checkbox {
-    margin-top: 8px;
-  }
+:host {
+  display: block;
+  margin-bottom: -20px;
+}
 
-  .checkbox {
-    ::ng-deep .config-form-field {
-      margin-bottom: 0;
-    }
-  }
+.hint {
+  display: block;
+  margin: -15px 0 20px;
+}
 
-  .file {
-    margin-left: 20px;
+.field-row.field-row--predefined-transformation-config {
+  position: absolute;
+  left: 0;
+  top: 50px;
+}
 
-    ::ng-deep .file-upload-field-container {
-      margin-bottom: 0;
-    }
-  }
+.field-row.field-row--custom-transformation-config {
+  position: absolute;
+  left: 240px;
+  top: 40px;
 }
 
 .transformations-config-container {
-  margin-left: 30px;
-
-  ::ng-deep mat-radio-button:first-child {
-    margin-bottom: 40px;
-
-    &.mat-radio-checked {
-      margin-bottom: 215px;
-    }
-  }
-
-  .predefined-config {
-    display: block;
-    margin-top: -230px;
-    padding-bottom: 60px;
-  }
-}
-
-.pipeline-row {
-  display: flex;
-
-  .tip-link {
-    margin-top: 10px;
-  }
-}
-
-.preconfigured {
-  margin-left: 280px;
-  top: -268px;
-  display: block;
-  position: relative;
-}
-
-.custom-config-row {
-  margin-left: 235px;
-  margin-top: -53px;
-  display: flex;
-
-  .tip-link {
-    margin-top: 11px;
-  }
-}
-
-.use-config {
-  display: block;
+  margin-left: 20px;
   margin-bottom: 40px;
+  position: relative;
+
+  &.transformations-config-container--invalid-custom-field {
+    margin-bottom: 50px;
+  }
+}
+
+.transformations-config-container ::ng-deep .mat-radio-button.mat-radio-checked:first-child {
+  margin-bottom: 215px;
+}
+
+.transformations-config-container ::ng-deep .mat-radio-button.mat-radio-checked .mat-radio-label-content {
+  position: relative;
+
+  &:after {
+    @include wb-required-asterix();
+  }
 }

@@ -43,7 +43,7 @@ class ModelDownloadConfigsModel(JobsModel):
     def json(self):
         return {
             'jobId': self.job_id,
-            'artifactId': self.downloadable_artifact.id,
+            'artifactId': self.shared_artifact.id,
             'status': self.pipeline.status_to_json(),
             'modelId': self.model_id,
             'tabId': self.tab_id,

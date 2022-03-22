@@ -17,6 +17,10 @@
     min-width: 0;
     flex: 1 1 auto;
   }
+
+  ::ng-deep .label-container {
+    min-width: 205px;
+  }
 }
 
 wb-classification-columns-form,

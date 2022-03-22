@@ -8,6 +8,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
+import { FormControl, FormGroup } from '@angular/forms';
 
 import { isNil } from 'lodash';
 import { Subject } from 'rxjs';
@@ -17,6 +18,8 @@ import { MessagesService } from '@core/services/common/messages.service';
 import { DatasetsService } from '@core/services/api/rest/datasets.service';
 
 import { IImageCorrection } from '@store/dataset-store/dataset.model';
+
+import { AdvancedConfigField } from '@shared/components/config-form-field/config-form-field.component';
 
 import { colorSpacePresets } from '../dataset-augmentation-fields';
 import defaultImages from '../../../../../../../assets/img/default-dataset/images.json';
@@ -52,7 +55,8 @@ export class ColorTransformationsSectionComponent implements OnDestroy {
   public augmentationTipMessage = this.messagesService.getHint('createDatasetTips', 'augmentationTip');
   public readonly defaultImageName = defaultImages[0];
   public defaultImagePath: string = null;
-  public dafaultImage: File = null;
+
+  readonly group = new FormGroup({});
 
   private unsubscribe$: Subject<void> = new Subject<void>();
   isNil = isNil;
@@ -62,15 +66,29 @@ export class ColorTransformationsSectionComponent implements OnDestroy {
     private decimalPipe: DecimalPipe,
     private datasetService: DatasetsService,
     private _cdr: ChangeDetectorRef
-  ) {}
+  ) {
+    this.colorSpacePresets.forEach(({ id }) => {
+      this.group.addControl(id, new FormControl());
+    });
 
-  addPreset(preset): void {
-    if (this.selectedPresets.includes(preset)) {
-      this.selectedPresets = this.selectedPresets.filter((el) => el.name !== preset.name);
-    } else {
-      this.selectedPresets.push(preset);
-    }
-    this.setPresetsEvent.emit({ presets: this.selectedPresets });
+    this.group.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((checkboxes) => {
+      const selectedPresetIds = Object.keys(checkboxes).filter((key) => checkboxes[key]);
+
+      this.selectedPresets = this.colorSpacePresets.filter(({ id }) => selectedPresetIds.includes(id));
+      this.setPresetsEvent.emit({ presets: this.selectedPresets });
+    });
+  }
+
+  togglePreset({ id }): void {
+    this.group.get(id).setValue(!this.group.get(id).value);
+  }
+
+  getField({ id, name }: IImageCorrection): AdvancedConfigField {
+    return {
+      name: id,
+      label: name,
+      type: 'checkbox',
+    };
   }
 
   getPercentageValue(value): string {

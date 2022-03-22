@@ -3,11 +3,11 @@
 :host {
   .hint-container {
     display: flex;
-    flex-direction: row;
+    align-items: center;
     white-space: normal;
 
     [svgIcon='info_outline'] {
-      $error-icon-size: 20px;
+      $error-icon-size: 24px;
       font-size: $error-icon-size;
       width: $error-icon-size;
       height: $error-icon-size;
@@ -15,7 +15,16 @@
     }
 
     .warning-icon {
-      $warning-icon-size: 19px;
+      $warning-icon-size: 24px;
+      color: $deep-red;
+      font-size: $warning-icon-size;
+      width: $warning-icon-size;
+      height: $warning-icon-size;
+      flex-shrink: 0;
+    }
+
+    .attention-icon {
+      $warning-icon-size: 24px;
       color: $deep-red;
       font-size: $warning-icon-size;
       width: $warning-icon-size;
@@ -25,8 +34,9 @@
 
     wb-markdown-text {
       word-wrap: break-word;
-      margin-left: 5px;
+      margin-left: 10px;
       max-width: 420px;
+      color: $brownish-grey;
     }
   }
 

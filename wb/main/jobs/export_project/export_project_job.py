@@ -90,8 +90,8 @@ class ExportProjectJob(IJob):
                     self._generate_calibration_config(calibration_config_path, project)
                 self._job_state_subject.update_state(status=StatusEnum.running, progress=40)
 
-                artifact = export_project_model.downloadable_artifact
-                archive_path = DownloadableArtifactsModel.get_archive_path(artifact.id)
+                artifact = export_project_model.shared_artifact
+                archive_path = artifact.build_full_artifact_path()
                 self._pack_project(archive_path, components_paths)
                 is_int8 = '_INT8' if project.topology.analysis_job.is_int8 else ''
                 package_name = project.topology.name + is_int8 + '_' + project.dataset.name
@@ -214,7 +214,7 @@ class ExportProjectJob(IJob):
     def on_failure(self, exception: Exception):
         with closing(get_db_session_for_celery()) as session:
             export_project_model: ExportProjectJobModel = self.get_job_model(session)
-            file_path = DownloadableArtifactsModel.get_archive_path(export_project_model.downloadable_artifact.id)
+            file_path = export_project_model.shared_artifact.build_full_artifact_path()
         if file_path and os.path.isfile(file_path):
             os.remove(file_path)
         super().on_failure(exception)

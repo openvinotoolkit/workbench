@@ -15,7 +15,6 @@
 """
 import io
 import logging as log
-import math
 import os
 import re
 import secrets
