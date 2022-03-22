@@ -24,9 +24,15 @@ class ModelOptimizerParser(ConsoleToolOutputParser):
     def __init__(self, job_state_subject: ModelOptimizerJobStateSubject):
         super().__init__(job_state_subject=job_state_subject)
         self._progress_pattern = re.compile(r'.*Progress: \[.*]\s*(?P<progress>\d+(.\d+)?)%\sdone$')
+        self.update_every_pct = 5
 
     def parse(self, string: str):
         progress_match = self._progress_pattern.search(string)
         if progress_match:
+            if self._job_state_subject.job_progress is None:
+                self._job_state_subject.update_state(progress=0)
+
             percent = float(progress_match.group('progress'))
-            self._job_state_subject.update_state(progress=percent)
+
+            if percent - self._job_state_subject.job_progress > self.update_every_pct:
+                self._job_state_subject.update_state(progress=percent)
