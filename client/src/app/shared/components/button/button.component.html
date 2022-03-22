@@ -1,4 +1,5 @@
 <button
+  *ngIf="appearance === 'button'"
   mat-button
   [disabled]="disabled || pending"
   [ngClass]="classNamesDict"
@@ -10,6 +11,11 @@
   <mat-spinner *ngIf="pending; else iconTemplate" class="spinner" mode="indeterminate" diameter="20"></mat-spinner>
   <span class="button-text">{{ text }}</span>
 </button>
+
+<a *ngIf="appearance === 'link'" [href]="href" [ngClass]="classNamesDict">
+  <mat-icon *ngIf="icon" [svgIcon]="icon"></mat-icon>
+  <span class="button-text">{{ text }}</span>
+</a>
 
 <ng-template #iconTemplate>
   <mat-icon *ngIf="icon" [svgIcon]="icon"></mat-icon>

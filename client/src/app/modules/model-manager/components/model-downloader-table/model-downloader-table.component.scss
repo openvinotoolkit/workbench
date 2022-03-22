@@ -55,7 +55,7 @@
   }
 
   .model-precision {
-    padding: $container-padding 0;
+    padding: $container-padding 0 0;
 
     ::ng-deep {
       .field-label {
@@ -66,5 +66,13 @@
         padding-bottom: 0;
       }
     }
+  }
+}
+
+.panel-row--footer {
+  align-items: center;
+
+  wb-button + wb-info-hint {
+    margin-left: 20px;
   }
 }

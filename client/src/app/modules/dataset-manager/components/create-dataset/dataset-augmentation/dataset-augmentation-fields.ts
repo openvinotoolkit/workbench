@@ -20,30 +20,35 @@ const horizontalFlipField: AdvancedConfigField = {
   type: 'checkbox',
   name: AugmentationFormFieldNames.HORIZONTAL_FLIP,
   value: false,
+  label: 'Horizontal Flip',
 };
 
 const verticalFlipField: AdvancedConfigField = {
   type: 'checkbox',
   name: AugmentationFormFieldNames.VERTICAL_FLIP,
   value: false,
+  label: 'Vertical Flip',
 };
 
 const applyEraseField: AdvancedConfigField = {
   type: 'checkbox',
   name: AugmentationFormFieldNames.RANDOM_ERASE,
   value: false,
+  label: 'Random Erase',
 };
 
 const applyNoiseField: AdvancedConfigField = {
   type: 'checkbox',
   name: AugmentationFormFieldNames.NOISE_INJECTION,
   value: false,
+  label: 'Noise Injection',
 };
 
 const changeColorSpace: AdvancedConfigField = {
   type: 'checkbox',
   name: AugmentationFormFieldNames.IMAGE_CORRECTIONS,
   value: false,
+  label: 'Color Transformations',
 };
 
 const eraseFields: AdvancedConfigField[] = [
@@ -91,31 +96,37 @@ const noiseFields: AdvancedConfigField[] = [
 
 export const colorSpacePresets: IImageCorrection[] = [
   {
+    id: 'preset-1',
     name: 'Preset 1',
     brightness: 1.2,
     contrast: 1.2,
   },
   {
+    id: 'preset-2',
     name: 'Preset 2',
     brightness: 1.2,
     contrast: 0.8,
   },
   {
+    id: 'preset-3',
     name: 'Preset 3',
     brightness: 1.0,
     contrast: 1.2,
   },
   {
+    id: 'preset-4',
     name: 'Preset 4',
     brightness: 0.8,
     contrast: 1.0,
   },
   {
+    id: 'preset-5',
     name: 'Preset 5',
     brightness: 0.8,
     contrast: 1.2,
   },
   {
+    id: 'preset-6',
     name: 'Preset 6',
     brightness: 0.8,
     contrast: 0.8,

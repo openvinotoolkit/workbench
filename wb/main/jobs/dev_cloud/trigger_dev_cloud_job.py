@@ -15,16 +15,18 @@
 """
 import logging as log
 from contextlib import closing
+from pathlib import Path
 
 from sqlalchemy.orm import Session
 
+from config.constants import CLOUD_SHARED_FOLDER
 from wb.extensions_factories.database import get_db_session_for_celery
 from wb.main.jobs.interfaces.ijob import IJob
-from wb.main.enumerates import JobTypesEnum
-from wb.main.enumerates import StatusEnum
-from wb.main.models.projects_model import ProjectsModel
-from wb.main.models.trigger_dev_cloud_job_model import TriggerDevCloudJobModel
-from wb.main.utils.dev_cloud_http_service import DevCloudHttpService, TriggerRemoteJobPayload
+from wb.main.enumerates import JobTypesEnum, StatusEnum, DevCloudRemoteJobTypeEnum
+from wb.main.models import ProjectsModel, TriggerDevCloudJobModel
+from wb.main.utils.dev_cloud_http_service import (TriggerNetworkRemotePipelinePayload,
+                                                  TriggerSharedFolderRemoteJobPayload,
+                                                  DevCloudHttpService)
 
 
 class TriggerDevCloudJob(IJob):
@@ -40,20 +42,45 @@ class TriggerDevCloudJob(IJob):
         with closing(get_db_session_for_celery()) as session:
             session: Session
             job_model: TriggerDevCloudJobModel = self.get_job_model(session=session)
-            project: ProjectsModel = job_model.project
-            dev_cloud_platform_tag = project.target.host
-            remote_job_type = job_model.remote_job_type
+            job_type: DevCloudRemoteJobTypeEnum = job_model.remote_job_type
+            if job_type == DevCloudRemoteJobTypeEnum.profiling:
+                payload = self._get_payload_for_shared_folder_pipeline(job_model)
+                response_json = DevCloudHttpService.trigger_shared_folder_remote_pipeline(payload)
+            else:
+                payload = self._get_payload_for_network_pipeline(job_model)
+                response_json = DevCloudHttpService.trigger_network_remote_pipeline(payload)
 
-        payload = TriggerRemoteJobPayload(
+        log.debug('[DevCloud Service] Remote job response is: %s', response_json)
+        self.on_success()
+
+    @staticmethod
+    def _get_payload_for_shared_folder_pipeline(job_model: TriggerDevCloudJobModel) \
+            -> TriggerSharedFolderRemoteJobPayload:
+        project: ProjectsModel = job_model.project
+        dev_cloud_platform_tag = project.target.host
+        remote_job_type = job_model.remote_job_type
+        setup_bundle_path = Path(job_model.setup_bundle.path).relative_to(CLOUD_SHARED_FOLDER)
+        job_bundle_path = Path(job_model.job_bundle.path).relative_to(CLOUD_SHARED_FOLDER)
+        return TriggerSharedFolderRemoteJobPayload(
+            wbSetupBundlePath=str(setup_bundle_path),
+            wbJobBundlePath=str(job_bundle_path),
+            platformTag=dev_cloud_platform_tag,
+            wbPipelineId=job_model.pipeline_id,
+            remoteJobType=remote_job_type.value,
+        )
+
+    @staticmethod
+    def _get_payload_for_network_pipeline(job_model: TriggerDevCloudJobModel) -> TriggerNetworkRemotePipelinePayload:
+        project: ProjectsModel = job_model.project
+        dev_cloud_platform_tag = project.target.host
+        remote_job_type = job_model.remote_job_type
+        return TriggerNetworkRemotePipelinePayload(
             wbSetupBundleId=job_model.setup_bundle_id,
             wbJobBundleId=job_model.job_bundle_id,
             platformTag=dev_cloud_platform_tag,
             wbPipelineId=job_model.pipeline_id,
             remoteJobType=remote_job_type.value,
         )
-        response_json = DevCloudHttpService.trigger_remote_job(payload)
-        log.debug('[ DevCloud Service ] Remote job response is: %s', response_json)
-        self.on_success()
 
     def on_success(self):
         self._job_state_subject.update_state(status=StatusEnum.ready, log='Trigger DevCloud job successfully finished')

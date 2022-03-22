@@ -16,6 +16,8 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { sortBy } from 'lodash';
 
+import { MessagesService } from '@core/services/common/messages.service';
+
 import {
   ModelItem,
   TransformationsConfigType,
@@ -113,10 +115,6 @@ export class ConversionConfigurationFilesGroupComponent implements OnChanges, On
       label: 'Use Model Conversion Configuration File',
       type: 'checkbox',
       value: false,
-      tooltip: {
-        prefix: 'convertModel',
-        value: 'useTransformationsConfig',
-      },
     },
     transformationsConfigType: {
       name: 'transformationsConfigType',
@@ -137,19 +135,24 @@ export class ConversionConfigurationFilesGroupComponent implements OnChanges, On
 
   public readonly group = new FormGroup({});
   public readonly utilGroup = new FormGroup({});
+  readonly useTransformationsConfigHint = this._messagesService.tooltipMessages.convertModel.useTransformationsConfig;
 
   private _unsubscribe$: Subject<void> = new Subject<void>();
 
   constructor(
-    private fb: FormBuilder,
-    private cdr: ChangeDetectorRef,
-    public helpChecklistService: HelpChecklistService
+    private readonly _fb: FormBuilder,
+    private readonly _cdr: ChangeDetectorRef,
+    private readonly _messagesService: MessagesService,
+    readonly helpChecklistService: HelpChecklistService
   ) {
     this.build();
 
     this.usePipelineConfigControl.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe((isUsed) => {
       if (isUsed) {
-        this.group.addControl(this.fields.tfODApiPipelineConfigFile.name, this.fb.control(null, [Validators.required]));
+        this.group.addControl(
+          this.fields.tfODApiPipelineConfigFile.name,
+          this._fb.control(null, [Validators.required])
+        );
         this.usePipelineConfigChecked.emit();
       } else {
         this.group.removeControl(this.fields.tfODApiPipelineConfigFile.name);
@@ -233,7 +236,7 @@ export class ConversionConfigurationFilesGroupComponent implements OnChanges, On
       if (config.isPipelineConfigPersisted) {
         this.usePipelineConfigControl.patchValue(true);
 
-        this.cdr.detectChanges();
+        this._cdr.detectChanges();
 
         this.pipelineConfigFileUploadComponent.selectedFile = new File([], 'pipeline.config');
         this.pipelineConfigFileControl.clearValidators();
@@ -247,7 +250,7 @@ export class ConversionConfigurationFilesGroupComponent implements OnChanges, On
     // Check existing of predefined config control before set value, field may be not ready
     if (config.predefinedTransformationsConfig && this.predefinedConfigControl) {
       this.predefinedConfigControl.setValue(config.predefinedTransformationsConfig);
-      this.cdr.detectChanges();
+      this._cdr.detectChanges();
     }
 
     if (config.predefinedTransformationsConfig) {
@@ -261,7 +264,7 @@ export class ConversionConfigurationFilesGroupComponent implements OnChanges, On
     if (config.customTransformationsConfig) {
       this.transformationsConfigTypeControl.setValue(TransformationsConfigType.CUSTOM);
 
-      this.cdr.detectChanges();
+      this._cdr.detectChanges();
 
       this.customTransformationsConfigFieldComponent.selectedFile = new File([], 'transformations_config.json');
       this.customConfigControl?.clearValidators();
@@ -301,13 +304,13 @@ export class ConversionConfigurationFilesGroupComponent implements OnChanges, On
   async handleSelectPipelineConfigFile(file: File): Promise<void> {
     const fileContent = await FormUtils.getFileTextContentPromise(file);
     this.pipelineConfigFileControl.setValue(fileContent);
-    this.cdr.markForCheck();
+    this._cdr.markForCheck();
   }
 
   async handleSelectTransformationsConfigFile(file: File): Promise<void> {
     const fileContent = await FormUtils.getFileTextContentPromise(file);
     this.customConfigControl.setValue(fileContent);
-    this.cdr.markForCheck();
+    this._cdr.markForCheck();
   }
 
   get isPredefinedConfig(): boolean {
@@ -327,16 +330,20 @@ export class ConversionConfigurationFilesGroupComponent implements OnChanges, On
         this.group.removeControl(this.fields.customConfigFile.name);
         this.group.addControl(
           this.fields.predefinedConfig.name,
-          this.fb.control(null, this.fields.predefinedConfig.validators)
+          this._fb.control(null, this.fields.predefinedConfig.validators)
         );
 
         break;
       case TransformationsConfigType.CUSTOM:
         this.group.removeControl(this.fields.predefinedConfig.name);
-        this.group.addControl(this.fields.customConfigFile.name, this.fb.control(null, [Validators.required]));
+        this.group.addControl(this.fields.customConfigFile.name, this._fb.control(null, [Validators.required]));
 
         break;
     }
+  }
+
+  getTipTestId(name: string): string {
+    return `more-${name}-tip`;
   }
 
   get isTfModel(): boolean {

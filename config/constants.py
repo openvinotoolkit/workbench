@@ -160,12 +160,16 @@ CLOUD_SERVICE_API_PREFIX = 'api/v1'
 CLOUD_SERVICE_URL = get_env_var(name='CLOUD_SERVICE_URL')
 CLOUD_SERVICE_HOST = None
 CLOUD_SERVICE_PORT = None
+CLOUD_SHARED_FOLDER = None
 # dev cloud session duration in minutes
 CLOUD_SERVICE_SESSION_TTL_MINUTES = None
 
 if CLOUD_SERVICE_URL:
     CLOUD_SERVICE_HOST, CLOUD_SERVICE_PORT = parse_host_port_from_url(CLOUD_SERVICE_URL)
     CLOUD_SERVICE_SESSION_TTL_MINUTES = get_env_var(name='CLOUD_SERVICE_SESSION_TTL_MINUTES', cast_function=int)
+    CLOUD_SHARED_FOLDER = os.path.join(ESSENTIAL_DATA_FOLDER, 'bundles')
+
+SETUP_BUNDLE_SUBFOLDER = 'setup_bundle'
 
 WORKBENCH_NETWORK_ALIAS = get_env_var(name='NETWORK_ALIAS', default='localhost')
 
@@ -251,6 +255,7 @@ POT_RESULT_OPTIMIZED_DIR = 'optimized'
 ENABLED_FEATURE_PREVIEW_FILE = Path(ROOT_FOLDER) / '.features.json'
 
 FOLDER_PERMISSION = 0o775  # rwxrwxr-x
+FULL_ACCESS_FOLDER_PERMISSION = 0o777  # rwxrwxrwx
 FILE_PERMISSION = 0o664  # rw-rw-r--
 
 DATASET_LABELS_PATH = os.path.join(ROOT_FOLDER, 'wb', 'main', 'accuracy_utils', 'yml_templates', 'datasets_labels')

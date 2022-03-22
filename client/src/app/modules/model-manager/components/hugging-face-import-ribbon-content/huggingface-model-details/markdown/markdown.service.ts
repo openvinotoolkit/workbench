@@ -3,6 +3,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 import { IMarkdownParser, IMarkdownParserOptions } from './index';
 
+// todo: proposal to move all markdown logic to a module with a service and a component
+// component template `<div class="markdown-body" [innerHTML]="readme"></div>`
 @Injectable({
   providedIn: 'root',
 })

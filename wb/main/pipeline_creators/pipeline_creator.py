@@ -123,16 +123,19 @@ class PipelineCreator:
                                                    create_job_bundle_model_class: Type[JobsModel],
                                                    session: Session,
                                                    previous_job: int = None) -> int:
-        bundle = DownloadableArtifactsModel(ArtifactTypesEnum.job_bundle)
-        bundle.write_record(session)
         create_profiling_bundle_job = create_job_bundle_model_class({
             'projectId': project_id,
-            'bundleId': bundle.id,
             'pipelineId': pipeline_id,
             'previousJobId': previous_job,
         })
-        target = TargetModel.query.get(target_id)
         self._save_job_with_stage(create_profiling_bundle_job, session)
+
+        bundle = DownloadableArtifactsModel(ArtifactTypesEnum.job_bundle,
+                                            job_id=create_profiling_bundle_job.job_id)
+        bundle.write_record(session)
+
+        target = TargetModel.query.get(target_id)
+
         upload_artifact_to_target_job = UploadArtifactToTargetJobModel({
             'projectId': project_id,
             'artifactId': bundle.id,

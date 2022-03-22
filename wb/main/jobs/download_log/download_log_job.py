@@ -42,8 +42,8 @@ class DownloadLogJob(IJob):
         session = get_db_session_for_celery()
         with closing(session):
             job_model = self.get_job_model(session)
-            artifact = job_model.downloadable_artifact
-            artifact_path = DownloadableArtifactsModel.get_archive_path(artifact_id=artifact.id, ext=self.ext)
+            artifact = job_model.shared_artifact
+            artifact_path = artifact.build_full_artifact_path(ext=self.ext)
             # move log to artifacts
             if not os.path.isfile(LOG_FILE):
                 self._job_state_subject.update_state(status=StatusEnum.error, error_message='Can not find log file.')
@@ -59,8 +59,8 @@ class DownloadLogJob(IJob):
         session = get_db_session_for_celery()
         with closing(session):
             job_model = self.get_job_model(session)
-            artifact = job_model.downloadable_artifact
-            artifact_path = DownloadableArtifactsModel.get_archive_path(artifact_id=artifact.id, ext=self.ext)
+            artifact = job_model.artifact
+            artifact_path = artifact.build_full_artifact_path(ext=self.ext)
         if os.path.isfile(artifact_path):
             os.remove(artifact_path)
         super().on_failure(exception)

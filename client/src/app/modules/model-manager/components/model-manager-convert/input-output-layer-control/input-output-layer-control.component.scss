@@ -5,19 +5,23 @@
   display: block;
 }
 
-.index {
-  padding-right: 5px;
+.layer-properties {
+  margin-left: 20px;
+}
 
-  &:before {
-    counter-increment: input-layer-counter;
-    content: counter(input-layer-counter, upper-alpha) '. ';
-  }
+.index:before {
+  position: relative;
+  top: 10px;
+  padding-right: 5px;
+  counter-increment: input-layer-counter;
+  content: counter(input-layer-counter, upper-alpha) '. ';
+
+  @include wb-subtitle-1();
 }
 
 .row {
   display: flex;
   flex-wrap: wrap;
-  min-height: 62px;
 
   &.narrow-fields ::ng-deep .field {
     width: 80px;
@@ -25,13 +29,18 @@
 
   .layer-label {
     display: flex;
-    margin-top: 13px;
     margin-right: 20px;
+    height: 40px;
+    align-items: center;
+
+    @include wb-subtitle-1();
   }
 
   .layer-remove {
-    margin-top: 12px;
-    margin-left: 15px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
 
     ::ng-deep {
       button {
@@ -45,34 +54,8 @@
   }
 }
 
-.shape,
-.freeze-placeholder,
-.means,
-.scales {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-right: 20px;
-}
-
-.shape {
-  align-items: flex-start;
-  margin-top: 14px;
-}
-
-wb-config-form-field {
-  ::ng-deep .field-label {
-    min-width: unset;
-    margin-right: $container-padding;
-  }
-}
-
-:host ::ng-deep {
-  .field {
-    @include wb-subtitle-1();
-  }
-
-  .mat-form-field-wrapper {
-    padding-bottom: 0;
-  }
+.freeze-field,
+wb-dimensions-input {
+  display: block;
+  margin-left: 15px;
 }

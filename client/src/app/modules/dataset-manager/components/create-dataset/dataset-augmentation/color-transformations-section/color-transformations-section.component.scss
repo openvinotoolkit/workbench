@@ -24,6 +24,7 @@ $icon-size: 30px;
   flex-wrap: wrap;
   justify-content: center;
   margin-top: $container-padding;
+  gap: 10px 20px;
 }
 
 .transform-img {
@@ -31,12 +32,17 @@ $icon-size: 30px;
 
   img {
     width: $image-card-size;
+    border: 1px solid $very-light-pink;
+    border-radius: 3px;
   }
 }
 
 .col {
   flex: 0 0 calc(33.33% - 20px);
-  margin: 5px;
+
+  wb-config-form-field {
+    margin-bottom: 0;
+  }
 }
 
 .img-overlay {
