@@ -19,10 +19,11 @@ from sqlalchemy.orm import Session
 from wb.main.enumerates import (JobTypesEnum, PipelineTypeEnum, PipelineStageEnum, ArtifactTypesEnum,
                                 DevCloudRemoteJobTypeEnum, AccuracyReportTypeEnum)
 from wb.main.models import (CreateAccuracyScriptsJobModel, CreateAccuracyBundleJobModel, AccuracyJobsModel,
-                            ProjectsModel, ParseDevCloudResultJobData, DownloadableArtifactsModel,
+                            ProjectsModel, DownloadableArtifactsModel,
                             ParseDevCloudAccuracyResultJobModel, PipelineModel, TriggerDevCloudJobModel)
 from wb.main.models.accuracy_model import AccuracyJobData
 from wb.main.models.jobs_model import JobData
+from wb.main.models.parse_dev_cloud_result_job_model import ParseDevCloudResultJobData
 from wb.main.models.trigger_dev_cloud_job_model import TriggerDevCloudJobData
 from wb.main.pipeline_creators.dev_cloud_pipeline_creator_utils import DevCloudPipelineCreator
 
@@ -56,7 +57,7 @@ class DevCloudAccuracyPipelineCreator(DevCloudPipelineCreator):
         project: ProjectsModel = ProjectsModel.query.get(self._project_id)
         target_dataset_id = project.dataset_id
 
-        previous_job_id, deployment_bundle_id = self._add_deployment_and_setup_bundle_jobs(pipeline_id=pipeline.id,
+        previous_job_id, deployment_bundle_id = self._create_setup_bundle_job_and_artifact(pipeline_id=pipeline.id,
                                                                                            target=pipeline.target,
                                                                                            project_id=self._project_id,
                                                                                            session=session)
@@ -70,15 +71,16 @@ class DevCloudAccuracyPipelineCreator(DevCloudPipelineCreator):
         create_accuracy_scripts_job = CreateAccuracyScriptsJobModel(create_accuracy_scripts_job_data)
         self._save_job_with_stage(create_accuracy_scripts_job, session)
 
-        accuracy_bundle = DownloadableArtifactsModel(ArtifactTypesEnum.job_bundle)
-        accuracy_bundle.write_record(session)
         create_job_bundle_job = CreateAccuracyBundleJobModel({
             'projectId': self._project_id,
-            'bundleId': accuracy_bundle.id,
             'previousJobId': create_accuracy_scripts_job.job_id,
             'pipelineId': pipeline.id,
         })
         self._save_job_with_stage(create_job_bundle_job, session)
+
+        accuracy_bundle = DownloadableArtifactsModel(ArtifactTypesEnum.job_bundle,
+                                                     job_id=create_job_bundle_job.job_id)
+        accuracy_bundle.write_record(session)
 
         trigger_dev_cloud_profiling_job_data = TriggerDevCloudJobData(
             projectId=self._project_id,
@@ -86,7 +88,7 @@ class DevCloudAccuracyPipelineCreator(DevCloudPipelineCreator):
             previousJobId=create_job_bundle_job.job_id,
             setupBundleId=deployment_bundle_id,
             jobBundleId=accuracy_bundle.id,
-            remoteJobType=DevCloudRemoteJobTypeEnum.accuracy
+            remoteJobType=DevCloudRemoteJobTypeEnum.accuracy,
         )
 
         trigger_dev_cloud_profiling_job = TriggerDevCloudJobModel(trigger_dev_cloud_profiling_job_data)

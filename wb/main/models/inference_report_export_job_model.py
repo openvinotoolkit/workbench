@@ -45,5 +45,5 @@ class InferenceReportExportJobModel(JobsModel):
             **super().json(),
             'tabId': self.tab_id,
             'inferenceId': self.inference_id,
-            'artifactId': self.downloadable_artifact.id,
+            'artifactId': self.shared_artifact.id,
         }

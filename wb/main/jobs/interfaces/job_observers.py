@@ -211,7 +211,7 @@ class DownloadModelDBObserver(JobStateDBObserver):
             download_model_job.status = subject_state.status or download_model_job.status
             download_model_job.error_message = subject_state.error_message or download_model_job.error_message
 
-            artifact = download_model_job.downloadable_artifact
+            artifact = download_model_job.shared_artifact
             artifact.progress = subject_state.progress or artifact.progress
             artifact.status = subject_state.status or artifact.status
             artifact.error_message = subject_state.error_message or artifact.error_message
@@ -239,7 +239,7 @@ class ExportProjectDBObserver(JobStateDBObserver):
             export_project_job.status = subject_state.status or export_project_job.status
             export_project_job.error_message = subject_state.error_message or export_project_job.error_message
 
-            artifact = export_project_job.downloadable_artifact
+            artifact = export_project_job.shared_artifact
             artifact.progress = subject_state.progress or artifact.progress
             artifact.status = subject_state.status or artifact.status
             artifact.error_message = subject_state.error_message or artifact.error_message
@@ -265,7 +265,7 @@ class DownloadLogDBObserver(JobStateDBObserver):
             download_log_job.status = subject_state.status or download_log_job.status
             download_log_job.error_message = subject_state.error_message or download_log_job.error_message
 
-            artifact = download_log_job.downloadable_artifact
+            artifact = download_log_job.shared_artifact
             artifact.progress = subject_state.progress or artifact.progress
             artifact.status = subject_state.status or artifact.status
             artifact.error_message = subject_state.error_message or artifact.error_message
@@ -293,7 +293,7 @@ class ExportProjectReportDBObserver(JobStateDBObserver):
             export_report_job.status = subject_state.status or export_report_job.status
             export_report_job.error_message = subject_state.error_message or export_report_job.error_message
 
-            artifact = export_report_job.downloadable_artifact
+            artifact = export_report_job.shared_artifact
             artifact.progress = subject_state.progress or artifact.progress
             artifact.status = subject_state.status or artifact.status
             artifact.error_message = subject_state.error_message or artifact.error_message
@@ -312,7 +312,7 @@ class ExportInferenceReportDBObserver(JobStateDBObserver):
             export_report_job.status = subject_state.status or export_report_job.status
             export_report_job.error_message = subject_state.error_message or export_report_job.error_message
 
-            artifact = export_report_job.downloadable_artifact
+            artifact = export_report_job.shared_artifact
             artifact.progress = subject_state.progress or artifact.progress
             artifact.status = subject_state.status or artifact.status
             artifact.error_message = subject_state.error_message or artifact.error_message

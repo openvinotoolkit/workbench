@@ -24,7 +24,6 @@ from wb.main.jobs.interfaces.ijob import IJob
 from wb.main.jobs.interfaces.job_observers import DownloadModelDBObserver
 from wb.main.enumerates import JobTypesEnum
 from wb.main.models.download_configs_model import ModelDownloadConfigsModel
-from wb.main.models.downloadable_artifacts_model import DownloadableArtifactsModel
 from wb.main.enumerates import StatusEnum
 
 from wb.main.models.topologies_model import TopologiesModel
@@ -50,7 +49,7 @@ class DownloadModelJob(IJob):
             source_dir = self.find_source_dir(config.model_id)
             archive_exists, archive_path = artifact.archive_exists()
             if not archive_exists:
-                archive_path = DownloadableArtifactsModel.get_archive_path(artifact.id)
+                archive_path = artifact.build_full_artifact_path()
                 self.pack_model(archive_path, source_dir, re.sub(self.ext, '', config.name))
             artifact.update(archive_path)
             artifact.write_record(session)
@@ -61,7 +60,7 @@ class DownloadModelJob(IJob):
         session = get_db_session_for_celery()
         with closing(session):
             config: ModelDownloadConfigsModel = session.query(ModelDownloadConfigsModel).get(self._job_id)
-            file_path = DownloadableArtifactsModel.get_archive_path(config.downloadable_artifact.id)
+            file_path = config.downloadable_artifact.build_full_artifact_path()
         if file_path:
             os.remove(file_path)
         super().on_failure(exception)

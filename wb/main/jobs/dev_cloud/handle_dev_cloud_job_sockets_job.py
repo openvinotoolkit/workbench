@@ -95,7 +95,12 @@ class HandleDevCloudJobSocketsJob(IJob):
             parse_dev_cloud_result_job_model: ParseDevCloudResultJobModel = (
                 session.query(ParseDevCloudResultJobModel).filter_by(parent_job=self.job_id).first()
             )
-            return not parse_dev_cloud_result_job_model.result_artifact.files
+            if parse_dev_cloud_result_job_model.are_results_obtained:
+                return False
+            result_artifact = parse_dev_cloud_result_job_model.result_artifact
+            if result_artifact and result_artifact.files:
+                return False
+            return True
 
     def on_success(self):
         self._job_state_subject.update_state(status=StatusEnum.ready,
