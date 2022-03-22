@@ -1,5 +1,6 @@
 @import 'fonts';
 @import 'colors';
+@import 'mixins';
 @import 'variables';
 
 .panel-header-wrapper {
@@ -66,13 +67,18 @@ wb-message-box {
 .actions {
   padding: 20px 0;
   display: flex;
+  align-items: center;
 
   wb-button + wb-button {
     margin-left: 20px;
   }
+
+  wb-button + wb-info-hint {
+    margin-left: 20px;
+  }
 }
 
-wb-info-hint {
+.layout-hint {
   display: block;
   padding-bottom: 20px;
 }
@@ -82,5 +88,25 @@ wb-info-hint {
 
   .title:not(:first-child) {
     margin-top: 10px;
+  }
+}
+
+wb-dimensions-layouts {
+  display: block;
+  margin-left: 20px;
+}
+
+.required-tag {
+  margin-left: auto;
+
+  @include wb-required-tag();
+}
+
+.reshape-panel {
+  display: flex;
+  flex-direction: column;
+
+  & ::ng-deep > .content {
+    flex-grow: 1;
   }
 }

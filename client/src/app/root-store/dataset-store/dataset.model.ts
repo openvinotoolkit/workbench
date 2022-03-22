@@ -112,6 +112,7 @@ export interface CreatedDatasetDTO {
 }
 
 export interface IImageCorrection {
+  id: string;
   name: string;
   brightness: number;
   contrast: number;

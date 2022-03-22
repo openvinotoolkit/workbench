@@ -67,18 +67,15 @@
 
 <ng-template #uploadModelTabContent>
   <form #formEl="ngForm">
-    <div class="framework">
+    <div [ngClass]="['framework', 'framework--' + modelFrameworkControl?.value, 'import-form-container']">
+      <div class="required-mark">* Required</div>
       <wb-config-form-field
         [field]="modelDomainField"
         [group]="uploadModelFormGroup"
         class="enlarged-control"
         testId="model-domain"
       ></wb-config-form-field>
-      <wb-config-form-field
-        [field]="modelFrameworkField"
-        [group]="uploadModelFormGroup"
-        class="enlarged-control"
-      ></wb-config-form-field>
+      <wb-config-form-field [field]="modelFrameworkField" [group]="uploadModelFormGroup"></wb-config-form-field>
       <ng-container *ngIf="!uploadingModel">
         <wb-config-form-field
           *ngIf="isTfModel()"
@@ -152,6 +149,8 @@
       >
       </wb-button>
       <wb-button class="enlarged-control" text="Cancel" (handleClick)="cancelEvent.emit()"></wb-button>
+
+      <wb-info-hint *ngIf="areFormsInvalid" message="Fill all required fields" type="attention"></wb-info-hint>
     </div>
 
     <div
