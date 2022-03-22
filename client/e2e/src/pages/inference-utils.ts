@@ -74,6 +74,12 @@ export class InferenceUtils {
       await browser.actions().mouseMove(targetRow).perform();
       await browser.sleep(1000);
       await targetRow.click();
+
+      await TestUtils.getElementByDataTestId('device-select').click();
+      const deviceName = TestUtils.targetNameFromEnumForWizard(targetDevice).toUpperCase();
+      const option = TestUtils.getElementByDataTestId(`device_${deviceName}`);
+      await browser.wait(this.until.elementToBeClickable(option), browser.params.defaultTimeout);
+      await option.click();
     }
 
     await this.configurationWizard.selectDatasetRow(datasetFile);

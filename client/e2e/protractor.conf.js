@@ -18,7 +18,8 @@ const token = fs.readFileSync(process.env.TOKEN_FILE_PATH).toString();
 const resources = process.env.RESOURCES_PATH;
 const benchmarkPerformanceReportsPath = process.env.BENCHMARK_PERFORMANCE_REPORTS_PATH;
 const launchEnvironment = process.env['LAUNCH_ENVIRONMENT'];
-const isDevCloud = launchEnvironment === 'devCloud';
+// const isDevCloud = launchEnvironment === 'devCloud';
+const isDevCloud = true;
 const isMaster = process.env['IS_MASTER'];
 const isNightly = Number(process.env['IS_PRECOMMIT']) === 0;
 const isRemote = process.env['REMOTE_PROFILING'];
@@ -28,9 +29,9 @@ const geckoDriverPath = process.env.GECKO_DRIVER_PATH;
 const dockerConfigDir = process.env['WORKBENCH_PUBLIC_DIR'];
 const devCloudCookies = process.env['DEV_CLOUD_COOKIES'];
 const proxy = new URL(process.env['http_proxy']);
-const chromeArgs = ['--no-sandbox', '--window-size=3000,3000', '--allow-insecure-localhost', '--disable-dev-shm-usage'];
+const chromeArgs = ['--no-sandbox', '--proxy-server=http://proxy-dmz.intel.com:911', '--window-size=3000,3000', '--allow-insecure-localhost', '--disable-dev-shm-usage'];
 
-if (!process.env['DISABLE_HEADLESS']) {
+if (process.env['DISABLE_HEADLESS']) {
   chromeArgs.push('--headless', '--disable-infobar', '--disable-browser-side-navigation', '--disable-gpu');
 }
 
@@ -274,7 +275,7 @@ exports.config = {
     nightlySegmentationSuite: ['./src/nightly-segmentation.e2e-spec.ts'],
   },
   directConnect: true,
-  baseUrl: 'http://localhost:4200/',
+  baseUrl: 'https://jupyter-sb6.edge.devcloud.intel.com/services/workbench/',
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
