@@ -276,10 +276,7 @@ export class InferenceUtils {
     checkAccuracy = true
   ) {
     try {
-      await this.modelManagerPage.openOMZTab();
-      expect(browser.isElementPresent(this.modelDownloadPage.modelDownloadTable)).toBeTruthy();
-
-      await this.modelDownloadPage.selectAndDownloadModel(model.name);
+      await this.testUtils.modelDownloadPage.selectAndDownloadModel(model.name);
 
       // Verify external link pop-up
       // TODO: adapt, move to modelDownloadPage

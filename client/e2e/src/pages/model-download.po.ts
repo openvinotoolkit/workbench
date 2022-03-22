@@ -2,9 +2,6 @@ import { browser, by, element, ElementFinder, protractor } from 'protractor';
 
 import { ModelPrecisionEnum } from '@store/model-store/model.model';
 
-import { ModelDownloaderDTO } from '@shared/models/dto/model-downloader-dto';
-
-import { ModelDownloaderTableComponent } from '../../../src/app/modules/model-manager/components/model-downloader-table/model-downloader-table.component';
 import { TestUtils } from './test-utils';
 
 export class ModelDownloadPage {
@@ -84,16 +81,6 @@ export class ModelDownloadPage {
     await new TestUtils().clickElement(this.elements.downloadButton);
   }
 
-  // TODO: remove/adapt all things below after the old OMZ tab is deleted
-
-  get modelDownloadTable() {
-    return element(by.id('model-download-table'));
-  }
-
-  get downloadButton() {
-    return TestUtils.getElementByDataTestId('download-btn');
-  }
-
   get precisionContainer() {
     return element(by.id('dataType'));
   }
@@ -102,80 +89,10 @@ export class ModelDownloadPage {
     return element(by.buttonText('Convert'));
   }
 
-  get openVinoModelsPrecision() {
-    return element(by.id('precision'));
-  }
-
-  get selectFilterColumnField() {
-    return TestUtils.getElementByDataTestId('select-column-field');
-  }
-
-  get setFilterField() {
-    return TestUtils.getElementByDataTestId('set-filter-field');
-  }
-
-  get applyFilterButton() {
-    return TestUtils.getElementByDataTestId('apply-filter-button');
-  }
-
-  get searchInput() {
-    return TestUtils.getElementByDataTestId('search-input');
-  }
-
-  downloadTableElementsCount() {
-    return element.all(by.className('mat-row')).count();
-  }
-
-  async filterTable(modelName) {
-    const selectColumnField = await this.selectFilterColumnField;
-    const setFilterField = await this.setFilterField;
-
-    await this.selectValueFromDropdown(selectColumnField, 'Model Name');
-    await browser.sleep(1000);
-
-    await this.selectValueFromDropdown(setFilterField, modelName, true);
-    await browser.sleep(1000);
-
-    await browser.actions().mouseMove(this.applyFilterButton).click().perform();
-    await this.applyFilterButton.click();
-  }
-
-  async downloadModel(modelName, precision = ModelPrecisionEnum.FP16, framework?) {
-    // Reassign precision with default value for explicitly passed parameters such as null
-    if (!precision) {
-      precision = ModelPrecisionEnum.FP32;
-    }
-    let row;
-    if (modelName) {
-      await browser.wait(() => {
-        return browser.isElementPresent(element(by.cssContainingText('td#model-name', modelName)));
-      }, browser.params.defaultTimeout);
-
-      const modelRowId = ModelDownloaderDTO.getId(modelName, ModelDownloaderTableComponent.omzModelRowClassPrefix);
-      row = await element(by.id(modelRowId)).all(by.css('td')).first();
-    } else {
-      row = element.all(by.className('table-row')).first().element(by.css('td')).first();
-      modelName = await row.all(by.className('model-name')).first().getText();
-    }
-    await row.click();
-
-    await browser.wait(this.until.elementToBeClickable(this.downloadButton), browser.params.defaultTimeout);
-    await this.downloadButton.click();
-    return modelName;
-  }
-
-  async selectValueFromDropdown(el: ElementFinder, value: string, isFiltered: boolean = false) {
+  async selectValueFromDropdown(el: ElementFinder, value: string) {
     await browser.sleep(1000);
     await browser.wait(this.until.elementToBeClickable(el), browser.params.defaultTimeout * 3);
     await el.click();
-    if (isFiltered) {
-      console.log('Filtered table');
-      const searchInput = await this.searchInput;
-      await searchInput.clear();
-      await searchInput.sendKeys(value);
-      console.log(`Search ${value}`);
-      await browser.sleep(500);
-    }
     const optionElement = element(by.cssContainingText('.mat-option-text', value));
     const optionsPresent = this.until.presenceOf(optionElement);
     const optionsClickable = this.until.elementToBeClickable(optionElement);
@@ -202,7 +119,7 @@ export class ModelDownloadPage {
     return completeIcon.isPresent();
   }
 
-  async convertDownloadedModelToIR(precision?: ModelPrecisionEnum, configurationMultiplier = 4) {
+  async convertDownloadedModelToIR(precision?: ModelPrecisionEnum, configurationMultiplier: number = 4) {
     // Wait for the model uploading to complete
     console.log('Waiting for model uploading to complete.');
     await browser.wait(

@@ -503,9 +503,10 @@ export class ModelManagerPage {
       return this.modelManagerButton.isPresent();
     }, browser.params.defaultTimeout);
     await new TestUtils().clickElement(this.modelManagerButton);
-    await browser.wait(async () => {
-      return new TestUtils().modelDownloadPage.modelDownloadTable.isPresent();
-    }, browser.params.defaultTimeout);
+    // TODO: unskip once the old OMZ tab is deleted
+    // await browser.wait(async () => {
+    //   return new TestUtils().modelDownloadPage.modelDownloadTable.isPresent();
+    // }, browser.params.defaultTimeout);
 
     await console.log('Entered Model Manager');
   }
@@ -811,10 +812,6 @@ export class ModelManagerPage {
     return rows.map((el) => {
       return el.getText();
     });
-  }
-
-  async openOMZTab() {
-    await this.OMZTab.click();
   }
 
   async selectAndUploadCustomTransformationsConfig(configPath: string): Promise<void> {
