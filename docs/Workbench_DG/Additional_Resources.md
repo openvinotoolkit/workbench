@@ -67,6 +67,8 @@ Part 2. Quantization and Throughput mode. [Link](https://habr.com/ru/company/int
 
 ### 2021
 
+**EN** [Analyze & Optimize Neural Networks with Deep Learning Workbench](https://www.intel.com/content/www/us/en/developer/videos/analyze-optimize-neural-networks-deep-learning.html)
+
 **RU** [Demidovskij A. and Tugarev A. Optimization and analysis of pretrained neural networks in the OpenVINO™ DL Workbench. 2021. Neuroinformatics](https://www.youtube.com/watch?v=WTNrNFRCG68)
 
 
