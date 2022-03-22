@@ -6,6 +6,23 @@ $image-card-size: 150px;
 $image-card-margin: 10px;
 $image-overlay-color: rgba(56, 56, 56, 0.8);
 
+:host ::ng-deep {
+  .label-container {
+    min-width: 165px;
+  }
+  .mat-form-field {
+    max-width: 200px;
+  }
+}
+
+wb-info-hint {
+  margin-bottom: 20px;
+}
+
+wb-info-hint + .row {
+  margin-top: 0;
+}
+
 .section {
   border-top: 1px solid $very-light-pink;
   display: flex;
@@ -24,10 +41,6 @@ $image-overlay-color: rgba(56, 56, 56, 0.8);
   display: flex;
   flex-direction: column;
   margin: $container-padding;
-
-  *:not(:first-child) {
-    margin-top: 35px;
-  }
 }
 
 .summary {
@@ -51,13 +64,13 @@ $image-overlay-color: rgba(56, 56, 56, 0.8);
     background-color: $deep-red-light;
     border-radius: 2px;
     display: flex;
-    margin-left: 15px;
+    align-items: center;
+    justify-content: center;
     height: 30px;
     width: 70px;
 
     span {
       @include wb-body-2();
-      padding: 5px 10px 5px 10px;
     }
   }
 
@@ -68,13 +81,14 @@ $image-overlay-color: rgba(56, 56, 56, 0.8);
     img {
       display: block;
       background-color: $white;
-      margin: $image-card-margin;
-      height: $image-card-size - 2 * $image-card-margin;
+      height: $image-card-size;
       object-fit: cover;
+      border: 1px solid $very-light-pink;
+      border-radius: 3px;
     }
 
     &:not(:first-child) {
-      margin-top: $image-card-margin;
+      margin-top: 20px;
     }
 
     .preview-text {

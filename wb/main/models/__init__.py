@@ -22,13 +22,14 @@ from wb.main.models.analyze_model_input_shape_job_model import AnalyzeModelInput
 from wb.main.models.apply_model_layout_model import ApplyModelLayoutJobModel
 from wb.main.models.artifacts_model import ArtifactsModel
 from wb.main.models.base_model import BaseModel
+from wb.main.models.cloud_bundle_model import CloudBundleModel
 from wb.main.models.convert_dataset_jobs_model import ConvertDatasetJobsModel
 from wb.main.models.convert_keras_job_model import ConvertKerasJobModel
 from wb.main.models.cpu_info_model import CPUInfoModel
 from wb.main.models.create_accuracy_bundle_job_model import CreateAccuracyBundleJobModel
 from wb.main.models.create_accuracy_scripts_job_model import CreateAccuracyScriptsJobModel
 from wb.main.models.create_int8_calibration_scripts_job_model import CreateInt8CalibrationScriptsJobModel
-from wb.main.models.create_int8calibration_bundle_job_model import CreateInt8CalibrationBundleJobModel
+from wb.main.models.create_int8_calibration_bundle_job_model import CreateInt8CalibrationBundleJobModel
 from wb.main.models.create_profiling_bundle_job_model import CreateProfilingBundleJobModel
 from wb.main.models.create_profiling_scripts_job_model import CreateProfilingScriptsJobModel
 from wb.main.models.create_reshape_model_scripts_model import CreateReshapeModelScriptsJobModel
@@ -82,7 +83,7 @@ from wb.main.models.parse_dev_cloud_int8_calibration_result_job_model import \
     ParseDevCloudInt8CalibrationResultJobModel, ParseDevCloudInt8CalibrationResultJobData
 from wb.main.models.parse_dev_cloud_per_tensor_result_job_model import ParseDevCloudPerTensorResultJobModel
 from wb.main.models.parse_dev_cloud_profiling_result_job_model import ParseDevCloudProfilingResultJobModel
-from wb.main.models.parse_dev_cloud_result_job_model import ParseDevCloudResultJobModel, ParseDevCloudResultJobData
+from wb.main.models.parse_dev_cloud_result_job_model import ParseDevCloudResultJobModel
 from wb.main.models.pipeline_model import PipelineModel
 from wb.main.models.profiling_model import ProfilingJobModel
 from wb.main.models.project_accuracy_model import ProjectAccuracyModel
@@ -94,6 +95,7 @@ from wb.main.models.remote_target_model import RemoteTargetModel
 from wb.main.models.reshape_model_job_model import ReshapeModelJobModel
 from wb.main.models.setup_environment_job_model import SetupEnvironmentJobModel
 from wb.main.models.setup_target_jobs_model import SetupTargetJobsModel
+from wb.main.models.shared_artifact_model import SharedArtifactModel
 from wb.main.models.single_inference_info_model import SingleInferenceInfoModel
 from wb.main.models.system_resources_model import SystemResourcesModel
 from wb.main.models.target_model import TargetModel

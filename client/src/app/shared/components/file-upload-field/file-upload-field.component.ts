@@ -52,6 +52,8 @@ export class FileUploadFieldComponent implements OnInit {
   @Input()
   testId: string;
 
+  @Input() isRequired = true;
+
   @Output()
   public fileSelected = new EventEmitter<File | File[] | TF2SavedModel>();
 

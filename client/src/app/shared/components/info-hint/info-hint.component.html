@@ -1,5 +1,6 @@
 <div class="hint-container">
   <mat-icon *ngIf="type === 'default'" svgIcon="info_outline" color="accent"></mat-icon>
   <mat-icon *ngIf="type === 'warning'" svgIcon="warning" class="warning-icon"></mat-icon>
+  <mat-icon *ngIf="type === 'attention'" svgIcon="error_outline" class="attention-icon"></mat-icon>
   <wb-markdown-text [text]="message" class="wb-text-8"></wb-markdown-text>
 </div>

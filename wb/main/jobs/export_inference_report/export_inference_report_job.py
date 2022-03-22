@@ -45,8 +45,8 @@ class InferenceReportExportJob(IJob):
         with closing(get_db_session_for_celery()) as session:
             session: Session
             job_model: InferenceReportExportJobModel = self.get_job_model(session)
-            artifact: DownloadableArtifactsModel = job_model.downloadable_artifact
-            artifact_path = DownloadableArtifactsModel.get_archive_path(artifact_id=artifact.id, ext=self.ext)
+            artifact: DownloadableArtifactsModel = job_model.shared_artifact
+            artifact_path = artifact.build_full_artifact_path(ext=self.ext)
             inference_job: SingleInferenceInfoModel = job_model.inference
             per_layer_data = json.loads(inference_job.runtime_representation)
             # create report
@@ -73,7 +73,7 @@ class InferenceReportExportJob(IJob):
         with closing(get_db_session_for_celery()) as session:
             job_model = self.get_job_model(session)
             artifact = job_model.downloadable_artifact
-            artifact_path = DownloadableArtifactsModel.get_archive_path(artifact_id=artifact.id, ext=self.ext)
+            artifact_path = artifact.build_full_artifact_path(ext=self.ext)
         if os.path.isfile(artifact_path):
             os.remove(artifact_path)
         super().on_failure(exception)

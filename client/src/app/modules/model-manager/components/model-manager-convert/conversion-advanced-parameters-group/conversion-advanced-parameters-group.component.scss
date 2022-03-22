@@ -1,10 +1,18 @@
 @import 'colors';
 
-.add-button {
-  margin-top: 10px;
+:host {
+  display: block;
+  margin-bottom: -20px;
 }
 
 .use-outputs {
   display: block;
-  margin-bottom: 40px;
+}
+
+.output-list {
+  margin-left: 20px;
+}
+
+wb-button {
+  margin-bottom: 20px;
 }

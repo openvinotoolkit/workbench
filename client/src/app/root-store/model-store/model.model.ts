@@ -317,7 +317,7 @@ export enum TransformationsConfigType {
 
 export const TransformationsConfigTypeNamesMap = {
   [TransformationsConfigType.PRECONFIGURED]: 'Predefined Configuration File',
-  [TransformationsConfigType.CUSTOM]: 'Custom Configuration File:',
+  [TransformationsConfigType.CUSTOM]: 'Custom Configuration File',
 };
 
 export class FileInfo {

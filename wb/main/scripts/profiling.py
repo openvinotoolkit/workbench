@@ -91,7 +91,8 @@ def run_command(command: str) -> int:
         output = process.stdout.readline().decode()
         if not output and process.poll() is not None:
             break
-        if output:
+        if output and not output.isspace():
+            output = output.strip()
             print(output)
     return process.poll()
 

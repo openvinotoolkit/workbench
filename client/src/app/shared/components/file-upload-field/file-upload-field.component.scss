@@ -1,53 +1,72 @@
 @import 'fonts';
+@import 'mixins';
 @import 'variables';
 
 :host {
   display: flex;
+}
 
-  .file-upload-field-container {
+.file-upload-field-container {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 20px;
+
+  .label-container {
     display: flex;
-    align-items: baseline;
-    width: 100%;
-    margin-bottom: $mat-field-padding-bottom;
+    align-items: center;
+    min-height: 40px;
+  }
 
-    wb-help-tooltip {
-      margin-left: 5px;
+  .tooltip {
+    margin-right: 10px;
+  }
+
+  .label {
+    @include wb-subtitle-1();
+    display: flex;
+    margin-right: 20px;
+    position: relative;
+
+    &-optional {
+      position: absolute;
+      margin-top: 14px;
+      color: $light-blue-grey;
     }
+  }
 
-    .field-label {
-      @include wb-subtitle-1();
+  .control-container {
+    .row {
       display: flex;
-      margin-right: 20px;
-
-      &-optional {
-        position: absolute;
-        margin-top: 14px;
-        color: $light-blue-grey;
-      }
+      align-items: center;
     }
 
-    .file-upload-field {
-      &-row {
-        display: flex;
-        align-items: center;
-      }
+    .selected {
+      margin-left: $container-padding;
+      color: $brownish-grey;
+      max-width: 260px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
 
-      &-selected {
-        margin-left: $container-padding;
-        color: $brownish-grey;
-        max-width: 260px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
-
-      &-required {
-        margin-top: 7px;
-      }
+      @include wb-subtitle-1();
     }
 
-    &-error {
+    .error-message {
+      margin-top: 10px;
       color: $deep-red;
+
+      @include wb-text-14();
+    }
+  }
+
+  &-error {
+    color: $deep-red;
+  }
+
+  &.file-upload-field-container--required {
+    .label:after {
+      @include wb-required-asterix();
     }
   }
 }

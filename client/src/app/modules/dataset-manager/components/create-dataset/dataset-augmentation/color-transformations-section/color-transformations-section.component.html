@@ -4,7 +4,12 @@
       <wb-info-hint [message]="'Choose one or several transformations. ' + augmentationTipMessage"></wb-info-hint>
       <div class="row">
         <div class="col" *ngFor="let preset of colorSpacePresets">
-          <div class="transform-img" data-test-id="transform-img" *ngIf="defaultImagePath" (click)="addPreset(preset)">
+          <div
+            *ngIf="defaultImagePath"
+            class="transform-img"
+            data-test-id="transform-img"
+            (click)="togglePreset(preset)"
+          >
             <img
               [ngStyle]="{
                 filter: 'brightness(' + preset.brightness + ') contrast(' + preset.contrast + ')'
@@ -20,9 +25,7 @@
               <span>Contrast: {{ getPercentageValue(preset.contrast) }}</span>
             </div>
           </div>
-          <mat-checkbox [checked]="selectedPresets.includes(preset)" (change)="addPreset(preset)">
-            {{ preset.name }}
-          </mat-checkbox>
+          <wb-config-form-field [field]="getField(preset)" [group]="group"></wb-config-form-field>
         </div>
       </div>
     </div>

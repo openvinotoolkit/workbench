@@ -1,9 +1,0 @@
-@import 'fonts';
-@import 'variables';
-
-$page-header-height: 57px;
-$breadcrumbs-height: 75px;
-
-.page-content {
-  height: calc(100% - #{$header-height} - #{$breadcrumbs-height} - #{$page-header-height});
-}
