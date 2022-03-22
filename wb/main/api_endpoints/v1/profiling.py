@@ -101,7 +101,7 @@ def check_sum_profiling_bundle():
     md5sum = None
     job = CreateProfilingBundleJobModel.query.filter_by(project_id=project_id).first()
     if job:
-        bundle = job.bundle.path
+        bundle = job.shared_artifact
         exists, _ = bundle.archive_exists()
         if exists:
             md5sum = md5(bundle.path)

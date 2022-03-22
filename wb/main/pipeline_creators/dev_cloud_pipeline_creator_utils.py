@@ -15,13 +15,14 @@
  limitations under the License.
 """
 import os
-from typing import Tuple
+from typing import Tuple, Type
 
 from sqlalchemy.orm import Session
 
 from config.constants import UPLOADS_FOLDER
 from wb.main.enumerates import ArtifactTypesEnum, PipelineStageEnum
-from wb.main.models import CreateSetupBundleJobModel, DownloadableArtifactsModel, TargetModel
+from wb.main.models import CreateSetupBundleJobModel, DownloadableArtifactsModel, TargetModel, ArtifactsModel
+from wb.main.models.cloud_bundle_model import CloudBundleModel
 from wb.main.pipeline_creators.deployment_manager_pipeline_creator import DeploymentManagerPipelineCreator
 from wb.main.pipeline_creators.pipeline_creator import PipelineCreator
 from wb.main.pipeline_creators.setup_pipeline_creator import SetupPipelineCreator
@@ -32,16 +33,19 @@ class DevCloudPipelineCreator(PipelineCreator):
         CreateSetupBundleJobModel.get_polymorphic_job_type(): PipelineStageEnum.preparing_setup_assets,
     }
 
-    def _add_deployment_and_setup_bundle_jobs(self, pipeline_id: int,
+    def _create_setup_bundle_job_and_artifact(self, pipeline_id: int,
                                               target: TargetModel,
                                               project_id: int,
-                                              session: Session) -> Tuple[int, int]:
+                                              session: Session,
+                                              artifact_model_type: Type[ArtifactsModel] = DownloadableArtifactsModel) -> Tuple[int, int]:
         deployment_configuration = SetupPipelineCreator.get_setup_bundle_configuration(pipeline_id, target)
         if project_id:
             deployment_configuration['projectId'] = project_id
 
-        create_setup_bundle_job, _, deployment_bundle = \
-            DeploymentManagerPipelineCreator.fill_db_before_deployment_pipeline(deployment_configuration, session)
+        create_setup_bundle_job, deployment_bundle = \
+            DeploymentManagerPipelineCreator.fill_db_before_deployment_pipeline(deployment_configuration,
+                                                                                session,
+                                                                                artifact_model_type)
         self._save_job_with_stage(create_setup_bundle_job, session)
         return create_setup_bundle_job.job_id, deployment_bundle.id
 

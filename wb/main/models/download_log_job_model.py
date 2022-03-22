@@ -37,5 +37,5 @@ class DownloadLogJobModel(JobsModel):
         return {
             **super().json(),
             'tabId': self.tab_id,
-            'artifactId': self.downloadable_artifact.id,
+            'artifactId': self.shared_artifact.id,
         }

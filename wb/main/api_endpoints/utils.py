@@ -161,53 +161,9 @@ def delete_model_from_db(model_id: int):
 
 
 def delete_dataset_from_db(dataset_id: int):
-    for records in dataset_related_information(dataset_id):
-        DatasetsModel.delete_records(records, get_db_session_for_app())
-
     dataset = DatasetsModel.query.get(dataset_id)
-
     if dataset:
-        dataset_path = dataset.path
         dataset.delete_record(get_db_session_for_app())
-        remove_dir(dataset_path)
-
-
-def dataset_related_information(dataset_id: int):
-    projects = ProjectsModel.query.filter_by(dataset_id=dataset_id).all()
-    all_project_ids = [p.id for p in projects]
-
-    run_results, compound_configs = projects_related_information(all_project_ids)
-
-    all_accuracy_results = (
-        AccuracyJobsModel.query
-            .filter(AccuracyJobsModel.project_id.in_(all_project_ids))
-            .all()
-    )
-    all_int8_results = (
-        Int8CalibrationJobModel.query
-            .filter(Int8CalibrationJobModel.project_id.in_(all_project_ids))
-            .all()
-    )
-
-    return run_results, compound_configs, all_int8_results, all_accuracy_results, projects
-
-
-def projects_related_information(project_ids: List[int]) -> tuple:
-    compound_configs = (
-        ProfilingJobModel.query
-            .filter(ProfilingJobModel.project_id.in_(project_ids))
-            .all()
-    )
-
-    all_infer_config_ids = [i.job_id for i in compound_configs]
-
-    inference_results = (
-        SingleInferenceInfoModel.query
-            .filter(SingleInferenceInfoModel.profiling_job_id.in_(all_infer_config_ids))
-            .all()
-    )
-
-    return inference_results, compound_configs
 
 
 def find_projects(model_id: int, all_levels: bool) -> tuple:

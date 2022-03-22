@@ -52,7 +52,7 @@ class CreatePerTensorBundleJob(IJob):
             optimized_model_path = project.topology.path
             parent_model_path = project.topology.optimized_from_record.path
             dataset_path = per_tensor_report_job_model.project.dataset.dataset_data_dir
-            bundle_id = job_model.bundle_id
+            bundle_id = job_model.shared_artifact.id
             accuracy_artifacts_path = Path(ACCURACY_ARTIFACTS_FOLDER) / str(job_model.pipeline_id)
 
         job_script_path = accuracy_artifacts_path / JOBS_SCRIPTS_FOLDER_NAME / JOB_SCRIPT_NAME
@@ -76,8 +76,8 @@ class CreatePerTensorBundleJob(IJob):
         with closing(get_db_session_for_celery()) as session:
             job: CreateAccuracyBundleJobModel = self.get_job_model(session)
             # TODO: [61937] Move to separate DBObserver
-            bundle: DownloadableArtifactsModel = job.bundle
-            bundle_path = DownloadableArtifactsModel.get_archive_path(bundle.id)
+            bundle: DownloadableArtifactsModel = job.shared_artifact
+            bundle_path = bundle.build_full_artifact_path()
             bundle.update(bundle_path)
             bundle.write_record(session)
             set_status_in_db(DownloadableArtifactsModel, bundle.id, StatusEnum.ready, session, force=True)

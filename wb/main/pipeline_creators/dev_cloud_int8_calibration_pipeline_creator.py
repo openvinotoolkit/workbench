@@ -70,7 +70,7 @@ class DevCloudInt8CalibrationPipelineCreator(Int8CalibrationPipelineCreator, Dev
         self.optimization_configuration['projectId'] = int8_project_id
         self.optimization_configuration['pipelineId'] = pipeline.id
 
-        previous_job_id, deployment_bundle_id = self._add_deployment_and_setup_bundle_jobs(pipeline_id=pipeline.id,
+        previous_job_id, deployment_bundle_id = self._create_setup_bundle_job_and_artifact(pipeline_id=pipeline.id,
                                                                                            target=pipeline.target,
                                                                                            project_id=int8_project_id,
                                                                                            session=session)
@@ -78,15 +78,17 @@ class DevCloudInt8CalibrationPipelineCreator(Int8CalibrationPipelineCreator, Dev
         self.optimization_configuration['previousJobId'] = previous_job_id
         create_int8_calibration_scripts_job = CreateInt8CalibrationScriptsJobModel(self.optimization_configuration)
         self._save_job_with_stage(create_int8_calibration_scripts_job, session)
-        calibration_bundle = DownloadableArtifactsModel(ArtifactTypesEnum.job_bundle)
-        calibration_bundle.write_record(session)
+
         create_job_bundle_job = CreateInt8CalibrationBundleJobModel({
             'projectId': int8_project_id,
-            'bundleId': calibration_bundle.id,
             'previousJobId': create_int8_calibration_scripts_job.job_id,
             'pipelineId': pipeline.id,
         })
         self._save_job_with_stage(create_job_bundle_job, session)
+        calibration_bundle = DownloadableArtifactsModel(ArtifactTypesEnum.job_bundle,
+                                                        job_id=create_job_bundle_job.job_id)
+        calibration_bundle.write_record(session)
+
         previous_job_id = create_job_bundle_job.job_id
 
         trigger_dev_cloud_profiling_job_data = TriggerDevCloudJobData(
@@ -95,7 +97,7 @@ class DevCloudInt8CalibrationPipelineCreator(Int8CalibrationPipelineCreator, Dev
             previousJobId=previous_job_id,
             setupBundleId=deployment_bundle_id,
             jobBundleId=calibration_bundle.id,
-            remoteJobType=DevCloudRemoteJobTypeEnum.calibration
+            remoteJobType=DevCloudRemoteJobTypeEnum.calibration,
         )
 
         trigger_dev_cloud_profiling_job = TriggerDevCloudJobModel(trigger_dev_cloud_profiling_job_data)

@@ -22,7 +22,8 @@ from wb.main.enumerates import (CPUPlatformTypeEnum, PipelineStageEnum, Pipeline
                                 QuantizationAlgorithmPresetEnum, QuantizationAlgorithmEnum, ArtifactTypesEnum,
                                 ModelPrecisionEnum, SupportedFrameworksEnum, OptimizationTypesEnum, TaskMethodEnum,
                                 StatusEnum, DevCloudRemoteJobTypeEnum, TargetOSEnum, TestInferVisualizationTypesEnum,
-                                AccuracyReportTypeEnum, CSVDatasetSeparatorEnum, TokenizerTypeEnum, ModelDomainEnum)
+                                AccuracyReportTypeEnum, CSVDatasetSeparatorEnum, TokenizerTypeEnum, ModelDomainEnum,
+                                DevCloudAPIVersionEnum)
 from wb.main.shared.enumerates import TaskEnum, DatasetTypesEnum
 
 STATUS_ENUM_SCHEMA = EnumSchema(StatusEnum)

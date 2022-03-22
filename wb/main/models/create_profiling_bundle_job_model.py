@@ -14,8 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 """
-from sqlalchemy import Column, Integer, ForeignKey, String
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, ForeignKey
 
 from wb.main.enumerates import JobTypesEnum
 from wb.main.models.jobs_model import JobsModel
@@ -29,22 +28,11 @@ class CreateProfilingBundleJobModel(JobsModel):
     }
 
     job_id = Column(Integer, ForeignKey(JobsModel.job_id), primary_key=True)
-    tab_id = Column(String, nullable=True)
-
-    bundle_id = Column(Integer, ForeignKey('downloadable_artifacts.id'), nullable=False)
-
-    # Relationships
-    bundle = relationship('DownloadableArtifactsModel', cascade='delete,all', uselist=False)
-
-    def __init__(self, data: dict):
-        super().__init__(data)
-        self.bundle_id = data['bundleId']
 
     def json(self) -> dict:
         return {
             'jobId': self.job_id,
             'type': self.get_polymorphic_job_type(),
             'status': self.status_to_json(),
-            'bundleId': self.bundle_id,
             'projectId': self.project_id
         }

@@ -21,11 +21,11 @@ import requests
 from flask import current_app
 from sqlalchemy.orm import Session
 
-from config.constants import (ARTIFACTS_PATH, DEFAULT_TOKEN_SIZE, ENVIRONMENTS_FOLDER, FOLDER_PERMISSION,
-                              JUPYTER_NOTEBOOKS_FOLDER, MODEL_DOWNLOADS_FOLDER, PROFILING_ARTIFACTS_REPORT_DIR,
+from config.constants import (ARTIFACTS_PATH, CLOUD_SHARED_FOLDER, DEFAULT_TOKEN_SIZE, ENVIRONMENTS_FOLDER,
+                              FOLDER_PERMISSION, GENERAL_URL_TO_CHECK_CONNECTION, JUPYTER_NOTEBOOKS_FOLDER,
+                              MODEL_DOWNLOADS_FOLDER, PRC_URL_TO_CHECK_CONNECTION, PROFILING_ARTIFACTS_REPORT_DIR,
                               REQUEST_TIMEOUT_SECONDS, TOO_MANY_REQUESTS_CODE, UPLOAD_FOLDER_DATASETS,
-                              UPLOAD_FOLDER_MODELS, USER_TOKEN_DEFAULT_DIR, GENERAL_URL_TO_CHECK_CONNECTION,
-                              PRC_URL_TO_CHECK_CONNECTION)
+                              UPLOAD_FOLDER_MODELS, USER_TOKEN_DEFAULT_DIR)
 from wb.main.models import UsersModel
 from wb.main.utils.safe_runner import log_traceback
 from wb.main.utils.utils import print_app_url_info
@@ -63,9 +63,11 @@ def init_data_folders():
     assets_paths = (
         ARTIFACTS_PATH, MODEL_DOWNLOADS_FOLDER, PROFILING_ARTIFACTS_REPORT_DIR,
         UPLOAD_FOLDER_DATASETS, UPLOAD_FOLDER_MODELS, JUPYTER_NOTEBOOKS_FOLDER,
-        USER_TOKEN_DEFAULT_DIR, ENVIRONMENTS_FOLDER
+        USER_TOKEN_DEFAULT_DIR, ENVIRONMENTS_FOLDER, CLOUD_SHARED_FOLDER
     )
     for path in assets_paths:
+        if not path:
+            continue
         os.makedirs(path, mode=FOLDER_PERMISSION, exist_ok=True)
 
 

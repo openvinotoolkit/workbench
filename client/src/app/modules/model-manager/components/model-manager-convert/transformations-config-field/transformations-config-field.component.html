@@ -17,7 +17,13 @@
       <ng-container matColumnDef="link">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let option" class="documentation-col">
-          <a *ngIf="option?.documentation" [href]="option.documentation">Documentation</a>
+          <wb-button
+            *ngIf="option?.documentation"
+            type="secondary"
+            [href]="option.documentation"
+            text="Documentation"
+            appearance="link"
+          ></wb-button>
         </td>
       </ng-container>
 
@@ -31,6 +37,17 @@
     </table>
   </div>
 </div>
-<div *ngIf="group?.get(field.name)?.invalid && group?.get(field.name)?.touched" class="error-message">
-  <wb-info-hint type="warning" [message]="getError()"></wb-info-hint>
+<div
+  *ngIf="group?.get(field.name)?.invalid && group?.get(field.name)?.touched; else selectionHint"
+  class="error-message"
+>
+  {{ getError }}
 </div>
+
+<ng-template #selectionHint>
+  <wb-info-hint
+    *ngIf="!isConfigSelected"
+    class="predefined-config-hint"
+    message="Click on table row to select predefined config"
+  ></wb-info-hint>
+</ng-template>

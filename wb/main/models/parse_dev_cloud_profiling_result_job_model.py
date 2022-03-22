@@ -14,9 +14,11 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 """
+import os
 
 from sqlalchemy import Column, Integer, ForeignKey
 
+from config.constants import CLOUD_SHARED_FOLDER, JOB_ARTIFACTS_FOLDER_NAME
 from wb.main.enumerates import JobTypesEnum
 from wb.main.models.parse_dev_cloud_result_job_model import ParseDevCloudResultJobModel
 
@@ -29,3 +31,7 @@ class ParseDevCloudProfilingResultJobModel(ParseDevCloudResultJobModel):
     }
 
     job_id = Column(Integer, ForeignKey(ParseDevCloudResultJobModel.job_id), primary_key=True)
+
+    @property
+    def job_result_path(self) -> str:
+        return os.path.join(CLOUD_SHARED_FOLDER, str(self.pipeline_id), JOB_ARTIFACTS_FOLDER_NAME)

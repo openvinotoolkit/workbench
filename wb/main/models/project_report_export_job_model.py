@@ -39,5 +39,5 @@ class ProjectReportExportJobModel(JobsModel):
             **super().json(),
             'tabId': self.tab_id,
             'projectId': self.project_id,
-            'artifactId': self.downloadable_artifact.id,
+            'artifactId': self.shared_artifact.id,
         }

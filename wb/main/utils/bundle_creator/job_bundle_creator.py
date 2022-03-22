@@ -15,9 +15,6 @@
  limitations under the License.
 """
 import os
-import shutil
-import tempfile
-
 from wb.main.utils.bundle_creator.bundle_creator import BundleComponent, BundleCreator, ComponentsParams
 from wb.main.utils.utils import get_size_of_files
 from config.constants import (JOBS_SCRIPTS_FOLDER, ROOT_FOLDER, JOBS_SCRIPTS_FOLDER_NAME,
@@ -159,24 +156,13 @@ class AnnotateDatasetComponentsParams(JobComponentsParams):
 
 
 class JobBundleCreator(BundleCreator):
-    def create(self, components: ComponentsParams,
-               destination_bundle: str) -> str:
-        with tempfile.TemporaryDirectory() as tmpdirname:
-            full_size = 0
-            for dependency in components.get_components():
-                full_size += get_size_of_files(dependency.source_path)
-            for dependency in components.get_components():
-                dep_size = get_size_of_files(dependency.source_path)
-                progress_per_component = dep_size / full_size * 100
-                self.log(f'Copying dependency {dependency.source_path}')
-                self._copy_component(dependency, root_bundle_path=tmpdirname)
-                self.log(f'Copying dependency {dependency.source_path} - done',
-                         progress_increase=progress_per_component)
-            destination_bundle_path = os.path.dirname(destination_bundle)
-            if not os.path.exists(destination_bundle_path):
-                os.makedirs(destination_bundle_path)
-            bundle_archive_path = shutil.make_archive(
-                base_name=destination_bundle,
-                root_dir=tmpdirname, format='gztar')
-            self.log(f'Bundle archive created in {destination_bundle}', progress_increase=30)
-            return bundle_archive_path
+    def _store_bundle_content(self, components: ComponentsParams, destination_bundle: str):
+        full_size = sum(get_size_of_files(dependency.source_path) for dependency in components.get_components())
+
+        for dependency in components.get_components():
+            dep_size = get_size_of_files(dependency.source_path)
+            progress_per_component = dep_size / full_size * 100
+            self._log(f'Copying dependency {dependency.source_path} to {destination_bundle}')
+            self._copy_component(dependency, root_bundle_path=destination_bundle)
+            self._log(f'Copying dependency {dependency.source_path} - done',
+                      progress_increase=progress_per_component)

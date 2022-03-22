@@ -5,15 +5,23 @@
   <div wb-content>
     <form [formGroup]="datasetAugmentationForm">
       <mat-accordion displayMode="flat" multi>
-        <mat-expansion-panel hideToggle class="wb-panel mat-elevation-z0" *ngIf="horizontalFlipGroup">
-          <mat-expansion-panel-header class="wb-panel-header">
+        <mat-expansion-panel
+          *ngIf="horizontalFlipGroup"
+          hideToggle
+          class="wb-panel"
+          (opened)="setCheckboxState(true, horizontalFlipGroup, dataAugmentationFormFields.horizontalFlipField)"
+          (closed)="setCheckboxState(false, horizontalFlipGroup, dataAugmentationFormFields.horizontalFlipField)"
+        >
+          <mat-expansion-panel-header
+            class="wb-panel-header"
+            [attr.data-test-id]="dataAugmentationFormFields.horizontalFlipField.name"
+          >
             <ng-container
               *ngTemplateOutlet="
                 panelHeader;
                 context: {
                   field: dataAugmentationFormFields.horizontalFlipField,
-                  group: horizontalFlipGroup,
-                  title: 'Horizontal Flip'
+                  group: horizontalFlipGroup
                 }
               "
             ></ng-container>
@@ -21,19 +29,27 @@
           <ng-template matExpansionPanelContent>
             <wb-general-augmentation-section
               [isDevCloud]="isDevCloud"
-              [afterImageClass]="'flip-img-horizontal'"
+              afterImageClass="flip-img-horizontal"
             ></wb-general-augmentation-section>
           </ng-template>
         </mat-expansion-panel>
-        <mat-expansion-panel hideToggle class="wb-panel mat-elevation-z0" *ngIf="verticalFlipGroup">
-          <mat-expansion-panel-header class="wb-panel-header">
+        <mat-expansion-panel
+          *ngIf="verticalFlipGroup"
+          hideToggle
+          class="wb-panel"
+          (opened)="setCheckboxState(true, verticalFlipGroup, dataAugmentationFormFields.verticalFlipField)"
+          (closed)="setCheckboxState(false, verticalFlipGroup, dataAugmentationFormFields.verticalFlipField)"
+        >
+          <mat-expansion-panel-header
+            class="wb-panel-header"
+            [attr.data-test-id]="dataAugmentationFormFields.verticalFlipField.name"
+          >
             <ng-container
               *ngTemplateOutlet="
                 panelHeader;
                 context: {
                   field: dataAugmentationFormFields.verticalFlipField,
-                  group: verticalFlipGroup,
-                  title: 'Vertical Flip'
+                  group: verticalFlipGroup
                 }
               "
             ></ng-container>
@@ -46,12 +62,21 @@
             ></wb-general-augmentation-section>
           </ng-template>
         </mat-expansion-panel>
-        <mat-expansion-panel hideToggle class="wb-panel mat-elevation-z0" *ngIf="eraseGroup">
-          <mat-expansion-panel-header class="wb-panel-header">
+        <mat-expansion-panel
+          *ngIf="eraseGroup"
+          hideToggle
+          class="wb-panel"
+          (opened)="setCheckboxState(true, eraseGroup, dataAugmentationFormFields.applyEraseField)"
+          (closed)="setCheckboxState(false, eraseGroup, dataAugmentationFormFields.applyEraseField)"
+        >
+          <mat-expansion-panel-header
+            class="wb-panel-header"
+            [attr.data-test-id]="dataAugmentationFormFields.applyEraseField.name"
+          >
             <ng-container
               *ngTemplateOutlet="
                 panelHeader;
-                context: { field: dataAugmentationFormFields.applyEraseField, group: eraseGroup, title: 'Random Erase' }
+                context: { field: dataAugmentationFormFields.applyEraseField, group: eraseGroup }
               "
             ></ng-container>
           </mat-expansion-panel-header>
@@ -66,15 +91,23 @@
             ></wb-general-augmentation-section>
           </ng-template>
         </mat-expansion-panel>
-        <mat-expansion-panel hideToggle class="wb-panel mat-elevation-z0" *ngIf="noiseGroup">
-          <mat-expansion-panel-header class="wb-panel-header">
+        <mat-expansion-panel
+          *ngIf="noiseGroup"
+          hideToggle
+          class="wb-panel"
+          (opened)="setCheckboxState(true, noiseGroup, dataAugmentationFormFields.applyNoiseField)"
+          (closed)="setCheckboxState(false, noiseGroup, dataAugmentationFormFields.applyNoiseField)"
+        >
+          <mat-expansion-panel-header
+            class="wb-panel-header"
+            [attr.data-test-id]="dataAugmentationFormFields.applyNoiseField.name"
+          >
             <ng-container
               *ngTemplateOutlet="
                 panelHeader;
                 context: {
                   field: dataAugmentationFormFields.applyNoiseField,
-                  group: noiseGroup,
-                  title: 'Noise Injection'
+                  group: noiseGroup
                 }
               "
             ></ng-container>
@@ -90,15 +123,23 @@
             ></wb-general-augmentation-section>
           </ng-template>
         </mat-expansion-panel>
-        <mat-expansion-panel hideToggle class="wb-panel mat-elevation-z0" *ngIf="colorSpaceGroup">
-          <mat-expansion-panel-header class="wb-panel-header">
+        <mat-expansion-panel
+          *ngIf="colorSpaceGroup"
+          hideToggle
+          class="wb-panel"
+          (opened)="setCheckboxState(true, colorSpaceGroup, dataAugmentationFormFields.changeColorSpace)"
+          (closed)="setCheckboxState(false, colorSpaceGroup, dataAugmentationFormFields.changeColorSpace)"
+        >
+          <mat-expansion-panel-header
+            class="wb-panel-header"
+            [attr.data-test-id]="dataAugmentationFormFields.changeColorSpace.name"
+          >
             <ng-container
               *ngTemplateOutlet="
                 panelHeader;
                 context: {
                   field: dataAugmentationFormFields.changeColorSpace,
-                  group: colorSpaceGroup,
-                  title: 'Color Transformations'
+                  group: colorSpaceGroup
                 }
               "
             ></ng-container>
@@ -114,7 +155,11 @@
   </div>
 </wb-panel>
 
-<ng-template #panelHeader let-field="field" let-group="group" let-title="title">
-  <wb-config-form-field [field]="field" [group]="group"></wb-config-form-field>
-  <h3 class="wb-h4 wb-panel-title">{{ title }}</h3>
+<ng-template #panelHeader let-field="field" let-group="group">
+  <wb-config-form-field
+    class="header-checkbox"
+    [field]="field"
+    [group]="group"
+    [testId]="'checkbox-' + field.name"
+  ></wb-config-form-field>
 </ng-template>

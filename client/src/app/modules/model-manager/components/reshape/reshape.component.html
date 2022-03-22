@@ -8,12 +8,17 @@
 </wb-message-box>
 <div class="wb-row main-content">
   <div class="wb-col-8">
-    <wb-panel [showFooter]="true">
+    <wb-panel [showFooter]="true" class="reshape-panel">
       <div wb-heading class="panel-header-wrapper">
         <h3 class="wb-h4 panel-header import-stage-header">Configure Model Inputs</h3>
+        <span class="required-tag">* Required</span>
       </div>
       <div wb-content [formGroup]="group">
         <ng-container *ngIf="!(reshapePipeline$ | async); else reshapeProgress" formArrayName="inputs">
+          <wb-info-hint
+            class="wb-full-width layout-hint"
+            message="Define at least one dimension with layout role Batch."
+          ></wb-info-hint>
           <ng-container *ngFor="let inputGroup of inputs.controls; let i = index">
             <div [formGroup]="inputGroup" class="layer-row wb-subtitle-1" data-test-id="layer-row">
               <wb-config-form-field
@@ -57,8 +62,13 @@
           >
           </wb-button>
           <wb-button class="enlarged-control" type="default" text="Cancel" (handleClick)="cancel.emit()"> </wb-button>
+          <wb-info-hint
+            *ngIf="inputs.errors?.inputLayers as error"
+            class="errors-hint"
+            type="warning"
+            [message]="error"
+          ></wb-info-hint>
         </div>
-        <wb-info-hint *ngIf="inputs.errors?.inputLayers as error" type="warning" [message]="error"></wb-info-hint>
       </div>
     </wb-panel>
   </div>

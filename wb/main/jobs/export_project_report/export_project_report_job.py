@@ -45,8 +45,8 @@ class ProjectReportExportJob(IJob):
         with closing(get_db_session_for_celery()) as session:
             session: Session
             job_model: ProjectReportExportJobModel = self.get_job_model(session)
-            artifact: DownloadableArtifactsModel = job_model.downloadable_artifact
-            artifact_path = DownloadableArtifactsModel.get_archive_path(artifact_id=artifact.id, ext=self.ext)
+            artifact: DownloadableArtifactsModel = job_model.shared_artifact
+            artifact_path = artifact.build_full_artifact_path(ext=self.ext)
             inferences: List[SingleInferenceInfoModel] = session.query(SingleInferenceInfoModel). \
                 filter(SingleInferenceInfoModel.project_id == job_model.project_id). \
                 filter(SingleInferenceInfoModel.status == StatusEnum.ready). \
@@ -71,8 +71,8 @@ class ProjectReportExportJob(IJob):
     def on_failure(self, exception: Exception):
         with closing(get_db_session_for_celery()) as session:
             job_model = self.get_job_model(session)
-            artifact = job_model.downloadable_artifact
-            artifact_path = DownloadableArtifactsModel.get_archive_path(artifact_id=artifact.id, ext=self.ext)
+            artifact = job_model.shared_artifact
+            artifact_path = artifact.build_full_artifact_path(ext=self.ext)
         if os.path.isfile(artifact_path):
             os.remove(artifact_path)
         super().on_failure(exception)

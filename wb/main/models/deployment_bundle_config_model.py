@@ -43,13 +43,14 @@ class DeploymentBundleConfigModel(BaseModel):
     operating_system = Column(TARGET_OS_ENUM_SCHEMA, nullable=False,
                               default=TargetOSEnum.ubuntu18)
 
-    deployment_bundle_id = Column(Integer, ForeignKey('downloadable_artifacts.id'),
+    deployment_bundle_id = Column(Integer, ForeignKey('shared_artifacts.id'),
                                   nullable=False)
 
     # Relationships
-    targets = relationship('DeploymentTargetsModel', lazy='dynamic', cascade='delete,all', uselist=True)
-    deployment_bundle = relationship('DownloadableArtifactsModel',
+    targets = relationship('DeploymentTargetsModel', lazy='subquery', cascade='all,delete-orphan', uselist=True)
+    deployment_bundle = relationship('SharedArtifactModel',
                                      foreign_keys=[deployment_bundle_id],
+                                     cascade='delete,all', uselist=False,
                                      backref=backref('deployment_bundle_config',
                                                      lazy='subquery', cascade='delete,all', uselist=False))
     setup_bundle_job: 'CreateSetupBundleJobModel'

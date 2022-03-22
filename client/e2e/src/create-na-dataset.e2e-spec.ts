@@ -5,7 +5,7 @@ import {
   ConfigurationWizardPage,
   InferenceType,
   NotAnnotatedDataSet,
-  TranformationOptions,
+  TransformationOptions,
 } from './pages/configuration-wizard.po';
 import { Helpers } from './pages/helpers';
 import { TestUtils } from './pages/test-utils';
@@ -114,10 +114,10 @@ describe('UI tests on Creating Not Annotated Datasets', () => {
     dataSet.imageFiles = [browser.params.precommit_scope.resources.testImages.streetImage];
     await configurationWizard.openDatasetPageAndImportImages(dataSet);
 
-    await configurationWizard.selectTransformationOption(TranformationOptions.HORIZONTAL);
+    await configurationWizard.selectTransformationOption(TransformationOptions.HORIZONTAL);
     await configurationWizard.importDataset(dataSet.name);
 
-    expect(await configurationWizard.checkImagesInDataset(dataSet.name, TranformationOptions.HORIZONTAL)).toBeTruthy(
+    expect(await configurationWizard.checkImagesInDataset(dataSet.name, TransformationOptions.HORIZONTAL)).toBeTruthy(
       `Image not found in dataset`
     );
 
@@ -128,10 +128,10 @@ describe('UI tests on Creating Not Annotated Datasets', () => {
     dataSet.imageFiles = [browser.params.precommit_scope.resources.testImages.personImage];
     await configurationWizard.openDatasetPageAndImportImages(dataSet);
 
-    await configurationWizard.selectTransformationOption(TranformationOptions.VERTICAL);
+    await configurationWizard.selectTransformationOption(TransformationOptions.VERTICAL);
     await configurationWizard.importDataset(dataSet.name);
 
-    expect(await configurationWizard.checkImagesInDataset(dataSet.name, TranformationOptions.VERTICAL)).toBeTruthy(
+    expect(await configurationWizard.checkImagesInDataset(dataSet.name, TransformationOptions.VERTICAL)).toBeTruthy(
       `Image not found in dataset`
     );
 
@@ -145,7 +145,7 @@ describe('UI tests on Creating Not Annotated Datasets', () => {
     ];
     await configurationWizard.openDatasetPageAndImportImages(dataSet);
 
-    await configurationWizard.selectTransformationOption(TranformationOptions.ERASE);
+    await configurationWizard.selectTransformationOption(TransformationOptions.ERASE);
 
     const eraseRatio = Helpers.getRandomInRange(1, 21);
     console.log(`Set value of erase ratio to ${eraseRatio}%`);
@@ -179,7 +179,7 @@ describe('UI tests on Creating Not Annotated Datasets', () => {
     dataSet.imageFiles = [browser.params.precommit_scope.resources.testImages.personImage];
     await configurationWizard.openDatasetPageAndImportImages(dataSet);
 
-    await configurationWizard.selectTransformationOption(TranformationOptions.ERASE);
+    await configurationWizard.selectTransformationOption(TransformationOptions.ERASE);
 
     const eraseRatio = 21;
     await TestUtils.setInput('eraseRatio', eraseRatio);
@@ -205,7 +205,7 @@ describe('UI tests on Creating Not Annotated Datasets', () => {
     ];
     await configurationWizard.openDatasetPageAndImportImages(dataSet);
 
-    await configurationWizard.selectTransformationOption(TranformationOptions.NOISE);
+    await configurationWizard.selectTransformationOption(TransformationOptions.NOISE);
 
     const noiseInjection = Helpers.getRandomInRange(1, 5);
     console.log(`Set value of noise injection to ${noiseInjection}%`);
@@ -239,7 +239,7 @@ describe('UI tests on Creating Not Annotated Datasets', () => {
     dataSet.imageFiles = [browser.params.precommit_scope.resources.testImages.personImage];
     await configurationWizard.openDatasetPageAndImportImages(dataSet);
 
-    await configurationWizard.selectTransformationOption(TranformationOptions.NOISE);
+    await configurationWizard.selectTransformationOption(TransformationOptions.NOISE);
 
     const noiseInjection = 5.01;
     await TestUtils.setInput('noiseRatio', noiseInjection);
@@ -267,7 +267,7 @@ describe('UI tests on Creating Not Annotated Datasets', () => {
     const presetsCount = 6;
     await configurationWizard.openDatasetPageAndImportImages(dataSet);
 
-    await configurationWizard.selectTransformationOption(TranformationOptions.COLOR);
+    await configurationWizard.selectTransformationOption(TransformationOptions.COLOR);
 
     await configurationWizard.importDataset(dataSet.name);
 

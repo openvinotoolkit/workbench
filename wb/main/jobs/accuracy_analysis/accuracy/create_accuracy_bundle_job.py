@@ -48,7 +48,7 @@ class CreateAccuracyBundleJob(IJob):
             project = job_model.project
             model_path = project.topology.path
             dataset_path = accuracy_job_model.target_dataset.path
-            bundle_id = job_model.bundle_id
+            bundle_id = job_model.shared_artifact.id
             accuracy_artifacts_path = Path(ACCURACY_ARTIFACTS_FOLDER) / str(job_model.pipeline_id)
 
         configuration_path = accuracy_artifacts_path / JOBS_SCRIPTS_FOLDER_NAME / ACCURACY_CONFIGURATION_FILE_NAME
@@ -73,8 +73,8 @@ class CreateAccuracyBundleJob(IJob):
         with closing(get_db_session_for_celery()) as session:
             job: CreateAccuracyBundleJobModel = self.get_job_model(session)
             # TODO: [61937] Move to separate DBObserver
-            bundle: DownloadableArtifactsModel = job.bundle
-            bundle_path = DownloadableArtifactsModel.get_archive_path(bundle.id)
+            bundle: DownloadableArtifactsModel = job.shared_artifact
+            bundle_path = bundle.build_full_artifact_path()
             bundle.update(bundle_path)
             bundle.write_record(session)
             set_status_in_db(DownloadableArtifactsModel, bundle.id, StatusEnum.ready, session, force=True)

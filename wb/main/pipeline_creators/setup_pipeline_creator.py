@@ -19,9 +19,8 @@ import os
 from sqlalchemy.orm import Session
 
 from config.constants import WORKBENCH_HIDDEN_FOLDER, ROOT_TMP_FOLDER
-from wb.extensions_factories.database import get_db_session_for_app
 from wb.main.models import (CreateSetupBundleJobModel, PipelineModel, SetupTargetJobsModel,
-                            UploadArtifactToTargetJobModel, TargetModel)
+                            UploadArtifactToTargetJobModel, TargetModel, DownloadableArtifactsModel)
 from wb.main.enumerates import PipelineTypeEnum, PipelineStageEnum, DeploymentTargetEnum
 from wb.main.pipeline_creators.deployment_manager_pipeline_creator import DeploymentManagerPipelineCreator
 from wb.main.pipeline_creators.ping_pipeline_creator import PingPipelineCreator
@@ -54,8 +53,9 @@ class SetupPipelineCreator(PipelineCreator):
     def _create_pipeline_jobs(self, pipeline: PipelineModel, session: Session):
         configuration = self.get_setup_bundle_configuration(pipeline_id=pipeline.id,
                                                             target=pipeline.target)
-        create_setup_bundle_job, _, deployment_bundle = \
-            DeploymentManagerPipelineCreator.fill_db_before_deployment_pipeline(configuration, get_db_session_for_app())
+        create_setup_bundle_job, deployment_bundle = \
+            DeploymentManagerPipelineCreator.fill_db_before_deployment_pipeline(configuration, session,
+                                                                                DownloadableArtifactsModel)
         self._save_job_with_stage(create_setup_bundle_job, session)
 
         upload_artifact_to_target_job = UploadArtifactToTargetJobModel({

@@ -18,6 +18,7 @@ from typing import List
 
 from flask import jsonify, request
 
+from wb.error.request_error import NotFoundRequestError
 from wb.extensions_factories.database import get_db_session_for_app
 from wb.main.api_endpoints.utils import save_artifact_chunk_upload
 from wb.main.api_endpoints.v1 import V1_REMOTE_JOB_API
@@ -28,6 +29,32 @@ from wb.main.models.files_model import FilesModel
 from wb.main.models.parse_dev_cloud_result_job_model import ParseDevCloudResultJobModel
 from wb.main.utils.safe_runner import safe_run
 from wb.main.utils.utils import create_empty_dir, FileSizeConverter
+
+
+@V1_REMOTE_JOB_API.route('/remote-job/finish', methods=['POST'])
+@safe_run
+def set_remote_job_ready():
+    data = request.get_json()
+    wb_pipeline_id = data['wbPipelineId']
+    job_models: List[ParseDevCloudResultJobModel] = (
+        ParseDevCloudResultJobModel.query.filter_by(pipeline_id=wb_pipeline_id).all()
+    )
+    if not job_models:
+        raise NotFoundRequestError(f'No job found for provided pipeline id: {wb_pipeline_id}')
+
+    for job_model in job_models:
+        parent_job: JobsModel = JobsModel.query.get(job_model.parent_job)
+        if not parent_job:
+            raise NotFoundRequestError(f'No job found for provided pipeline id: {wb_pipeline_id}')
+        if parent_job.status == StatusEnum.running:
+            break
+    else:
+        raise NotFoundRequestError(f'No job found for provided pipeline id: {wb_pipeline_id}')
+
+    job_model.are_results_obtained = True
+    job_model.write_record(session=get_db_session_for_app())
+
+    return jsonify({})
 
 
 @V1_REMOTE_JOB_API.route('/remote-job-result/upload', methods=['POST'])
@@ -42,16 +69,16 @@ def upload_remote_job_result():
 
     # find a particular job from a big pipeline (int8+profiling) for this artifact
     if not job_models:
-        return no_job_found_response()
+        raise NotFoundRequestError(f'No job found for provided pipeline id: {wb_pipeline_id}')
 
     for job_model in job_models:
         parent_job: JobsModel = JobsModel.query.get(job_model.parent_job)
         if not parent_job:
-            return no_job_found_response()
+            raise NotFoundRequestError(f'No job found for provided pipeline id: {wb_pipeline_id}')
         if parent_job.status == StatusEnum.running:
             break
     else:
-        return no_job_found_response()
+        raise NotFoundRequestError(f'No job found for provided pipeline id: {wb_pipeline_id}')
 
     remote_job_result_artifact: DownloadableArtifactsModel = job_model.result_artifact
     if not remote_job_result_artifact:
@@ -66,15 +93,16 @@ def upload_remote_job_result():
     return jsonify({'artifactItem': remote_job_result_artifact.json(), 'files': files_ids})
 
 
-def no_job_found_response():
-    return 'No job found for provided pipeline id', 404
-
-
 @V1_REMOTE_JOB_API.route('/remote-job-result/upload/<int:file_id>', methods=['POST'])
 @safe_run
 def upload_remote_job_result_chunk(file_id: int):
     file_record = FilesModel.query.get(file_id)
     if not file_record:
-        return 'File record with id {} was not found on the database'.format(file_id), 404
+        raise NotFoundRequestError(f'File record with id {file_id} was not found on the database')
     save_artifact_chunk_upload(request, file_id)
+    artifact = file_record.artifact
+    if artifact.is_all_files_uploaded:
+        job_model = ParseDevCloudResultJobModel.query.filter_by(result_artifact_id=artifact.id).first()
+        job_model.are_results_obtained = True
+        job_model.write_record(session=get_db_session_for_app())
     return jsonify({})

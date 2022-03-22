@@ -14,10 +14,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 """
-import json
 from typing import List, TypedDict
 
-from sqlalchemy import Column, Integer, ForeignKey, Text, Boolean
+from sqlalchemy import Column, Integer, ForeignKey,  Boolean
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.dialects.postgresql import JSON
 

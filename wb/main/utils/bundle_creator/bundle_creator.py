@@ -18,6 +18,7 @@ import logging as log
 import os
 import shutil
 import stat
+import tempfile
 from typing import Callable, Tuple, Generator, Any, Dict, Union
 
 
@@ -55,22 +56,43 @@ class BundleCreator:
         self._log_callback = log_callback
 
     def create(self, components: ComponentsParams,
-               destination_bundle: str) -> str:
+               destination_bundle: str, is_archive: bool = True) -> str:
+        if is_archive:
+            with tempfile.TemporaryDirectory() as tmpdirname:
+                self._store_bundle_content(components, tmpdirname)
+                return self._make_bundle_archive(tmpdirname, destination_bundle)
+        if os.path.exists(destination_bundle):
+            shutil.rmtree(destination_bundle)
+        os.makedirs(destination_bundle, exist_ok=True)
+        return self._store_bundle_content(components, destination_bundle)
+
+    def _store_bundle_content(self, components: ComponentsParams,
+                              destination_bundle: str):
         raise NotImplementedError
 
-    def log(self, message: str, progress_increase: float = 0):
+    def _log(self, message: str, progress_increase: float = 0):
         self._progress = min(self._progress + progress_increase, 99)
         log.debug(message)
         log.debug('full progress - %d', self._progress)
         self._log_callback(message, self._progress)
 
-    @staticmethod
-    def _extract_archive(archive_path: str, extract_dir: str):
-        if not os.path.isfile(archive_path):
-            raise FileNotFoundError(f'Archive not found in {archive_path}')
-        if not os.path.exists(extract_dir):
-            os.makedirs(extract_dir, exist_ok=True)
-        shutil.unpack_archive(filename=archive_path, extract_dir=extract_dir, format='gztar')
+    def _make_bundle_archive(self, bundle_content_path: str, destination_bundle: str) -> str:
+        destination_bundle_path = os.path.dirname(destination_bundle)
+        if not os.path.exists(destination_bundle_path):
+            os.makedirs(destination_bundle_path)
+
+        bundle_basename_path = os.path.splitext(destination_bundle)[0]
+        if '.tar' in bundle_basename_path:
+            bundle_basename_path = os.path.splitext(bundle_basename_path)[0]
+
+        self._log('Making bundle archive...', progress_increase=20)
+        bundle_archive_path = shutil.make_archive(
+            base_name=bundle_basename_path,
+            root_dir=bundle_content_path,
+            format='gztar')
+        self._log(f'Bundle archive created in {destination_bundle}', progress_increase=30)
+
+        return bundle_archive_path
 
     @staticmethod
     def _copy_to_dir(source_path: str, dst_path: str, follow_symlinks: bool = True, executable: bool = False):
@@ -102,3 +124,4 @@ class BundleCreator:
     def _make_executable(script_path: str):
         script_st = os.stat(script_path)
         os.chmod(script_path, script_st.st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+

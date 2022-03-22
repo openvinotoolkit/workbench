@@ -16,7 +16,6 @@
 """
 import re
 
-from wb.error.job_error import Int8CalibrationError
 from wb.main.enumerates import StatusEnum
 from wb.main.jobs.interfaces.job_state import JobStateSubject
 from wb.main.jobs.tools_runner.console_output_parser import ConsoleToolOutputParser, skip_empty_line_decorator

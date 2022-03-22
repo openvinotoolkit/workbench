@@ -19,15 +19,14 @@ import shutil
 import tempfile
 from contextlib import closing
 
-from config.constants import ARTIFACTS_PATH
 from wb.extensions_factories.database import get_db_session_for_celery
 from wb.main.enumerates import JobTypesEnum, StatusEnum
 from wb.main.jobs.interfaces.ijob import IJob
 from wb.main.jobs.utils.database_functions import set_status_in_db
-from wb.main.models import CreateSetupBundleJobModel, DownloadableArtifactsModel
+from wb.main.models import CreateSetupBundleJobModel, SharedArtifactModel
 from wb.main.scripts.job_scripts_generators.setup_script_generator import SetupScriptGenerator
 from wb.main.utils.bundle_creator.setup_bundle_creator import SetupBundleCreator, SetupComponentsParams
-from wb.main.utils.utils import get_size_of_files, find_by_ext
+from wb.main.utils.utils import find_by_ext
 
 
 class CreateSetupBundleJob(IJob):
@@ -47,6 +46,9 @@ class CreateSetupBundleJob(IJob):
             self.include_model = deployment_bundle_config.include_model
             self.topology_name = create_bundle_job_model.project.topology.name if self.include_model else None
             self.topology_path = create_bundle_job_model.project.topology.path if self.include_model else None
+            bundle: SharedArtifactModel = create_bundle_job_model.deployment_bundle_config.deployment_bundle
+            self.bundle_path = bundle.build_full_artifact_path()
+            self.is_archive = bundle.is_archive
 
     def run(self):
         self._job_state_subject.update_state(status=StatusEnum.running, log='Preparing setup bundle.')
@@ -84,7 +86,8 @@ class CreateSetupBundleJob(IJob):
                                                      self.additional_components,
                                                      topology_temporary_path)
             setup_bundle_creator.create(components=setup_components,
-                                        destination_bundle=os.path.join(ARTIFACTS_PATH, str(self.deployment_bundle_id)))
+                                        destination_bundle=self.bundle_path,
+                                        is_archive=self.is_archive)
         self.on_success()
 
     @staticmethod
@@ -98,11 +101,9 @@ class CreateSetupBundleJob(IJob):
         with closing(get_db_session_for_celery()) as session:
             deployment_job = self.get_job_model(session)
             bundle = deployment_job.deployment_bundle_config.deployment_bundle
-            bundle_path = DownloadableArtifactsModel.get_archive_path(bundle.id)
-            bundle.path = bundle_path
-            bundle.size = get_size_of_files(bundle_path)
+            bundle.update(self.bundle_path)
             bundle.write_record(session)
-            set_status_in_db(DownloadableArtifactsModel, bundle.id, StatusEnum.ready, session, force=True)
             self._job_state_subject.update_state(status=StatusEnum.ready,
                                                  log='Setup bundle created successfully.')
+            set_status_in_db(SharedArtifactModel, bundle.id, StatusEnum.ready, session, force=True)
             self._job_state_subject.detach_all_observers()

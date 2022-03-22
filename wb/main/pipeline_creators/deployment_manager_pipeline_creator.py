@@ -14,11 +14,12 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 """
+from typing import Type
 
 from sqlalchemy.orm import Session
 
-from wb.extensions_factories.database import get_db_session_for_app
 from wb.main.enumerates import PipelineTypeEnum, PipelineStageEnum, ArtifactTypesEnum, DeploymentTargetEnum
+from wb.main.models import ArtifactsModel
 from wb.main.models.create_setup_bundle_job_model import CreateSetupBundleJobModel
 from wb.main.models.deployment_bundle_config_model import DeploymentBundleConfigModel, DeploymentTargetsModel
 from wb.main.models.downloadable_artifacts_model import DownloadableArtifactsModel
@@ -41,15 +42,18 @@ class DeploymentManagerPipelineCreator(PipelineCreator):
         self.configuration['pipelineId'] = pipeline.id
         self.configuration['targetId'] = pipeline.target_id
 
-        create_setup_bundle_job, _, _ = (
+        create_setup_bundle_job, _ = (
             self.fill_db_before_deployment_pipeline(self.configuration,
-                                                    get_db_session_for_app())
+                                                    session,
+                                                    DownloadableArtifactsModel)
         )
         self._save_job_with_stage(create_setup_bundle_job, session)
 
     @staticmethod
-    def fill_db_before_deployment_pipeline(configuration: dict, session: Session) -> tuple:
-        deployment_bundle = DownloadableArtifactsModel(ArtifactTypesEnum.deployment_package)
+    def fill_db_before_deployment_pipeline(configuration: dict,
+                                           session: Session,
+                                           artifact_model_type: Type[ArtifactsModel] = DownloadableArtifactsModel) -> tuple:
+        deployment_bundle = artifact_model_type(ArtifactTypesEnum.deployment_package)
         deployment_bundle.write_record(session)
 
         deployment_bundle_config = DeploymentBundleConfigModel(configuration, deployment_bundle.id)
@@ -68,4 +72,4 @@ class DeploymentManagerPipelineCreator(PipelineCreator):
         })
         create_setup_bundle_job.write_record(session)
 
-        return create_setup_bundle_job, deployment_bundle_config, deployment_bundle
+        return create_setup_bundle_job, deployment_bundle

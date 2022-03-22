@@ -38,7 +38,7 @@ from wb.main.utils.safe_runner import safe_run
 def archive_model(model_id: int):
     download_job: ModelDownloadConfigsModel = ModelDownloadConfigsModel.query.filter_by(model_id=model_id).first()
     if download_job:
-        downloadable_artifact = download_job.downloadable_artifact
+        downloadable_artifact = download_job.shared_artifact
         exist, _ = downloadable_artifact.archive_exists()
         if exist:
             return jsonify({
