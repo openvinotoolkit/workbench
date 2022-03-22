@@ -20,13 +20,14 @@
     testId="cancel-button"
     (handleClick)="navigateBack.emit()"
   ></wb-button>
+  <wb-info-hint *ngIf="!uploadDatasetForm.valid" message="Fill all required fields."></wb-info-hint>
 </div>
 
 <ng-template #uploadDatasetFormTemplate>
   <div id="import-file-page" class="selection">
     <div class="uploader-tooltip">
       <mat-icon class="icon" svgIcon="error_outline"></mat-icon>
-      <span class="wb-label tooltip-txt">
+      <span class="tooltip-txt">
         Import a dataset in one of the supported formats:
         <a [matTooltip]="tooltips.imagenetFormatTooltip">ImageNet</a>,
         <a [matTooltip]="tooltips.pascalFormatTooltip">Pascal VOC</a>,

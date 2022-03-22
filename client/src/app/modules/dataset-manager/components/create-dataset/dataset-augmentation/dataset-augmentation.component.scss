@@ -25,15 +25,10 @@ $container-padding: 20px;
 
 .wb-panel {
   margin-bottom: $container-padding;
-  pointer-events: none;
   padding: 0;
 
-  ::ng-deep .config-form-field-checkbox {
-    mat-checkbox {
-      pointer-events: auto;
-    }
-
-    margin-bottom: 0;
+  ::ng-deep .header-checkbox {
+    pointer-events: none;
   }
 }
 
@@ -52,9 +47,11 @@ $container-padding: 20px;
   padding-top: $container-padding;
 }
 
-mat-expansion-panel.wb-panel {
+:host .mat-expansion-panel.wb-panel {
   background: $faded-bgr;
   box-sizing: border-box;
+  border-radius: 3px;
+  box-shadow: none;
 
   ::ng-deep mat-expansion-panel-header {
     padding: 0;
@@ -63,20 +60,11 @@ mat-expansion-panel.wb-panel {
 
   ::ng-deep .mat-expansion-panel-body {
     padding: 0;
-    margin-top: 15px;
   }
 
   .wb-panel-header {
     height: auto;
     padding: $container-padding;
-  }
-
-  .wb-panel-title {
-    margin: 0 0 0 10px;
-  }
-
-  .wb-panel-icon {
-    margin-right: 10px;
   }
 }
 
@@ -86,4 +74,8 @@ mat-expansion-panel.wb-panel {
 
 mat-accordion:not(:first-child) {
   margin-top: $container-padding;
+}
+
+.header-checkbox {
+  margin-bottom: 0;
 }

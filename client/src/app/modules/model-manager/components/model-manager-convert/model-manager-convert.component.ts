@@ -61,7 +61,7 @@ export class ModelManagerConvertComponent implements OnInit, OnDestroy {
   @ViewChild(ConversionInputsGroupComponent)
   private _conversionInputsGroupComponent: ConversionInputsGroupComponent;
 
-  public readonly conversionTipValidationMessage = this._messageService.hintMessages.conversionTips.validationFails;
+  readonly conversionTipValidationMessage = this._messageService.hintMessages.conversionTips.validationFails;
   public readonly ModelDomain = ModelDomain;
 
   public colorSpace: ModelColorChannels;

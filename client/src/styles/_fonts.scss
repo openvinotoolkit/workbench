@@ -130,6 +130,12 @@
   line-height: 22px;
 }
 
+// Text style 10
+@mixin wb-text-10 {
+  font-size: 14px;
+  line-height: 16px;
+}
+
 // Text style 13
 @mixin wb-text-13 {
   font-size: 12px;
@@ -142,6 +148,13 @@
   font-size: 12px;
   font-weight: 400;
   line-height: 20px;
+}
+
+// Text style 15
+@mixin wb-text-15 {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
 }
 
 @mixin wb-full-font-set-declaration {
@@ -205,10 +218,16 @@
   .wb-text-8 {
     @include wb-text-8();
   }
+  .wb-text-10 {
+    @include wb-text-10();
+  }
   .wb-text-13 {
     @include wb-text-13();
   }
   .wb-text-14 {
     @include wb-text-14();
+  }
+  .wb-text-15 {
+    @include wb-text-15();
   }
 }

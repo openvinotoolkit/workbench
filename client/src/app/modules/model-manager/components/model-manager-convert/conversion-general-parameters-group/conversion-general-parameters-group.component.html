@@ -1,30 +1,29 @@
 <ng-container *ngIf="model">
   <div class="field-row">
-    <wb-config-form-field class="hint-first" [field]="fields.precision" [group]="group"></wb-config-form-field>
-    <a
-      class="tip-link"
-      [attr.data-test-id]="'more-' + fields.precision.name + '-tip'"
+    <wb-config-form-field [field]="fields.precision" [group]="group"></wb-config-form-field>
+    <wb-button
+      class="tip-btn enlarged-control"
+      text="Learn more"
+      icon="lightbulb"
+      [attr.data-test-id]="getTipTestId(fields.precision.name)"
       (click)="helpChecklistService.expandItem(fields.precision.name)"
-    >
-      Learn More
-    </a>
+    ></wb-button>
   </div>
 
   <div class="field-row" *ngIf="(isOriginalModel || isHuggingfaceModel) && group.contains(fields.colorSpace.name)">
-    <wb-config-form-field class="hint-first" [field]="fields.colorSpace" [group]="group"></wb-config-form-field>
-    <a
-      class="tip-link"
-      [attr.data-test-id]="'more-' + fields.colorSpace.name + '-tip'"
+    <wb-config-form-field [field]="fields.colorSpace" [group]="group"></wb-config-form-field>
+    <wb-button
+      class="tip-btn enlarged-control"
+      text="Learn more"
+      icon="lightbulb"
+      [attr.data-test-id]="getTipTestId(fields.colorSpace.name)"
       (click)="helpChecklistService.expandItem(fields.colorSpace.name)"
-    >
-      Learn More
-    </a>
+    ></wb-button>
   </div>
 
   <ng-container *ngIf="isOriginalModel || isHuggingfaceModel">
     <wb-config-form-field
       *ngFor="let field of frameworkSpecificFields"
-      class="hint-first checkbox-field"
       [field]="field"
       [group]="group"
     ></wb-config-form-field>

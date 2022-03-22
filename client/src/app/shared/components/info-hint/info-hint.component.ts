@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-type InfoHintType = 'default' | 'warning';
+type InfoHintType = 'default' | 'warning' | 'attention';
 
 export interface InfoHint {
   type: InfoHintType;
