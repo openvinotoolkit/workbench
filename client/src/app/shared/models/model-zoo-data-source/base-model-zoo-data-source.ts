@@ -80,12 +80,12 @@ export abstract class BaseModelZooDataSource<T, U = string> implements DataSourc
     const pageChange$ = this._paginator
       ? merge(this._paginator.initialized, this._paginator.page, this._internalPageChanges$)
       : of(null);
-    const paginatedData = combineLatest([orderedData$, pageChange$]).pipe(
+    const paginatedData$ = combineLatest([orderedData$, pageChange$]).pipe(
       map(([data]) => this._pageData(data, this.paginator))
     );
 
     this._renderChangesSubscription?.unsubscribe();
-    this._renderChangesSubscription = paginatedData.subscribe((data) => this._renderData$.next(data));
+    this._renderChangesSubscription = paginatedData$.subscribe((data) => this._renderData$.next(data));
   }
 
   private _filterData(data: T[], filter: U): T[] {

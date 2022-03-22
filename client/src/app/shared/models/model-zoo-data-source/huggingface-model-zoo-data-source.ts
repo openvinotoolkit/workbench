@@ -11,7 +11,7 @@ export class HuggingfaceModelZooDataSource extends BaseModelZooDataSource<
   IHuggingfaceModel,
   IHuggingfaceModelZooFilter
 > {
-  filterPredicate(data: IHuggingfaceModel, { id, tags }: { id: string; tags: string[] }): boolean {
+  filterPredicate(data: IHuggingfaceModel, { id, tags }: IHuggingfaceModelZooFilter): boolean {
     const idMatched = data.id.toLowerCase().includes(id.trim().toLowerCase());
     const tagsMatched = tags.every((tag) => data.tags.indexOf(tag) !== -1);
     return idMatched && tagsMatched;
