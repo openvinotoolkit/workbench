@@ -834,30 +834,30 @@ export class TestUtils {
   }
 
   async checkExternalLinkDialogWindow(parentContainer?: ElementFinder) {
-    // let links;
-    // if (parentContainer) {
-    //   links = await TestUtils.getAllNestedElementsByDataTestId(parentContainer, 'external-link');
-    // } else {
-    //   links = await TestUtils.getAllElementsByDataTestId('external-link');
-    // }
-    // for (const link of links) {
-    //   if (await link.isDisplayed()) {
-    //     await browser.sleep(1000);
-    //     await TestUtils.scrollToElement(link);
-    //     await this.checkLink(link);
-    //
-    //     const dialogWindow = await TestUtils.getElementByDataTestId('dialog-window');
-    //     expect(await dialogWindow.isPresent()).toBeTruthy('Dialog Window is not shown.');
-    //     await this.clickButton('cancel');
-    //     await console.log('Clicked on Cancel button in the Dialog Window');
-    //
-    //     await browser.sleep(700);
-    //
-    //     await browser.getAllWindowHandles().then(async (handles) => {
-    //       expect(handles.length).toEqual(1); // Check that there is only one tab
-    //     });
-    //   }
-    // }
+    let links;
+    if (parentContainer) {
+      links = await TestUtils.getAllNestedElementsByDataTestId(parentContainer, 'external-link');
+    } else {
+      links = await TestUtils.getAllElementsByDataTestId('external-link');
+    }
+    for (const link of links) {
+      if (await link.isDisplayed()) {
+        await browser.sleep(1000);
+        await TestUtils.scrollToElement(link);
+        await this.checkLink(link);
+
+        const dialogWindow = await TestUtils.getElementByDataTestId('dialog-window');
+        expect(await dialogWindow.isPresent()).toBeTruthy('Dialog Window is not shown.');
+        await this.clickButton('cancel');
+        await console.log('Clicked on Cancel button in the Dialog Window');
+
+        await browser.sleep(700);
+
+        await browser.getAllWindowHandles().then(async (handles) => {
+          expect(handles.length).toEqual(1); // Check that there is only one tab
+        });
+      }
+    }
   }
 
   async checkAnotherTabOpening() {
