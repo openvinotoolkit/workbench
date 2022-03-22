@@ -14,6 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 """
+import os
 import shutil
 import time
 from contextlib import closing
@@ -171,6 +172,8 @@ def clear_assets_paths():
         UPLOAD_FOLDER_DATASETS, UPLOAD_FOLDER_MODELS, JUPYTER_NOTEBOOKS_FOLDER,
     )
     for path in assets_paths:
+        if not os.path.exists(path):
+            continue
         shutil.rmtree(path)
 
 
