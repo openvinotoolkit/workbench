@@ -1,15 +1,16 @@
-@use "sass:math";
+@use 'sass:math';
 
 @import 'fonts';
 @import 'colors';
 
 .actions {
   display: flex;
+  align-items: center;
 }
 
 .hint {
   display: block;
-  padding-top: 15px;
+  margin-left: 20px;
 }
 
 .btn + .btn {

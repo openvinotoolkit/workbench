@@ -53,7 +53,6 @@ export class ConversionGeneralParametersGroupComponent implements OnChanges {
       type: 'select',
       value: ModelPrecisionEnum.FP16,
       options: [ModelPrecisionEnum.FP32, ModelPrecisionEnum.FP16],
-      validators: [Validators.required],
       tooltip: {
         prefix: 'convertModel',
         value: 'precision',
@@ -185,5 +184,9 @@ export class ConversionGeneralParametersGroupComponent implements OnChanges {
     } else {
       return [];
     }
+  }
+
+  getTipTestId(name: string): string {
+    return `more-${name}-tip`;
   }
 }

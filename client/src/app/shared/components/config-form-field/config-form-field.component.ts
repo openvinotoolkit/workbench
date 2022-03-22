@@ -15,6 +15,19 @@ export interface SelectOption {
   disabled?: boolean;
 }
 
+enum AdvancedConfigFieldType {
+  TEXT = 'text',
+  INPUT = 'input',
+  PASSWORD = 'password',
+  SELECT = 'select',
+
+  RADIO = 'radio',
+  CHECKBOX = 'checkbox',
+
+  RGB = 'RGB',
+  THRESHOLD = 'threshold',
+}
+
 export interface AdvancedConfigField {
   type: 'input' | 'select' | 'checkbox' | 'RGB' | 'text' | 'password' | 'threshold' | 'radio';
   name: string;
@@ -31,7 +44,7 @@ export interface AdvancedConfigField {
   hidden?: boolean;
 }
 
-interface Tooltip {
+export interface Tooltip {
   prefix: string;
   value: string;
 }
@@ -55,11 +68,12 @@ export class ConfigFormFieldComponent implements OnInit, OnDestroy {
 
   rgbFormGroup: FormGroup;
   isObject = isObject;
+  readonly AdvancedConfigFieldType = AdvancedConfigFieldType;
 
   private unsubscribe$ = new Subject<void>();
 
   constructor(
-    private formBuilder: FormBuilder,
+    private _formBuilder: FormBuilder,
     public tooltipService: MessagesService,
     private _cdr: ChangeDetectorRef
   ) {}
@@ -68,7 +82,7 @@ export class ConfigFormFieldComponent implements OnInit, OnDestroy {
     if (this.field.type === 'RGB') {
       const { value } = this.field;
       const [R, G, B] = value as number[];
-      this.rgbFormGroup = this.formBuilder.group({
+      this.rgbFormGroup = this._formBuilder.group({
         R: new FormControl(R, RGBValidators),
         G: new FormControl(G, RGBValidators),
         B: new FormControl(B, RGBValidators),
@@ -96,7 +110,7 @@ export class ConfigFormFieldComponent implements OnInit, OnDestroy {
     this.group.markAsDirty();
   }
 
-  getError() {
+  get getError(): string {
     const control = this.group.get([this.field.name]);
     // TODO Remove field specific errors outside of component
     if (control.hasError('required')) {
@@ -122,6 +136,8 @@ export class ConfigFormFieldComponent implements OnInit, OnDestroy {
       return control.getError('wrongDimension').message;
     } else if (control.hasError('invalidSeparator')) {
       return control.getError('invalidSeparator').message;
+    } else if (control.hasError('wrongBatchDimension')) {
+      return control.getError('wrongBatchDimension').message;
     }
   }
 
@@ -140,5 +156,21 @@ export class ConfigFormFieldComponent implements OnInit, OnDestroy {
 
   getOptionId(option): string {
     return isObject(option) ? option['name'] + this.idSuffix : option + this.idSuffix;
+  }
+
+  getOptionTestId(testId, option): string {
+    return testId ? testId + option.value : option['name'] || (isObject(option) ? option['value'] : option);
+  }
+
+  get hasInput(): boolean {
+    return ![
+      AdvancedConfigFieldType.CHECKBOX.toString(),
+      AdvancedConfigFieldType.RADIO.toString(),
+      AdvancedConfigFieldType.THRESHOLD.toString(),
+    ].includes(this.field.type);
+  }
+
+  get isRequired(): boolean {
+    return this.field.validators?.includes(Validators.required);
   }
 }

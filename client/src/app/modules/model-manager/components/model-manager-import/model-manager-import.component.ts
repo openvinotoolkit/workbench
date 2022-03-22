@@ -160,6 +160,7 @@ export class ModelManagerImportComponent implements OnInit, OnDestroy {
         value: ModelFrameworks.TF,
       },
     ],
+    validators: [Validators.required],
   };
 
   readonly modelDomainField: AdvancedConfigField = {
@@ -171,7 +172,6 @@ export class ModelManagerImportComponent implements OnInit, OnDestroy {
       { value: ModelDomain.CV, name: modelDomainNames[ModelDomain.CV] },
       { value: ModelDomain.NLP, name: modelDomainNames[ModelDomain.NLP] },
     ],
-    validators: [Validators.required],
   };
 
   readonly modelFrameworkNamesMap = modelFrameworkNamesMap;
@@ -203,7 +203,7 @@ export class ModelManagerImportComponent implements OnInit, OnDestroy {
     this.uploadModelFormGroup = this._fb.group({
       modelName: new FormControl('', this.modelNameField.validators),
       isDynamic: new FormControl(),
-      framework: new FormControl(initialModelFramework),
+      framework: new FormControl(initialModelFramework, this.modelFrameworkField.validators),
       domain: new FormControl(this.modelDomainField.value, this.modelDomainField.validators),
       files: this.filesFormGroup,
     });
@@ -405,11 +405,17 @@ export class ModelManagerImportComponent implements OnInit, OnDestroy {
     this.importTip.content = [...this._modelDomainHints, this.importModelHints.commonImportTips];
   }
 
-  get isImportDisabled(): boolean {
+  get areFormsInvalid(): boolean {
     return (
       this.uploadModelFormGroup.invalid ||
+      (this.isTfModel() && !this.isTfFrozenModel() && this.tfModelFormGroup.invalid)
+    );
+  }
+
+  get isImportDisabled(): boolean {
+    return (
+      this.areFormsInvalid ||
       (this.modelFrameworkControl.value !== ModelFrameworks.OPENVINO && this.isGettingFrameworksAvailabilityFailed) ||
-      (this.isTfModel() && !this.isTfFrozenModel() && this.tfModelFormGroup.invalid) ||
       (!this.isConnected && this.modelFrameworkControl.value && !this.isSelectedFrameworkConfigured)
     );
   }

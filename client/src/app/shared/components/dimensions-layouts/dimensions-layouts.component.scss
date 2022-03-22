@@ -1,4 +1,9 @@
 @import 'colors';
+@import 'mixins';
+
+:host {
+  flex-grow: 1;
+}
 
 .container {
   margin-bottom: 10px;
@@ -17,6 +22,20 @@
 .row {
   display: flex;
   flex-wrap: wrap;
+
+  &.row--section-error {
+    background-color: $deep-red-light;
+    border-top: 1px solid $very-light-pink;
+    border-bottom: 1px solid $very-light-pink;
+    padding: 20px;
+    margin-bottom: 20px;
+    margin-left: -40px;
+    margin-right: -20px;
+
+    wb-info-hint ::ng-deep .hint-container wb-markdown-text {
+      color: $black;
+    }
+  }
 }
 
 .inputs-block {
@@ -29,20 +48,28 @@
 }
 
 .labels {
-  padding: 42px 25px 30px 0;
+  padding: 43px 25px 30px 0;
   flex-shrink: 0;
 
   .label {
-    line-height: 52px;
+    line-height: 40px;
+
+    span {
+      position: relative;
+    }
   }
 
   .label + .label {
     margin-top: 10px;
   }
 
+  .label.label--required span:after {
+    @include wb-required-asterix();
+  }
+
   &.has-error {
     .label:last-child {
-      margin-top: 30px;
+      margin-top: 40px;
     }
   }
 }
@@ -60,6 +87,20 @@
   wb-config-form-field:first-child {
     display: block;
     margin-bottom: 10px;
+  }
+
+  wb-config-form-field:last-child {
+    display: block;
+    margin-bottom: 0;
+  }
+
+  ::ng-deep {
+    .mat-form-field {
+      min-width: 100%;
+    }
+    .mat-form-field-infix {
+      width: 100px;
+    }
   }
 }
 
@@ -96,6 +137,6 @@
 }
 
 .layout-value {
-  line-height: 50px;
-  font-weight: 500;
+  line-height: 40px;
+  font-weight: 400;
 }

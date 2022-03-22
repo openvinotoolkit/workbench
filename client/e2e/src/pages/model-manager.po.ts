@@ -324,7 +324,7 @@ export class ModelManagerPage {
   }
 
   async clickMoreTips(fieldCss) {
-    const field = await element(by.css(`a[data-test-id="${fieldCss}"]`));
+    const field = await element(by.css(`wb-button[data-test-id="${fieldCss}"]`));
     await field.click();
     const tipName = fieldCss.substring(5, fieldCss.length - 4);
     await console.log(`Learn more for ${tipName} is clicked.`);

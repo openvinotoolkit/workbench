@@ -3,6 +3,7 @@
     <wb-panel>
       <div wb-heading>
         <h3 class="wb-h4 panel-header import-stage-header">Convert Model to IR - General Parameters</h3>
+        <span class="required-tag">* Required</span>
       </div>
       <div wb-content>
         <wb-info-hint
@@ -34,14 +35,14 @@
         <div *ngIf="isOriginalModel || isHuggingfaceModel" class="panel-row panel-row--section inputs-panel">
           <div class="panel-row panel-row--subheader">
             <h3 class="wb-h4 panel-title">Inputs</h3>
-            <a
+            <wb-button
               *ngIf="isInputsSpecified"
-              class="tip-link"
+              class="tip-btn enlarged-control"
+              text="Learn more"
+              icon="lightbulb"
               data-test-id="more-inputs-tip"
               (click)="helpChecklistService.expandItem('inputs')"
-            >
-              Learn More
-            </a>
+            ></wb-button>
           </div>
 
           <wb-conversion-inputs-group
@@ -78,13 +79,13 @@
           >
           </wb-button>
           <wb-button class="enlarged-control" text="Cancel" type="default" (handleClick)="cancel.emit()"></wb-button>
+          <wb-info-hint
+            *ngIf="group.invalid"
+            class="wb-full-width"
+            type="attention"
+            [message]="conversionTipValidationMessage"
+          ></wb-info-hint>
         </div>
-        <wb-info-hint
-          *ngIf="group.invalid"
-          class="wb-full-width"
-          type="warning"
-          [message]="conversionTipValidationMessage"
-        ></wb-info-hint>
       </div>
     </wb-panel>
   </div>
