@@ -4,14 +4,15 @@
 
  Copyright (c) 2021 Intel Corporation
 
- LEGAL NOTICE: Your use of this software and any required dependent software (the “Software Package”) is subject to
- the terms and conditions of the software license agreements for Software Package, which may also include
- notices, disclaimers, or license terms for third party or open source software
- included in or with the Software Package, and your use indicates your acceptance of all such terms.
- Please refer to the “third-party-programs.txt” or other similarly-named text file included with the Software Package
- for additional details.
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
-      https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
+      http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
 """
 
 from sqlalchemy.orm import Session
@@ -20,7 +21,7 @@ from config.constants import UPLOAD_FOLDER_DATASETS
 from wb.main.enumerates import (JobTypesEnum, PipelineTypeEnum, PipelineStageEnum, ArtifactTypesEnum,
                                 DevCloudRemoteJobTypeEnum, AccuracyReportTypeEnum)
 from wb.main.models import (CreateAccuracyScriptsJobModel, CreateAccuracyBundleJobModel, AccuracyJobsModel,
-                            ProjectsModel, ParseDevCloudResultJobData, DownloadableArtifactsModel,
+                            ProjectsModel, DownloadableArtifactsModel,
                             ParseDevCloudAccuracyResultJobModel, PipelineModel, TriggerDevCloudJobModel,
                             CreateAnnotateDatasetScriptsJobModel, AnnotateDatasetJobModel, DatasetsModel)
 from wb.main.models.accuracy_analysis.annotate_dataset_job_model import AnnotateDatasetJobData
@@ -30,6 +31,7 @@ from wb.main.models.accuracy_model import AccuracyJobData
 from wb.main.models.jobs_model import JobData
 from wb.main.models.parse_dev_cloud_dataset_annotation_result_job_model import \
     ParseDevCloudDatasetAnnotationResultJobModel, ParseDevCloudDatasetAnnotationResultJobData
+from wb.main.models.parse_dev_cloud_result_job_model import ParseDevCloudResultJobData
 from wb.main.models.trigger_dev_cloud_job_model import TriggerDevCloudJobData
 from wb.main.pipeline_creators.dev_cloud_pipeline_creator_utils import DevCloudPipelineCreator
 
@@ -74,7 +76,7 @@ class DevCloudPredictionsRelativeAccuracyReportPipelineCreator(DevCloudPipelineC
     def _create_pipeline_jobs(self, pipeline: PipelineModel, session: Session):
         project: ProjectsModel = ProjectsModel.query.get(self._project_id)
 
-        previous_job_id, deployment_bundle_id = self._add_deployment_and_setup_bundle_jobs(pipeline_id=pipeline.id,
+        previous_job_id, deployment_bundle_id = self._create_setup_bundle_job_and_artifact(pipeline_id=pipeline.id,
                                                                                            target=pipeline.target,
                                                                                            project_id=self._project_id,
                                                                                            session=session)
@@ -91,16 +93,16 @@ class DevCloudPredictionsRelativeAccuracyReportPipelineCreator(DevCloudPipelineC
         ))
         self._save_job_with_stage(create_dataset_annotation_script, session=session)
 
-        annotate_dataset_bundle = DownloadableArtifactsModel(ArtifactTypesEnum.job_bundle)
-        annotate_dataset_bundle.write_record(session)
-
         create_job_bundle_job = CreateAnnotateDatasetBundleJobModel({
             'projectId': project.id,
-            'bundleId': annotate_dataset_bundle.id,
             'previousJobId': create_dataset_annotation_script.job_id,
             'pipelineId': pipeline.id,
         })
         self._save_job_with_stage(create_job_bundle_job, session=session)
+
+        annotate_dataset_bundle = DownloadableArtifactsModel(ArtifactTypesEnum.job_bundle,
+                                                             job_id=create_job_bundle_job.job_id)
+        annotate_dataset_bundle.write_record(session)
 
         trigger_dev_cloud_profiling_job_data = TriggerDevCloudJobData(
             projectId=project.id,
@@ -142,15 +144,16 @@ class DevCloudPredictionsRelativeAccuracyReportPipelineCreator(DevCloudPipelineC
         create_accuracy_scripts_job = CreateAccuracyScriptsJobModel(create_accuracy_scripts_job_data)
         self._save_job_with_stage(create_accuracy_scripts_job, session)
 
-        accuracy_bundle = DownloadableArtifactsModel(ArtifactTypesEnum.job_bundle)
-        accuracy_bundle.write_record(session)
         create_job_bundle_job = CreateAccuracyBundleJobModel({
             'projectId': self._project_id,
-            'bundleId': accuracy_bundle.id,
             'previousJobId': create_accuracy_scripts_job.job_id,
             'pipelineId': pipeline.id,
         })
         self._save_job_with_stage(create_job_bundle_job, session)
+
+        accuracy_bundle = DownloadableArtifactsModel(ArtifactTypesEnum.job_bundle,
+                                                     job_id=create_job_bundle_job.job_id)
+        accuracy_bundle.write_record(session)
 
         trigger_dev_cloud_profiling_job_data = TriggerDevCloudJobData(
             projectId=self._project_id,
@@ -158,7 +161,7 @@ class DevCloudPredictionsRelativeAccuracyReportPipelineCreator(DevCloudPipelineC
             previousJobId=create_job_bundle_job.job_id,
             setupBundleId=deployment_bundle_id,
             jobBundleId=accuracy_bundle.id,
-            remoteJobType=DevCloudRemoteJobTypeEnum.accuracy
+            remoteJobType=DevCloudRemoteJobTypeEnum.accuracy,
         )
 
         trigger_dev_cloud_profiling_job = TriggerDevCloudJobModel(trigger_dev_cloud_profiling_job_data)

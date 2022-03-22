@@ -4,15 +4,17 @@
 
  Copyright (c) 2018 Intel Corporation
 
- LEGAL NOTICE: Your use of this software and any required dependent software (the “Software Package”) is subject to
- the terms and conditions of the software license agreements for Software Package, which may also include
- notices, disclaimers, or license terms for third party or open source software
- included in or with the Software Package, and your use indicates your acceptance of all such terms.
- Please refer to the “third-party-programs.txt” or other similarly-named text file included with the Software Package
- for additional details.
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
-      https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
+      http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
 """
+import os
 import shutil
 import time
 from contextlib import closing
@@ -25,7 +27,8 @@ from config.constants import (ARTIFACTS_PATH, CLOUD_SERVICE_URL, MODEL_DOWNLOADS
                               SHORT_TRANSFORMATIONS_CONFIGS, UPLOAD_FOLDER_DATASETS,
                               UPLOAD_FOLDER_MODELS,
                               DISABLE_JUPYTER, ENABLE_AUTH, JUPYTER_NOTEBOOKS_FOLDER, PYTHON_WRAPPER,
-                              PRC_URL_TO_CHECK_CONNECTION, GENERAL_URL_TO_CHECK_CONNECTION)
+                              PRC_URL_TO_CHECK_CONNECTION, GENERAL_URL_TO_CHECK_CONNECTION, CLOUD_SHARED_FOLDER,
+                              ENVIRONMENTS_FOLDER)
 from wb.config.application import get_config
 from wb.error.code_registry import CodeRegistry
 from wb.extensions_factories.database import get_db_for_app
@@ -168,8 +171,11 @@ def clear_assets_paths():
     assets_paths = (
         ARTIFACTS_PATH, MODEL_DOWNLOADS_FOLDER, PROFILING_ARTIFACTS_REPORT_DIR,
         UPLOAD_FOLDER_DATASETS, UPLOAD_FOLDER_MODELS, JUPYTER_NOTEBOOKS_FOLDER,
+        ENVIRONMENTS_FOLDER, CLOUD_SHARED_FOLDER
     )
     for path in assets_paths:
+        if not path or not os.path.exists(path):
+            continue
         shutil.rmtree(path)
 
 

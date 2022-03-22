@@ -1,142 +1,165 @@
-<div [ngClass]="['config-form-field', 'config-form-field-' + field.type]" [formGroup]="group">
-  <div class="field-label" *ngIf="field.label">
-    <label>{{ field.label }}:</label>
-    <wb-help-tooltip
-      *ngIf="field.tooltip"
-      [tooltipMessage]="tooltipService.getTooltip(field.tooltip.prefix, field.tooltip.value)"
-    ></wb-help-tooltip>
+<div
+  [ngClass]="['config-form-field', 'config-form-field--' + field.type, isRequired ? 'config-form-field--required' : '']"
+>
+  <ng-container
+    *ngIf="field.type === AdvancedConfigFieldType.CHECKBOX"
+    [ngTemplateOutlet]="checkboxTemplate"
+  ></ng-container>
+  <ng-container
+    *ngIf="field.type !== AdvancedConfigFieldType.CHECKBOX"
+    [ngTemplateOutlet]="fieldTemplate"
+  ></ng-container>
+</div>
+
+<ng-template #checkboxTemplate>
+  <ng-container *ngIf="field.tooltip" [ngTemplateOutlet]="tooltipTemplate"></ng-container>
+  <div class="control-container" [formGroup]="group">
+    <mat-checkbox [id]="controlId" [formControlName]="field.name" [attr.data-test-id]="testId || field.name">
+      <ng-container *ngIf="field.label">{{ field.label }}</ng-container>
+    </mat-checkbox>
   </div>
-  <div class="field-container">
-    <ng-container [ngSwitch]="field.type">
-      <mat-checkbox
-        *ngSwitchCase="'checkbox'"
-        [attr.data-test-id]="testId || field.name"
-        [formControlName]="field.name"
+</ng-template>
+
+<ng-template #fieldTemplate>
+  <div class="label-container">
+    <ng-container *ngIf="field.tooltip" [ngTemplateOutlet]="tooltipTemplate"></ng-container>
+    <label *ngIf="field.label" class="label" [for]="controlId">{{ field.label }}:</label>
+  </div>
+
+  <div class="control-container" [ngSwitch]="field.type" [formGroup]="group">
+    <mat-radio-group *ngSwitchCase="AdvancedConfigFieldType.RADIO" [id]="controlId" [formControlName]="field.name">
+      <mat-radio-button
+        *ngFor="let option of field.options"
+        [id]="getOptionId(option)"
+        [value]="isObject(option) ? option.value : option"
+        [attr.data-test-id]="getOptionTestId(testId, option)"
+        >{{ isObject(option) ? option.name : option }}
+      </mat-radio-button>
+    </mat-radio-group>
+
+    <mat-form-field
+      *ngIf="hasInput"
+      [hidden]="field.type === AdvancedConfigFieldType.RGB"
+      appearance="outline"
+      floatLabel="never"
+      [attr.data-test-id]="field.name?.toLowerCase() + '-form-field'"
+    >
+      <input
+        *ngSwitchCase="AdvancedConfigFieldType.TEXT"
+        matInput
+        type="text"
         [id]="controlId"
-      ></mat-checkbox>
-      <mat-radio-group
-        *ngSwitchCase="'radio'"
-        class="wb-radio-group field-container wb-body-4"
         [formControlName]="field.name"
+      />
+
+      <input
+        *ngSwitchCase="AdvancedConfigFieldType.INPUT"
+        matInput
+        type="number"
         [id]="controlId"
-      >
-        <ng-container *ngFor="let option of field.options">
-          <mat-radio-button
-            [attr.data-test-id]="
-              testId ? testId + option['value'] : option['name'] || (isObject(option) ? option['value'] : option)
-            "
-            [value]="isObject(option) ? option['value'] : option"
-            [id]="getOptionId(option)"
-            >{{ isObject(option) ? option['name'] : option }}
-          </mat-radio-button>
-        </ng-container>
-      </mat-radio-group>
+        [numberType]="field.numberType"
+        [maxNumber]="field.maxNumber"
+        [formControlName]="field.name"
+        [attr.data-test-id]="controlId"
+      />
 
-      <mat-form-field
-        *ngIf="field.type !== 'checkbox' && field.type !== 'threshold' && field.type !== 'radio'"
-        [ngStyle]="{
-          display: field.type === 'RGB' || field.type === 'checkbox' ? 'none' : ''
-        }"
-        appearance="outline"
-        floatLabel="never"
-        [attr.data-test-id]="field.name?.toLowerCase() + '-form-field'"
-      >
-        <input
-          *ngSwitchCase="'input'"
-          matInput
-          type="number"
-          [id]="controlId"
-          [numberType]="field.numberType"
-          [maxNumber]="field.maxNumber"
-          [formControlName]="field.name"
-          [attr.data-test-id]="controlId"
-        />
+      <input
+        *ngSwitchCase="AdvancedConfigFieldType.RGB"
+        hidden
+        matInput
+        [type]="field.numberType ? 'number' : 'text'"
+        [formControlName]="field.name"
+      />
 
-        <input
-          *ngSwitchCase="'RGB'"
-          hidden
-          matInput
-          [type]="field.numberType ? 'number' : 'text'"
-          [formControlName]="field.name"
-        />
+      <span *ngIf="field.suffix" matSuffix>{{ field.suffix }}</span>
 
-        <input *ngSwitchCase="'text'" [id]="controlId" matInput [type]="'text'" [formControlName]="field.name" />
-        <span matSuffix *ngIf="field.suffix">
-          {{ field.suffix }}
-        </span>
+      <input
+        *ngSwitchCase="AdvancedConfigFieldType.PASSWORD"
+        matInput
+        type="password"
+        [id]="controlId"
+        [formControlName]="field.name"
+      />
 
-        <input
-          *ngSwitchCase="'password'"
-          [id]="controlId"
-          matInput
-          [type]="'password'"
-          [formControlName]="field.name"
-        />
+      <mat-select *ngSwitchCase="AdvancedConfigFieldType.SELECT" [formControlName]="field.name" [id]="controlId">
+        <mat-option
+          *ngFor="let option of field.options"
+          [disabled]="option?.disabled"
+          [value]="isObject(option) ? option.value : option"
+          [attr.data-test-id]="getOptionTestId(testId, option)"
+          >{{ isObject(option) ? option['name'] : option }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
 
-        <mat-select *ngSwitchCase="'select'" [formControlName]="field.name" [id]="controlId">
-          <ng-container *ngFor="let option of field.options">
-            <mat-option
-              [attr.data-test-id]="
-                testId ? testId + option['value'] : option['name'] || (isObject(option) ? option['value'] : option)
-              "
-              [value]="isObject(option) ? option.value : option"
-              [disabled]="option?.disabled"
-              >{{ isObject(option) ? option['name'] : option }}</mat-option
-            >
-          </ng-container>
-        </mat-select>
-      </mat-form-field>
-
-      <div *ngSwitchCase="'RGB'" class="rgb-fields-group">
-        <form [formGroup]="rgbFormGroup">
-          <mat-form-field appearance="outline" floatLabel="never">
-            <input
-              matInput
-              type="number"
-              numberType="long_float"
-              required
-              [min]="0"
-              [max]="256"
-              formControlName="R"
-              (input)="updateRGBFieldValue()"
-            />
-            <span matPrefix>R:&nbsp;</span>
-          </mat-form-field>
-          <mat-form-field appearance="outline" floatLabel="never">
-            <input
-              matInput
-              type="number"
-              numberType="long_float"
-              required
-              [min]="0"
-              [max]="256"
-              formControlName="G"
-              (input)="updateRGBFieldValue()"
-            />
-            <span matPrefix>G:&nbsp;</span>
-          </mat-form-field>
-          <mat-form-field appearance="outline" floatLabel="never">
-            <input
-              matInput
-              type="number"
-              numberType="long_float"
-              required
-              [min]="0"
-              [max]="256"
-              formControlName="B"
-              (input)="updateRGBFieldValue()"
-            />
-            <span matPrefix>B:&nbsp;</span>
-          </mat-form-field>
-        </form>
-      </div>
-
-      <div *ngSwitchCase="'threshold'" class="threshold">
-        <wb-metric-threshold [formControlName]="field.name"></wb-metric-threshold>
-      </div>
+    <ng-container *ngSwitchCase="AdvancedConfigFieldType.RGB">
+      <ng-container [ngTemplateOutlet]="rgbTemplate"></ng-container>
     </ng-container>
+    <ng-container *ngSwitchCase="AdvancedConfigFieldType.THRESHOLD">
+      <ng-container [ngTemplateOutlet]="thresholdTemplate"></ng-container>
+    </ng-container>
+
     <div *ngIf="shouldDisplayErrorMessage(field.name)" class="error-message" data-test-id="control-error">
-      <wb-markdown-text [text]="getError()" class="wb-body-4"></wb-markdown-text>
+      <wb-markdown-text [text]="getError"></wb-markdown-text>
     </div>
   </div>
-</div>
+</ng-template>
+
+<ng-template #rgbTemplate>
+  <div class="rgb-fields-group">
+    <form [formGroup]="rgbFormGroup">
+      <mat-form-field appearance="outline" floatLabel="never">
+        <input
+          matInput
+          type="number"
+          numberType="long_float"
+          required
+          [min]="0"
+          [max]="256"
+          formControlName="R"
+          (input)="updateRGBFieldValue()"
+        />
+        <span matPrefix>R:&nbsp;</span>
+      </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="never">
+        <input
+          matInput
+          type="number"
+          numberType="long_float"
+          required
+          [min]="0"
+          [max]="256"
+          formControlName="G"
+          (input)="updateRGBFieldValue()"
+        />
+        <span matPrefix>G:&nbsp;</span>
+      </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="never">
+        <input
+          matInput
+          type="number"
+          numberType="long_float"
+          required
+          [min]="0"
+          [max]="256"
+          formControlName="B"
+          (input)="updateRGBFieldValue()"
+        />
+        <span matPrefix>B:&nbsp;</span>
+      </mat-form-field>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #thresholdTemplate>
+  <div class="threshold">
+    <wb-metric-threshold [formControlName]="field.name"></wb-metric-threshold>
+  </div>
+</ng-template>
+
+<ng-template #tooltipTemplate>
+  <wb-help-tooltip
+    class="tooltip"
+    [tooltipMessage]="tooltipService.getTooltip(field.tooltip.prefix, field.tooltip.value)"
+  ></wb-help-tooltip>
+</ng-template>

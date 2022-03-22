@@ -1,14 +1,21 @@
-<div class="remote-target-container">
+<div class="wb-container">
   <ng-container *ngIf="isEditMode && isMachineConfigured">
     <ng-content select="failedPipelineStages"></ng-content>
   </ng-container>
-  <div class="remote-target">
-    <div class="remote-target-content">
-      <ng-container [ngTemplateOutlet]="targetMachineFormTemplate"></ng-container>
-      <ng-container [ngTemplateOutlet]="pageActionsTemplate"></ng-container>
+  <div class="wb-row">
+    <div class="wb-col-8">
+      <wb-panel [showFooter]="true">
+        <div class="wb-h4" wb-heading>Remote Target Parameters</div>
+        <div wb-content>
+          <ng-container [ngTemplateOutlet]="targetMachineFormTemplate"></ng-container>
+        </div>
+        <div wb-footer>
+          <ng-container [ngTemplateOutlet]="pageActionsTemplate"></ng-container>
+        </div>
+      </wb-panel>
     </div>
-    <div class="remote-target-tip">
-      <div class="remote-target-tip-content">
+    <div class="wb-col-4">
+      <div class="wb-panel">
         <wb-tip
           [tipMessage]="{
             header: 'Remote Machine Tip',
@@ -16,8 +23,8 @@
           }"
         >
         </wb-tip>
+        <wb-markdown-text class="wb-text-8" [text]="feedbackDescription"></wb-markdown-text>
       </div>
-      <wb-markdown-text class="wb-text-8" [text]="feedbackDescription"></wb-markdown-text>
     </div>
   </div>
 </div>

@@ -149,12 +149,12 @@ $progress-bar-inner-height: 16px;
 
 .read-only-status {
   @include wb-body-4();
-  color: $blue-blue;
+  color: $plum;
   display: flex;
   align-items: center;
 
   mat-icon {
-    color: $blue-blue;
+    color: $plum;
     font-size: 14px;
     width: 14px;
     height: 14px;

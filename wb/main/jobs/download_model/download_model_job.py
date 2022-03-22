@@ -4,14 +4,15 @@
 
  Copyright (c) 2018 Intel Corporation
 
- LEGAL NOTICE: Your use of this software and any required dependent software (the “Software Package”) is subject to
- the terms and conditions of the software license agreements for Software Package, which may also include
- notices, disclaimers, or license terms for third party or open source software
- included in or with the Software Package, and your use indicates your acceptance of all such terms.
- Please refer to the “third-party-programs.txt” or other similarly-named text file included with the Software Package
- for additional details.
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
-      https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
+      http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
 """
 
 import os
@@ -24,7 +25,6 @@ from wb.main.jobs.interfaces.ijob import IJob
 from wb.main.jobs.interfaces.job_observers import DownloadModelDBObserver
 from wb.main.enumerates import JobTypesEnum
 from wb.main.models.download_configs_model import ModelDownloadConfigsModel
-from wb.main.models.downloadable_artifacts_model import DownloadableArtifactsModel
 from wb.main.enumerates import StatusEnum
 
 from wb.main.models.topologies_model import TopologiesModel
@@ -50,7 +50,7 @@ class DownloadModelJob(IJob):
             source_dir = self.find_source_dir(config.model_id)
             archive_exists, archive_path = artifact.archive_exists()
             if not archive_exists:
-                archive_path = DownloadableArtifactsModel.get_archive_path(artifact.id)
+                archive_path = artifact.build_full_artifact_path()
                 self.pack_model(archive_path, source_dir, re.sub(self.ext, '', config.name))
             artifact.update(archive_path)
             artifact.write_record(session)
@@ -61,7 +61,7 @@ class DownloadModelJob(IJob):
         session = get_db_session_for_celery()
         with closing(session):
             config: ModelDownloadConfigsModel = session.query(ModelDownloadConfigsModel).get(self._job_id)
-            file_path = DownloadableArtifactsModel.get_archive_path(config.downloadable_artifact.id)
+            file_path = config.downloadable_artifact.build_full_artifact_path()
         if file_path:
             os.remove(file_path)
         super().on_failure(exception)

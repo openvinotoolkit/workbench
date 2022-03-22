@@ -1,16 +1,19 @@
-<div class="file-upload-field-container">
-  <label *ngIf="label" class="field-label wb-label" [for]="id">
-    {{ label }}:
-    <span class="field-label-optional wb-body-4" *ngIf="optional">({{ optionalLabel }})</span>
+<div [ngClass]="['file-upload-field-container', isRequired && 'file-upload-field-container--required']">
+  <div class="label-container">
     <wb-help-tooltip
       *ngIf="tooltip"
+      class="tooltip"
       [tooltipMessage]="tooltipService.getTooltip(tooltip.prefix, tooltip.value)"
     ></wb-help-tooltip>
-  </label>
-  <div class="file-upload-field">
-    <div class="file-upload-field-row">
+    <label *ngIf="label" class="label" [for]="id">
+      {{ label }}:
+      <span class="label-optional wb-body-4" *ngIf="optional">({{ optionalLabel }})</span>
+    </label>
+  </div>
+  <div class="control-container">
+    <div class="row">
       <ng-container [ngTemplateOutlet]="uploadingDir ? dirUpload : fileUpload"></ng-container>
-      <span *ngIf="!hasErrors(); else fieldError" class="file-upload-field-selected">
+      <span class="selected">
         <ng-container *ngIf="!selectedFile">{{ noFileSelectedLabel }}</ng-container>
         <ng-container *ngIf="selectedFile">
           <ng-container *ngIf="!selectedFile.length">{{ selectedFile.name }}</ng-container>
@@ -18,17 +21,11 @@
         </ng-container>
       </span>
     </div>
-    <div *ngIf="!optional && !selectedFile && (submitted || touched)" class="file-upload-field-required">
-      <wb-info-hint type="warning" [message]="requiredFieldMessage"></wb-info-hint>
+    <div *ngIf="(submitted || touched) && ((!optional && !selectedFile) || hasErrors())" class="error-message">
+      <wb-markdown-text [text]="error || requiredFieldMessage"></wb-markdown-text>
     </div>
   </div>
 </div>
-
-<ng-template #fieldError>
-  <span class="file-upload-field-selected file-upload-field-error">
-    {{ error }}
-  </span>
-</ng-template>
 
 <ng-template #fileUpload>
   <wb-button

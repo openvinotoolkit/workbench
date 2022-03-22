@@ -21,3 +21,18 @@
     white-space: pre-wrap;
   }
 }
+
+@mixin wb-required-asterix() {
+  position: absolute;
+  right: -8px;
+  top: -10px;
+  content: '*';
+  color: $deep-red;
+
+  @include wb-subtitle-1();
+}
+
+@mixin wb-required-tag() {
+  color: $deep-red;
+  @include wb-text-15();
+}

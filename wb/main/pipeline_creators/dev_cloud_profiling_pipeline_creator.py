@@ -4,28 +4,27 @@
 
  Copyright (c) 2020 Intel Corporation
 
- LEGAL NOTICE: Your use of this software and any required dependent software (the “Software Package”) is subject to
- the terms and conditions of the software license agreements for Software Package, which may also include
- notices, disclaimers, or license terms for third party or open source software
- included in or with the Software Package, and your use indicates your acceptance of all such terms.
- Please refer to the “third-party-programs.txt” or other similarly-named text file included with the Software Package
- for additional details.
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
-      https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
+      http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
 """
 
+from sqlalchemy import and_, or_
 from sqlalchemy.orm import Session
 
-from wb.main.enumerates import JobTypesEnum, PipelineTypeEnum, PipelineStageEnum, ArtifactTypesEnum, \
-    DevCloudRemoteJobTypeEnum
-from wb.main.models import CreateProfilingScriptsJobModel
-from wb.main.models.profiling_model import ProfilingJobModel
-from wb.main.models.create_profiling_bundle_job_model import CreateProfilingBundleJobModel
-from wb.main.models.downloadable_artifacts_model import DownloadableArtifactsModel
-from wb.main.models.parse_dev_cloud_profiling_result_job_model import ParseDevCloudProfilingResultJobModel
-from wb.main.models.parse_dev_cloud_result_job_model import ParseDevCloudResultJobData
-from wb.main.models.pipeline_model import PipelineModel
-from wb.main.models.trigger_dev_cloud_job_model import TriggerDevCloudJobModel, TriggerDevCloudJobData
+from wb.main.enumerates import (JobTypesEnum, PipelineTypeEnum, PipelineStageEnum, ArtifactTypesEnum,
+                                DevCloudRemoteJobTypeEnum, StatusEnum)
+from wb.main.models import CreateProfilingScriptsJobModel, CloudBundleModel
+from wb.main.models.jobs_model import JobData
+from wb.main.models import (ProfilingJobModel, CreateProfilingBundleJobModel, ParseDevCloudProfilingResultJobModel,
+                            PipelineModel, TriggerDevCloudJobModel)
+from wb.main.models.trigger_dev_cloud_job_model import TriggerDevCloudJobData
 from wb.main.pipeline_creators.dev_cloud_pipeline_creator_utils import DevCloudPipelineCreator
 from wb.main.pipeline_creators.profiling_pipeline_creator import ProfilingPipelineCreator
 
@@ -38,8 +37,6 @@ class DevCloudProfilingPipelineCreator(ProfilingPipelineCreator, DevCloudPipelin
         CreateProfilingScriptsJobModel.get_polymorphic_job_type(): PipelineStageEnum.preparing_profiling_assets,
         CreateProfilingBundleJobModel.get_polymorphic_job_type(): PipelineStageEnum.preparing_profiling_assets,
         TriggerDevCloudJobModel.get_polymorphic_job_type(): PipelineStageEnum.uploading_setup_assets,
-        # pylint: disable=fixme
-        # TODO Add another job with 'uploading' stage for getting setup and profile bundle archives form DL WB
         ProfilingJobModel.get_polymorphic_job_type(): PipelineStageEnum.profiling,
         ParseDevCloudProfilingResultJobModel.get_polymorphic_job_type(): PipelineStageEnum.getting_remote_job_result,
     }
@@ -52,17 +49,31 @@ class DevCloudProfilingPipelineCreator(ProfilingPipelineCreator, DevCloudPipelin
         project_id = self.create_project_and_save_to_configuration(configuration=self.configuration,
                                                                    session=session)
         pipeline_id = self.configuration.get('pipelineId', pipeline.id)
+
         self.configuration['pipelineId'] = pipeline_id
         self.configuration['projectId'] = project_id
+        previous_job_id = self.configuration.get('previousJobId')
 
-        if self.configuration.get('setupBundleId') is None:
-            previous_job_id, deployment_bundle_id = self._add_deployment_and_setup_bundle_jobs(pipeline_id=pipeline_id,
-                                                                                               target=pipeline.target,
-                                                                                               project_id=project_id,
-                                                                                               session=session)
-        else:
-            previous_job_id = self.configuration.get('previousJobId')
-            deployment_bundle_id = self.configuration['setupBundleId']
+        setup_bundle = session.query(CloudBundleModel).filter(
+            and_(
+                CloudBundleModel.artifact_type == ArtifactTypesEnum.deployment_package,
+                or_(
+                    CloudBundleModel.status == StatusEnum.ready,  # Ready bundle from previous pipelines
+                    CloudBundleModel.job.has(pipeline_id=pipeline_id)  # Bundle from the same pipeline
+                )
+            )
+        ).first()
+
+        if not setup_bundle or (setup_bundle.status == StatusEnum.ready and not setup_bundle.bundle_exists):
+            previous_job_id, deployment_bundle_id = self._create_setup_bundle_job_and_artifact(
+                pipeline_id=pipeline_id,
+                target=pipeline.target,
+                project_id=project_id,
+                session=session,
+                artifact_model_type=CloudBundleModel
+            )
+            setup_bundle = session.query(CloudBundleModel).get(deployment_bundle_id)
+
         create_profiling_scripts_job = CreateProfilingScriptsJobModel({
             'projectId': self.project_id,
             'previousJobId': previous_job_id,
@@ -71,25 +82,24 @@ class DevCloudProfilingPipelineCreator(ProfilingPipelineCreator, DevCloudPipelin
         self._save_job_with_stage(create_profiling_scripts_job, session)
         previous_job_id = create_profiling_scripts_job.job_id
 
-        profiling_bundle = DownloadableArtifactsModel(ArtifactTypesEnum.job_bundle)
-        profiling_bundle.write_record(session)
-
         create_profiling_bundle_job = CreateProfilingBundleJobModel({
             'projectId': self.project_id,
-            'bundleId': profiling_bundle.id,
             'previousJobId': previous_job_id,
             'pipelineId': pipeline_id,
         })
         self._save_job_with_stage(create_profiling_bundle_job, session)
         previous_job_id = create_profiling_bundle_job.job_id
 
+        profiling_bundle = CloudBundleModel(ArtifactTypesEnum.job_bundle, job_id=previous_job_id)
+        profiling_bundle.write_record(session)
+
         trigger_dev_cloud_profiling_job_data = TriggerDevCloudJobData(
             projectId=self.project_id,
             pipelineId=pipeline_id,
             previousJobId=previous_job_id,
-            setupBundleId=deployment_bundle_id,
+            setupBundleId=setup_bundle.id,
             jobBundleId=profiling_bundle.id,
-            remoteJobType=DevCloudRemoteJobTypeEnum.profiling
+            remoteJobType=DevCloudRemoteJobTypeEnum.profiling,
         )
 
         trigger_dev_cloud_profiling_job = TriggerDevCloudJobModel(trigger_dev_cloud_profiling_job_data)
@@ -98,13 +108,13 @@ class DevCloudProfilingPipelineCreator(ProfilingPipelineCreator, DevCloudPipelin
         profiling_job = self.create_profiling_job(previous_job_id=previous_job_id, session=session)
 
         # Create DevCloud profiling result artifact model for further upload
-        remote_job_result_artifact = self._create_result_artifact(session)
 
         # Create job model for parsing DevCloud profiling result
-        parse_profiling_result_data = ParseDevCloudResultJobData(
+        parse_profiling_result_data = JobData(
             projectId=self.project_id,
             pipelineId=pipeline_id,
             previousJobId=profiling_job.job_id,
-            resultArtifactId=remote_job_result_artifact.id)
+
+        )
         parse_profiling_result_job = ParseDevCloudProfilingResultJobModel(parse_profiling_result_data)
         self._save_job_with_stage(parse_profiling_result_job, session)

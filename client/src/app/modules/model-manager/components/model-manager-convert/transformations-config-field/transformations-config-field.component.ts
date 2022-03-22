@@ -40,11 +40,15 @@ export class TransformationsConfigFieldComponent {
     this.cdr.detectChanges();
   }
 
-  getError(): string {
+  get getError(): string {
     const control = this.group.get(this.field.name);
 
     if (control.hasError('required')) {
       return 'This field is required';
     }
+  }
+
+  get isConfigSelected(): boolean {
+    return Boolean(this.group.get(this.field.name).value);
   }
 }
