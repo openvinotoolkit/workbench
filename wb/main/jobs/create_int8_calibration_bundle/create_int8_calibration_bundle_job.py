@@ -51,7 +51,7 @@ class CreateInt8CalibrationBundleJob(IJob):
             project = job_model.project
             parent_project_model_path = project.topology.optimized_from_record.path
             dataset_path = int8_calibration_job_model.dataset.path
-            bundle_id = job_model.bundle_id
+            bundle_id = job_model.shared_artifact.id
         job_bundle_creator = JobBundleCreator(
             log_callback=lambda message, progress: self._job_state_subject.update_state(
                 log=message, progress=progress))
@@ -68,8 +68,8 @@ class CreateInt8CalibrationBundleJob(IJob):
     def on_success(self):
         with closing(get_db_session_for_celery()) as session:
             job: CreateInt8CalibrationBundleJobModel = self.get_job_model(session)
-            bundle: DownloadableArtifactsModel = job.bundle
-            bundle_path = DownloadableArtifactsModel.get_archive_path(bundle.id)
+            bundle: DownloadableArtifactsModel = job.shared_artifact
+            bundle_path = bundle.build_full_artifact_path()
             bundle.update(bundle_path)
             bundle.write_record(session)
             set_status_in_db(DownloadableArtifactsModel, bundle.id, StatusEnum.ready, session, force=True)

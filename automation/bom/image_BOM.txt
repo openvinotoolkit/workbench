@@ -38,6 +38,7 @@ migrations/versions/1e1c4fc30e7c_add_accuracy_import.py
 migrations/versions/2133a18b601e_load_text_dataset_support.py
 migrations/versions/241ced8ef5aa_create_project_report_pipeline.py
 migrations/versions/260ffba4b041_create_inference_report_pipeline.py
+migrations/versions/275bd4d6cd35_instant_assets_sharing.py
 migrations/versions/2a070ca81f20_tensor_distance_report_query_api.py
 migrations/versions/39bd11960375_edge_node_script_in_deployment.py
 migrations/versions/424ed0531227_add_annotate_dataset_job.py
@@ -537,13 +538,14 @@ wb/main/models/analyze_model_input_shape_job_model.py
 wb/main/models/apply_model_layout_model.py
 wb/main/models/artifacts_model.py
 wb/main/models/base_model.py
+wb/main/models/cloud_bundle_model.py
 wb/main/models/convert_dataset_jobs_model.py
 wb/main/models/convert_keras_job_model.py
 wb/main/models/cpu_info_model.py
 wb/main/models/create_accuracy_bundle_job_model.py
 wb/main/models/create_accuracy_scripts_job_model.py
+wb/main/models/create_int8_calibration_bundle_job_model.py
 wb/main/models/create_int8_calibration_scripts_job_model.py
-wb/main/models/create_int8calibration_bundle_job_model.py
 wb/main/models/create_profiling_bundle_job_model.py
 wb/main/models/create_profiling_scripts_job_model.py
 wb/main/models/create_reshape_model_scripts_model.py
@@ -600,6 +602,7 @@ wb/main/models/remote_target_model.py
 wb/main/models/reshape_model_job_model.py
 wb/main/models/setup_environment_job_model.py
 wb/main/models/setup_target_jobs_model.py
+wb/main/models/shared_artifact_model.py
 wb/main/models/single_inference_info_model.py
 wb/main/models/system_resources_model.py
 wb/main/models/target_model.py

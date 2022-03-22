@@ -49,9 +49,9 @@ class ExportProjectJobModel(JobsModel):
     def json(self):
         return {
             'status': self.pipeline.status_to_json(),
-            'artifactId': self.downloadable_artifact.id,
+            'artifactId': self.shared_artifact.id,
             'tabId': self.tab_id,
-            'projectName': self.downloadable_artifact.name,
+            'projectName': self.shared_artifact.name,
             'projectId': self.project_id
         }
 

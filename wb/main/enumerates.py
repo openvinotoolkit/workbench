@@ -518,6 +518,11 @@ class DevCloudRemoteJobTypeEnum(enum.Enum):
     accuracy = 'accuracy'
 
 
+class DevCloudAPIVersionEnum(enum.Enum):
+    v1 = 'v1'
+    v2 = 'v2'
+
+
 class BenchmarkAppReportTypesEnum(enum.Enum):
     no_counters = 'no_counters'
     average_counters = 'average_counters'

@@ -18,15 +18,16 @@ import enum
 import requests
 from typing_extensions import TypedDict
 
-from config.constants import CLOUD_SERVICE_HOST, CLOUD_SERVICE_PORT, CLOUD_SERVICE_API_PREFIX, REQUEST_TIMEOUT_SECONDS
-from wb.error.dev_cloud_errors import DevCloudNotRunningError, DevCloudHandshakeHTTPError, DevCloudDevicesHTTPError, \
-    DevCloudRemoteJobHTTPError
+from config.constants import CLOUD_SERVICE_HOST, CLOUD_SERVICE_PORT, REQUEST_TIMEOUT_SECONDS, CLOUD_SERVICE_API_PREFIX
+from wb.error.dev_cloud_errors import (DevCloudNotRunningError, DevCloudHandshakeHTTPError, DevCloudDevicesHTTPError,
+                                       DevCloudRemoteJobHTTPError)
 
 
 class DevCloudApiEndpointsEnum(enum.Enum):
     sync = 'sync'
     devices = 'devices'
-    remote_job = 'remote-job'
+    remote_job = 'remote-job'  # old way with sharing artifacts via HTTP
+    remote_job_trigger = 'remote-job/trigger'  # old way with sharing artifacts via shared folder
 
 
 class HandshakePayload(TypedDict):
@@ -39,11 +40,19 @@ class HandshakeResponse(TypedDict):
 
 
 class TriggerRemoteJobPayload(TypedDict):
-    wbSetupBundleId: int
-    wbJobBundleId: int
     platformTag: str
     wbPipelineId: int
     remoteJobType: str
+
+
+class TriggerSharedFolderRemoteJobPayload(TriggerRemoteJobPayload):
+    wbSetupBundlePath: str
+    wbJobBundlePath: str
+
+
+class TriggerNetworkRemotePipelinePayload(TriggerRemoteJobPayload):
+    wbSetupBundleId: int
+    wbJobBundleId: int
 
 
 class RemoteJobStatusResponse(TypedDict):
@@ -81,8 +90,17 @@ class DevCloudHttpService:
         return response.json()
 
     @staticmethod
-    def trigger_remote_job(payload: TriggerRemoteJobPayload) -> dict:
+    def trigger_network_remote_pipeline(payload: TriggerRemoteJobPayload) -> dict:
         url = f'{DevCloudHttpService._api_url}/{DevCloudApiEndpointsEnum.remote_job.value}'
+        return DevCloudHttpService._trigger_remote_job(url, payload)
+
+    @staticmethod
+    def trigger_shared_folder_remote_pipeline(payload: TriggerRemoteJobPayload) -> dict:
+        url = f'{DevCloudHttpService._api_url}/{DevCloudApiEndpointsEnum.remote_job_trigger.value}'
+        return DevCloudHttpService._trigger_remote_job(url, payload)
+
+    @staticmethod
+    def _trigger_remote_job(url: str, payload: TriggerRemoteJobPayload):
         response = requests.post(url=url, json=payload, timeout=REQUEST_TIMEOUT_SECONDS)
         if response.status_code != requests.codes['ok']:
             raise DevCloudRemoteJobHTTPError('Unable to trigger DevCloud remote job', response=response)
