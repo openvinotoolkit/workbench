@@ -17,7 +17,7 @@
 from pathlib import Path
 from typing import Dict, Type
 
-from datumaro.components.extractor import DatasetItem
+from datumaro import DatasetItem
 from openvino.tools.accuracy_checker.representation import BaseRepresentation
 
 try:

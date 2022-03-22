@@ -34,11 +34,10 @@ class DatumaroTool(PythonModuleTool):
         self.set_parameter('--input-format', input_format.value, ConsoleParametersTypes.dataset_format)
         self.set_parameter('--output-format', output_format.value, ConsoleParametersTypes.dataset_format)
 
-    def set_input_output_paths(self, input_path: str, output_path: Optional[str]):
-        self.set_parameter('--input-path', input_path, ConsoleParametersTypes.path)
-        if output_path:
-            self.set_parameter('--output-dir', output_path, ConsoleParametersTypes.path)
+    def set_path(self, param_name: Optional[str], path: str):
+        if path:
+            param = f'--{param_name}' if param_name else ''
+            self.set_parameter(param, path, ConsoleParametersTypes.path)
 
-    def enable_image_copy(self):
-        self.set_parameter('--', True, ConsoleParametersTypes.flag)
-        self.set_parameter('--save-images', True, ConsoleParametersTypes.flag)
+    def set_flag(self, param_name: str):
+        self.set_parameter(f'--{param_name}', True, ConsoleParametersTypes.flag)

@@ -13,7 +13,9 @@
  You may obtain a copy of the License at
       https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
 """
+from __future__ import annotations
 import enum
+from typing import Optional
 
 
 class TaskEnum(enum.Enum):
@@ -56,5 +58,12 @@ class DatasetTypesEnum(enum.Enum):
     # text
     csv = 'csv'
 
-    def is_nlp(self):
+    @classmethod
+    def get_value(cls, value: str) -> Optional[DatasetTypesEnum]:
+        for item in cls:
+            if item.value == value:
+                return item
+            return None
+
+    def is_nlp(self) -> bool:
         return self in {self.csv, }

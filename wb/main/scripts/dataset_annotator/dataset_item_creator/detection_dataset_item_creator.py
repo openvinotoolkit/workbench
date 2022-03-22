@@ -16,8 +16,7 @@
 from pathlib import Path
 from typing import Union
 
-from datumaro.components.extractor import DatasetItem, Bbox
-from datumaro.util.image import Image
+from datumaro import Bbox, DatasetItem, Image
 from openvino.tools.accuracy_checker.representation import DetectionPrediction, ContainerPrediction
 
 try:

@@ -16,8 +16,7 @@
 from pathlib import Path
 
 from openvino.tools.accuracy_checker.representation import ContainerPrediction, CoCoInstanceSegmentationPrediction
-from datumaro.components.extractor import DatasetItem, Polygon
-from datumaro.util.image import Image
+from datumaro import DatasetItem, Image, Polygon
 
 try:
     from wb.main.shared.enumerates import TaskEnum

@@ -20,8 +20,7 @@ from pathlib import Path
 from typing import Iterable, Union
 
 import cv2
-from datumaro.components.dataset import Dataset
-from datumaro.components.extractor import AnnotationType, LabelCategories, DatasetItem
+from datumaro import AnnotationType, Dataset, DatasetItem, LabelCategories
 from openvino.tools.accuracy_checker.evaluators import ModelEvaluator
 from openvino.tools.accuracy_checker.representation import BaseRepresentation
 

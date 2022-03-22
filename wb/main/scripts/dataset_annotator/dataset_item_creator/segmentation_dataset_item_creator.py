@@ -17,8 +17,7 @@ from pathlib import Path
 
 import numpy as np
 from openvino.tools.accuracy_checker.representation import SegmentationPrediction
-from datumaro.components.extractor import DatasetItem, Mask
-from datumaro.util.image import Image
+from datumaro import DatasetItem, Image, Mask
 
 try:
     from wb.main.shared.enumerates import TaskEnum

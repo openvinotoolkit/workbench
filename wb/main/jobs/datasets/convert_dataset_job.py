@@ -86,14 +86,16 @@ class ConvertDatasetJob(BaseDatasetJob):
                        dataset_format: DatasetTypesEnum):
         tool = DatumaroTool()
         tool.set_mode(DatumaroModesEnum.convert)
-        tool.set_input_output_paths(original_dataset.path, result_dataset.path)
+        tool.set_path('input-path', original_dataset.path)
+        tool.set_path('output-dir', result_dataset.path)
         tool.set_conversion(dataset_format, self._format_conversion_map[dataset_format])
-        tool.enable_image_copy()
+        tool.set_flag('')
+        tool.set_flag('save-images')
 
         runner = LocalRunner(tool)
         return_code, _ = runner.run_console_tool()
         if return_code:
-            raise DatumaroError('Error during Datumaro conversion.')
+            raise DatumaroError('Error during Datumaro conversion.', self.job_id)
 
         result_format = self._format_compatibility_map.get(self._format_conversion_map[dataset_format],
                                                            self._format_conversion_map[dataset_format])
