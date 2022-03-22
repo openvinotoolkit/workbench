@@ -135,21 +135,12 @@ export class CalibrationUtils {
     devCloud?: boolean
   ) {
     try {
-      this.modelManagerPage.openOMZTab();
-
       const internetConnectionMessage = TestUtils.getElementByDataTestId('no-connect-message');
       if ((await internetConnectionMessage.isPresent()) && browser.params.isNightly) {
         return false;
       }
 
       await this.testUtils.modelDownloadPage.selectAndDownloadModel(modelFile.name);
-
-      // TODO: 32321
-      // Check links in model description
-      // const detailsButton = await TestUtils.getElementByDataTestId('details');
-      // await detailsButton.click();
-      // await browser.sleep(700);
-      // await this.testUtils.checkAnotherTabOpening();
 
       if (modelFile.framework !== Frameworks.OPENVINO) {
         const configurationMultiplier = browser.params.isNightly ? 5 : 3;
