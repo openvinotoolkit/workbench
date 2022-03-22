@@ -51,4 +51,5 @@ class RemoteProfilingJob(ProfilingJob, RemoteJobMixin):
         job_script_path = os.path.join(self.job_bundle_path, JOBS_SCRIPTS_FOLDER_NAME, JOB_SCRIPT_NAME)
         venv_path = os.path.join(self.openvino_bundle_path, PYTHON_VIRTUAL_ENVIRONMENT_DIR)
         return WorkbenchJobTool(job_script_path=job_script_path,
+                                openvino_package_root_path=self.openvino_bundle_path,
                                 job_bundle_path=self.job_bundle_path, venv_path=venv_path)

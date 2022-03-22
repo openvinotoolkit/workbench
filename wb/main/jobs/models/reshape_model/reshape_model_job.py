@@ -54,6 +54,7 @@ class ReshapeModelJob(IJob):
             domain = job_model.model.domain
 
             tool = WorkbenchJobTool(job_script_path=job_script_path,
+                                    openvino_package_root_path=self.openvino_bundle_path,
                                     job_bundle_path=job_bundle_path)
 
             parser = ReshapeToolParser(self._job_state_subject)

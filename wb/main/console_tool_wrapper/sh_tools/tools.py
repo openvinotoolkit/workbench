@@ -26,6 +26,9 @@ class ShTool(ConsoleTool):
         self.exe = command
         self.parameter_prefix = '-'
 
+    def set_openvino_package_root_parameter(self, value: str):
+        self.set_parameter(name='openvino-package-root', value=value, parameter_type=ConsoleParametersTypes.path)
+
 
 # pylint: disable=invalid-name
 class SetupTargetToolResult:

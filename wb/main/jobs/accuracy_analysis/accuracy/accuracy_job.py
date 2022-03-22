@@ -72,6 +72,7 @@ class AccuracyJob(IJob):
 
             tool = WorkbenchJobTool(job_script_path=self._job_script_path,
                                     job_bundle_path=self.job_bundle_path,
+                                    openvino_package_root_path=self._openvino_path,
                                     venv_path=self._venv_path)
 
             parser = AccuracyCheckerParser(job_state_subject=self._job_state_subject)

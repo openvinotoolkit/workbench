@@ -48,4 +48,5 @@ class LocalProfilingJob(ProfilingJob):
         job_script_path = str(job.profiling_job_script_path)
 
         return WorkbenchJobTool(job_script_path=job_script_path,
+                                openvino_package_root_path=self.openvino_bundle_path,
                                 job_bundle_path=job_bundle_path)

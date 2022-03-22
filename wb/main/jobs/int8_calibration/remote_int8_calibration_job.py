@@ -66,6 +66,7 @@ class RemoteInt8CalibrationJob(Int8CalibrationJob, RemoteJobMixin):
         target: ProjectsModel = job.project.target
         venv_path = os.path.join(target.bundle_path, PYTHON_VIRTUAL_ENVIRONMENT_DIR)
         return WorkbenchJobTool(job_script_path=job_script_path,
+                                openvino_package_root_path=target.bundle_path,
                                 job_bundle_path=self.job_bundle_path, venv_path=venv_path)
 
     def get_openvino_bundle_path(self, session: Session) -> str:

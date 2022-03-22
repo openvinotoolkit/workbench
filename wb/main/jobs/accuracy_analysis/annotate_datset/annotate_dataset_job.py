@@ -50,6 +50,7 @@ class AnnotateDatasetJob(IJob):
             annotate_dataset_job_model: AnnotateDatasetJobModel = self.get_job_model(session)
 
             tool = WorkbenchJobTool(job_script_path=self._job_script_path,
+                                    openvino_package_root_path=self._openvino_path,
                                     job_bundle_path=self.job_bundle_path,
                                     venv_path=self._venv_path)
 

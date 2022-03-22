@@ -90,6 +90,7 @@ def fill_ping_parameters_for_remote_target(target_id: int, tool: PingTargetTool,
 
 
 def fill_ping_parameters_from_default(tool: PingTargetTool, default_parameters):
+    tool.set_openvino_package_root_parameter(default_parameters.openvino_package_root)
     tool.set_output_path_parameter(default_parameters.output)
 
 
