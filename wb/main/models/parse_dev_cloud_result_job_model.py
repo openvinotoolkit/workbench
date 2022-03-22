@@ -14,7 +14,7 @@
       https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
 """
 
-from sqlalchemy import Column, Integer, ForeignKey
+from sqlalchemy import Boolean, Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 
 from wb.main.models.jobs_model import JobsModel, JobData
@@ -29,16 +29,17 @@ class ParseDevCloudResultJobModel(JobsModel):
 
     job_id = Column(Integer, ForeignKey(JobsModel.job_id), primary_key=True)
 
-    result_artifact_id = Column(Integer, ForeignKey('downloadable_artifacts.id'), nullable=False)
+    are_results_obtained = Column(Boolean, default=False)
+    result_artifact_id = Column(Integer, ForeignKey('shared_artifacts.id'), nullable=True)
 
     # Relationship typings
-    result_artifact = relationship('DownloadableArtifactsModel',
+    result_artifact = relationship('SharedArtifactModel',
                                    foreign_keys=[result_artifact_id],
                                    cascade='delete,all', uselist=False)
 
     def __init__(self, data: ParseDevCloudResultJobData):
         super().__init__(data)
-        self.result_artifact_id = data['resultArtifactId']
+        self.result_artifact_id = data.get('resultArtifactId')
 
     def propagate_status_to_artifact(self):
         self.result_artifact.status = self.status

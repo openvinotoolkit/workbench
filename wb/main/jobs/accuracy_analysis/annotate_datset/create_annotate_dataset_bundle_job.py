@@ -55,7 +55,7 @@ class CreateAnnotateDatasetBundleJob(IJob):
             project = job_model.project
             model_path = project.topology.original_model.path
             dataset_path = annotate_dataset_job_model.project.dataset.dataset_data_dir
-            bundle_id = job_model.bundle_id
+            bundle_id = job_model.shared_artifact.id
             annotate_dataset_artifacts_path = Path(DATASET_ANNOTATION_ARTIFACTS_FOLDER) / str(job_model.pipeline_id)
 
         configuration_path = annotate_dataset_artifacts_path / JOBS_SCRIPTS_FOLDER_NAME / DATASET_ANNOTATION_ACCURACY_CONFIGURATION_FILE_NAME
@@ -80,8 +80,8 @@ class CreateAnnotateDatasetBundleJob(IJob):
         with closing(get_db_session_for_celery()) as session:
             job: CreateAccuracyBundleJobModel = self.get_job_model(session)
             # TODO: [61937] Move to separate DBObserver
-            bundle: DownloadableArtifactsModel = job.bundle
-            bundle_path = DownloadableArtifactsModel.get_archive_path(bundle.id)
+            bundle: DownloadableArtifactsModel = job.shared_artifact
+            bundle_path = bundle.build_full_artifact_path()
             bundle.update(bundle_path)
             bundle.write_record(session)
             set_status_in_db(DownloadableArtifactsModel, bundle.id, StatusEnum.ready, session, force=True)
