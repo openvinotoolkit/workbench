@@ -48,7 +48,14 @@ describe('UI tests on Running inference on VPU', () => {
   it('Upload FP16 Classification model, upload ImageNet dataset, run VPU inference, check accuracy and model analysis', async () => {
     const modelFile = browser.params.precommit_scope.resources.classificationModels.squeezenetV1;
     const inferenceTarget = InferenceType.VPU;
-    await inferenceUtils.runInferencePipelineThroughUpload(modelFile, datasetFileImageNet, inferenceTarget, null, null, browser.params.isDevCloud);
+    await inferenceUtils.runInferencePipelineThroughUpload(
+      modelFile,
+      datasetFileImageNet,
+      inferenceTarget,
+      null,
+      null,
+      browser.params.isDevCloud
+    );
 
     const inferences: IInferenceConfiguration[] = [
       { batch: 2, nireq: 3 },
