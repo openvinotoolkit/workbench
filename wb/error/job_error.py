@@ -15,7 +15,7 @@
 """
 import json
 
-from config.constants import CELERY_RETRY_COUNTDOWN, CELERY_RETRY_MAX_RETRY
+from config.constants import CELERY_RETRY_COUNTDOWN, CELERY_RETRY_MAX_RETRY, TRANSFORMERS_ONNX_ERROR_MAP_JSON
 from wb.error.general_error import GeneralError
 from wb.error.code_registry import CodeRegistry
 from wb.main.enumerates import RemoteSetupStatusMessagesEnum, RemoteSetupStatusCodeEnum
@@ -109,7 +109,7 @@ class SetupTargetError(JobGeneralError):
 class TransformersONNXConversionError(JobGeneralError):
     code = CodeRegistry.get_transformers_onnx_error_code()
 
-    with open('wb/error/transformers_onnx_conversion_error_map.json') as f:
+    with open(TRANSFORMERS_ONNX_ERROR_MAP_JSON) as f:
         message_map = json.load(f)
 
     def __init__(self, message: str,  job_id: int):
