@@ -1,7 +1,7 @@
 """Enable fastseg models to appear in the OMZ table
 
 Revision ID: 9ede8e012999
-Revises: c2f12b313b48
+Revises: f7fcb58b99cd
 Create Date: 2022-02-11 15:23:34.127963
 
 """
@@ -28,7 +28,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = '9ede8e012999'
-down_revision = 'c2f12b313b48'
+down_revision = 'f7fcb58b99cd'
 branch_labels = None
 depends_on = None
 
