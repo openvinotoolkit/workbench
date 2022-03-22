@@ -1,6 +1,12 @@
-FROM ${BASE_IMAGE}
+FROM ubuntu:20.04
 
 SHELL ["/bin/bash", "+x", "-c"]
+
+ARG http_proxy
+ARG https_proxy
+
+ENV http_proxy $http_proxy
+ENV https_proxy $https_proxy
 
 ARG db_password
 ARG rabbitmq_password
@@ -17,7 +23,7 @@ ENV RABBITMQ_PASSWORD $rabbitmq_password
 ENV OPENVINO_WORKBENCH_ROOT ${INTEL_OPENVINO_DIR}/tools/workbench
 ENV WHEELS_PATH ${OPENVINO_WORKBENCH_ROOT}/wheels
 ENV OPENVINO_WORKBENCH_DATA_PATH ${OPENVINO_WORKBENCH_ROOT}/wb/data
-ENV PYTHONPATH ${PYTHONPATH}:${OPENVINO_WORKBENCH_ROOT}:${OPENVINO_WORKBENCH_ROOT}/wb/main/console_tool_wrapper/winograd_tool/winograd_cli_tool:${INTEL_OPENVINO_DIR}/tools/benchmark_tool:${OPENVINO_WORKBENCH_ROOT}/model_analyzer:${INTEL_OPENVINO_DIR}/tools/benchmark_tool
+ENV PYTHONPATH ${PYTHONPATH}:${OPENVINO_WORKBENCH_ROOT}:${OPENVINO_WORKBENCH_ROOT}/model_analyzer
 
 ENV USER_NAME workbench
 ENV USER_ID 5665

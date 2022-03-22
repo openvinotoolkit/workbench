@@ -1,37 +1,22 @@
 #!/usr/bin/env bash
 
 TEMP_FOLDER=/tmp/build_wb
-PATH_TO_WB_REPO=$(pwd)
 HTTP_PROXY=${http_proxy}
 HTTPS_PROXY=${https_proxy}
 IMAGE_NAME=workbench
 IMAGE_TAG=local
 OPENVINO_VERSION="automation/Jenkins/openvino_version.yml"
+TERMINAL_COLOR_MESSAGE='\033[1;33m'
+TERMINAL_COLOR_CLEAR='\033[0m'
 
 while (( "$#" )); do
   case "$1" in
-    --wb-path)
-      PATH_TO_WB_REPO=$2
-      shift 2
-      ;;
-    --base-image)
-      BASE_IMAGE=$2
-      shift 2
-      ;;
     --wheels-path)
       WHEELS_PATH=$2
       shift 2
       ;;
     --bundles-path)
       BUNDLES_PATH=$2
-      shift 2
-      ;;
-    --http-proxy)
-      HTTP_PROXY=$2
-      shift 2
-      ;;
-    --https-proxy)
-      HTTPS_PROXY=$2
       shift 2
       ;;
     *)
@@ -43,13 +28,12 @@ done
 
 set -e
 
-FOLDER=$(basename $PATH_TO_WB_REPO)
-if [ $FOLDER != "workbench" ]; then
-  echo "Run script from workbench folder"
-  exit 1
-fi
+echo -e "${TERMINAL_COLOR_MESSAGE} The script must be run from the root folder of the Workbench ${TERMINAL_COLOR_CLEAR}"
+echo -e "${TERMINAL_COLOR_MESSAGE} Also install 'NVM' from repository 'https://github.com/nvm-sh/nvm' and install client dependencies in clien folder with command 'npm install'${TERMINAL_COLOR_CLEAR}"
+echo
 
-pushd ${PATH_TO_WB_REPO}
+ROOT_FOLDER="${PWD}"
+pushd ${ROOT_FOLDER}
 
   pushd client
     source ${NVM_DIR}/nvm.sh && nvm use 14
@@ -61,9 +45,9 @@ pushd ${PATH_TO_WB_REPO}
   fi
   mkdir $TEMP_FOLDER
   pushd $TEMP_FOLDER
-    rsync -av --progress ${PATH_TO_WB_REPO} ./ --exclude={'venv','venv_tf2','tests','client','.git','wb/data','.venv','.unified_venv'}
+    rsync -av --progress ${ROOT_FOLDER} ./ --exclude={'venv','venv_tf2','tests','client','.git','wb/data','.venv','.unified_venv'}
 
-    VERSIONS_FILE="${PATH_TO_WB_REPO}/automation/Jenkins/openvino_version.yml"
+    VERSIONS_FILE="${ROOT_FOLDER}/automation/Jenkins/openvino_version.yml"
 
     WHEELS_FOLDER="${TEMP_FOLDER}/workbench/wheels"
     mkdir ${WHEELS_FOLDER}
@@ -92,18 +76,18 @@ pushd ${PATH_TO_WB_REPO}
       popd
     fi
 
-    cp ${PATH_TO_WB_REPO}/docker/dockerfiles/Dockerfile_opensource_image.template Dockerfile
-    sed -i -E "s|FROM .*$|FROM ${BASE_IMAGE}|g" Dockerfile
+    cp ${ROOT_FOLDER}/docker/dockerfiles/Dockerfile_opensource_image.template Dockerfile
+
     docker build -t ${IMAGE_NAME}:${IMAGE_TAG} . \
                   --no-cache \
-                  --build-arg https_proxy=${HTTP_PROXY} \
-                  --build-arg http_proxy=${HTTPS_PROXY} \
                   --build-arg no_proxy=localhost,127.0.0.1,intel.com,.intel.com \
                   --build-arg rabbitmq_password=openvino \
-                  --build-arg db_password=openvino
+                  --build-arg db_password=openvino \
+                  $([ -z ${http_proxy+x} ] || printf -- "--build-arg http_proxy=${http_proxy}") \
+                  $([ -z ${https_proxy+x} ] || printf -- "--build-arg https_proxy=${https_proxy}")
   popd
 
 popd
 
-echo "For run image execute command:"
+echo "To run the image, execute the following command:"
 echo "docker rm local_build || true && openvino-workbench --image ${IMAGE_NAME}:${IMAGE_TAG} --container-name local_build"
