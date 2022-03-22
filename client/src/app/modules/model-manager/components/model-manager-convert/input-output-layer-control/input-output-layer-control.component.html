@@ -1,16 +1,12 @@
 <div class="row" data-test-id="name-row">
-  <span class="wb-subtitle-1 layer-label">
-    <span class="index"></span>
-    {{ isInputLayer() ? 'Input' : 'Output' }} Name:
-  </span>
-
+  <span class="index"></span>
   <wb-select-autocomplete
-    class="field"
-    placeholder="Input name..."
     [control]="layerNameFormControl"
     [testId]="layerType + '-layer-name-' + controlIndex"
     [options]="availableLayers"
     [skipOptionsValidation]="true"
+    [label]="(isInputLayer ? 'Input' : 'Output') + ' Name'"
+    [validators]="nameFieldValidators"
   ></wb-select-autocomplete>
 
   <wb-button
@@ -23,11 +19,10 @@
   </wb-button>
 </div>
 
-<ng-container *ngIf="isInputLayer()">
+<div *ngIf="isInputLayer" class="layer-properties">
   <!--  Shape control row  -->
   <div class="row narrow-fields" data-test-id="specify-shape-row">
     <wb-config-form-field
-      class="enlarged-control shape"
       testId="overrideShape"
       [field]="inputLayerUtilFieldsMap.overrideShape"
       [group]="utilFormGroup"
@@ -47,13 +42,12 @@
   <!--  Freeze input control row  -->
   <div class="row" data-test-id="freeze-row">
     <wb-config-form-field
-      class="hint-first enlarged-control freeze-placeholder"
       [field]="inputLayerUtilFieldsMap.useFreezePlaceholderWithValue"
       [group]="utilFormGroup"
     ></wb-config-form-field>
     <mat-form-field
       *ngIf="useFreezePlaceholderWithValueControl.value"
-      class="field"
+      class="freeze-field"
       appearance="outline"
       floatLabel="never"
     >
@@ -70,11 +64,7 @@
     data-test-id="means-row"
     *ngIf="utilFormGroup.contains(inputLayerUtilFieldsMap.useMeans.name)"
   >
-    <wb-config-form-field
-      class="hint-first enlarged-control means"
-      [field]="inputLayerUtilFieldsMap.useMeans"
-      [group]="utilFormGroup"
-    ></wb-config-form-field>
+    <wb-config-form-field [field]="inputLayerUtilFieldsMap.useMeans" [group]="utilFormGroup"></wb-config-form-field>
     <wb-dimensions-input
       *ngIf="useMeansInputShapesControl.value"
       [removableFields]="false"
@@ -90,11 +80,7 @@
     data-test-id="scales-row"
     *ngIf="utilFormGroup.contains(inputLayerUtilFieldsMap.useScales.name)"
   >
-    <wb-config-form-field
-      class="hint-first enlarged-control scales"
-      [field]="inputLayerUtilFieldsMap.useScales"
-      [group]="utilFormGroup"
-    ></wb-config-form-field>
+    <wb-config-form-field [field]="inputLayerUtilFieldsMap.useScales" [group]="utilFormGroup"></wb-config-form-field>
     <wb-dimensions-input
       *ngIf="useScalesInputShapesControl.value"
       [removableFields]="false"
@@ -104,4 +90,4 @@
       (changeInputValues)="scalesControl.setValue($event)"
     ></wb-dimensions-input>
   </div>
-</ng-container>
+</div>
