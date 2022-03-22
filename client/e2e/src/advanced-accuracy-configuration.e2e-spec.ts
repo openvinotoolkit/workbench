@@ -1,11 +1,12 @@
 import { browser } from 'protractor';
 
+import { ModelPrecisionEnum } from '@store/model-store/model.model';
+
 import { InferenceType } from './pages/configuration-wizard.po';
 import { Frameworks, TestUtils } from './pages/test-utils';
 import { InferenceUtils } from './pages/inference-utils';
 import { CalibrationUtils } from './pages/calibration-utils';
 import { LoginPage } from './pages/login.po';
-import { ModelPrecisionEnum } from '@store/model-store/model.model';
 
 describe('UI tests on Advanced Accuracy Configuration', () => {
   const testUtils = new TestUtils();
