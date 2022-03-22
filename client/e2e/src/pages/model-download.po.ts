@@ -7,7 +7,6 @@ import { TestUtils } from './test-utils';
 export class ModelDownloadPage {
   until = protractor.ExpectedConditions;
 
-  // TODO: these elements are to be the correct ones once the old OMZ tab is deleted
   public elements = {
     // TODO: change test-id
     OMZTab: TestUtils.getElementByDataTestId('open_model_zoo_(v2)'),
@@ -55,8 +54,14 @@ export class ModelDownloadPage {
   async checkModelDetails(): Promise<void> {
     const modelDescription: string = await this.elements.modelDescription.getText();
     const modelLicense: string = await this.elements.modelLicense.getText();
+
+    // Verify that text exists
     expect(modelDescription.length).toBeGreaterThan(0);
     expect(modelLicense.length).toBeGreaterThan(0);
+
+    // Verify the external links pop-ups
+    await new TestUtils().checkExternalLinkDialogWindow(this.elements.modelDescription);
+    await new TestUtils().checkExternalLinkDialogWindow(this.elements.modelLicense);
 
     // Model features
     const framework = await this.elements.getDetailValue(this.elements.frameworkDetail);
