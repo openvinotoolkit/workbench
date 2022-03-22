@@ -80,11 +80,11 @@ pushd ${ROOT_FOLDER}
 
     docker build -t ${IMAGE_NAME}:${IMAGE_TAG} . \
                   --no-cache \
-                  --build-arg no_proxy=localhost,127.0.0.1,intel.com,.intel.com \
-                  --build-arg rabbitmq_password=openvino \
-                  --build-arg db_password=openvino \
-                  $([ -z ${http_proxy+x} ] || printf -- "--build-arg http_proxy=${http_proxy}") \
-                  $([ -z ${https_proxy+x} ] || printf -- "--build-arg https_proxy=${https_proxy}")
+                  --build-arg RABBITMQ_PASSWORD=openvino \
+                  --build-arg DB_PASSWORD=openvino \
+                  $([ -z ${no_proxy+x} ] || printf -- "--build-arg NO_PROXY=${no_proxy}") \
+                  $([ -z ${http_proxy+x} ] || printf -- "--build-arg HTTP_PROXY=${http_proxy}") \
+                  $([ -z ${https_proxy+x} ] || printf -- "--build-arg HTTPS_PROXY=${https_proxy}")
   popd
 
 popd

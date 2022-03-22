@@ -2,14 +2,14 @@ FROM ubuntu:20.04
 
 SHELL ["/bin/bash", "+x", "-c"]
 
-ARG http_proxy
-ARG https_proxy
+ARG HTTP_PROXY
+ARG HTTPS_PROXY
 
-ENV http_proxy $http_proxy
-ENV https_proxy $https_proxy
+ENV http_proxy $HTTP_PROXY
+ENV https_proxy $HTTPS_PROXY
 
-ARG db_password
-ARG rabbitmq_password
+ARG DB_PASSWORD
+ARG RABBITMQ_PASSWORD
 ARG PACKAGE_LINK
 ARG WHEELS_LINK
 ARG OPENVINO_OPENCV_DOWNLOAD_SERVER
@@ -19,7 +19,7 @@ ENV ACCURACY_CHECKER_LOG_LEVEL ERROR
 ENV GIT_PYTHON_REFRESH quiet
 
 ENV INTEL_OPENVINO_DIR /opt/intel/openvino_2022
-ENV RABBITMQ_PASSWORD $rabbitmq_password
+ENV RABBITMQ_PASSWORD $RABBITMQ_PASSWORD
 ENV OPENVINO_WORKBENCH_ROOT ${INTEL_OPENVINO_DIR}/tools/workbench
 ENV WHEELS_PATH ${OPENVINO_WORKBENCH_ROOT}/wheels
 ENV OPENVINO_WORKBENCH_DATA_PATH ${OPENVINO_WORKBENCH_ROOT}/wb/data
@@ -29,8 +29,9 @@ ENV USER_NAME workbench
 ENV USER_ID 5665
 ENV GROUP_NAME ${USER_NAME}
 ENV GROUP_ID ${USER_ID}
+ENV HOME_FOLDER /home/${USER_NAME}
 
-ENV DB_PASSWORD $db_password
+ENV DB_PASSWORD $DB_PASSWORD
 ENV DB_USER ${USER_NAME}
 ENV DB_NAME workbench
 
@@ -38,11 +39,11 @@ USER root
 
 RUN groupadd -g ${GROUP_ID} ${GROUP_NAME}
 RUN useradd ${USER_NAME} -u ${USER_ID} -g ${GROUP_ID} -ms /bin/bash  && \
-    chown ${USER_NAME} -R /home/${USER_NAME}
+    chown ${USER_NAME} -R ${HOME_FOLDER}
 
-ENV WORKBENCH_PUBLIC_DIR /home/${USER_NAME}/.workbench
+ENV WORKBENCH_PUBLIC_DIR ${HOME_FOLDER}/.workbench
 ENV WORKBENCH_POSTGRESQL_DATA_DIR ${WORKBENCH_PUBLIC_DIR}/postgresql_data_directory
-ENV JUPYTER_BASE_DIR /home/${USER_NAME}/.jupyter
+ENV JUPYTER_BASE_DIR ${HOME_FOLDER}/.jupyter
 ENV JUPYTER_USER_SETTINGS_DIR ${JUPYTER_BASE_DIR}/lab/user-settings
 ENV JUPYTER_TUTORIALS_DIR ${WORKBENCH_PUBLIC_DIR}/tutorials
 ENV NOTEBOOKS_VENV ${OPENVINO_WORKBENCH_DATA_PATH}/jupyter_env
@@ -62,6 +63,7 @@ ENV DEPENDENCIES " \
     gettext-base \
     unzip \
     dpkg-dev \
+    cmake \
 "
 
 # Preparing
@@ -69,7 +71,9 @@ RUN apt update && \
     apt install -y --no-install-recommends gnupg curl ca-certificates && \
     curl -L https://www.postgresql.org/media/keys/ACCC4CF8.asc -s | apt-key add - && \
     echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" | tee /etc/apt/sources.list.d/postgresql.list && \
-    apt remove -y gnupg
+    apt remove -y gnupg && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN sed -Ei 's/# deb-src /deb-src /' /etc/apt/sources.list && \
     apt update && \
@@ -101,12 +105,10 @@ RUN python3 -m pip install --no-cache-dir -r ${OPENVINO_WORKBENCH_ROOT}/requirem
 RUN python3 -m pip install -U pip setuptools wheel
 
 RUN chown -R ${USER_NAME} ${WHEELS_PATH} && \
-    OPENVINO_WHEELS=$(find ${WHEELS_PATH} -name "openvino-202*cp38*linux*.whl" -print -quit) && python3 -m pip install ${OPENVINO_WHEELS} && \
-    OPENVINO_DEV_WHEELS=$(find ${WHEELS_PATH} -name "openvino_dev*.whl" -print -quit) && python3 -m pip install "${OPENVINO_DEV_WHEELS}"
+    OPENVINO_WHEEL=$(find ${WHEELS_PATH} -name "openvino-202*cp38*linux*.whl" -print -quit) && python3 -m pip install ${OPENVINO_WHEEL} && \
+    OPENVINO_DEV_WHEEL=$(find ${WHEELS_PATH} -name "openvino_dev*.whl" -print -quit) && python3 -m pip install "${OPENVINO_DEV_WHEEL}"
 
 RUN chown -R ${USER_NAME}:${GROUP_NAME} ${JUPYTER_BASE_DIR}
-
-RUN xargs -n 1 curl -O < ${OPENVINO_WORKBENCH_ROOT}/docker/docker_python_lgpl.txt
 
 # Add ${USER_NAME} user to groups nginx, postgres and rabbitmq for running
 # services without sudo
