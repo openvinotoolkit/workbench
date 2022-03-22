@@ -30,6 +30,7 @@ import { OMZModelPrecisionEnum } from '../model-downloader-table/model-downloade
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy {
+  // TODO Reuse common fields and methods with HF component
   @ViewChild(MatPaginator) private _paginator: MatPaginator;
 
   readonly dataSource = new OpenModelZooDataSource();

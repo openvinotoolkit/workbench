@@ -1,5 +1,6 @@
 <wb-model-zoo-layout [isDetailsOpened]="!!selectedModel">
   <wb-model-zoo-content>
+    <!--  TODO Reuse wb-config-form-field component  -->
     <mat-form-field ngProjectAs="model-zoo-sort" appearance="outline">
       <mat-select [formControl]="sortControl">
         <mat-option *ngFor="let option of dataSource.sortOptions" [value]="option">
