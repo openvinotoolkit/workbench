@@ -1,11 +1,12 @@
 import { browser, protractor } from 'protractor';
 
+import { ModelPrecisionEnum } from '@store/model-store/model.model';
+
 import { AppPage } from './pages/home-page.po';
 import { Helpers } from './pages/helpers';
-import { Frameworks, TestUtils } from './pages/test-utils';
+import { TestUtils } from './pages/test-utils';
 import { LoginPage } from './pages/login.po';
 import { AnalyticsPopup } from './pages/analytics-popup.po';
-import { ModelPrecisionEnum } from '@store/model-store/model.model';
 
 describe('UI tests on Downloading Models', () => {
   let homePage: AppPage;
@@ -32,8 +33,15 @@ describe('UI tests on Downloading Models', () => {
     await homePage.openConfigurationWizard();
   });
 
-  // TODO: remove/adapt other tests once the old OMZ tab is deleted
-  fit('select model from table, download it and delete (OMZv2)', async () => {
+  it('list of models available for downloading is fetched', async () => {
+    await testUtils.modelManagerPage.goToModelManager();
+    await testUtils.clickElement(testUtils.modelDownloadPage.elements.OMZTab);
+    await browser.wait(testUtils.until.presenceOf(testUtils.modelDownloadPage.elements.modelCard));
+    await browser.sleep(1500);
+    expect(browser.isElementPresent(testUtils.modelDownloadPage.elements.modelCard)).toBeTruthy();
+  });
+
+  it('select model from table, download it and delete (OMZv2)', async () => {
     const model = { name: 'squeezenet1.1', precision: ModelPrecisionEnum.FP16 };
     const uploadedElementsCount = await testUtils.configurationWizard.uploadsModelsTableElementsCount();
     await testUtils.modelManagerPage.goToModelManager();
@@ -47,31 +55,19 @@ describe('UI tests on Downloading Models', () => {
     expect(await testUtils.configurationWizard.uploadsModelsTableElementsCount()).toEqual(uploadedElementsCount);
   });
 
-  it('list of models available for downloading is fetched', async () => {
-    await testUtils.modelManagerPage.goToModelManager();
-    await testUtils.modelManagerPage.openOMZTab();
-    expect(browser.isElementPresent(testUtils.modelDownloadPage.modelDownloadTable)).toBeTruthy();
-    expect(await testUtils.modelDownloadPage.downloadTableElementsCount()).toBeGreaterThan(0);
-  });
-
-  it('select model from table, download it and delete', async () => {
-    const model = { name: 'squeezenet1.1', framework: Frameworks.CAFFE };
-    const uploadedElementsCount = await testUtils.configurationWizard.uploadsModelsTableElementsCount();
-    await testUtils.modelManagerPage.goToModelManager();
-    await testUtils.modelManagerPage.openOMZTab();
-    expect(await browser.isElementPresent(testUtils.modelDownloadPage.modelDownloadTable)).toBeTruthy();
-    const modelName = await testUtils.modelDownloadPage.downloadModel(model.name);
-    await testUtils.modelDownloadPage.convertDownloadedModelToIR();
-    await testUtils.downloadAndDeleteModel(modelName, uploadedElementsCount);
-  });
-
   it('Downloading IR model', async () => {
+    const model = { name: 'person-detection-retail-0013', framework: 'openvino' };
     const uploadedElementsCount = await testUtils.configurationWizard.uploadsModelsTableElementsCount();
     await testUtils.modelManagerPage.goToModelManager();
-    await testUtils.modelManagerPage.openOMZTab();
-    expect(await browser.isElementPresent(testUtils.modelDownloadPage.modelDownloadTable)).toBeTruthy();
-    const modelName = await testUtils.modelDownloadPage.downloadModel('person-detection-retail-0013');
-    await testUtils.downloadAndDeleteModel(modelName, uploadedElementsCount);
+    await testUtils.clickElement(testUtils.modelDownloadPage.elements.OMZTab);
+    expect(await browser.isElementPresent(testUtils.modelDownloadPage.elements.modelCard)).toBeTruthy();
+    await testUtils.modelDownloadPage.selectAndDownloadModel('person-detection-retail-0013');
+    await browser.wait(
+      () => testUtils.configurationWizard.isUploadReady(model.name),
+      browser.params.defaultTimeout * 9
+    );
+    await testUtils.configurationWizard.deleteUploadedModel(model.name);
+    expect(await testUtils.configurationWizard.uploadsModelsTableElementsCount()).toEqual(uploadedElementsCount);
   });
 
   afterEach(async () => {

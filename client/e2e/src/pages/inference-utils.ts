@@ -279,16 +279,15 @@ export class InferenceUtils {
       await this.modelManagerPage.openOMZTab();
       expect(browser.isElementPresent(this.modelDownloadPage.modelDownloadTable)).toBeTruthy();
 
-      await this.modelDownloadPage.filterTable(model.name);
+      await this.modelDownloadPage.selectAndDownloadModel(model.name);
 
       // Verify external link pop-up
-      const details = await TestUtils.getElementByDataTestId('details');
-      await details.click();
-      await browser.sleep(700);
-      const omzInfoContainer = await TestUtils.getElementByDataTestId('omz-model-info');
-      await new TestUtils().checkExternalLinkDialogWindow(omzInfoContainer);
-
-      await this.modelDownloadPage.downloadModel(model.name, precision, model.framework);
+      // TODO: adapt, move to modelDownloadPage
+      // const details = await TestUtils.getElementByDataTestId('details');
+      // await details.click();
+      // await browser.sleep(700);
+      // const omzInfoContainer = await TestUtils.getElementByDataTestId('omz-model-info');
+      // await new TestUtils().checkExternalLinkDialogWindow(omzInfoContainer);
 
       // Wait uploading model before go to the Prepare Environment tab
       const modelUploadPanel = await this.modelManagerPage.modelUploadPanel;
