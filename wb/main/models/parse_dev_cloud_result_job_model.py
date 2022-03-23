@@ -4,17 +4,18 @@
 
  Copyright (c) 2020 Intel Corporation
 
- LEGAL NOTICE: Your use of this software and any required dependent software (the “Software Package”) is subject to
- the terms and conditions of the software license agreements for Software Package, which may also include
- notices, disclaimers, or license terms for third party or open source software
- included in or with the Software Package, and your use indicates your acceptance of all such terms.
- Please refer to the “third-party-programs.txt” or other similarly-named text file included with the Software Package
- for additional details.
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
-      https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
+      http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
 """
 
-from sqlalchemy import Column, Integer, ForeignKey
+from sqlalchemy import Boolean, Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 
 from wb.main.models.jobs_model import JobsModel, JobData
@@ -29,16 +30,17 @@ class ParseDevCloudResultJobModel(JobsModel):
 
     job_id = Column(Integer, ForeignKey(JobsModel.job_id), primary_key=True)
 
-    result_artifact_id = Column(Integer, ForeignKey('downloadable_artifacts.id'), nullable=False)
+    are_results_obtained = Column(Boolean, default=False)
+    result_artifact_id = Column(Integer, ForeignKey('shared_artifacts.id'), nullable=True)
 
     # Relationship typings
-    result_artifact = relationship('DownloadableArtifactsModel',
+    result_artifact = relationship('SharedArtifactModel',
                                    foreign_keys=[result_artifact_id],
                                    cascade='delete,all', uselist=False)
 
     def __init__(self, data: ParseDevCloudResultJobData):
         super().__init__(data)
-        self.result_artifact_id = data['resultArtifactId']
+        self.result_artifact_id = data.get('resultArtifactId')
 
     def propagate_status_to_artifact(self):
         self.result_artifact.status = self.status

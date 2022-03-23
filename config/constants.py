@@ -4,14 +4,15 @@
 
  Copyright (c) 2018 Intel Corporation
 
- LEGAL NOTICE: Your use of this software and any required dependent software (the “Software Package”) is subject to
- the terms and conditions of the software license agreements for Software Package, which may also include
- notices, disclaimers, or license terms for third party or open source software
- included in or with the Software Package, and your use indicates your acceptance of all such terms.
- Please refer to the “third-party-programs.txt” or other similarly-named text file included with the Software Package
- for additional details.
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
-      https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
+      http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
 """
 
 import os
@@ -161,12 +162,16 @@ CLOUD_SERVICE_API_PREFIX = 'api/v1'
 CLOUD_SERVICE_URL = get_env_var(name='CLOUD_SERVICE_URL')
 CLOUD_SERVICE_HOST = None
 CLOUD_SERVICE_PORT = None
+CLOUD_SHARED_FOLDER = None
 # dev cloud session duration in minutes
 CLOUD_SERVICE_SESSION_TTL_MINUTES = None
 
 if CLOUD_SERVICE_URL:
     CLOUD_SERVICE_HOST, CLOUD_SERVICE_PORT = parse_host_port_from_url(CLOUD_SERVICE_URL)
     CLOUD_SERVICE_SESSION_TTL_MINUTES = get_env_var(name='CLOUD_SERVICE_SESSION_TTL_MINUTES', cast_function=int)
+    CLOUD_SHARED_FOLDER = os.path.join(ESSENTIAL_DATA_FOLDER, 'bundles')
+
+SETUP_BUNDLE_SUBFOLDER = 'setup_bundle'
 
 WORKBENCH_NETWORK_ALIAS = get_env_var(name='NETWORK_ALIAS', default='localhost')
 
@@ -252,6 +257,7 @@ POT_RESULT_OPTIMIZED_DIR = 'optimized'
 ENABLED_FEATURE_PREVIEW_FILE = Path(ROOT_FOLDER) / '.features.json'
 
 FOLDER_PERMISSION = 0o775  # rwxrwxr-x
+FULL_ACCESS_FOLDER_PERMISSION = 0o777  # rwxrwxrwx
 FILE_PERMISSION = 0o664  # rw-rw-r--
 
 DATASET_LABELS_PATH = os.path.join(ROOT_FOLDER, 'wb', 'main', 'accuracy_utils', 'yml_templates', 'datasets_labels')

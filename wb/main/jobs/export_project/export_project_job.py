@@ -4,14 +4,15 @@
 
  Copyright (c) 2021 Intel Corporation
 
- LEGAL NOTICE: Your use of this software and any required dependent software (the “Software Package”) is subject to
- the terms and conditions of the software license agreements for Software Package, which may also include
- notices, disclaimers, or license terms for third party or open source software
- included in or with the Software Package, and your use indicates your acceptance of all such terms.
- Please refer to the “third-party-programs.txt” or other similarly-named text file included with the Software Package
- for additional details.
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
-      https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
+      http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
 """
 import json
 import os
@@ -90,8 +91,8 @@ class ExportProjectJob(IJob):
                     self._generate_calibration_config(calibration_config_path, project)
                 self._job_state_subject.update_state(status=StatusEnum.running, progress=40)
 
-                artifact = export_project_model.downloadable_artifact
-                archive_path = DownloadableArtifactsModel.get_archive_path(artifact.id)
+                artifact = export_project_model.shared_artifact
+                archive_path = artifact.build_full_artifact_path()
                 self._pack_project(archive_path, components_paths)
                 is_int8 = '_INT8' if project.topology.analysis_job.is_int8 else ''
                 package_name = project.topology.name + is_int8 + '_' + project.dataset.name
@@ -214,7 +215,7 @@ class ExportProjectJob(IJob):
     def on_failure(self, exception: Exception):
         with closing(get_db_session_for_celery()) as session:
             export_project_model: ExportProjectJobModel = self.get_job_model(session)
-            file_path = DownloadableArtifactsModel.get_archive_path(export_project_model.downloadable_artifact.id)
+            file_path = export_project_model.shared_artifact.build_full_artifact_path()
         if file_path and os.path.isfile(file_path):
             os.remove(file_path)
         super().on_failure(exception)

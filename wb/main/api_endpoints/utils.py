@@ -4,14 +4,15 @@
 
  Copyright (c) 2018 Intel Corporation
 
- LEGAL NOTICE: Your use of this software and any required dependent software (the “Software Package”) is subject to
- the terms and conditions of the software license agreements for Software Package, which may also include
- notices, disclaimers, or license terms for third party or open source software
- included in or with the Software Package, and your use indicates your acceptance of all such terms.
- Please refer to the “third-party-programs.txt” or other similarly-named text file included with the Software Package
- for additional details.
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
-      https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
+      http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
 """
 import hashlib
 import json
@@ -160,53 +161,9 @@ def delete_model_from_db(model_id: int):
 
 
 def delete_dataset_from_db(dataset_id: int):
-    for records in dataset_related_information(dataset_id):
-        DatasetsModel.delete_records(records, get_db_session_for_app())
-
     dataset = DatasetsModel.query.get(dataset_id)
-
     if dataset:
-        dataset_path = dataset.path
         dataset.delete_record(get_db_session_for_app())
-        remove_dir(dataset_path)
-
-
-def dataset_related_information(dataset_id: int):
-    projects = ProjectsModel.query.filter_by(dataset_id=dataset_id).all()
-    all_project_ids = [p.id for p in projects]
-
-    run_results, compound_configs = projects_related_information(all_project_ids)
-
-    all_accuracy_results = (
-        AccuracyJobsModel.query
-            .filter(AccuracyJobsModel.project_id.in_(all_project_ids))
-            .all()
-    )
-    all_int8_results = (
-        Int8CalibrationJobModel.query
-            .filter(Int8CalibrationJobModel.project_id.in_(all_project_ids))
-            .all()
-    )
-
-    return run_results, compound_configs, all_int8_results, all_accuracy_results, projects
-
-
-def projects_related_information(project_ids: List[int]) -> tuple:
-    compound_configs = (
-        ProfilingJobModel.query
-            .filter(ProfilingJobModel.project_id.in_(project_ids))
-            .all()
-    )
-
-    all_infer_config_ids = [i.job_id for i in compound_configs]
-
-    inference_results = (
-        SingleInferenceInfoModel.query
-            .filter(SingleInferenceInfoModel.profiling_job_id.in_(all_infer_config_ids))
-            .all()
-    )
-
-    return inference_results, compound_configs
 
 
 def find_projects(model_id: int, all_levels: bool) -> tuple:
