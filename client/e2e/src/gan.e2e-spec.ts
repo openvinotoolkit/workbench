@@ -24,9 +24,9 @@ xdescribe('Instance segmentation tests', () => {
     await analyticsPopup.refuseAnalyticsUsage();
     await testUtils.homePage.openConfigurationWizard();
     dataSetFileCoco.name = testUtils.helpers.generateName();
-    dataSetFileSuperRes.name = testUtils.helpers.generateName();
+    //dataSetFileSuperRes.name = testUtils.helpers.generateName();
     await testUtils.uploadDataset(dataSetFileCoco);
-    await testUtils.uploadDataset(dataSetFileSuperRes);
+    //await testUtils.uploadDataset(dataSetFileSuperRes);
   });
 
   beforeEach(async () => {
@@ -35,13 +35,15 @@ xdescribe('Instance segmentation tests', () => {
     await testUtils.modelManagerPage.goToModelManager();
   });
 
-  it('Upload GAN model (single-image-super-resolution-1032), check accuracy, run calibration', async () => {
+  //TODO: 82461
+  xit('Upload GAN model (single-image-super-resolution-1032), check accuracy, run calibration', async () => {
     const modelFile = browser.params.precommit_scope.resources.ganModels.singleImageSuperResolution1032;
     modelFile.name = testUtils.helpers.generateName();
     await calibrationUtils.runCalibrationWithAccuracyCheck(modelFile, dataSetFileSuperRes, InferenceType.CPU, true);
   });
 
-  it('Upload GAN model (text-image-super-resolution-0001), check accuracy, run calibration', async () => {
+  //TODO: 82461
+  xit('Upload GAN model (text-image-super-resolution-0001), check accuracy, run calibration', async () => {
     const modelFile = browser.params.precommit_scope.resources.ganModels.textImageSuperResolution0001;
     modelFile.name = testUtils.helpers.generateName();
     await calibrationUtils.runCalibrationWithAccuracyCheck(modelFile, dataSetFileSuperRes, InferenceType.CPU, true);
@@ -66,26 +68,29 @@ xdescribe('Instance segmentation tests', () => {
     await calibrationUtils.runCalibrationWithAccuracyCheck(modelFile, dataSetFileCoco, InferenceType.CPU, true);
   });
 
-  it('Upload GAN model (gmcnn-places2-tf), check accuracy, run calibration', async () => {
+  //TODO: 82461
+  xit('Upload GAN model (gmcnn-places2-tf), check accuracy, run calibration', async () => {
     const modelFile = browser.params.precommit_scope.resources.ganModels.gmcnnPlaces2;
     modelFile.name = testUtils.helpers.generateName();
     await calibrationUtils.runCalibrationWithAccuracyCheck(modelFile, dataSetFileSuperRes, InferenceType.CPU, true);
   });
 
-  // 43320
+  //TODO: 43320, 82461
   xit('Upload GAN model (tensor_layer_srgan), check accuracy, run calibration', async () => {
     const modelFile = browser.params.precommit_scope.resources.ganModels.tensorLayerSrgan;
     modelFile.name = testUtils.helpers.generateName();
     await calibrationUtils.runCalibrationWithAccuracyCheck(modelFile, dataSetFileSuperRes, InferenceType.CPU, true);
   });
 
-  it('Upload GAN model (tf-SRGAN), check accuracy, run calibration', async () => {
+  //TODO: 82461
+  xit('Upload GAN model (tf-SRGAN), check accuracy, run calibration', async () => {
     const modelFile = browser.params.precommit_scope.resources.ganModels.tfSrGan;
     modelFile.name = testUtils.helpers.generateName();
     await calibrationUtils.runCalibrationWithAccuracyCheck(modelFile, dataSetFileSuperRes, InferenceType.CPU, true);
   });
 
-  it('Download GAN model (single-image-super-resolution-1032), check accuracy, run calibration', async () => {
+  //TODO: 82461
+  xit('Download GAN model (single-image-super-resolution-1032), check accuracy, run calibration', async () => {
     const model = { name: 'single-image-super-resolution-1032', framework: 'openvino' };
     await calibrationUtils.runInt8PipelineThroughDownloader(
       model,

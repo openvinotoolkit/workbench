@@ -2601,7 +2601,7 @@
     }
   },
   "cocoDataset": {
-    "path": "datasets/coco200.zip",
+    "path": "datasets_v2/coco200.zip",
     "name": "coco200Dataset",
     "format": "Coco",
     "type": "dataset",
@@ -2689,7 +2689,7 @@
     }
   },
   "LFWDataset": {
-    "path": "datasets/LFW.tar.gz",
+    "path": "datasets_v2/LFW.tar.gz",
     "name": "LFWDataset",
     "type": "dataset",
     "accuracyData": {
@@ -2707,7 +2707,7 @@
     }
   },
   "WiderFaceDataset": {
-    "path": "datasets/WIDER_val.zip",
+    "path": "datasets_v2/WIDER_val.zip",
     "name": "WIDER FACE",
     "type": "dataset",
     "accuracyData": {

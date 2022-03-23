@@ -81,7 +81,8 @@ describe('UI tests on Uploading Datasets', () => {
     await configurationWizard.importDatasetFile(dataset_file, browser.params.precommit_scope.resource_dir);
   });
 
-  it('should import CSS dataset and delete it after it is uploaded', async () => {
+  //TODO: 82461
+  xit('should import CSS dataset and delete it after it is uploaded', async () => {
     const dataset_file = browser.params.precommit_scope.resources.CSSDataset;
     dataset_file.name = helpers.generateName();
     await configurationWizard.importDatasetFile(dataset_file, browser.params.precommit_scope.resource_dir);
