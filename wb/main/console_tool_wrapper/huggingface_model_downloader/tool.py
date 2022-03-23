@@ -17,19 +17,18 @@
 import re
 from pathlib import Path
 
-from wb.error.job_error import TransformersONNXConversionError
 from wb.main.console_tool_wrapper.console_parameter_validator import ConsoleParametersTypes
 from wb.main.console_tool_wrapper.python_console_tool import PythonModuleTool
 from wb.main.jobs.interfaces.job_state import JobStateSubject
 from wb.main.jobs.tools_runner.console_output_parser import ConsoleToolOutputParser, skip_empty_line_decorator
 
 
-DOWNLOAD_PROGRESS_STRING_START = "Downloading:"
-CONVERSION_START = "Using framework PyTorch"
-MODEL_SAVED = "All good, model saved"
+DOWNLOAD_PROGRESS_STRING_START = 'Downloading:'
+CONVERSION_START = 'Using framework PyTorch'
+MODEL_SAVED = 'All good, model saved'
 TOLERANCE_CHECK_FAILED = "Outputs values doesn't match between reference model and ONNX exported model"
-VALIDATING_ONNX_MODEL = "Validating ONNX model"
-NOT_ALL_WEIGHTS_USED = "Some weights of the model checkpoint"
+VALIDATING_ONNX_MODEL = 'Validating ONNX model'
+NOT_ALL_WEIGHTS_USED = 'Some weights of the model checkpoint'
 
 
 class HuggingfaceModelDownloaderTool(PythonModuleTool):
@@ -58,8 +57,8 @@ class HuggingfaceModelDownloaderParser(ConsoleToolOutputParser):
         self.download_steps = 5
         self.pct_per_step = round(60 / self.download_steps)
 
-        self.current = re.compile(r"(\d+\.?\d*)[Mk]?/\d+\.?\d*")
-        self.total = re.compile(r"\d+\.?\d*[Mk]?/(\d+\.?\d*)")
+        self.current = re.compile(r'(\d+\.?\d*)[Mk]?/\d+\.?\d*')
+        self.total = re.compile(r'\d+\.?\d*[Mk]?/(\d+\.?\d*)')
 
         self.downloaded = False
         self.downloaded_pct = 60
@@ -76,7 +75,7 @@ class HuggingfaceModelDownloaderParser(ConsoleToolOutputParser):
         string = string.strip()
 
         # skip tensorflow error message
-        if "error" in string.lower() and "tensorflow" not in string.lower():
+        if 'error' in string.lower() and 'tensorflow' not in string.lower():
             self.error = True
             self._job_state_subject.update_state(progress=100)
             return
