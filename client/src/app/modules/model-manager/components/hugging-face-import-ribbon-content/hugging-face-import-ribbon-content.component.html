@@ -54,6 +54,7 @@
 
   <wb-huggingface-model-details
     ngProjectAs="wb-model-zoo-details"
+    *ngIf="selectedModel"
     [huggingfaceModel]="selectedModel"
     [tagsSets]="tagsSets"
     (import)="importModel()"
