@@ -31,7 +31,6 @@ export interface IHuggingfaceTagsSets {
 @Component({
   selector: 'wb-hugging-face-import-ribbon-content',
   templateUrl: './hugging-face-import-ribbon-content.component.html',
-  styleUrls: ['./hugging-face-import-ribbon-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HuggingFaceImportRibbonContentComponent
