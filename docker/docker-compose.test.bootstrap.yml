@@ -43,6 +43,7 @@ services:
       args:
         - GIT_USER_NAME=${USERNAME}
         - GIT_PASSWORD=${PASSWORD}
+        - CI_USER=${CI_USER}
     depends_on:
       - rabbitmq
       - postgres

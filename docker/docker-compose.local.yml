@@ -43,10 +43,3 @@ services:
     environment:
       - SERVER_ADDR=${LOCAL_ADDR:-host.docker.internal}
     restart: on-failure
-
-  client:
-    build:
-      context: ../client
-      dockerfile: ./automation/dc_dev_config/Dockerfile
-    volumes:
-      - front:/front
