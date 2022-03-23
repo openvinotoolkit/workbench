@@ -100,7 +100,7 @@
     <wb-model-zoo-filter group="task_type">
       <wb-model-zoo-filter-title>Task Type</wb-model-zoo-filter-title>
       <wb-model-zoo-filter-option
-        *ngFor="let option of taskTypeOptions"
+        *ngFor="let option of filterOptions.taskType"
         [value]="option"
         [label]="option"
         icon="list_alt"
@@ -110,7 +110,7 @@
     <wb-model-zoo-filter group="precision">
       <wb-model-zoo-filter-title>Precisions</wb-model-zoo-filter-title>
       <wb-model-zoo-filter-option
-        *ngFor="let option of precisionOptions"
+        *ngFor="let option of filterOptions.precision"
         [value]="option"
         [label]="option"
       ></wb-model-zoo-filter-option>
@@ -119,7 +119,7 @@
     <wb-model-zoo-filter group="framework">
       <wb-model-zoo-filter-title>Framework</wb-model-zoo-filter-title>
       <wb-model-zoo-filter-option
-        *ngFor="let option of frameworkOptions"
+        *ngFor="let option of filterOptions.framework"
         [value]="option"
         [label]="modelFrameworkNamesMap[option]"
         [icon]="modelFrameworkIconsMap[option]"

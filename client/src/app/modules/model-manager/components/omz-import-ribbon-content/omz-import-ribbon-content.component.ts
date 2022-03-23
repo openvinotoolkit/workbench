@@ -38,6 +38,13 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
   readonly sortControl = this._fb.control(this.dataSource.defaultSortOption);
   readonly filtersControl = this._fb.control({});
 
+  // TODO Consider moving to data source
+  readonly filterOptions = {
+    taskType: [],
+    precision: [],
+    framework: [],
+  };
+
   nameSearch = '';
 
   // TODO Consider moving to data source
@@ -97,6 +104,7 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
   ) {
     this._omzModels$.pipe(takeUntil(this._unsubscribe$)).subscribe((models) => {
       this.dataSource.data = models;
+      this._populateFilterOptions();
     });
 
     this._frameworksAvailability$.pipe(takeUntil(this._unsubscribe$)).subscribe((value) => {
@@ -149,29 +157,10 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
     });
   }
 
-  private _getOptionsByKey(key: keyof ModelDownloaderDTO): string[] {
-    const availableOptions = this.dataSource.data?.reduce((acc, item) => {
-      const fieldValue = item[key];
-      if (Array.isArray(fieldValue)) {
-        acc.push(...fieldValue.flat());
-      } else {
-        acc.push(fieldValue);
-      }
-      return acc;
-    }, []);
-    return Array.from(new Set(availableOptions));
-  }
-
-  get taskTypeOptions(): string[] {
-    return this._getOptionsByKey('task_type');
-  }
-
-  get precisionOptions(): string[] {
-    return this._getOptionsByKey('precision');
-  }
-
-  get frameworkOptions(): string[] {
-    return this._getOptionsByKey('framework');
+  private _populateFilterOptions(): void {
+    this.filterOptions.taskType = this.dataSource.getFilterOptionsByKey('task_type');
+    this.filterOptions.precision = this.dataSource.getFilterOptionsByKey('precision');
+    this.filterOptions.framework = this.dataSource.getFilterOptionsByKey('framework');
   }
 
   resetAllFilters(): void {
