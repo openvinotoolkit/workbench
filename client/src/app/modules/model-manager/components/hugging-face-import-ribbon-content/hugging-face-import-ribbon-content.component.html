@@ -56,14 +56,14 @@
     ngProjectAs="wb-model-zoo-details"
     [huggingfaceModel]="selectedModel"
     [tagsSets]="tagsSets"
-    (import)="handleUploadModel()"
+    (import)="importModel()"
     (hide)="selectedModel = null"
   >
   </wb-huggingface-model-details>
 </wb-model-zoo-layout>
 
 <ng-template #filterGroupTemplate>
-  <wb-model-zoo-filter-group [formControl]="filterControl">
+  <wb-model-zoo-filter-group [formControl]="filtersControl">
     <ng-container *ngIf="appliedTags">
       <wb-info-hint [message]="shownSubsetNotification"></wb-info-hint>
       <wb-model-zoo-filter group="pipeline_tag">

@@ -1,10 +1,7 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { FormBuilder } from '@angular/forms';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import { MessagesService } from '@core/services/common/messages.service';
 
@@ -19,9 +16,13 @@ import { FrameworksAvailabilityStates, IFrameworksAvailability } from '@store/gl
 
 import { ModelDownloaderDTO } from '@shared/models/dto/model-downloader-dto';
 import { IParameter } from '@shared/components/model-details/parameter-details/parameter-details.component';
-import { OpenModelZooDataSource } from '@shared/models/model-zoo-data-source/open-model-zoo-data-source';
+import {
+  IOpenModelZooFilter,
+  OpenModelZooDataSource,
+} from '@shared/models/model-zoo-data-source/open-model-zoo-data-source';
 
 import { OMZModelPrecisionEnum } from '../model-downloader-table/model-downloader-table.component';
+import { BaseModelZooImportComponent } from '../base-model-zoo-import/base-model-zoo-import.component';
 
 @Component({
   selector: 'wb-omz-import-ribbon-content',
@@ -29,14 +30,11 @@ import { OMZModelPrecisionEnum } from '../model-downloader-table/model-downloade
   styleUrls: ['./omz-import-ribbon-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy {
-  // TODO Reuse common fields and methods with HF component
-  @ViewChild(MatPaginator) private _paginator: MatPaginator;
-
+export class OmzImportRibbonContentComponent extends BaseModelZooImportComponent<
+  ModelDownloaderDTO,
+  IOpenModelZooFilter
+> {
   readonly dataSource = new OpenModelZooDataSource();
-
-  readonly sortControl = this._fb.control(this.dataSource.defaultSortOption);
-  readonly filtersControl = this._fb.control({});
 
   // TODO Consider moving to data source
   readonly filterOptions = {
@@ -45,19 +43,6 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
     framework: [],
   };
 
-  nameSearch = '';
-
-  // TODO Consider moving to data source
-  readonly appliedFiltersCount$ = this.filtersControl.valueChanges.pipe(
-    map(
-      (filters: Record<keyof ModelDownloaderDTO, string[]>) =>
-        Object.entries(filters).filter(([, value]) => value.length).length
-    )
-  );
-
-  get selectedModel(): ModelDownloaderDTO {
-    return this._selectedModel;
-  }
   set selectedModel(value: ModelDownloaderDTO) {
     this._selectedModel = value;
     this.selectedModelParameters = [
@@ -68,7 +53,6 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
       { label: 'Precision', tooltip: 'Precision', value: this._selectedModel?.precision.toString() },
     ];
   }
-  private _selectedModel: ModelDownloaderDTO = null;
 
   selectedModelParameters: IParameter[] = [];
 
@@ -95,13 +79,13 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
   private readonly _hasInternetConnection$ = this._store$.select(GlobalsStoreSelectors.selectConnectionStatusState);
   hasInternetConnection = false;
 
-  private readonly _unsubscribe$ = new Subject<void>();
-
   constructor(
     private readonly _store$: Store<RootStoreState.State>,
-    private readonly _messagesService: MessagesService,
-    private readonly _fb: FormBuilder
+    private readonly _messagesService: MessagesService
   ) {
+    super();
+    this.sortControl.setValue(this.dataSource.defaultSortOption);
+
     this._omzModels$.pipe(takeUntil(this._unsubscribe$)).subscribe((models) => {
       this.dataSource.data = models;
       this._populateFilterOptions();
@@ -114,14 +98,13 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
     this._hasInternetConnection$.pipe(takeUntil(this._unsubscribe$)).subscribe((value) => {
       this.hasInternetConnection = value;
     });
+  }
 
-    this.sortControl.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe((sort) => {
-      this.dataSource.sort = sort;
-    });
-
-    this.filtersControl.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe(() => {
-      this._filter();
-    });
+  protected get _dataSourceFilter(): IOpenModelZooFilter {
+    return {
+      name: this.modelSearch,
+      filters: this.filtersControl?.value || {},
+    };
   }
 
   get isImportDisabled(): boolean {
@@ -130,10 +113,6 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
       !this.selectedModel?.isAvailable ||
       (this.selectedModel.framework !== ModelFrameworks.OPENVINO && this.isGettingFrameworksAvailabilityFailed)
     );
-  }
-
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this._paginator;
   }
 
   get isGettingFrameworksAvailabilityFailed(): boolean {
@@ -182,22 +161,5 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
         precision,
       })
     );
-  }
-
-  searchModels(value: string): void {
-    this.nameSearch = value;
-    this._filter();
-  }
-
-  private _filter(): void {
-    this.dataSource.filter = {
-      name: this.nameSearch,
-      filters: this.filtersControl?.value || {},
-    };
-  }
-
-  ngOnDestroy(): void {
-    this._unsubscribe$.next();
-    this._unsubscribe$.complete();
   }
 }
