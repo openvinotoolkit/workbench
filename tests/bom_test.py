@@ -64,6 +64,7 @@ FILE_PATTERNS_TO_SKIP = (
     r'.*\.pylintrc$',
     r'.*CONTRIBUTING\.md$',
     r'.*pull_request_template\.md$',
+    r'LICENSE$',
     r'.*\.log',
     r'.*requirements_dev\.txt.*',
     r'.*requirements_snyk\.txt.*',
@@ -76,7 +77,7 @@ FILE_PATTERNS_TO_SKIP = (
     r'^wb\/utils\/git_hooks_checker\.py$',
     r'^scripts\/development\/erase_db\.sql$',
     r'^scripts\/development\/check_git_remote_pre_push\.py$',
-    r'^docker\/docker-compose(\.local)?(\.bootstrap)?\.yml$'
+    r'^docker\/docker-compose(\.local)?(\.test\.bootstrap)?\.yml$'
 )
 
 FULL_NAME_PATTERNS_TO_SKIP = (

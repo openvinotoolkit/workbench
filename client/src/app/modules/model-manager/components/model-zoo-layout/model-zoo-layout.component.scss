@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: column;
   margin: -$container-padding;
-  height: 620px;
 
   ::ng-deep wb-model-zoo-content,
   ::ng-deep wb-model-zoo-details {
@@ -12,5 +11,6 @@
     overflow: hidden;
     flex-direction: column;
     flex-grow: 1;
+    height: 800px;
   }
 }
