@@ -11,17 +11,14 @@ import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { MessagesService } from '@core/services/common/messages.service';
-import {
-  HuggingfaceService,
-  IHuggingfaceAppliedModelTags,
-  IHuggingfaceAvailableTags,
-} from '@core/services/api/rest/huggingface.service';
+import { IHuggingfaceAppliedModelTags, IHuggingfaceAvailableTags } from '@core/services/api/rest/huggingface.service';
 
 import { ModelStoreActions, RootStoreState } from '@store';
+import { HuggingfaceModelStoreActions, HuggingfaceModelStoreSelectors } from '@store/huggingface-model-store';
 
 import { HuggingfaceModelZooDataSource } from '@shared/models/model-zoo-data-source/huggingface-model-zoo-data-source';
 import { IHuggingfaceModel } from '@shared/models/huggingface/huggingface-model';
@@ -44,6 +41,9 @@ export class HuggingFaceImportRibbonContentComponent implements OnInit, AfterVie
   readonly externalResourceNotification =
     this._messages.hintMessages.importHuggingFaceTips.externalResourceNotification;
 
+  private readonly _modelData$ = this._store$.select(HuggingfaceModelStoreSelectors.selectModelsData);
+  readonly loading$ = this._store$.select(HuggingfaceModelStoreSelectors.selectLoading);
+
   readonly filterControl = new FormControl();
   readonly sortControl = new FormControl('downloads');
 
@@ -63,15 +63,16 @@ export class HuggingFaceImportRibbonContentComponent implements OnInit, AfterVie
 
   constructor(
     private readonly _messages: MessagesService,
-    private readonly _hfService: HuggingfaceService,
     private readonly _cdr: ChangeDetectorRef,
     private readonly _store$: Store<RootStoreState.State>
   ) {}
 
   ngOnInit(): void {
-    this._hfService
-      .getModelsData$()
-      .pipe(takeUntil(this._unsubscribe$))
+    this._modelData$
+      .pipe(
+        takeUntil(this._unsubscribe$),
+        filter((v) => !!v)
+      )
       .subscribe(({ models, tags: { available, applied } }) => {
         this.dataSource.data = models;
         this.appliedTags = applied;
@@ -85,6 +86,8 @@ export class HuggingFaceImportRibbonContentComponent implements OnInit, AfterVie
         };
         this._cdr.detectChanges();
       });
+
+    this._store$.dispatch(HuggingfaceModelStoreActions.loadModelData());
 
     this.sortControl.valueChanges
       .pipe(takeUntil(this._unsubscribe$))
@@ -100,6 +103,7 @@ export class HuggingFaceImportRibbonContentComponent implements OnInit, AfterVie
   ngOnDestroy(): void {
     this._unsubscribe$.next();
     this._unsubscribe$.complete();
+    this._store$.dispatch(HuggingfaceModelStoreActions.reset());
   }
 
   searchModels(value: string): void {

@@ -1,4 +1,4 @@
-<wb-model-zoo-layout [isDetailsOpened]="!!selectedModel">
+<wb-model-zoo-layout [isDetailsOpened]="!!selectedModel" [loading]="loading$ | async">
   <wb-model-zoo-content>
     <ng-container ngProjectAs="model-zoo-filters" [ngTemplateOutlet]="filtersTemplate"></ng-container>
 
