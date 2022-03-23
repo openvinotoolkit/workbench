@@ -2,7 +2,7 @@ import { IHuggingfaceModel } from '@shared/models/huggingface/huggingface-model'
 
 import { BaseModelZooDataSource, IModelZooSort } from './base-model-zoo-data-source';
 
-interface IHuggingfaceModelZooFilter {
+export interface IHuggingfaceModelZooFilter {
   id: string;
   tags: string[];
 }

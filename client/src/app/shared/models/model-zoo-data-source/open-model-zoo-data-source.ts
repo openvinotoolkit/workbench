@@ -2,7 +2,7 @@ import { ModelDownloaderDTO } from '@shared/models/dto/model-downloader-dto';
 
 import { BaseModelZooDataSource, IModelZooSort } from './base-model-zoo-data-source';
 
-interface IOpenModelZooFilter {
+export interface IOpenModelZooFilter {
   name: string;
   filters: Record<keyof Partial<ModelDownloaderDTO>, string[]>;
 }
