@@ -19,7 +19,7 @@ from contextlib import closing
 
 from sqlalchemy.orm import Session
 
-from config.constants import DATASET_RECOGNITION_REPORTS_FOLDER
+from config.constants import DATASET_REPORTS_FOLDER
 from wb.error.job_error import DatumaroError
 from wb.extensions_factories.database import get_db_session_for_celery
 from wb.main.console_tool_wrapper.datumaro_tool.tool import DatumaroTool
@@ -51,11 +51,10 @@ class RecognizeDatasetJob(BaseDatasetJob):
             self._job_state_subject.update_state(status=StatusEnum.ready, progress=100)
             self._job_state_subject.detach_all_observers()
 
-    @staticmethod
     def _recognize(self, dataset: DatasetsModel) -> DatasetTypesEnum:
-        if not DATASET_RECOGNITION_REPORTS_FOLDER.exists():
-            create_empty_dir(DATASET_RECOGNITION_REPORTS_FOLDER)
-        report_path = DATASET_RECOGNITION_REPORTS_FOLDER / f'{dataset.id}.json'
+        if not DATASET_REPORTS_FOLDER.exists():
+            create_empty_dir(DATASET_REPORTS_FOLDER)
+        report_path = DATASET_REPORTS_FOLDER / f'{dataset.id}.json'
 
         tool = DatumaroTool()
         tool.set_mode(DatumaroModesEnum.detect_format)
@@ -85,3 +84,4 @@ class RecognizeDatasetJob(BaseDatasetJob):
     def cancel_with_error(self, dataset: DatasetsModel, error_message: str):
         remove_dir(dataset.path)
         self.on_failure(DatumaroError(error_message, self.job_id))
+        raise DatumaroError(error_message, self.job_id)
