@@ -96,7 +96,7 @@
 </wb-model-zoo-layout>
 
 <ng-template #filterGroupTemplate>
-  <wb-model-zoo-filter-group [formControl]="filtersControl">
+  <wb-model-zoo-filter-group [formControl]="filtersControl" *ngIf="dataSource.filtersOptions$ | async as filterOptions">
     <wb-model-zoo-filter group="task_type">
       <wb-model-zoo-filter-title>Task Type</wb-model-zoo-filter-title>
       <wb-model-zoo-filter-option

@@ -17,7 +17,7 @@ export abstract class BaseModelZooDataSource<T, U = string> implements DataSourc
   private _paginator: MatPaginator;
   private readonly _internalPageChanges$ = new Subject<void>();
 
-  private readonly _data$ = new BehaviorSubject<T[]>(<T[]>[]);
+  protected readonly _data$ = new BehaviorSubject<T[]>(<T[]>[]);
   private readonly _renderData$ = new BehaviorSubject<T[]>(<T[]>[]);
 
   abstract readonly sortOptions: IModelZooSort<T>[];

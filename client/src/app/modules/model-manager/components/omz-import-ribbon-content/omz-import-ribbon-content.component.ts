@@ -36,13 +36,10 @@ export class OmzImportRibbonContentComponent extends BaseModelZooImportComponent
 > {
   readonly dataSource = new OpenModelZooDataSource();
 
-  // TODO Consider moving to data source
-  readonly filterOptions = {
-    taskType: [],
-    precision: [],
-    framework: [],
-  };
-
+  protected _selectedModel: ModelDownloaderDTO = null;
+  get selectedModel(): ModelDownloaderDTO {
+    return this._selectedModel;
+  }
   set selectedModel(value: ModelDownloaderDTO) {
     this._selectedModel = value;
     this.selectedModelParameters = [
@@ -88,7 +85,6 @@ export class OmzImportRibbonContentComponent extends BaseModelZooImportComponent
 
     this._omzModels$.pipe(takeUntil(this._unsubscribe$)).subscribe((models) => {
       this.dataSource.data = models;
-      this._populateFilterOptions();
     });
 
     this._frameworksAvailability$.pipe(takeUntil(this._unsubscribe$)).subscribe((value) => {
@@ -134,12 +130,6 @@ export class OmzImportRibbonContentComponent extends BaseModelZooImportComponent
     return this._messagesService.getHint('frameworksAvailability', 'note', {
       frameworkName: modelFrameworkNamesMap[this.selectedModel?.framework],
     });
-  }
-
-  private _populateFilterOptions(): void {
-    this.filterOptions.taskType = this.dataSource.getFilterOptionsByKey('task_type');
-    this.filterOptions.precision = this.dataSource.getFilterOptionsByKey('precision');
-    this.filterOptions.framework = this.dataSource.getFilterOptionsByKey('framework');
   }
 
   resetAllFilters(): void {

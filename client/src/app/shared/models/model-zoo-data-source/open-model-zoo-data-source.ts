@@ -1,10 +1,19 @@
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { ModelDownloaderDTO } from '@shared/models/dto/model-downloader-dto';
 
 import { BaseModelZooDataSource, IModelZooSort } from './base-model-zoo-data-source';
 
 export interface IOpenModelZooFilter {
   name: string;
-  filters: Record<keyof Partial<ModelDownloaderDTO>, string[]>;
+  filters: Record<keyof ModelDownloaderDTO, string[]>;
+}
+
+interface IOpenModelZooFiltersOptions {
+  taskType: string[];
+  precision: string[];
+  framework: string[];
 }
 
 export class OpenModelZooDataSource extends BaseModelZooDataSource<ModelDownloaderDTO, IOpenModelZooFilter> {
@@ -13,7 +22,15 @@ export class OpenModelZooDataSource extends BaseModelZooDataSource<ModelDownload
     { field: 'name', direction: 'desc', label: 'Name (Z-A)' },
   ];
 
-  getFilterOptionsByKey(key: keyof ModelDownloaderDTO): string[] {
+  filtersOptions$: Observable<IOpenModelZooFiltersOptions> = this._data$.pipe(
+    map(() => ({
+      taskType: this._getFilterOptionsByKey('task_type'),
+      precision: this._getFilterOptionsByKey('precision'),
+      framework: this._getFilterOptionsByKey('framework'),
+    }))
+  );
+
+  private _getFilterOptionsByKey(key: keyof ModelDownloaderDTO): string[] {
     const availableOptions = this.data?.reduce((acc, item) => {
       const fieldValue = item[key];
       if (Array.isArray(fieldValue)) {
