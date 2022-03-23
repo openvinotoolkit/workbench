@@ -5,12 +5,7 @@ import { SortDirection } from '@angular/material/sort/sort-direction';
 import { BehaviorSubject, combineLatest, merge, Observable, of, Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-interface IModelZooSort {
-  active: string;
-  direction: SortDirection;
-}
-
-export interface ModelZooSort<T> {
+export interface IModelZooSort<T> {
   field: keyof T;
   direction: SortDirection;
   label: string;
@@ -18,21 +13,18 @@ export interface ModelZooSort<T> {
 
 export abstract class BaseModelZooDataSource<T, U = string> implements DataSource<T> {
   private readonly _filter$ = new BehaviorSubject<U>(null);
-  private readonly _sort$ = new BehaviorSubject<ModelZooSort<T>>(null);
+  private readonly _sort$ = new BehaviorSubject<IModelZooSort<T>>(null);
   private _paginator: MatPaginator;
   private readonly _internalPageChanges$ = new Subject<void>();
 
   private readonly _data$ = new BehaviorSubject<T[]>(<T[]>[]);
   private readonly _renderData$ = new BehaviorSubject<T[]>(<T[]>[]);
 
-  abstract sortOptions: ModelZooSort<T>[];
+  abstract sortOptions: IModelZooSort<T>[];
 
-  get defaultSortOption(): ModelZooSort<T> {
+  get defaultSortOption(): IModelZooSort<T> {
     return this.sortOptions[0];
   }
-
-  // protected readonly _matDataSource = new MatTableDataSource<T>();
-  // protected _originalData: T[] = [];
 
   filteredData: T[] = [];
 
@@ -46,7 +38,6 @@ export abstract class BaseModelZooDataSource<T, U = string> implements DataSourc
     if (!this._renderChangesSubscription) {
       this._filterData(data, this.filter);
     }
-    // TODO Persist current sorting
   }
 
   get data(): T[] {
@@ -66,11 +57,11 @@ export abstract class BaseModelZooDataSource<T, U = string> implements DataSourc
     return this._filter$.value;
   }
 
-  set sort(sort: ModelZooSort<T>) {
+  set sort(sort: IModelZooSort<T>) {
     this._sort$.next(sort);
   }
 
-  get sort(): ModelZooSort<T> {
+  get sort(): IModelZooSort<T> {
     return this._sort$.value;
   }
 
@@ -167,7 +158,7 @@ export abstract class BaseModelZooDataSource<T, U = string> implements DataSourc
   }
 
   // reuse mat table data source implementation to handle edge cases
-  private _sortData(data: T[], sort: ModelZooSort<T>): T[] {
+  private _sortData(data: T[], sort: IModelZooSort<T>): T[] {
     if (!sort) {
       return data;
     }

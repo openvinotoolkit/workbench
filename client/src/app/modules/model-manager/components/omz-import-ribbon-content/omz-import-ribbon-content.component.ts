@@ -111,8 +111,7 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
       this.dataSource.sort = sort;
     });
 
-    this.filtersControl.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe((filters) => {
-      // this.dataSource.appliedFilters = filters;
+    this.filtersControl.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe(() => {
       this._filter();
     });
   }
@@ -197,7 +196,6 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
   }
 
   searchModels(value: string): void {
-    // this.dataSource.filter = value;
     this.nameSearch = value;
     this._filter();
   }
