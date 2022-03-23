@@ -45,54 +45,14 @@
     </wb-card-grid>
   </wb-model-zoo-content>
 
-  <wb-model-zoo-details *ngIf="selectedModel">
-    <wb-model-zoo-details-header
-      [modelName]="selectedModel?.name"
-      (hideDetails)="selectedModel = null"
-    ></wb-model-zoo-details-header>
-
-    <wb-model-zoo-notification
-      *ngIf="!isSelectedModelFrameworkConfigured"
-      [message]="selectedModelEnvironmentSetupHint"
-    ></wb-model-zoo-notification>
-
-    <wb-model-zoo-details-parameters>
-      <wb-parameter-details
-        class="parameter"
-        *ngFor="let param of selectedModelParameters"
-        [parameter]="param"
-      ></wb-parameter-details>
-    </wb-model-zoo-details-parameters>
-
-    <wb-model-zoo-details-description>
-      <div class="title">Description</div>
-      <div class="description">
-        <wb-markdown-text [text]="selectedModel?.description | linkify"></wb-markdown-text>
-      </div>
-      <div class="title">Licence</div>
-      <div class="description">
-        <wb-markdown-text [text]="selectedModel?.license_url | linkify"></wb-markdown-text>
-      </div>
-    </wb-model-zoo-details-description>
-
-    <wb-model-zoo-details-footer>
-      <wb-button
-        type="primary"
-        class="enlarged-control"
-        text="Download and Import"
-        (handleClick)="importModel()"
-        [disabled]="isImportDisabled"
-      ></wb-button>
-
-      <wb-info-hint *ngIf="!hasInternetConnection" class="wb-full-width" [message]="noConnectionMessage"></wb-info-hint>
-
-      <wb-info-hint
-        *ngIf="hasInternetConnection && !selectedModel?.isAvailable"
-        class="wb-full-width"
-        [message]="unavailableOmzModelMessage"
-      ></wb-info-hint>
-    </wb-model-zoo-details-footer>
-  </wb-model-zoo-details>
+  <wb-omz-model-details
+    ngProjectAs="wb-model-zoo-details"
+    *ngIf="selectedModel"
+    [model]="selectedModel"
+    (import)="importModel()"
+    (hide)="selectedModel = null"
+  >
+  </wb-omz-model-details>
 </wb-model-zoo-layout>
 
 <ng-template #filterGroupTemplate>

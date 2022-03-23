@@ -3,19 +3,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
 
-import { MessagesService } from '@core/services/common/messages.service';
-
-import {
-  ModelDomain,
-  modelFrameworkNamesMap,
-  ModelFrameworks,
-  TaskTypeToNameMap,
-} from '@store/model-store/model.model';
-import { GlobalsStoreSelectors, ModelStoreActions, ModelStoreSelectors, RootStoreState } from '@store';
-import { FrameworksAvailabilityStates, IFrameworksAvailability } from '@store/globals-store/globals.state';
+import { modelFrameworkNamesMap, ModelFrameworks, TaskTypeToNameMap } from '@store/model-store/model.model';
+import { ModelStoreActions, ModelStoreSelectors, RootStoreState } from '@store';
 
 import { ModelDownloaderDTO } from '@shared/models/dto/model-downloader-dto';
-import { IParameter } from '@shared/components/model-details/parameter-details/parameter-details.component';
 import {
   IOpenModelZooFilter,
   OpenModelZooDataSource,
@@ -27,7 +18,6 @@ import { BaseModelZooImportComponent } from '../base-model-zoo-import/base-model
 @Component({
   selector: 'wb-omz-import-ribbon-content',
   templateUrl: './omz-import-ribbon-content.component.html',
-  styleUrls: ['./omz-import-ribbon-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OmzImportRibbonContentComponent extends BaseModelZooImportComponent<
@@ -35,23 +25,6 @@ export class OmzImportRibbonContentComponent extends BaseModelZooImportComponent
   IOpenModelZooFilter
 > {
   readonly dataSource = new OpenModelZooDataSource();
-
-  protected _selectedModel: ModelDownloaderDTO = null;
-  get selectedModel(): ModelDownloaderDTO {
-    return this._selectedModel;
-  }
-  set selectedModel(value: ModelDownloaderDTO) {
-    this._selectedModel = value;
-    this.selectedModelParameters = [
-      // TODO Add/reuse meaningful tooltips
-      { label: 'Framework', tooltip: 'Framework', value: modelFrameworkNamesMap[this._selectedModel?.framework] },
-      { label: 'Task', tooltip: 'Tasks', value: TaskTypeToNameMap[this._selectedModel?.task_type] },
-      { label: 'Domain', tooltip: 'Domain', value: ModelDomain.CV }, // TODO Add Model domain to omz models schema
-      { label: 'Precision', tooltip: 'Precision', value: this._selectedModel?.precision.toString() },
-    ];
-  }
-
-  selectedModelParameters: IParameter[] = [];
 
   readonly ModelTaskTypeToNameMap = TaskTypeToNameMap;
   readonly modelFrameworkNamesMap = modelFrameworkNamesMap;
@@ -65,34 +38,14 @@ export class OmzImportRibbonContentComponent extends BaseModelZooImportComponent
     [ModelFrameworks.PYTORCH]: 'pytorch',
   };
 
-  readonly noConnectionMessage = this._messagesService.hintMessages.downloaderTips.cannotLoadModelWithoutConnection;
-  readonly unavailableOmzModelMessage = this._messagesService.hintMessages.downloaderTips.unavailableOmzModel;
-
   private readonly _omzModels$ = this._store$.select(ModelStoreSelectors.selectOMZModels);
 
-  private readonly _frameworksAvailability$ = this._store$.select(GlobalsStoreSelectors.selectFrameworksAvailability);
-  private _frameworksAvailability: IFrameworksAvailability = null;
-
-  private readonly _hasInternetConnection$ = this._store$.select(GlobalsStoreSelectors.selectConnectionStatusState);
-  hasInternetConnection = false;
-
-  constructor(
-    private readonly _store$: Store<RootStoreState.State>,
-    private readonly _messagesService: MessagesService
-  ) {
+  constructor(private readonly _store$: Store<RootStoreState.State>) {
     super();
     this.sortControl.setValue(this.dataSource.defaultSortOption);
 
     this._omzModels$.pipe(takeUntil(this._unsubscribe$)).subscribe((models) => {
       this.dataSource.data = models;
-    });
-
-    this._frameworksAvailability$.pipe(takeUntil(this._unsubscribe$)).subscribe((value) => {
-      this._frameworksAvailability = value;
-    });
-
-    this._hasInternetConnection$.pipe(takeUntil(this._unsubscribe$)).subscribe((value) => {
-      this.hasInternetConnection = value;
     });
   }
 
@@ -101,35 +54,6 @@ export class OmzImportRibbonContentComponent extends BaseModelZooImportComponent
       name: this.modelSearch,
       filters: this.filtersControl?.value || {},
     };
-  }
-
-  get isImportDisabled(): boolean {
-    return (
-      !this.hasInternetConnection ||
-      !this.selectedModel?.isAvailable ||
-      (this.selectedModel.framework !== ModelFrameworks.OPENVINO && this.isGettingFrameworksAvailabilityFailed)
-    );
-  }
-
-  get isGettingFrameworksAvailabilityFailed(): boolean {
-    return Boolean(this._frameworksAvailability?.error);
-  }
-
-  get isSelectedModelFrameworkConfigured(): boolean {
-    if (!this._frameworksAvailability || this.isGettingFrameworksAvailabilityFailed) {
-      return false;
-    }
-
-    const selectedFramework = this.selectedModel.framework.toString();
-    const { data: frameworksAvailability } = this._frameworksAvailability;
-
-    return frameworksAvailability[selectedFramework] === FrameworksAvailabilityStates.CONFIGURED;
-  }
-
-  get selectedModelEnvironmentSetupHint(): string {
-    return this._messagesService.getHint('frameworksAvailability', 'note', {
-      frameworkName: modelFrameworkNamesMap[this.selectedModel?.framework],
-    });
   }
 
   resetAllFilters(): void {
