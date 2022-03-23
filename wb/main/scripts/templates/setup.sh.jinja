@@ -90,8 +90,8 @@ NEED_CREATE_NEW_PYTHON_ENV=1
 PYTHON_VERSION=$(python3 -c 'import sys; print(sys.version_info.major, sys.version_info.minor, sep="")')
 
 # ~+ stands for the absolute current directory path - it is required for "find" to return the absolute path
-RUNTIME_WHEEL_PATH=$(find ~+ -type f -name "openvino-*cp${PYTHON_VERSION}*.whl" -print -quit)
-DEV_WHEEL_PATH=$(find ~+ -type f -name "openvino_dev-*.whl" -print -quit)
+RUNTIME_WHEEL_PATH=$(find ${SCRIPTS_PATH} -type f -name "openvino-*cp${PYTHON_VERSION}*.whl" -print -quit)
+DEV_WHEEL_PATH=$(find ${SCRIPTS_PATH} -type f -name "openvino_dev-*.whl" -print -quit)
 
 export PYTHONPATH=
 export LD_LIBRARY_PATH=

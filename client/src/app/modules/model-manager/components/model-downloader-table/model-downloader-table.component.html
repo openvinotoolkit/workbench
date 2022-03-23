@@ -112,12 +112,13 @@
   >
   </wb-button>
   <wb-button class="enlarged-control" testId="cancel-btn" text="Cancel" (handleClick)="cancel.emit()"></wb-button>
+  <wb-info-hint *ngIf="isConnected && !selectedModel" message="Click on table row to select model"></wb-info-hint>
 </div>
-<div class="no-connect-message" data-test-id="no-connect-message" *ngIf="!isConnected">
-  <wb-info-hint [message]="noConnectionMessage"></wb-info-hint>
+<div *ngIf="!isConnected" class="no-connect-message" data-test-id="no-connect-message">
+  <wb-info-hint class="wb-full-width" [message]="noConnectionMessage" type="attention"></wb-info-hint>
 </div>
-<div class="unavailable-model-message" *ngIf="isConnected && selectedModel && !selectedModel.isAvailable">
-  <wb-info-hint [message]="unavailableOmzModelMessage"></wb-info-hint>
+<div class="unavailable-model-message" *ngIf="isUnavailableModel">
+  <wb-info-hint [message]="unavailableOmzModelMessage" type="attention"></wb-info-hint>
 </div>
 
 <ng-template #sortIcon let-columnName="columnName">

@@ -36,6 +36,10 @@ export class ButtonComponent {
   @Input()
   testId: string;
 
+  @Input() appearance: 'button' | 'link' = 'button';
+
+  @Input() href: string;
+
   readonly classNames = {
     button: 'button',
     disabled: 'disabled',

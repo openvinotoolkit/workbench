@@ -5,9 +5,10 @@
     [field]="specifyInputs"
     [group]="group"
   ></wb-config-form-field>
-  <p class="about-specify">{{ inputSpecification }}</p>
+  <wb-info-hint class="wb-full-width hint" [message]="inputSpecification"></wb-info-hint>
 
   <div *ngIf="specifyInputsControl.value" [formArrayName]="inputLayers" class="input-shape-container-content">
+    <wb-info-hint class="wb-full-width hint" [message]="neededBatchMessage"></wb-info-hint>
     <wb-input-output-layer-control
       *ngFor="let inputControl of inputLayersFormArray.controls; index as controlIndex"
       class="layer"

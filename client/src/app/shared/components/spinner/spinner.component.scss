@@ -6,7 +6,7 @@
   position: relative;
 
   .spinner-background {
-    border-color: $blue-blue;
+    border-color: $plum;
     border-radius: 50%;
     border-style: solid;
     box-sizing: border-box;
@@ -21,6 +21,6 @@
   }
 
   ::ng-deep .mat-spinner circle {
-    stroke: $blue-blue;
+    stroke: $plum;
   }
 }

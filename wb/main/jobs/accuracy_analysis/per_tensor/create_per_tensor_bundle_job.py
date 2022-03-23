@@ -4,14 +4,15 @@
 
  Copyright (c) 2021 Intel Corporation
 
- LEGAL NOTICE: Your use of this software and any required dependent software (the “Software Package”) is subject to
- the terms and conditions of the software license agreements for Software Package, which may also include
- notices, disclaimers, or license terms for third party or open source software
- included in or with the Software Package, and your use indicates your acceptance of all such terms.
- Please refer to the “third-party-programs.txt” or other similarly-named text file included with the Software Package
- for additional details.
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
-      https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
+      http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
 """
 from contextlib import closing
 from pathlib import Path
@@ -51,7 +52,7 @@ class CreatePerTensorBundleJob(IJob):
             optimized_model_path = project.topology.path
             parent_model_path = project.topology.optimized_from_record.path
             dataset_path = per_tensor_report_job_model.project.dataset.dataset_data_dir
-            bundle_id = job_model.bundle_id
+            bundle_id = job_model.shared_artifact.id
             accuracy_artifacts_path = Path(ACCURACY_ARTIFACTS_FOLDER) / str(job_model.pipeline_id)
 
         job_script_path = accuracy_artifacts_path / JOBS_SCRIPTS_FOLDER_NAME / JOB_SCRIPT_NAME
@@ -75,8 +76,8 @@ class CreatePerTensorBundleJob(IJob):
         with closing(get_db_session_for_celery()) as session:
             job: CreateAccuracyBundleJobModel = self.get_job_model(session)
             # TODO: [61937] Move to separate DBObserver
-            bundle: DownloadableArtifactsModel = job.bundle
-            bundle_path = DownloadableArtifactsModel.get_archive_path(bundle.id)
+            bundle: DownloadableArtifactsModel = job.shared_artifact
+            bundle_path = bundle.build_full_artifact_path()
             bundle.update(bundle_path)
             bundle.write_record(session)
             set_status_in_db(DownloadableArtifactsModel, bundle.id, StatusEnum.ready, session, force=True)

@@ -4,9 +4,12 @@
 $toggle-icon-size: 10px;
 $footer-height: 40px;
 
+:host ::ng-deep .label-container {
+  min-width: 160px;
+}
+
 .upload-dataset {
   display: flex;
-  flex-direction: row;
   align-items: flex-start;
   border-bottom: 1px solid $very-light-pink;
   margin-bottom: 80px;
@@ -33,20 +36,21 @@ $footer-height: 40px;
 
   .uploader-tooltip {
     display: flex;
-    margin: $container-padding;
+    margin: $container-padding $container-padding 0;
 
     .icon {
-      $size: 20px;
+      $size: 24px;
       width: $size;
       height: $size;
       flex: 0 0 $size;
-      color: $blue-blue;
+      color: $plum;
     }
 
     .tooltip-txt {
       word-wrap: break-word;
-      margin-left: 5px;
-      line-height: 1.65;
+      margin-left: 10px;
+
+      @include wb-text-8();
     }
 
     a {
@@ -60,9 +64,7 @@ $footer-height: 40px;
   }
 
   .uploader-body {
-    display: flex;
-    flex-direction: column;
-    margin: $container-padding;
+    margin: $container-padding $container-padding 0;
 
     .model-input {
       span:first-child {
@@ -150,6 +152,7 @@ $footer-height: 40px;
   box-shadow: 0 4px 5px 4px $cool-grey;
   display: flex;
   flex-direction: row;
+  align-items: center;
   padding: $container-padding;
   position: fixed;
   width: 100%;
@@ -157,6 +160,10 @@ $footer-height: 40px;
 
   wb-button + wb-button {
     margin-left: $container-padding;
+  }
+
+  wb-button + wb-info-hint {
+    margin-left: 20px;
   }
 }
 

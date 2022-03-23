@@ -4,14 +4,15 @@
 
  Copyright (c) 2020 Intel Corporation
 
- LEGAL NOTICE: Your use of this software and any required dependent software (the “Software Package”) is subject to
- the terms and conditions of the software license agreements for Software Package, which may also include
- notices, disclaimers, or license terms for third party or open source software
- included in or with the Software Package, and your use indicates your acceptance of all such terms.
- Please refer to the “third-party-programs.txt” or other similarly-named text file included with the Software Package
- for additional details.
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
-      https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
+      http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
 """
 import csv
 import os
@@ -44,8 +45,8 @@ class ProjectReportExportJob(IJob):
         with closing(get_db_session_for_celery()) as session:
             session: Session
             job_model: ProjectReportExportJobModel = self.get_job_model(session)
-            artifact: DownloadableArtifactsModel = job_model.downloadable_artifact
-            artifact_path = DownloadableArtifactsModel.get_archive_path(artifact_id=artifact.id, ext=self.ext)
+            artifact: DownloadableArtifactsModel = job_model.shared_artifact
+            artifact_path = artifact.build_full_artifact_path(ext=self.ext)
             inferences: List[SingleInferenceInfoModel] = session.query(SingleInferenceInfoModel). \
                 filter(SingleInferenceInfoModel.project_id == job_model.project_id). \
                 filter(SingleInferenceInfoModel.status == StatusEnum.ready). \
@@ -70,8 +71,8 @@ class ProjectReportExportJob(IJob):
     def on_failure(self, exception: Exception):
         with closing(get_db_session_for_celery()) as session:
             job_model = self.get_job_model(session)
-            artifact = job_model.downloadable_artifact
-            artifact_path = DownloadableArtifactsModel.get_archive_path(artifact_id=artifact.id, ext=self.ext)
+            artifact = job_model.shared_artifact
+            artifact_path = artifact.build_full_artifact_path(ext=self.ext)
         if os.path.isfile(artifact_path):
             os.remove(artifact_path)
         super().on_failure(exception)

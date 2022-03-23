@@ -1,0 +1,92 @@
+@import 'colors';
+@import 'variables';
+
+.mat-select-panel:not([class*='mat-elevation-z']),
+.mat-autocomplete-panel:not([class*='mat-elevation-z']) {
+  background: $faded-bgr;
+  border: 1px solid $brownish-grey;
+  border-radius: 3px;
+  box-shadow: 0 2px 5px $black30;
+
+  .mat-option {
+    color: $black;
+    transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+
+    &:first-child {
+      border-radius: 3px 3px 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 3px 3px;
+    }
+  }
+
+  &.mat-primary .mat-option.mat-selected {
+    color: $black;
+    background: $faded-bgr;
+  }
+
+  .mat-option.mat-selected:not(.mat-option-multiple) {
+    @include wb-subtitle-strong();
+  }
+
+  .mat-option.mat-option-disabled {
+    color: $cool-grey;
+    background: $faded-bgr;
+  }
+
+  .mat-option.mat-active {
+    background: $faded-bgr;
+  }
+
+  .mat-option:hover:not(.mat-option-disabled),
+  .mat-option:focus:not(.mat-option-disabled) {
+    color: $black;
+    background: $very-light-pink;
+
+    .mat-pseudo-checkbox {
+      border-color: $black;
+    }
+
+    &:hover .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
+      border-color: $plum;
+    }
+  }
+
+  .mat-pseudo-checkbox {
+    $size: 18px;
+    border-color: $brownish-grey;
+    width: $size;
+    height: $size;
+    transition: border-color 0.2s ease-in-out;
+    margin-right: 10px;
+
+    &.mat-pseudo-checkbox-checked {
+      border-color: $plum;
+      background: transparent;
+    }
+
+    &.mat-pseudo-checkbox-checked:after {
+      top: 3.4px;
+      left: 2px;
+      border-color: $plum;
+    }
+  }
+
+  .select-search-wrapper {
+    border-color: $brownish-grey;
+    background-color: $faded-bgr;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    top: 1px;
+    height: 46px;
+  }
+
+  .select-search {
+    border-color: $brownish-grey;
+
+    .mat-input-element {
+      margin-top: 0;
+    }
+  }
+}

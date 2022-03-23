@@ -1,25 +1,5 @@
+@import 'fonts';
 @import 'colors';
-
-.field-label {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-right: 10px;
-
-  wb-help-tooltip {
-    margin-left: 5px;
-  }
-}
-
-.field-container {
-  display: flex;
-}
-
-.error-message {
-  position: relative;
-  top: -18px;
-  margin: 0;
-}
 
 .transformations-config-wrapper {
   border: 1px solid $very-light-pink;
@@ -33,21 +13,24 @@
       height: 40px;
     }
 
-    table.wb-table.wb-table-on-gray thead th {
-      padding-top: 0;
-      vertical-align: middle;
-    }
-
     tbody tr {
       cursor: pointer;
     }
   }
 }
 
-.documentation-col {
-  text-align: right;
+wb-button {
+  margin-left: auto;
 }
 
-a {
-  color: $plum;
+.error-message {
+  margin-top: 10px;
+  color: $deep-red;
+
+  @include wb-text-14();
+}
+
+.predefined-config-hint {
+  display: block;
+  margin-top: 10px;
 }

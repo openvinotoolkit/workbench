@@ -4,23 +4,25 @@
 
  Copyright (c) 2020 Intel Corporation
 
- LEGAL NOTICE: Your use of this software and any required dependent software (the “Software Package”) is subject to
- the terms and conditions of the software license agreements for Software Package, which may also include
- notices, disclaimers, or license terms for third party or open source software
- included in or with the Software Package, and your use indicates your acceptance of all such terms.
- Please refer to the “third-party-programs.txt” or other similarly-named text file included with the Software Package
- for additional details.
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
-      https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
+      http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
 """
 import os
-from typing import Tuple
+from typing import Tuple, Type
 
 from sqlalchemy.orm import Session
 
 from config.constants import UPLOADS_FOLDER
 from wb.main.enumerates import ArtifactTypesEnum, PipelineStageEnum
-from wb.main.models import CreateSetupBundleJobModel, DownloadableArtifactsModel, TargetModel
+from wb.main.models import CreateSetupBundleJobModel, DownloadableArtifactsModel, TargetModel, ArtifactsModel
+from wb.main.models.cloud_bundle_model import CloudBundleModel
 from wb.main.pipeline_creators.deployment_manager_pipeline_creator import DeploymentManagerPipelineCreator
 from wb.main.pipeline_creators.pipeline_creator import PipelineCreator
 from wb.main.pipeline_creators.setup_pipeline_creator import SetupPipelineCreator
@@ -31,16 +33,19 @@ class DevCloudPipelineCreator(PipelineCreator):
         CreateSetupBundleJobModel.get_polymorphic_job_type(): PipelineStageEnum.preparing_setup_assets,
     }
 
-    def _add_deployment_and_setup_bundle_jobs(self, pipeline_id: int,
+    def _create_setup_bundle_job_and_artifact(self, pipeline_id: int,
                                               target: TargetModel,
                                               project_id: int,
-                                              session: Session) -> Tuple[int, int]:
+                                              session: Session,
+                                              artifact_model_type: Type[ArtifactsModel] = DownloadableArtifactsModel) -> Tuple[int, int]:
         deployment_configuration = SetupPipelineCreator.get_setup_bundle_configuration(pipeline_id, target)
         if project_id:
             deployment_configuration['projectId'] = project_id
 
-        create_setup_bundle_job, _, deployment_bundle = \
-            DeploymentManagerPipelineCreator.fill_db_before_deployment_pipeline(deployment_configuration, session)
+        create_setup_bundle_job, deployment_bundle = \
+            DeploymentManagerPipelineCreator.fill_db_before_deployment_pipeline(deployment_configuration,
+                                                                                session,
+                                                                                artifact_model_type)
         self._save_job_with_stage(create_setup_bundle_job, session)
         return create_setup_bundle_job.job_id, deployment_bundle.id
 

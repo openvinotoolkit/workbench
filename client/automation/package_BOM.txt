@@ -48,6 +48,7 @@ assets/js/track.js
 assets/netron/openvino-metadata.json
 assets/netron/view-grapher.css
 assets/netron/view-sidebar.css
+assets/svg/arrow-down.svg
 assets/svg/icon_set.svg
 assets/svg/point-a.svg
 assets/svg/point-b.svg
