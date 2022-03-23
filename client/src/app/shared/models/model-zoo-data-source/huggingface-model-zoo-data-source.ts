@@ -11,7 +11,7 @@ export class HuggingfaceModelZooDataSource extends BaseModelZooDataSource<
   IHuggingfaceModel,
   IHuggingfaceModelZooFilter
 > {
-  sortOptions: IModelZooSort<IHuggingfaceModel>[] = [
+  readonly sortOptions: IModelZooSort<IHuggingfaceModel>[] = [
     { field: 'downloads', direction: 'desc', label: 'Most Downloaded' },
     { field: 'lastModified', direction: 'desc', label: 'Recently Updated' },
     { field: 'id', direction: 'asc', label: 'Name (A-Z)' },

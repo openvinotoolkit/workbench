@@ -20,7 +20,7 @@ export abstract class BaseModelZooDataSource<T, U = string> implements DataSourc
   private readonly _data$ = new BehaviorSubject<T[]>(<T[]>[]);
   private readonly _renderData$ = new BehaviorSubject<T[]>(<T[]>[]);
 
-  abstract sortOptions: IModelZooSort<T>[];
+  abstract readonly sortOptions: IModelZooSort<T>[];
 
   get defaultSortOption(): IModelZooSort<T> {
     return this.sortOptions[0];

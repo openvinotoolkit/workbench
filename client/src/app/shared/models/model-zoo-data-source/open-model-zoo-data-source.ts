@@ -8,7 +8,7 @@ interface IOpenModelZooFilter {
 }
 
 export class OpenModelZooDataSource extends BaseModelZooDataSource<ModelDownloaderDTO, IOpenModelZooFilter> {
-  sortOptions: IModelZooSort<ModelDownloaderDTO>[] = [
+  readonly sortOptions: IModelZooSort<ModelDownloaderDTO>[] = [
     { field: 'name', direction: 'asc', label: 'Name (A-Z)' },
     { field: 'name', direction: 'desc', label: 'Name (Z-A)' },
   ];
