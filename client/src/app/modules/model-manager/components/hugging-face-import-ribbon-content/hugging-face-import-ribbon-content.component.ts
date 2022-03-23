@@ -27,6 +27,14 @@ import { HuggingfaceModelZooDataSource } from '@shared/models/model-zoo-data-sou
 import { IHuggingfaceModel } from '@shared/models/huggingface/huggingface-model';
 import { ModelDownloaderDTO } from '@shared/models/dto/model-downloader-dto';
 
+export interface IHuggingfaceTagsSets {
+  pipelineTags: Set<string>;
+  libraries: Set<string>;
+  languages: Set<string>;
+  licenses: Set<string>;
+  modelTypes: Set<string>;
+}
+
 @Component({
   selector: 'wb-hugging-face-import-ribbon-content',
   templateUrl: './hugging-face-import-ribbon-content.component.html',
@@ -45,6 +53,9 @@ export class HuggingFaceImportRibbonContentComponent implements OnInit, AfterVie
 
   appliedTags: IHuggingfaceAppliedModelTags = null;
   availableTags: IHuggingfaceAvailableTags = null;
+  tagsSets: IHuggingfaceTagsSets = null;
+
+  idSearch = '';
 
   selectedModel: IHuggingfaceModel = null;
 
@@ -74,6 +85,13 @@ export class HuggingFaceImportRibbonContentComponent implements OnInit, AfterVie
         this.dataSource.data = models;
         this.appliedTags = applied;
         this.availableTags = available;
+        this.tagsSets = {
+          libraries: new Set(applied.libraries),
+          pipelineTags: new Set(applied.pipelineTags),
+          modelTypes: new Set(available.modelTypes),
+          languages: new Set(available.languages),
+          licenses: new Set(available.licenses),
+        };
         this._cdr.detectChanges();
       });
 
@@ -81,9 +99,7 @@ export class HuggingFaceImportRibbonContentComponent implements OnInit, AfterVie
       .pipe(takeUntil(this._unsubscribe$))
       .subscribe((sort) => (this.dataSource.sort = sort));
 
-    this.filterControl.valueChanges
-      .pipe(takeUntil(this._unsubscribe$))
-      .subscribe((value: IHuggingfaceAppliedModelTags) => (this.dataSource.filterTags = Object.values(value).flat()));
+    this.filterControl.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe(() => this._filter());
   }
 
   ngAfterViewInit(): void {
@@ -96,10 +112,18 @@ export class HuggingFaceImportRibbonContentComponent implements OnInit, AfterVie
   }
 
   searchModels(value: string): void {
-    this.dataSource.filter = value;
+    this.idSearch = value;
+    this._filter();
   }
 
   handleUploadModel(): void {
     this._store$.dispatch(ModelStoreActions.importHuggingfaceModel({ huggingface_model_id: this.selectedModel.id }));
+  }
+
+  private _filter(): void {
+    this.dataSource.filter = {
+      id: this.idSearch,
+      tags: Object.values(this.filterControl?.value || {}).flat() as string[],
+    };
   }
 }

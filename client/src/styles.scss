@@ -16,6 +16,7 @@
 @import 'styles/global/key-val';
 @import 'styles/global/select-panel';
 
+@import 'app/modules/model-manager/components/hugging-face-import-ribbon-content/huggingface-model-details/markdown/markdown';
 // Angular Material global styles
 
 @include wb-radio-group();

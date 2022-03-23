@@ -38,6 +38,9 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
   readonly sortControl = this._fb.control(this.dataSource.defaultSortOption);
   readonly filtersControl = this._fb.control({});
 
+  nameSearch = '';
+
+  // TODO Consider moving to data source
   readonly appliedFiltersCount$ = this.filtersControl.valueChanges.pipe(
     map(
       (filters: Record<keyof ModelDownloaderDTO, string[]>) =>
@@ -109,7 +112,8 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
     });
 
     this.filtersControl.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe((filters) => {
-      this.dataSource.appliedFilters = filters;
+      // this.dataSource.appliedFilters = filters;
+      this._filter();
     });
   }
 
@@ -193,7 +197,16 @@ export class OmzImportRibbonContentComponent implements AfterViewInit, OnDestroy
   }
 
   searchModels(value: string): void {
-    this.dataSource.filter = value;
+    // this.dataSource.filter = value;
+    this.nameSearch = value;
+    this._filter();
+  }
+
+  private _filter(): void {
+    this.dataSource.filter = {
+      name: this.nameSearch,
+      filters: this.filtersControl?.value || {},
+    };
   }
 
   ngOnDestroy(): void {

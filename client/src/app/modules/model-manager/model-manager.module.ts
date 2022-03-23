@@ -20,6 +20,7 @@ import { HuggingFaceImportRibbonContentComponent } from './components/hugging-fa
 import { CardDefDirective, CardGridComponent } from './components/card-grid/card-grid.component';
 import { ModelZooLayoutModule } from './components/model-zoo-layout/model-zoo-layout.module';
 import { ModelZooFilterGroupModule } from './components/model-zoo-filter-group/model-zoo-filter-group.module';
+import { HuggingfaceModelDetailsComponent } from './components/hugging-face-import-ribbon-content/huggingface-model-details/huggingface-model-details.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ModelZooFilterGroupModule } from './components/model-zoo-filter-group/m
     CardDefDirective,
     OmzImportRibbonContentComponent,
     HuggingFaceImportRibbonContentComponent,
+    HuggingfaceModelDetailsComponent,
   ],
   imports: [
     CommonModule,

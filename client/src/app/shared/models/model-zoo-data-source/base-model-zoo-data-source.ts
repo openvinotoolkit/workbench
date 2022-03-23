@@ -1,10 +1,14 @@
 import { DataSource } from '@angular/cdk/collections';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { Sort } from '@angular/material/sort/sort';
 import { SortDirection } from '@angular/material/sort/sort-direction';
 
-import { Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, merge, Observable, of, Subject, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+interface IModelZooSort {
+  active: string;
+  direction: SortDirection;
+}
 
 export interface ModelZooSort<T> {
   field: keyof T;
@@ -12,8 +16,14 @@ export interface ModelZooSort<T> {
   label: string;
 }
 
-export abstract class BaseModelZooDataSource<T> implements DataSource<T> {
-  protected abstract _searchIdentityField: keyof T;
+export abstract class BaseModelZooDataSource<T, U = string> implements DataSource<T> {
+  private readonly _filter$ = new BehaviorSubject<U>(null);
+  private readonly _sort$ = new BehaviorSubject<ModelZooSort<T>>(null);
+  private _paginator: MatPaginator;
+  private readonly _internalPageChanges$ = new Subject<void>();
+
+  private readonly _data$ = new BehaviorSubject<T[]>(<T[]>[]);
+  private readonly _renderData$ = new BehaviorSubject<T[]>(<T[]>[]);
 
   abstract sortOptions: ModelZooSort<T>[];
 
@@ -21,61 +31,153 @@ export abstract class BaseModelZooDataSource<T> implements DataSource<T> {
     return this.sortOptions[0];
   }
 
-  protected readonly _matDataSource = new MatTableDataSource<T>();
-  protected _originalData: T[] = [];
+  // protected readonly _matDataSource = new MatTableDataSource<T>();
+  // protected _originalData: T[] = [];
 
-  set data(value: T[]) {
-    this._originalData = value;
-    this._matDataSource.data = value;
-    this._matDataSource.paginator?.firstPage();
-    // TODO Persist current sorting, consider implementing `_updateChangeSubscription`
+  filteredData: T[] = [];
+
+  private _renderChangesSubscription: Subscription;
+
+  set data(data: T[]) {
+    data = Array.isArray(data) ? data : [];
+    this._data$.next(data);
+    // Normally the `filteredData` is updated by the re-render
+    // subscription, but that won't happen if it's inactive.
+    if (!this._renderChangesSubscription) {
+      this._filterData(data, this.filter);
+    }
+    // TODO Persist current sorting
   }
 
   get data(): T[] {
-    return this._originalData.slice();
+    return this._data$.value;
   }
 
-  set filter(value: string) {
-    this._matDataSource.filter = value;
-    this._matDataSource.paginator.firstPage();
+  set filter(filter: U) {
+    this._filter$.next(filter);
+    // Normally the `filteredData` is updated by the re-render
+    // subscription, but that won't happen if it's inactive.
+    if (!this._renderChangesSubscription) {
+      this._filterData(this.data, this._filter$.value);
+    }
   }
 
-  get filteredData(): T[] {
-    return this._matDataSource.filteredData;
+  get filter(): U {
+    return this._filter$.value;
   }
 
-  // todo: sort on data set
-  set sort({ field, direction }: ModelZooSort<T>) {
-    this._matDataSource.data = this._sortData(this._matDataSource.filteredData, { active: field as string, direction });
-    this._matDataSource.paginator?.firstPage();
+  set sort(sort: ModelZooSort<T>) {
+    this._sort$.next(sort);
+  }
+
+  get sort(): ModelZooSort<T> {
+    return this._sort$.value;
   }
 
   set paginator(value: MatPaginator) {
-    this._matDataSource.paginator = value;
+    this._paginator = value;
+    this._updateChangesSubscription();
   }
 
-  constructor() {
-    this._matDataSource.filterPredicate = (model, search) => {
-      const transformedSearch = search.trim().toLocaleLowerCase();
-      return model[this._searchIdentityField].toString().toLocaleLowerCase().indexOf(transformedSearch) !== -1;
-    };
+  get paginator(): MatPaginator {
+    return this._paginator;
   }
 
-  connect(): Observable<T[]> {
-    return this._matDataSource.connect();
+  private _updateChangesSubscription(): void {
+    const data$ = this._data$;
+
+    const filteredData$ = combineLatest([data$, this._filter$]).pipe(
+      map(([data, filter]) => this._filterData(data, filter))
+    );
+
+    const orderedData$ = combineLatest([filteredData$, this._sort$]).pipe(
+      map(([data, sort]) => this._sortData(data, sort))
+    );
+
+    const pageChange$ = this._paginator
+      ? merge(this._paginator.initialized, this._paginator.page, this._internalPageChanges$)
+      : of(null);
+    const paginatedData$ = combineLatest([orderedData$, pageChange$]).pipe(
+      map(([data]) => this._pageData(data, this.paginator))
+    );
+
+    this._renderChangesSubscription?.unsubscribe();
+    this._renderChangesSubscription = paginatedData$.subscribe((data) => this._renderData$.next(data));
   }
 
-  disconnect(): void {
-    this._matDataSource.disconnect();
+  private _filterData(data: T[], filter: U): T[] {
+    this.filteredData = !filter ? data : data.filter((item) => this.filterPredicate(item, filter));
+
+    if (this.paginator) {
+      this._updatePaginator(this.filteredData.length);
+    }
+
+    return this.filteredData;
+  }
+
+  private _updatePaginator(filteredDataLength: number): void {
+    Promise.resolve().then(() => {
+      const paginator = this.paginator;
+
+      if (!paginator) {
+        return;
+      }
+
+      paginator.length = filteredDataLength;
+
+      // If the page index is set beyond the page, reduce it to the last page.
+      if (paginator.pageIndex > 0) {
+        const lastPageIndex = Math.ceil(paginator.length / paginator.pageSize) - 1 || 0;
+        const newPageIndex = Math.min(paginator.pageIndex, lastPageIndex);
+
+        if (newPageIndex !== paginator.pageIndex) {
+          paginator.pageIndex = newPageIndex;
+
+          // Since the paginator only emits after user-generated changes,
+          // we need our own stream so we know to should re-render the data.
+          this._internalPageChanges$.next();
+        }
+      }
+    });
+  }
+
+  filterPredicate(data: T, filter: U): boolean {
+    if (typeof filter !== 'string') {
+      throw new Error('Custom filer predicate is not provided');
+    }
+
+    // Default filer predicate for string case taken from MatTableDataSource implementation
+    // Transform the data into a lowercase string of all property values.
+    const dataStr = Object.keys(data)
+      .reduce((currentTerm: string, key: string) => {
+        // Use an obscure Unicode character to delimit the words in the concatenated string.
+        // This avoids matches where the values of two columns combined will match the user's query
+        // (e.g. `Flute` and `Stop` will match `Test`). The character is intended to be something
+        // that has a very low chance of being typed in by somebody in a text field. This one in
+        // particular is "White up-pointing triangle with dot" from
+        // https://en.wikipedia.org/wiki/List_of_Unicode_characters
+        return currentTerm + data[key] + '◬';
+      }, '')
+      .toLowerCase();
+
+    // Transform the filter by converting it to lowercase and removing whitespace.
+    const transformedFilter = filter.trim().toLowerCase();
+
+    return dataStr.indexOf(transformedFilter) !== -1;
   }
 
   // reuse mat table data source implementation to handle edge cases
-  private _sortData(data: T[], { active, direction }: Sort): T[] {
+  private _sortData(data: T[], sort: ModelZooSort<T>): T[] {
+    if (!sort) {
+      return data;
+    }
+    const active = sort.field as string;
+    const direction = sort.direction;
     if (!active || direction === '') {
       return data;
     }
 
-    return data.sort((a, b) => {
+    return data.slice().sort((a, b) => {
       let valueA = a[active];
       let valueB = b[active];
 
@@ -114,5 +216,27 @@ export abstract class BaseModelZooDataSource<T> implements DataSource<T> {
 
       return comparatorResult * (direction === 'asc' ? 1 : -1);
     });
+  }
+
+  private _pageData(data: T[], paginator: MatPaginator): T[] {
+    if (!paginator) {
+      return data;
+    }
+
+    const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
+    return data.slice(startIndex, startIndex + this.paginator.pageSize);
+  }
+
+  connect(): Observable<T[]> {
+    if (!this._renderChangesSubscription) {
+      this._updateChangesSubscription();
+    }
+
+    return this._renderData$;
+  }
+
+  disconnect(): void {
+    this._renderChangesSubscription?.unsubscribe();
+    this._renderChangesSubscription = null;
   }
 }
