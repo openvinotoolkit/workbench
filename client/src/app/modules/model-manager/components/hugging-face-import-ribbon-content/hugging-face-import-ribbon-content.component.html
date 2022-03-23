@@ -42,21 +42,14 @@
     </wb-card-grid>
   </wb-model-zoo-content>
 
-  <wb-model-zoo-details>
-    <wb-model-zoo-details-header
-      [modelName]="selectedModel?.id"
-      (hideDetails)="selectedModel = null"
-    ></wb-model-zoo-details-header>
-
-    <wb-model-zoo-details-footer>
-      <wb-button
-        type="primary"
-        class="enlarged-control"
-        text="Download and Import"
-        (handleClick)="handleUploadModel()"
-      ></wb-button>
-    </wb-model-zoo-details-footer>
-  </wb-model-zoo-details>
+  <wb-huggingface-model-details
+    ngProjectAs="wb-model-zoo-details"
+    [huggingfaceModel]="selectedModel"
+    [tagsSets]="tagsSets"
+    (import)="handleUploadModel()"
+    (hide)="selectedModel = null"
+  >
+  </wb-huggingface-model-details>
 </wb-model-zoo-layout>
 
 <ng-template #filtersTemplate>
