@@ -14,5 +14,6 @@
     "Connection error": "Connection error, check the internet connection.",
     "Model and config inputs doesn't match": "Cannot convert model to ONNX - model and config inputs doesn't match. The repository might contain wrong tokenizer type.",
     "Wrong index found for [MASK]": "Cannot initialize tokenizer from the model repository.",
-    "JSONDecodeError": "Cannot initialize tokenizer from the model repository - the json file is corrupted."
+    "JSONDecodeError": "Cannot initialize tokenizer from the model repository - the json file is corrupted.",
+    "PreValidation Error": "Cannot initialize tokenizer or model from the repository."
 }
