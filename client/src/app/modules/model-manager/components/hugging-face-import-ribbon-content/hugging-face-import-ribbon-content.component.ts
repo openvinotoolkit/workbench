@@ -25,7 +25,6 @@ import { ModelStoreActions, RootStoreState } from '@store';
 
 import { HuggingfaceModelZooDataSource } from '@shared/models/model-zoo-data-source/huggingface-model-zoo-data-source';
 import { IHuggingfaceModel } from '@shared/models/huggingface/huggingface-model';
-import { ModelDownloaderDTO } from '@shared/models/dto/model-downloader-dto';
 
 export interface IHuggingfaceTagsSets {
   pipelineTags: Set<string>;
@@ -62,10 +61,7 @@ export class HuggingFaceImportRibbonContentComponent implements OnInit, AfterVie
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   readonly appliedFiltersCount$ = this.filterControl.valueChanges.pipe(
-    map(
-      (filters: Record<keyof ModelDownloaderDTO, string[]>) =>
-        Object.entries(filters).filter(([, value]) => value.length).length
-    )
+    map((filters: Record<string, string[]>) => Object.entries(filters).filter(([, value]) => value.length).length)
   );
 
   private readonly _unsubscribe$ = new Subject<void>();
