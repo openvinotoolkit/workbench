@@ -4,29 +4,29 @@
 
  Copyright (c) 2020 Intel Corporation
 
- LEGAL NOTICE: Your use of this software and any required dependent software (the “Software Package”) is subject to
- the terms and conditions of the software license agreements for Software Package, which may also include
- notices, disclaimers, or license terms for third party or open source software
- included in or with the Software Package, and your use indicates your acceptance of all such terms.
- Please refer to the “third-party-programs.txt” or other similarly-named text file included with the Software Package
- for additional details.
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
-      https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
+      http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
 """
 import os
 import shutil
 import tempfile
 from contextlib import closing
 
-from config.constants import ARTIFACTS_PATH
 from wb.extensions_factories.database import get_db_session_for_celery
 from wb.main.enumerates import JobTypesEnum, StatusEnum
 from wb.main.jobs.interfaces.ijob import IJob
 from wb.main.jobs.utils.database_functions import set_status_in_db
-from wb.main.models import CreateSetupBundleJobModel, DownloadableArtifactsModel
+from wb.main.models import CreateSetupBundleJobModel, SharedArtifactModel
 from wb.main.scripts.job_scripts_generators.setup_script_generator import SetupScriptGenerator
 from wb.main.utils.bundle_creator.setup_bundle_creator import SetupBundleCreator, SetupComponentsParams
-from wb.main.utils.utils import get_size_of_files, find_by_ext
+from wb.main.utils.utils import find_by_ext
 
 
 class CreateSetupBundleJob(IJob):
@@ -46,6 +46,9 @@ class CreateSetupBundleJob(IJob):
             self.include_model = deployment_bundle_config.include_model
             self.topology_name = create_bundle_job_model.project.topology.name if self.include_model else None
             self.topology_path = create_bundle_job_model.project.topology.path if self.include_model else None
+            bundle: SharedArtifactModel = create_bundle_job_model.deployment_bundle_config.deployment_bundle
+            self.bundle_path = bundle.build_full_artifact_path()
+            self.is_archive = bundle.is_archive
 
     def run(self):
         self._job_state_subject.update_state(status=StatusEnum.running, log='Preparing setup bundle.')
@@ -83,7 +86,8 @@ class CreateSetupBundleJob(IJob):
                                                      self.additional_components,
                                                      topology_temporary_path)
             setup_bundle_creator.create(components=setup_components,
-                                        destination_bundle=os.path.join(ARTIFACTS_PATH, str(self.deployment_bundle_id)))
+                                        destination_bundle=self.bundle_path,
+                                        is_archive=self.is_archive)
         self.on_success()
 
     @staticmethod
@@ -97,11 +101,9 @@ class CreateSetupBundleJob(IJob):
         with closing(get_db_session_for_celery()) as session:
             deployment_job = self.get_job_model(session)
             bundle = deployment_job.deployment_bundle_config.deployment_bundle
-            bundle_path = DownloadableArtifactsModel.get_archive_path(bundle.id)
-            bundle.path = bundle_path
-            bundle.size = get_size_of_files(bundle_path)
+            bundle.update(self.bundle_path)
             bundle.write_record(session)
-            set_status_in_db(DownloadableArtifactsModel, bundle.id, StatusEnum.ready, session, force=True)
             self._job_state_subject.update_state(status=StatusEnum.ready,
                                                  log='Setup bundle created successfully.')
+            set_status_in_db(SharedArtifactModel, bundle.id, StatusEnum.ready, session, force=True)
             self._job_state_subject.detach_all_observers()

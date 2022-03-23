@@ -1,14 +1,15 @@
 """
  Copyright (c) 2019 Intel Corporation
 
- LEGAL NOTICE: Your use of this software and any required dependent software (the “Software Package”) is subject to
- the terms and conditions of the software license agreements for Software Package, which may also include
- notices, disclaimers, or license terms for third party or open source software
- included in or with the Software Package, and your use indicates your acceptance of all such terms.
- Please refer to the “third-party-programs.txt” or other similarly-named text file included with the Software Package
- for additional details.
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
-      https://software.intel.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements.pdf
+      http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
 """
 
 import os
@@ -63,6 +64,7 @@ FILE_PATTERNS_TO_SKIP = (
     r'.*\.pylintrc$',
     r'.*CONTRIBUTING\.md$',
     r'.*pull_request_template\.md$',
+    r'LICENSE$',
     r'.*\.log',
     r'.*requirements_dev\.txt.*',
     r'.*requirements_snyk\.txt.*',
@@ -75,7 +77,7 @@ FILE_PATTERNS_TO_SKIP = (
     r'^wb\/utils\/git_hooks_checker\.py$',
     r'^scripts\/development\/erase_db\.sql$',
     r'^scripts\/development\/check_git_remote_pre_push\.py$',
-    r'^docker\/docker-compose(\.local)?(\.bootstrap)?\.yml$'
+    r'^docker\/docker-compose(\.local)?(\.test\.bootstrap)?\.yml$'
 )
 
 FULL_NAME_PATTERNS_TO_SKIP = (
@@ -111,14 +113,15 @@ Create Date: \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d{6}
 
  Copyright \(c\) [0-9\-]+ Intel Corporation
 
- LEGAL NOTICE: Your use of this software and any required dependent software \(the \“Software Package\”\) is subject to
- the terms and conditions of the software license agreements for Software Package, which may also include
- notices, disclaimers, or license terms for third party or open source software
- included in or with the Software Package, and your use indicates your acceptance of all such terms\.
- Please refer to the \“third-party-programs\.txt\” or other similarly-named text file included with the Software Package
- for additional details\.
+ Licensed under the Apache License, Version 2.0 \(the \"License\"\);
+ you may not use this file except in compliance with the License\.
  You may obtain a copy of the License at
- {6}https://software\.intel\.com/content/dam/develop/external/us/en/documents/intel-openvino-license-agreements\.pdf
+ {6}http:\/\/www\.apache\.org/licenses/LICENSE-2\.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an \"AS IS\" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied\.
+ See the License for the specific language governing permissions and
+ limitations under the License\.
 (\"){3}'''
 
     _content_pattern = r'[\s\S]*'

@@ -22,6 +22,7 @@ import { ModelZooFilterGroupComponent } from './components/model-zoo-filter-grou
 import { ModelZooFilterComponent } from './components/model-zoo-filter-group/model-zoo-filter/model-zoo-filter.component';
 import { ModelZooFilterOptionComponent } from './components/model-zoo-filter-group/model-zoo-filter/model-zoo-filter-option/model-zoo-filter-option.component';
 import { ModelZooLayoutModule } from './components/model-zoo-layout/model-zoo-layout.module';
+import { HuggingfaceModelDetailsComponent } from './components/hugging-face-import-ribbon-content/huggingface-model-details/huggingface-model-details.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ModelZooLayoutModule } from './components/model-zoo-layout/model-zoo-la
     ModelZooFilterOptionComponent,
     OmzImportRibbonContentComponent,
     HuggingFaceImportRibbonContentComponent,
+    HuggingfaceModelDetailsComponent,
   ],
   imports: [
     CommonModule,
