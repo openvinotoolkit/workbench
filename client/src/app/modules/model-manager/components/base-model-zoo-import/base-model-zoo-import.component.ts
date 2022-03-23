@@ -7,9 +7,13 @@ import { Subject } from 'rxjs';
 
 import { BaseModelZooDataSource } from '@shared/models/model-zoo-data-source/base-model-zoo-data-source';
 
+import { ModelZooFilterGroupComponent } from '../model-zoo-filter-group/model-zoo-filter-group.component';
+
 @Component({ template: '' })
 export abstract class BaseModelZooImportComponent<T, U = string> implements AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) private _paginator: MatPaginator;
+
+  @ViewChild(ModelZooFilterGroupComponent) private _filterGroupComponent: ModelZooFilterGroupComponent;
 
   abstract readonly dataSource: BaseModelZooDataSource<T, U>;
 
@@ -59,8 +63,9 @@ export abstract class BaseModelZooImportComponent<T, U = string> implements Afte
     });
   }
 
-  // TODO Implement
-  resetAllFilters(): void {}
+  resetAllFilters(): void {
+    this._filterGroupComponent.resetAllFilters();
+  }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this._paginator;

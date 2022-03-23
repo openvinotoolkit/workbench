@@ -56,13 +56,6 @@ export class OmzImportRibbonContentComponent extends BaseModelZooImportComponent
     };
   }
 
-  resetAllFilters(): void {
-    // TODO Unify filters setting and deselecting depending on form control value
-    const filters = this.filtersControl.value as Record<keyof ModelDownloaderDTO, string[]>;
-    const clearedFilters = Object.fromEntries(Object.entries(filters).map(([key]) => [key, []]));
-    this.filtersControl.setValue(clearedFilters);
-  }
-
   importModel(): void {
     // TODO Check which precision is needed for initial downloading
     const precision =
