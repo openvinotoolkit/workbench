@@ -36,6 +36,7 @@ class LocalInt8CalibrationJob(Int8CalibrationJob):
             job_type=CreateInt8CalibrationScriptsJobModel.get_polymorphic_job_type()
         )
         return WorkbenchJobTool(job_script_path=create_int8_scripts_job_model.job_script_file_path,
+                                openvino_package_root_path=self.openvino_bundle_path,
                                 job_bundle_path=create_int8_scripts_job_model.scripts_path)
 
     def get_openvino_bundle_path(self, session: Session) -> str:

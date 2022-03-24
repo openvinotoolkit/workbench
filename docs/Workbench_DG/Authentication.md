@@ -10,12 +10,12 @@ To enable authentication, use `-e ENABLE_AUTH=1` when you start the DL Workbench
 `docker run` command or `--enable-auth` with the `openvino-workbench` script:
 * Example `docker run` command:
  ```bash
- docker run -p 127.0.0.1:5665:5665 --name workbench -e ENABLE_AUTH=1 -it openvino/workbench:2021.4.2
+ docker run -p 127.0.0.1:5665:5665 --name workbench -e ENABLE_AUTH=1 -it openvino/workbench:2022.1
  ```
 
 * Example `openvino-workbench` command:  
  ```bash
- openvino-workbench --image openvino/workbench:2021.4.2 --enable-authentication
+ openvino-workbench --image openvino/workbench:2022.1 --enable-authentication
  ```
 
 When you enable authentication, the terminal displays the following when the Docker
@@ -33,12 +33,12 @@ To set up your own login token, use `-e CUSTOM_TOKEN=<token>` when you start the
 `docker run` command or `--custom-token <token>` with the `openvino-workbench` script:
 * Example `docker run` command:
  ```bash
- docker run -p 127.0.0.1:5665:5665 --name workbench -e ENABLE_AUTH=1 -e CUSTOM_TOKEN=MY_CUSTOM_TOKEN -it openvino/workbench:2021.4.1.1
+ docker run -p 127.0.0.1:5665:5665 --name workbench -e ENABLE_AUTH=1 -e CUSTOM_TOKEN=MY_CUSTOM_TOKEN -it openvino/workbench:2022.1
  ```
 
 * Example `openvino-workbench` command:  
  ```bash
- openvino-workbench --image openvino/workbench:2021.4.1.1 --enable-authentication --custom-token MY_CUSTOM_TOKEN
+ openvino-workbench --image openvino/workbench:2022.1 --enable-authentication --custom-token MY_CUSTOM_TOKEN
  ```
 
 ## How to Use Tokens
@@ -70,9 +70,9 @@ the console and paste it into the field:
 
 > **NOTE**: The token is also saved to a folder inside a Docker container, and you can
 > obtain it with the command below: 
-> ```bash
-> docker exec workbench cat /home/workbench/.workbench/token.txt
-> ```
+    ```bash 
+    docker cp workbench:/home/workbench/.workbench/token.txt token.txt
+    ```
 > If you do not want to save the token inside a Docker container, use `SAVE_TOKEN_TO_FILE=0` 
 > when you start the DL Workbench with the `docker run` command or `--disable-token-saving` 
 > with the `openvino-workbench` script.
@@ -88,7 +88,7 @@ Accept or block cookies in the pop-up window. You can change your decision later
 
 ### <a name="jupyter-token">JupyterLab Token</a>
 
-Use this token when you access the [JupyterLab* Environment](Jupyter_Notebooks.md) delivered by the DL Workbench. This token is valid as long as you do not remove the current Docker container.
+Use this token when you access the [JupyterLab Environment](Jupyter_Notebooks.md) delivered by the DL Workbench. This token is valid as long as you do not remove the current Docker container.
 ![](img/authentication/auth4.png)
 
 ---

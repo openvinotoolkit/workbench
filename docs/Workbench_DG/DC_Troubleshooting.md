@@ -69,6 +69,16 @@ and click the **Return to DL Workbench session** link under the **Stop Applicati
 button. 
 ![](img/devcloud_two_links.png)
 
+## <a name="report-devcloud">Obtain Logs</a>
+
+To obtain server logs, open the root folder: 
+
+![](img/devcloud_logs_folder.png)
+
+Download log.zip files:
+
+![](img/dv_logs.png)
+
 ## <a name="report-devcloud">Report an Issue</a>
 
 To report an issue that occurred when you run the DL Workbench in the DevCloud:

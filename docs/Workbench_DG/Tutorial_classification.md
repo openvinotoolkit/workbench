@@ -18,7 +18,7 @@ To convert the model to INT8, go to  **Perform** tab on the Project page and ope
 
 Once a model has been inferred in the DL Workbench, you can convert it from FP32 to INT8. Go to the **Perform** tab on the Project page and open the **Optimize** subtab. Check **INT8** and click **Optimize**.
 
-![](img/tutorials/optimize-classification.png)
+![](img/tutorials/optimize_face_detection.png)
 
 It takes you to the **Optimize INT8** page. Select the imported dataset and perform INT8 Calibration with Default optimization method and Performance Preset calibration scheme first as it provides maximum performance speedup.
 
@@ -87,10 +87,4 @@ After evaluating the accuracy, you can decide whether the difference between imp
 ## See Also
 
 * [Create Accuracy Report](Measure_Accuracy.md)
-* [Classification model tutorial](Tutorial_classification_dataset.md)
-* [Object Detection model tutorial](Tutorial_classification_dataset.md)
-* [Optimize Style Transfer model tutorial](Tutorial_style_transfer.md)
-* [Optimize Object Detection model tutorial](Tutorial_object_detection.md)
-* [Style Transfer model tutorial](Tutorial_style_transfer.md)
-* [Configure Accuracy Settings](Accuracy_Configuration.md)
 * [Troubleshooting](Troubleshooting.md)

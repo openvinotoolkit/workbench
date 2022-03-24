@@ -49,6 +49,6 @@ The DL Workbench allows you to evaluate the performance of the model and provide
 
 * [Run Inference](Run_Single_Inference.md)
 * [View Inference Results](View_Inference_Results.md)
-* [OpenVINO™ Runtime documentation](@ref openvino_docs_OV_Runtime_User_Guide})
+* [OpenVINO™ Runtime documentation](@ref openvino_docs_OV_Runtime_User_Guide)
 * [Benchmark Tool](@ref openvino_inference_engine_tools_benchmark_tool_README)
 * [Troubleshooting](Troubleshooting.md)

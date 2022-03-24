@@ -4,6 +4,10 @@ set -e
 
 while test $# -gt 0; do
     case "$1" in
+    -openvino-package-root)
+        OPENVINO_PACKAGE_ROOT=$2
+        shift 2
+        ;;
     -result-archive)
         ARCHIVE_ARTIFACT_PATH=$2
         shift 2
@@ -18,6 +22,11 @@ while test $# -gt 0; do
         ;;
     esac
 done
+
+if [[ -z "${OPENVINO_PACKAGE_ROOT}" ]]; then
+    echo "The -openvino-package-root argument is not set."
+    exit 1
+fi
 
 CURRENT_PATH=$(pwd)
 CURRENT_SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -40,6 +49,8 @@ else
 fi
 
 mkdir -p "${ARTIFACTS_PATH}"
+
+source "${OPENVINO_PACKAGE_ROOT}/setupvars.sh"
 
 # Activate virtualenv
 if [[ -f "${PYTHON_ENVIRONMENT_PATH}/bin/activate" ]]; then

@@ -12,33 +12,34 @@
 
 @endsphinxdirective
 
-@sphinxdirective
-
-.. raw:: html
-
-   <a href="workbench_docs_Workbench_DG_Run_Locally.html" class="button bttn-prm button-size-m" id="install-workbench">Run DL Workbench on Local System</a>
-
-@endsphinxdirective
 
 @sphinxdirective
 
-.. raw:: html
+.. panels::
 
-   <a href="workbench_docs_Workbench_DG_Start_DL_Workbench_in_DevCloud.html" class="button bttn-prm button-size-m" id="install-workbench">Run DL Workbench in Intel® DevCloud</a>
+   ---
+    
+   Run Deep Learning Workbench on your local machine to test and deploy models on your device.
 
+   +++
+
+   .. link-button:: workbench_docs_Workbench_DG_Run_Locally
+      :type: ref
+      :text: Run DL Workbench Locally
+      :classes: btn-primary btn-block stretched-link
+
+   ---
+
+   Run Deep Learning Workbench in the DevCloud to infer your model on different Intel hardware and accelerators. 
+
+   +++
+
+   .. link-button:: workbench_docs_Workbench_DG_Start_DL_Workbench_in_DevCloud
+      :type: ref
+      :text: Start DL Workbench in Intel® DevCloud
+      :classes: btn-outline-primary btn-block stretched-link
+      
 @endsphinxdirective
-
-
-You can compare these DL Workbench installation methods and select the one that suits you best:
-
-Characteristics| Local System | Intel® DevCloud
---|:--:|:--:
-Assess Performance | Yes | Yes |
-Measure Accuracy | Yes |  Yes |
-Work on various preconfigured Intel® devices | No | Yes |
-Use targets in your local network | Yes | No |
-Accelerate performance with INT8 calibration | Yes | Yes |
-Learn OpenVINO™ in the preconfigured JupyterLab\* environment | Yes |  No |
 
 
 ---
