@@ -28,6 +28,12 @@ $card-padding: 20px;
 
   ::ng-deep wb-card-content-row-item {
     max-width: fit-content;
+
+    mat-icon {
+      width: 16px;
+      height: 16px;
+      margin-right: 3px;
+    }
   }
 
   ::ng-deep wb-card-title-row {
