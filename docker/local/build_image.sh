@@ -56,8 +56,8 @@ pushd ${ROOT_FOLDER}
     else
       WHEELS_VERSION=$(grep 'openvino_wheels_version'  ${VERSIONS_FILE} | awk '{print $2}')
       pushd ${WHEELS_FOLDER}
-        pip download "openvino==${WHEELS_VERSION}" --pre -d . --no-deps
-        pip download "openvino-dev==${WHEELS_VERSION}" --pre -d . --no-deps
+        pip download "openvino==${WHEELS_VERSION}" --pre -d . --no-deps --python-version 3.8
+        pip download "openvino-dev==${WHEELS_VERSION}" --pre -d . --no-deps --python-version 3.8
       popd
     fi
 

@@ -86,11 +86,7 @@ RUN sed -Ei 's/# deb-src /deb-src /' /etc/apt/sources.list && \
 # CREATE DIRECTORY FOR PUBLIC WORKBENCH ARTIFACTS
 RUN mkdir -m 777 -p ${WORKBENCH_PUBLIC_DIR} && chown -R ${USER_NAME} ${WORKBENCH_PUBLIC_DIR}
 
-# CREATE DIRECTORY FOR WHEELS
-RUN mkdir -m 777 -p ${WHEELS_PATH} && chown -R ${USER_NAME} ${WHEELS_PATH}
-
 WORKDIR ${INTEL_OPENVINO_DIR}/tools
-RUN rm -rf ${OPENVINO_WORKBENCH_ROOT}
 ADD --chown=workbench workbench ${OPENVINO_WORKBENCH_ROOT}/
 
 RUN python3 -m pip install pip==19.3.1
