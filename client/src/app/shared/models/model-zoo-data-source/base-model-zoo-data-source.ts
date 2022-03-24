@@ -162,6 +162,7 @@ export abstract class BaseModelZooDataSource<T, U = string> implements DataSourc
     if (!sort) {
       return data;
     }
+    // TODO Casting to string violates T[keyof T] type check, consider narrowing filtered field type to string | number
     const active = sort.field as string;
     const direction = sort.direction;
     if (!active || direction === '') {
