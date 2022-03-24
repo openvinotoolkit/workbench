@@ -1,16 +1,5 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
@@ -20,8 +9,13 @@ import { IHuggingfaceAppliedModelTags, IHuggingfaceAvailableTags } from '@core/s
 import { ModelStoreActions, RootStoreState } from '@store';
 import { HuggingfaceModelStoreActions, HuggingfaceModelStoreSelectors } from '@store/huggingface-model-store';
 
-import { HuggingfaceModelZooDataSource } from '@shared/models/model-zoo-data-source/huggingface-model-zoo-data-source';
+import {
+  HuggingfaceModelZooDataSource,
+  IHuggingfaceModelZooFilter,
+} from '@shared/models/model-zoo-data-source/huggingface-model-zoo-data-source';
 import { IHuggingfaceModel } from '@shared/models/huggingface/huggingface-model';
+
+import { BaseModelZooImportComponent } from '../base-model-zoo-import/base-model-zoo-import.component';
 
 export interface IHuggingfaceTagsSets {
   pipelineTags: Set<string>;
@@ -34,38 +28,33 @@ export interface IHuggingfaceTagsSets {
 @Component({
   selector: 'wb-hugging-face-import-ribbon-content',
   templateUrl: './hugging-face-import-ribbon-content.component.html',
-  styleUrls: ['./hugging-face-import-ribbon-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HuggingFaceImportRibbonContentComponent implements OnInit, AfterViewInit, OnDestroy {
+export class HuggingFaceImportRibbonContentComponent
+  extends BaseModelZooImportComponent<IHuggingfaceModel, IHuggingfaceModelZooFilter>
+  implements OnInit, OnDestroy
+{
   readonly externalResourceNotification =
     this._messages.hintMessages.importHuggingFaceTips.externalResourceNotification;
+  readonly shownSubsetNotification = this._messages.hintMessages.importHuggingFaceTips.shownSubsetNotification;
 
   private readonly _modelData$ = this._store$.select(HuggingfaceModelStoreSelectors.selectModelsData);
   readonly loading$ = this._store$.select(HuggingfaceModelStoreSelectors.selectLoading);
 
-  readonly filterControl = new FormControl();
-  readonly sortControl = new FormControl('downloads');
+  readonly dataSource = new HuggingfaceModelZooDataSource();
 
   appliedTags: IHuggingfaceAppliedModelTags = null;
   availableTags: IHuggingfaceAvailableTags = null;
   tagsSets: IHuggingfaceTagsSets = null;
 
-  idSearch = '';
-
-  readonly dataSource = new HuggingfaceModelZooDataSource();
-
-  selectedModel: IHuggingfaceModel = null;
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  private readonly _unsubscribe$ = new Subject<void>();
-
   constructor(
     private readonly _messages: MessagesService,
     private readonly _cdr: ChangeDetectorRef,
     private readonly _store$: Store<RootStoreState.State>
-  ) {}
+  ) {
+    super();
+    this.sortControl.setValue(this.dataSource.defaultSortOption);
+  }
 
   ngOnInit(): void {
     this._modelData$
@@ -88,37 +77,21 @@ export class HuggingFaceImportRibbonContentComponent implements OnInit, AfterVie
       });
 
     this._store$.dispatch(HuggingfaceModelStoreActions.loadModelData());
-
-    this.sortControl.valueChanges
-      .pipe(takeUntil(this._unsubscribe$))
-      .subscribe((sort) => (this.dataSource.sort = { active: sort, direction: 'desc' }));
-
-    this.filterControl.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe(() => this._filter());
-  }
-
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
   }
 
   ngOnDestroy(): void {
-    this._unsubscribe$.next();
-    this._unsubscribe$.complete();
+    super.ngOnDestroy();
     this._store$.dispatch(HuggingfaceModelStoreActions.reset());
   }
 
-  searchModels(value: string): void {
-    this.idSearch = value;
-    this._filter();
-  }
-
-  handleUploadModel(): void {
-    this._store$.dispatch(ModelStoreActions.importHuggingfaceModel({ huggingface_model_id: this.selectedModel.id }));
-  }
-
-  private _filter(): void {
-    this.dataSource.filter = {
-      id: this.idSearch,
-      tags: Object.values(this.filterControl?.value || {}).flat() as string[],
+  protected get _dataSourceFilter(): IHuggingfaceModelZooFilter {
+    return {
+      id: this.modelSearch,
+      tags: Object.values(this.filtersControl?.value || {}).flat() as string[],
     };
+  }
+
+  importModel(): void {
+    this._store$.dispatch(ModelStoreActions.importHuggingfaceModel({ huggingface_model_id: this.selectedModel.id }));
   }
 }

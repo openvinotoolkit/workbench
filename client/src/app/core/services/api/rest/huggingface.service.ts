@@ -21,6 +21,7 @@ interface IModelsResponse {
   };
 }
 
+// TODO Consider moving to shared models (e.g. huggingface directory)
 export interface IHFModelsData {
   models: IHuggingfaceModel[];
   tags: {

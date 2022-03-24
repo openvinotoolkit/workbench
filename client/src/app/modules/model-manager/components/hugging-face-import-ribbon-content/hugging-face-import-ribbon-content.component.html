@@ -1,6 +1,19 @@
 <wb-model-zoo-layout [isDetailsOpened]="!!selectedModel" [loading]="loading$ | async">
   <wb-model-zoo-content>
-    <ng-container ngProjectAs="model-zoo-filters" [ngTemplateOutlet]="filtersTemplate"></ng-container>
+    <mat-form-field ngProjectAs="model-zoo-sort" appearance="outline">
+      <mat-select [formControl]="sortControl">
+        <mat-option *ngFor="let option of dataSource.sortOptions" [value]="option">
+          {{ option.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <wb-model-zoo-filters-header
+      [appliedFiltersCount]="appliedFiltersCount$ | async"
+      (resetAllFilters)="resetAllFilters()"
+    ></wb-model-zoo-filters-header>
+
+    <ng-container ngProjectAs="wb-model-zoo-filter-group" [ngTemplateOutlet]="filterGroupTemplate"></ng-container>
 
     <wb-model-zoo-notification [message]="externalResourceNotification"></wb-model-zoo-notification>
 
@@ -46,66 +59,71 @@
     ngProjectAs="wb-model-zoo-details"
     [huggingfaceModel]="selectedModel"
     [tagsSets]="tagsSets"
-    (import)="handleUploadModel()"
+    (import)="importModel()"
     (hide)="selectedModel = null"
   >
   </wb-huggingface-model-details>
 </wb-model-zoo-layout>
 
-<ng-template #filtersTemplate>
-  <mat-form-field>
-    <mat-select [formControl]="sortControl">
-      <mat-option [value]="'downloads'">Downloads</mat-option>
-      <mat-option [value]="'lastModified'">Recently Updated</mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <wb-model-zoo-filter-group [formControl]="filterControl">
+<ng-template #filterGroupTemplate>
+  <wb-model-zoo-filter-group [formControl]="filtersControl">
     <ng-container *ngIf="appliedTags">
+      <wb-info-hint [message]="shownSubsetNotification"></wb-info-hint>
       <wb-model-zoo-filter group="pipeline_tag">
-        <h3 title>Tasks</h3>
+        <wb-model-zoo-filter-title>Tasks</wb-model-zoo-filter-title>
         <wb-model-zoo-filter-option
           selected="true"
           disabled="true"
           *ngFor="let tag of appliedTags.pipelineTags"
           [value]="tag"
+          [label]="tag"
+          icon="list_alt"
         >
-          {{ tag }}
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
 
       <wb-model-zoo-filter group="library">
-        <h3 title>Library</h3>
+        <wb-model-zoo-filter-title>Library</wb-model-zoo-filter-title>
         <wb-model-zoo-filter-option
           selected="true"
           disabled="true"
           *ngFor="let tag of appliedTags.libraries"
           [value]="tag"
+          [label]="tag"
         >
-          {{ tag }}
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
     </ng-container>
 
     <ng-container *ngIf="availableTags">
       <wb-model-zoo-filter group="modelTypes">
-        <h3 title>Model types</h3>
-        <wb-model-zoo-filter-option *ngFor="let modelType of availableTags.modelTypes" [value]="modelType">
-          {{ modelType }}
+        <wb-model-zoo-filter-title>Model types</wb-model-zoo-filter-title>
+        <wb-model-zoo-filter-option
+          *ngFor="let modelType of availableTags.modelTypes"
+          [value]="modelType"
+          [label]="modelType"
+        >
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
 
       <wb-model-zoo-filter group="languages">
-        <h3 title>Languages</h3>
-        <wb-model-zoo-filter-option *ngFor="let language of availableTags.languages" [value]="language">
-          {{ language }}
+        <wb-model-zoo-filter-title>Languages</wb-model-zoo-filter-title>
+        <wb-model-zoo-filter-option
+          *ngFor="let language of availableTags.languages"
+          [value]="language"
+          [label]="language"
+        >
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
 
       <wb-model-zoo-filter group="licenses">
-        <h3 title>Licenses</h3>
-        <wb-model-zoo-filter-option *ngFor="let license of availableTags.licenses" [value]="license">
-          {{ license }}
+        <wb-model-zoo-filter-title>Licenses</wb-model-zoo-filter-title>
+        <wb-model-zoo-filter-option
+          *ngFor="let license of availableTags.licenses"
+          [value]="license"
+          [label]="license.replace('license:', '')"
+          icon="license"
+        >
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
     </ng-container>

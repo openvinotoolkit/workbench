@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -21,15 +22,19 @@ export interface IModelZooFilterOptionChangeEvent<T> {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModelZooFilterOptionComponent<T> {
+  @Input() label: string;
+
+  @Input() icon: string = null;
+
   @Input() value: T = null;
 
   @HostBinding('class.selected') @Input() selected = false;
 
-  @Input() disabled = false;
+  @HostBinding('class.disabled') @Input() disabled = false;
 
   @Output() selectionChange = new EventEmitter<IModelZooFilterOptionChangeEvent<T>>();
 
-  constructor(readonly elementRef: ElementRef) {}
+  constructor(readonly elementRef: ElementRef, private readonly _cdr: ChangeDetectorRef) {}
 
   @HostListener('click') select(): void {
     if (!this.selected && !this.disabled) {
@@ -42,6 +47,7 @@ export class ModelZooFilterOptionComponent<T> {
     if (this.selected && !this.disabled) {
       event.stopPropagation();
       this.selected = false;
+      this._cdr.detectChanges();
       this._emitChange();
     }
   }

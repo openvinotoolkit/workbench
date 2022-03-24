@@ -40,6 +40,7 @@ export interface AdvancedConfigField {
   maxNumber?: number;
   validators?: ValidatorFn[];
   suffix?: string;
+  suffixIcon?: string;
   tooltip?: Tooltip;
   hidden?: boolean;
 }
