@@ -50,6 +50,7 @@ JUPYTER_NOTEBOOKS_FOLDER = os.path.join(ESSENTIAL_DATA_FOLDER, 'jupyter_notebook
 JUPYTER_CELL_TEMPLATES_FOLDER = os.path.join(ROOT_FOLDER, 'wb', 'main', 'jupyter_notebooks', 'cell_templates')
 UPLOAD_FOLDER_MODELS = os.path.join(ESSENTIAL_DATA_FOLDER, 'models')
 CONSOLE_TOOL_WRAPPER_FOLDER = os.path.join(ROOT_FOLDER, 'wb', 'main', 'console_tool_wrapper')
+TRANSFORMERS_ONNX_ERROR_MAP_JSON = Path(ROOT_FOLDER) / 'wb' / 'error' / 'transformers_onnx_conversion_error_map.json'
 VOC_IMAGES_FOLDER = 'JPEGImages'
 VOC_ANNOTATIONS_FOLDER = 'Annotations'
 VOC_IMAGESETS_FOLDER = 'ImageSets'

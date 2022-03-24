@@ -153,6 +153,7 @@ wb/error/parse_env_error.py
 wb/error/request_error.py
 wb/error/sanitize_parameter_error.py
 wb/error/ssh_client_error.py
+wb/error/transformers_onnx_conversion_error_map.json
 wb/extensions_factories/__init__.py
 wb/extensions_factories/celery.py
 wb/extensions_factories/database.py
