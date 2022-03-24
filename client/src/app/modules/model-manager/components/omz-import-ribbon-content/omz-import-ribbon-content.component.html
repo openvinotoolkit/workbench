@@ -16,7 +16,11 @@
 
     <ng-container ngProjectAs="wb-model-zoo-filter-group" [ngTemplateOutlet]="filterGroupTemplate"></ng-container>
 
-    <wb-search-field ngProjectAs="model-zoo-search" (search)="searchModels($event)"></wb-search-field>
+    <wb-search-field
+      ngProjectAs="model-zoo-search"
+      (search)="searchModels($event)"
+      testId="search-field"
+    ></wb-search-field>
 
     <wb-model-zoo-counter
       [dataLength]="dataSource?.data.length"
@@ -31,15 +35,19 @@
     ></mat-paginator>
 
     <wb-card-grid [dataSource]="dataSource">
-      <wb-card *wbCardDef="let model" (click)="selectedModel = model">
+      <wb-card *wbCardDef="let model" (click)="selectedModel = model" data-test-id="model-card">
         <wb-card-title-row>
           <mat-icon svgIcon="image"></mat-icon>
-          <wb-text-overflow [content]="model.name"></wb-text-overflow>
+          <wb-text-overflow [content]="model.name" data-test-id="model-name"></wb-text-overflow>
         </wb-card-title-row>
-        <wb-card-content-row>
-          <wb-card-content-row-item>{{ model.precision }}</wb-card-content-row-item>
-          <wb-card-content-row-item>{{ ModelTaskTypeToNameMap[model.task_type] }}</wb-card-content-row-item>
-          <wb-card-content-row-item>{{ modelFrameworkNamesMap[model.framework] }}</wb-card-content-row-item>
+        <wb-card-content-row data-test-id="model-content">
+          <wb-card-content-row-item data-test-id="precision">{{ model.precision }}</wb-card-content-row-item>
+          <wb-card-content-row-item data-test-id="task-type">{{
+            ModelTaskTypeToNameMap[model.task_type]
+          }}</wb-card-content-row-item>
+          <wb-card-content-row-item data-test-id="framework">
+            {{ modelFrameworkNamesMap[model.framework] }}</wb-card-content-row-item
+          >
         </wb-card-content-row>
       </wb-card>
     </wb-card-grid>

@@ -25,7 +25,7 @@ JupyterLab\* learning environment | No
 \*\* *In the DevCloud, you are connecting only to remote machines that are available in it. You cannot work with your local workstation or connect
 to other machines in your local network.*
 
-> **NOTES**:
+> **NOTE**:
 > * Profiling and calibration on DevCloud machines take more time than on a local machine 
 > due to the exchange of models, datasets, the job script, and performance data.
 > * Inference results may insignificantly vary for identical environment configurations. 

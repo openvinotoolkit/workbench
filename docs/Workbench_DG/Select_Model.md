@@ -15,7 +15,7 @@ This document describes the first part of [Get Started with DL Workbench](Work_w
      
 @endsphinxdirective
 
-To start working with DL Workbench, you need to obtain a model. A model is a neural network that has been trained over a set of data using a certain frameworks, such as TensorFlow\*, ONNX\*, Caffe\*, MXNet\*, and others. 
+To start working with DL Workbench, you need to obtain a model. A model is a neural network that has been trained over a set of data using a certain frameworks, such as TensorFlow, ONNX, Caffe, MXNet, and others. 
 
 ![](img/obtain_model.png)
 
@@ -38,7 +38,7 @@ This guide uses `ssd_mobilenet_v2_coco` SSD [model](https://docs.openvinotoolkit
 
 ## Convert Model
 
-To work with DL Workbench, you need to obtain a model in the Intermediate Representation (IR) format. Specify the precision in which model weights should be stored to convert the selected TensorFlow\* model to IR. You can select either 32-bit (FP32) or 16-bit (FP16) floating-point values. In this tutorial we choose FP16, as it keeps good accuracy and provides smaller footprint. Select the precision and click **Convert**.
+To work with DL Workbench, you need to obtain a model in the Intermediate Representation (IR) format. Specify the precision in which model weights should be stored to convert the selected TensorFlow model to IR. You can select either 32-bit (FP32) or 16-bit (FP16) floating-point values. In this tutorial we choose FP16, as it keeps good accuracy and provides smaller footprint. Select the precision and click **Convert**.
 
 ![](img/get_started/convert_model_mobilenet.png)
 
@@ -67,35 +67,7 @@ Drag and drop your image to evaluate the model performance:
 
 ![](img/get_started/mobilenet_visualization.png)
 
-### Visualize Model Predictions with Importance Map
-
-> **NOTE**: The feature is available for models of classification use case
-
-Although deep neural models are widely used to automate data processing, 
-their decision-making process is mostly unknown and difficult to explain. 
-Explainable AI helps you understand and interpret model predictions. 
-
-Randomized Input Sampling for Explanation (RIZE) algorithm can explain why a black-box model makes
-classification decisions by generating a pixel importance map for each class.
-The algorithm tests the model with randomly masked versions of the input image and obtains 
-the corresponding outputs to evaluate the importance.
-
-Select Model Predictions with Importance Map visualization type, upload an image and click **Visualize** button. You will see the progress bar on the right.
-
-![](img/visualization_rise.png)
-
-In the images below, red area indicates the most important pixels for class #269 (polar bear). Blue area contains less important pixels for the corresponding model prediction.  
-
-![](img/polar_bear_detected.png)
-
-Select another prediction to show the heatmap for class #143 (crane).
-
-![](img/crane_detected.png)
-
-
-Once you have checked how the model works, proceed to [create a project](Create_Project.md) to further explore the DL Workbench capabilities.
-
-*All images were taken from ImageNet, Pascal Visual Object Classes, and Common Objects in Context datasets for demonstration purposes only.*
+*All images were taken from Common Objects in Context datasets for demonstration purposes only.*
 
 ## See Also
 

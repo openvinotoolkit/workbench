@@ -1,5 +1,7 @@
 import { browser } from 'protractor';
 
+import { ModelPrecisionEnum } from '@store/model-store/model.model';
+
 import { InferenceType } from './pages/configuration-wizard.po';
 import { Frameworks, TestUtils } from './pages/test-utils';
 import { InferenceUtils } from './pages/inference-utils';
@@ -92,11 +94,10 @@ describe('UI tests on Advanced Accuracy Configuration', () => {
       const model = { name: 'ssd_mobilenet_v1_coco', framework: Frameworks.TENSORFLOW };
 
       // Download model
-      await testUtils.modelManagerPage.openOMZTab();
-      await testUtils.modelDownloadPage.filterTable(model.name);
-      await testUtils.modelDownloadPage.downloadModel(model.name);
+      await testUtils.clickElement(testUtils.modelDownloadPage.elements.OMZTab);
+      await testUtils.modelDownloadPage.selectAndDownloadModel(model.name);
       await browser.sleep(1000);
-      await testUtils.modelDownloadPage.convertDownloadedModelToIR('FP16');
+      await testUtils.modelDownloadPage.convertDownloadedModelToIR(ModelPrecisionEnum.FP16);
       await browser.wait(
         () => testUtils.configurationWizard.isUploadReady(model.name),
         browser.params.defaultTimeout * 11

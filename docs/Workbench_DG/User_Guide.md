@@ -16,51 +16,122 @@
    Create Deployment Package <workbench_docs_Workbench_DG_Deployment_Package>
    workbench_docs_Workbench_DG_Export_Project
    Learn OpenVINO in DL Workbench <workbench_docs_Workbench_DG_Jupyter_Notebooks_CLI>
-   Maintain DL Workbench <workbench_docs_Workbench_DG_Persist_Database>
+   Restore DL Workbench State <workbench_docs_Workbench_DG_Persist_Database>
+   Run DL Workbench Securely <workbench_docs_security_Workbench>
       
 @endsphinxdirective
 
-The purpose of this User Guide is to give you instructions on every step of the DL Workbench workflow.
+@sphinxdirective
 
-For information on how to start working with DL Workbench, refer to the [Get Started](Work_with_Models_and_Sample_Datasets.md) documentation. 
+.. panels::
 
-
-1. [Obtain Models](Select_Models.md)
-
+    ---
+    
     Import original and Open Model Zoo models and convert them to Intermediate Representation format. 
 
-2. [Obtain Datasets](Import_Datasets.md)
+    +++
 
-   Create and import annotated datasets of different supported formats, upload not annotated dataset, and enlarge datasets using augmentation.
+    .. link-button:: workbench_docs_Workbench_DG_Select_Models
+        :text: Obtain Models
+        :type: ref
+        :classes: btn-primary btn-block stretched-link
+    
+    ---
 
-3. [Configure Environment](Select_Environment.md) and [Work with Remote Targets](Remote_Profiling.md)
+    Create and import annotated datasets of different formats, upload not annotated dataset, and enlarge datasets using augmentation.
 
-    Select a target and device.
+    +++
 
-4. [Optimize Model Performance](Int-8_Quantization.md)
+    .. link-button:: workbench_docs_Workbench_DG_Generate_Datasets
+        :text: Obtain Datasets
+        :type: ref
+        :classes: btn-outline-primary btn-block stretched-link
 
-   Accelerate model performance with INT8 Calibration.
+    ---
 
-5. [Explore Inference Configurations](Run_Single_Inference.md)
+    Select a target and device which you want to test your model.
 
-   Run single or group inference, try different batch and stream combinations to accelerate the performance, visualize model architecture and compare model projects.
+    +++
 
-6. [Create Accuracy Report](Measure_Accuracy.md)
+    .. link-button:: workbench_docs_Workbench_DG_Select_Environment
+        :text: Select Environment
+        :type: ref
+        :classes: btn-outline-primary btn-block stretched-link
 
-   Measure the accuracy of a model and compare the predictions with the dataset annotations or between optimized and parent models. 
+    ---
 
-7. [Create Deployment Package](Deployment_Package.md)
+    Accelerate model performance with INT8 Calibration.
 
-   Build your application with Deployment Package and learn how to use batches and streams in your application. 
+    +++
 
-8. [Export Project](Export_Project.md)
+    .. link-button:: workbench_docs_Workbench_DG_Int_8_Quantization
+        :text: Optimize Model Performance
+        :type: ref
+        :classes: btn-outline-primary btn-block stretched-link
+    ---
 
-   Download an archive with artifacts of your project.
+    Run single or group inference, try different batch and stream combinations to accelerate the performance, visualize model architecture and compare model projects.
 
-9. [Explore OpenVINO in DL Workbench](Jupyter_Notebooks_CLI.md)
+    +++
 
-   Quick start with the OpenVINO™ toolkit and learn how to use its API and command-line interface (CLI) in the preconfigured environment.
+    .. link-button:: workbench_docs_Workbench_DG_Run_Inference
+        :text: Explore Inference Configurations
+        :type: ref
+        :classes: btn-outline-primary btn-block stretched-link
 
-10. [Maintain DL Workbench](Persist_Database.md)
+    ---
 
-   Restore and preserve DL Workbench state and explore options of working with Docker* container.
+    Measure the accuracy of a model and compare the predictions with the dataset annotations or between optimized and parent models. 
+
+    +++
+
+    .. link-button:: workbench_docs_Workbench_DG_Measure_Accuracy
+        :text: Create Accuracy Report
+        :type: ref
+        :classes: btn-outline-primary btn-block stretched-link
+
+    ---
+
+    Build your application with Deployment Package and learn how to use batches and streams in your application. 
+
+    +++
+
+    .. link-button:: workbench_docs_Workbench_DG_Deployment_Package
+        :text: Create Deployment Package
+        :type: ref
+        :classes: btn-outline-primary btn-block stretched-link
+
+    ---
+
+    Download an archive with artifacts of your project.
+
+    +++
+
+    .. link-button:: workbench_docs_Workbench_DG_Export_Project
+        :text: Export Project
+        :type: ref
+        :classes: btn-outline-primary btn-block stretched-link
+
+    ---
+
+    Get started with the OpenVINO™ toolkit and learn how to use its API and command-line interface (CLI) in the preconfigured environment. 
+
+    +++
+
+    .. link-button:: workbench_docs_Workbench_DG_Deployment_Package
+        :text: Explore OpenVINO
+        :type: ref
+        :classes: btn-outline-primary btn-block stretched-link
+    
+    ---
+
+    Restore and preserve DL Workbench state.
+
+    +++
+
+    .. link-button:: workbench_docs_Workbench_DG_Export_Project
+        :text: Maintain DL Workbench
+        :type: ref
+        :classes: btn-outline-primary btn-block stretched-link
+
+@endsphinxdirective
