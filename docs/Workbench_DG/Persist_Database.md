@@ -1,14 +1,5 @@
 # Restore DL Workbench State {#workbench_docs_Workbench_DG_Persist_Database}
 
-@sphinxdirective
-
-.. toctree::
-   :maxdepth: 1
-   :hidden:
-   
-   workbench_docs_Workbench_DG_Docker_Container
-
-@endsphinxdirective
 
 DL Workbench enables performing multiple experiments to analyze performance and accuracy data.
 To always have access to your data in the DL Workbench, use additional parameters when you [run the DL Workbench](Run_Workbench_Locally.md)
@@ -65,19 +56,18 @@ mkdir -m 777 /home/workbench/.workbench
 
 3. Run the command below:   
 ```bash
-  openvino-workbench --image openvino/workbench:2021.4.2 --assets-directory ~/.workbench
+  openvino-workbench --image openvino/workbench:2022.1 --assets-directory ~/.workbench
 ``` 
     
 All your data is placed in the mounted directory once you mount it and run the DL Workbench:
 
 ```
-~/.workbench
-|   token.txt
-|
-└───datasets/
-└───models/
-└───postgresql_data_directory/
-└───tutorials/
+|-- ~/.workbench
+  |-- token.txt
+  |-- datasets/
+  |-- models/
+  |-- postgresql_data_directory/
+  |-- tutorials/
 ```
 
 ## Preserve DL Workbench State on Windows <a name="preserve-windows"></a>
@@ -103,11 +93,10 @@ docker run -p 127.0.0.1:5665:5665 `
 All your data is placed in the mounted volume once you mount it and run the DL Workbench:
 
 ```
-|   token.txt
-|
-└───datasets/
-└───models/
-└───postgresql_data_directory/
+|-- token.txt
+|-- datasets/
+|-- models/
+|-- postgresql_data_directory/
 ```
 
 ## Share Profiling Data
@@ -117,8 +106,8 @@ trusted environment. DL Workbench supports a scenario when you share only system
 and not models and datasets.
 
 Choose instructions for your operating system:
-* <a href="#share-linux-macos">Share profiling data on Linux* and macOS*</a>
-* <a href="#share-windows">Share profiling data on Windows*</a>
+* <a href="#share-linux-macos">Share profiling data on Linux and macOS</a>
+* <a href="#share-windows">Share profiling data on Windows</a>
 
 When you share only profiling data, the DL Workbench marks models, datasets, and projects as *Read-only*. 
 *Read-only* means that it is not possible to run optimizations, profiling, or measurements 
@@ -138,7 +127,7 @@ so that it contains only the `postgresql_data_directory/` folder:
 ```
 2. Transfer the `~/.workbench` folder to another machine and import it with the following command:   
 ```bash
-  openvino-workbench --image openvino/workbench:2021.4.2 --assets-directory ~/.workbench
+  openvino-workbench --image openvino/workbench:2022.1 --assets-directory ~/.workbench
 ``` 
 
 ### Share Profiling Data on Windows <a name="share-windows"></a>

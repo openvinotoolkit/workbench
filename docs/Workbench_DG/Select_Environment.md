@@ -1,4 +1,4 @@
-# Configure Environment {#workbench_docs_Workbench_DG_Select_Environment}
+# Select Environment {#workbench_docs_Workbench_DG_Select_Environment}
 
 @sphinxdirective
 

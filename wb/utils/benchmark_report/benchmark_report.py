@@ -17,6 +17,8 @@
 import re
 from typing import List
 
+from wb.main.enumerates import DeviceTypeEnum
+
 
 class BenchmarkReport:
     separator = ';'
@@ -90,7 +92,11 @@ class BenchmarkReport:
 
     @property
     def streams(self) -> int:
-        return int(self.get_value(self.configuration_setup, f'number of {self.configuration_setup_device} streams'))
+        device = self.configuration_setup_device
+        name = f'number of {device} streams'
+        if DeviceTypeEnum.is_vpu(device):
+            name = 'number of parallel infer requests'
+        return int(self.get_value(self.configuration_setup, name))
 
     @property
     def latency(self) -> float:
@@ -105,7 +111,7 @@ class BenchmarkReport:
         return self.get_value(self.execution_results, 'total execution time')
 
     @staticmethod
-    def get_value(table, name) -> float:
+    def get_value(table, name: str) -> float:
         for line in table:
             if name in line:
                 pattern = r'\d*\.\d+|\d+'

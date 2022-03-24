@@ -1,2 +1,2 @@
-openvino_wheels_version: 2022.1.0.dev20220316
-openvino_package: https://storage.openvinotoolkit.org/deployment_archives/releases/2021.3/
+openvino_wheels_version: 2022.1.0
+openvino_package: https://storage.openvinotoolkit.org/deployment_archives/releases/2022.1/

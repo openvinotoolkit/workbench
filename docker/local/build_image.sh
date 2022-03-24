@@ -29,7 +29,7 @@ done
 set -e
 
 echo -e "${TERMINAL_COLOR_MESSAGE} The script must be run from the root folder of the Workbench ${TERMINAL_COLOR_CLEAR}"
-echo -e "${TERMINAL_COLOR_MESSAGE} Also install 'NVM' from repository 'https://github.com/nvm-sh/nvm' and install client dependencies in clien folder with command 'npm install'${TERMINAL_COLOR_CLEAR}"
+echo -e "${TERMINAL_COLOR_MESSAGE} Also install 'NVM' from the repository 'https://github.com/nvm-sh/nvm' and install the client dependencies in the client folder with the following command: 'npm install'${TERMINAL_COLOR_CLEAR}"
 echo
 
 ROOT_FOLDER="${PWD}"

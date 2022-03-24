@@ -1,4 +1,4 @@
-# Run the Deep Learning Workbench Locally {#workbench_docs_Workbench_DG_Run_Locally}
+# Run the DL Workbench Locally {#workbench_docs_Workbench_DG_Run_Locally}
 
 @sphinxdirective
 
@@ -7,6 +7,7 @@
    :hidden:
    
    workbench_docs_Workbench_DG_Advanced_Configurations
+   workbench_docs_Workbench_DG_Docker_Container
       
 @endsphinxdirective
 
@@ -23,7 +24,6 @@ Wait for the DL Workbench to set up for about a minute. Once it is done, open th
 
 ![](img/start_page_crop.png)
 
-
 ## Video
 
 @sphinxdirective
@@ -32,31 +32,30 @@ Wait for the DL Workbench to set up for about a minute. Once it is done, open th
 
    * - .. raw:: html
 
-         <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
-         src="https://www.youtube.com/embed/K2zWPq2Oxzw">
-         </iframe>
+           <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
+           src="https://www.youtube.com/embed/K2zWPq2Oxzw">
+           </iframe>
     
-      - .. raw:: html
+     - .. raw:: html
 
-         <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
-         src="https://www.youtube.com/embed/PWDyoOIaFLM">
-         </iframe>
+           <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
+           src="https://www.youtube.com/embed/PWDyoOIaFLM">
+           </iframe>
 
-      - .. raw:: html
+     - .. raw:: html
 
-         <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
-         src="https://www.youtube.com/embed/yQTh-0gobcM">
-         </iframe>
+           <iframe allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen width="220"
+           src="https://www.youtube.com/embed/yQTh-0gobcM">
+           </iframe>
 
-   * - **Introduction to DL Workbench**
-      - **Run DL Workbench on Linux**
-      - **Run DL Workbench on MacOS**
-      - **Run DL Workbench on Windows**
+   * - **Run DL Workbench on Linux**
+     - **Run DL Workbench on MacOS**
+     - **Run DL Workbench on Windows**
      
 @endsphinxdirective
 
 
-Congratulations, you have installed the DL Workbench. Your next step is to [Get Started](Work_with_Models_and_Sample_Datasets.md) with DL Workbench and create your first project.
+Congratulations, you have installed the DL Workbench. Learn how to [Get Started](Work_with_Models_and_Sample_Datasets.md) with DL Workbench and create your first project.
 
 ---
 ## See Also

@@ -41,7 +41,7 @@ class TokenizerWrapper:
         )
 
     @classmethod
-    def from_model(cls, tokenizer_model: TokenizerModel) -> "TokenizerWrapper":
+    def from_model(cls, tokenizer_model: TokenizerModel) -> 'TokenizerWrapper':
         return cls(
             tokenizer_folder=Path(tokenizer_model.path),
             tokenizer_type=tokenizer_model.tokenizer_type,

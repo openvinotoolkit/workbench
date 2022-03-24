@@ -28,7 +28,6 @@ RUN apt-get update && \
     libgtk-3-0
 
 COPY --chown=${USER_NAME} . ${OPENVINO_WORKBENCH_ROOT}
-RUN chmod +x -R ${OPENVINO_WORKBENCH_ROOT}/automation/bootstrap/
 
 RUN mkdir -p -m 777 ~/Downloads
 RUN git config --global credential.helper "!f() { echo username=\\${GIT_USER_NAME}; echo password=\\${GIT_PASSWORD}; }; f"
@@ -41,4 +40,4 @@ RUN . ${NVM_DIR}/nvm.sh && \
     DL_PROFILER_BACKEND_STATIC_PATH=/front npm run pack
 
 WORKDIR ${OPENVINO_WORKBENCH_ROOT}
-ENTRYPOINT ["docker/bootstrap/docker-entrypoint.sh"]
+ENTRYPOINT ["bash", "docker/bootstrap/docker-entrypoint.sh"]
