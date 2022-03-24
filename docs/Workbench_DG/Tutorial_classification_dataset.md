@@ -52,10 +52,6 @@ Here the model predicted class 502 (shoes) with a confidence equal to 0.41. The 
 
 ## See Also
 
-* [Object Detection model tutorial](Tutorial_object_detection_dataset.md)
-* [Optimize Object Detection model tutorial](Tutorial_object_detection.md)
-* [Optimize Classification model tutorial](Tutorial_classification.md)
-* [Optimize Style Transfer model tutorial](Tutorial_style_transfer.md)
 * [Accuracy Checker](https://docs.openvinotoolkit.org/latest/omz_tools_accuracy_checker.html)
 * [Configure Accuracy Settings](Accuracy_Configuration.md)
 * [Troubleshooting](Troubleshooting.md)

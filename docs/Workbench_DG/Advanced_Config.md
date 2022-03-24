@@ -152,7 +152,7 @@ By default, the DL Workbench is started without authentication settings. If you 
       
   .. code-block:: 
 
-      openvino-workbench --image openvino/workbench:2021.4.2 --no-jupyter	
+      openvino-workbench --image openvino/workbench:2022.1 --no-jupyter	
    
 @endsphinxdirective
 
