@@ -23,4 +23,3 @@ export class ModelZooCounterComponent<T> {
     return this.filteredDataLength === this.dataLength ? 'Total Models' : 'Total Founds';
   }
 }
-

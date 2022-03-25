@@ -17,8 +17,6 @@
 import re
 from typing import List
 
-from wb.main.enumerates import DeviceTypeEnum
-
 
 class BenchmarkReport:
     separator = ';'
@@ -94,7 +92,7 @@ class BenchmarkReport:
     def streams(self) -> int:
         device = self.configuration_setup_device
         name = f'number of {device} streams'
-        if DeviceTypeEnum.is_vpu(device):
+        if 'MYRIAD' in name or name == 'HDDL':
             name = 'number of parallel infer requests'
         return int(self.get_value(self.configuration_setup, name))
 

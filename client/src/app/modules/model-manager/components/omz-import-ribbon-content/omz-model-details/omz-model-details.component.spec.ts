@@ -8,13 +8,11 @@ import { RootStoreState } from '@store';
 
 import { SharedModule } from '@shared/shared.module';
 
-import { OmzImportRibbonContentComponent } from './omz-import-ribbon-content.component';
-import { ModelZooFilterGroupComponent } from '../model-zoo-filter-group/model-zoo-filter-group.component';
-import { OmzModelDetailsComponent } from './omz-model-details/omz-model-details.component';
+import { OmzModelDetailsComponent } from './omz-model-details.component';
 
-describe('OmzImportRibbonContentComponent', () => {
-  let component: OmzImportRibbonContentComponent;
-  let fixture: ComponentFixture<OmzImportRibbonContentComponent>;
+describe('OmzModelDetailsComponent', () => {
+  let component: OmzModelDetailsComponent;
+  let fixture: ComponentFixture<OmzModelDetailsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -26,12 +24,12 @@ describe('OmzImportRibbonContentComponent', () => {
           ...RootStoreState.reducers,
         }),
       ],
-      declarations: [OmzImportRibbonContentComponent, ModelZooFilterGroupComponent, OmzModelDetailsComponent],
+      declarations: [OmzModelDetailsComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OmzImportRibbonContentComponent);
+    fixture = TestBed.createComponent(OmzModelDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

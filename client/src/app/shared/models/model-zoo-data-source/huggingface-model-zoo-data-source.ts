@@ -1,8 +1,8 @@
 import { IHuggingfaceModel } from '@shared/models/huggingface/huggingface-model';
 
-import { BaseModelZooDataSource } from './base-model-zoo-data-source';
+import { BaseModelZooDataSource, IModelZooSort } from './base-model-zoo-data-source';
 
-interface IHuggingfaceModelZooFilter {
+export interface IHuggingfaceModelZooFilter {
   id: string;
   tags: string[];
 }
@@ -11,9 +11,16 @@ export class HuggingfaceModelZooDataSource extends BaseModelZooDataSource<
   IHuggingfaceModel,
   IHuggingfaceModelZooFilter
 > {
+  readonly sortOptions: IModelZooSort<IHuggingfaceModel>[] = [
+    { field: 'downloads', direction: 'desc', label: 'Most Downloaded' },
+    { field: 'lastModified', direction: 'desc', label: 'Recently Updated' },
+    { field: 'id', direction: 'asc', label: 'Name (A-Z)' },
+    { field: 'id', direction: 'desc', label: 'Name (Z-A)' },
+  ];
+
   filterPredicate(data: IHuggingfaceModel, { id, tags }: IHuggingfaceModelZooFilter): boolean {
-    const idMatched = data.id.toLowerCase().includes(id.trim().toLowerCase());
-    const tagsMatched = tags.every((tag) => data.tags.indexOf(tag) !== -1);
-    return idMatched && tagsMatched;
+    const isIdMatched = data.id.toLowerCase().includes(id.trim().toLowerCase());
+    const areTagsMatched = tags.every((tag) => data.tags.indexOf(tag) !== -1);
+    return isIdMatched && areTagsMatched;
   }
 }
