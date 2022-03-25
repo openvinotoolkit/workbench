@@ -4,8 +4,8 @@ import { ErrorState } from '@store/state';
 
 export interface State {
   modelsData: IHFModelsData;
-  isLoading: boolean;
-  error: ErrorState;
+  isModelsDataLoading: boolean;
+  modelsDataError: ErrorState;
   modelReadme: string;
   isLoadingReadme: boolean;
   modelReadmeError: ErrorState;
@@ -13,8 +13,8 @@ export interface State {
 
 export const initialState: State = {
   modelsData: null,
-  isLoading: false,
-  error: null,
+  isModelsDataLoading: false,
+  modelsDataError: null,
   modelReadme: null,
   isLoadingReadme: false,
   modelReadmeError: null,

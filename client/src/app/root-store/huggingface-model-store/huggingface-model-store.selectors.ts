@@ -6,8 +6,8 @@ import { State } from './huggingface-model-store.state';
 
 const selectHFModelState = createFeatureSelector<State>(FEATURE_KEY);
 
-export const selectLoading = createSelector(selectHFModelState, (state) => state.isLoading);
-export const selectError = createSelector(selectHFModelState, (state) => state.error);
+export const selectLoading = createSelector(selectHFModelState, (state) => state.isModelsDataLoading);
+export const selectError = createSelector(selectHFModelState, (state) => state.modelsDataError);
 export const selectModelsData = createSelector(selectHFModelState, (state) => state.modelsData);
 
 export const selectModelReadme = createSelector(selectHFModelState, (state) => state.modelReadme);
