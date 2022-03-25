@@ -1,4 +1,4 @@
-import { toImageCoordinates } from './canvas-helpers';
+import { toImageCoordinates } from '../lib/coordinates-helper';
 
 interface IBox {
   x: number;
