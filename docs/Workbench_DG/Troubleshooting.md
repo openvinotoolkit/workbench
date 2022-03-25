@@ -20,6 +20,24 @@ If you encounter an issue when running the DL Workbench, follow the steps below:
 
 If you run the DL Workbench in the Intel® DevCloud for the Edge, see [Troubleshooting for DL Workbench in the DevCloud](DC_Troubleshooting.md).
 
+## <a name="download-logs">How to Investigate an Issue</a>
+
+To learn more about an error, download a `.txt` file with server logs. 
+Click the *user icon* in the upper-right corner to see the **Settings**, then click **Download Log**:  
+![](img/authentication/download_logs.png)
+
+> **NOTE**: Server logs contain sensitive information like data on your models. If you do not wish to share this information, attach only the `RUN COMMAND` part.
+
+If you cannot copy the logs from the DL Workbench UI, use the following command to download logs:
+
+```bash
+docker cp workbench:/home/workbench/.workbench/server.log server.log
+```
+
+If the issue persists, [post a question on Intel Community Forum](https://community.intel.com/t5/Intel-Distribution-of-OpenVINO/bd-p/distribution-openvino-toolkit) and attach the server logs. If the issue is not reproduced in the container, feel free to [post a question](https://community.intel.com/t5/Intel-Distribution-of-OpenVINO/bd-p/distribution-openvino-toolkit)  as well.
+For more information, go to the **Enter Docker Container** section of the [Work with Docker Container](Docker_Container.md) page.  
+
+
 ## Most Frequent Issues
 
 ### General
@@ -215,33 +233,6 @@ Make sure you have Ubuntu\* 18.04 on your target machine. See [Set Up Remote Tar
 ### <a name="internet">Remote Target Failure: No Internet Connection</a>
 
 This failure may occur due to incorrectly set or missing proxy settings. Set the proxies as described in [Register Remote Target in the DL Workbench](Add_Remote_Target.md). To update remote machine information, see [Profile with Remote Machine](Profile_on_Remote_Machine.md)
-
-## <a name="download-logs">Download Server Logs</a>
-
-To learn more about an error, download a `.txt` file with server logs. 
-Click the *user icon* in the upper-right corner to see the **Settings**, then click **Download Log**:  
-![](img/authentication/download_logs.png)
-
-> **NOTE**: Server logs contain sensitive information like data on your models. If you do not wish to share this information, attach only the `RUN COMMAND` part.
-
-Use the logs to investigate problems and manually run tools to debug the problem by entering the Docker\* container. 
-
-### How to Investigate an Issue
-
-1. Obtain DL Workbench server logs. 
-2. In your terminal, run the command to enter the Docker container:
-  ```
-  docker exec -it workbench /bin/bash
-  ```
-3. Run the command to set up the OpenVINO™ environment:
-  ```
-  source /opt/intel/openvino/setupvars.sh
-  ```
-4. Open the `server_log.txt` file and find the latest line that contains `RUN COMMAND`.
-5. Paste this command in your terminal where you entered the Docker container and set up the OpenVINO™ environment. Execute the command.
-
-If the issue persists, [post a question on Intel Community Forum](https://community.intel.com/t5/Intel-Distribution-of-OpenVINO/bd-p/distribution-openvino-toolkit) and attach the server logs. If the issue is not reproduced in the container, feel free to [post a question](hhttps://community.intel.com/t5/Intel-Distribution-of-OpenVINO/bd-p/distribution-openvino-toolkit)  as well, but specify that you could not reproduce it in the container.
-For more information, go to the **Enter Docker Container** section of the [Work with Docker Container](Docker_Container.md) page.  
 
 ---
 ## See Also

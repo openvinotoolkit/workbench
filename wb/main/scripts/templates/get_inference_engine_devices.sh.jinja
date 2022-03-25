@@ -2,6 +2,11 @@
 
 while test $# -gt 0; do
     case "$1" in
+    -openvino-package-root)
+        shift
+        OPENVINO_PACKAGE_ROOT=$1
+        shift
+        ;;
     -output)
         shift
         OUTPUT=$1
@@ -14,16 +19,21 @@ while test $# -gt 0; do
     esac
 done
 
+if [[ -z "${OPENVINO_PACKAGE_ROOT}" ]]; then
+    echo "The -openvino-package-root argument is not set."
+    exit 1
+fi
+
 if [ -z "$OUTPUT" ]; then
     echo "The -output argument is not set."
     exit 1
 fi
 
-CURRENT_SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-BUNDLE_ROOT_PATH="$(dirname ${CURRENT_SCRIPT_PATH})"
+SCRIPTS_PATH=${OPENVINO_PACKAGE_ROOT}/{{SCRIPTS_PATH}}
+PYTHON_ENVIRONMENT_PATH=${OPENVINO_PACKAGE_ROOT}/{{PYTHON_ENVIRONMENT_PATH}}
 
-SCRIPTS_PATH=${BUNDLE_ROOT_PATH}/{{SCRIPTS_PATH}}
-PYTHON_ENVIRONMENT_PATH=${BUNDLE_ROOT_PATH}/{{PYTHON_ENVIRONMENT_PATH}}
+echo "Initializing the OpenVINO environment."
+source ${OPENVINO_PACKAGE_ROOT}/setupvars.sh
 
 set -e
 

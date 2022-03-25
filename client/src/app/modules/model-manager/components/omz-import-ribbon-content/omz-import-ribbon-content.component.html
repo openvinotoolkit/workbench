@@ -1,6 +1,10 @@
 <wb-model-zoo-layout [isDetailsOpened]="!!selectedModel">
   <wb-model-zoo-content>
-    <wb-search-field ngProjectAs="model-zoo-search" (search)="searchModels($event)"></wb-search-field>
+    <wb-search-field
+      testId="search-field"
+      ngProjectAs="model-zoo-search"
+      (search)="searchModels($event)"
+    ></wb-search-field>
 
     <wb-model-zoo-counter
       [dataLength]="dataSource?.data.length"
@@ -15,15 +19,19 @@
     ></mat-paginator>
 
     <wb-card-grid [dataSource]="dataSource">
-      <wb-card *wbCardDef="let model" (click)="selectedModel = model">
+      <wb-card *wbCardDef="let model" (click)="selectedModel = model" data-test-id="model-card">
         <wb-card-title-row>
           <mat-icon svgIcon="image"></mat-icon>
-          <wb-text-overflow [content]="model.name"></wb-text-overflow>
+          <wb-text-overflow [content]="model.name" data-test-id="model-name"></wb-text-overflow>
         </wb-card-title-row>
-        <wb-card-content-row>
-          <wb-card-content-row-item>{{ model.precision }}</wb-card-content-row-item>
-          <wb-card-content-row-item>{{ ModelTaskTypeToNameMap[model.task_type] }}</wb-card-content-row-item>
-          <wb-card-content-row-item>{{ modelFrameworkNamesMap[model.framework] }}</wb-card-content-row-item>
+        <wb-card-content-row data-test-id="model-content">
+          <wb-card-content-row-item data-test-id="precision">{{ model.precision }}</wb-card-content-row-item>
+          <wb-card-content-row-item data-test-id="task-type">{{
+            ModelTaskTypeToNameMap[model.task_type]
+          }}</wb-card-content-row-item>
+          <wb-card-content-row-item data-test-id="framework">
+            {{ modelFrameworkNamesMap[model.framework] }}</wb-card-content-row-item
+          >
         </wb-card-content-row>
       </wb-card>
     </wb-card-grid>
@@ -50,11 +58,11 @@
 
     <wb-model-zoo-details-description>
       <div class="title">Description</div>
-      <div class="description">
+      <div class="description" data-test-id="model-description">
         <wb-markdown-text [text]="selectedModel?.description | linkify"></wb-markdown-text>
       </div>
       <div class="title">Licence</div>
-      <div class="description">
+      <div class="description" data-test-id="model-license">
         <wb-markdown-text [text]="selectedModel?.license_url | linkify"></wb-markdown-text>
       </div>
     </wb-model-zoo-details-description>
@@ -66,6 +74,7 @@
         text="Download and Import"
         (handleClick)="importModel()"
         [disabled]="isImportDisabled"
+        testId="download-and-import"
       ></wb-button>
 
       <wb-info-hint *ngIf="!hasInternetConnection" class="wb-full-width" [message]="noConnectionMessage"></wb-info-hint>

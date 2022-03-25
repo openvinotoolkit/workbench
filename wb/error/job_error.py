@@ -14,7 +14,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 """
-from config.constants import CELERY_RETRY_COUNTDOWN, CELERY_RETRY_MAX_RETRY
+import json
+
+from config.constants import CELERY_RETRY_COUNTDOWN, CELERY_RETRY_MAX_RETRY, TRANSFORMERS_ONNX_ERROR_MAP_JSON
 from wb.error.general_error import GeneralError
 from wb.error.code_registry import CodeRegistry
 from wb.main.enumerates import RemoteSetupStatusMessagesEnum, RemoteSetupStatusCodeEnum
@@ -103,3 +105,21 @@ class SetupTargetError(JobGeneralError):
         RemoteSetupStatusMessagesEnum.PIP_VERSION_ERROR.value:
             RemoteSetupStatusCodeEnum.PIP_VERSION_ERROR.value,
     }
+
+
+class TransformersONNXConversionError(JobGeneralError):
+    code = CodeRegistry.get_transformers_onnx_error_code()
+
+    with open(TRANSFORMERS_ONNX_ERROR_MAP_JSON) as f:
+        message_map = json.load(f)
+
+    def __init__(self, message: str,  job_id: int):
+        message = self.replace_error_message(message)
+        super().__init__(message, job_id)
+
+    def replace_error_message(self, message: str) -> str:
+        for substring, replacement_string in self.message_map.items():
+            if substring in message:
+                return replacement_string
+
+        return f'Unexpected error: {message}'
