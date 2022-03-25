@@ -10,33 +10,37 @@ import {
 } from './components/visualization/network-output/network-output.component';
 
 const ACCURACY_COLORS = [
-  '#1738C6',
-  '#0A5818',
-  '#620434',
-  '#260058',
-  '#067C72',
-  '#AD6600',
-  '#BA665B',
-  '#3500CC',
-  '#D22176',
-  '#00A3B9',
-  '#608315',
-  '#840707',
-  '#2F6AAE',
-  '#8F00A7',
-  '#B18A00',
+  '#E04300',
+  '#FFA927',
+  '#FFC700',
+  '#FAFF00',
+  '#00EE2B',
+  '#51FF77',
+  '#B2FF51',
+  '#00FFA3',
+  '#30D4A8',
+  '#B4FFFF',
+  '#0FF5F5',
+  '#00A3FF',
+  '#0047FF',
+  '#A772FF',
+  '#DE12FF',
+  '#FF9FEC',
+  '#E700B4',
+  '#FF7D7D',
+  '#FF5151',
+  '#FF0000',
 ];
 
 @Injectable()
 export class ColorCodingService {
-  readonly PREDICTION_COLOR = '#1738C6';
-  readonly REFERENCE_COLOR = '#0A5818';
+  readonly PREDICTION_COLOR = ACCURACY_COLORS[0];
+  readonly REFERENCE_COLOR = ACCURACY_COLORS[1];
 
   // adds alpha channel in hex format
   private readonly _getMaskColor = (color: string): string => `${color}50`;
 
   private readonly _getActiveBadgeStyles = (color: string): { [key: string]: string } => ({
-    color,
     // adds alpha channel in hex format
     'background-color': `${color}14`,
     borderColor: color,
