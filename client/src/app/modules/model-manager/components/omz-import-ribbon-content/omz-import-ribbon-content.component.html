@@ -1,5 +1,5 @@
 <wb-model-zoo-layout [isDetailsOpened]="!!selectedModel">
-  <wb-model-zoo-content>
+  <wb-model-zoo-content [hasError]="!!(error$ | async)">
     <wb-config-form-field
       ngProjectAs="model-zoo-sort"
       [field]="sortField"
@@ -21,6 +21,7 @@
     ></wb-config-form-field>
 
     <wb-model-zoo-counter
+      *ngIf="dataSource?.data.length"
       [dataLength]="dataSource?.data.length"
       [filteredDataLength]="dataSource?.filteredData?.length"
     ></wb-model-zoo-counter>
@@ -49,6 +50,8 @@
         </wb-card-content-row>
       </wb-card>
     </wb-card-grid>
+
+    <ng-container ngProjectAs="wb-model-zoo-error" [ngTemplateOutlet]="errorTemplate"></ng-container>
   </wb-model-zoo-content>
 
   <wb-omz-model-details
@@ -88,4 +91,19 @@
       </wb-model-zoo-filter-option>
     </wb-model-zoo-filter>
   </wb-model-zoo-filter-group>
+</ng-template>
+
+<ng-template #errorTemplate>
+  <wb-model-zoo-error>
+    <!-- TODO Consider moving to messages -->
+    No data found.
+    <br />
+    Check your proxy and connection and try again.
+    <wb-button
+      ngProjectAs="model-zoo-error-button"
+      type="secondary"
+      class="enlarged-control"
+      text="Try Again"
+    ></wb-button>
+  </wb-model-zoo-error>
 </ng-template>

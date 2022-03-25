@@ -39,6 +39,8 @@ export class OmzImportRibbonContentComponent extends BaseModelZooImportComponent
   };
 
   private readonly _omzModels$ = this._store$.select(ModelStoreSelectors.selectOMZModels);
+  readonly isLoading$ = this._store$.select(ModelStoreSelectors.selectOMZModelsAreLoading);
+  readonly error$ = this._store$.select(ModelStoreSelectors.selectOMZModelsError);
 
   constructor(private readonly _store$: Store<RootStoreState.State>) {
     super();

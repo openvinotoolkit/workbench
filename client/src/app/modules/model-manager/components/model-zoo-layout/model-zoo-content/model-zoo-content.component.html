@@ -1,40 +1,47 @@
 <ng-content select="wb-model-zoo-notification"></ng-content>
 
 <div class="content-row">
-  <div class="wb-col-4 filter-block">
-    <!--  TODO Consider moving filter block to separate component  -->
-    <div class="block-header">
-      <div class="block-header-row">
-        <div class="model-zoo-sort-label">
-          <mat-icon svgIcon="swap_vert"></mat-icon>
-          <span class="wb-subtitle-strong">Sort By</span>
+  <!-- TODO Move loading template here -->
+  <ng-container *ngIf="!hasError; else errorTemplate">
+    <div class="wb-col-4 filter-block">
+      <!--  TODO Consider moving filter block to separate component  -->
+      <div class="block-header">
+        <div class="block-header-row">
+          <div class="model-zoo-sort-label">
+            <mat-icon svgIcon="swap_vert"></mat-icon>
+            <span class="wb-subtitle-strong">Sort By</span>
+          </div>
+          <div class="model-zoo-sort-wrapper">
+            <ng-content select="model-zoo-sort"></ng-content>
+          </div>
         </div>
-        <div class="model-zoo-sort-wrapper">
-          <ng-content select="model-zoo-sort"></ng-content>
+      </div>
+
+      <div class="block-header">
+        <div class="block-header-row">
+          <ng-content select="wb-model-zoo-filters-header"></ng-content>
         </div>
       </div>
+
+      <ng-content select="wb-model-zoo-filter-group"></ng-content>
     </div>
 
-    <div class="block-header">
-      <div class="block-header-row">
-        <ng-content select="wb-model-zoo-filters-header"></ng-content>
+    <div class="wb-col-8 main-block">
+      <div class="block-header">
+        <div class="block-header-row">
+          <ng-content select="model-zoo-search"></ng-content>
+          <ng-content select="wb-model-zoo-counter"></ng-content>
+        </div>
+        <div class="block-header-row">
+          <ng-content select="model-zoo-paginator"></ng-content>
+        </div>
       </div>
+
+      <ng-content select="wb-card-grid"></ng-content>
     </div>
-
-    <ng-content select="wb-model-zoo-filter-group"></ng-content>
-  </div>
-
-  <div class="wb-col-8 main-block">
-    <div class="block-header">
-      <div class="block-header-row">
-        <ng-content select="model-zoo-search"></ng-content>
-        <ng-content select="wb-model-zoo-counter"></ng-content>
-      </div>
-      <div class="block-header-row">
-        <ng-content select="model-zoo-paginator"></ng-content>
-      </div>
-    </div>
-
-    <ng-content select="wb-card-grid"></ng-content>
-  </div>
+  </ng-container>
 </div>
+
+<ng-template #errorTemplate>
+  <ng-content select="wb-model-zoo-error"></ng-content>
+</ng-template>

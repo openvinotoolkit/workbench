@@ -6,7 +6,9 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
   styleUrls: ['./model-zoo-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ModelZooContentComponent {}
+export class ModelZooContentComponent {
+  @Input() hasError = false;
+}
 
 @Component({
   selector: 'wb-model-zoo-counter',
