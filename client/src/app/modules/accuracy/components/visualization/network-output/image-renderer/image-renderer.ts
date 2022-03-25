@@ -1,20 +1,20 @@
 import { fromEvent } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { getScalingRatio } from './painting-canvas/canvas-helpers';
+import { getScalingRatio } from './lib/coordinates-helper';
+import { drawBox, IBoxOptions } from './lib/box';
+import { createContext } from './lib';
+import { drawPolygons, IPolygonOptions } from './lib/polygon';
 
 // [x_min, y_min, x_max, y_max]
 export type BBox = [number, number, number, number];
 
-const createBackgroundContext = async (src: string): Promise<CanvasRenderingContext2D> => {
-  const context = document.createElement('canvas').getContext('2d');
-
+const createImageBackgroundContext = async (src: string): Promise<CanvasRenderingContext2D> => {
   const image = new Image();
   image.src = src;
   await fromEvent(image, 'load').pipe(take(1)).toPromise();
 
-  context.canvas.width = image.width;
-  context.canvas.height = image.height;
+  const context = createContext(image.width, image.height);
   context.drawImage(image, 0, 0);
   context.save();
 
@@ -26,6 +26,8 @@ export class ImageRenderer {
   private _src: string = null;
 
   private _backgroundContext: CanvasRenderingContext2D = null;
+
+  private _scaleToImageSize: (value: number) => number;
 
   constructor(canvasEl: HTMLCanvasElement, input: File | string) {
     this._context = canvasEl.getContext('2d');
@@ -44,9 +46,13 @@ export class ImageRenderer {
 
   async initialize(): Promise<void> {
     // cache original image in background context
-    this._backgroundContext = await createBackgroundContext(this._src);
+    this._backgroundContext = await createImageBackgroundContext(this._src);
     this._context.canvas.width = this._backgroundContext.canvas.width;
     this._context.canvas.height = this._backgroundContext.canvas.height;
+
+    const { xRatio, yRatio } = getScalingRatio(this._context);
+    const ratio = Math.max(xRatio, yRatio);
+    this._scaleToImageSize = (value: number) => (ratio < 0 ? value : Math.round(ratio * value));
   }
 
   render(): void {
@@ -55,24 +61,32 @@ export class ImageRenderer {
     this._context.drawImage(this._backgroundContext.canvas, 0, 0);
   }
 
-  drawBox(bbox: BBox, color: string = 'red') {
+  drawBox(bbox: BBox, color: string, label: string): void {
     if (!bbox || !bbox.length) {
       return;
     }
 
-    // for big images boxes a barely visible due to thin line width
-    // scale line width to viewport size
-    const { xRatio, yRatio } = getScalingRatio(this._context);
-    const lineRatio = Math.max(xRatio, yRatio);
-    const lineWidth = lineRatio < 0 ? 3 : Math.round(lineRatio * 3);
+    const options: IBoxOptions = {
+      color: color,
+      lineWidth: this._scaleToImageSize(6),
+      label: {
+        padding: {
+          top: this._scaleToImageSize(8),
+          right: this._scaleToImageSize(15),
+          bottom: this._scaleToImageSize(8),
+          left: this._scaleToImageSize(15),
+        },
+        radius: {
+          topLeft: this._scaleToImageSize(5),
+          topRight: this._scaleToImageSize(5),
+          bottomRight: this._scaleToImageSize(5),
+          bottomLeft: this._scaleToImageSize(5),
+        },
+        font: `${this._scaleToImageSize(20)}px Roboto`,
+      },
+    };
 
-    const [xmin, ymin, xmax, ymax] = bbox;
-
-    const path = new Path2D();
-    path.rect(xmin, ymin, xmax - xmin, ymax - ymin);
-    this._context.lineWidth = lineWidth;
-    this._context.strokeStyle = color;
-    this._context.stroke(path);
+    drawBox(this._context, bbox, label, options);
   }
 
   /**
@@ -80,41 +94,17 @@ export class ImageRenderer {
    * @param polygons
    * @param color
    */
-  drawPolygons(polygons: number[][], color: string = 'red'): void {
+  drawPolygons(polygons: number[][], color: string): void {
     if (!polygons?.length) {
       return;
     }
 
-    // create a dedicated canvas
-    const polygonsCanvas = document.createElement('canvas');
-    polygonsCanvas.width = this._context.canvas.width;
-    polygonsCanvas.height = this._context.canvas.height;
-    const polygonContext = polygonsCanvas.getContext('2d');
+    const polygonOptions: IPolygonOptions = {
+      color: color,
+      innerBorderWidth: this._scaleToImageSize(3),
+    };
 
-    // handle intersections with 'xor' composite operation
-    // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation
-    // cannot apply colors here because of opacity
-    polygonContext.globalCompositeOperation = 'xor';
-
-    for (const polygon of polygons) {
-      const path = new Path2D();
-      for (let i = 0; i < polygon.length; i += 2) {
-        path.lineTo(polygon[i], polygon[i + 1]);
-      }
-      path.closePath();
-      polygonContext.fill(path);
-    }
-
-    // apply colors for composed polygon
-    polygonContext.globalCompositeOperation = 'source-in';
-
-    const coloredForeground = new Path2D();
-    coloredForeground.rect(0, 0, polygonContext.canvas.width, polygonContext.canvas.height);
-    polygonContext.fillStyle = color;
-    polygonContext.fill(coloredForeground);
-
-    // draw composed colored polygon on a main canvas
-    this._context.drawImage(polygonContext.canvas, 0, 0);
+    drawPolygons(this._context, polygons, polygonOptions);
   }
 
   destroy() {
