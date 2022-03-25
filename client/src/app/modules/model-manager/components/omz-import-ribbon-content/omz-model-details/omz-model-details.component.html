@@ -1,0 +1,42 @@
+<wb-model-zoo-details>
+  <wb-model-zoo-details-header [modelName]="model?.name" (hideDetails)="hide.emit()"></wb-model-zoo-details-header>
+
+  <wb-model-zoo-notification
+    *ngIf="!isSelectedModelFrameworkConfigured"
+    [message]="selectedModelEnvironmentSetupHint"
+  ></wb-model-zoo-notification>
+
+  <wb-model-zoo-details-parameters>
+    <wb-parameter-details class="parameter" *ngFor="let param of parameters" [parameter]="param"></wb-parameter-details>
+  </wb-model-zoo-details-parameters>
+
+  <wb-model-zoo-details-description>
+    <div class="title">Description</div>
+    <div class="description" data-test-id="model-description">
+      <wb-markdown-text [text]="model?.description | linkify"></wb-markdown-text>
+    </div>
+    <div class="title">Licence</div>
+    <div class="description" data-test-id="model-license">
+      <wb-markdown-text [text]="model?.license_url | linkify"></wb-markdown-text>
+    </div>
+  </wb-model-zoo-details-description>
+
+  <wb-model-zoo-details-footer>
+    <wb-button
+      type="primary"
+      class="enlarged-control"
+      text="Download and Import"
+      testId="download-and-import"
+      (handleClick)="import.emit()"
+      [disabled]="isImportDisabled"
+    ></wb-button>
+
+    <wb-info-hint *ngIf="!hasInternetConnection" class="wb-full-width" [message]="noConnectionMessage"></wb-info-hint>
+
+    <wb-info-hint
+      *ngIf="hasInternetConnection && !model?.isAvailable"
+      class="wb-full-width"
+      [message]="unavailableOmzModelMessage"
+    ></wb-info-hint>
+  </wb-model-zoo-details-footer>
+</wb-model-zoo-details>

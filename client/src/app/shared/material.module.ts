@@ -28,6 +28,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   imports: [
@@ -58,6 +59,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
     MatSlideToggleModule,
     MatProgressSpinnerModule,
     ClipboardModule,
+    MatBadgeModule,
   ],
   exports: [
     MatAutocompleteModule,
@@ -86,6 +88,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
     MatSlideToggleModule,
     MatProgressSpinnerModule,
     ClipboardModule,
+    MatBadgeModule,
   ],
   providers: [
     MatSnackBar,
