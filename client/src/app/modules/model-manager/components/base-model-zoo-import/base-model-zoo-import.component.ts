@@ -91,6 +91,10 @@ export abstract class BaseModelZooImportComponent<T, U = string> implements Afte
     this._filterGroupComponent.resetAllFilters();
   }
 
+  resetSearch(): void {
+    this.searchControl.setValue('');
+  }
+
   ngAfterViewInit(): void {
     this.dataSource.paginator = this._paginator;
   }
