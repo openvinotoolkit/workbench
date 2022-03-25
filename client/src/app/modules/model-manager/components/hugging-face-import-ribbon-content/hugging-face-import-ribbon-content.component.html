@@ -100,6 +100,7 @@
           disabled="true"
           *ngFor="let tag of appliedTags.libraries"
           [value]="tag"
+          [attr.data-test-id]="tag + '-filter'"
         >
           {{ tag }}
         </wb-model-zoo-filter-option>
@@ -107,16 +108,24 @@
     </ng-container>
 
     <ng-container *ngIf="availableTags">
-      <wb-model-zoo-filter group="modelTypes">
+      <wb-model-zoo-filter group="modelTypes" data-test-id="model-type-filter-group">
         <wb-model-zoo-filter-title>Model types</wb-model-zoo-filter-title>
-        <wb-model-zoo-filter-option *ngFor="let modelType of availableTags.modelTypes" [value]="modelType">
+        <wb-model-zoo-filter-option
+          *ngFor="let modelType of availableTags.modelTypes"
+          [value]="modelType"
+          [attr.data-test-id]="modelType + '-filter'"
+        >
           {{ modelType }}
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
 
-      <wb-model-zoo-filter group="languages">
+      <wb-model-zoo-filter group="languages" data-test-id="language-filter-group">
         <wb-model-zoo-filter-title>Languages</wb-model-zoo-filter-title>
-        <wb-model-zoo-filter-option *ngFor="let language of availableTags.languages" [value]="language">
+        <wb-model-zoo-filter-option
+          *ngFor="let language of availableTags.languages"
+          [value]="language"
+          [attr.data-test-id]="language + '-filter'"
+        >
           {{ language }}
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>

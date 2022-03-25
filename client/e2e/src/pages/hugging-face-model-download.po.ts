@@ -44,7 +44,7 @@ export class HFModelDownloadPage {
 
   // This should be run on the Model Manager page
   async openOMZTab(): Promise<void> {
-    await new TestUtils().clickElement(this.elements.OMZTab);
+    await new TestUtils().clickElement(this.elements.HFTab);
     await browser.wait(this.until.presenceOf(this.elements.modelCard), browser.params.defaultTimeout);
   }
 
