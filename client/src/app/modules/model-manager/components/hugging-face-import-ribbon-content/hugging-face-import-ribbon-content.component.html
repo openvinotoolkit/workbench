@@ -4,7 +4,11 @@
 
     <wb-model-zoo-notification [message]="externalResourceNotification"></wb-model-zoo-notification>
 
-    <wb-search-field ngProjectAs="model-zoo-search" (search)="searchModels($event)"></wb-search-field>
+    <wb-search-field
+      ngProjectAs="model-zoo-search"
+      (search)="searchModels($event)"
+      testId='"search-field"'
+    ></wb-search-field>
 
     <wb-model-zoo-counter
       [dataLength]="dataSource?.data.length"
@@ -26,17 +30,20 @@
         [matTooltip]="model.validation.message"
         [matTooltipDisabled]="!model.validation.disabled"
         (click)="selectedModel = model"
+        data-test-id="model-card"
       >
         <wb-card-title-row>
           <mat-icon [svgIcon]="model.validation.disabled ? 'lock' : 'text_fields'"></mat-icon>
-          <wb-text-overflow [content]="model.id"></wb-text-overflow>
+          <wb-text-overflow [content]="model.id" data-test-id="model-name"></wb-text-overflow>
         </wb-card-title-row>
         <wb-card-content-row>
-          <wb-card-content-row-item>{{ model.pipelineTag }}</wb-card-content-row-item>
+          <wb-card-content-row-item data-test-id="model-task">{{ model.pipelineTag }}</wb-card-content-row-item>
         </wb-card-content-row>
         <wb-card-content-row>
-          <wb-card-content-row-item>{{ model.downloads || 0 }}</wb-card-content-row-item>
-          <wb-card-content-row-item>Updated: {{ model.lastModified | date }}</wb-card-content-row-item>
+          <wb-card-content-row-item data-test-id="model-downloads">{{ model.downloads || 0 }}</wb-card-content-row-item>
+          <wb-card-content-row-item data-test-id="updated"
+            >Updated: {{ model.lastModified | date }}</wb-card-content-row-item
+          >
         </wb-card-content-row>
       </wb-card>
     </wb-card-grid>
@@ -69,6 +76,7 @@
           disabled="true"
           *ngFor="let tag of appliedTags.pipelineTags"
           [value]="tag"
+          [attr.data-test-id]="tag + '-filter'"
         >
           {{ tag }}
         </wb-model-zoo-filter-option>

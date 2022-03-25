@@ -4,12 +4,11 @@ import { ModelPrecisionEnum } from '@store/model-store/model.model';
 
 import { TestUtils } from './test-utils';
 
-export class ModelDownloadPage {
+export class HFModelDownloadPage {
   until = protractor.ExpectedConditions;
 
   private readonly elements = {
-    // TODO: change test-id
-    OMZTab: TestUtils.getElementByDataTestId('open_model_zoo_(v2)'),
+    HFTab: TestUtils.getElementByDataTestId('hugging_face'),
     searchField: TestUtils.getElementByDataTestId('search-field'),
     modelCard: TestUtils.getElementByDataTestId('model-card'),
     modelCards: TestUtils.getAllElementsByDataTestId('model-card'),

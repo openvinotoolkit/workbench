@@ -1,2 +1,7 @@
 <ng-content></ng-content>
-<mat-icon svgIcon="close" *ngIf="selected && !disabled" (click)="deselect($event)"></mat-icon>
+<mat-icon
+  svgIcon="close"
+  *ngIf="selected && !disabled"
+  (click)="deselect($event)"
+  data-test-id="remove-filter"
+></mat-icon>

@@ -1114,7 +1114,6 @@ export class TestUtils {
     this.uploadedModels.push(model.name);
     await this.homePage.openConfigurationWizard();
     await this.modelManagerPage.goToModelManager();
-    await this.clickElement(this.modelDownloadPage.elements.OMZTab);
     await this.modelDownloadPage.selectAndDownloadModel(model.name);
     await this.modelDownloadPage.convertDownloadedModelToIR(ModelPrecisionEnum.FP16, 25);
     await browser.wait(
