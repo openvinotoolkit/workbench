@@ -1,4 +1,4 @@
-<!-- TODO Remove master detail -->
+<!-- TODO [82812] Remove master detail -->
 <wb-master-detail #wbMasterDetail [width]="'450px'" mode="over">
   <ng-container [ngTemplateOutlet]="modelWizard" ngProjectAs="masterContent"></ng-container>
   <wb-omz-model-info ngProjectAs="detailsContent" *ngIf="selectedForDetailsModel" [modelInfo]="selectedForDetailsModel">
