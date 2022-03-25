@@ -33,7 +33,7 @@
       hidePageSize
     ></mat-paginator>
 
-    <wb-card-grid [dataSource]="dataSource">
+    <wb-card-grid [dataSource]="dataSource" *ngIf="dataSource?.filteredData?.length; else emptyModelsTemplate">
       <wb-card *wbCardDef="let model" (click)="selectedModel = model" data-test-id="model-card">
         <wb-card-title-row>
           <mat-icon svgIcon="image"></mat-icon>
@@ -104,6 +104,22 @@
       type="secondary"
       class="enlarged-control"
       text="Try Again"
+    ></wb-button>
+  </wb-model-zoo-error>
+</ng-template>
+
+<ng-template #emptyModelsTemplate>
+  <wb-model-zoo-error>
+    <!-- TODO Consider moving to messages -->
+    No models found.
+    <br />
+    Try other filtering or search options.
+    <wb-button
+      ngProjectAs="model-zoo-error-button"
+      type="secondary"
+      class="enlarged-control"
+      text="Reset Filters and Search"
+      (handleClick)="resetSearch(); resetAllFilters()"
     ></wb-button>
   </wb-model-zoo-error>
 </ng-template>
