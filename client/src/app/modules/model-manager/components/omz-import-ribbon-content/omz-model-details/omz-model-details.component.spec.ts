@@ -1,35 +1,35 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { StoreModule } from '@ngrx/store';
-
-import { HuggingfaceService } from '@core/services/api/rest/huggingface.service';
 
 import { RootStoreState } from '@store';
 
 import { SharedModule } from '@shared/shared.module';
 
-import { HuggingfaceModelDetailsComponent } from './huggingface-model-details.component';
-import { MarkdownService } from './markdown/markdown.service';
+import { OmzModelDetailsComponent } from './omz-model-details.component';
 
-describe('HuggingfaceModelDetailsComponent', () => {
-  let component: HuggingfaceModelDetailsComponent;
-  let fixture: ComponentFixture<HuggingfaceModelDetailsComponent>;
+describe('OmzModelDetailsComponent', () => {
+  let component: OmzModelDetailsComponent;
+  let fixture: ComponentFixture<OmzModelDetailsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         SharedModule,
+        NoopAnimationsModule,
+        RouterTestingModule,
         StoreModule.forRoot({
           ...RootStoreState.reducers,
         }),
       ],
-      providers: [HuggingfaceService, MarkdownService],
-      declarations: [HuggingfaceModelDetailsComponent],
+      declarations: [OmzModelDetailsComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HuggingfaceModelDetailsComponent);
+    fixture = TestBed.createComponent(OmzModelDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

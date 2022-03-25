@@ -1,12 +1,12 @@
 import { isEmpty } from 'lodash';
 
-import { ModelFrameworksType } from '@store/model-store/model.model';
+import { ModelFrameworks } from '@store/model-store/model.model';
 
 export class ModelDownloaderDTO {
   name: string;
   task_type: string;
-  framework: ModelFrameworksType;
-  precision: string;
+  framework: ModelFrameworks;
+  precision: string[];
   isAvailable: boolean;
   path: string;
   description: string;
