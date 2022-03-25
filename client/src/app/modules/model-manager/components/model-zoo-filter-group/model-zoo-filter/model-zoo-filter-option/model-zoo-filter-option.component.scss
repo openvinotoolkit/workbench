@@ -1,23 +1,37 @@
-@use '~@angular/material' as mat;
-@import 'src/styles/colors';
+@import 'colors';
+@import 'fonts';
 
 :host {
   display: flex;
-  padding: 10px;
+  align-items: center;
+  padding: 12px 10px;
   border: 1px solid $very-light-pink;
   border-radius: 3px;
-  cursor: default;
+  cursor: pointer;
+  @include wb-label();
 
-  mat-icon {
-    cursor: pointer;
-    width: 18px;
-    height: 18px;
-    margin-left: 5px;
+  &.selected,
+  &.disabled {
+    cursor: default;
   }
 
   &.selected {
     color: $plum;
     border-color: $plum;
-    @include mat.elevation(2);
+    background-color: $white;
+    @include wb-body-2();
+  }
+
+  .option-icon {
+    margin-right: 5px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .deselect-icon {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    margin-left: 10px;
   }
 }

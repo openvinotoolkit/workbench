@@ -72,7 +72,7 @@ export class HuggingfaceModelDetailsComponent {
       { label: 'Library', value: this._extractTags(model.tags, this.tagsSets.libraries) },
       { label: 'Tasks', value: this._extractTags(model.tags, this.tagsSets.pipelineTags) },
       { label: 'Languages', value: this._extractTags(model.tags, this.tagsSets.languages) },
-      { label: 'Licenses', value: this._extractTags(model.tags, this.tagsSets.licenses) },
+      { label: 'Licenses', value: this._extractTags(model.tags, this.tagsSets.licenses).replace('license:', '') },
       { label: 'Downloads', value: model.downloads },
       { label: 'Updated', value: new DatePipe(this._localeId).transform(model.lastModified, 'YYYY/MM/dd, hh:mm') },
     ];
