@@ -939,14 +939,16 @@ export class TestUtils {
   async checkFileDownloadingAndSavePath(fileName: string) {
     const filePath = `${browser.params.precommit_scope.downloadedFiles}/${fileName}`;
 
-    await fs.writeFile(`${browser.params.precommit_scope.downloadedFiles}/path_to_report.txt`, filePath, function (
-      err
-    ) {
-      if (err) {
-        throw new Error(err);
+    await fs.writeFile(
+      `${browser.params.precommit_scope.downloadedFiles}/path_to_report.txt`,
+      filePath,
+      function (err) {
+        if (err) {
+          throw new Error(err);
+        }
+        console.log('The path to the report file was saved!');
       }
-      console.log('The path to the report file was saved!');
-    });
+    );
 
     const isFilePresent = await this.isFileDownloaded(filePath);
     expect(isFilePresent).toBeTruthy('File was not downloaded.');
@@ -1112,9 +1114,8 @@ export class TestUtils {
     this.uploadedModels.push(model.name);
     await this.homePage.openConfigurationWizard();
     await this.modelManagerPage.goToModelManager();
-    await this.modelManagerPage.openOMZTab();
-    await this.modelDownloadPage.filterTable(model.name);
-    await this.modelDownloadPage.downloadModel(model.name);
+    await this.clickElement(this.modelDownloadPage.elements.OMZTab);
+    await this.modelDownloadPage.selectAndDownloadModel(model.name);
     await this.modelDownloadPage.convertDownloadedModelToIR(ModelPrecisionEnum.FP16, 25);
     await browser.wait(
       () => this.configurationWizard.isUploadReady(model.name),

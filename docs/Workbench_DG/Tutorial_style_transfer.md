@@ -16,7 +16,7 @@ You can learn how to [import the model](Select_Model.md) and [create a not annot
 
 To convert the model to INT8, go to  **Perform** tab on the Project page and open **Optimize** subtab. Check **INT8** and click **Optimize**.
 
-![](img/tutorials/style-optimize.png)
+![](img/tutorials/optimize_face_detection.png)
 
 It takes you to the **Optimize INT8** page. Select the imported dataset and perform INT8 Calibration with Default optimization method and Performance Preset calibration scheme first as it provides maximum performance speedup.
 
@@ -87,9 +87,5 @@ After evaluating the accuracy, you can decide whether the difference between imp
 ## See Also
 
 * [Create Accuracy Report](Measure_Accuracy.md)
-* [Object Detection model tutorial](Tutorial_object_detection_dataset.md)
-* [Classification model tutorial](Tutorial_classification_dataset.md)
-* [Optimize Classification model tutorial](Tutorial_classification_dataset.md)
-* [Optimize Object Detection model tutorial](Tutorial_object_detection.md)
 * [Configure Accuracy Settings](Accuracy_Configuration.md)
 * [Troubleshooting](Troubleshooting.md)

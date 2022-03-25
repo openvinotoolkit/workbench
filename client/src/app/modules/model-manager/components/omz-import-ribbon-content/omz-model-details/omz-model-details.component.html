@@ -12,11 +12,11 @@
 
   <wb-model-zoo-details-description>
     <div class="title">Description</div>
-    <div class="description">
+    <div class="description" data-test-id="model-description">
       <wb-markdown-text [text]="model?.description | linkify"></wb-markdown-text>
     </div>
     <div class="title">Licence</div>
-    <div class="description">
+    <div class="description" data-test-id="model-license">
       <wb-markdown-text [text]="model?.license_url | linkify"></wb-markdown-text>
     </div>
   </wb-model-zoo-details-description>
@@ -26,6 +26,7 @@
       type="primary"
       class="enlarged-control"
       text="Download and Import"
+      testId="download-and-import"
       (handleClick)="import.emit()"
       [disabled]="isImportDisabled"
     ></wb-button>

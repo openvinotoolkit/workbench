@@ -36,9 +36,9 @@ describe('UI tests on Erase All', () => {
 
   it('Start downloading model from OMZ, click erase all', async () => {
     const model = { name: 'squeezenet1.0', framework: Frameworks.CAFFE };
-    await testUtils.modelManagerPage.openOMZTab();
-    expect(await browser.isElementPresent(testUtils.modelDownloadPage.modelDownloadTable)).toBeTruthy();
-    await testUtils.modelDownloadPage.downloadModel(model.name);
+    await testUtils.clickElement(testUtils.modelDownloadPage.elements.OMZTab);
+    expect(await browser.isElementPresent(testUtils.modelDownloadPage.elements.modelCard)).toBeTruthy();
+    await testUtils.modelDownloadPage.selectAndDownloadModel(model.name);
     await testUtils.modelDownloadPage.convertDownloadedModelToIR();
     await testUtils.pressAndCheckEraseAllResults();
   });

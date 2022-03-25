@@ -48,7 +48,10 @@
           <wb-card-content-row-item>{{ model.pipelineTag }}</wb-card-content-row-item>
         </wb-card-content-row>
         <wb-card-content-row>
-          <wb-card-content-row-item>{{ model.downloads || 0 }}</wb-card-content-row-item>
+          <wb-card-content-row-item>
+            <mat-icon svgIcon="download"></mat-icon>
+            {{ model.downloads || 0 }}
+          </wb-card-content-row-item>
           <wb-card-content-row-item>Updated: {{ model.lastModified | date }}</wb-card-content-row-item>
         </wb-card-content-row>
       </wb-card>
@@ -76,9 +79,9 @@
           disabled="true"
           *ngFor="let tag of appliedTags.pipelineTags"
           [value]="tag"
-          [label]="tag"
           icon="list_alt"
         >
+          {{ tag }}
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
 
@@ -89,8 +92,8 @@
           disabled="true"
           *ngFor="let tag of appliedTags.libraries"
           [value]="tag"
-          [label]="tag"
         >
+          {{ tag }}
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
     </ng-container>
@@ -98,32 +101,22 @@
     <ng-container *ngIf="availableTags">
       <wb-model-zoo-filter group="modelTypes">
         <wb-model-zoo-filter-title>Model types</wb-model-zoo-filter-title>
-        <wb-model-zoo-filter-option
-          *ngFor="let modelType of availableTags.modelTypes"
-          [value]="modelType"
-          [label]="modelType"
-        >
+        <wb-model-zoo-filter-option *ngFor="let modelType of availableTags.modelTypes" [value]="modelType">
+          {{ modelType }}
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
 
       <wb-model-zoo-filter group="languages">
         <wb-model-zoo-filter-title>Languages</wb-model-zoo-filter-title>
-        <wb-model-zoo-filter-option
-          *ngFor="let language of availableTags.languages"
-          [value]="language"
-          [label]="language"
-        >
+        <wb-model-zoo-filter-option *ngFor="let language of availableTags.languages" [value]="language">
+          {{ language }}
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
 
       <wb-model-zoo-filter group="licenses">
         <wb-model-zoo-filter-title>Licenses</wb-model-zoo-filter-title>
-        <wb-model-zoo-filter-option
-          *ngFor="let license of availableTags.licenses"
-          [value]="license"
-          [label]="license.replace('license:', '')"
-          icon="license"
-        >
+        <wb-model-zoo-filter-option *ngFor="let license of availableTags.licenses" [value]="license" icon="license">
+          {{ license.replace('license:', '') }}
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
     </ng-container>
