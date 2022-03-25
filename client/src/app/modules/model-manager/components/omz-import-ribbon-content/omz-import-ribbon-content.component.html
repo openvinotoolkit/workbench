@@ -1,13 +1,10 @@
 <wb-model-zoo-layout [isDetailsOpened]="!!selectedModel">
   <wb-model-zoo-content>
-    <!--  TODO Reuse wb-config-form-field component  -->
-    <mat-form-field ngProjectAs="model-zoo-sort" appearance="outline">
-      <mat-select [formControl]="sortControl">
-        <mat-option *ngFor="let option of dataSource.sortOptions" [value]="option">
-          {{ option.label }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <wb-config-form-field
+      ngProjectAs="model-zoo-sort"
+      [field]="sortField"
+      [group]="sortAndSearchFormGroup"
+    ></wb-config-form-field>
 
     <wb-model-zoo-filters-header
       [appliedFiltersCount]="appliedFiltersCount$ | async"
@@ -16,11 +13,12 @@
 
     <ng-container ngProjectAs="wb-model-zoo-filter-group" [ngTemplateOutlet]="filterGroupTemplate"></ng-container>
 
-    <wb-search-field
+    <wb-config-form-field
       ngProjectAs="model-zoo-search"
-      (search)="searchModels($event)"
+      [field]="searchField"
+      [group]="sortAndSearchFormGroup"
       testId="search-field"
-    ></wb-search-field>
+    ></wb-config-form-field>
 
     <wb-model-zoo-counter
       [dataLength]="dataSource?.data.length"

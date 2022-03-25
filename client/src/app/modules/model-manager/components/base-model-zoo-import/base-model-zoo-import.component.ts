@@ -1,11 +1,12 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
-import { map, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
+import { merge, Subject } from 'rxjs';
 
-import { BaseModelZooDataSource } from '@shared/models/model-zoo-data-source/base-model-zoo-data-source';
+import { BaseModelZooDataSource, IModelZooSort } from '@shared/models/model-zoo-data-source/base-model-zoo-data-source';
+import { AdvancedConfigField, SelectOption } from '@shared/components/config-form-field/config-form-field.component';
 
 import { ModelZooFilterGroupComponent } from '../model-zoo-filter-group/model-zoo-filter-group.component';
 
@@ -17,10 +18,26 @@ export abstract class BaseModelZooImportComponent<T, U = string> implements Afte
 
   abstract readonly dataSource: BaseModelZooDataSource<T, U>;
 
-  readonly sortControl = new FormControl(null);
   readonly filtersControl = new FormControl({});
 
-  modelSearch = '';
+  readonly sortField: AdvancedConfigField = {
+    type: 'select',
+    name: 'sort',
+    options: [],
+  };
+
+  readonly searchField: AdvancedConfigField = {
+    type: 'text',
+    name: 'search',
+    suffixIcon: 'search',
+  };
+
+  readonly sortControl = new FormControl(null);
+  readonly searchControl = new FormControl('');
+  readonly sortAndSearchFormGroup = new FormGroup({
+    [this.sortField.name]: this.sortControl,
+    [this.searchField.name]: this.searchControl,
+  });
 
   readonly appliedFiltersCount$ = this.filtersControl.valueChanges.pipe(
     map((filters: U) => Object.entries(filters).filter(([, value]) => value.length).length)
@@ -44,9 +61,12 @@ export abstract class BaseModelZooImportComponent<T, U = string> implements Afte
 
   abstract importModel(): void;
 
-  searchModels(value: string): void {
-    this.modelSearch = value;
-    this._filter();
+  protected _populateSortOptions(): void {
+    this.sortField.options = this.dataSource.sortOptions.map((sortOption) => ({
+      value: sortOption,
+      name: sortOption.label,
+    })) as SelectOption[];
+    this.sortControl.setValue(this.dataSource.defaultSortOption);
   }
 
   private _filter(): void {
@@ -54,13 +74,17 @@ export abstract class BaseModelZooImportComponent<T, U = string> implements Afte
   }
 
   private _subscribeToSortAndFiltersChanges(): void {
-    this.sortControl.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe((sort) => {
+    this.sortControl.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe((sort: IModelZooSort<T>) => {
       this.dataSource.sort = sort;
     });
 
-    this.filtersControl.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe(() => {
-      this._filter();
-    });
+    const debouncedSearch$ = this.searchControl.valueChanges.pipe(debounceTime(200), distinctUntilChanged());
+
+    merge(debouncedSearch$, this.filtersControl.valueChanges)
+      .pipe(takeUntil(this._unsubscribe$))
+      .subscribe(() => {
+        this._filter();
+      });
   }
 
   resetAllFilters(): void {

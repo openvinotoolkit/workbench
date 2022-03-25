@@ -42,7 +42,7 @@ export class OmzImportRibbonContentComponent extends BaseModelZooImportComponent
 
   constructor(private readonly _store$: Store<RootStoreState.State>) {
     super();
-    this.sortControl.setValue(this.dataSource.defaultSortOption);
+    this._populateSortOptions();
 
     this._omzModels$.pipe(takeUntil(this._unsubscribe$)).subscribe((models) => {
       this.dataSource.data = models;
@@ -51,7 +51,7 @@ export class OmzImportRibbonContentComponent extends BaseModelZooImportComponent
 
   protected get _dataSourceFilter(): IOpenModelZooFilter {
     return {
-      name: this.modelSearch,
+      name: this.searchControl.value,
       filters: this.filtersControl?.value || {},
     };
   }

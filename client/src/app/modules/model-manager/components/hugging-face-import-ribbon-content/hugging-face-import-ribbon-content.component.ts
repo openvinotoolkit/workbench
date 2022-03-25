@@ -52,7 +52,7 @@ export class HuggingFaceImportRibbonContentComponent
     private readonly _store$: Store<RootStoreState.State>
   ) {
     super();
-    this.sortControl.setValue(this.dataSource.defaultSortOption);
+    this._populateSortOptions();
   }
 
   ngOnInit(): void {
@@ -85,7 +85,7 @@ export class HuggingFaceImportRibbonContentComponent
 
   protected get _dataSourceFilter(): IHuggingfaceModelZooFilter {
     return {
-      id: this.modelSearch,
+      id: this.searchControl.value,
       tags: Object.values(this.filtersControl?.value || {}).flat() as string[],
     };
   }
