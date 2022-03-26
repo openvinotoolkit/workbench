@@ -14,8 +14,9 @@ import { InferenceTestImageStoreModule } from '@store/inference-test-image-store
 import { AdvancedAccuracyStoreModule } from '@store/advanced-accuracy-store/advanced-accuracy-store.module';
 import { AccuracyAnalysisStoreModule } from '@store/accuracy-analysis-store';
 import { TokenizerStoreModule } from '@store/tokenizer-store/tokenizer-store.module';
+import { HuggingfaceModelStoreModule } from '@store/huggingface-model-store';
 
-import { reducers, metaReducers, State } from './state';
+import { metaReducers, reducers, State } from './state';
 import { ModelStoreModule } from './model-store';
 import { DatasetStoreModule } from './dataset-store';
 import { ProjectStoreModule } from './project-store';
@@ -50,6 +51,7 @@ export const REDUCERS_TOKEN = new InjectionToken<ActionReducerMap<State>>('Regis
     AdvancedAccuracyStoreModule,
     AccuracyAnalysisStoreModule,
     TokenizerStoreModule,
+    HuggingfaceModelStoreModule,
 
     StoreModule.forRoot(REDUCERS_TOKEN, {
       metaReducers,

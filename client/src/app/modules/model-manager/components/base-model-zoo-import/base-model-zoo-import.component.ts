@@ -26,7 +26,7 @@ export abstract class BaseModelZooImportComponent<T, U = string> implements Afte
     map((filters: U) => Object.entries(filters).filter(([, value]) => value.length).length)
   );
 
-  protected _selectedModel: T = null;
+  private _selectedModel: T = null;
   get selectedModel(): T {
     return this._selectedModel;
   }
@@ -49,11 +49,11 @@ export abstract class BaseModelZooImportComponent<T, U = string> implements Afte
     this._filter();
   }
 
-  protected _filter(): void {
+  private _filter(): void {
     this.dataSource.filter = this._dataSourceFilter;
   }
 
-  protected _subscribeToSortAndFiltersChanges(): void {
+  private _subscribeToSortAndFiltersChanges(): void {
     this.sortControl.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe((sort) => {
       this.dataSource.sort = sort;
     });

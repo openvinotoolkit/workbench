@@ -1,4 +1,4 @@
-<wb-model-zoo-layout [isDetailsOpened]="!!selectedModel">
+<wb-model-zoo-layout [isDetailsOpened]="!!selectedModel" [loading]="loading$ | async">
   <wb-model-zoo-content>
     <mat-form-field ngProjectAs="model-zoo-sort" appearance="outline">
       <mat-select [formControl]="sortControl">

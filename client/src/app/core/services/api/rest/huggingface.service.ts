@@ -22,7 +22,7 @@ interface IModelsResponse {
 }
 
 // TODO Consider moving to shared models (e.g. huggingface directory)
-interface IHFModelsData {
+export interface IHFModelsData {
   models: IHuggingfaceModel[];
   tags: {
     applied: IHuggingfaceAppliedModelTags;
@@ -79,7 +79,7 @@ export class HuggingfaceService {
     return this._http.post<ModelItem>(`${this._connectionService.prefix}/huggingface/models/import`, { id });
   }
 
-  getModelDetails$(id: string): Observable<string> {
+  getModelReadme$(id: string): Observable<string> {
     const params = new HttpParams({ fromObject: { id } });
     return this._http.get(`${this._connectionService.prefix}/huggingface/readme`, { params, responseType: 'text' });
   }
