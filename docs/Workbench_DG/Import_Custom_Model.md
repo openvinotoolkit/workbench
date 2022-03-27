@@ -1,4 +1,5 @@
-# Import Original Model {#workbench_docs_Workbench_DG_Tutorial_Import_Original}
+# Import Original Model Recommendations{#workbench_docs_Workbench_DG_Tutorial_Import_Original}
+
 
   Use the following recommendations to make the process of importing original models easier:
 
@@ -68,7 +69,4 @@ visualize model [architecture](https://docs.openvino.ai/latest/workbench_docs_Wo
 
 * [Next Step: Create Project](Create_Project.md)
 * [Import Darknet* YOLOv4 model](Import_YOLO.md)
-* [Import Frozen TensorFlow* SSD MobileNet v2 COCO Tutorial](Import_TensorFlow.md)
-* [Import ONNX* MobileNet v2 Tutorial](Import_ONNX.md)
-* [Import MXNet* MobileNet v2 Tutorial](Import_MXNet.md)
 * [Troubleshooting](Troubleshooting.md)

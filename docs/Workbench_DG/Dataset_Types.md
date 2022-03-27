@@ -19,7 +19,8 @@ Below is the list of dataset types available to use in the DL Workbench:
 - <a href="#lfw">Labeled Faces in the Wild (LFW)</a>
 - <a href="#vgg">Visual Geometry Group Face 2 (VGGFace2)</a>
 - <a href="#wider">Wider Face</a>
-- <a href="#OpenImages">Open Images</a>
+- <a href="#openimages">Open Images</a>
+- <a href="#cityscapes">Cityscapes</a>
 - <a href="#unannotated">Not annotated dataset</a>
 
 Your dataset does not need to contain images from official databases providing these types, like ImageNet or Pascal VOC, but it needs to adhere to the supported dataset formats.
@@ -28,7 +29,7 @@ Use case  |                 Datasets/Dataset formats
 |------------------|------------------|
 |Classification|ImageNet, unannotated*​|
 |Object Detection​|Pascal VOC, MS COCO, Wider Face, Open Images, unannotated*​|
-|Segmentation (Semantic, Instance)​|MS COCO, Pascal VOC, CSS, unannotated*|
+|Segmentation (Semantic, Instance)​|MS COCO, Pascal VOC, CSS, Cityscapes, unannotated*|
 |Facial Landmark detection​|LFW, unannotated*|
 |Face recognition​|VGGFace2, unannotated*|
 |Super resolution​|Common Super Resolution, unannotated*|
@@ -485,7 +486,7 @@ The `wider_face_subset.txt` file follows the structure represented below. Each i
 707 252 92 133 0 1 0 0 0 0 
 ```
 
-## <a name="OpenImages">Open Images</a>
+## <a name="openimages">Open Images</a>
 
 Open Images is used for the object-detection use case. DL Workbench supports only validation dataset format. 
 
@@ -543,6 +544,48 @@ Learn more about bounding boxes structure and attributes at the [Open Images sit
 /m/012w5l	Ladder
 /m/012xff	Toothbrush
 ```
+## <a name="cityscapes">Cityscapes</a>
+
+Cityscapes dataset is used for semantic segmentation of urban street scenes. DL Workbench supports validation and train dataset format. 
+
+### Download Cityscapes
+
+1. Create an empty `cityscapes` folder.
+
+2. Register on the [Cityscapes dataset site](https://www.cityscapes-dataset.com/). On the [download page](https://www.cityscapes-dataset.com/downloads/), download `gtFine_trainvaltest.zip` and `leftImg8bit_trainvaltest.zip`. 
+
+![](img/datasets/cityscapes.png)
+
+3. Unzip the downloaded archives and place them in the `cityscapes` folder.
+
+4. Archive the `cityscapes` folder.
+
+### Cityscapes Structure
+
+A Cityscapes dataset archive consists of the folders with annotations and images. 
+
+```
+|--cityscapes
+    |-- gtFine
+       |-- val
+             |-- city
+                 |-- city_gtFine_labelIds.png
+                 |-- city_gtFine_instanceIds.png
+                 |-- city_gtFine_color.png - Optional
+                 |-- city_gtFine_labels.png - Optional
+                 |-- city_gtFine_labelTrainIds.png - Optional
+                 |-- city_gtFine_polygons.json
+    |-- imgsFine
+         |-- leftImg8bit
+             |-- val
+                 |-- city
+                     |-- city.png
+
+```
+
+`gtFine` folder contains the fine annotations encoded using `json` files with the individual polygons. Additionally, there are `png` images, where pixel values encode labels. `leftImg8bit` consists of the left images in 8-bit LDR format.
+
+Learn more about the dataset preparation and evaluation at the [Cityscapes dataset site](https://www.cityscapes-dataset.com/dataset-overview/) and in the [GitHub repository](https://github.com/mcordts/cityscapesScripts).
 
 ## <a name="unannotated">Not Annotated Dataset</a>
 

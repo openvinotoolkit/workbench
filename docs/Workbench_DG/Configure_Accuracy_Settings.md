@@ -265,39 +265,13 @@ Specify **Image Inpainting** in the drop-down list in the **Accuracy Settings**:
 
 Two types of masks can be applied to your image to measure its accuracy: rectangle and free form. Based on a masking type, you have two choose different sets of preprocessing parameters.
 
-
-@sphinxdirective
-.. raw:: html
-
-    <div class="collapsible-section">
-@endsphinxdirective
-
 The rectangle means that there is a rectangle of specified with and height applied to the middle of the image. Example of the rectangle masking:
 ![](img/rect_mask.png)
 
-@sphinxdirective
-.. raw:: html
-
-    </div>
-@endsphinxdirective
-
-
-
-@sphinxdirective
-.. raw:: html
-
-    <div class="collapsible-section">
-@endsphinxdirective
 
 The free-form masking means separate lines of specified lengths, widths, and vertex numbers.
 Example of the free-form masking:
 ![](img/free_form_mask.png)
-
-@sphinxdirective
-.. raw:: html
-
-    </div>
-@endsphinxdirective
 
 
 Parameter | Values | Explanation 

@@ -46,17 +46,13 @@ In our case, the `ssd_mobilenet_v2_coco` model detected 2 objects of class 23 (b
 
 Let's consider another example image. The model detected 3 objects of class 1 (person). The annotations indicate that the image contains 4 objects of this class. 2 matches show that only 2 of the 3 detected objects coincide with annotations. In the image, you can see that the model detected 3 people. While one person in the distance is detected precisely, the other bounding boxes are noticeably different from the annotation. Two other people are not detected by the model.
 
-> **TIP**: You can enhance your model performance while ensuring that the model accuracy has not decreased dramatically. For that, [optimize your model](Int-8_Quantization.md) and create an Accuracy Report that allows you to visualize and [compare Optimized and Parent model predictions](Tutorial_object_detection.md). 
+> **TIP**: You can enhance your model performance while ensuring that the model accuracy has not decreased dramatically. For that, [optimize your model](Int-8_Quantization.md) and create an Accuracy Report that allows you to visualize and [compare Optimized and Parent model predictions](Import_YOLO.md). 
 
 *All images were taken from ImageNet, Pascal Visual Object Classes, and Common Objects in Context datasets for demonstration purposes only.*
 
 
 ## See Also
 
-* [Classification model tutorial](Tutorial_classification_dataset.md)
-* [Optimize Object Detection model tutorial](Tutorial_object_detection.md)
-* [Optimize Classification model tutorial](Tutorial_classification.md)
-* [Optimize Style Transfer model tutorial](Tutorial_style_transfer.md)
 * [Accuracy Checker](https://docs.openvinotoolkit.org/latest/omz_tools_accuracy_checker.html)
 * [Configure Accuracy Settings](Accuracy_Configuration.md)
 * [Troubleshooting](Troubleshooting.md)

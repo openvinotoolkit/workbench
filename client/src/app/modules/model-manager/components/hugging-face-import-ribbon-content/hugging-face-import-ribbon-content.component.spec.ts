@@ -12,6 +12,7 @@ import { SharedModule } from '@shared/shared.module';
 
 import { HuggingFaceImportRibbonContentComponent } from './hugging-face-import-ribbon-content.component';
 import { ModelZooFilterGroupComponent } from '../model-zoo-filter-group/model-zoo-filter-group.component';
+import { HuggingfaceModelDetailsComponent } from './huggingface-model-details/huggingface-model-details.component';
 
 describe('HuggingFaceImportRibbonContentComponent', () => {
   let component: HuggingFaceImportRibbonContentComponent;
@@ -26,7 +27,11 @@ describe('HuggingFaceImportRibbonContentComponent', () => {
           ...RootStoreState.reducers,
         }),
       ],
-      declarations: [HuggingFaceImportRibbonContentComponent, ModelZooFilterGroupComponent],
+      declarations: [
+        HuggingFaceImportRibbonContentComponent,
+        ModelZooFilterGroupComponent,
+        HuggingfaceModelDetailsComponent,
+      ],
       providers: [MessagesService, HuggingfaceService],
     }).compileComponents();
   });

@@ -169,7 +169,7 @@ Corresponding latency: <latency value>
 Best result FPS: <FPS value>
 Best result batch configuration: 1
 Best result stream configuration: 1
-DL Workbench version: 2021.4.2
+DL Workbench version: 2022.1
 
 Accuracy Checker version: 0.8.6
 Post-training Optimization Tool version: 1.0
