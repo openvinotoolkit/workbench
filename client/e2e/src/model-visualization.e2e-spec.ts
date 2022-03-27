@@ -43,7 +43,7 @@ describe('UI tests on Model visualization', () => {
 
   const { helpers, analyticsPopup, homePage, modelManagerPage } = testUtils;
   const { resources, resource_dir, defaultTimeout } = browser.params.precommit_scope;
-  const { cocoDataset, /*CSSDataset ,*/ smallVOCDataset, imageNetDataset /*superResolutionDataset*/ } = resources;
+  const { cocoDataset, /* CSSDataset , */ smallVOCDataset, imageNetDataset /* superResolutionDataset */ } = resources;
 
   beforeAll(async () => {
     await homePage.navigateTo();
@@ -55,8 +55,8 @@ describe('UI tests on Model visualization', () => {
     await homePage.openConfigurationWizard();
     const datasetNames = [
       'cocoDataset',
-      /*'CSSDataset',*/ 'smallVOCDataset',
-      'imageNetDataset' /*'superResolutionDataset'*/,
+      /* 'CSSDataset', */ 'smallVOCDataset',
+      'imageNetDataset' /* 'superResolutionDataset' */,
     ];
     for (const datasetName of datasetNames) {
       const dataset = resources[datasetName];
@@ -129,7 +129,7 @@ describe('UI tests on Model visualization', () => {
     const imageFile = browser.params.precommit_scope.resources.testImages.streetImage;
     const expectedImageFile = browser.params.precommit_scope.resources.testImages.semanticSegmExpected;
 
-    //await runInferenceAndSetImageAndSetThreshold(model, CSSDataset, imageFile);
+    // await runInferenceAndSetImageAndSetThreshold(model, CSSDataset, imageFile);
 
     const expectedClasses = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '10', '11', '13'];
     await visualizeInferenceResultPage.comparePredictionsAndBadgesWithExpectations(
@@ -141,12 +141,12 @@ describe('UI tests on Model visualization', () => {
     );
   });
 
-  //TODO: 75981, 82461
+  // TODO: 75981, 82461
   xit('should check visualization GAN single-image-super-resolution-1032 model', async () => {
     const model = { name: 'single-image-super-resolution-1032', framework: 'openvino' };
     const imageFile = browser.params.precommit_scope.resources.testImages.streetImage;
 
-    //await runInferenceAndSetImageAndSetThreshold(model, superResolutionDataset, imageFile, undefined, false);
+    // await runInferenceAndSetImageAndSetThreshold(model, superResolutionDataset, imageFile, undefined, false);
 
     const resultCanvas: ElementFinder = await visualizeInferenceResultPage.resultCanvas;
     await browser.wait(until.presenceOf(resultCanvas), defaultTimeout);

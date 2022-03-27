@@ -44,10 +44,10 @@ describe('UI tests on parent predictions visualization', () => {
 
     datasetFileVOC.name = testUtils.helpers.generateName();
     datasetFileImageNet.name = testUtils.helpers.generateName();
-    //dataSetFileSemantic.name = testUtils.helpers.generateName();
+    // dataSetFileSemantic.name = testUtils.helpers.generateName();
     await testUtils.uploadDataset(datasetFileVOC);
     await testUtils.uploadDataset(datasetFileImageNet);
-    //await testUtils.uploadDataset(dataSetFileSemantic);
+    // await testUtils.uploadDataset(dataSetFileSemantic);
   });
 
   beforeEach(async () => {
@@ -151,7 +151,7 @@ describe('UI tests on parent predictions visualization', () => {
     ).toBeTruthy();
   });
 
-  //TODO: 70558, 82461
+  // TODO: 70558, 82461
   xit(
     'should download an instance segmentation model (deeplabv3), ' +
       'int8 calibration, check that predictions comparison is not available and that tensor comparison is available',
