@@ -1,5 +1,5 @@
 <wb-model-zoo-layout [isDetailsOpened]="!!selectedModel">
-  <wb-model-zoo-content [hasError]="!!(error$ | async)">
+  <wb-model-zoo-content [loading]="isLoading$ | async" [hasError]="!!(error$ | async)">
     <wb-config-form-field
       ngProjectAs="model-zoo-sort"
       [field]="sortField"

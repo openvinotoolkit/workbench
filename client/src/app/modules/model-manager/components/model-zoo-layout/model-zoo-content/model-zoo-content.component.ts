@@ -7,6 +7,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModelZooContentComponent {
+  @Input() loading = false;
   @Input() hasError = false;
 }
 

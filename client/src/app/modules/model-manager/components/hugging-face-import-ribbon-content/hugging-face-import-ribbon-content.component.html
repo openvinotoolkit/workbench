@@ -1,5 +1,5 @@
-<wb-model-zoo-layout [isDetailsOpened]="!!selectedModel" [loading]="loading$ | async">
-  <wb-model-zoo-content>
+<wb-model-zoo-layout [isDetailsOpened]="!!selectedModel">
+  <wb-model-zoo-content [loading]="loading$ | async">
     <wb-config-form-field
       ngProjectAs="model-zoo-sort"
       [field]="sortField"
@@ -23,6 +23,7 @@
     ></wb-config-form-field>
 
     <wb-model-zoo-counter
+      *ngIf="dataSource?.data.length"
       [dataLength]="dataSource?.data.length"
       [filteredDataLength]="dataSource?.filteredData?.length"
     ></wb-model-zoo-counter>

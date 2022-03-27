@@ -1,7 +1,6 @@
 <ng-content select="wb-model-zoo-notification"></ng-content>
 
 <div class="content-row">
-  <!-- TODO Move loading template here -->
   <ng-container *ngIf="!hasError; else errorTemplate">
     <div class="wb-col-4 filter-block">
       <!--  TODO Consider moving filter block to separate component  -->
@@ -37,10 +36,16 @@
         </div>
       </div>
 
-      <ng-content select="wb-card-grid"></ng-content>
+      <ng-container *ngIf="!loading; else loadingTemplate">
+        <ng-content select="wb-card-grid"></ng-content>
+      </ng-container>
     </div>
   </ng-container>
 </div>
+
+<ng-template #loadingTemplate>
+  <wb-spinner></wb-spinner>
+</ng-template>
 
 <ng-template #errorTemplate>
   <ng-content select="wb-model-zoo-error"></ng-content>
