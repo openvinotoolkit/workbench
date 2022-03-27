@@ -107,44 +107,6 @@ Once you configure the filters, press **Apply Filter**. To apply a different fil
 
 ![](img/layers_table/layers_table_05.png)
 
-### Per-Layer Comparison
-
-To compare layers of a model before and after calibration, follow the steps described in 
-[Compare Performance between Two Versions of Models](Compare_Performance_between_Two_Versions_of_Models.md). 
-After that, find the **Model Performance Summary** at the bottom of the page.
-
-The **Performance Summary** tab contains the table with information on layer types of both
-projects, their execution time, and the number of layers of each type executed in a
-certain precision. 
-![](img/comparison_performance_summary.png) 
-
-You can sort values in each column by clicking the column name. By default, layer types
-are arranged from the most to the least time taken. The table visually demonstrates the
-ratio of time taken by each layer type. Uncheck boxes in the **Include to Distribution Chart** 
-column to filter out certain layers.
-![](img/comparison_performance_summary_filtered.png)
-
-The **Inference Time** tab compares throughput and latency values. By default,
-the chart shows throughput values. Switch to **Latency** to see the difference in latency
-values.
-![](img/comparison_inference_time.png)
-
-The **Kernel-Level Performance** tab
-
-![](img/layers_table/layers_table_06.png)
-> **NOTE**: Make sure you select points on both graphs.
-
-Each row of a table represents a layer of executed graphs of different model versions. The table
-displays execution time and runtime precision. If a layer was executed in both versions, the table shows
-the difference between the execution time values of different model versions layers.
-
-Click the layer name to see the details that appear on the right to the table. Switch between tabs 
-to see parameters of layers that differ between the versions of the model:
-![](img/layers_table/layers_table_07.png)
-
-In case a layer was not executed in one of the versions, the tool notifies you:
-![](img/layers_table/layers_table_08.png)
-
 
 
 ## See Also

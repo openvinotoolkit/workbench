@@ -40,15 +40,6 @@ openvino-workbench --image openvino/workbench \
 ```
 > **NOTE**: Replace the placeholders in angle brackets the full path to the `assets` folder.
 
-**When installing from the OpenVINO™ package**:
-1. Open a terminal in the DL Workbench folder. The path to the folder is   
-`/<path_to_installed_package>/tools/workbench`.  
-2. Run the Docker container with the command that provides key and certificate paths:
-```
-openvino-workbench --image workbench \
-  --ssl-certificate-name /home/workbench/.workbench/certificate.pem \
-  --ssl-key-name /home/workbench/.workbench/key.pem 
-```
 
 ## Self-Signed Certificate on Linux
 
@@ -73,17 +64,6 @@ openvino-workbench --image openvino/workbench \
   --verify-ssl off
 ```
 > **NOTE**: Replace the placeholders in angle brackets the full path to the `assets` folder.
-
-**When installing from the OpenVINO™ package**:
-1. Open a terminal in the DL Workbench folder. The path to the folder is   
-`/<path_to_installed_package>/tools/workbench`.  
-2. Run the Docker container with the command that provides key and certificate paths:
-```
-openvino-workbench --image workbench \
-  --ssl-certificate-name /home/workbench/.workbench/certificate.pem \
-  --ssl-key-name /home/workbench/.workbench/key.pem \
-  --verify-ssl off
-```
 
 ## Trusted Certificate on Windows*
 

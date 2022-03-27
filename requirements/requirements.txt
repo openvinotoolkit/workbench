@@ -59,3 +59,6 @@ Werkzeug==2.0.1
 zipp==3.5.0
 huggingface_hub==0.4.0
 transformers[onnx]==4.16.2
+
+--find-links https://download.pytorch.org/whl/torch_stable.html
+torch==1.11.0+cpu

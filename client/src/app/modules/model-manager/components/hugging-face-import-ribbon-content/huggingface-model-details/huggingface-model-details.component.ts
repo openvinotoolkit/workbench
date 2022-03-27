@@ -10,9 +10,13 @@ import {
 } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
-import { HuggingfaceService } from '@core/services/api/rest/huggingface.service';
+import { Store } from '@ngrx/store';
+import { switchMap } from 'rxjs/operators';
+import { of, from } from 'rxjs';
 
 import { ModelDomain, modelDomainNames } from '@store/model-store/model.model';
+import { RootStoreState } from '@store';
+import { HuggingfaceModelStoreActions, HuggingfaceModelStoreSelectors } from '@store/huggingface-model-store';
 
 import { IHuggingfaceModel } from '@shared/models/huggingface/huggingface-model';
 import { IParameter } from '@shared/components/model-details/parameter-details/parameter-details.component';
@@ -33,13 +37,9 @@ export class HuggingfaceModelDetailsComponent {
     this._model = value;
     if (this._model) {
       this.parameters = this._extractHfModelParameters(this._model);
-      (async () => {
-        this.readme = await this._fetchReadme();
-        this._cdr.detectChanges();
-      })();
+      this._store$.dispatch(HuggingfaceModelStoreActions.loadModelReadme({ huggingfaceModelId: this._model.id }));
     } else {
       this.parameters = null;
-      this.readme = null;
     }
   }
 
@@ -52,13 +52,18 @@ export class HuggingfaceModelDetailsComponent {
   @Output() import = new EventEmitter<void>();
   @Output() hide = new EventEmitter<void>();
 
+  readonly markdownHTML$ = this._store$
+    .select(HuggingfaceModelStoreSelectors.selectModelReadme)
+    .pipe(switchMap((readme) => (readme ? from(this._mdService.parse(readme)) : of(null))));
+
+  readonly loading$ = this._store$.select(HuggingfaceModelStoreSelectors.selectModelReadmeLoading);
+
   parameters: IParameter[] = [];
-  readme: string = null;
 
   constructor(
-    private readonly _hfService: HuggingfaceService,
     private readonly _cdr: ChangeDetectorRef,
     private readonly _mdService: MarkdownService,
+    private readonly _store$: Store<RootStoreState.State>,
     @Inject(LOCALE_ID) private readonly _localeId: string
   ) {}
 
@@ -72,14 +77,9 @@ export class HuggingfaceModelDetailsComponent {
       { label: 'Library', value: this._extractTags(model.tags, this.tagsSets.libraries) },
       { label: 'Tasks', value: this._extractTags(model.tags, this.tagsSets.pipelineTags) },
       { label: 'Languages', value: this._extractTags(model.tags, this.tagsSets.languages) },
-      { label: 'Licenses', value: this._extractTags(model.tags, this.tagsSets.licenses) },
+      { label: 'Licenses', value: this._extractTags(model.tags, this.tagsSets.licenses).replace('license:', '') },
       { label: 'Downloads', value: model.downloads },
       { label: 'Updated', value: new DatePipe(this._localeId).transform(model.lastModified, 'YYYY/MM/dd, hh:mm') },
     ];
-  }
-
-  private async _fetchReadme(): Promise<string> {
-    const markdown = await this._hfService.getModelDetails$(this._model.id).toPromise();
-    return this._mdService.parse(markdown);
   }
 }

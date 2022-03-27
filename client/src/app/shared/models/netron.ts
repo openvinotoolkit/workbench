@@ -166,9 +166,3 @@ export interface NetronView {
   _searchText: string;
   _zoom: NetronGraphZoom;
 }
-
-export interface NetronFindSidebar {
-  on: (event: string, callback: Function) => void;
-  focus: (searchText: string) => void;
-  content: HTMLElement;
-}

@@ -48,6 +48,7 @@ class RemoteJobMixin:
         venv_path = os.path.join(openvino_bundle_path, PYTHON_VIRTUAL_ENVIRONMENT_DIR)
 
         running_tool = WorkbenchJobTool(job_script_path=job_script_path,
+                                        openvino_package_root_path=job_bundle_path,
                                         job_bundle_path=openvino_bundle_path, venv_path=venv_path)
         kill_tool = KillTool(running_tool)
         parser = ShParser(self.job_state_subject)

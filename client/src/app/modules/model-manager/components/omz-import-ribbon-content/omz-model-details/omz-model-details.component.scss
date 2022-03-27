@@ -1,0 +1,25 @@
+@import 'colors';
+@import 'fonts';
+
+:host {
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  flex-grow: 1;
+
+  ::ng-deep wb-model-zoo-details-description {
+    .title {
+      @include wb-subtitle-strong();
+
+      &:not(:first-child) {
+        margin-top: 30px;
+      }
+    }
+
+    .description {
+      @include wb-text-8();
+      margin-top: 20px;
+      color: $brownish-grey;
+    }
+  }
+}

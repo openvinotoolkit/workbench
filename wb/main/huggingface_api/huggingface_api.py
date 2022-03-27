@@ -89,6 +89,12 @@ class HuggingfaceModel:
         }
 
 
+contains_decoder = {
+        model_type for model_type, tasks in FeaturesManager._SUPPORTED_MODEL_TYPE.items()
+        if any("with-past" in task for task in tasks)
+    }
+
+
 def _validate_hf_model(model: ModelInfo) -> ValidationResult:
     if not model.config:
         return ValidationResult(disabled=True, message='Model has no config')
@@ -101,6 +107,11 @@ def _validate_hf_model(model: ModelInfo) -> ValidationResult:
         return ValidationResult(
             disabled=True,
             message=f'Sequence classification feature is not supported for model type {model_type}'
+        )
+    if model_type in contains_decoder:
+        return ValidationResult(
+            disabled=True,
+            message=f'The model type {model_type} contains transformer decoder and is not supported by DL Workbench'
         )
     return ValidationResult(disabled=False)
 
