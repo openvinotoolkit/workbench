@@ -8,20 +8,21 @@ export const reducer = createReducer(
 
   on(HuggingfaceModelsActions.loadModelData, (state) => ({
     ...state,
-    isLoading: true,
-    error: null,
+    isModelsDataLoading: true,
+    modelsDataError: null,
   })),
 
   on(HuggingfaceModelsActions.loadModelDataSuccess, (state, { data }) => ({
     ...state,
     modelsData: data,
-    isLoading: false,
+    isModelsDataLoading: false,
+    modelsDataError: null,
   })),
 
   on(HuggingfaceModelsActions.loadModelDataFailure, (state, { error }) => ({
     ...state,
-    error,
-    isLoading: false,
+    modelsDataError: error,
+    isModelsDataLoading: false,
   })),
 
   on(HuggingfaceModelsActions.loadModelReadme, (state) => ({
