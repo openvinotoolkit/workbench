@@ -2689,7 +2689,7 @@
     }
   },
   "LFWDataset": {
-    "path": "datasets_v2/LFW.zip,
+    "path": "datasets_v2/LFW.zip",
     "name": "LFWDataset",
     "type": "dataset",
     "accuracyData": {
