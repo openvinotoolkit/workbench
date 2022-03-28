@@ -26,7 +26,7 @@ interface IFormValue {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModelZooFilterGroupComponent implements OnDestroy, AfterContentInit, ControlValueAccessor {
-  @ContentChildren(ModelZooFilterComponent) filterList: QueryList<ModelZooFilterComponent<unknown>>;
+  @ContentChildren(ModelZooFilterComponent) filterComponentsList: QueryList<ModelZooFilterComponent<unknown>>;
 
   private readonly _unsubscribe$ = new Subject<void>();
 
@@ -40,7 +40,7 @@ export class ModelZooFilterGroupComponent implements OnDestroy, AfterContentInit
   }
 
   ngAfterContentInit(): void {
-    this.filterList.changes
+    this.filterComponentsList.changes
       .pipe(startWith(null as unknown), takeUntil(this._unsubscribe$))
       .subscribe(() => this._resetOptions());
   }
@@ -51,9 +51,9 @@ export class ModelZooFilterGroupComponent implements OnDestroy, AfterContentInit
   }
 
   private _resetOptions(): void {
-    const changedOrDestroyed$ = merge(this.filterList.changes, this._unsubscribe$);
+    const changedOrDestroyed$ = merge(this.filterComponentsList.changes, this._unsubscribe$);
 
-    merge(...this.filterList.map((filter) => filter.optionsChange))
+    merge(...this.filterComponentsList.map((filter) => filter.optionsChange))
       .pipe(takeUntil(changedOrDestroyed$))
       .subscribe(() => this._emitChanges());
   }
@@ -70,10 +70,16 @@ export class ModelZooFilterGroupComponent implements OnDestroy, AfterContentInit
 
   private _emitChanges(): void {
     const value: IFormValue = {};
-    for (const filter of this.filterList) {
-      value[filter.group] = Array.from(filter.selectedOptions);
+    for (const filterComponent of this.filterComponentsList) {
+      value[filterComponent.group] = Array.from(filterComponent.selectedOptions);
     }
     this._onTouched();
     this._onChange(value);
+  }
+
+  resetAllFilters(): void {
+    for (const filterComponent of this.filterComponentsList) {
+      filterComponent.clearSelectedOptions();
+    }
   }
 }

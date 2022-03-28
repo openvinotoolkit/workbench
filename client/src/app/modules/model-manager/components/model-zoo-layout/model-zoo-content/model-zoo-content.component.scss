@@ -6,90 +6,127 @@
   display: flex;
   overflow: hidden;
   flex-grow: 1;
+  position: relative;
 }
 
-.filter-block {
-  border-right: 1px solid $very-light-pink;
-  padding: 20px;
-  display: block;
-  overflow-y: auto;
+.block-header {
+  border-bottom: 1px solid $very-light-pink;
+  padding: $container-padding;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+
+  .block-header-row {
+    display: flex;
+
+    & + .block-header-row:not(:first-child) {
+      margin-top: $container-padding;
+    }
+  }
 }
 
+.filter-block,
 .main-block {
   padding: 0;
   display: flex;
   flex-direction: column;
+}
+
+.filter-block {
+  border-right: 1px solid $very-light-pink;
+  overflow: hidden;
+  position: absolute;
+  height: 100%;
+
+  .model-zoo-sort-label,
+  ::ng-deep .model-zoo-filters-label {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+
+    mat-icon + span {
+      padding-left: 10px;
+    }
+  }
+
+  .model-zoo-sort-wrapper {
+    flex: 1;
+
+    ::ng-deep mat-form-field {
+      width: 100%;
+
+      .mat-form-field-wrapper {
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+
+  ::ng-deep wb-model-zoo-filter-group {
+    overflow-y: auto;
+  }
+}
+
+.main-block {
+  margin-left: auto;
 
   .block-header {
-    border-bottom: 1px solid $very-light-pink;
-    padding: $container-padding;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 2px 4px $panel-shadow;
+    border-bottom: none;
+  }
 
-    ::ng-deep .block-header-row {
-      display: flex;
+  ::ng-deep wb-search-field {
+    width: 430px;
+  }
 
-      & + .block-header-row:not(:first-child) {
-        margin-top: $container-padding;
+  ::ng-deep wb-model-zoo-counter {
+    margin-left: auto;
+  }
+
+  ::ng-deep mat-paginator {
+    background-color: transparent;
+
+    // TODO Move paginator styles to global styles
+    ::ng-deep .mat-paginator-container {
+      min-height: 40px;
+      padding: 0;
+
+      .mat-paginator-navigation-previous {
+        order: 1;
       }
 
-      wb-search-field {
-        width: 430px;
+      .mat-paginator-range-label {
+        @include wb-label();
+        color: $black;
+        order: 2;
       }
 
-      .wb-chip {
-        margin-left: auto;
+      .mat-paginator-navigation-next {
+        order: 3;
       }
 
-      mat-paginator {
-        background-color: transparent;
+      .mat-paginator-navigation-previous,
+      .mat-paginator-navigation-next {
+        border: 1px solid $very-light-pink;
+        color: $black;
+        border-radius: 3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 34px;
 
-        // TODO Move paginator styles to global styles
-        ::ng-deep .mat-paginator-container {
-          min-height: 40px;
-          padding: 0;
-
-          .mat-paginator-navigation-previous {
-            order: 1;
-          }
-
-          .mat-paginator-range-label {
-            @include wb-label();
-            color: $black;
-            order: 2;
-          }
-
-          .mat-paginator-navigation-next {
-            order: 3;
-          }
-
-          .mat-paginator-navigation-previous,
-          .mat-paginator-navigation-next {
-            border: 1px solid $very-light-pink;
-            color: $black;
-            border-radius: 3px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 34px;
-
-            .mat-paginator-icon {
-              width: 24px;
-            }
-          }
-
-          .mat-button-disabled {
-            color: $cool-grey;
-          }
+        .mat-paginator-icon {
+          width: 24px;
         }
+      }
+
+      .mat-button-disabled {
+        color: $cool-grey;
       }
     }
   }
 
   ::ng-deep wb-card-grid {
-    padding: 20px;
+    padding: 0 $container-padding $container-padding;
     overflow-y: auto;
   }
 }

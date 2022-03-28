@@ -102,7 +102,8 @@
     "unavailableOmzModel": "Model cannot be downloaded. The model source is not available in your region. For details, see [Troubleshooting](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html#omz)."
   },
   "importHuggingFaceTips": {
-    "externalResourceNotification": "Hugging Face is an external source, there may be connection problems. Contains unverified models, we do not guarantee their performance."
+    "externalResourceNotification": "Hugging Face is an external source, there may be connection problems. Contains unverified models, we do not guarantee their performance.",
+    "shownSubsetNotification": "We show only a subset of the models from Hugging Face (Text Classification and PyTorch)."
   },
   "login": {
     "loginTip": "To enter the DL Workbench, use a token that is generated once you start the application. Copy it from the console.\n [Read more](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html#omz)"
