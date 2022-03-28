@@ -51,8 +51,9 @@
             ModelTaskTypeToNameMap[model.task_type]
           }}</wb-card-content-row-item>
           <wb-card-content-row-item data-test-id="framework">
-            {{ modelFrameworkNamesMap[model.framework] }}</wb-card-content-row-item
-          >
+            <mat-icon [svgIcon]="modelFrameworkIconsMap[model.framework]"></mat-icon>
+            {{ modelFrameworkNamesMap[model.framework] }}
+          </wb-card-content-row-item>
         </wb-card-content-row>
       </wb-card>
     </wb-card-grid>
