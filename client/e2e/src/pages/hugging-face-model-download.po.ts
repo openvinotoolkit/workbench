@@ -4,16 +4,12 @@ import { TestUtils } from './test-utils';
 import { ModelFile } from './model-file';
 import { OMZModelPrecisionEnum } from '../../../src/app/modules/model-manager/components/model-downloader-table/model-downloader-table.component';
 
-type filterGroupName = 'task' | 'library' | 'model-type' | 'language' | 'license';
-type details = 'domain' | 'library' | 'tasks' | 'languages' | 'licenses' | 'downloads' | 'updated';
+type FilterGroupName = 'task' | 'library' | 'model-type' | 'language' | 'license';
+const details = ['domain', 'library', 'tasks', 'languages', 'licenses', 'downloads', 'updated'];
+type Details = typeof details[number];
 
 export class HFModelDownloadPage {
   private until = protractor.ExpectedConditions;
-  testUtils: TestUtils;
-
-  constructor() {
-    this.testUtils = new TestUtils();
-  }
 
   private readonly elements = {
     HFTab: TestUtils.getElementByDataTestId('hugging_face'),
@@ -29,15 +25,15 @@ export class HFModelDownloadPage {
       const modelCardElement = await this.modelCard;
       return TestUtils.getNestedElementByDataTestId(modelCardElement, 'model-name').getText();
     },
-    async getFilterGroup(groupName: filterGroupName): Promise<ElementFinder> {
+    async getFilterGroup(groupName: FilterGroupName): Promise<ElementFinder> {
       return TestUtils.getElementByDataTestId(`${groupName}-filter-group`);
     },
-    async expandFilterGroup(groupName: filterGroupName): Promise<void> {
+    async expandFilterGroup(groupName: FilterGroupName): Promise<void> {
       const groupContainer: ElementFinder = this.getFilterGroup(groupName);
       const showMoreElement: ElementFinder = TestUtils.getNestedElementByDataTestId(groupContainer, 'show-more');
-      await this.testUtils.clickElement(showMoreElement);
+      await new TestUtils().clickElement(showMoreElement);
     },
-    async countFiltersByGroup(groupName: filterGroupName): Promise<number> {
+    async countFiltersByGroup(groupName: FilterGroupName): Promise<number> {
       const groupContainer: ElementFinder = this.getFilterGroup(groupName);
       const filterElements: ElementArrayFinder = TestUtils.getNestedElementsContainingDataTestIdPart(
         groupContainer,
@@ -49,17 +45,17 @@ export class HFModelDownloadPage {
     // and similar are valid options to pass
     async selectFilter(filterName: string): Promise<void> {
       const filterElement: ElementFinder = TestUtils.getElementByDataTestId(`${filterName}-filter`);
-      await this.testUtils.clickElement(filterElement);
+      await new TestUtils().clickElement(filterElement);
       await browser.sleep(1000);
     },
     async removeFilter(filterName: string): Promise<void> {
       const filterElement: ElementFinder = TestUtils.getElementByDataTestId(`${filterName}-filter`);
       const removeFilterElement: ElementFinder = TestUtils.getNestedElementByDataTestId(filterElement, 'remove-filter');
-      await this.testUtils.clickElement(removeFilterElement);
+      await new TestUtils().clickElement(removeFilterElement);
       await browser.sleep(1000);
     },
-    async getDetailsParameterValue(detailName: details): Promise<string> {
-      const detailsParameterElement: ElementFinder = TestUtils.getElementByDataTestId(detailName);
+    async getDetailsParameterValue(detailName: Details): Promise<string> {
+      const detailsParameterElement: ElementFinder = TestUtils.getElementByDataTestId(`${detailName}-detail`);
       const valueElement = TestUtils.getNestedElementByDataTestId(detailsParameterElement, 'value');
       return valueElement.getText();
     },
@@ -67,8 +63,8 @@ export class HFModelDownloadPage {
 
   // This should be run on the Model Manager page
   async openHFTab(): Promise<void> {
-    await this.testUtils.clickElement(this.elements.HFTab);
-    await browser.wait(this.until.presenceOf(this.elements.modelCard), browser.params.defaultTimeout);
+    await new TestUtils().clickElement(this.elements.HFTab);
+    await browser.wait(this.until.visibilityOf(this.elements.modelCard), browser.params.defaultTimeout);
   }
 
   async countModelCards(): Promise<number> {
@@ -87,24 +83,17 @@ export class HFModelDownloadPage {
 
   async checkModelDetails(): Promise<void> {
     const modelDescription: string = await this.elements.modelDescription.getText();
-    const modelLicense: string = await this.elements.modelLicense.getText();
 
     // Verify that text exists
     expect(modelDescription.length).toBeGreaterThan(0);
-    expect(modelLicense.length).toBeGreaterThan(0);
 
     // Verify the external links pop-ups
-    await this.testUtils.checkExternalLinkDialogWindow(this.elements.modelDescription);
-    await this.testUtils.checkExternalLinkDialogWindow(this.elements.modelLicense);
+    await new TestUtils().checkExternalLinkDialogWindow(this.elements.modelDescription);
 
     // Model features
-    const framework = await this.elements.getDetailsParameterValue(this.elements.detailsFrameworkParameter);
-    const task = await this.elements.getDetailsParameterValue(this.elements.detailsTaskParameter);
-    const domain = await this.elements.getDetailsParameterValue(this.elements.detailsDomainParameter);
-    const precision = await this.elements.getDetailsParameterValue(this.elements.detailsPrecisionParameter);
-    const modelFeatures = [framework, task, domain, precision];
-    for (const modelFeature of modelFeatures) {
-      expect(modelFeature.length).toBeTruthy();
+    for (const detail of details) {
+      const detailValue: string = await this.elements.getDetailsParameterValue(detail);
+      expect(detailValue.length).toBeTruthy();
     }
   }
 
@@ -112,11 +101,11 @@ export class HFModelDownloadPage {
   async selectAndDownloadModel(modelName: string): Promise<void> {
     await this.openHFTab();
     const modelCard = await this.filterModelCards(modelName);
-    await this.testUtils.clickElement(modelCard);
+    await new TestUtils().clickElement(modelCard);
     // Check description, license and model features
     await this.checkModelDetails();
 
-    await this.testUtils.clickElement(this.elements.downloadButton);
+    await new TestUtils().clickElement(this.elements.downloadButton);
   }
 
   async selectValueFromDropdown(dropdownElement: ElementFinder, value: string): Promise<void> {
@@ -153,13 +142,6 @@ export class HFModelDownloadPage {
     precision?: OMZModelPrecisionEnum,
     configurationMultiplier: number = 4
   ): Promise<void> {
-    // Wait for the model uploading to complete
-    console.log('Waiting for model uploading to complete.');
-    await browser.wait(
-      async () => await this.isImportStageComplete('model-upload-tab'),
-      browser.params.defaultTimeout * configurationMultiplier
-    );
-
     // Wait for the environment preparing to complete
     console.log('Waiting for environment preparation to complete.');
     await browser.wait(
@@ -188,21 +170,25 @@ export class HFModelDownloadPage {
     }
 
     await browser.wait(this.until.elementToBeClickable(this.elements.convertButton), browser.params.defaultTimeout * 3);
-    let currentUrl = '';
-    await browser.wait(async () => {
-      await this.clickConvertButton();
-      await console.log('Convert button is clicked');
-      await browser.sleep(1000);
-      currentUrl = await browser.getCurrentUrl();
-      return currentUrl.includes('model-manager/import');
-    }, browser.params.defaultTimeout);
+
+    await new TestUtils().clickElement(this.elements.convertButton);
+
+    console.log('Waiting for conversion in IR.');
+    await browser.wait(
+      async () => await this.isImportStageComplete('convert-stage'),
+      browser.params.defaultTimeout * configurationMultiplier,
+      'Conversion stage is not complete'
+    );
   }
 
   async selectDownloadConvertModel(modelFile: ModelFile) {
     await this.selectAndDownloadModel(modelFile.name);
     await this.convertDownloadedModelToIR(modelFile.conversionSettings.precision);
-    await this.testUtils.modelManagerPage.configureLayouts(modelFile, true, true);
-    await this.testUtils.configurationWizard.isUploadReady(modelFile.name);
+    await new TestUtils().modelManagerPage.configureLayouts(modelFile, true, true);
+    await browser.wait(
+      () => new TestUtils().configurationWizard.isUploadReady(modelFile.name),
+      browser.params.defaultTimeout * 9
+    );
     console.log(`Hugging Face ${modelFile.name} is ready.`);
   }
 }

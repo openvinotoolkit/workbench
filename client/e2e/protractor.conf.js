@@ -177,6 +177,7 @@ exports.config = {
   suites: {
     uniUploadSuite: [
       './src/model-downloader.e2e-spec.ts',
+      './src/import-hugging-face-models.e2e-spec.ts',
       './src/upload-dataset.e2e-spec.ts',
       './src/upload-models-model-manager.e2e-spec.ts',
       './src/upload-calibration-dataset.e2e-spec.ts',

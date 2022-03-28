@@ -21,6 +21,7 @@ import { AccuracyReportPage } from './accuracy-report.po';
 import { AnalyticsPopup } from './analytics-popup.po';
 import { NetronGraph } from './netron.po';
 import { AdvancedAccuracyConfigurationPage } from './advanced-accuracy-configuration.po';
+import { HFModelDownloadPage } from './hugging-face-model-download.po';
 import { InferenceConfigurationPage } from './inference-configuration-page';
 import { createWriteStream, readFileSync } from 'fs';
 import { ModelFile } from './model-file';
@@ -61,6 +62,7 @@ export class TestUtils {
   netronGraph: NetronGraph;
   advancedAccuracy: AdvancedAccuracyConfigurationPage;
   accuracyReport: AccuracyReportPage;
+  HFModelDownloadPage: HFModelDownloadPage;
   until;
   helpers: Helpers;
   uploadedDatasets = [];
@@ -83,6 +85,7 @@ export class TestUtils {
     this.packingSheet = new PackingSheet();
     this.targetMachines = new TargetMachines();
     this.netronGraph = new NetronGraph();
+    this.HFModelDownloadPage = new HFModelDownloadPage();
     this.advancedAccuracy = new AdvancedAccuracyConfigurationPage(this);
     this.accuracyReport = new AccuracyReportPage(this);
   }
