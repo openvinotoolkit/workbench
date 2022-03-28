@@ -76,7 +76,7 @@ Latency is the time required to complete a unit of work, for example, time requi
 
 ## OpenVINO™ Runtime
 
-OpenVINO™ Runtime is a set of C++ libraries providing a common API to deliver inference solutions on the platform of your choice: CPU, GPU, or VPU. OpenVINO™ [OpenVINO™ Runtime](@ref openvino_docs_OV_Runtime_User_Guide) is used inside the DL Workbench to infer models.
+OpenVINO™ Runtime is a set of C++ libraries providing a common API to deliver inference solutions on the platform of your choice: CPU, GPU, or VPU. OpenVINO™ [OpenVINO™ Runtime](@ref openvino_docs_OV_UG_OV_Runtime_User_Guide) is used inside the DL Workbench to infer models.
 
 ## Accuracy
 

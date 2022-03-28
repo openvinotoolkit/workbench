@@ -5,7 +5,7 @@ Calibration accelerates the performance of certain models on hardware that suppo
 <a href="#remote-calibration">remote target</a>, or in the <a href="#devcloud-calibration">Intel® DevCloud for the Edge</a>.
 
 To read more about INT8 inference, see
-[Using Low-Precision INT8 Integer Inference](@ref openvino_docs_IE_DG_Int8Inference) and 
+[Using Low-Precision INT8 Integer Inference](@ref openvino_docs_OV_UG_Int8Inference) and 
 [Post-Training Optimization Toolkit](@ref pot_README).
 
 > **NOTE**: INT8 calibration is **not** available in the following cases: 
