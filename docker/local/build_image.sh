@@ -49,6 +49,11 @@ pushd ${ROOT_FOLDER}
 
     VERSIONS_FILE="${ROOT_FOLDER}/automation/Jenkins/openvino_version.yml"
 
+    OPENVINO_LIB_LINK=$(grep 'openvino_package'  ${VERSIONS_FILE} | awk '{print $2}')
+    curl -LO ${OPENVINO_LIB_LINK}
+    LIB_FOLDER=$(basename ${OPENVINO_LIB_LINK})
+    tar -xvf ${LIB_FOLDER}
+
     WHEELS_FOLDER="${TEMP_FOLDER}/workbench/wheels"
     mkdir ${WHEELS_FOLDER}
     if [[ ! -z ${WHEELS_PATH} ]]; then
@@ -82,6 +87,7 @@ pushd ${ROOT_FOLDER}
                   --no-cache \
                   --build-arg RABBITMQ_PASSWORD=openvino \
                   --build-arg DB_PASSWORD=openvino \
+                  --build-arg OPENVINO_LIB=./${LIB_FOLDER%.*} \
                   $([ -z ${no_proxy+x} ] || printf -- "--build-arg NO_PROXY=${no_proxy}") \
                   $([ -z ${http_proxy+x} ] || printf -- "--build-arg HTTP_PROXY=${http_proxy}") \
                   $([ -z ${https_proxy+x} ] || printf -- "--build-arg HTTPS_PROXY=${https_proxy}")
