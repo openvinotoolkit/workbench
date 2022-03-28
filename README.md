@@ -11,4 +11,4 @@ Click the diagram below to see the full workflow of using DL Workbench.
 - [DL Workbench Installation Guide](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Install.html)
 - [Educational Resources about the DL Workbench](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Additional_Resources.html): scholarly articles, webinars, tutorials
 
-[Set Up and Run OpenVINO DL Workbench](./development/docs/bootstrap.md)
+[Set Up and Run OpenVINO DL Workbench](./development/docs/bootstrap.md)!
