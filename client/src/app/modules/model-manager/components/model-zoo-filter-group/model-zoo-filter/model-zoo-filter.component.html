@@ -11,7 +11,11 @@
 <div class="options-container" #container>
   <ng-content select="wb-model-zoo-filter-option"></ng-content>
   <div class="icon-container" *ngIf="options.length > optionsLimit">
-    <span class="show-more" *ngIf="hiddenOptions?.length" (click)="showOptions()"> + {{ hiddenOptions?.length }} </span>
-    <span class="show-less" *ngIf="!hiddenOptions?.length" (click)="hideOptions()">Show Less</span>
+    <span class="show-more" *ngIf="hiddenOptions?.length" (click)="showOptions()" data-test-id="show-more">
+      + {{ hiddenOptions?.length }}
+    </span>
+    <span class="show-less" *ngIf="!hiddenOptions?.length" (click)="hideOptions()" data-test-id="show-less"
+      >Show Less</span
+    >
   </div>
 </div>

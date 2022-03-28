@@ -1,8 +1,10 @@
-import { browser, by, element, ElementFinder, protractor } from 'protractor';
+import { browser, by, element, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
 
 import { ModelPrecisionEnum } from '@store/model-store/model.model';
 
 import { TestUtils } from './test-utils';
+
+type filterGroupName = 'task' | 'library' | 'model-type' | 'language' | 'license';
 
 export class HFModelDownloadPage {
   until = protractor.ExpectedConditions;
@@ -16,34 +18,39 @@ export class HFModelDownloadPage {
     modelLicense: TestUtils.getElementByDataTestId('model-license'),
     downloadButton: TestUtils.getElementByDataTestId('download-and-import'),
     precisionContainer: element(by.id('dataType')),
-    convertButton: element(by.buttonText('Convert')),
+    convertButton: TestUtils.getElementByDataTestId('convert-button'),
     // Assuming only one model card is present
     async getModelNameFromCard(): Promise<string> {
       const modelCardElement = await this.modelCard;
       return TestUtils.getNestedElementByDataTestId(modelCardElement, 'model-name').getText();
     },
-    // Assuming only one model card is present
-    async getModelContentFromCard(): Promise<{ precisions: string; taskType: string; framework: string }> {
-      const modelCardElement = await this.modelCard;
-      const modelContentElement = TestUtils.getNestedElementByDataTestId(modelCardElement, 'model-content');
-      return {
-        precisions: await TestUtils.getNestedElementByDataTestId(modelContentElement, 'precision'),
-        taskType: await TestUtils.getNestedElementByDataTestId(modelContentElement, 'task-type'),
-        framework: await TestUtils.getNestedElementByDataTestId(modelContentElement, 'framework'),
-      };
+    async getFilterGroup(groupName: filterGroupName): Promise<ElementFinder> {
+      return TestUtils.getElementByDataTestId(`${groupName}-filter-group`);
     },
-    detailsFrameworkParameter: TestUtils.getElementByDataTestId('framework-detail'),
-    detailsTaskParameter: TestUtils.getElementByDataTestId('task-detail'),
-    detailsDomainParameter: TestUtils.getElementByDataTestId('domain-detail'),
-    detailsPrecisionParameter: TestUtils.getElementByDataTestId('precision-detail'),
-    async getDetailsParameterValue(detailsParameterElement: ElementFinder): Promise<string> {
-      const valueElement = TestUtils.getNestedElementByDataTestId(detailsParameterElement, 'value');
-      return valueElement.getText();
+    async expandFilterGroup(groupName: filterGroupName): Promise<void> {
+      const groupContainer: ElementFinder = this.getFilterGroup(groupName);
+      const showMoreElement: ElementFinder = TestUtils.getNestedElementByDataTestId(groupContainer, 'show-more');
+      await new TestUtils().clickElement(showMoreElement);
+    },
+    async countFiltersByGroup(groupName: filterGroupName): Promise<number> {
+      const groupContainer: ElementFinder = this.getFilterGroup(groupName);
+      const filterElements: ElementArrayFinder = TestUtils.getNestedElementsContainingDataTestIdPart(
+        groupContainer,
+        '-filter'
+      );
+      return filterElements.count();
+    },
+    // This is applicable to the Model Types, Languages, Licenses, i.e., 'bert', 'en',
+    // and similar are valid options to pass
+    async selectFilter(filterName: string): Promise<void> {
+      const filterElement: ElementFinder = TestUtils.getElementByDataTestId(`${filterName}-filter`);
+      await new TestUtils().clickElement(filterElement);
+      await browser.sleep(1000);
     },
   };
 
   // This should be run on the Model Manager page
-  async openOMZTab(): Promise<void> {
+  async openHFTab(): Promise<void> {
     await new TestUtils().clickElement(this.elements.HFTab);
     await browser.wait(this.until.presenceOf(this.elements.modelCard), browser.params.defaultTimeout);
   }
@@ -89,7 +96,7 @@ export class HFModelDownloadPage {
 
   // This function is expected to run from the Model Manager
   async selectAndDownloadModel(modelName: string): Promise<void> {
-    await this.openOMZTab();
+    await this.openHFTab();
     const modelCard = await this.filterModelCards(modelName);
     await new TestUtils().clickElement(modelCard);
     // Check description, license and model features
@@ -142,6 +149,14 @@ export class HFModelDownloadPage {
       async () => await this.isImportStageComplete('prepare-environment-stage'),
       browser.params.defaultTimeout * configurationMultiplier,
       'Import stage is not complete'
+    );
+
+    // Wait for the download from HF and conversion to ONNX
+    console.log('Waiting for download from HF to ONNX stage to complete.');
+    await browser.wait(
+      async () => await this.isImportStageComplete('download-from-huggingface'),
+      browser.params.defaultTimeout * configurationMultiplier,
+      'ONNX conversion stage is not complete'
     );
 
     if (precision) {

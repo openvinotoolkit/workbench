@@ -80,7 +80,7 @@
   <wb-model-zoo-filter-group [formControl]="filtersControl">
     <ng-container *ngIf="appliedTags">
       <wb-info-hint [message]="shownSubsetNotification"></wb-info-hint>
-      <wb-model-zoo-filter group="pipeline_tag">
+      <wb-model-zoo-filter group="pipeline_tag" data-test-id="task-filter-group">
         <wb-model-zoo-filter-title>Tasks</wb-model-zoo-filter-title>
         <wb-model-zoo-filter-option
           selected="true"
@@ -94,7 +94,7 @@
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
 
-      <wb-model-zoo-filter group="library">
+      <wb-model-zoo-filter group="library" data-test-id="library-filter-group">
         <wb-model-zoo-filter-title>Library</wb-model-zoo-filter-title>
         <wb-model-zoo-filter-option
           selected="true"
