@@ -20,6 +20,7 @@ import { HuggingfaceModelStoreActions, HuggingfaceModelStoreSelectors } from '@s
 
 import { IHuggingfaceModel } from '@shared/models/huggingface/huggingface-model';
 import { IParameter } from '@shared/components/model-details/parameter-details/parameter-details.component';
+import { shortenNumber } from '@shared/pipes/format-number.pipe';
 
 import { MarkdownService } from './markdown/markdown.service';
 import { IHuggingfaceTagsSets } from '../hugging-face-import-ribbon-content.component';
@@ -78,7 +79,7 @@ export class HuggingfaceModelDetailsComponent {
       { label: 'Tasks', value: this._extractTags(model.tags, this.tagsSets.pipelineTags) },
       { label: 'Languages', value: this._extractTags(model.tags, this.tagsSets.languages) },
       { label: 'Licenses', value: this._extractTags(model.tags, this.tagsSets.licenses).replace('license:', '') },
-      { label: 'Downloads', value: model.downloads },
+      { label: 'Downloads', value: shortenNumber(model.downloads) || 0 },
       { label: 'Updated', value: new DatePipe(this._localeId).transform(model.lastModified, 'YYYY/MM/dd, hh:mm') },
     ];
   }

@@ -14,6 +14,7 @@ import {
   IHuggingfaceModelZooFilter,
 } from '@shared/models/model-zoo-data-source/huggingface-model-zoo-data-source';
 import { IHuggingfaceModel } from '@shared/models/huggingface/huggingface-model';
+import { shortenNumber } from '@shared/pipes/format-number.pipe';
 
 import { BaseModelZooImportComponent } from '../base-model-zoo-import/base-model-zoo-import.component';
 
@@ -33,9 +34,11 @@ export interface IHuggingfaceTagsSets {
 export class HuggingFaceImportRibbonContentComponent
   extends BaseModelZooImportComponent<IHuggingfaceModel, IHuggingfaceModelZooFilter>
   implements OnInit, OnDestroy {
-  readonly externalResourceNotification = this._messages.hintMessages.importHuggingFaceTips
-    .externalResourceNotification;
+  readonly externalResourceNotification =
+    this._messages.hintMessages.importHuggingFaceTips.externalResourceNotification;
   readonly shownSubsetNotification = this._messages.hintMessages.importHuggingFaceTips.shownSubsetNotification;
+
+  readonly shortenNumber = shortenNumber;
 
   private readonly _modelData$ = this._store$.select(HuggingfaceModelStoreSelectors.selectModelsData);
   readonly loading$ = this._store$.select(HuggingfaceModelStoreSelectors.selectLoading);

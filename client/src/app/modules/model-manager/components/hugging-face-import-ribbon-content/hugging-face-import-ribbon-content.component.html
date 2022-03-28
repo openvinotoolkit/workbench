@@ -54,7 +54,7 @@
         <wb-card-content-row>
           <wb-card-content-row-item>
             <mat-icon svgIcon="download"></mat-icon>
-            {{ model.downloads || 0 }}
+            {{ (model.downloads | callFunction: shortenNumber) || 0 }}
           </wb-card-content-row-item>
           <wb-card-content-row-item>Updated: {{ model.lastModified | date }}</wb-card-content-row-item>
         </wb-card-content-row>
