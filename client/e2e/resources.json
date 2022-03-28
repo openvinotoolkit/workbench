@@ -2862,7 +2862,7 @@
       "pathToImage": "images/man.jpg"
     },
     "personImageYoloExpected": {
-      "pathToImage": "images/expectations/yolo-v1-tiny-tf_v6.png"
+      "pathToImage": "images/expectations/yolo-v1-tiny-tf_v7.png"
     },
     "personDetectionImageExpected": {
       "pathToImage": "images/expectations/person-detection-0200_v2.png"
@@ -2874,10 +2874,10 @@
       "pathToImage": "images/expectations/inpainting.png"
     },
     "mobilenetSSDExpected": {
-      "pathToImage": "images/expectations/mobilenetSSD_v3.png"
+      "pathToImage": "images/expectations/mobilenetSSD_v4.png"
     },
     "roadSegmentationAdasExpected": {
-      "pathToImage": "images/expectations/roadSegmentationAdas.png"
+      "pathToImage": "images/expectations/roadSegmentationAdas_v2.png"
     },
     "itlabMosaicExpected": {
       "pathToImage": "images/expectations/itlabMosaic.png"
