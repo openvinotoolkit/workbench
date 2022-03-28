@@ -25,28 +25,36 @@ from wb.error.general_error import GeneralError
 from wb.main.jobs.feed.feed_socket_service import FeedSocketService
 
 
+def safe_run_configurable(emit_ws_socket: bool):
+    def decorator(func):
+        @wraps(func)
+        def decorated_function(*args, **kwargs):
+            try:
+                return func(*args, **kwargs)
+            except GeneralError as error:
+                message = str(error)
+                error_code = error.get_error_code()
+                log_traceback(error)
+            except SQLAlchemyError as error:
+                message = 'Unable to update information in database'
+                error_code = CodeRegistry.get_database_error_code()
+                log_traceback(error)
+            except Exception as error:
+                error_code = 500
+                message = str(error)
+                log_traceback(error)
+
+            if emit_ws_socket:
+                FeedSocketService.emit(error_code, message)
+            return message, error_code
+
+        return decorated_function
+
+    return decorator
+
+
 def safe_run(func):
-    @wraps(func)
-    def decorated_function(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except GeneralError as error:
-            message = str(error)
-            error_code = error.get_error_code()
-            log_traceback(error)
-        except SQLAlchemyError as error:
-            message = 'Unable to update information in database'
-            error_code = CodeRegistry.get_database_error_code()
-            log_traceback(error)
-        except Exception as error:
-            error_code = 500
-            message = str(error)
-            log_traceback(error)
-
-        FeedSocketService.emit(error_code, message)
-        return message, error_code
-
-    return decorated_function
+    return safe_run_configurable(emit_ws_socket=True)(func)
 
 
 def log_traceback(error):

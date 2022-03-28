@@ -23,6 +23,7 @@ import { IParameter } from '@shared/components/model-details/parameter-details/p
 
 import { MarkdownService } from './markdown/markdown.service';
 import { IHuggingfaceTagsSets } from '../hugging-face-import-ribbon-content.component';
+import { selectModelReadmeError } from '@store/huggingface-model-store/huggingface-model-store.selectors';
 
 @Component({
   selector: 'wb-huggingface-model-details',
@@ -57,6 +58,7 @@ export class HuggingfaceModelDetailsComponent {
     .pipe(switchMap((readme) => (readme ? from(this._mdService.parse(readme)) : of(null))));
 
   readonly loading$ = this._store$.select(HuggingfaceModelStoreSelectors.selectModelReadmeLoading);
+  readonly error$ = this._store$.select(HuggingfaceModelStoreSelectors.selectModelReadmeError);
 
   parameters: IParameter[] = [];
 

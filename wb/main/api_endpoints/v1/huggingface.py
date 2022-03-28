@@ -26,7 +26,7 @@ from wb.main.huggingface_api import huggingface_api
 from wb.main.models import TopologiesMetaDataModel, TopologiesModel
 from wb.main.pipeline_creators.model_creation.import_huggingface_model_pipeline_creator import \
     ImportHuggingfaceModelPipelineCreator
-from wb.main.utils.safe_runner import safe_run
+from wb.main.utils.safe_runner import safe_run, safe_run_configurable
 
 
 @V1_HUGGINGFACE_API.route('/huggingface/models', methods=['GET'])
@@ -37,7 +37,7 @@ def get_models():
 
 
 @V1_HUGGINGFACE_API.route('/huggingface/readme', methods=['GET'])
-@safe_run
+@safe_run_configurable(emit_ws_socket=False)
 def get_model_details():
     model_id = request.args['id']
     readme = huggingface_api.get_model_details(model_id)
