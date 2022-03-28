@@ -24,6 +24,7 @@
     "ModelAnalyzerJob": "Model Analyzer failed",
     "ModelOptimizerJob": "Model Optimizer failed",
     "ModelOptimizerScanJob": "Model Optimizer Scan failed",
+    "ImportHuggingfaceModelJob": "Download from Huggingface and Convert to ONNX failed",
     "ConvertKerasJob": "Conversion to Keras failed",
     "setupEnvironmentJob": "Environment setup failed",
     "defaultErrorMessage": "Conversion failed"
