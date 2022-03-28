@@ -2,7 +2,14 @@ import { OMZModelPrecisionEnum } from '../../../src/app/modules/model-manager/co
 
 export type FrameworkType = 'OpenVINO IR' | 'MxNet' | 'Caffe' | 'ONNX' | 'TensorFlow' | 'TensorFlow V2';
 export type ColorSpace = 'RGB' | 'BGR' | 'Grayscale';
-export type ModelFile = OpenVINOIRModel | CaffeModel | MxNetModel | OnnxModel | TensorFlowModel | TensorFlowV2;
+export type ModelFile =
+  | OpenVINOIRModel
+  | CaffeModel
+  | MxNetModel
+  | OnnxModel
+  | TensorFlowModel
+  | TensorFlowV2
+  | HFModel;
 export type OriginalLayoutType = 'NCHW' | 'NHWC' | 'NC' | 'CN' | 'Other' | string[];
 
 interface BasicModel {
@@ -160,6 +167,15 @@ export interface TensorFlowV2DirModel extends BasicModel {
     framework: 'TensorFlow V2';
     usePipelineConfig?: boolean;
   } & ConversionSettings;
+}
+
+export interface HFModel extends BasicModel {
+  // Only supported now
+  task: 'text-classification';
+  // E.g., bert, electra, etc.
+  architecture: string;
+  language: string | string[];
+  license?: string;
 }
 
 export const isTensorFlowModel = (model: ModelFile): model is TensorFlowModel => {

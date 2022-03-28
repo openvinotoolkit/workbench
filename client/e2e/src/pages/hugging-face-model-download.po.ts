@@ -1,13 +1,19 @@
 import { browser, by, element, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
 
-import { ModelPrecisionEnum } from '@store/model-store/model.model';
-
 import { TestUtils } from './test-utils';
+import { ModelFile } from './model-file';
+import { OMZModelPrecisionEnum } from '../../../src/app/modules/model-manager/components/model-downloader-table/model-downloader-table.component';
 
 type filterGroupName = 'task' | 'library' | 'model-type' | 'language' | 'license';
+type details = 'domain' | 'library' | 'tasks' | 'languages' | 'licenses' | 'downloads' | 'updated';
 
 export class HFModelDownloadPage {
-  until = protractor.ExpectedConditions;
+  private until = protractor.ExpectedConditions;
+  testUtils: TestUtils;
+
+  constructor() {
+    this.testUtils = new TestUtils();
+  }
 
   private readonly elements = {
     HFTab: TestUtils.getElementByDataTestId('hugging_face'),
@@ -15,7 +21,6 @@ export class HFModelDownloadPage {
     modelCard: TestUtils.getElementByDataTestId('model-card'),
     modelCards: TestUtils.getAllElementsByDataTestId('model-card'),
     modelDescription: TestUtils.getElementByDataTestId('model-description'),
-    modelLicense: TestUtils.getElementByDataTestId('model-license'),
     downloadButton: TestUtils.getElementByDataTestId('download-and-import'),
     precisionContainer: element(by.id('dataType')),
     convertButton: TestUtils.getElementByDataTestId('convert-button'),
@@ -30,7 +35,7 @@ export class HFModelDownloadPage {
     async expandFilterGroup(groupName: filterGroupName): Promise<void> {
       const groupContainer: ElementFinder = this.getFilterGroup(groupName);
       const showMoreElement: ElementFinder = TestUtils.getNestedElementByDataTestId(groupContainer, 'show-more');
-      await new TestUtils().clickElement(showMoreElement);
+      await this.testUtils.clickElement(showMoreElement);
     },
     async countFiltersByGroup(groupName: filterGroupName): Promise<number> {
       const groupContainer: ElementFinder = this.getFilterGroup(groupName);
@@ -44,14 +49,25 @@ export class HFModelDownloadPage {
     // and similar are valid options to pass
     async selectFilter(filterName: string): Promise<void> {
       const filterElement: ElementFinder = TestUtils.getElementByDataTestId(`${filterName}-filter`);
-      await new TestUtils().clickElement(filterElement);
+      await this.testUtils.clickElement(filterElement);
       await browser.sleep(1000);
+    },
+    async removeFilter(filterName: string): Promise<void> {
+      const filterElement: ElementFinder = TestUtils.getElementByDataTestId(`${filterName}-filter`);
+      const removeFilterElement: ElementFinder = TestUtils.getNestedElementByDataTestId(filterElement, 'remove-filter');
+      await this.testUtils.clickElement(removeFilterElement);
+      await browser.sleep(1000);
+    },
+    async getDetailsParameterValue(detailName: details): Promise<string> {
+      const detailsParameterElement: ElementFinder = TestUtils.getElementByDataTestId(detailName);
+      const valueElement = TestUtils.getNestedElementByDataTestId(detailsParameterElement, 'value');
+      return valueElement.getText();
     },
   };
 
   // This should be run on the Model Manager page
   async openHFTab(): Promise<void> {
-    await new TestUtils().clickElement(this.elements.HFTab);
+    await this.testUtils.clickElement(this.elements.HFTab);
     await browser.wait(this.until.presenceOf(this.elements.modelCard), browser.params.defaultTimeout);
   }
 
@@ -62,8 +78,6 @@ export class HFModelDownloadPage {
   async filterModelCards(modelName: string): Promise<ElementFinder> {
     await this.elements.searchField.sendKeys(modelName);
     await browser.sleep(1000);
-    // TODO: unskip once filters are introduced
-    // expect(await this.elements.modelCards.count()).toEqual(1);
     await browser.wait(async () => {
       const modelCardModelName = await this.elements.getModelNameFromCard();
       return modelCardModelName === modelName;
@@ -80,8 +94,8 @@ export class HFModelDownloadPage {
     expect(modelLicense.length).toBeGreaterThan(0);
 
     // Verify the external links pop-ups
-    await new TestUtils().checkExternalLinkDialogWindow(this.elements.modelDescription);
-    await new TestUtils().checkExternalLinkDialogWindow(this.elements.modelLicense);
+    await this.testUtils.checkExternalLinkDialogWindow(this.elements.modelDescription);
+    await this.testUtils.checkExternalLinkDialogWindow(this.elements.modelLicense);
 
     // Model features
     const framework = await this.elements.getDetailsParameterValue(this.elements.detailsFrameworkParameter);
@@ -98,11 +112,11 @@ export class HFModelDownloadPage {
   async selectAndDownloadModel(modelName: string): Promise<void> {
     await this.openHFTab();
     const modelCard = await this.filterModelCards(modelName);
-    await new TestUtils().clickElement(modelCard);
+    await this.testUtils.clickElement(modelCard);
     // Check description, license and model features
     await this.checkModelDetails();
 
-    await new TestUtils().clickElement(this.elements.downloadButton);
+    await this.testUtils.clickElement(this.elements.downloadButton);
   }
 
   async selectValueFromDropdown(dropdownElement: ElementFinder, value: string): Promise<void> {
@@ -135,7 +149,10 @@ export class HFModelDownloadPage {
     return completeIcon.isPresent();
   }
 
-  async convertDownloadedModelToIR(precision?: ModelPrecisionEnum, configurationMultiplier: number = 4): Promise<void> {
+  async convertDownloadedModelToIR(
+    precision?: OMZModelPrecisionEnum,
+    configurationMultiplier: number = 4
+  ): Promise<void> {
     // Wait for the model uploading to complete
     console.log('Waiting for model uploading to complete.');
     await browser.wait(
@@ -160,14 +177,14 @@ export class HFModelDownloadPage {
     );
 
     if (precision) {
-      if (precision !== ModelPrecisionEnum.FP16) {
+      if (precision !== OMZModelPrecisionEnum.FP16) {
         await this.selectPrecision(precision);
       } else {
         console.log('select FP16');
         await browser.sleep(2000);
       }
     } else {
-      await this.selectPrecision(ModelPrecisionEnum.FP32);
+      await this.selectPrecision(OMZModelPrecisionEnum.FP32);
     }
 
     await browser.wait(this.until.elementToBeClickable(this.elements.convertButton), browser.params.defaultTimeout * 3);
@@ -179,5 +196,13 @@ export class HFModelDownloadPage {
       currentUrl = await browser.getCurrentUrl();
       return currentUrl.includes('model-manager/import');
     }, browser.params.defaultTimeout);
+  }
+
+  async selectDownloadConvertModel(modelFile: ModelFile) {
+    await this.selectAndDownloadModel(modelFile.name);
+    await this.convertDownloadedModelToIR(modelFile.conversionSettings.precision);
+    await this.testUtils.modelManagerPage.configureLayouts(modelFile, true, true);
+    await this.testUtils.configurationWizard.isUploadReady(modelFile.name);
+    console.log(`Hugging Face ${modelFile.name} is ready.`);
   }
 }

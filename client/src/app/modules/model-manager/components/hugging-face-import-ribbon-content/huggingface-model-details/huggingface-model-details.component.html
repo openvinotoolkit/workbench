@@ -13,6 +13,7 @@
       class="readme markdown-body"
       *ngIf="!(loading$ | async); else loading"
       [innerHTML]="markdownHTML$ | async"
+      data-test-id="model-description"
     ></div>
   </wb-model-zoo-details-description>
 
