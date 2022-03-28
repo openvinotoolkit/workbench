@@ -1,22 +1,30 @@
 import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
+import { SortDirection } from '@angular/material/sort/sort-direction';
 
 import { BehaviorSubject, combineLatest, merge, Observable, of, Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-interface IModelZooSort {
-  active: string;
-  direction: 'asc' | 'desc' | '';
+export interface IModelZooSort<T> {
+  field: keyof T;
+  direction: SortDirection;
+  label: string;
 }
 
 export abstract class BaseModelZooDataSource<T, U = string> implements DataSource<T> {
   private readonly _filter$ = new BehaviorSubject<U>(null);
-  private readonly _sort$ = new BehaviorSubject<IModelZooSort>(null);
+  private readonly _sort$ = new BehaviorSubject<IModelZooSort<T>>(null);
   private _paginator: MatPaginator;
   private readonly _internalPageChanges$ = new Subject<void>();
 
-  private readonly _data$ = new BehaviorSubject<T[]>(<T[]>[]);
+  protected readonly _data$ = new BehaviorSubject<T[]>(<T[]>[]);
   private readonly _renderData$ = new BehaviorSubject<T[]>(<T[]>[]);
+
+  abstract readonly sortOptions: IModelZooSort<T>[];
+
+  get defaultSortOption(): IModelZooSort<T> {
+    return this.sortOptions[0];
+  }
 
   filteredData: T[] = [];
 
@@ -49,11 +57,11 @@ export abstract class BaseModelZooDataSource<T, U = string> implements DataSourc
     return this._filter$.value;
   }
 
-  set sort(sort: IModelZooSort) {
+  set sort(sort: IModelZooSort<T>) {
     this._sort$.next(sort);
   }
 
-  get sort(): IModelZooSort {
+  get sort(): IModelZooSort<T> {
     return this._sort$.value;
   }
 
@@ -150,11 +158,12 @@ export abstract class BaseModelZooDataSource<T, U = string> implements DataSourc
   }
 
   // reuse mat table data source implementation to handle edge cases
-  private _sortData(data: T[], sort: IModelZooSort): T[] {
+  private _sortData(data: T[], sort: IModelZooSort<T>): T[] {
     if (!sort) {
       return data;
     }
-    const active = sort.active;
+    // TODO Casting to string violates T[keyof T] type check, consider narrowing filtered field type to string | number
+    const active = sort.field as string;
     const direction = sort.direction;
     if (!active || direction === '') {
       return data;
