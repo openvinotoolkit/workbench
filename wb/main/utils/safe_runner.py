@@ -25,7 +25,7 @@ from wb.error.general_error import GeneralError
 from wb.main.jobs.feed.feed_socket_service import FeedSocketService
 
 
-def safe_run_configurable(emit_ws_socket: bool):
+def safe_run_configurable(emit_web_socket: bool):
     def decorator(func):
         @wraps(func)
         def decorated_function(*args, **kwargs):
@@ -44,7 +44,7 @@ def safe_run_configurable(emit_ws_socket: bool):
                 message = str(error)
                 log_traceback(error)
 
-            if emit_ws_socket:
+            if emit_web_socket:
                 FeedSocketService.emit(error_code, message)
             return message, error_code
 
@@ -54,7 +54,7 @@ def safe_run_configurable(emit_ws_socket: bool):
 
 
 def safe_run(func):
-    return safe_run_configurable(emit_ws_socket=True)(func)
+    return safe_run_configurable(emit_web_socket=True)(func)
 
 
 def log_traceback(error):

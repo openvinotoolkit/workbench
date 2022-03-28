@@ -37,7 +37,7 @@ def get_models():
 
 
 @V1_HUGGINGFACE_API.route('/huggingface/readme', methods=['GET'])
-@safe_run_configurable(emit_ws_socket=False)
+@safe_run_configurable(emit_web_socket=False)
 def get_model_details():
     model_id = request.args['id']
     readme = huggingface_api.get_model_details(model_id)
