@@ -46,6 +46,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { DimensionsInputComponent } from './dimensions-input/dimensions-input.component';
 import { DimensionsLayoutsComponent } from './dimensions-layouts/dimensions-layouts.component';
+import { RectangleComponent } from './rectangle/rectangle.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { DimensionsLayoutsComponent } from './dimensions-layouts/dimensions-layo
     ConfirmDialogComponent,
     DimensionsInputComponent,
     DimensionsLayoutsComponent,
+    RectangleComponent,
   ],
   imports: [
     CommonModule,
