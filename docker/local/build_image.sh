@@ -5,7 +5,6 @@ HTTP_PROXY=${http_proxy}
 HTTPS_PROXY=${https_proxy}
 IMAGE_NAME=workbench
 IMAGE_TAG=local
-OPENVINO_VERSION="automation/Jenkins/openvino_version.yml"
 TERMINAL_COLOR_MESSAGE='\033[1;33m'
 TERMINAL_COLOR_CLEAR='\033[0m'
 
@@ -87,7 +86,7 @@ pushd ${ROOT_FOLDER}
                   --no-cache \
                   --build-arg RABBITMQ_PASSWORD=openvino \
                   --build-arg DB_PASSWORD=openvino \
-                  --build-arg OPENVINO_LIB=./${LIB_FOLDER%.*} \
+                  --build-arg OPENVINO_LIB=${LIB_FOLDER%.*} \
                   $([ -z ${no_proxy+x} ] || printf -- "--build-arg NO_PROXY=${no_proxy}") \
                   $([ -z ${http_proxy+x} ] || printf -- "--build-arg HTTP_PROXY=${http_proxy}") \
                   $([ -z ${https_proxy+x} ] || printf -- "--build-arg HTTPS_PROXY=${https_proxy}")
