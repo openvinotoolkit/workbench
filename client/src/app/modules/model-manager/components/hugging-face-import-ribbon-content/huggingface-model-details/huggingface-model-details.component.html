@@ -9,7 +9,11 @@
   </wb-model-zoo-details-parameters>
 
   <wb-model-zoo-details-description>
-    <div class="readme markdown-body" [innerHTML]="readme"></div>
+    <div
+      class="readme markdown-body"
+      *ngIf="!(loading$ | async); else loading"
+      [innerHTML]="markdownHTML$ | async"
+    ></div>
   </wb-model-zoo-details-description>
 
   <wb-model-zoo-details-footer>
@@ -21,3 +25,7 @@
     ></wb-button>
   </wb-model-zoo-details-footer>
 </wb-model-zoo-details>
+
+<ng-template #loading>
+  <wb-spinner></wb-spinner>
+</ng-template>

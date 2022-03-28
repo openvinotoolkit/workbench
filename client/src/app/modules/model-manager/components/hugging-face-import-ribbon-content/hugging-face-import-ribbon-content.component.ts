@@ -1,16 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core';
 
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { MessagesService } from '@core/services/common/messages.service';
-import {
-  HuggingfaceService,
-  IHuggingfaceAppliedModelTags,
-  IHuggingfaceAvailableTags,
-} from '@core/services/api/rest/huggingface.service';
+import { IHuggingfaceAppliedModelTags, IHuggingfaceAvailableTags } from '@core/services/api/rest/huggingface.service';
 
 import { ModelStoreActions, RootStoreState } from '@store';
+import { HuggingfaceModelStoreActions, HuggingfaceModelStoreSelectors } from '@store/huggingface-model-store';
 
 import {
   HuggingfaceModelZooDataSource,
@@ -35,10 +32,13 @@ export interface IHuggingfaceTagsSets {
 })
 export class HuggingFaceImportRibbonContentComponent
   extends BaseModelZooImportComponent<IHuggingfaceModel, IHuggingfaceModelZooFilter>
-  implements OnInit {
+  implements OnInit, OnDestroy {
   readonly externalResourceNotification = this._messages.hintMessages.importHuggingFaceTips
     .externalResourceNotification;
   readonly shownSubsetNotification = this._messages.hintMessages.importHuggingFaceTips.shownSubsetNotification;
+
+  private readonly _modelData$ = this._store$.select(HuggingfaceModelStoreSelectors.selectModelsData);
+  readonly loading$ = this._store$.select(HuggingfaceModelStoreSelectors.selectLoading);
 
   readonly dataSource = new HuggingfaceModelZooDataSource();
 
@@ -48,7 +48,6 @@ export class HuggingFaceImportRibbonContentComponent
 
   constructor(
     private readonly _messages: MessagesService,
-    private readonly _hfService: HuggingfaceService,
     private readonly _cdr: ChangeDetectorRef,
     private readonly _store$: Store<RootStoreState.State>
   ) {
@@ -57,9 +56,11 @@ export class HuggingFaceImportRibbonContentComponent
   }
 
   ngOnInit(): void {
-    this._hfService
-      .getModelsData$()
-      .pipe(takeUntil(this._unsubscribe$))
+    this._modelData$
+      .pipe(
+        takeUntil(this._unsubscribe$),
+        filter((v) => !!v)
+      )
       .subscribe(({ models, tags: { available, applied } }) => {
         this.dataSource.data = models;
         this.appliedTags = applied;
@@ -73,6 +74,13 @@ export class HuggingFaceImportRibbonContentComponent
         };
         this._cdr.detectChanges();
       });
+
+    this._store$.dispatch(HuggingfaceModelStoreActions.loadModelData());
+  }
+
+  ngOnDestroy(): void {
+    super.ngOnDestroy();
+    this._store$.dispatch(HuggingfaceModelStoreActions.reset());
   }
 
   protected get _dataSourceFilter(): IHuggingfaceModelZooFilter {
