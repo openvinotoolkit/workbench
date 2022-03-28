@@ -35,7 +35,7 @@
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
         <span class="cell-content" [attr.data-test-id]="column.name + '-data'">
-          {{ element[column.name] | dynamic: column.options?.transform }}
+          {{ element[column.name] | callFunction: column.options?.transform }}
         </span>
       </mat-cell>
     </ng-container>
