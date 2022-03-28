@@ -14,14 +14,17 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 """
+import importlib
 from collections import Counter
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Set
 
 from huggingface_hub import HfApi, hf_hub_url
 from huggingface_hub.file_download import cached_download
 from huggingface_hub.hf_api import ModelInfo
 from transformers.onnx import FeaturesManager
+
+from wb.error.job_error import TransformersONNXConversionError
 
 _huggingface_api = HfApi()
 
@@ -89,29 +92,69 @@ class HuggingfaceModel:
         }
 
 
+supports_classification = {
+    model_type for model_type, tasks in FeaturesManager._SUPPORTED_MODEL_TYPE.items()
+    if 'sequence-classification' in tasks
+}
+
 contains_decoder = {
-        model_type for model_type, tasks in FeaturesManager._SUPPORTED_MODEL_TYPE.items()
-        if any("with-past" in task for task in tasks)
-    }
+    model_type for model_type, tasks in FeaturesManager._SUPPORTED_MODEL_TYPE.items()
+    if any('with-past' in task for task in tasks)
+}
+
+
+def get_vocab_filenames(model_type: str) -> List[Set[str]]:
+    files = []
+    for tokenizer_type in ('', '_fast'):
+        try:
+            module = importlib.import_module(
+                f'.tokenization_{model_type}{tokenizer_type}', f'transformers.models.{model_type}'
+            )
+        except ModuleNotFoundError:
+            continue
+        vocab_dict = getattr(module, 'VOCAB_FILES_NAMES')
+        if vocab_dict:
+            files.append(set(vocab_dict.values()))
+    return files
+
+
+supported_models = supports_classification.difference(contains_decoder)
+
+tokenizer_vocab_files = {
+    model_type: get_vocab_filenames(model_type) for model_type in supported_models
+}
+
+
+def has_missing_tokenizer_files(model: ModelInfo) -> bool:
+    repo_files = {file.rfilename for file in model.siblings}
+    tokenizers_files = tokenizer_vocab_files[model.config['model_type']]
+    return all(tokenizer_files - repo_files for tokenizer_files in tokenizers_files)
 
 
 def _validate_hf_model(model: ModelInfo) -> ValidationResult:
     if not model.config:
-        return ValidationResult(disabled=True, message='Model has no config')
-    if 'model_type' not in model.config.keys():
-        return ValidationResult(disabled=True, message='Model has no model type')
+        return ValidationResult(disabled=True, message=TransformersONNXConversionError.get_no_config_message())
+    if 'model_type' not in model.config:
+        return ValidationResult(disabled=True, message=TransformersONNXConversionError.get_no_model_type_message())
     model_type = model.config['model_type']
     if model_type not in FeaturesManager._SUPPORTED_MODEL_TYPE:
-        return ValidationResult(disabled=True, message=f'Model type {model_type} is not supported')
-    if 'sequence-classification' not in FeaturesManager._SUPPORTED_MODEL_TYPE[model_type]:
+        return ValidationResult(
+            disabled=True, message=TransformersONNXConversionError.get_not_supported_model_type_message(model_type)
+        )
+    if model_type not in supports_classification:
         return ValidationResult(
             disabled=True,
-            message=f'Sequence classification feature is not supported for model type {model_type}'
+            message=TransformersONNXConversionError.get_not_supported_sequence_classification_message(model_type)
         )
     if model_type in contains_decoder:
         return ValidationResult(
             disabled=True,
-            message=f'The model type {model_type} contains transformer decoder and is not supported by DL Workbench'
+            message=TransformersONNXConversionError.get_decoder_not_supported_message(model_type)
+        )
+    if has_missing_tokenizer_files(model):
+        return ValidationResult(
+            disabled=True,
+            message=TransformersONNXConversionError.get_has_missing_tokenizer_files_message()
         )
     return ValidationResult(disabled=False)
 

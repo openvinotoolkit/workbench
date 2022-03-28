@@ -118,8 +118,32 @@ class TransformersONNXConversionError(JobGeneralError):
         super().__init__(message, job_id)
 
     def replace_error_message(self, message: str) -> str:
-        for substring, replacement_string in self.message_map.items():
+        for substring, replacement_string in self.message_map["conversion_errors"].items():
             if substring in message:
                 return replacement_string
 
         return f'Unexpected error: {message}'
+
+    @classmethod
+    def get_no_config_message(cls) -> str:
+        return cls.message_map["filter"]["no_config"]
+
+    @classmethod
+    def get_no_model_type_message(cls) -> str:
+        return cls.message_map["filter"]["no_model_type"]
+
+    @classmethod
+    def get_not_supported_model_type_message(cls, model_type: str) -> str:
+        return cls.message_map["filter"]["not_supported_model_type"].format(model_type)
+
+    @classmethod
+    def get_not_supported_sequence_classification_message(cls, model_type: str) -> str:
+        return cls.message_map["filter"]["not_supported_sequence_classification"].format(model_type)
+
+    @classmethod
+    def get_decoder_not_supported_message(cls, model_type: str) -> str:
+        return cls.message_map["filter"]["decoder_not_supported"].format(model_type)
+
+    @classmethod
+    def get_has_missing_tokenizer_files_message(cls) -> str:
+        return cls.message_map["filter"]["missing_tokenizer_files"]

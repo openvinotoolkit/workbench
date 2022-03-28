@@ -82,9 +82,11 @@ class ImportHuggingfaceModelJob(BaseModelRelatedJob):
         """
         try:
             AutoTokenizer.from_pretrained(huggingface_model_id)
+        except Exception:
+            self._job_state_subject.update_state(status=StatusEnum.error, error_message='error')
+            raise TransformersONNXConversionError('PreValidationTokenizerError', self.job_id)
+        try:
             PretrainedConfig.from_pretrained(huggingface_model_id)
         except Exception:
             self._job_state_subject.update_state(status=StatusEnum.error, error_message='error')
-            raise TransformersONNXConversionError(
-                'PreValidation Error', self.job_id
-            )
+            raise TransformersONNXConversionError('PreValidationModelConfigError', self.job_id)

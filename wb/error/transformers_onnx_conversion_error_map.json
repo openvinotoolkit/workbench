@@ -1,19 +1,30 @@
 {
-    "RuntimeError: 0INTERNAL ASSERT FAILED": "PyTorch JiT trace error",
-    "onnxruntime.capi.onnxruntime_pybind11_state.InvalidArgument": "Wrong tokenizer type in the repository. To convert the model you could create a repository with the same model and right tokenizer type and use it instead.",
-    "Connection error, and we cannot find the requested files in the cached path": "Connection error. Check the internet connection.",
-    "TypeError: not a string": "Cannot initialize tokenizer from the repository.",
-    "Error(s) in loading state_dict": "Cannot initialize the the model from the repository. Try to connect the repository creator of the repository.",
-    "sequence item 0: expected str instance": "[unk] and [pad] tokens for tokenizer are not set.",
-    "expected str, bytes or os.PathLike object": "Not enough files for tokenizer initialization in the repository",
-    "path should be string, bytes, os.PathLike or integer": "Not enough files for tokenizer initialization in the repository",
-    "The state dictionary of the model you are training to load is corrupted": "Cannot initialize the model form the repository. It may not have been saved properly.",
-    "No such file or directory (os error 2)": "Cannot initialize tokenizer from the repository.",
-    "Can't load tokenizer for": "Cannot initialize tokenizer from the repository.",
-    "Exporting model exceed maximum protobuf size of 2GB": "Cannot convert a large model to ONNX.",
-    "Connection error": "Connection error, check the internet connection.",
-    "Model and config inputs doesn't match": "Cannot convert model to ONNX - model and config inputs doesn't match. The repository might contain wrong tokenizer type.",
-    "Wrong index found for [MASK]": "Cannot initialize tokenizer from the model repository.",
-    "JSONDecodeError": "Cannot initialize tokenizer from the model repository - the json file is corrupted.",
-    "PreValidation Error": "Cannot initialize tokenizer or model from the repository."
+    "conversion_errors": {
+        "RuntimeError: 0INTERNAL ASSERT FAILED": "PyTorch JiT trace error",
+        "onnxruntime.capi.onnxruntime_pybind11_state.InvalidArgument": "Wrong tokenizer type in the repository. To convert the model you could create a repository with the same model and right tokenizer type and use it instead.",
+        "Connection error, and we cannot find the requested files in the cached path": "Connection error. Check the internet connection.",
+        "TypeError: not a string": "Cannot initialize tokenizer from the repository.",
+        "Error(s) in loading state_dict": "Cannot initialize the the model from the repository. Try to connect the creator of the repository.",
+        "sequence item 0: expected str instance": "[unk] and [pad] tokens for tokenizer are not set.",
+        "expected str, bytes or os.PathLike object": "Not enough files for tokenizer initialization in the repository",
+        "path should be string, bytes, os.PathLike or integer": "Not enough files for tokenizer initialization in the repository",
+        "The state dictionary of the model you are training to load is corrupted": "Cannot initialize the model form the repository. It may not have been saved properly.",
+        "No such file or directory (os error 2)": "Cannot initialize tokenizer from the repository.",
+        "Can't load tokenizer for": "Cannot initialize tokenizer from the repository.",
+        "Exporting model exceed maximum protobuf size of 2GB": "Cannot convert a large model to ONNX.",
+        "Connection error": "Connection error, check the internet connection.",
+        "Model and config inputs doesn't match": "Cannot convert model to ONNX - model and config inputs doesn't match. The repository might contain wrong tokenizer type.",
+        "Wrong index found for [MASK]": "Cannot initialize tokenizer from the model repository.",
+        "JSONDecodeError": "Cannot initialize tokenizer from the model repository - the json file is corrupted.",
+        "PreValidationTokenizerError": "Cannot initialize tokenizer from the repository.",
+        "PreValidationModelConfigError": "Cannot initialize model config from the repository."
+    },
+    "filter": {
+        "no_config": "The model has no config in the repository",
+        "no_model_type": "Model config has no model type",
+        "not_supported_model_type": "Model type {} is not supported",
+        "not_supported_sequence_classification": "Sequence classification feature is not supported for model type {}",
+        "decoder_not_supported": "The model type {} contains transformer decoder and is not supported by DL Workbench",
+        "missing_tokenizer_files": "Some tokenizer files are missing. It might be missmatch between model type and tokenizer type"
+    }
 }
