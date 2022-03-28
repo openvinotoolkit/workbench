@@ -2544,6 +2544,37 @@
           }
         ]
       }
+    },
+    "russian_toxicity_classifier": {
+      "name": "SkolkovoInstitute/russian_toxicity_classifier",
+      "task": "text-classification",
+      "type": "model",
+      "domain": "NLP",
+      "architecture": "bert",
+      "languages": ["ru"],
+      "conversionSettings": {
+        "framework": "ONNX",
+        "precision": "FP16",
+        "irVersion": 11,
+        "setLayout": true,
+        "inputLayers": [
+          {
+            "name": "input_ids",
+            "shape": [1, 128],
+            "originalLayout": ["Batch", "Sequence"]
+          },
+          {
+            "name": "attention_mask",
+            "shape": [1, 128],
+            "originalLayout": ["Batch", "Sequence"]
+          },
+          {
+            "name": "token_type_ids",
+            "shape": [1, 128],
+            "originalLayout": ["Batch", "Sequence"]
+          }
+        ]
+      }
     }
   },
   "VOCDataset": {

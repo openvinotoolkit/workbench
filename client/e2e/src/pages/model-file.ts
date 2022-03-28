@@ -174,7 +174,7 @@ export interface HFModel extends BasicModel {
   task: 'text-classification';
   // E.g., bert, electra, etc.
   architecture: string;
-  language: string | string[];
+  languages?: string[];
   license?: string;
 }
 

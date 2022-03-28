@@ -4,6 +4,7 @@ import { AppPage } from './pages/home-page.po';
 import { TestUtils } from './pages/test-utils';
 import { LoginPage } from './pages/login.po';
 import { AnalyticsPopup } from './pages/analytics-popup.po';
+import { HFModel } from './pages/model-file';
 
 describe('UI tests on Downloading HF Models', () => {
   let homePage: AppPage;
@@ -37,6 +38,26 @@ describe('UI tests on Downloading HF Models', () => {
     const model = browser.params.precommit_scope.resources.HFModels.ms_marco_MiniLM_L_12_v2;
     const uploadedElementsCount = await testUtils.configurationWizard.uploadsModelsTableElementsCount();
     await testUtils.modelManagerPage.goToModelManager();
+    await testUtils.HFModelDownloadPage.selectDownloadConvertModel(model);
+    await testUtils.configurationWizard.deleteUploadedModel(model.name);
+    expect(await testUtils.configurationWizard.uploadsModelsTableElementsCount()).toEqual(uploadedElementsCount);
+  });
+
+  it('filter model list, find model, download it and delete', async () => {
+    const model: HFModel = browser.params.precommit_scope.resources.HFModels.russian_toxicity_classifier;
+    const uploadedElementsCount = await testUtils.configurationWizard.uploadsModelsTableElementsCount();
+    await testUtils.modelManagerPage.goToModelManager();
+    await testUtils.HFModelDownloadPage.openHFTab();
+
+    // Apply several filters and use a part of the model name to narrow the search
+    await testUtils.HFModelDownloadPage.selectFilter(model.architecture);
+    for (const language of model.languages) {
+      await testUtils.HFModelDownloadPage.selectFilter(language);
+    }
+    await TestUtils.getElementByDataTestId('search-field').sendKeys('toxic');
+    await browser.sleep(1000);
+
+    expect(await testUtils.HFModelDownloadPage.getModelNameFromCard()).toEqual(model.name);
     await testUtils.HFModelDownloadPage.selectDownloadConvertModel(model);
     await testUtils.configurationWizard.deleteUploadedModel(model.name);
     expect(await testUtils.configurationWizard.uploadsModelsTableElementsCount()).toEqual(uploadedElementsCount);

@@ -20,11 +20,6 @@ export class HFModelDownloadPage {
     downloadButton: TestUtils.getElementByDataTestId('download-and-import'),
     precisionContainer: element(by.id('dataType')),
     convertButton: TestUtils.getElementByDataTestId('convert-button'),
-    // Assuming only one model card is present
-    async getModelNameFromCard(): Promise<string> {
-      const modelCardElement = await this.modelCard;
-      return TestUtils.getNestedElementByDataTestId(modelCardElement, 'model-name').getText();
-    },
     async getFilterGroup(groupName: FilterGroupName): Promise<ElementFinder> {
       return TestUtils.getElementByDataTestId(`${groupName}-filter-group`);
     },
@@ -40,19 +35,6 @@ export class HFModelDownloadPage {
         '-filter'
       );
       return filterElements.count();
-    },
-    // This is applicable to the Model Types, Languages, Licenses, i.e., 'bert', 'en',
-    // and similar are valid options to pass
-    async selectFilter(filterName: string): Promise<void> {
-      const filterElement: ElementFinder = TestUtils.getElementByDataTestId(`${filterName}-filter`);
-      await new TestUtils().clickElement(filterElement);
-      await browser.sleep(1000);
-    },
-    async removeFilter(filterName: string): Promise<void> {
-      const filterElement: ElementFinder = TestUtils.getElementByDataTestId(`${filterName}-filter`);
-      const removeFilterElement: ElementFinder = TestUtils.getNestedElementByDataTestId(filterElement, 'remove-filter');
-      await new TestUtils().clickElement(removeFilterElement);
-      await browser.sleep(1000);
     },
     async getDetailsParameterValue(detailName: Details): Promise<string> {
       const detailsParameterElement: ElementFinder = TestUtils.getElementByDataTestId(`${detailName}-detail`);
@@ -71,14 +53,36 @@ export class HFModelDownloadPage {
     return this.elements.modelCards.count();
   }
 
-  async filterModelCards(modelName: string): Promise<ElementFinder> {
+  // Assuming only one model card is present
+  async getModelNameFromCard(): Promise<string> {
+    const modelCardElement = this.elements.modelCard;
+    return TestUtils.getNestedElementByDataTestId(modelCardElement, 'model-name').getText();
+  }
+
+  async filterModelCardsByName(modelName: string): Promise<ElementFinder> {
+    await this.elements.searchField.clear();
     await this.elements.searchField.sendKeys(modelName);
     await browser.sleep(1000);
     await browser.wait(async () => {
-      const modelCardModelName = await this.elements.getModelNameFromCard();
+      const modelCardModelName = await this.getModelNameFromCard();
       return modelCardModelName === modelName;
     }, browser.params.defaultTimeout);
     return this.elements.modelCard;
+  }
+
+  // This is applicable to the Model Types, Languages, Licenses, i.e., 'bert', 'en',
+  // and similar are valid options to pass
+  async selectFilter(filterName: string): Promise<void> {
+    const filterElement: ElementFinder = TestUtils.getElementByDataTestId(`${filterName}-filter`);
+    await new TestUtils().clickElement(filterElement);
+    await browser.sleep(1000);
+  }
+
+  async removeFilter(filterName: string): Promise<void> {
+    const filterElement: ElementFinder = TestUtils.getElementByDataTestId(`${filterName}-filter`);
+    const removeFilterElement: ElementFinder = TestUtils.getNestedElementByDataTestId(filterElement, 'remove-filter');
+    await new TestUtils().clickElement(removeFilterElement);
+    await browser.sleep(1000);
   }
 
   async checkModelDetails(): Promise<void> {
@@ -100,7 +104,7 @@ export class HFModelDownloadPage {
   // This function is expected to run from the Model Manager
   async selectAndDownloadModel(modelName: string): Promise<void> {
     await this.openHFTab();
-    const modelCard = await this.filterModelCards(modelName);
+    const modelCard = await this.filterModelCardsByName(modelName);
     await new TestUtils().clickElement(modelCard);
     // Check description, license and model features
     await this.checkModelDetails();
