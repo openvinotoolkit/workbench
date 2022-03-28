@@ -1,5 +1,5 @@
 <wb-model-zoo-layout [isDetailsOpened]="!!selectedModel">
-  <wb-model-zoo-content [loading]="isLoading$ | async" [hasError]="!!(error$ | async)">
+  <wb-model-zoo-content [hasError]="!!(error$ | async)">
     <wb-config-form-field
       ngProjectAs="model-zoo-sort"
       [field]="sortField"
@@ -27,13 +27,19 @@
     ></wb-model-zoo-counter>
 
     <mat-paginator
+      #matPaginator
       ngProjectAs="model-zoo-paginator"
       [length]="dataSource.data.length"
       [pageSize]="8"
       hidePageSize
     ></mat-paginator>
 
-    <wb-card-grid [dataSource]="dataSource" *ngIf="dataSource?.filteredData?.length; else emptyModelsTemplate">
+    <wb-card-grid
+      [dataSource]="dataSource"
+      [isLoading]="isLoading"
+      *ngIf="dataSource?.filteredData?.length || isLoading; else emptyModelsTemplate"
+    >
+      <ng-container *wbSkeleton="isLoading; repeat: matPaginator.pageSize; height: '100px'"></ng-container>
       <wb-card *wbCardDef="let model" (click)="selectedModel = model" data-test-id="model-card">
         <wb-card-title-row>
           <mat-icon svgIcon="image"></mat-icon>
@@ -66,30 +72,32 @@
 
 <ng-template #filterGroupTemplate>
   <wb-model-zoo-filter-group [formControl]="filtersControl" *ngIf="dataSource.filtersOptions$ | async as filterOptions">
-    <wb-model-zoo-filter group="task_type">
-      <wb-model-zoo-filter-title>Task Type</wb-model-zoo-filter-title>
-      <wb-model-zoo-filter-option *ngFor="let option of filterOptions.taskType" [value]="option" icon="list_alt">
-        {{ option }}
-      </wb-model-zoo-filter-option>
-    </wb-model-zoo-filter>
+    <ng-container *wbSkeleton="isLoading; repeat: 7; width: 'rand'; height: '40px'; gap: '20px'">
+      <wb-model-zoo-filter group="task_type">
+        <wb-model-zoo-filter-title>Task Type</wb-model-zoo-filter-title>
+        <wb-model-zoo-filter-option *ngFor="let option of filterOptions.taskType" [value]="option" icon="list_alt">
+          {{ option }}
+        </wb-model-zoo-filter-option>
+      </wb-model-zoo-filter>
 
-    <wb-model-zoo-filter group="precision">
-      <wb-model-zoo-filter-title>Precisions</wb-model-zoo-filter-title>
-      <wb-model-zoo-filter-option *ngFor="let option of filterOptions.precision" [value]="option">
-        {{ option }}
-      </wb-model-zoo-filter-option>
-    </wb-model-zoo-filter>
+      <wb-model-zoo-filter group="precision">
+        <wb-model-zoo-filter-title>Precisions</wb-model-zoo-filter-title>
+        <wb-model-zoo-filter-option *ngFor="let option of filterOptions.precision" [value]="option">
+          {{ option }}
+        </wb-model-zoo-filter-option>
+      </wb-model-zoo-filter>
 
-    <wb-model-zoo-filter group="framework">
-      <wb-model-zoo-filter-title>Framework</wb-model-zoo-filter-title>
-      <wb-model-zoo-filter-option
-        *ngFor="let option of filterOptions.framework"
-        [value]="option"
-        [icon]="modelFrameworkIconsMap[option]"
-      >
-        {{ modelFrameworkNamesMap[option] }}
-      </wb-model-zoo-filter-option>
-    </wb-model-zoo-filter>
+      <wb-model-zoo-filter group="framework">
+        <wb-model-zoo-filter-title>Framework</wb-model-zoo-filter-title>
+        <wb-model-zoo-filter-option
+          *ngFor="let option of filterOptions.framework"
+          [value]="option"
+          [icon]="modelFrameworkIconsMap[option]"
+        >
+          {{ modelFrameworkNamesMap[option] }}
+        </wb-model-zoo-filter-option>
+      </wb-model-zoo-filter>
+    </ng-container>
   </wb-model-zoo-filter-group>
 </ng-template>
 

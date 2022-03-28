@@ -39,8 +39,11 @@ export class OmzImportRibbonContentComponent extends BaseModelZooImportComponent
   };
 
   private readonly _omzModels$ = this._store$.select(ModelStoreSelectors.selectOMZModels);
-  readonly isLoading$ = this._store$.select(ModelStoreSelectors.selectOMZModelsAreLoading);
+  private readonly _isLoading$ = this._store$.select(ModelStoreSelectors.selectOMZModelsAreLoading);
   readonly error$ = this._store$.select(ModelStoreSelectors.selectOMZModelsError);
+
+  // TODO Consider moving to data source and base model zoo component
+  isLoading = false;
 
   constructor(private readonly _store$: Store<RootStoreState.State>) {
     super();
@@ -48,6 +51,15 @@ export class OmzImportRibbonContentComponent extends BaseModelZooImportComponent
 
     this._omzModels$.pipe(takeUntil(this._unsubscribe$)).subscribe((models) => {
       this.dataSource.data = models;
+    });
+
+    this._isLoading$.pipe(takeUntil(this._unsubscribe$)).subscribe((isLoading) => {
+      this.isLoading = isLoading;
+      if (this.isLoading) {
+        this.sortAndSearchFormGroup.disable();
+      } else {
+        this.sortAndSearchFormGroup.enable();
+      }
     });
   }
 
