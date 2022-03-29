@@ -27,7 +27,7 @@ RUN apt-get update && \
     # pycoco
     build-essential \
     # accuracy-checker 0.9.0
-    libgtk-3-0 \
+    libgtk-3-0
 
 COPY --chown=${USER_NAME} . ${OPENVINO_WORKBENCH_ROOT}
 
