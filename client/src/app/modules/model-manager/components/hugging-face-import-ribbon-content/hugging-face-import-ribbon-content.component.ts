@@ -32,8 +32,7 @@ export interface IHuggingfaceTagsSets {
 })
 export class HuggingFaceImportRibbonContentComponent
   extends BaseModelZooImportComponent<IHuggingfaceModel, IHuggingfaceModelZooFilter>
-  implements OnInit, OnDestroy
-{
+  implements OnInit, OnDestroy {
   readonly externalResourceNotification =
     this._messages.hintMessages.importHuggingFaceTips.externalResourceNotification;
   readonly shownSubsetNotification = this._messages.hintMessages.importHuggingFaceTips.shownSubsetNotification;
