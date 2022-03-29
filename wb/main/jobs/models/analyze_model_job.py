@@ -75,7 +75,7 @@ class ModelAnalyzerJob(BaseModelRelatedJob):
 
             try:
                 core = Core()
-                model = core.read_model(model=topology_xml, weights=topology_bin)
+                core.read_model(model=topology_xml, weights=topology_bin)
             except RuntimeError as exc:
                 if str(exc).startswith('The support of IR'):
                     exc = ModelAnalyzerError(ModelAnalyzerErrorMessagesEnum.DEPRECATED_IR_VERSION.value, self._job_id)
@@ -106,64 +106,58 @@ class ModelAnalyzerJob(BaseModelRelatedJob):
                 model_xml: str,
                 model_bin: str,
                 session: Session):
-
-        model_metadata = ModelMetaData(Path(model_xml), Path(model_bin))
-
-        if model_metadata.ir_version <= 10:
-            raise ModelAnalyzerError(ModelAnalyzerErrorMessagesEnum.DEPRECATED_IR_VERSION.value, self._job_id)
-
-        topology_analysis.batch = model_metadata.batch or 1
-
-        mo_params = model_metadata.mo_params
-        if mo_params:
-            topology_analysis.mo_params = json.dumps(self.process_mo_cli_parameters(mo_params))
-
-        topology_analysis.ir_version = model_metadata.ir_version
-        topology_analysis.has_batchnorm = model_metadata.has_op_of_type(('BatchNormInference', 'BatchNormalization'))
-        topology_analysis.is_int8 = model_metadata.is_int8()
-
-        topology_type = ModelTypeGuesser.get_model_type(model_metadata)
-        topology_analysis.topology_type = topology_type
-
-        topology_analysis.num_classes = model_metadata.num_classes
-        topology_analysis.has_background = model_metadata.has_background_class
-
-        self._job_state_subject.update_state(progress=30)
-
-        # Get network I/O
-        topology_analysis.inputs = json.dumps([model_input.any_name for model_input in model_metadata.inputs])
-        topology_analysis.outputs = json.dumps([output.any_name for output in model_metadata.outputs])
-        topology_analysis.op_sets = model_metadata.op_sets
-
-        # Process topology-specific params
         with self.suppress_and_log():
+            model_metadata = ModelMetaData(Path(model_xml), Path(model_bin))
+
+            if model_metadata.ir_version <= 10:
+                raise ModelAnalyzerError(ModelAnalyzerErrorMessagesEnum.DEPRECATED_IR_VERSION.value, self._job_id)
+
+            topology_analysis.batch = model_metadata.batch or 1
+
+            mo_params = model_metadata.mo_params
+            if mo_params:
+                topology_analysis.mo_params = json.dumps(self.process_mo_cli_parameters(mo_params))
+
+            topology_analysis.ir_version = model_metadata.ir_version
+            topology_analysis.has_batchnorm = model_metadata.has_op_of_type(('BatchNormInference', 'BatchNormalization'))
+            topology_analysis.is_int8 = model_metadata.is_int8()
+
+            topology_type = ModelTypeGuesser.get_model_type(model_metadata)
+            topology_analysis.topology_type = topology_type
+
+            topology_analysis.num_classes = model_metadata.num_classes
+            topology_analysis.has_background = model_metadata.has_background_class
+
+            self._job_state_subject.update_state(progress=30)
+
+            # Get network I/O
+            topology_analysis.inputs = json.dumps([model_input.any_name for model_input in model_metadata.inputs])
+            topology_analysis.outputs = json.dumps([output.any_name for output in model_metadata.outputs])
+            topology_analysis.op_sets = model_metadata.op_sets
+
+            # Process topology-specific params
             model_type_analyzer = ModelTypeAnalyzerCreator.create(topology_type, model_metadata)
             topology_specific = model_type_analyzer.specific_parameters
-        topology_analysis.topology_specific = json.dumps(topology_specific)
-        self._job_state_subject.update_state(progress=60)
+            topology_analysis.topology_specific = json.dumps(topology_specific)
 
-        mcc = ModelComputationalComplexity(model_metadata)
+            self._job_state_subject.update_state(progress=60)
 
-        with self.suppress_and_log():
+            mcc = ModelComputationalComplexity(model_metadata)
+
             topology.set_precisions(mcc.executable_precisions)
 
-        with self.suppress_and_log():
             g_flops, g_iops = mcc.get_total_ops()
             topology_analysis.g_flops = f'{g_flops:.5f}'
             topology_analysis.g_iops = f'{g_iops:.5f}'
 
-        with self.suppress_and_log():
             topology_analysis.maximum_memory = f'{mcc.get_maximum_memory_consumption() / 10 ** 6:.3f}'
-        with self.suppress_and_log():
             topology_analysis.minimum_memory = f'{mcc.get_minimum_memory_consumption() / 10 ** 6:.3f}'
-        with self.suppress_and_log():
             topology_analysis.m_params = f'{mcc.get_total_params()["total_params"] / 10 ** 6:.3f}'
-        with self.suppress_and_log():
             sparsity = (mcc.get_total_params()['zero_params'] / mcc.get_total_params()['total_params'] * 100
                         if mcc.get_total_params()['total_params'] else 0)
             topology_analysis.sparsity = f'{sparsity:.3f}'
-        if topology.precisions is None:
-            topology.set_precisions([mo_params['data_type']])
+            if topology.precisions is None:
+                topology.set_precisions([mo_params['data_type']])
 
         self._job_state_subject.update_state(progress=90)
 
