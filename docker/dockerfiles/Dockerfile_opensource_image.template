@@ -88,7 +88,7 @@ RUN sed -Ei 's/# deb-src /deb-src /' /etc/apt/sources.list && \
 RUN mkdir -m 777 -p ${WORKBENCH_PUBLIC_DIR} && chown -R ${USER_NAME} ${WORKBENCH_PUBLIC_DIR}
 
 WORKDIR ${INTEL_OPENVINO_DIR}
-ADD --chown=workbench ${OPENVINO_LIB}/* ${INTEL_OPENVINO_DIR}/
+ADD --chown=workbench setupvars.sh ${INTEL_OPENVINO_DIR}/
 
 WORKDIR ${INTEL_OPENVINO_DIR}/tools
 ADD --chown=workbench workbench ${OPENVINO_WORKBENCH_ROOT}/

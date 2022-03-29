@@ -48,10 +48,8 @@ pushd ${ROOT_FOLDER}
 
     VERSIONS_FILE="${ROOT_FOLDER}/automation/Jenkins/openvino_version.yml"
 
-    OPENVINO_LIB_LINK=$(grep 'openvino_package'  ${VERSIONS_FILE} | awk '{print $2}')
-    curl -LO ${OPENVINO_LIB_LINK}
-    LIB_FOLDER=$(basename ${OPENVINO_LIB_LINK})
-    tar -xvf ${LIB_FOLDER}
+    OPENVINO_SETUP_VARS_LINK="https://raw.githubusercontent.com/openvinotoolkit/openvino/master/scripts/setupvars/setupvars.sh"
+    curl -LO ${OPENVINO_SETUP_VARS_LINK}
 
     WHEELS_FOLDER="${TEMP_FOLDER}/workbench/wheels"
     mkdir ${WHEELS_FOLDER}
@@ -71,7 +69,7 @@ pushd ${ROOT_FOLDER}
       cp -R ${BUNDLS_PATH}/* ${BUNDLES_FOLDER}
     else
       pushd ${BUNDLES_FOLDER}
-        PACKAGE_LINK=$(grep 'openvino_package'  ${VERSIONS_FILE} | awk '{print $2}')
+        PACKAGE_LINK=$(grep 'openvino_deployment_archives'  ${VERSIONS_FILE} | awk '{print $2}')
         python3 "${TEMP_FOLDER}/workbench/wb/main/utils/bundle_creator/bundle_downloader.py" \
                 --link "${PACKAGE_LINK}" \
                 -os ubuntu18 ubuntu20 \
@@ -86,7 +84,6 @@ pushd ${ROOT_FOLDER}
                   --no-cache \
                   --build-arg RABBITMQ_PASSWORD=openvino \
                   --build-arg DB_PASSWORD=openvino \
-                  --build-arg OPENVINO_LIB=${LIB_FOLDER%.*} \
                   $([ -z ${no_proxy+x} ] || printf -- "--build-arg NO_PROXY=${no_proxy}") \
                   $([ -z ${http_proxy+x} ] || printf -- "--build-arg HTTP_PROXY=${http_proxy}") \
                   $([ -z ${https_proxy+x} ] || printf -- "--build-arg HTTPS_PROXY=${https_proxy}")
