@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
 
 import { modelFrameworkNamesMap, ModelFrameworks, TaskTypeToNameMap } from '@store/model-store/model.model';
-import { ModelStoreActions, ModelStoreSelectors, RootStoreState } from '@store';
+import { GlobalsStoreActions, ModelStoreActions, ModelStoreSelectors, RootStoreState } from '@store';
 
 import { ModelDownloaderDTO } from '@shared/models/dto/model-downloader-dto';
 import {
@@ -48,6 +48,9 @@ export class OmzImportRibbonContentComponent extends BaseModelZooImportComponent
   constructor(private readonly _store$: Store<RootStoreState.State>) {
     super();
     this._populateSortOptions();
+
+    this._store$.dispatch(ModelStoreActions.loadOMZModels());
+    this._store$.dispatch(GlobalsStoreActions.getFrameworksAvailability());
 
     this._omzModels$.pipe(takeUntil(this._unsubscribe$)).subscribe((models) => {
       this.dataSource.data = models;
