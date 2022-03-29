@@ -21,9 +21,10 @@ from typing import List, Optional
 from huggingface_hub import HfApi, hf_hub_url
 from huggingface_hub.file_download import cached_download
 from huggingface_hub.hf_api import ModelInfo
+from requests import HTTPError
 
-from wb.main.huggingface_api.validators import validate_hf_model
-from wb.main.huggingface_api.validators import ValidationResult
+from wb.main.huggingface_api.validators import validate_hf_model, ValidationResult
+from wb.error.request_error import NotFoundRequestError
 
 _huggingface_api = HfApi()
 
@@ -136,5 +137,11 @@ def get_tags() -> dict:
 
 def get_model_details(model_id: str) -> Path:
     hf_readme_url = hf_hub_url(repo_id=model_id, filename="README.md")
-    readme_path = Path(cached_download(hf_readme_url))
+    try:
+        readme_path = Path(cached_download(hf_readme_url))
+    except HTTPError as error:
+        if error.response.status_code == 404:
+            raise NotFoundRequestError(f'README for model {model_id} not found')
+        raise error
+
     return readme_path
