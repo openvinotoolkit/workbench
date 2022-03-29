@@ -316,6 +316,7 @@ wb/main/forms/__init__.py
 wb/main/forms/model_optimizer.py
 wb/main/huggingface_api/__init__.py
 wb/main/huggingface_api/huggingface_api.py
+wb/main/huggingface_api/validators.py
 wb/main/jobs/__init__.py
 wb/main/jobs/accuracy_analysis/__init__.py
 wb/main/jobs/accuracy_analysis/accuracy/__init__.py
