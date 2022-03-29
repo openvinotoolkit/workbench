@@ -19,7 +19,7 @@ export class HFModelDownloadPage {
     modelCards: TestUtils.getAllElementsByDataTestId('model-card'),
     modelDescription: TestUtils.getElementByDataTestId('model-description'),
     downloadButton: TestUtils.getElementByDataTestId('download-and-import'),
-    precisionContainer: element(by.id('dataType')),
+    precisionContainer: TestUtils.getElementByDataTestId('datatype-form-field'),
     convertButton: TestUtils.getElementByDataTestId('convert-button'),
     resetFiltersButton: TestUtils.getElementByDataTestId('reset-filters'),
     async getFilterGroup(groupName: FilterGroupName): Promise<ElementFinder> {
