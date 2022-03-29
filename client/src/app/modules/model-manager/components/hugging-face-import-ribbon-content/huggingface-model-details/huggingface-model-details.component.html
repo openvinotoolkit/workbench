@@ -14,7 +14,7 @@
       *ngIf="!(loading$ | async); else loading"
       [innerHTML]="markdownHTML$ | async"
     ></div>
-    <div class="readme-not-found wb-text-8" *ngIf="error$ | async as error">No readme found.</div>
+    <div class="readme-not-found wb-text-8" *ngIf="error$ | async">No readme found.</div>
   </wb-model-zoo-details-description>
 
   <wb-model-zoo-details-footer>
