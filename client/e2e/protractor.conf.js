@@ -236,6 +236,7 @@ exports.config = {
     databaseRestorationSuite: ['./src/check-restored-state.e2e-spec.ts'],
     devCloudSuite: [
       './src/dev-cloud.e2e-spec.ts',
+      './src/smoke-vpu.e2e-spec.ts',
       './src/inference-test-image.e2e-spec.ts',
       './src/parent-predictions-visualization.e2e-spec.ts',
       // TODO: 69118
