@@ -1,20 +1,5 @@
 # INT8 Calibration {#workbench_docs_Workbench_DG_Int_8_Quantization}
 
-@sphinxdirective
-
-.. toctree::
-   :maxdepth: 1
-   :hidden:
-   
-   workbench_docs_Workbench_DG_Tutorial_Object_Detection
-   workbench_docs_Workbench_DG_Tutorial_Classification
-   workbench_docs_Workbench_DG_Tutorial_Instance_Segmantation
-   workbench_docs_Workbench_DG_Tutorial_Semantic_Segmentation
-   workbench_docs_Workbench_DG_Tutorial_Style_Transfer
-   workbench_docs_Workbench_DG_Tutorial_Yolo
-
-@endsphinxdirective
-
 DL Workbench can lower the precision of a model from FP32 to INT8 with a process called calibration.
 Calibration accelerates the performance of certain models on hardware that supports INT8. A model in INT8 precision takes up less memory and has higher throughput capacity. Often this performance boost is achieved at the cost of a small accuracy reduction. With the DL Workbench, you can calibrate your model locally, on a 
 <a href="#remote-calibration">remote target</a>, or in the <a href="#devcloud-calibration">Intel® DevCloud for the Edge</a>.
@@ -23,7 +8,12 @@ To read more about INT8 inference, see
 [Using Low-Precision INT8 Integer Inference](@ref openvino_docs_IE_DG_Int8Inference) and 
 [Post-Training Optimization Toolkit](@ref pot_README).
 
-> **NOTE**: INT8 calibration is **not** available in the following cases: 1. You run the configuration on an Intel® Movidius™ Neural Compute Stick 2, or Intel® Vision Accelerator Design with Intel® Movidius™ VPUs plugin or 2. AccuracyAware method is disabled if your configuration uses a not annotated dataset
+> **NOTE**: INT8 calibration is **not** available in the following cases: 
+> 1. The model belongs to Natural Language Processing domain. 
+> 
+> 2. You run the configuration on an Intel® Movidius™ Neural Compute Stick 2, or Intel® Vision Accelerator Design with Intel® Movidius™ VPUs plugin. 
+> 
+> 3. AccuracyAware method is disabled if your configuration uses a not annotated dataset.
 
 ## INT8 Calibration Methods
 

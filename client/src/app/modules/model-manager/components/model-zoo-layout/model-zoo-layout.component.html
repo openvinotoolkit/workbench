@@ -1,7 +1,13 @@
-<ng-container *ngIf="!isDetailsOpened; else detailsTemplate">
-  <ng-content select="wb-model-zoo-content"></ng-content>
+<ng-container *ngIf="!loading; else loadingTemplate">
+  <ng-container *ngIf="!isDetailsOpened; else detailsTemplate">
+    <ng-content select="wb-model-zoo-content"></ng-content>
+  </ng-container>
 </ng-container>
 
 <ng-template #detailsTemplate>
   <ng-content select="wb-model-zoo-details"></ng-content>
+</ng-template>
+
+<ng-template #loadingTemplate>
+  <wb-spinner></wb-spinner>
 </ng-template>

@@ -16,6 +16,7 @@
 .details-body ::ng-deep {
   display: flex;
   flex-grow: 1;
+  max-height: 460px;
 
   wb-model-zoo-details-parameters,
   wb-model-zoo-details-description {

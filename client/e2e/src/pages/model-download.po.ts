@@ -2,20 +2,90 @@ import { browser, by, element, ElementFinder, protractor } from 'protractor';
 
 import { ModelPrecisionEnum } from '@store/model-store/model.model';
 
-import { ModelDownloaderDTO } from '@shared/models/dto/model-downloader-dto';
-
-import { ModelDownloaderTableComponent } from '../../../src/app/modules/model-manager/components/model-downloader-table/model-downloader-table.component';
 import { TestUtils } from './test-utils';
 
 export class ModelDownloadPage {
   until = protractor.ExpectedConditions;
 
-  get modelDownloadTable() {
-    return element(by.id('model-download-table'));
+  public elements = {
+    // TODO: change test-id
+    OMZTab: TestUtils.getElementByDataTestId('open_model_zoo_(v2)'),
+    searchField: TestUtils.getElementByDataTestId('search-field'),
+    modelCard: TestUtils.getElementByDataTestId('model-card'),
+    modelCards: TestUtils.getAllElementsByDataTestId('model-card'),
+    modelDescription: TestUtils.getElementByDataTestId('model-description'),
+    modelLicense: TestUtils.getElementByDataTestId('model-license'),
+    downloadButton: TestUtils.getElementByDataTestId('download-and-import'),
+    // Assuming only one model card is present
+    async getModelNameFromCard(): Promise<string> {
+      const modelCardElement = await this.modelCard;
+      return TestUtils.getNestedElementByDataTestId(modelCardElement, 'model-name').getText();
+    },
+    // Assuming only one model card is present
+    async getModelContentFromCard(): Promise<{ precision: string; taskType: string; framework: string }> {
+      const modelCardElement = await this.modelCard;
+      const modelContentElement = TestUtils.getNestedElementByDataTestId(modelCardElement, 'model-content');
+      return {
+        precision: await TestUtils.getNestedElementByDataTestId(modelContentElement, 'precision'),
+        taskType: await TestUtils.getNestedElementByDataTestId(modelContentElement, 'task-type'),
+        framework: await TestUtils.getNestedElementByDataTestId(modelContentElement, 'framework'),
+      };
+    },
+    frameworkDetail: TestUtils.getElementByDataTestId('framework-detail'),
+    taskDetail: TestUtils.getElementByDataTestId('task-detail'),
+    domainDetail: TestUtils.getElementByDataTestId('domain-detail'),
+    precisionDetail: TestUtils.getElementByDataTestId('precision-detail'),
+    async getDetailValue(detailElement: ElementFinder): Promise<string> {
+      const valueElement = TestUtils.getNestedElementByDataTestId(detailElement, 'value');
+      return valueElement.getText();
+    },
+  };
+
+  async filterModelCards(modelName: string): Promise<ElementFinder> {
+    await this.elements.searchField.sendKeys(modelName);
+    await browser.sleep(1500);
+    // TODO: unskip once filters are introduced
+    // expect(await this.elements.modelCards.count()).toEqual(1);
+    await browser.wait(async () => {
+      const modelCardModelName = await this.elements.getModelNameFromCard();
+      return modelCardModelName === modelName;
+    }, browser.params.defaultTimeout);
+    return this.elements.modelCard;
   }
 
-  get downloadButton() {
-    return TestUtils.getElementByDataTestId('download-btn');
+  async checkModelDetails(): Promise<void> {
+    const modelDescription: string = await this.elements.modelDescription.getText();
+    const modelLicense: string = await this.elements.modelLicense.getText();
+
+    // Verify that text exists
+    expect(modelDescription.length).toBeGreaterThan(0);
+    expect(modelLicense.length).toBeGreaterThan(0);
+
+    // Verify the external links pop-ups
+    await new TestUtils().checkExternalLinkDialogWindow(this.elements.modelDescription);
+    await new TestUtils().checkExternalLinkDialogWindow(this.elements.modelLicense);
+
+    // Model features
+    const framework = await this.elements.getDetailValue(this.elements.frameworkDetail);
+    const task = await this.elements.getDetailValue(this.elements.taskDetail);
+    const domain = await this.elements.getDetailValue(this.elements.domainDetail);
+    const precision = await this.elements.getDetailValue(this.elements.precisionDetail);
+    const modelFeatures = [framework, task, domain, precision];
+    for (const modelFeature of modelFeatures) {
+      expect(modelFeature.length).toBeGreaterThan(0);
+    }
+  }
+
+  // This function is expected to run from the Model Manager
+  async selectAndDownloadModel(modelName: string): Promise<void> {
+    await new TestUtils().clickElement(this.elements.OMZTab);
+    await browser.wait(this.until.presenceOf(this.elements.modelCard), browser.params.defaultTimeout);
+    const modelCard = await this.filterModelCards(modelName);
+    await new TestUtils().clickElement(modelCard);
+    // Check description, license and model features
+    await this.checkModelDetails();
+
+    await new TestUtils().clickElement(this.elements.downloadButton);
   }
 
   get precisionContainer() {
@@ -26,80 +96,10 @@ export class ModelDownloadPage {
     return element(by.buttonText('Convert'));
   }
 
-  get openVinoModelsPrecision() {
-    return element(by.id('precision'));
-  }
-
-  get selectFilterColumnField() {
-    return TestUtils.getElementByDataTestId('select-column-field');
-  }
-
-  get setFilterField() {
-    return TestUtils.getElementByDataTestId('set-filter-field');
-  }
-
-  get applyFilterButton() {
-    return TestUtils.getElementByDataTestId('apply-filter-button');
-  }
-
-  get searchInput() {
-    return TestUtils.getElementByDataTestId('search-input');
-  }
-
-  downloadTableElementsCount() {
-    return element.all(by.className('mat-row')).count();
-  }
-
-  async filterTable(modelName) {
-    const selectColumnField = await this.selectFilterColumnField;
-    const setFilterField = await this.setFilterField;
-
-    await this.selectValueFromDropdown(selectColumnField, 'Model Name');
-    await browser.sleep(1000);
-
-    await this.selectValueFromDropdown(setFilterField, modelName, true);
-    await browser.sleep(1000);
-
-    await browser.actions().mouseMove(this.applyFilterButton).click().perform();
-    await this.applyFilterButton.click();
-  }
-
-  async downloadModel(modelName, precision = ModelPrecisionEnum.FP16, framework?) {
-    // Reassign precision with default value for explicitly passed parameters such as null
-    if (!precision) {
-      precision = ModelPrecisionEnum.FP32;
-    }
-    let row;
-    if (modelName) {
-      await browser.wait(() => {
-        return browser.isElementPresent(element(by.cssContainingText('td#model-name', modelName)));
-      }, browser.params.defaultTimeout);
-
-      const modelRowId = ModelDownloaderDTO.getId(modelName, ModelDownloaderTableComponent.omzModelRowClassPrefix);
-      row = await element(by.id(modelRowId)).all(by.css('td')).first();
-    } else {
-      row = element.all(by.className('table-row')).first().element(by.css('td')).first();
-      modelName = await row.all(by.className('model-name')).first().getText();
-    }
-    await row.click();
-
-    await browser.wait(this.until.elementToBeClickable(this.downloadButton), browser.params.defaultTimeout);
-    await this.downloadButton.click();
-    return modelName;
-  }
-
-  async selectValueFromDropdown(el: ElementFinder, value: string, isFiltered: boolean = false) {
+  async selectValueFromDropdown(el: ElementFinder, value: string) {
     await browser.sleep(1000);
     await browser.wait(this.until.elementToBeClickable(el), browser.params.defaultTimeout * 3);
     await el.click();
-    if (isFiltered) {
-      console.log('Filtered table');
-      const searchInput = await this.searchInput;
-      await searchInput.clear();
-      await searchInput.sendKeys(value);
-      console.log(`Search ${value}`);
-      await browser.sleep(500);
-    }
     const optionElement = element(by.cssContainingText('.mat-option-text', value));
     const optionsPresent = this.until.presenceOf(optionElement);
     const optionsClickable = this.until.elementToBeClickable(optionElement);
@@ -126,7 +126,7 @@ export class ModelDownloadPage {
     return completeIcon.isPresent();
   }
 
-  async convertDownloadedModelToIR(precision?, configurationMultiplier = 4) {
+  async convertDownloadedModelToIR(precision?: ModelPrecisionEnum, configurationMultiplier: number = 4) {
     // Wait for the model uploading to complete
     console.log('Waiting for model uploading to complete.');
     await browser.wait(

@@ -18,8 +18,9 @@ from contextlib import closing
 from pathlib import Path
 
 from sqlalchemy.orm import Session
+from transformers import AutoTokenizer, PretrainedConfig
 
-from wb.error.job_error import ModelOptimizerError
+from wb.error.job_error import TransformersONNXConversionError
 from wb.extensions_factories.database import get_db_session_for_celery
 from wb.main.console_tool_wrapper.huggingface_model_downloader.tool import (HuggingfaceModelDownloaderTool,
                                                                             HuggingfaceModelDownloaderParser)
@@ -52,6 +53,8 @@ class ImportHuggingfaceModelJob(BaseModelRelatedJob):
 
             topology: TopologiesModel = import_job.model
 
+            self.pre_validation(import_job.huggingface_model_id)
+
             environment: EnvironmentModel = topology.environment
             python_executable = environment.python_executable
 
@@ -61,14 +64,27 @@ class ImportHuggingfaceModelJob(BaseModelRelatedJob):
             onnx_model_path=Path(topology.path),
         )
 
-        parser = HuggingfaceModelDownloaderParser()
+        parser = HuggingfaceModelDownloaderParser(self._job_state_subject)
         runner = LocalRunner(tool, parser)
 
         return_code, message = runner.run_console_tool(self)
 
         if return_code:
             self._job_state_subject.update_state(status=StatusEnum.error, error_message='error')
-            raise ModelOptimizerError(message, self.job_id)
+            raise TransformersONNXConversionError(message, self.job_id)
 
         self._job_state_subject.update_state(progress=100, status=StatusEnum.ready)
         self._job_state_subject.detach_all_observers()
+
+    def pre_validation(self, huggingface_model_id: str) -> None:
+        """
+        Check that the tokenizer and model config can be initialized from the repository before loading a model
+        """
+        try:
+            AutoTokenizer.from_pretrained(huggingface_model_id)
+            PretrainedConfig.from_pretrained(huggingface_model_id)
+        except Exception:
+            self._job_state_subject.update_state(status=StatusEnum.error, error_message='error')
+            raise TransformersONNXConversionError(
+                'PreValidation Error', self.job_id
+            )

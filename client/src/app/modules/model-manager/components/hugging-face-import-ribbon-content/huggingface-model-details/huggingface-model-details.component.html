@@ -1,0 +1,31 @@
+<wb-model-zoo-details>
+  <wb-model-zoo-details-header
+    [modelName]="huggingfaceModel?.id"
+    (hideDetails)="hide.emit()"
+  ></wb-model-zoo-details-header>
+
+  <wb-model-zoo-details-parameters>
+    <wb-parameter-details class="parameter" *ngFor="let param of parameters" [parameter]="param"></wb-parameter-details>
+  </wb-model-zoo-details-parameters>
+
+  <wb-model-zoo-details-description>
+    <div
+      class="readme markdown-body"
+      *ngIf="!(loading$ | async); else loading"
+      [innerHTML]="markdownHTML$ | async"
+    ></div>
+  </wb-model-zoo-details-description>
+
+  <wb-model-zoo-details-footer>
+    <wb-button
+      type="primary"
+      class="enlarged-control"
+      text="Download and Import"
+      (handleClick)="import.emit()"
+    ></wb-button>
+  </wb-model-zoo-details-footer>
+</wb-model-zoo-details>
+
+<ng-template #loading>
+  <wb-spinner></wb-spinner>
+</ng-template>

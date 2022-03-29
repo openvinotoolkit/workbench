@@ -22,6 +22,7 @@ import * as fromModelStore from './model-store/model.reducer';
 import * as AdvancedAccuracyStore from './advanced-accuracy-store';
 import * as TokenizerStore from './tokenizer-store';
 import * as fromAccuracyAnalysisStore from './accuracy-analysis-store';
+import * as HuggingfaceModelStore from './huggingface-model-store';
 
 export interface State {
   inferenceTestImage: InferenceStoreState.State;
@@ -39,6 +40,7 @@ export interface State {
   [fromPipelinesStore.pipelinesStoreFeatureKey]: PipelinesStoreState.State;
   [fromAccuracyAnalysisStore.accuracyAnalysisFeatureKey]: fromAccuracyAnalysisStore.AccuracyAnalysisStoreState.State;
   [TokenizerStore.FEATURE_KEY]: TokenizerStore.TokenizerState.State;
+  [HuggingfaceModelStore.FEATURE_KEY]: HuggingfaceModelStore.HuggingfaceModelStoreState.State;
 }
 
 interface GenericErrorObject {
@@ -63,6 +65,7 @@ export const reducers: ActionReducerMap<State> = {
   [fromPipelinesStore.pipelinesStoreFeatureKey]: fromPipelinesStore.reducer,
   [fromAccuracyAnalysisStore.accuracyAnalysisFeatureKey]: fromAccuracyAnalysisStore.AccuracyAnalysisStoreReducer,
   [TokenizerStore.FEATURE_KEY]: TokenizerStore.reducer,
+  [HuggingfaceModelStore.FEATURE_KEY]: HuggingfaceModelStore.reducer,
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];

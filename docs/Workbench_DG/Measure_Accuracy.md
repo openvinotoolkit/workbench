@@ -8,12 +8,10 @@
    
    workbench_docs_Workbench_DG_Accuracy_Configuration
    workbench_docs_Workbench_DG_Configure_Accuracy_Settings
-   workbench_docs_Workbench_DG_Measure_Accuracy_Object_detection
-   workbench_docs_Workbench_DG_Measure_Accuracy_Classification
-
+   workbench_docs_Workbench_DG_Accuracy_Report_Results
 @endsphinxdirective
 
-**TIP:** If you have optimized the model using [INT8 Calibration](Int-8_Quantization.md), you can use a Not Annotated dataset to compare original and optimized model predictions. 
+> **NOTE**: Accuracy Measurements are not available for Natural Language Processing models. 
 
 Once you select a model and a dataset and run a baseline inference, the **Projects** page appears. Go to the **Perform** tab and select **Create Accuracy Report**:
 
@@ -41,7 +39,7 @@ Accuracy Evaluation on Validation Dataset report provides information for evalua
 
 ## <a name="model-predictions">Comparison of Optimized and Parent Model Predictions</a>
 
-To get other types of Accuracy Report, you need to [optimize the model](Int-8_Quantization). Comparison of Optimized and Parent Model Predictions Report allows you to find out on which validation dataset images the predictions of the model became different after optimization. This type of report is explained in details in the  [Optimize Object Detection](Tutorial_object_detection.md) model and [Optimize Classification](Tutorial_classification.md) model tutorials.
+To get other types of Accuracy Report, you need to [optimize the model](Int-8_Quantization). Comparison of Optimized and Parent Model Predictions Report allows you to find out on which validation dataset images the predictions of the model became different after optimization. This type of report is explained in details in the  [Optimize Object Detection](Import_YOLO.md) model and [Optimize Classification](Tutorial_classification.md) model tutorials.
 
 
 ## <a name="tensor-distance">Calculation of Tensor Distance to Parent Model Output</a>
@@ -54,7 +52,7 @@ Tensor Distance Calculation Report allows to evaluate the mean squared error (MS
 
 * [Object Detection model tutorial](Tutorial_object_detection_dataset.md)
 * [Classification model tutorial](Tutorial_classification_dataset.md)
-* [Optimize Object Detection model tutorial](Tutorial_object_detection.md)
+* [Optimize Object Detection model tutorial](Import_YOLO.md)
 * [Optimize Classification model tutorial](Tutorial_classification.md)
 * [Optimize Style Transfer model tutorial](Tutorial_style_transfer.md)
 * [Accuracy Checker](https://docs.openvinotoolkit.org/latest/omz_tools_accuracy_checker.html)
