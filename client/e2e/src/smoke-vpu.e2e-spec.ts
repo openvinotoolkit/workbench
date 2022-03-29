@@ -18,6 +18,12 @@ describe('UI tests on Running inference on VPU', () => {
   let helpers: Helpers;
 
   beforeAll(async () => {
+
+    if (browser.params.isDevCloud) {
+      jasmine.DEFAULT_TIMEOUT_INTERVAL *= 2.5;
+    }
+    await Helpers.setDevCloudCookies(browser.params.devCloudCookies);
+
     testUtils = new TestUtils();
     inferenceUtils = new InferenceUtils(testUtils);
     analyticsPopup = new AnalyticsPopup();
@@ -30,7 +36,6 @@ describe('UI tests on Running inference on VPU', () => {
     await testUtils.homePage.openConfigurationWizard();
     datasetFileVOC.name = testUtils.helpers.generateName();
     datasetFileImageNet.name = testUtils.helpers.generateName();
-    await testUtils.uploadDataset(datasetFileVOC);
     await testUtils.uploadDataset(datasetFileImageNet);
   });
 
@@ -40,10 +45,17 @@ describe('UI tests on Running inference on VPU', () => {
     await testUtils.modelManagerPage.goToModelManager();
   });
 
-  xit('Upload FP16 Classification model, upload ImageNet dataset, run VPU inference, check accuracy and model analysis', async () => {
-    const modelFile = browser.params.precommit_scope.resources.classificationModels.inceptionResnetV2;
+  it('Upload FP16 Classification model, upload ImageNet dataset, run VPU inference, check accuracy and model analysis', async () => {
+    const modelFile = browser.params.precommit_scope.resources.classificationModels.squeezenetV1;
     const inferenceTarget = InferenceType.VPU;
-    await inferenceUtils.runInferencePipelineThroughUpload(modelFile, datasetFileImageNet, inferenceTarget);
+    await inferenceUtils.runInferencePipelineThroughUpload(
+      modelFile,
+      datasetFileImageNet,
+      inferenceTarget,
+      null,
+      null,
+      browser.params.isDevCloud
+    );
 
     const inferences: IInferenceConfiguration[] = [
       { batch: 2, nireq: 3 },

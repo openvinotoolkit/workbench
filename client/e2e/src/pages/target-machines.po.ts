@@ -14,6 +14,7 @@ export enum DevCloudTargets {
   CORE = 'idc047',
   XEON = 'idc052',
   ATOM = 'idc010jal',
+  MYRIAD = 'idc004nc2',
 }
 
 export class TargetMachines {
