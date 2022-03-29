@@ -1,12 +1,6 @@
-<ng-container *ngIf="isLoading">
-  <ng-content></ng-content>
-</ng-container>
-
-<ng-container *ngIf="!isLoading">
-  <ng-template
-    *ngFor="let item of data"
-    [ngTemplateOutlet]="cardDirective?.templateRef"
-    [ngTemplateOutletContext]="{ $implicit: item }"
-  >
-  </ng-template>
-</ng-container>
+<ng-template
+  *ngFor="let item of data"
+  [ngTemplateOutlet]="cardDirective?.templateRef"
+  [ngTemplateOutletContext]="{ $implicit: item }"
+>
+</ng-template>

@@ -32,8 +32,6 @@ export class CardDefDirective<T> {
 export class CardGridComponent<T> implements AfterContentInit, OnDestroy {
   @Input() dataSource: DataSource<T> = null;
 
-  @Input() isLoading = false;
-
   @ContentChild(CardDefDirective) cardDirective: CardDefDirective<T> = null;
 
   data: readonly T[] = null;
