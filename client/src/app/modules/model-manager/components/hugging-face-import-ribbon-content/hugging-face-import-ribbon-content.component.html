@@ -130,9 +130,14 @@
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
 
-      <wb-model-zoo-filter group="licenses">
+      <wb-model-zoo-filter group="licenses" data-test-id="license-filter-group">
         <wb-model-zoo-filter-title>Licenses</wb-model-zoo-filter-title>
-        <wb-model-zoo-filter-option *ngFor="let license of availableTags.licenses" [value]="license" icon="license">
+        <wb-model-zoo-filter-option
+          *ngFor="let license of availableTags.licenses"
+          [value]="license"
+          icon="license"
+          [attr.data-test-id]="license.replace('license:', '') + '-filter'"
+        >
           {{ license.replace('license:', '') }}
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>

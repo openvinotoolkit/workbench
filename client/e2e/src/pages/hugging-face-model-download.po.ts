@@ -4,9 +4,10 @@ import { TestUtils } from './test-utils';
 import { ModelFile } from './model-file';
 import { OMZModelPrecisionEnum } from '../../../src/app/modules/model-manager/components/model-downloader-table/model-downloader-table.component';
 
-type FilterGroupName = 'task' | 'library' | 'model-type' | 'language' | 'license';
+export const filterGroupNames = ['task', 'library', 'model-type', 'language', 'license'];
+type FilterGroupName = typeof filterGroupNames[number];
 const details = ['domain', 'library', 'tasks', 'languages', 'licenses', 'downloads', 'updated'];
-type Details = typeof details[number];
+type Detail = typeof details[number];
 
 export class HFModelDownloadPage {
   private until = protractor.ExpectedConditions;
@@ -20,23 +21,11 @@ export class HFModelDownloadPage {
     downloadButton: TestUtils.getElementByDataTestId('download-and-import'),
     precisionContainer: element(by.id('dataType')),
     convertButton: TestUtils.getElementByDataTestId('convert-button'),
+    resetFiltersButton: TestUtils.getElementByDataTestId('reset-filters'),
     async getFilterGroup(groupName: FilterGroupName): Promise<ElementFinder> {
       return TestUtils.getElementByDataTestId(`${groupName}-filter-group`);
     },
-    async expandFilterGroup(groupName: FilterGroupName): Promise<void> {
-      const groupContainer: ElementFinder = this.getFilterGroup(groupName);
-      const showMoreElement: ElementFinder = TestUtils.getNestedElementByDataTestId(groupContainer, 'show-more');
-      await new TestUtils().clickElement(showMoreElement);
-    },
-    async countFiltersByGroup(groupName: FilterGroupName): Promise<number> {
-      const groupContainer: ElementFinder = this.getFilterGroup(groupName);
-      const filterElements: ElementArrayFinder = TestUtils.getNestedElementsContainingDataTestIdPart(
-        groupContainer,
-        '-filter'
-      );
-      return filterElements.count();
-    },
-    async getDetailsParameterValue(detailName: Details): Promise<string> {
+    async getDetailsParameterValue(detailName: Detail): Promise<string> {
       const detailsParameterElement: ElementFinder = TestUtils.getElementByDataTestId(`${detailName}-detail`);
       const valueElement = TestUtils.getNestedElementByDataTestId(detailsParameterElement, 'value');
       return valueElement.getText();
@@ -46,7 +35,7 @@ export class HFModelDownloadPage {
   // This should be run on the Model Manager page
   async openHFTab(): Promise<void> {
     await new TestUtils().clickElement(this.elements.HFTab);
-    await browser.wait(this.until.visibilityOf(this.elements.modelCard), browser.params.defaultTimeout);
+    await browser.wait(this.until.visibilityOf(await this.getFirstModelCard()), browser.params.defaultTimeout);
   }
 
   async countModelCards(): Promise<number> {
@@ -55,8 +44,18 @@ export class HFModelDownloadPage {
 
   // Assuming only one model card is present
   async getModelNameFromCard(): Promise<string> {
-    const modelCardElement = this.elements.modelCard;
+    const modelCardElement = await this.getFirstModelCard();
     return TestUtils.getNestedElementByDataTestId(modelCardElement, 'model-name').getText();
+  }
+
+  async getFirstModelCard(): Promise<ElementFinder> {
+    return this.elements.modelCard;
+  }
+
+  async isModelAvailableForDownload(modelCardElement: ElementFinder): Promise<boolean> {
+    const classes = await modelCardElement.getAttribute('class');
+
+    return !classes.includes('disabled');
   }
 
   async filterModelCardsByName(modelName: string): Promise<ElementFinder> {
@@ -67,7 +66,23 @@ export class HFModelDownloadPage {
       const modelCardModelName = await this.getModelNameFromCard();
       return modelCardModelName === modelName;
     }, browser.params.defaultTimeout);
-    return this.elements.modelCard;
+    return this.getFirstModelCard();
+  }
+
+  async expandFilterGroup(groupName: FilterGroupName): Promise<void> {
+    const groupContainer: ElementFinder = await this.elements.getFilterGroup(groupName);
+    const showMoreElement: ElementFinder = TestUtils.getNestedElementByDataTestId(groupContainer, 'show-more');
+    await new TestUtils().clickElement(showMoreElement);
+    await browser.sleep(1000);
+  }
+
+  async countFiltersByGroup(groupName: FilterGroupName): Promise<number> {
+    const groupContainer: ElementFinder = await this.elements.getFilterGroup(groupName);
+    const filterElements: ElementArrayFinder = TestUtils.getNestedElementsContainingDataTestIdPart(
+      groupContainer,
+      '-filter'
+    );
+    return filterElements.count();
   }
 
   // This is applicable to the Model Types, Languages, Licenses, i.e., 'bert', 'en',
@@ -83,6 +98,12 @@ export class HFModelDownloadPage {
     const removeFilterElement: ElementFinder = TestUtils.getNestedElementByDataTestId(filterElement, 'remove-filter');
     await new TestUtils().clickElement(removeFilterElement);
     await browser.sleep(1000);
+  }
+
+  async resetFilters(): Promise<void> {
+    await new TestUtils().clickElement(this.elements.resetFiltersButton);
+    await browser.wait(this.until.invisibilityOf(this.elements.resetFiltersButton));
+    await browser.sleep(500);
   }
 
   async checkModelDetails(): Promise<void> {
@@ -125,10 +146,6 @@ export class HFModelDownloadPage {
 
   async selectPrecision(type: string) {
     await this.selectValueFromDropdown(this.elements.precisionContainer, type);
-  }
-
-  async clickConvertButton() {
-    await this.elements.convertButton.click();
   }
 
   async isImportStageComplete(tabID: string): Promise<boolean> {

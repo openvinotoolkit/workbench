@@ -1,10 +1,11 @@
-import { browser } from 'protractor';
+import { browser, ElementFinder } from 'protractor';
 
 import { AppPage } from './pages/home-page.po';
 import { TestUtils } from './pages/test-utils';
 import { LoginPage } from './pages/login.po';
 import { AnalyticsPopup } from './pages/analytics-popup.po';
 import { HFModel } from './pages/model-file';
+import { filterGroupNames } from './pages/hugging-face-model-download.po';
 
 describe('UI tests on Downloading HF Models', () => {
   let homePage: AppPage;
@@ -61,6 +62,38 @@ describe('UI tests on Downloading HF Models', () => {
     await testUtils.HFModelDownloadPage.selectDownloadConvertModel(model);
     await testUtils.configurationWizard.deleteUploadedModel(model.name);
     expect(await testUtils.configurationWizard.uploadsModelsTableElementsCount()).toEqual(uploadedElementsCount);
+  });
+
+  it('select and deselect several filters, check that they are applied correctly', async () => {
+    await testUtils.modelManagerPage.goToModelManager();
+    await testUtils.HFModelDownloadPage.openHFTab();
+
+    // Check that there are several filters available for groups
+    for (const filterGroup of filterGroupNames) {
+      expect(await testUtils.HFModelDownloadPage.countFiltersByGroup(filterGroup)).toBeTruthy();
+    }
+
+    await testUtils.HFModelDownloadPage.selectFilter('bert');
+    await testUtils.HFModelDownloadPage.selectFilter('electra');
+    // There should be no model cards based on the above filters
+    expect(await testUtils.HFModelDownloadPage.countModelCards()).toEqual(0);
+    await testUtils.HFModelDownloadPage.removeFilter('bert');
+    expect(await testUtils.HFModelDownloadPage.countModelCards()).toBeTruthy();
+
+    // 'electra' models are not currently supported so the model cards cannot be selected
+    const firstModelCard: ElementFinder = await testUtils.HFModelDownloadPage.getFirstModelCard();
+    expect(await testUtils.HFModelDownloadPage.isModelAvailableForDownload(firstModelCard)).toBeFalsy();
+
+    // Expand language filter
+    await testUtils.HFModelDownloadPage.expandFilterGroup('language');
+    // Apply language filters, check that there are no models
+    await testUtils.HFModelDownloadPage.selectFilter('zu');
+    await testUtils.HFModelDownloadPage.selectFilter('ts');
+    expect(await testUtils.HFModelDownloadPage.countModelCards()).toEqual(0);
+
+    // Remove all filters, check that there are several model cards
+    await testUtils.HFModelDownloadPage.resetFilters();
+    expect(await testUtils.HFModelDownloadPage.countModelCards()).toBeTruthy();
   });
 
   afterEach(async () => {
