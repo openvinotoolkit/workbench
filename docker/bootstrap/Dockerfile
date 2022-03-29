@@ -8,7 +8,8 @@ ARG CI_USER
 
 ENV USER_NAME ${CI_USER}
 
-ENV OPENVINO_WORKBENCH_ROOT /tmp/workbench
+ENV INTEL_OPENVINO_DIR /tmp
+ENV OPENVINO_WORKBENCH_ROOT ${INTEL_OPENVINO_DIR}/workbench
 ENV SERVER_MODE development
 ENV VENV_TF2_PYTHON ${OPENVINO_WORKBENCH_ROOT}/.unified_venv/bin/python
 ENV NVM_DIR /home/${USER_NAME}/.nvm
@@ -25,7 +26,10 @@ RUN apt-get update && \
     # pycoco
     build-essential \
     # accuracy-checker 0.9.0
-    libgtk-3-0
+    libgtk-3-0 \
+
+WORKDIR ${INTEL_OPENVINO_DIR}
+RUN curl -LO "https://raw.githubusercontent.com/openvinotoolkit/openvino/master/scripts/setupvars/setupvars.sh"
 
 COPY --chown=${USER_NAME} . ${OPENVINO_WORKBENCH_ROOT}
 
