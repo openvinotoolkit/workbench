@@ -7,12 +7,13 @@ ARG GIT_PASSWORD
 ARG CI_USER
 
 ENV USER_NAME ${CI_USER}
+ENV HOME_DIR /home/${USER_NAME}
 
-ENV INTEL_OPENVINO_DIR /tmp
+ENV INTEL_OPENVINO_DIR ${HOME_DIR}/intel/openvino_2022/
 ENV OPENVINO_WORKBENCH_ROOT ${INTEL_OPENVINO_DIR}/workbench
 ENV SERVER_MODE development
 ENV VENV_TF2_PYTHON ${OPENVINO_WORKBENCH_ROOT}/.unified_venv/bin/python
-ENV NVM_DIR /home/${USER_NAME}/.nvm
+ENV NVM_DIR ${HOME_DIR}/.nvm
 
 USER root
 
@@ -27,9 +28,6 @@ RUN apt-get update && \
     build-essential \
     # accuracy-checker 0.9.0
     libgtk-3-0 \
-
-WORKDIR ${INTEL_OPENVINO_DIR}
-RUN curl -LO "https://raw.githubusercontent.com/openvinotoolkit/openvino/master/scripts/setupvars/setupvars.sh"
 
 COPY --chown=${USER_NAME} . ${OPENVINO_WORKBENCH_ROOT}
 

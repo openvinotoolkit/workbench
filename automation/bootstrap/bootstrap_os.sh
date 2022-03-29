@@ -13,6 +13,11 @@ source $(pwd)/automation/bootstrap/bootstrap_variables.sh
 bash ${BOOTSTRAP_SCRIPTS_PATH}/bootstrap_repository.sh
 
 ######################################################################################################################
+# Download and install OpenVINO package
+######################################################################################################################
+bash ${BOOTSTRAP_SCRIPTS_PATH}/install_openvino_package.sh
+
+######################################################################################################################
 # Download and install OpenVINO tools
 #####################################################################################################################
 bash ${BOOTSTRAP_SCRIPTS_PATH}/install_python_packages.sh
