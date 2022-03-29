@@ -48,7 +48,7 @@ class NotebookTemplateCreator:
         ],
         model_tokenizer=[
             NotebookCells.load_tokenizer_docs,
-            NotebookCells.tokenizer_parameters_code_code,
+            NotebookCells.tokenizer_parameters_code,
             NotebookCells.load_tokenizer_code,
             NotebookCells.tokenize_dataset_docs,
             NotebookCells.tokenize_dataset_code,
@@ -98,6 +98,16 @@ class NotebookTemplateCreator:
                 ])
             obtain_model_cells.append(NotebookCells.obtain_model_result_docs)
             return obtain_model_cells
+        if self._original_model_source == ModelSourceEnum.huggingface:
+            return [
+                NotebookCells.obtain_model_docs,
+                NotebookCells.transformers_onnx_converter_docs,
+                NotebookCells.transformers_onnx_converter_code,
+                NotebookCells.model_optimizer_docs,
+                NotebookCells.model_optimizer_code,
+                NotebookCells.model_optimizer_result_docs,
+                NotebookCells.obtain_model_result_docs,
+            ]
         if self._original_model_source == ModelSourceEnum.original:
             return [
                 NotebookCells.obtain_model_docs,

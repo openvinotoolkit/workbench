@@ -85,6 +85,7 @@ class TokenizerParametersTemplateContext(TypedDict):
     batch: Optional[int]
     streams: Optional[int]
 
+
 class AccuracyDocsCellTemplateContext(TypedDict):
     yaml_config_path: str
 
@@ -107,3 +108,7 @@ class Int8OptimizationCodeCellTemplateContext(Int8OptimizationDocsCellTemplateCo
 
 class InstallRequirementsCodeCellTemplateContext(TypedDict):
     requirements_file: str
+
+
+class TransformersONNXCodeCellTemplateContext(TypedDict):
+    model_checkpoint: str

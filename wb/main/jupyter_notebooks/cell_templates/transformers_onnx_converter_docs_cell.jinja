@@ -1,0 +1,9 @@
+### Get ONNX model from Hugging Face Hub
+
+To obtain an ONNX model use [transformers.onnx](https://huggingface.co/docs/transformers/main/en/serialization#onnx) CLI tool from the `transformers` library.
+
+It will execute this steps:
+1. Download the model files and tokenizer files from the Hugging Face Hub
+1. Generate the dummy input with the tokenizer and pass it to the model to trace the model execution graph
+1. Use the execution graph to generate ONNX model
+1. Check the that the result model outputs is close to the original one

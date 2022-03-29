@@ -33,7 +33,7 @@ from wb.main.jupyter_notebooks.cell_template_contexts import IntroCellTemplateCo
     ObtainModelDocsCellTemplateContext, ModelDownloaderCodeCellTemplateContext, \
     CheckModelFormatDocsCellTemplateContext, ModelConverterCodeCellTemplateContext, \
     ModelOptimizerCodeCellTemplateContext, InstallRequirementsCodeCellTemplateContext, \
-    TokenizerParametersTemplateContext
+    TokenizerParametersTemplateContext, TransformersONNXCodeCellTemplateContext
 from wb.main.jupyter_notebooks.cli_tools_options import CLIToolEnum
 from wb.main.jupyter_notebooks.config_file_dumpers import AccuracyConfigFileDumper, Int8OptimizationConfigFileDumper
 from wb.main.jupyter_notebooks.jupyter_notebook_cell import NotebookCellIds
@@ -409,6 +409,11 @@ class JupyterNotebookModel(BaseModel):
             streams=streams,
         )
 
+    @property
+    def _transformers_onnx_template_context(self) -> TransformersONNXCodeCellTemplateContext:
+        model_checkpoint = self.project.topology.name
+        return TransformersONNXCodeCellTemplateContext(model_checkpoint=model_checkpoint)
+
     _job_type_to_update_cell_ids_map = {
         JobTypesEnum.profiling_type: [
             NotebookCellIds.intro_docs,
@@ -465,7 +470,8 @@ class JupyterNotebookModel(BaseModel):
         NotebookCellIds.int8_optimization_code: _int8_optimization_code_cell_template_context,
         NotebookCellIds.int8_optimization_result_docs: _int8_optimization_code_cell_template_context,
         NotebookCellIds.tokenizer_parameters_code: _tokenizer_parameters_template_context,
-        NotebookCellIds.install_python_requirements_code: _install_requirements_template_context
+        NotebookCellIds.install_python_requirements_code: _install_requirements_template_context,
+        NotebookCellIds.transformers_onnx_converter_code: _transformers_onnx_template_context
     }
 
 
