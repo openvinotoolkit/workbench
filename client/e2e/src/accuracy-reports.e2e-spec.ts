@@ -28,7 +28,8 @@ describe('UI tests on Accuracy Reports', () => {
   let remoteMachineAdding: AddRemoteMachinePo;
   const targetMachines = new TargetMachines();
   let remoteMachineInfo = { name: '' };
-  const imageNetNotAnnotated = browser.params.precommit_scope.resources.imageNetNotAnnotated;
+  // TODO: 83042
+  // const imageNetNotAnnotated = browser.params.precommit_scope.resources.imageNetNotAnnotated;
 
   beforeAll(async () => {
     await Helpers.setDevCloudCookies(browser.params.devCloudCookies);
@@ -43,11 +44,11 @@ describe('UI tests on Accuracy Reports', () => {
     datasetFileVOC.name = testUtils.helpers.generateName();
     datasetFileImageNet.name = testUtils.helpers.generateName();
     // dataSetFileSemantic.name = testUtils.helpers.generateName();
-    imageNetNotAnnotated.name = testUtils.helpers.generateName();
+    // imageNetNotAnnotated.name = testUtils.helpers.generateName();
     await testUtils.uploadDataset(datasetFileVOC);
     await testUtils.uploadDataset(datasetFileImageNet);
     // await testUtils.uploadDataset(dataSetFileSemantic);
-    await testUtils.uploadDataset(imageNetNotAnnotated);
+    // await testUtils.uploadDataset(imageNetNotAnnotated);
 
     if (browser.params.isDevCloud) {
       jasmine.DEFAULT_TIMEOUT_INTERVAL *= 2.5;
@@ -270,7 +271,7 @@ describe('UI tests on Accuracy Reports', () => {
     }
   );
 
-  // 70558
+  // TODO: 70558, 83042
   xit(
     'should download a semantic segmentation model (deeplabv3), not-annotated dataset' +
       'int8 calibration, check that predictions comparison is available and that tensor comparison is available, ' +
@@ -280,7 +281,7 @@ describe('UI tests on Accuracy Reports', () => {
         name: 'deeplabv3',
         framework: Frameworks.TENSORFLOW,
       };
-      await calibrationUtils.runInt8PipelineThroughDownloader(
+      /* await calibrationUtils.runInt8PipelineThroughDownloader(
         model,
         imageNetNotAnnotated,
         InferenceType.CPU,
@@ -290,7 +291,7 @@ describe('UI tests on Accuracy Reports', () => {
         null,
         null,
         remoteMachineInfo.name
-      );
+      ); */
       await testUtils.accuracyReport.goToAccuracyReportCreationTab();
       expect(
         await testUtils.accuracyReport.isReportAvailable(AccuracyReportType.PARENT_MODEL_PREDICTIONS)
@@ -322,13 +323,13 @@ describe('UI tests on Accuracy Reports', () => {
     }
   );
 
-  // 73953
+  // TODO: 73953, 83042
   xit(
     'should create a project with a generic model, calibrate it, configure accuracy (OD), ' +
       'create accuracy report (predictions comparison)',
     async () => {
       const modelFile = browser.params.precommit_scope.resources.ODModels.yoloV4TinyIR;
-      await calibrationUtils.runInt8PipelineThroughUpload(
+      /* await calibrationUtils.runInt8PipelineThroughUpload(
         modelFile,
         imageNetNotAnnotated,
         inferenceTarget,
@@ -338,7 +339,7 @@ describe('UI tests on Accuracy Reports', () => {
         100,
         false,
         browser.params.isDevCloud
-      );
+      ); */
 
       // Provide accuracy configuration
       await testUtils.accuracyReport.goToAccuracyReportCreationTab();
@@ -373,7 +374,7 @@ describe('UI tests on Accuracy Reports', () => {
     }
   );
 
-  // 73953
+  // TODO: 73953, 83042
   xit(
     'should create a project with a generic model and not-annotated dataset, calibrate, ' +
       'create another project with annotated dataset, ' +
@@ -381,7 +382,7 @@ describe('UI tests on Accuracy Reports', () => {
       'go back to the second project, check that accuracy is available, run accuracy',
     async () => {
       const modelFile = browser.params.precommit_scope.resources.ODModels.ssdliteMobileNetV2;
-      await calibrationUtils.runInt8PipelineThroughUpload(
+      /* await calibrationUtils.runInt8PipelineThroughUpload(
         modelFile,
         imageNetNotAnnotated,
         inferenceTarget,
@@ -391,7 +392,7 @@ describe('UI tests on Accuracy Reports', () => {
         100,
         false,
         browser.params.isDevCloud
-      );
+      ); */
 
       // Create project with annotated dataset
       await testUtils.homePage.openConfigurationWizard();
@@ -405,7 +406,7 @@ describe('UI tests on Accuracy Reports', () => {
       await browser.sleep(1500);
 
       // Open INT8 project
-      await testUtils.homePage.openProjectByModelAndDatasetNames(modelFile.name, imageNetNotAnnotated.name, true);
+      // await testUtils.homePage.openProjectByModelAndDatasetNames(modelFile.name, imageNetNotAnnotated.name, true);
       await browser.sleep(1000);
       // Configure accuracy
       await testUtils.advancedAccuracy.goToAccuracyConfiguration();
@@ -423,7 +424,7 @@ describe('UI tests on Accuracy Reports', () => {
       expect(editorLines.includes('datasets:')).toBeTruthy();
       await browser.waitForAngularEnabled(true);
 
-      await testUtils.homePage.openProjectByModelAndDatasetNames(modelFile.name, imageNetNotAnnotated.name, true);
+      // await testUtils.homePage.openProjectByModelAndDatasetNames(modelFile.name, imageNetNotAnnotated.name, true);
       await testUtils.advancedAccuracy.goToAccuracyConfiguration();
       await browser.sleep(1500);
       await testUtils.modelManagerPage.configureAccuracySettingsAndSave(
@@ -447,14 +448,14 @@ describe('UI tests on Accuracy Reports', () => {
     }
   );
 
-  // 73953
+  // TODO: 73953, 83042
   xit(
     'should create a project with a classification model & ' +
       'not-annotated dataset, calibrate it, create accuracy report (predictions comparison), ' +
       'check that advanced config is filled',
     async () => {
       const modelFile = { name: 'squeezenet1.1-caffe2', framework: Frameworks.CAFFE2 };
-      await calibrationUtils.runInt8PipelineThroughDownloader(
+      /* await calibrationUtils.runInt8PipelineThroughDownloader(
         modelFile,
         imageNetNotAnnotated,
         inferenceTarget,
@@ -465,7 +466,7 @@ describe('UI tests on Accuracy Reports', () => {
         null,
         remoteMachineInfo.name,
         browser.params.isDevCloud
-      );
+      ); */
 
       // Create accuracy report (predictions comparison)
       await testUtils.accuracyReport.createAccuracyReport(AccuracyReportType.PARENT_MODEL_PREDICTIONS);
