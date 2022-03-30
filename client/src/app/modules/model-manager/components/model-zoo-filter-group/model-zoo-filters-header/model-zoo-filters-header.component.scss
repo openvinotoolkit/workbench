@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+
+  .reset-filters-button {
+    margin-left: auto;
+    height: 0;
+
+    ::ng-deep .button {
+      height: auto;
+    }
+  }
+}

@@ -65,6 +65,7 @@ FILE_PATTERNS_TO_SKIP = (
     r'.*CONTRIBUTING\.md$',
     r'.*pull_request_template\.md$',
     r'LICENSE$',
+    r'third-party-programs\.txt$',
     r'.*\.log',
     r'.*requirements_dev\.txt.*',
     r'.*requirements_snyk\.txt.*',

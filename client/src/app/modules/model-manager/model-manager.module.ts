@@ -14,14 +14,13 @@ import { ModelDownloaderService } from './components/model-downloader-table/mode
 import { ReshapeComponent } from './components/reshape/reshape.component';
 import { ImportPageComponent } from './pages/import-page/import-page.component';
 import { EditPageComponent } from './pages/edit-page/edit-page.component';
-import { OmzImportRibbonContentComponent } from './components/omz-import-ribbon-content/omz-import-ribbon-content.component';
 import { CardModule } from './components/card/card.module';
-import { HuggingFaceImportRibbonContentComponent } from './components/hugging-face-import-ribbon-content/hugging-face-import-ribbon-content.component';
 import { CardDefDirective, CardGridComponent } from './components/card-grid/card-grid.component';
-import { ModelZooFilterGroupComponent } from './components/model-zoo-filter-group/model-zoo-filter-group.component';
-import { ModelZooFilterComponent } from './components/model-zoo-filter-group/model-zoo-filter/model-zoo-filter.component';
-import { ModelZooFilterOptionComponent } from './components/model-zoo-filter-group/model-zoo-filter/model-zoo-filter-option/model-zoo-filter-option.component';
 import { ModelZooLayoutModule } from './components/model-zoo-layout/model-zoo-layout.module';
+import { ModelZooFilterGroupModule } from './components/model-zoo-filter-group/model-zoo-filter-group.module';
+import { OmzImportRibbonContentComponent } from './components/omz-import-ribbon-content/omz-import-ribbon-content.component';
+import { OmzModelDetailsComponent } from './components/omz-import-ribbon-content/omz-model-details/omz-model-details.component';
+import { HuggingFaceImportRibbonContentComponent } from './components/hugging-face-import-ribbon-content/hugging-face-import-ribbon-content.component';
 import { HuggingfaceModelDetailsComponent } from './components/hugging-face-import-ribbon-content/huggingface-model-details/huggingface-model-details.component';
 
 @NgModule({
@@ -35,10 +34,8 @@ import { HuggingfaceModelDetailsComponent } from './components/hugging-face-impo
     EditPageComponent,
     CardGridComponent,
     CardDefDirective,
-    ModelZooFilterGroupComponent,
-    ModelZooFilterComponent,
-    ModelZooFilterOptionComponent,
     OmzImportRibbonContentComponent,
+    OmzModelDetailsComponent,
     HuggingFaceImportRibbonContentComponent,
     HuggingfaceModelDetailsComponent,
   ],
@@ -50,6 +47,7 @@ import { HuggingfaceModelDetailsComponent } from './components/hugging-face-impo
     ModelManagerConvertModule,
     CardModule,
     ModelZooLayoutModule,
+    ModelZooFilterGroupModule,
   ],
   providers: [ModelDownloaderService],
 })

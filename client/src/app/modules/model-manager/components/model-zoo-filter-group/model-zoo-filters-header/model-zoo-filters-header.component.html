@@ -1,0 +1,20 @@
+<div class="model-zoo-filters-label">
+  <mat-icon svgIcon="filters"></mat-icon>
+  <span
+    class="wb-subtitle-strong"
+    [matBadge]="appliedFiltersCount"
+    [matBadgeHidden]="!appliedFiltersCount"
+    [matBadgeOverlap]="false"
+    matBadgeSize="small"
+    matBadgeColor="warn"
+    >Filters</span
+  >
+</div>
+<wb-button
+  *ngIf="appliedFiltersCount"
+  class="reset-filters-button"
+  type="default"
+  icon="undo"
+  text="Reset Filters"
+  (handleClick)="resetAllFilters.emit()"
+></wb-button>

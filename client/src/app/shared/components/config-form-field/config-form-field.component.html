@@ -72,6 +72,7 @@
       />
 
       <span *ngIf="field.suffix" matSuffix>{{ field.suffix }}</span>
+      <mat-icon *ngIf="field.suffixIcon as icon" matSuffix [svgIcon]="icon"></mat-icon>
 
       <input
         *ngSwitchCase="AdvancedConfigFieldType.PASSWORD"

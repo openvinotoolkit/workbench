@@ -1,5 +1,34 @@
-.icon-container {
-  order: 1;
+@import 'fonts';
+@import 'colors';
+
+:host {
+  display: flex;
+  flex-direction: column;
+
+  &:not(:first-child) {
+    margin-top: 30px;
+  }
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  ::ng-deep wb-model-zoo-filter-title {
+    display: flex;
+    @include wb-subtitle-1();
+    color: $black;
+  }
+
+  .clear-selection-button {
+    margin-left: auto;
+    height: 0;
+
+    ::ng-deep .button {
+      height: auto;
+    }
+  }
 }
 
 .options-container {
@@ -7,4 +36,15 @@
   gap: 10px;
   flex-wrap: wrap;
   align-items: center;
+}
+
+.icon-container {
+  order: 1;
+
+  .show-more,
+  .show-less {
+    @include wb-label();
+    color: $brownish-grey;
+    cursor: pointer;
+  }
 }

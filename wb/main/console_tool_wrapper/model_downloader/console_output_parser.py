@@ -22,7 +22,7 @@ from wb.main.jobs.interfaces.job_state import JobStateSubject
 from wb.main.jobs.tools_runner.console_output_parser import ConsoleToolOutputParser, skip_empty_line_decorator
 
 
-class DownloadingFile():
+class DownloadingFile:
     def __init__(self, name: str, size: float):
         self.name = name
         self.size = size
