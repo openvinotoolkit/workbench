@@ -65,26 +65,36 @@
 
 <ng-template #filterGroupTemplate>
   <wb-model-zoo-filter-group [formControl]="filtersControl" *ngIf="dataSource.filtersOptions$ | async as filterOptions">
-    <wb-model-zoo-filter group="task_type">
+    <wb-model-zoo-filter group="task_type" data-test-id="task-type-filter-group">
       <wb-model-zoo-filter-title>Task Type</wb-model-zoo-filter-title>
-      <wb-model-zoo-filter-option *ngFor="let option of filterOptions.taskType" [value]="option" icon="list_alt">
+      <wb-model-zoo-filter-option
+        *ngFor="let option of filterOptions.taskType"
+        [value]="option"
+        icon="list_alt"
+        [attr.data-test-id]="option + '-filter'"
+      >
         {{ option }}
       </wb-model-zoo-filter-option>
     </wb-model-zoo-filter>
 
-    <wb-model-zoo-filter group="precision">
+    <wb-model-zoo-filter group="precision" data-test-id="precision-filter-group">
       <wb-model-zoo-filter-title>Precisions</wb-model-zoo-filter-title>
-      <wb-model-zoo-filter-option *ngFor="let option of filterOptions.precision" [value]="option">
+      <wb-model-zoo-filter-option
+        *ngFor="let option of filterOptions.precision"
+        [value]="option"
+        [attr.data-test-id]="option + '-filter'"
+      >
         {{ option }}
       </wb-model-zoo-filter-option>
     </wb-model-zoo-filter>
 
-    <wb-model-zoo-filter group="framework">
+    <wb-model-zoo-filter group="framework" data-test-id="framework-filter-group">
       <wb-model-zoo-filter-title>Framework</wb-model-zoo-filter-title>
       <wb-model-zoo-filter-option
         *ngFor="let option of filterOptions.framework"
         [value]="option"
         [icon]="modelFrameworkIconsMap[option]"
+        [attr.data-test-id]="modelFrameworkNamesMap[option] + '-filter'"
       >
         {{ modelFrameworkNamesMap[option] }}
       </wb-model-zoo-filter-option>

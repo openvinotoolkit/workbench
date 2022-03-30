@@ -1,4 +1,4 @@
-import { browser, protractor } from 'protractor';
+import { browser, ElementFinder, protractor } from 'protractor';
 
 import { ModelPrecisionEnum } from '@store/model-store/model.model';
 
@@ -7,6 +7,7 @@ import { Helpers } from './pages/helpers';
 import { TestUtils } from './pages/test-utils';
 import { LoginPage } from './pages/login.po';
 import { AnalyticsPopup } from './pages/analytics-popup.po';
+import { filterGroupNames } from './pages/model-download.po';
 
 describe('UI tests on Downloading Models', () => {
   let homePage: AppPage;
@@ -65,6 +66,57 @@ describe('UI tests on Downloading Models', () => {
     );
     await testUtils.configurationWizard.deleteUploadedModel(model.name);
     expect(await testUtils.configurationWizard.uploadsModelsTableElementsCount()).toEqual(uploadedElementsCount);
+  });
+
+  it('filter model cards, find model, download it and delete', async () => {
+    const expectedModelName = 'mobilefacedet-v1-mxnet';
+    const uploadedElementsCount = await testUtils.configurationWizard.uploadsModelsTableElementsCount();
+    await testUtils.modelManagerPage.goToModelManager();
+    await testUtils.modelDownloadPage.openOMZTab();
+
+    // Apply several filters
+    await testUtils.modelDownloadPage.selectFilter('object_detection');
+    await testUtils.modelDownloadPage.selectFilter('FP16');
+    await testUtils.modelDownloadPage.selectFilter('MXNet');
+    // Currently, only one model satisfies these filters
+    expect(await testUtils.modelDownloadPage.getModelNameFromCard()).toEqual(expectedModelName);
+    expect(await testUtils.modelDownloadPage.countModelCards()).toEqual(1);
+
+    await testUtils.modelDownloadPage.selectAndDownloadModel(expectedModelName);
+    await testUtils.configurationWizard.deleteUploadedModel(expectedModelName);
+    expect(await testUtils.configurationWizard.uploadsModelsTableElementsCount()).toEqual(uploadedElementsCount);
+  });
+
+  it('select and deselect several filters, check that they are applied correctly', async () => {
+    await testUtils.modelManagerPage.goToModelManager();
+    await testUtils.modelDownloadPage.openOMZTab();
+
+    // Check that there are several filters available for groups
+    for (const filterGroup of filterGroupNames) {
+      expect(await testUtils.HFModelDownloadPage.countFiltersByGroup(filterGroup)).toBeTruthy();
+    }
+
+    // await testUtils.HFModelDownloadPage.selectFilter('bert');
+    // await testUtils.HFModelDownloadPage.selectFilter('electra');
+    // // There should be no model cards based on the above filters
+    // expect(await testUtils.HFModelDownloadPage.countModelCards()).toEqual(0);
+    // await testUtils.HFModelDownloadPage.removeFilter('bert');
+    // expect(await testUtils.HFModelDownloadPage.countModelCards()).toBeTruthy();
+    //
+    // // 'electra' models are not currently supported so the model cards cannot be selected
+    // const firstModelCard: ElementFinder = await testUtils.HFModelDownloadPage.getFirstModelCard();
+    // expect(await testUtils.HFModelDownloadPage.isModelAvailableForDownload(firstModelCard)).toBeFalsy();
+    //
+    // // Expand language filter
+    // await testUtils.HFModelDownloadPage.expandFilterGroup('language');
+    // // Apply language filters, check that there are no models
+    // await testUtils.HFModelDownloadPage.selectFilter('zu');
+    // await testUtils.HFModelDownloadPage.selectFilter('ts');
+    // expect(await testUtils.HFModelDownloadPage.countModelCards()).toEqual(0);
+    //
+    // // Remove all filters, check that there are several model cards
+    // await testUtils.HFModelDownloadPage.resetFilters();
+    // expect(await testUtils.HFModelDownloadPage.countModelCards()).toBeTruthy();
   });
 
   afterEach(async () => {
