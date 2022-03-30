@@ -151,7 +151,7 @@ describe('UI tests on parent predictions visualization', () => {
     ).toBeTruthy();
   });
 
-  // TODO: 70558, 82461
+  // TODO: 70558
   xit(
     'should download an instance segmentation model (deeplabv3), ' +
       'int8 calibration, check that predictions comparison is not available and that tensor comparison is available',

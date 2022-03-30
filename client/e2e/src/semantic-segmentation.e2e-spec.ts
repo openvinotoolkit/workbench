@@ -50,8 +50,7 @@ xdescribe('Semantic segmentation tests', () => {
     await TestUtils.getBrowserLogs();
   });
 
-  // TODO: 82461
-  xit('Upload instance segmentation model (road-segmentation-adas-0001), check accuracy', async () => {
+  it('Upload instance segmentation model (road-segmentation-adas-0001), check accuracy', async () => {
     const model = {
       name: 'road-segmentation-adas-0001',
       framework: 'openvino',
@@ -68,7 +67,7 @@ xdescribe('Semantic segmentation tests', () => {
     console.log(`Accuracy check end: ${{ accuracy }}`);
   });
 
-  // TODO: 70558, 82461
+  // TODO: 70558
   xit('Upload instance segmentation model (deeplabv3), int8 calibration, check accuracy', async () => {
     const model = {
       name: 'deeplabv3',

@@ -122,8 +122,7 @@ describe('UI tests on Running inference', () => {
     await visualizeInferenceResultPage.checkImageLabel(0.9);
   });
 
-  // TODO: 82461
-  xit('should create project with Semantic Segmentation model, upload image, test, check for predictions', async () => {
+  it('should create project with Semantic Segmentation model, upload image, test, check for predictions', async () => {
     const model = { name: 'semantic-segmentation-adas-0001', framework: 'openvino' };
     const imageFile = browser.params.precommit_scope.resources.testImages.semanticSegmImage;
     const inferenceTarget = InferenceType.CPU;
