@@ -10,6 +10,7 @@ import { withLatestFrom } from 'rxjs/internal/operators/withLatestFrom';
 import { AuthService } from '@core/services/common/auth.service';
 import { ErrorGroup, NotificationService, NotificationType } from '@core/services/common/notification.service';
 import { MessagesService } from '@core/services/common/messages.service';
+import { IS_ERROR_NOTIFICATION_DISABLED } from '@core/services/api/context-tokens';
 
 import { RootStoreState } from '@store/index';
 import * as AuthStoreActions from '@store/auth-store/auth-store.actions';
@@ -59,12 +60,16 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             return this.handleExpiredTokenRequest(request, next);
           }
         }
-        this.notificationService.add(
-          this.messagesService.errorMessages.server.unrecognizedServerError,
-          errorMessage,
-          NotificationType.ERROR,
-          ErrorGroup.SERVER
-        );
+
+        if (!request.context.get(IS_ERROR_NOTIFICATION_DISABLED)) {
+          this.notificationService.add(
+            this.messagesService.errorMessages.server.unrecognizedServerError,
+            errorMessage,
+            NotificationType.ERROR,
+            ErrorGroup.SERVER
+          );
+        }
+
         return throwError(error.error);
       })
     );

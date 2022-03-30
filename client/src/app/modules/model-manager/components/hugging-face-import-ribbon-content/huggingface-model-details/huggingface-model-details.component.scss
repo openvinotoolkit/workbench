@@ -1,3 +1,5 @@
+@import 'colors';
+
 :host {
   display: flex;
   overflow: hidden;
@@ -16,4 +18,9 @@ wb-spinner {
     border-spacing: 0;
     border-collapse: collapse;
   }
+}
+
+.readme-not-found {
+  color: $brownish-grey;
+  margin: auto;
 }
