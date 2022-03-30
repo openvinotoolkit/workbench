@@ -131,7 +131,7 @@ describe('UI tests on Accuracy Reports', () => {
     expect(await TestUtils.getElementByDataTestId('predictions-table').isPresent()).toBeTruthy();
   });
 
-  it('should create a project, calibrate it, create accuracy report (predictions & tensor comparisons) for an OD model', async () => {
+  fit('should create a project, calibrate it, create accuracy report (predictions & tensor comparisons) for an OD model', async () => {
     const modelFile = { name: 'ssd_mobilenet_v1_coco', framework: Frameworks.TENSORFLOW };
     await calibrationUtils.runInt8PipelineThroughDownloader(
       modelFile,

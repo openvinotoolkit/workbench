@@ -42,3 +42,6 @@ class DatumaroTool(PythonModuleTool):
 
     def set_flag(self, param_name: str):
         self.set_parameter(f'--{param_name}', True, ConsoleParametersTypes.flag)
+
+    def add_separator(self):
+        self.set_parameter('--', True, ConsoleParametersTypes.flag)

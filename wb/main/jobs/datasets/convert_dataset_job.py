@@ -90,7 +90,7 @@ class ConvertDatasetJob(BaseDatasetJob):
         tool.set_path('input-path', original_dataset.path)
         tool.set_path('output-dir', result_dataset.path)
         tool.set_conversion(dataset_format, self._format_conversion_map[dataset_format])
-        tool.set_flag('')
+        tool.add_separator()
         tool.set_flag('save-images')
 
         runner = LocalRunner(tool)

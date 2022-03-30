@@ -52,14 +52,12 @@ class RecognizeDatasetJob(BaseDatasetJob):
             self._job_state_subject.detach_all_observers()
 
     def _recognize(self, dataset: DatasetsModel) -> DatasetTypesEnum:
-        if not DATASET_REPORTS_FOLDER.exists():
-            create_empty_dir(DATASET_REPORTS_FOLDER)
         report_path = DATASET_REPORTS_FOLDER / f'{dataset.id}.json'
 
         tool = DatumaroTool()
         tool.set_mode(DatumaroModesEnum.detect_format)
         tool.set_path('json-report', report_path)
-        tool.set_path(None, dataset.path)
+        tool.set_path(param_name=None, path=dataset.path)
 
         runner = LocalRunner(tool)
         return_code, _ = runner.run_console_tool()

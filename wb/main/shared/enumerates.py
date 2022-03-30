@@ -14,9 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 """
-from __future__ import annotations
 import enum
-from typing import Optional
 
 
 class TaskEnum(enum.Enum):
@@ -60,10 +58,11 @@ class DatasetTypesEnum(enum.Enum):
     csv = 'csv'
 
     @classmethod
-    def get_value(cls, value: str) -> Optional[DatasetTypesEnum]:
-        if DatasetTypesEnum(value):
-            return DatasetTypesEnum(value)
-        return None
+    def get_value(cls, value: str):
+        for item in cls:
+            if item.value == value:
+                return item
+            return None
 
     def is_nlp(self) -> bool:
         return self in {self.csv, }
