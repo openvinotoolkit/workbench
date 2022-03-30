@@ -11,7 +11,7 @@
   <wb-model-zoo-details-description>
     <div
       class="readme markdown-body"
-      *ngIf="!(loading$ | async); else loading"
+      *wbSkeleton="loading$ | async; repeat: 10; width: 'rand'; gap: '20px'"
       [innerHTML]="markdownHTML$ | async"
     ></div>
     <div class="readme-not-found wb-text-8" *ngIf="error$ | async">No readme found.</div>
@@ -26,7 +26,3 @@
     ></wb-button>
   </wb-model-zoo-details-footer>
 </wb-model-zoo-details>
-
-<ng-template #loading>
-  <wb-spinner></wb-spinner>
-</ng-template>
