@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { debounceTime, distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
-import { merge, Subject } from 'rxjs';
+import { merge, Observable, Subject } from 'rxjs';
 
 import { BaseModelZooDataSource, IModelZooSort } from '@shared/models/model-zoo-data-source/base-model-zoo-data-source';
 import { AdvancedConfigField, SelectOption } from '@shared/components/config-form-field/config-form-field.component';
@@ -42,6 +42,22 @@ export abstract class BaseModelZooImportComponent<T, U = string> implements Afte
   readonly appliedFiltersCount$ = this.filtersControl.valueChanges.pipe(
     map((filters: U) => Object.entries(filters).filter(([, value]) => value.length).length)
   );
+
+  isLoading$: Observable<boolean> = null;
+  protected set _isLoading$(value: Observable<boolean>) {
+    if (this.isLoading$) {
+      return;
+    }
+    this.isLoading$ = value;
+    // TODO Consider using `disableSortAndSearchFieldsOnLoading` method and abstract `isLoading$` field instead of setter
+    this.isLoading$.pipe(takeUntil(this._unsubscribe$)).subscribe((isLoading) => {
+      if (isLoading) {
+        this.sortAndSearchFormGroup.disable();
+      } else {
+        this.sortAndSearchFormGroup.enable();
+      }
+    });
+  }
 
   private _selectedModel: T = null;
   get selectedModel(): T {
