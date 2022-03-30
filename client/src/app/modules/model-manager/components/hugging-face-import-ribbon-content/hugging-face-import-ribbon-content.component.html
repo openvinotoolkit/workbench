@@ -78,7 +78,7 @@
 
 <ng-template #filterGroupTemplate>
   <wb-model-zoo-filter-group [formControl]="filtersControl">
-    <ng-container *ngIf="appliedTags">
+    <ng-container *wbSkeleton="!appliedTags; repeat: 10; width: 'rand'; gap: '20px'">
       <wb-info-hint [message]="shownSubsetNotification"></wb-info-hint>
       <wb-model-zoo-filter group="pipeline_tag">
         <wb-model-zoo-filter-title>Tasks</wb-model-zoo-filter-title>

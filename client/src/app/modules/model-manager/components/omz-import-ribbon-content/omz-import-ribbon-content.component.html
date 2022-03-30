@@ -70,7 +70,8 @@
 
 <ng-template #filterGroupTemplate>
   <wb-model-zoo-filter-group [formControl]="filtersControl" *ngIf="dataSource.filtersOptions$ | async as filterOptions">
-    <ng-container *wbSkeleton="isLoading; repeat: 7; width: 'rand'; height: '40px'; gap: '20px'">
+    <!--  TODO Consider moving filters skeleton to separate component  -->
+    <ng-container *wbSkeleton="isLoading; repeat: 10; width: 'rand'; gap: '20px'">
       <wb-model-zoo-filter group="task_type">
         <wb-model-zoo-filter-title>Task Type</wb-model-zoo-filter-title>
         <wb-model-zoo-filter-option *ngFor="let option of filterOptions.taskType" [value]="option" icon="list_alt">
