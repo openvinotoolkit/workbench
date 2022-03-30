@@ -21,7 +21,7 @@ from pathlib import Path
 from typing import Iterable, Union
 
 import cv2
-from datumaro import AnnotationType, Dataset, DatasetItem, LabelCategories
+from datumaro import AnnotationType, Dataset, DatasetItem, Image, LabelCategories
 from openvino.tools.accuracy_checker.evaluators import ModelEvaluator
 from openvino.tools.accuracy_checker.representation import BaseRepresentation
 
@@ -91,7 +91,8 @@ class DatasetAnnotator:
     def _create_dataset() -> Dataset:
         return Dataset(categories={
             AnnotationType.label: LabelCategories()
-        })
+        },
+            media_type=Image)
 
     def create_annotated_dataset(self, output_path: Union[Path, str]) -> Path:
         dataset = self._create_dataset()
