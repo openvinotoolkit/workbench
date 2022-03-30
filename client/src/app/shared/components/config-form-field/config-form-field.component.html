@@ -42,7 +42,7 @@
       [hidden]="field.type === AdvancedConfigFieldType.RGB"
       appearance="outline"
       floatLabel="never"
-      [attr.data-test-id]="testId || field.name?.toLowerCase() + '-form-field'"
+      [attr.data-test-id]="field.name?.toLowerCase() + '-form-field'"
     >
       <input
         *ngSwitchCase="AdvancedConfigFieldType.TEXT"
