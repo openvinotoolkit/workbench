@@ -1,5 +1,5 @@
 <wb-model-zoo-layout [isDetailsOpened]="!!selectedModel">
-  <wb-model-zoo-content [hasError]="!!(error$ | async)">
+  <wb-model-zoo-content [hasError]="!!(error$ | async)" [loading]="isLoading">
     <wb-config-form-field
       ngProjectAs="model-zoo-sort"
       [field]="sortField"
@@ -34,12 +34,9 @@
       hidePageSize
     ></mat-paginator>
 
-    <wb-card-grid
-      [dataSource]="dataSource"
-      [isLoading]="isLoading"
-      *ngIf="dataSource?.filteredData?.length || isLoading; else emptyModelsTemplate"
-    >
-      <ng-container *wbSkeleton="isLoading; repeat: matPaginator.pageSize; height: '100px'"></ng-container>
+    <wb-card-grid-skeleton [cards]="matPaginator.pageSize" [rowsPerCard]="2"></wb-card-grid-skeleton>
+
+    <wb-card-grid [dataSource]="dataSource" *ngIf="dataSource?.filteredData?.length; else emptyModelsTemplate">
       <wb-card *wbCardDef="let model" (click)="selectedModel = model" data-test-id="model-card">
         <wb-card-title-row>
           <mat-icon svgIcon="image"></mat-icon>
