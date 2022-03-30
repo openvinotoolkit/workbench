@@ -29,11 +29,14 @@
     ></wb-model-zoo-counter>
 
     <mat-paginator
+      #matPaginator
       ngProjectAs="model-zoo-paginator"
       [length]="dataSource.data.length"
       [pageSize]="8"
       hidePageSize
     ></mat-paginator>
+
+    <wb-card-grid-skeleton [cards]="matPaginator.pageSize" [rowsPerCard]="3"></wb-card-grid-skeleton>
 
     <wb-card-grid [dataSource]="dataSource">
       <wb-card
