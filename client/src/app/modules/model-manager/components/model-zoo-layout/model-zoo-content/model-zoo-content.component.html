@@ -44,7 +44,7 @@
 </div>
 
 <ng-template #loadingTemplate>
-  <wb-spinner></wb-spinner>
+  <ng-content select="wb-card-grid-skeleton"></ng-content>
 </ng-template>
 
 <ng-template #errorTemplate>
