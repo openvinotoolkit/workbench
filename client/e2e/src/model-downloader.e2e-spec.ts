@@ -1,4 +1,4 @@
-import { browser, ElementFinder, protractor } from 'protractor';
+import { browser, protractor } from 'protractor';
 
 import { ModelPrecisionEnum } from '@store/model-store/model.model';
 
@@ -83,6 +83,11 @@ describe('UI tests on Downloading Models', () => {
     expect(await testUtils.modelDownloadPage.countModelCards()).toEqual(1);
 
     await testUtils.modelDownloadPage.selectAndDownloadModel(expectedModelName);
+    await testUtils.modelDownloadPage.convertDownloadedModelToIR();
+    await browser.wait(
+      () => testUtils.configurationWizard.isUploadReady(expectedModelName),
+      browser.params.defaultTimeout * 9
+    );
     await testUtils.configurationWizard.deleteUploadedModel(expectedModelName);
     expect(await testUtils.configurationWizard.uploadsModelsTableElementsCount()).toEqual(uploadedElementsCount);
   });
@@ -93,30 +98,24 @@ describe('UI tests on Downloading Models', () => {
 
     // Check that there are several filters available for groups
     for (const filterGroup of filterGroupNames) {
-      expect(await testUtils.HFModelDownloadPage.countFiltersByGroup(filterGroup)).toBeTruthy();
+      expect(await testUtils.modelDownloadPage.countFiltersByGroup(filterGroup)).toBeTruthy();
     }
 
-    // await testUtils.HFModelDownloadPage.selectFilter('bert');
-    // await testUtils.HFModelDownloadPage.selectFilter('electra');
-    // // There should be no model cards based on the above filters
-    // expect(await testUtils.HFModelDownloadPage.countModelCards()).toEqual(0);
-    // await testUtils.HFModelDownloadPage.removeFilter('bert');
-    // expect(await testUtils.HFModelDownloadPage.countModelCards()).toBeTruthy();
-    //
-    // // 'electra' models are not currently supported so the model cards cannot be selected
-    // const firstModelCard: ElementFinder = await testUtils.HFModelDownloadPage.getFirstModelCard();
-    // expect(await testUtils.HFModelDownloadPage.isModelAvailableForDownload(firstModelCard)).toBeFalsy();
-    //
-    // // Expand language filter
-    // await testUtils.HFModelDownloadPage.expandFilterGroup('language');
-    // // Apply language filters, check that there are no models
-    // await testUtils.HFModelDownloadPage.selectFilter('zu');
-    // await testUtils.HFModelDownloadPage.selectFilter('ts');
-    // expect(await testUtils.HFModelDownloadPage.countModelCards()).toEqual(0);
-    //
-    // // Remove all filters, check that there are several model cards
-    // await testUtils.HFModelDownloadPage.resetFilters();
-    // expect(await testUtils.HFModelDownloadPage.countModelCards()).toBeTruthy();
+    await testUtils.modelDownloadPage.selectFilter('semantic_segmentation');
+    await testUtils.modelDownloadPage.selectFilter('Caffe');
+    // There should be no model cards based on the above filters
+    expect(await testUtils.modelDownloadPage.countModelCards()).toEqual(0);
+    await testUtils.modelDownloadPage.removeFilter('Caffe');
+    expect(await testUtils.modelDownloadPage.countModelCards()).toBeTruthy();
+    await testUtils.modelDownloadPage.removeFilter('semantic_segmentation');
+
+    await testUtils.HFModelDownloadPage.selectFilter('Caffe');
+    await testUtils.HFModelDownloadPage.selectFilter('INT8');
+    expect(await testUtils.HFModelDownloadPage.countModelCards()).toEqual(0);
+
+    // Remove all filters, check that there are several model cards
+    await testUtils.HFModelDownloadPage.resetFilters();
+    expect(await testUtils.HFModelDownloadPage.countModelCards()).toBeTruthy();
   });
 
   afterEach(async () => {
