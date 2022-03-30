@@ -1,8 +1,17 @@
-<ng-content select="[title]"></ng-content>
+<div class="title-row">
+  <ng-content select="wb-model-zoo-filter-title"></ng-content>
+  <wb-button
+    *ngIf="isClearSelectionAvailable"
+    class="clear-selection-button"
+    type="default"
+    text="Clear Selection"
+    (handleClick)="clearSelectedOptions()"
+  ></wb-button>
+</div>
 <div class="options-container" #container>
-  <ng-content></ng-content>
+  <ng-content select="wb-model-zoo-filter-option"></ng-content>
   <div class="icon-container" *ngIf="options.length > optionsLimit">
-    <mat-icon svgIcon="add" *ngIf="hiddenOptions?.length" (click)="showOptions()"></mat-icon>
-    <mat-icon svgIcon="close" *ngIf="!hiddenOptions?.length" (click)="hideOptions()"></mat-icon>
+    <span class="show-more" *ngIf="hiddenOptions?.length" (click)="showOptions()"> + {{ hiddenOptions?.length }} </span>
+    <span class="show-less" *ngIf="!hiddenOptions?.length" (click)="hideOptions()">Show Less</span>
   </div>
 </div>

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ConnectionService } from '@core/services/api/connection.service';
+import { IS_ERROR_NOTIFICATION_DISABLED } from '@core/services/api/context-tokens';
 
 import { ModelItem } from '@store/model-store/model.model';
 
@@ -21,7 +22,8 @@ interface IModelsResponse {
   };
 }
 
-interface IHFModelsData {
+// TODO Consider moving to shared models (e.g. huggingface directory)
+export interface IHFModelsData {
   models: IHuggingfaceModel[];
   tags: {
     applied: IHuggingfaceAppliedModelTags;
@@ -78,8 +80,12 @@ export class HuggingfaceService {
     return this._http.post<ModelItem>(`${this._connectionService.prefix}/huggingface/models/import`, { id });
   }
 
-  getModelDetails$(id: string): Observable<string> {
+  getModelReadme$(id: string): Observable<string> {
     const params = new HttpParams({ fromObject: { id } });
-    return this._http.get(`${this._connectionService.prefix}/huggingface/readme`, { params, responseType: 'text' });
+    return this._http.get(`${this._connectionService.prefix}/huggingface/readme`, {
+      params,
+      context: new HttpContext().set(IS_ERROR_NOTIFICATION_DISABLED, true),
+      responseType: 'text',
+    });
   }
 }

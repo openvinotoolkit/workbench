@@ -6,7 +6,7 @@ import { IInferenceConfiguration } from '@shared/models/compound-inference-confi
 
 import { ModelManagerPage } from './model-manager.po';
 import { ModelDownloadPage } from './model-download.po';
-import { ConfigurationWizardPage } from './configuration-wizard.po';
+import {ConfigurationWizardPage, InferenceType} from './configuration-wizard.po';
 import { InferenceCardPage } from './inference-card.po';
 import { CalibrationPage } from './calibration-configurator.po';
 import { TestUtils } from './test-utils';
@@ -69,10 +69,17 @@ export class InferenceUtils {
 
     if (devCloud) {
       await this.configurationWizard.selectEnvironmentStage();
-      const targetRow = await this.targetMachines.getCellByPlatformTag(DevCloudTargets.CORE);
+      const platform = targetDevice === InferenceType.VPU ? DevCloudTargets.MYRIAD : DevCloudTargets.CORE;
+      const targetRow = await this.targetMachines.getCellByPlatformTag(platform);
       await browser.actions().mouseMove(targetRow).perform();
       await browser.sleep(1000);
       await targetRow.click();
+
+      await TestUtils.getElementByDataTestId('device-select').click();
+      const deviceName = TestUtils.targetNameFromEnumForWizard(targetDevice).toUpperCase();
+      const option = TestUtils.getElementByDataTestId(`device_${deviceName}`);
+      await browser.wait(this.until.elementToBeClickable(option), browser.params.defaultTimeout);
+      await option.click();
     }
 
     await this.configurationWizard.selectDatasetRow(datasetFile);
@@ -251,7 +258,8 @@ export class InferenceUtils {
     datasetFile,
     inferenceTarget,
     isPerformanceComparison?, // TODO Remove unused flag
-    remoteMachine?: string
+    remoteMachine?: string,
+    isDevCloud: boolean = false
   ) {
     modelFile.name = this.helpers.generateName();
     await this.runInference(
@@ -260,7 +268,8 @@ export class InferenceUtils {
       inferenceTarget,
       browser.params.precommit_scope.resource_dir,
       isPerformanceComparison,
-      remoteMachine
+      remoteMachine,
+      isDevCloud
     );
     return await this.testUtils.checkInferencePipeline(modelFile, datasetFile.name, inferenceTarget);
   }

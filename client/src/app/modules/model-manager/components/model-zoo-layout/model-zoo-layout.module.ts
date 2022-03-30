@@ -7,10 +7,10 @@ import { ModelZooLayoutComponent } from './model-zoo-layout.component';
 import { ModelZooContentComponent, ModelZooCounterComponent } from './model-zoo-content/model-zoo-content.component';
 import {
   ModelZooDetailsComponent,
-  ModelZooDetailsHeaderComponent,
-  ModelZooDetailsParametersComponent,
   ModelZooDetailsDescriptionComponent,
   ModelZooDetailsFooterComponent,
+  ModelZooDetailsHeaderComponent,
+  ModelZooDetailsParametersComponent,
 } from './model-zoo-details/model-zoo-details.component';
 import { ModelZooNotificationComponent } from './model-zoo-notification/model-zoo-notification.component';
 

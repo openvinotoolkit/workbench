@@ -2,7 +2,26 @@
 
 <div class="content-row">
   <div class="wb-col-4 filter-block">
-    <ng-content select="model-zoo-filters"></ng-content>
+    <!--  TODO Consider moving filter block to separate component  -->
+    <div class="block-header">
+      <div class="block-header-row">
+        <div class="model-zoo-sort-label">
+          <mat-icon svgIcon="swap_vert"></mat-icon>
+          <span class="wb-subtitle-strong">Sort By</span>
+        </div>
+        <div class="model-zoo-sort-wrapper">
+          <ng-content select="model-zoo-sort"></ng-content>
+        </div>
+      </div>
+    </div>
+
+    <div class="block-header">
+      <div class="block-header-row">
+        <ng-content select="wb-model-zoo-filters-header"></ng-content>
+      </div>
+    </div>
+
+    <ng-content select="wb-model-zoo-filter-group"></ng-content>
   </div>
 
   <div class="wb-col-8 main-block">

@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { StoreModule } from '@ngrx/store';
+
 import { HuggingfaceService } from '@core/services/api/rest/huggingface.service';
+
+import { RootStoreState } from '@store';
 
 import { SharedModule } from '@shared/shared.module';
 
@@ -13,7 +17,12 @@ describe('HuggingfaceModelDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SharedModule],
+      imports: [
+        SharedModule,
+        StoreModule.forRoot({
+          ...RootStoreState.reducers,
+        }),
+      ],
       providers: [HuggingfaceService, MarkdownService],
       declarations: [HuggingfaceModelDetailsComponent],
     }).compileComponents();
