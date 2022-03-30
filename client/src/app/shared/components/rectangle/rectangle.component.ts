@@ -19,7 +19,7 @@ export class RectangleComponent implements OnInit {
 
   constructor(private readonly _host: ElementRef<HTMLElement>) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     const hostNativeElement = this._host.nativeElement;
 
     hostNativeElement.style.setProperty('--rectangle-width', this.width ?? this._defaultWidth);
