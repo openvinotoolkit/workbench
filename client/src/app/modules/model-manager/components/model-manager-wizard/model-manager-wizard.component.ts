@@ -80,8 +80,8 @@ export class ModelManagerWizardComponent implements OnDestroy {
   readonly prepareFrameworkDescription = this._messagesService.tooltipMessages.modelManager.prepareFrameworkDescription;
   readonly modelImportFailedMessage = this._messagesService.errorMessages.importModelStatus.defaultErrorMessage;
   readonly deprecatedErrorMessageTitle = this._messagesService.errorMessages.modelUpload.deprecatedIRVersionTitle;
-  readonly deprecatedErrorMessageDescription = this._messagesService.errorMessages.modelUpload
-    .deprecatedIRVersionDescription;
+  readonly deprecatedErrorMessageDescription =
+    this._messagesService.errorMessages.modelUpload.deprecatedIRVersionDescription;
   readonly environmentAlreadyRunningMessage = this._messagesService.errorMessages.environmentSetup.alreadyRunning;
 
   readonly modelFrameworkNamesMap = modelFrameworkNamesMap;
@@ -228,7 +228,7 @@ export class ModelManagerWizardComponent implements OnDestroy {
         const pageStagesModelErrorStagesMap = {
           [JobTypes.WAIT_MODEL_UPLOAD_JOB]: MODEL_WIZARD_STAGES.UPLOAD,
           [JobTypes.SETUP_ENVIRONMENT_JOB]: MODEL_WIZARD_STAGES.PREPARING_ENVIRONMENT,
-          [JobTypes.IMPORT_HUGGINGFACE_MODEL_JOB]: MODEL_WIZARD_STAGES.UPLOAD,
+          [JobTypes.IMPORT_HUGGINGFACE_MODEL_JOB]: MODEL_WIZARD_STAGES.IMPORT_HUGGINGFACE_MODEL_JOB,
           [JobTypes.MODEL_OPTIMIZER_SCAN]: MODEL_WIZARD_STAGES.CONVERTING,
 
           [JobTypes.MODEL_ANALYZER_JOB]: MODEL_WIZARD_STAGES.CONVERTING,
