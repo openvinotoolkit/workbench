@@ -62,6 +62,8 @@ export class HuggingfaceModelDetailsComponent {
 
   parameters: IParameter[] = [];
 
+  isImportStarted = false;
+
   constructor(
     private readonly _cdr: ChangeDetectorRef,
     private readonly _mdService: MarkdownService,

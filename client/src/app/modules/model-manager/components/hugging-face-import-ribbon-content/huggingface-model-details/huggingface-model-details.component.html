@@ -22,7 +22,8 @@
       type="primary"
       class="enlarged-control"
       text="Download and Import"
-      (handleClick)="import.emit()"
+      [pending]="isImportStarted"
+      (handleClick)="isImportStarted = true; import.emit()"
     ></wb-button>
   </wb-model-zoo-details-footer>
 </wb-model-zoo-details>
