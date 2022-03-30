@@ -10,5 +10,5 @@ mkdir -p -m 777 ${OPENVINO_FOLDER}
 pushd ${OPENVINO_FOLDER}
     curl -LO ${OPENVINO_LIB_LINK}
     LIB_FOLDER=$(basename ${OPENVINO_LIB_LINK})
-    tar -xvf ${LIB_FOLDER} --strip-components=1
+    tar -xvf ${LIB_FOLDER} --strip-components=2
 popd
