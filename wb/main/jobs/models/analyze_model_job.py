@@ -25,11 +25,13 @@ from typing import List, Dict, Any
 from model_analyzer.model_complexity import ModelComputationalComplexity
 from model_analyzer.model_metadata import ModelMetaData
 from model_analyzer.shape_utils import get_shape_for_node_safely
+from model_analyzer.model_type_analyzer import ModelTypeAnalyzerCreator, ModelTypeGuesser
 
 # pylint: disable=import-error,no-name-in-module
 from openvino.runtime import Core, Node
 
 from sqlalchemy.orm import Session
+
 
 from wb.error.job_error import ModelAnalyzerError
 from wb.extensions_factories.database import get_db_session_for_celery
@@ -73,7 +75,7 @@ class ModelAnalyzerJob(BaseModelRelatedJob):
 
             try:
                 core = Core()
-                model = core.read_model(model=topology_xml, weights=topology_bin)
+                core.read_model(model=topology_xml, weights=topology_bin)
             except RuntimeError as exc:
                 if str(exc).startswith('The support of IR'):
                     exc = ModelAnalyzerError(ModelAnalyzerErrorMessagesEnum.DEPRECATED_IR_VERSION.value, self._job_id)
@@ -104,66 +106,58 @@ class ModelAnalyzerJob(BaseModelRelatedJob):
                 model_xml: str,
                 model_bin: str,
                 session: Session):
-
-        model_metadata = ModelMetaData(Path(model_xml), Path(model_bin))
-
-        if model_metadata.get_ir_version() <= 10:
-            raise ModelAnalyzerError(ModelAnalyzerErrorMessagesEnum.DEPRECATED_IR_VERSION.value, self._job_id)
-
-        topology_analysis.batch = model_metadata.batch or 1
-
-        mo_params = model_metadata.get_mo_params()
-        if mo_params:
-            topology_analysis.mo_params = json.dumps(self.process_mo_cli_parameters(mo_params))
-        analysis_attr_to_nmd_method_and_args = {
-            'ir_version': (model_metadata.get_ir_version, []),
-            'topology_type': (model_metadata.guess_topology_type, []),
-            'num_classes': (model_metadata.get_num_classes, []),
-            'has_background': (model_metadata.has_background_class, []),
-            'has_batchnorm': (model_metadata.has_layer_of_type, ['BatchNormInference', 'BatchNormalization']),
-            'is_int8': (model_metadata.is_int8, []),
-        }
-
-        for attr, (method, args) in analysis_attr_to_nmd_method_and_args.items():
-            with self.suppress_and_log():
-                # pylint: disable=not-callable
-                setattr(topology_analysis, attr, method(*args))
-
-        self._job_state_subject.update_state(progress=30)
-
-        # Get network I/O
-        topology_analysis.inputs = json.dumps(model_metadata.input_names)
-        topology_analysis.outputs = json.dumps(model_metadata.output_names)
-        topology_analysis.op_sets = model_metadata.get_opsets()
-
-        # Process topology-specific params
         with self.suppress_and_log():
-            topology_specific = self._process_topology_specific_parameters(model_metadata)
-        topology_analysis.topology_specific = json.dumps(topology_specific)
-        self._job_state_subject.update_state(progress=60)
+            model_metadata = ModelMetaData(Path(model_xml), Path(model_bin))
 
-        mcc = ModelComputationalComplexity(model_metadata)
+            if model_metadata.ir_version <= 10:
+                raise ModelAnalyzerError(ModelAnalyzerErrorMessagesEnum.DEPRECATED_IR_VERSION.value, self._job_id)
 
-        with self.suppress_and_log():
+            topology_analysis.batch = model_metadata.batch or 1
+
+            mo_params = model_metadata.mo_params
+            if mo_params:
+                topology_analysis.mo_params = json.dumps(self.process_mo_cli_parameters(mo_params))
+
+            topology_analysis.ir_version = model_metadata.ir_version
+            topology_analysis.has_batchnorm = model_metadata.has_op_of_type(('BatchNormInference', 'BatchNormalization'))
+            topology_analysis.is_int8 = model_metadata.is_int8()
+
+            topology_type = ModelTypeGuesser.get_model_type(model_metadata)
+            topology_analysis.topology_type = topology_type
+
+            topology_analysis.num_classes = model_metadata.num_classes
+            topology_analysis.has_background = model_metadata.has_background_class
+
+            self._job_state_subject.update_state(progress=30)
+
+            # Get network I/O
+            topology_analysis.inputs = json.dumps([model_input.any_name for model_input in model_metadata.inputs])
+            topology_analysis.outputs = json.dumps([output.any_name for output in model_metadata.outputs])
+            topology_analysis.op_sets = model_metadata.op_sets
+
+            # Process topology-specific params
+            model_type_analyzer = ModelTypeAnalyzerCreator.create(topology_type, model_metadata)
+            topology_specific = model_type_analyzer.specific_parameters
+            topology_analysis.topology_specific = json.dumps(topology_specific)
+
+            self._job_state_subject.update_state(progress=60)
+
+            mcc = ModelComputationalComplexity(model_metadata)
+
             topology.set_precisions(mcc.executable_precisions)
 
-        with self.suppress_and_log():
             g_flops, g_iops = mcc.get_total_ops()
             topology_analysis.g_flops = f'{g_flops:.5f}'
             topology_analysis.g_iops = f'{g_iops:.5f}'
 
-        with self.suppress_and_log():
             topology_analysis.maximum_memory = f'{mcc.get_maximum_memory_consumption() / 10 ** 6:.3f}'
-        with self.suppress_and_log():
             topology_analysis.minimum_memory = f'{mcc.get_minimum_memory_consumption() / 10 ** 6:.3f}'
-        with self.suppress_and_log():
             topology_analysis.m_params = f'{mcc.get_total_params()["total_params"] / 10 ** 6:.3f}'
-        with self.suppress_and_log():
             sparsity = (mcc.get_total_params()['zero_params'] / mcc.get_total_params()['total_params'] * 100
                         if mcc.get_total_params()['total_params'] else 0)
             topology_analysis.sparsity = f'{sparsity:.3f}'
-        if topology.precisions is None:
-            topology.set_precisions([mo_params['data_type']])
+            if topology.precisions is None:
+                topology.set_precisions([mo_params['data_type']])
 
         self._job_state_subject.update_state(progress=90)
 
@@ -206,48 +200,6 @@ class ModelAnalyzerJob(BaseModelRelatedJob):
     def _get_fully_undefined_layout(node: Node) -> List[str]:
         shape = get_shape_for_node_safely(node)
         return [LayoutDimValuesEnum.OTHER.value for _ in shape]
-
-    def _process_topology_specific_parameters(self, model_metadata: ModelMetaData) -> dict:
-        topology_specific = {}
-        with self.suppress_and_log():
-            inputs_per_role = self._process_input_roles(model_metadata)
-            topology_specific.update(inputs_per_role)
-
-        topology_type = model_metadata.guess_topology_type().value
-
-        if topology_type == TaskMethodEnum.segmentation.value:
-            topology_specific[TaskMethodEnum.segmentation.value] = {
-                'use_argmax': not model_metadata.is_argmax_used()
-            }
-        if topology_type == TaskMethodEnum.inpainting.value:
-            topology_specific[TaskMethodEnum.inpainting.value] = model_metadata.analyze_inpainting_inputs()
-
-        if topology_type == TaskMethodEnum.super_resolution.value:
-            topology_specific[TaskMethodEnum.super_resolution.value] = model_metadata.analyze_super_resolution_inputs()
-
-        if topology_type in ['yolo',
-                             TaskMethodEnum.yolo_v2.value,
-                             TaskMethodEnum.tiny_yolo_v2.value]:
-            topology_specific['yolo_params'] = model_metadata.get_yolo_v2_params()
-
-        if topology_type in [TaskMethodEnum.yolo_v3.value,
-                             TaskMethodEnum.yolo_v4.value,
-                             TaskMethodEnum.tiny_yolo_v3_v4.value]:
-            topology_specific['yolo_outputs'] = sorted(model_metadata.output_names)
-            topology_specific['raw_output'] = model_metadata.yolo_has_raw_output()
-        return topology_specific
-
-    @staticmethod
-    def _process_input_roles(model_metadata: ModelMetaData) -> dict:
-        roles = model_metadata.analyze_output_roles()
-        input_info = model_metadata.find_input_info_layer()
-        input_per_role = {}
-        if input_info and roles:
-            input_per_role[TaskMethodEnum.mask_rcnn.value] = {
-                'image_info_input': input_info or '',
-                'outputs': roles
-            }
-        return input_per_role
 
     @staticmethod
     def process_mo_cli_parameters(parameters):
