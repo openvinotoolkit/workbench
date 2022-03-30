@@ -41,6 +41,7 @@ export class HuggingFaceImportRibbonContentComponent
   readonly shortenNumber = shortenNumber;
 
   private readonly _modelData$ = this._store$.select(HuggingfaceModelStoreSelectors.selectModelsData);
+  readonly isLoading$ = this._store$.select(HuggingfaceModelStoreSelectors.selectLoading);
 
   readonly dataSource = new HuggingfaceModelZooDataSource();
 
@@ -55,7 +56,7 @@ export class HuggingFaceImportRibbonContentComponent
   ) {
     super();
     this._populateSortOptions();
-    this._isLoading$ = this._store$.select(HuggingfaceModelStoreSelectors.selectLoading);
+    this._disableControlsOnLoading();
   }
 
   ngOnInit(): void {

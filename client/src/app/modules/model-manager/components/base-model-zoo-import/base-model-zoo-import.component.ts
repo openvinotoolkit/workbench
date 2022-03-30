@@ -17,6 +17,7 @@ export abstract class BaseModelZooImportComponent<T, U = string> implements Afte
   @ViewChild(ModelZooFilterGroupComponent) private _filterGroupComponent: ModelZooFilterGroupComponent;
 
   abstract readonly dataSource: BaseModelZooDataSource<T, U>;
+  abstract readonly isLoading$: Observable<boolean>;
 
   readonly filtersControl = new FormControl({});
 
@@ -42,22 +43,6 @@ export abstract class BaseModelZooImportComponent<T, U = string> implements Afte
   readonly appliedFiltersCount$ = this.filtersControl.valueChanges.pipe(
     map((filters: U) => Object.entries(filters).filter(([, value]) => value.length).length)
   );
-
-  isLoading$: Observable<boolean> = null;
-  protected set _isLoading$(value: Observable<boolean>) {
-    if (this.isLoading$) {
-      return;
-    }
-    this.isLoading$ = value;
-    // TODO Consider using `disableSortAndSearchFieldsOnLoading` method and abstract `isLoading$` field instead of setter
-    this.isLoading$.pipe(takeUntil(this._unsubscribe$)).subscribe((isLoading) => {
-      if (isLoading) {
-        this.sortAndSearchFormGroup.disable();
-      } else {
-        this.sortAndSearchFormGroup.enable();
-      }
-    });
-  }
 
   private _selectedModel: T = null;
   get selectedModel(): T {
@@ -90,6 +75,16 @@ export abstract class BaseModelZooImportComponent<T, U = string> implements Afte
       name: sortOption.label,
     })) as SelectOption[];
     this.sortControl.setValue(this.dataSource.defaultSortOption);
+  }
+
+  protected _disableControlsOnLoading(): void {
+    this.isLoading$.pipe(takeUntil(this._unsubscribe$)).subscribe((isLoading) => {
+      if (isLoading) {
+        this.sortAndSearchFormGroup.disable();
+      } else {
+        this.sortAndSearchFormGroup.enable();
+      }
+    });
   }
 
   private _filter(): void {
