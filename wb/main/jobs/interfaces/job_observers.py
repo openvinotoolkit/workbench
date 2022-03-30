@@ -535,11 +535,16 @@ class ImportHuggingfaceModelDBObserver(JobStateDBObserver):
         with closing(get_db_session_for_celery()) as session:
             session: Session
             job: ImportHuggingfaceJobModel = self.get_job_model(session)
-            topology = job.model
+            topology: TopologiesModel = job.model
+            result_topology: TopologiesModel = session.query(TopologiesModel).filter_by(converted_from=topology.id).one()
 
             if subject_state.status == StatusEnum.error or subject_state.status == StatusEnum.cancelled:
                 topology.status = subject_state.status
+                topology.error_message = subject_state.error_message
                 topology.write_record(session)
+                result_topology.status = subject_state.status
+                result_topology.error_message = subject_state.error_message
+                result_topology.write_record(session)
                 return
 
             if subject_state.status != StatusEnum.ready:
