@@ -42,6 +42,5 @@ WORKDIR ${OPENVINO_WORKBENCH_ROOT}/client
 RUN . ${NVM_DIR}/nvm.sh && \
     DL_PROFILER_BACKEND_STATIC_PATH=/front npm run pack
 
-USER ${USER_NAME}
 WORKDIR ${OPENVINO_WORKBENCH_ROOT}
 ENTRYPOINT ["bash", "docker/bootstrap/docker-entrypoint.sh"]
