@@ -1,4 +1,3 @@
-// /* tslint:disable:directive-selector */
 import {
   ComponentFactoryResolver,
   Directive,
@@ -42,11 +41,9 @@ export class SkeletonDirective implements OnChanges {
         const rectangleComponentFactory = this._componentFactoryResolver.resolveComponentFactory(RectangleComponent);
         const rectangleComponentRef = this._viewContainerRef.createComponent(rectangleComponentFactory);
 
-        Object.assign(rectangleComponentRef.instance, {
-          width: this.width === 'rand' ? `${random(30, 90)}%` : this.width,
-          height: this.height,
-          gap: this.gap,
-        });
+        rectangleComponentRef.instance.width = this.width === 'rand' ? `${random(30, 90)}%` : this.width;
+        rectangleComponentRef.instance.height = this.height;
+        rectangleComponentRef.instance.gap = this.gap;
       });
     } else {
       this._viewContainerRef.createEmbeddedView(this._templateRef);
