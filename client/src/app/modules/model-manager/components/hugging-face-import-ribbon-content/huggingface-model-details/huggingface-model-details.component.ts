@@ -58,6 +58,7 @@ export class HuggingfaceModelDetailsComponent {
     .pipe(switchMap((readme) => (readme ? from(this._mdService.parse(readme)) : of(null))));
 
   readonly loading$ = this._store$.select(HuggingfaceModelStoreSelectors.selectModelReadmeLoading);
+  readonly error$ = this._store$.select(HuggingfaceModelStoreSelectors.selectModelReadmeError);
 
   parameters: IParameter[] = [];
 

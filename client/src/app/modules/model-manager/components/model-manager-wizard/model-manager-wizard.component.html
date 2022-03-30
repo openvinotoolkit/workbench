@@ -145,23 +145,37 @@
     </wb-panel>
 
     <!-- Download from huggingface stage -->
-    <wb-panel *ngIf="modelWizardStage === MODEL_WIZARD_STAGES.IMPORT_HUGGINGFACE_MODEL_JOB && isHuggingFaceModel">
-      <div wb-heading>
-        <h3 class="wb-h4 panel-header import-stage-header">{{ stagesHeader.importFromHuggingface }}</h3>
-      </div>
-      <div wb-content>
-        <div class="key-val">
-          <div class="key-val__key">Status:</div>
-          <wb-status-bar
-            class="status inline-status"
-            mode="circle"
-            [status]="importFromHuggingfaceStage"
-            [errorMessage]="errorMessageTitle"
-          >
-          </wb-status-bar>
+    <ng-container *ngIf="modelWizardStage === MODEL_WIZARD_STAGES.IMPORT_HUGGINGFACE_MODEL_JOB && isHuggingFaceModel">
+      <wb-message-box
+        class="common-error"
+        *ngIf="model?.status?.errorMessage as errorMessage"
+        [messageType]="NOTIFICATION_TYPE.ERROR"
+        [message]="errorMessageTitle"
+        [detailedMessage]="getDetailedErrorMessage(errorMessage)"
+      >
+      </wb-message-box>
+      <wb-panel>
+        <div wb-heading>
+          <h3 class="wb-h4 panel-header import-stage-header">{{ stagesHeader.importFromHuggingface }}</h3>
         </div>
-      </div>
-    </wb-panel>
+        <div wb-content>
+          <div class="key-val">
+            <div class="key-val__key">Status:</div>
+            <wb-status-bar class="status inline-status" mode="circle" [status]="importFromHuggingfaceStage">
+            </wb-status-bar>
+          </div>
+
+          <wb-button
+            *ngIf="isErrorStatus(importFromHuggingfaceStage)"
+            type="secondary"
+            text="Try again"
+            (handleClick)="reloadPage()"
+            class="enlarged-control try-again-btn"
+          >
+          </wb-button>
+        </div>
+      </wb-panel>
+    </ng-container>
 
     <!-- Conversion stage -->
     <div class="convert-form-section" [class.show]="modelWizardStage === MODEL_WIZARD_STAGES.CONVERT_FORM">
