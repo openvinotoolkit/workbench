@@ -1,5 +1,5 @@
 <wb-model-zoo-layout [isDetailsOpened]="!!selectedModel">
-  <wb-model-zoo-content [loading]="loading$ | async">
+  <wb-model-zoo-content #modelZooContent [loading]="loading$ | async">
     <wb-config-form-field
       ngProjectAs="model-zoo-sort"
       [field]="sortField"
@@ -38,7 +38,7 @@
 
     <wb-card-grid-skeleton [cards]="matPaginator.pageSize" [rowsPerCard]="3"></wb-card-grid-skeleton>
 
-    <wb-card-grid [dataSource]="dataSource">
+    <wb-card-grid [dataSource]="dataSource" *ngIf="dataSource?.filteredData?.length; else emptyFilteredModelsTemplate">
       <wb-card
         class="model-card"
         *wbCardDef="let model"
@@ -129,4 +129,10 @@
       </wb-model-zoo-filter>
     </ng-container>
   </wb-model-zoo-filter-group>
+</ng-template>
+
+<ng-template #emptyFilteredModelsTemplate>
+  <ng-container
+    *ngTemplateOutlet="modelZooContent.emptyFilteredModelsTemplate; context: emptyFilteredModelsTemplateContext"
+  ></ng-container>
 </ng-template>

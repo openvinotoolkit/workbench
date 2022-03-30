@@ -51,6 +51,13 @@ export abstract class BaseModelZooImportComponent<T, U = string> implements Afte
     this._selectedModel = value;
   }
 
+  readonly emptyFilteredModelsTemplateContext = {
+    action: () => {
+      this.resetSearch();
+      this.resetAllFilters();
+    },
+  };
+
   protected readonly _unsubscribe$ = new Subject<void>();
 
   protected constructor() {
