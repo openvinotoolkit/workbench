@@ -1,6 +1,6 @@
 """
  OpenVINO DL Workbench
-Validate model from Hugging Face Hub
+ Validate model from Hugging Face Hub
 
  Copyright (c) 2022 Intel Corporation
 
