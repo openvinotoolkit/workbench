@@ -59,10 +59,9 @@ class DatasetTypesEnum(enum.Enum):
 
     @classmethod
     def get_value(cls, value: str):
-        for item in cls:
-            if item.value == value:
-                return item
-            return None
+        if value in cls._value2member_map_:
+            return cls(value)
+        return None
 
     def is_nlp(self) -> bool:
         return self in {self.csv, }
