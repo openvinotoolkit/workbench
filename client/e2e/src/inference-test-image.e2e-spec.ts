@@ -48,10 +48,10 @@ describe('UI tests on Running inference', () => {
     datasetFileVOC.name = testUtils.helpers.generateName();
     datasetFileImageNet.name = testUtils.helpers.generateName();
     dataSetFileCoco.name = testUtils.helpers.generateName();
-    // dataSetFileSemantic.name = testUtils.helpers.generateName();
+    dataSetFileSemantic.name = testUtils.helpers.generateName();
     await testUtils.uploadDataset(datasetFileVOC);
     await testUtils.uploadDataset(datasetFileImageNet);
-    // await testUtils.uploadDataset(dataSetFileSemantic);
+    await testUtils.uploadDataset(dataSetFileSemantic);
     await testUtils.uploadDataset(dataSetFileCoco);
     helpers = new Helpers();
   });
