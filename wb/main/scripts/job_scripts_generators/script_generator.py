@@ -47,7 +47,7 @@ class ScriptGenerator:
         JOB_FINISH_MARKER=JOB_FINISH_MARKER,
     )
 
-    _template_file_name = None
+    _template_file_name: str
 
     def __init__(self):
         self._templates_path = Path(JOBS_SCRIPTS_FOLDER) / 'templates'

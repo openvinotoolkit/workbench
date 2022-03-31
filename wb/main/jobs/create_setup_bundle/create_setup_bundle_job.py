@@ -24,7 +24,8 @@ from wb.main.enumerates import JobTypesEnum, StatusEnum
 from wb.main.jobs.interfaces.ijob import IJob
 from wb.main.jobs.utils.database_functions import set_status_in_db
 from wb.main.models import CreateSetupBundleJobModel, SharedArtifactModel
-from wb.main.scripts.job_scripts_generators.setup_script_generator import SetupScriptGenerator
+from wb.main.scripts.job_scripts_generators.setup_script_generator import (SetupScriptGenerator,
+                                                                           get_setup_script_generator)
 from wb.main.utils.bundle_creator.setup_bundle_creator import SetupBundleCreator, SetupComponentsParams
 from wb.main.utils.utils import find_by_ext
 
@@ -49,6 +50,7 @@ class CreateSetupBundleJob(IJob):
             bundle: SharedArtifactModel = create_bundle_job_model.deployment_bundle_config.deployment_bundle
             self.bundle_path = bundle.build_full_artifact_path()
             self.is_archive = bundle.is_archive
+            self.pipeline_type = create_bundle_job_model.pipeline.type
 
     def run(self):
         self._job_state_subject.update_state(status=StatusEnum.running, log='Preparing setup bundle.')
@@ -89,6 +91,12 @@ class CreateSetupBundleJob(IJob):
                                         destination_bundle=self.bundle_path,
                                         is_archive=self.is_archive)
         self.on_success()
+
+    def generate_setup_script_from_template(self, result_scripts_path: str, script_name: str) -> str:
+        result_script_path = os.path.join(result_scripts_path, script_name)
+        job_script_generator = get_setup_script_generator(self.pipeline_type, script_name)
+        job_script_generator.create(result_file_path=result_script_path)
+        return result_script_path
 
     @staticmethod
     def generate_script_from_template(result_scripts_path: str, script_name: str) -> str:
