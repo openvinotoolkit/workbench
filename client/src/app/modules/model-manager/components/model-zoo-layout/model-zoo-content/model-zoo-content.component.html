@@ -1,40 +1,66 @@
 <ng-content select="wb-model-zoo-notification"></ng-content>
 
 <div class="content-row">
-  <div class="wb-col-4 filter-block">
-    <!--  TODO Consider moving filter block to separate component  -->
-    <div class="block-header">
-      <div class="block-header-row">
-        <div class="model-zoo-sort-label">
-          <mat-icon svgIcon="swap_vert"></mat-icon>
-          <span class="wb-subtitle-strong">Sort By</span>
+  <ng-container *ngIf="!hasError; else errorTemplate">
+    <div class="wb-col-4 filter-block">
+      <!--  TODO Consider moving filter block to separate component  -->
+      <div class="block-header">
+        <div class="block-header-row">
+          <div class="model-zoo-sort-label">
+            <mat-icon svgIcon="swap_vert"></mat-icon>
+            <span class="wb-subtitle-strong">Sort By</span>
+          </div>
+          <div class="model-zoo-sort-wrapper">
+            <ng-content select="model-zoo-sort"></ng-content>
+          </div>
         </div>
-        <div class="model-zoo-sort-wrapper">
-          <ng-content select="model-zoo-sort"></ng-content>
+      </div>
+
+      <div class="block-header">
+        <div class="block-header-row">
+          <ng-content select="wb-model-zoo-filters-header"></ng-content>
         </div>
       </div>
+
+      <ng-content select="wb-model-zoo-filter-group"></ng-content>
     </div>
 
-    <div class="block-header">
-      <div class="block-header-row">
-        <ng-content select="wb-model-zoo-filters-header"></ng-content>
+    <div class="wb-col-8 main-block">
+      <div class="block-header">
+        <div class="block-header-row">
+          <ng-content select="model-zoo-search"></ng-content>
+          <ng-content select="wb-model-zoo-counter"></ng-content>
+        </div>
+        <div class="block-header-row">
+          <ng-content select="model-zoo-paginator"></ng-content>
+        </div>
       </div>
+
+      <ng-container *ngIf="!loading; else loadingTemplate">
+        <ng-content select="wb-card-grid"></ng-content>
+      </ng-container>
     </div>
-
-    <ng-content select="wb-model-zoo-filter-group"></ng-content>
-  </div>
-
-  <div class="wb-col-8 main-block">
-    <div class="block-header">
-      <div class="block-header-row">
-        <ng-content select="model-zoo-search"></ng-content>
-        <ng-content select="wb-model-zoo-counter"></ng-content>
-      </div>
-      <div class="block-header-row">
-        <ng-content select="model-zoo-paginator"></ng-content>
-      </div>
-    </div>
-
-    <ng-content select="wb-card-grid"></ng-content>
-  </div>
+  </ng-container>
 </div>
+
+<ng-template #loadingTemplate>
+  <ng-content select="wb-card-grid-skeleton"></ng-content>
+</ng-template>
+
+<ng-template #errorTemplate>
+  <ng-content select="wb-model-zoo-error"></ng-content>
+</ng-template>
+
+<!-- TODO Consider moving to separate component -->
+<ng-template #emptyFilteredModelsTemplate let-action="action">
+  <wb-model-zoo-error>
+    <wb-markdown-text [text]="emptyFilteredModelsMessage"></wb-markdown-text>
+    <wb-button
+      ngProjectAs="model-zoo-error-button"
+      type="secondary"
+      class="enlarged-control"
+      text="Reset Filters and Search"
+      (handleClick)="action()"
+    ></wb-button>
+  </wb-model-zoo-error>
+</ng-template>

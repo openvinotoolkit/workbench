@@ -49,6 +49,15 @@
     }
   }
 
+  ::ng-deep [ngprojectas='model-zoo-sort'] {
+    margin-bottom: 0;
+
+    .control-container,
+    mat-form-field {
+      width: 100%;
+    }
+  }
+
   .model-zoo-sort-wrapper {
     flex: 1;
 
@@ -74,8 +83,14 @@
     border-bottom: none;
   }
 
-  ::ng-deep wb-search-field {
+  ::ng-deep [ngprojectas='model-zoo-search'] {
     width: 430px;
+    margin-bottom: 0;
+
+    .control-container,
+    mat-form-field {
+      width: 100%;
+    }
   }
 
   ::ng-deep wb-model-zoo-counter {

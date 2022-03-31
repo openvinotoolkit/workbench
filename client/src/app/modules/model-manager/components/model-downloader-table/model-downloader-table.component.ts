@@ -48,7 +48,7 @@ export enum OMZModelPrecisionEnum {
   INT8 = 'INT8',
 }
 
-// TODO Remove deprecated component
+// TODO [82812] Remove deprecated component
 @Component({
   selector: 'wb-model-downloader-table',
   templateUrl: './model-downloader-table.component.html',
