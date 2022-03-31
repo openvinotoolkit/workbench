@@ -14,10 +14,15 @@ const DEFAULT_OPTIONS: IMarkdownParserOptions = {
 
 export async function parse(text: string, options: IMarkdownParserOptions = DEFAULT_OPTIONS): Promise<string> {
   const noYamlHeaderText = cutYamlHeader(text);
-  return marked.parse(noYamlHeaderText, options.highlight ? highlightConfig : null);
+  return marked.parse(noYamlHeaderText, options.highlight ? highlightConfig : commonConfig);
 }
 
+const commonConfig = {
+  breaks: true,
+};
+
 const highlightConfig = {
+  ...commonConfig,
   highlight: function (code, lang) {
     const language = hljs.getLanguage(lang) ? lang : 'plaintext';
     return hljs.highlight(code, { language }).value;
