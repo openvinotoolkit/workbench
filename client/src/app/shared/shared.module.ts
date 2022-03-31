@@ -7,6 +7,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MaterialModule } from './material.module';
 import { SharedComponentsModule } from './components/shared-components.module';
 
+import './utils/array-toString';
+
 @NgModule({
   imports: [
     /* Shared Angular modules */
