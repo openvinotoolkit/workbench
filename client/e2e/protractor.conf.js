@@ -218,6 +218,9 @@ exports.config = {
       './src/smoke-gpu.e2e-spec.ts',
       './src/smoke-nightly.e2e-spec.ts',
     ],
+    smokeCPU: [
+      './src/smoke-cpu.e2e-spec.ts',
+    ],
     smokeE2EFlow: ['./src/smoke-e2e-flow.e2e-spec.ts'],
     disabledHeadless: ['./src/headless-mode-off.e2e-spec.ts'],
     performanceSuite: ['./src/benchmark-performance.e2e-spec.ts'],
