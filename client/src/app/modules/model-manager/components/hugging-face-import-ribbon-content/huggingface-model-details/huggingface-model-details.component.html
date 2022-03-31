@@ -13,6 +13,7 @@
       class="readme markdown-body"
       *wbSkeleton="loading$ | async; repeat: 10; width: 'rand'; gap: '20px'"
       [innerHTML]="markdownHTML$ | async"
+      data-test-id="model-description"
     ></div>
     <div class="readme-not-found wb-text-8" *ngIf="error$ | async">No readme found.</div>
   </wb-model-zoo-details-description>
@@ -22,6 +23,7 @@
       type="primary"
       class="enlarged-control"
       text="Download and Import"
+      testId="download-and-import"
       [pending]="isImportStarted"
       (handleClick)="isImportStarted = true; import.emit()"
     ></wb-button>
