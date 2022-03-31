@@ -9,11 +9,11 @@
   </wb-model-zoo-details-parameters>
 
   <wb-model-zoo-details-description>
-    <div
-      class="readme markdown-body"
+    <wb-markdown-text
+      class="readme"
       *wbSkeleton="loading$ | async; repeat: 10; width: 'rand'; gap: '20px'"
-      [innerHTML]="markdownHTML$ | async"
-    ></div>
+      [text]="markdownHTML$ | async"
+    ></wb-markdown-text>
     <div class="readme-not-found wb-text-8" *ngIf="error$ | async">No readme found.</div>
   </wb-model-zoo-details-description>
 

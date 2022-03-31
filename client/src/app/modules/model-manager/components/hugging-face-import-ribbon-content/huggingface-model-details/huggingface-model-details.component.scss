@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'fonts';
 
 :host {
   display: flex;
@@ -8,7 +9,7 @@
 }
 
 .readme ::ng-deep {
-  font-family: Roboto, sans-serif;
+  @include wb-text-8();
 
   table {
     border-spacing: 0;
