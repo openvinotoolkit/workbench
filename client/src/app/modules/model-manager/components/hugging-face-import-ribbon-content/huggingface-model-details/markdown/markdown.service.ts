@@ -9,6 +9,9 @@ import { IMarkdownParser, IMarkdownParserOptions } from './index';
   providedIn: 'root',
 })
 export class MarkdownService {
+  // The class `markdown-body` comes from `highlight.js` extension for `marked`.
+  readonly markdownBodyClassName = 'markdown-body';
+
   private _parser: IMarkdownParser;
 
   constructor(private readonly _sanitizer: DomSanitizer) {}
