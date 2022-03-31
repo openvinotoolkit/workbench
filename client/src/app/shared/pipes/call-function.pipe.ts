@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'dynamic',
+  name: 'callFunction',
 })
-export class DynamicPipe implements PipeTransform {
+export class CallFunctionPipe implements PipeTransform {
   transform(value: unknown, transform?: (value: unknown, ...args: unknown[]) => unknown, ...args: unknown[]): unknown {
     if (!transform) {
       return value;

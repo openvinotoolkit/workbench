@@ -7,10 +7,13 @@ import { TestUtils } from './test-utils';
 export class ModelDownloadPage {
   until = protractor.ExpectedConditions;
 
-  public elements = {
+  readonly elements = {
     // TODO: change test-id
     OMZTab: TestUtils.getElementByDataTestId('open_model_zoo_(v2)'),
-    searchField: TestUtils.getElementByDataTestId('search-field'),
+    searchField: TestUtils.getNestedElementByDataTestId(
+      TestUtils.getElementByDataTestId('search-form-field'),
+      'search'
+    ),
     modelCard: TestUtils.getElementByDataTestId('model-card'),
     modelCards: TestUtils.getAllElementsByDataTestId('model-card'),
     modelDescription: TestUtils.getElementByDataTestId('model-description'),
