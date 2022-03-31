@@ -59,7 +59,7 @@ class DatasetTypesEnum(enum.Enum):
 
     @classmethod
     def get_value(cls, value: str):
-        if value in cls._value2member_map_:
+        if value in cls(value):
             return cls(value)
         return None
 
