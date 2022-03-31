@@ -36,6 +36,8 @@ export class MarkdownTextComponent implements OnDestroy {
 
   readonly markdownBodyClassName = this._mdService.markdownBodyClassName;
 
+  private readonly _externalLinkTestId = 'external-link';
+
   constructor(
     private readonly _mdService: MarkdownService,
     private readonly _cdr: ChangeDetectorRef,
@@ -47,6 +49,7 @@ export class MarkdownTextComponent implements OnDestroy {
   private _addClickHandlersForAnchorElements(): void {
     const anchorElements = this._elementRef.nativeElement.getElementsByTagName('a');
     for (const anchor of Array.from(anchorElements)) {
+      anchor.setAttribute('data-test-id', this._externalLinkTestId);
       const removeClickListener = this._renderer.listen(anchor, 'click', (event: MouseEvent) => {
         event.preventDefault();
         this._linkNavigationService.navigate(anchor.href);
