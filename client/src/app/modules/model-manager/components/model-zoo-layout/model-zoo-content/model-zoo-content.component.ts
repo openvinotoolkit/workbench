@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, HostBinding, Input, TemplateRef } from '@angular/core';
+
+import { MessagesService } from '@core/services/common/messages.service';
 
 @Component({
   selector: 'wb-model-zoo-content',
@@ -6,7 +8,16 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
   styleUrls: ['./model-zoo-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ModelZooContentComponent {}
+export class ModelZooContentComponent {
+  @Input() loading = false;
+  @Input() hasError = false;
+
+  @ViewChild('emptyFilteredModelsTemplate') emptyFilteredModelsTemplate: TemplateRef<unknown>;
+
+  readonly emptyFilteredModelsMessage = this._messagesService.hintMessages.modelZooImport.emptyFilteredModels;
+
+  constructor(private readonly _messagesService: MessagesService) {}
+}
 
 @Component({
   selector: 'wb-model-zoo-counter',

@@ -11,10 +11,10 @@
   >
 </div>
 <wb-button
-  *ngIf="appliedFiltersCount"
   class="reset-filters-button"
   type="default"
   icon="undo"
   text="Reset Filters"
+  [disabled]="!appliedFiltersCount"
   (handleClick)="resetAllFilters.emit()"
 ></wb-button>

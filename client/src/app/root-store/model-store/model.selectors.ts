@@ -8,16 +8,16 @@ import { modelStoreFeatureKey } from '@store/model-store/model.reducer';
 import { ModelDownloaderDTO } from '@shared/models/dto/model-downloader-dto';
 
 import { modelDownloaderItemAdapter, modelItemAdapter, State as ModelState } from './model.state';
-import { State as AppState } from '../state';
+import { ErrorState, State as AppState } from '../state';
 import { ModelFrameworks, ModelItem, tfFlavorsToPrefixMap, TransformationsConfig } from './model.model';
 
 const selectModelState = createFeatureSelector<AppState, ModelState>(modelStoreFeatureKey);
 
-export const selectAllModels: (state: AppState) => ModelItem[] = modelItemAdapter.getSelectors(selectModelState)
-  .selectAll;
+export const selectAllModels: (state: AppState) => ModelItem[] =
+  modelItemAdapter.getSelectors(selectModelState).selectAll;
 
-const selectModelsEntities: (state: AppState) => Dictionary<ModelItem> = modelItemAdapter.getSelectors(selectModelState)
-  .selectEntities;
+const selectModelsEntities: (state: AppState) => Dictionary<ModelItem> =
+  modelItemAdapter.getSelectors(selectModelState).selectEntities;
 
 export const selectAccuracySavePending = createSelector(selectModelState, (state) => state.accuracyConfigSavePending);
 
@@ -91,6 +91,11 @@ export const selectOMZModels: (state: AppState) => ModelDownloaderDTO[] = modelD
 export const selectOMZModelsAreLoading: (state: AppState) => boolean = createSelector(
   selectModelState,
   (state: ModelState) => state.omzModels.isLoading
+);
+
+export const selectOMZModelsError: (state: AppState) => ErrorState = createSelector(
+  selectModelState,
+  (state: ModelState) => state.omzModels.error
 );
 
 export const selectDownloadingModelIds: (state: AppState) => number[] = createSelector(
