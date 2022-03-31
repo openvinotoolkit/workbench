@@ -14,7 +14,7 @@
     flex-grow: 1;
   }
 
-  wb-spinner {
+  ::ng-deep wb-spinner {
     margin: auto;
   }
 }

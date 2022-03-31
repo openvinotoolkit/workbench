@@ -11,7 +11,7 @@ const RGBValidators = [Validators.required, Validators.min(0), Validators.max(25
 
 export interface SelectOption {
   name: string;
-  value: string | number | boolean | null;
+  value: string | number | boolean | object | null;
   disabled?: boolean;
 }
 
