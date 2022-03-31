@@ -7,7 +7,7 @@ import { TargetMachineItem, TargetMachineStatusNames } from '@shared/models/pipe
 
 export function getAvailableDevices(targetMachine: TargetMachineItem): string {
   const devices: string[] = map(targetMachine.devices, 'deviceName') || [];
-  return devices.join(', ');
+  return devices.toString();
 }
 
 @Component({

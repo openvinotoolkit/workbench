@@ -75,7 +75,7 @@ export class LayerPropertiesComponent {
     return attributes.map(({ name, value }) => ({
       label: name,
       tooltip: null,
-      value: isArray(value) ? value.join(', ') : value,
+      value: isArray(value) ? value.toString() : value,
     }));
   }
 

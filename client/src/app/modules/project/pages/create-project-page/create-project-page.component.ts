@@ -295,7 +295,7 @@ export class CreateProjectPageComponent implements OnInit, OnDestroy {
       deviceName: this.selectedTargetDevice.type,
       selectedModelName: this.selectedModel.name,
       pluralSuffix: this.unsupportedPrecisions.length > 1 ? 's' : '',
-      commaJoinedPrecisions: this.unsupportedPrecisions.join(', '),
+      commaJoinedPrecisions: this.unsupportedPrecisions.toString(),
     });
   }
 

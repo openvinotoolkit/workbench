@@ -318,9 +318,9 @@ export class ModelDetailsComponent implements OnInit {
       return cliInputs.map(({ name, shape, means, scales }) => {
         return [
           { label: 'Input', tooltip: tooltips.input, value: name },
-          shape ? { label: 'Shape', tooltip: tooltips.shape, value: shape.join(', ') } : null,
-          means ? { label: 'Means', tooltip: tooltips.means, value: means.join(', ') } : null,
-          scales ? { label: 'Scales', tooltip: tooltips.scales, value: scales.join(', ') } : null,
+          shape ? { label: 'Shape', tooltip: tooltips.shape, value: shape.toString() } : null,
+          means ? { label: 'Means', tooltip: tooltips.means, value: means.toString() } : null,
+          scales ? { label: 'Scales', tooltip: tooltips.scales, value: scales.toString() } : null,
         ].filter((v) => !!v);
       });
     }
