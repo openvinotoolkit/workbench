@@ -94,7 +94,6 @@ describe('UI tests on Advanced Accuracy Configuration', () => {
       const model = { name: 'ssd_mobilenet_v1_coco', framework: Frameworks.TENSORFLOW };
 
       // Download model
-      await testUtils.clickElement(testUtils.modelDownloadPage.elements.OMZTab);
       await testUtils.modelDownloadPage.selectAndDownloadModel(model.name);
       await browser.sleep(1000);
       await testUtils.modelDownloadPage.convertDownloadedModelToIR(ModelPrecisionEnum.FP16);

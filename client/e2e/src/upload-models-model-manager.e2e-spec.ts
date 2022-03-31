@@ -224,7 +224,6 @@ describe('UI tests on models uploading and converting', () => {
   // 78628
   xit('should check what setup environment stop after leave convert page', async () => {
     const modelFile = { name: 'deeplabv3', framework: Frameworks.TENSORFLOW };
-    await testUtils.clickElement(testUtils.modelDownloadPage.elements.OMZTab);
     await testUtils.modelDownloadPage.selectAndDownloadModel(modelFile.name);
 
     await browser.wait(async () => {

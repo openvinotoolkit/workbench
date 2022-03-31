@@ -177,6 +177,7 @@ exports.config = {
   suites: {
     uniUploadSuite: [
       './src/model-downloader.e2e-spec.ts',
+      './src/import-hugging-face-models.e2e-spec.ts',
       './src/upload-dataset.e2e-spec.ts',
       './src/upload-models-model-manager.e2e-spec.ts',
       './src/upload-calibration-dataset.e2e-spec.ts',
@@ -216,6 +217,9 @@ exports.config = {
       './src/smoke-vpu.e2e-spec.ts',
       './src/smoke-gpu.e2e-spec.ts',
       './src/smoke-nightly.e2e-spec.ts',
+    ],
+    smokeCPU: [
+      './src/smoke-cpu.e2e-spec.ts',
     ],
     smokeE2EFlow: ['./src/smoke-e2e-flow.e2e-spec.ts'],
     disabledHeadless: ['./src/headless-mode-off.e2e-spec.ts'],

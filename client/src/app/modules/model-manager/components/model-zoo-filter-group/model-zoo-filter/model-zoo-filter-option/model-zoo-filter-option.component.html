@@ -1,3 +1,9 @@
 <mat-icon class="option-icon" *ngIf="icon" [svgIcon]="icon"></mat-icon>
 <span><ng-content></ng-content></span>
-<mat-icon class="deselect-icon" svgIcon="close" *ngIf="selected && !disabled" (click)="deselect($event)"></mat-icon>
+<mat-icon
+  class="deselect-icon"
+  svgIcon="close"
+  *ngIf="selected && !disabled"
+  (click)="deselect($event)"
+  data-test-id="remove-filter"
+></mat-icon>
