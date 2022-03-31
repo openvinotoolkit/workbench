@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { StoreModule } from '@ngrx/store';
 
@@ -18,6 +19,7 @@ describe('HuggingfaceModelDetailsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         SharedModule,
+        RouterTestingModule,
         StoreModule.forRoot({
           ...RootStoreState.reducers,
         }),

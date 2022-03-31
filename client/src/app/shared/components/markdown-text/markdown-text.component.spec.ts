@@ -2,6 +2,9 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ChangeDetectionStrategy } from '@angular/core';
 
+import { MaterialModule } from '@shared/material.module';
+import { MarkdownTextModule } from '@shared/components/markdown-text/markdown-text.module';
+
 import { MarkdownTextComponent } from './markdown-text.component';
 
 describe('MarkdownTextComponent', () => {
@@ -11,8 +14,7 @@ describe('MarkdownTextComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
-        declarations: [MarkdownTextComponent],
+        imports: [RouterTestingModule, MarkdownTextModule, MaterialModule],
       })
         .overrideComponent(MarkdownTextComponent, {
           set: {
