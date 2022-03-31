@@ -83,7 +83,7 @@ describe('UI tests on Downloading HF Models', () => {
 
     // 'electra' models are not currently supported so the model cards cannot be selected
     const firstModelCard: ElementFinder = await testUtils.HFModelDownloadPage.getFirstModelCard();
-    expect(await testUtils.HFModelDownloadPage.isModelAvailableForDownload(firstModelCard)).toBeFalsy();
+    expect(await testUtils.HFModelDownloadPage.isElementAvailable(firstModelCard)).toBeFalsy();
 
     // Expand language filter
     await testUtils.HFModelDownloadPage.expandFilterGroup('language');

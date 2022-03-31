@@ -55,7 +55,7 @@ export class HFModelDownloadPage {
     return this.elements.modelCard;
   }
 
-  async isModelAvailableForDownload(modelCardElement: ElementFinder): Promise<boolean> {
+  async isElementAvailable(modelCardElement: ElementFinder): Promise<boolean> {
     const classes = await modelCardElement.getAttribute('class');
 
     return !classes.includes('disabled');
@@ -105,7 +105,7 @@ export class HFModelDownloadPage {
 
   async resetFilters(): Promise<void> {
     await new TestUtils().clickElement(this.elements.resetFiltersButton);
-    await browser.wait(this.until.invisibilityOf(this.elements.resetFiltersButton));
+    await browser.wait(async () => !(await this.isElementAvailable(this.elements.resetFiltersButton)));
     await browser.sleep(500);
   }
 
