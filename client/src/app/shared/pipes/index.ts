@@ -7,6 +7,7 @@ import { FormatNumberPipe } from '@shared/pipes/format-number.pipe';
 
 import { LinkifyPipe } from './linkify.pipe';
 import { MultiLineTextPipe } from './multiline-text.pipe';
+import { CallFunctionPipe } from './call-function.pipe';
 
 export const pipes = [
   LinkifyPipe,
@@ -17,7 +18,9 @@ export const pipes = [
   CutNumberPipe,
   SafeUrlPipe,
   FormatNumberPipe,
+  CallFunctionPipe,
 ];
 
 export * from './linkify.pipe';
 export * from './multiline-text.pipe';
+export * from './call-function.pipe';
