@@ -2,5 +2,6 @@
   "54725": "TypeError: len\\(\\) of unsized object",
   "modelOptimizerLogs": "Log level:\\s+ERROR",
   "potWarning": "Changing Const node",
-  "cudartLibrary": "dlerror"
+  "cudartLibrary": "dlerror",
+  "83325": "module compiled against API version"
 }
