@@ -87,11 +87,11 @@ class ConvertDatasetJob(BaseDatasetJob):
                        dataset_format: DatasetTypesEnum):
         tool = DatumaroTool()
         tool.set_mode(DatumaroModesEnum.convert)
-        tool.set_path('input-path', original_dataset.path)
-        tool.set_path('output-dir', result_dataset.path)
+        tool.set_input_path(original_dataset.path)
+        tool.set_output_path(result_dataset.path)
         tool.set_conversion(dataset_format, self._format_conversion_map[dataset_format])
         tool.add_separator()
-        tool.set_flag('save-images')
+        tool.enable_image_save()
 
         runner = LocalRunner(tool)
         return_code, _ = runner.run_console_tool()

@@ -28,8 +28,6 @@ from wb.main.jobs.datasets.base_dataset_job import BaseDatasetJob
 from wb.main.jobs.tools_runner.local_runner import LocalRunner
 from wb.main.models import DatasetsModel, RecognizeDatasetJobsModel
 from wb.main.shared.enumerates import DatasetTypesEnum
-from wb.main.utils.utils import remove_dir
-from wb.main.utils.utils import remove_dir, create_empty_dir
 
 
 class RecognizeDatasetJob(BaseDatasetJob):
@@ -56,30 +54,31 @@ class RecognizeDatasetJob(BaseDatasetJob):
 
         tool = DatumaroTool()
         tool.set_mode(DatumaroModesEnum.detect_format)
-        tool.set_path('json-report', report_path)
-        tool.set_path(param_name=None, path=dataset.path)
+        tool.set_report_path(report_path)
+        tool.set_target(dataset.path)
 
         runner = LocalRunner(tool)
         return_code, _ = runner.run_console_tool()
         if return_code:
-            self.cancel_with_error(dataset, 'Error during format detection.')
+            raise DatumaroError('Error during format detection.', self.job_id)
         with report_path.open() as report_file:
             report = json.load(report_file)
 
         detected_formats = report['detected_formats']
         if not detected_formats:
-            self.cancel_with_error(dataset, 'No valid dataset format detected.')
+            raise DatumaroError('No valid dataset format detected.', self.job_id)
         elif len(detected_formats) > 1:
-            self.cancel_with_error(dataset, 'More than one valid format detected.')
+            raise DatumaroError('More than one valid format detected.', self.job_id)
 
-        dataset_type = DatasetTypesEnum.get_value(detected_formats[0])
-        if not dataset_type:
-            self.cancel_with_error(dataset, f'Detected format {detected_formats[0]} cannot '
-                                            f'currently be handled by DL Workbench.')
+        dataset_type = None
+        try:
+            dataset_type = DatasetTypesEnum.get_value(detected_formats[0])
+        except ValueError:
+            pass
+
+        if dataset_type not in DatasetTypesEnum:
+            raise DatumaroError(f'Detected format {detected_formats[0]} '
+                                f'cannot currently be handled by DL Workbench.',
+                                self.job_id)
 
         return dataset_type
-
-    def cancel_with_error(self, dataset: DatasetsModel, error_message: str):
-        remove_dir(dataset.path)
-        self.on_failure(DatumaroError(error_message, self.job_id))
-        raise DatumaroError(error_message, self.job_id)
