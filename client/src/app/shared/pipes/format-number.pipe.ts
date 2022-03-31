@@ -17,6 +17,10 @@ export function toLowerBoundedString(value: number, fractionDigits = 2): string 
   return value < fractionNumber ? `< ${fractionNumber.toFixed(fractionDigits)}` : value.toFixed(fractionDigits);
 }
 
+export function shortenNumber(value: number): string {
+  return Intl.NumberFormat('en', { notation: 'compact' }).format(value);
+}
+
 @Pipe({
   name: 'formatNumber',
 })

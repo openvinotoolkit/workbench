@@ -46,7 +46,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { DimensionsInputComponent } from './dimensions-input/dimensions-input.component';
 import { DimensionsLayoutsComponent } from './dimensions-layouts/dimensions-layouts.component';
-import { SearchFieldComponent } from './search-field/search-field.component';
+import { RectangleComponent } from './rectangle/rectangle.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +83,7 @@ import { SearchFieldComponent } from './search-field/search-field.component';
     ConfirmDialogComponent,
     DimensionsInputComponent,
     DimensionsLayoutsComponent,
-    SearchFieldComponent,
+    RectangleComponent,
   ],
   imports: [
     CommonModule,
@@ -142,7 +142,6 @@ import { SearchFieldComponent } from './search-field/search-field.component';
     MultipleSelectModule,
     DimensionsInputComponent,
     DimensionsLayoutsComponent,
-    SearchFieldComponent,
   ],
   providers: [DatePipe],
 })

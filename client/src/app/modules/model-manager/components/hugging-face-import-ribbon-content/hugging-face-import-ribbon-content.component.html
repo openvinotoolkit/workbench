@@ -1,12 +1,10 @@
-<wb-model-zoo-layout [isDetailsOpened]="!!selectedModel" [loading]="loading$ | async">
-  <wb-model-zoo-content>
-    <mat-form-field ngProjectAs="model-zoo-sort" appearance="outline">
-      <mat-select [formControl]="sortControl">
-        <mat-option *ngFor="let option of dataSource.sortOptions" [value]="option">
-          {{ option.label }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+<wb-model-zoo-layout [isDetailsOpened]="!!selectedModel">
+  <wb-model-zoo-content #modelZooContent [loading]="isLoading$ | async">
+    <wb-config-form-field
+      ngProjectAs="model-zoo-sort"
+      [field]="sortField"
+      [group]="sortAndSearchFormGroup"
+    ></wb-config-form-field>
 
     <wb-model-zoo-filters-header
       [appliedFiltersCount]="appliedFiltersCount$ | async"
@@ -17,25 +15,29 @@
 
     <wb-model-zoo-notification [message]="externalResourceNotification"></wb-model-zoo-notification>
 
-    <wb-search-field
+    <wb-config-form-field
       ngProjectAs="model-zoo-search"
-      (search)="searchModels($event)"
-      testId="search-field"
-    ></wb-search-field>
+      [field]="searchField"
+      [group]="sortAndSearchFormGroup"
+    ></wb-config-form-field>
 
     <wb-model-zoo-counter
+      *ngIf="dataSource?.data.length"
       [dataLength]="dataSource?.data.length"
       [filteredDataLength]="dataSource?.filteredData?.length"
     ></wb-model-zoo-counter>
 
     <mat-paginator
+      #matPaginator
       ngProjectAs="model-zoo-paginator"
       [length]="dataSource.data.length"
       [pageSize]="8"
       hidePageSize
     ></mat-paginator>
 
-    <wb-card-grid [dataSource]="dataSource">
+    <wb-card-grid-skeleton [cards]="matPaginator.pageSize" [rowsPerCard]="3"></wb-card-grid-skeleton>
+
+    <wb-card-grid [dataSource]="dataSource" *ngIf="dataSource?.filteredData?.length; else emptyFilteredModelsTemplate">
       <wb-card
         class="model-card"
         *wbCardDef="let model"
@@ -55,7 +57,7 @@
         <wb-card-content-row>
           <wb-card-content-row-item data-test-id="model-downloads">
             <mat-icon svgIcon="download"></mat-icon>
-            {{ model.downloads || 0 }}
+            {{ (model.downloads | callFunction: shortenNumber) || 0 }}
           </wb-card-content-row-item>
           <wb-card-content-row-item data-test-id="updated"
             >Updated: {{ model.lastModified | date }}</wb-card-content-row-item
@@ -67,8 +69,8 @@
 
   <wb-huggingface-model-details
     ngProjectAs="wb-model-zoo-details"
-    [huggingfaceModel]="selectedModel"
     [tagsSets]="tagsSets"
+    [huggingfaceModel]="selectedModel"
     (import)="importModel()"
     (hide)="selectedModel = null"
   >
@@ -77,7 +79,7 @@
 
 <ng-template #filterGroupTemplate>
   <wb-model-zoo-filter-group [formControl]="filtersControl">
-    <ng-container *ngIf="appliedTags">
+    <ng-container *wbSkeleton="!appliedTags; repeat: 10; width: 'rand'; gap: '20px'">
       <wb-info-hint [message]="shownSubsetNotification"></wb-info-hint>
       <wb-model-zoo-filter group="pipeline_tag" data-test-id="task-filter-group">
         <wb-model-zoo-filter-title>Tasks</wb-model-zoo-filter-title>
@@ -143,4 +145,10 @@
       </wb-model-zoo-filter>
     </ng-container>
   </wb-model-zoo-filter-group>
+</ng-template>
+
+<ng-template #emptyFilteredModelsTemplate>
+  <ng-container
+    *ngTemplateOutlet="modelZooContent.emptyFilteredModelsTemplate; context: emptyFilteredModelsTemplateContext"
+  ></ng-container>
 </ng-template>

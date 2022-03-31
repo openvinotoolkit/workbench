@@ -23,7 +23,6 @@ import { ClassificationAccuracyReportTableComponent } from './components/classif
 import { PerTensorAccuracyReportTableComponent } from './components/per-tensor-accuracy-report-table/per-tensor-accuracy-report-table.component';
 import { PerTensorImageVisualizationComponent } from './components/visualization/per-tensor-image-visualization/per-tensor-image-visualization.component';
 import { ReferencePredictionsComponent } from './components/visualization/reference-predictions/reference-predictions.component';
-import { DynamicPipe } from './components/dynamic-table/dynamic.pipe';
 import { DetectionSegmentationResultsComponent } from './components/visualization/network-output/inference-results/detection-segmentation-results/detection-segmentation-results.component';
 import { PredictionBadgeComponent } from './components/visualization/network-output/inference-results/detection-segmentation-results/object-detection-predictions/prediction-badge/prediction-badge.component';
 import { ObjectDetectionPredictionsComponent } from './components/visualization/network-output/inference-results/detection-segmentation-results/object-detection-predictions/object-detection-predictions.component';
@@ -53,7 +52,6 @@ import { InstanceSegmentationAccuracyReportTableComponent } from './components/i
     PerTensorAccuracyReportTableComponent,
     PerTensorImageVisualizationComponent,
     ReferencePredictionsComponent,
-    DynamicPipe,
     DetectionSegmentationResultsComponent,
     PredictionBadgeComponent,
     SemanticSegmentationAccuracyReportTableComponent,
