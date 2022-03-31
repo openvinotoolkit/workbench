@@ -27,7 +27,8 @@
       class="enlarged-control"
       text="Download and Import"
       testId="download-and-import"
-      (handleClick)="import.emit()"
+      [pending]="isImportStarted"
+      (handleClick)="isImportStarted = true; import.emit()"
       [disabled]="isImportDisabled"
     ></wb-button>
 

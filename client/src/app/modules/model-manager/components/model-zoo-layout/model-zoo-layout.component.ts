@@ -8,5 +8,4 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 })
 export class ModelZooLayoutComponent {
   @Input() isDetailsOpened = false;
-  @Input() loading = false;
 }
