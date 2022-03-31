@@ -566,10 +566,10 @@ export class ConfigurationWizardPage {
   }
 
   async clickDetailsButton(): Promise<void> {
-    console.log('try click Show Details');
+    console.log('try click Show Detail');
     await browser.wait(this.until.elementToBeClickable(this.moreDetailsButton), browser.params.defaultTimeout);
     await this.moreDetailsButton.click();
-    console.log('clicked Show Details');
+    console.log('clicked Show Detail');
   }
 
   async clickTryAgainButton(buttonElement: ElementFinder): Promise<void> {

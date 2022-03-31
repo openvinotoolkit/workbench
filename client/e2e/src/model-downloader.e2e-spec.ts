@@ -35,10 +35,9 @@ describe('UI tests on Downloading Models', () => {
 
   it('list of models available for downloading is fetched', async () => {
     await testUtils.modelManagerPage.goToModelManager();
-    await testUtils.clickElement(testUtils.modelDownloadPage.elements.OMZTab);
-    await browser.wait(testUtils.until.presenceOf(testUtils.modelDownloadPage.elements.modelCard));
+    await testUtils.modelDownloadPage.openOMZTab();
     await browser.sleep(1500);
-    expect(browser.isElementPresent(testUtils.modelDownloadPage.elements.modelCard)).toBeTruthy();
+    expect(await testUtils.modelDownloadPage.countModelCards()).toBeGreaterThan(5);
   });
 
   it('select model from table, download it and delete (OMZv2)', async () => {
@@ -59,8 +58,6 @@ describe('UI tests on Downloading Models', () => {
     const model = { name: 'person-detection-retail-0013', framework: 'openvino' };
     const uploadedElementsCount = await testUtils.configurationWizard.uploadsModelsTableElementsCount();
     await testUtils.modelManagerPage.goToModelManager();
-    await testUtils.clickElement(testUtils.modelDownloadPage.elements.OMZTab);
-    expect(await browser.isElementPresent(testUtils.modelDownloadPage.elements.modelCard)).toBeTruthy();
     await testUtils.modelDownloadPage.selectAndDownloadModel('person-detection-retail-0013');
     await browser.wait(
       () => testUtils.configurationWizard.isUploadReady(model.name),

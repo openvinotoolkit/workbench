@@ -45,20 +45,23 @@
         [matTooltip]="model.validation.message"
         [matTooltipDisabled]="!model.validation.disabled"
         (click)="selectedModel = model"
+        data-test-id="model-card"
       >
         <wb-card-title-row>
           <mat-icon [svgIcon]="model.validation.disabled ? 'lock' : 'text_fields'"></mat-icon>
-          <wb-text-overflow [content]="model.id"></wb-text-overflow>
+          <wb-text-overflow [content]="model.id" data-test-id="model-name"></wb-text-overflow>
         </wb-card-title-row>
         <wb-card-content-row>
-          <wb-card-content-row-item>{{ model.pipelineTag }}</wb-card-content-row-item>
+          <wb-card-content-row-item data-test-id="model-task">{{ model.pipelineTag }}</wb-card-content-row-item>
         </wb-card-content-row>
         <wb-card-content-row>
-          <wb-card-content-row-item>
+          <wb-card-content-row-item data-test-id="model-downloads">
             <mat-icon svgIcon="download"></mat-icon>
             {{ (model.downloads | callFunction: shortenNumber) || 0 }}
           </wb-card-content-row-item>
-          <wb-card-content-row-item>Updated: {{ model.lastModified | date }}</wb-card-content-row-item>
+          <wb-card-content-row-item data-test-id="updated"
+            >Updated: {{ model.lastModified | date }}</wb-card-content-row-item
+          >
         </wb-card-content-row>
       </wb-card>
     </wb-card-grid>
@@ -78,7 +81,7 @@
   <wb-model-zoo-filter-group [formControl]="filtersControl">
     <ng-container *wbSkeleton="!appliedTags; repeat: 10; width: 'rand'; gap: '20px'">
       <wb-info-hint [message]="shownSubsetNotification"></wb-info-hint>
-      <wb-model-zoo-filter group="pipeline_tag">
+      <wb-model-zoo-filter group="pipeline_tag" data-test-id="task-filter-group">
         <wb-model-zoo-filter-title>Tasks</wb-model-zoo-filter-title>
         <wb-model-zoo-filter-option
           selected="true"
@@ -86,18 +89,20 @@
           *ngFor="let tag of appliedTags.pipelineTags"
           [value]="tag"
           icon="list_alt"
+          [attr.data-test-id]="tag + '-filter'"
         >
           {{ tag }}
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
 
-      <wb-model-zoo-filter group="library">
+      <wb-model-zoo-filter group="library" data-test-id="library-filter-group">
         <wb-model-zoo-filter-title>Library</wb-model-zoo-filter-title>
         <wb-model-zoo-filter-option
           selected="true"
           disabled="true"
           *ngFor="let tag of appliedTags.libraries"
           [value]="tag"
+          [attr.data-test-id]="tag + '-filter'"
         >
           {{ tag }}
         </wb-model-zoo-filter-option>
@@ -105,23 +110,36 @@
     </ng-container>
 
     <ng-container *ngIf="availableTags">
-      <wb-model-zoo-filter group="modelTypes">
+      <wb-model-zoo-filter group="modelTypes" data-test-id="model-type-filter-group">
         <wb-model-zoo-filter-title>Model types</wb-model-zoo-filter-title>
-        <wb-model-zoo-filter-option *ngFor="let modelType of availableTags.modelTypes" [value]="modelType">
+        <wb-model-zoo-filter-option
+          *ngFor="let modelType of availableTags.modelTypes"
+          [value]="modelType"
+          [attr.data-test-id]="modelType + '-filter'"
+        >
           {{ modelType }}
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
 
-      <wb-model-zoo-filter group="languages">
+      <wb-model-zoo-filter group="languages" data-test-id="language-filter-group">
         <wb-model-zoo-filter-title>Languages</wb-model-zoo-filter-title>
-        <wb-model-zoo-filter-option *ngFor="let language of availableTags.languages" [value]="language">
+        <wb-model-zoo-filter-option
+          *ngFor="let language of availableTags.languages"
+          [value]="language"
+          [attr.data-test-id]="language + '-filter'"
+        >
           {{ language }}
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
 
-      <wb-model-zoo-filter group="licenses">
+      <wb-model-zoo-filter group="licenses" data-test-id="license-filter-group">
         <wb-model-zoo-filter-title>Licenses</wb-model-zoo-filter-title>
-        <wb-model-zoo-filter-option *ngFor="let license of availableTags.licenses" [value]="license" icon="license">
+        <wb-model-zoo-filter-option
+          *ngFor="let license of availableTags.licenses"
+          [value]="license"
+          icon="license"
+          [attr.data-test-id]="license.replace('license:', '') + '-filter'"
+        >
           {{ license.replace('license:', '') }}
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
