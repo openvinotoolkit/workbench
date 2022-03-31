@@ -6,7 +6,7 @@
   },
   "browsers": {
     "base": "./node_modules/protractor/bin/webdriver-manager clean && ./node_modules/protractor/bin/webdriver-manager update --github_token 5fb7f923d65bd47dde62689da74cb849435c2c8a {chrome} {firefox}",
-    "chrome": "--versions.chrome 98.0.4758.48",
+    "chrome": "--versions.chrome 100.0.4896.60",
     "firefox": "--versions.gecko v0.26.0",
     "without:chrome": "--chrome false",
     "without:firefox": "--gecko false",
@@ -64,7 +64,8 @@
     "e2e:migrationInferenceTest": "migrationInferenceTest",
     "e2e:migrationCheckRestore": "migrationCheckRestore",
     "e2e:preConfiguration": "preConfiguration",
-    "e2e:accuracyReportsSuite": "accuracyReportsSuite"
+    "e2e:accuracyReportsSuite": "accuracyReportsSuite",
+    "e2e:smokeCpu": "smokeCPU"
   },
   "generate_nightly": "python3 automation/generate_tests/generate_nightly_tests.py --hostname $DL_PROFILER_DEPLOY_TARGET --tls $REQUEST_TLS --precommit $PRECOMMIT"
 }

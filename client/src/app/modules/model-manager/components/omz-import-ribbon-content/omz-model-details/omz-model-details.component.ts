@@ -40,6 +40,8 @@ export class OmzModelDetailsComponent implements OnDestroy {
 
   parameters: IParameter[] = [];
 
+  isImportStarted = false;
+
   readonly noConnectionMessage = this._messagesService.hintMessages.downloaderTips.cannotLoadModelWithoutConnection;
   readonly unavailableOmzModelMessage = this._messagesService.hintMessages.downloaderTips.unavailableOmzModel;
 
