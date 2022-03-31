@@ -9,13 +9,11 @@ export WB_LOG_LEVEL=DEBUG
 export WB_LOG_FILE=${OPENVINO_WORKBENCH_ROOT}/server.log
 export API_PORT=5676
 export PROXY_PORT=80
-export PYTHONPATH=${INTEL_OPENVINO_DIR}/tools/post_training_optimization_tool:${OPENVINO_WORKBENCH_ROOT}:${OPENVINO_WORKBENCH_ROOT}/model_analyzer:${PYTHONPATH}
+export PYTHONPATH=${OPENVINO_WORKBENCH_ROOT}:${OPENVINO_WORKBENCH_ROOT}/model_analyzer:${PYTHONPATH}
 
 sleep 20
 
 export RABBITMQ_HOST=$(getent hosts rabbitmq | awk '{ print $1 }')
-
-echo "RABBITMQ_HOST: ${RABBITMQ_HOST}"
 
 LC_ALL=C.UTF-8 LANG=C.UTF-8 FLASK_APP=migrations/migration:APP flask db upgrade
 

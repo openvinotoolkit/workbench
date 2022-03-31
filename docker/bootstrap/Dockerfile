@@ -8,7 +8,7 @@ ARG CI_USER
 
 ENV USER_NAME ${CI_USER}
 ENV HOME_DIR /home/${USER_NAME}
-ENV INTEL_OPENVINO_DIR ${HOME_DIR}/intel/openvino_2022/
+ENV INTEL_OPENVINO_DIR ${HOME_DIR}/intel/openvino_2022
 
 ENV OPENVINO_WORKBENCH_ROOT ${HOME_DIR}/workbench
 ENV SERVER_MODE development
@@ -36,11 +36,12 @@ RUN git config --global credential.helper "!f() { echo username=\\${GIT_USER_NAM
 
 WORKDIR ${OPENVINO_WORKBENCH_ROOT}
 RUN automation/bootstrap/bootstrap_os.sh
-RUN chown ${USER_NAME} -R ${INTEL_OPENVINO_DIR}
+RUN chown ${USER_NAME} -R ${HOME_DIR}
 
 WORKDIR ${OPENVINO_WORKBENCH_ROOT}/client
 RUN . ${NVM_DIR}/nvm.sh && \
     DL_PROFILER_BACKEND_STATIC_PATH=/front npm run pack
 
+USER ${USER_NAME}
 WORKDIR ${OPENVINO_WORKBENCH_ROOT}
 ENTRYPOINT ["bash", "docker/bootstrap/docker-entrypoint.sh"]
