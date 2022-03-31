@@ -3,10 +3,16 @@ import hljs from 'highlight.js/lib/core';
 import python from 'highlight.js/lib/languages/python';
 import plaintext from 'highlight.js/lib/languages/plaintext';
 
-import { IMarkdownParserOptions } from './index';
-
 hljs.registerLanguage('python', python);
 hljs.registerLanguage('plaintext', plaintext);
+
+export interface IMarkdownParserOptions {
+  highlight: boolean;
+}
+
+export interface IMarkdownParser {
+  parse: (markdownTest: string, options?: IMarkdownParserOptions) => Promise<string>;
+}
 
 const DEFAULT_OPTIONS: IMarkdownParserOptions = {
   highlight: true,

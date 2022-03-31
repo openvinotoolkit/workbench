@@ -1,13 +1,9 @@
 import { Injectable, SecurityContext } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { IMarkdownParser, IMarkdownParserOptions } from './index';
+import { IMarkdownParser, IMarkdownParserOptions } from './markdown-parser';
 
-// todo: proposal to move all markdown logic to a module with a service and a component
-// component template `<div class="markdown-body" [innerHTML]="readme"></div>`
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class MarkdownService {
   // The class `markdown-body` comes from `highlight.js` extension for `marked`.
   readonly markdownBodyClassName = 'markdown-body';
@@ -17,7 +13,7 @@ export class MarkdownService {
   constructor(private readonly _sanitizer: DomSanitizer) {}
 
   private async _loadParser() {
-    this._parser = await import('./markdown');
+    this._parser = await import('./markdown-parser');
   }
 
   async parse(text: string, options?: IMarkdownParserOptions): Promise<string> {

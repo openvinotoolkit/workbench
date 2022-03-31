@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
 
-import { MarkdownService } from '../../../modules/model-manager/components/hugging-face-import-ribbon-content/huggingface-model-details/markdown/markdown.service';
+import { MarkdownService } from './markdown.service';
 
 @Component({
   selector: 'wb-markdown-text',
