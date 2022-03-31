@@ -798,13 +798,6 @@ export class TestUtils {
     }
   }
 
-  async getMessageFromErrorContainer(): Promise<string> {
-    const detailsButton: ElementFinder = await TestUtils.getElementByDataTestId('details-button');
-    await this.clickElement(detailsButton);
-    const messageContainer: ElementFinder = await TestUtils.getElementByDataTestId('message-details');
-    return messageContainer.element(by.className('markdown-text-block')).getText();
-  }
-
   async waitRowStatus() {
     await this.inferenceCard.waitForProgressBar();
     return await this.waitForProjectToBeReady();
