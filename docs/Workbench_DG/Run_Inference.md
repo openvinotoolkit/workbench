@@ -34,7 +34,7 @@ OpenVINO allows users to parallelize the neural model and propagate several inpu
 
 - [Streams](https://docs.openvino.ai/latest/openvino_docs_deployment_optimization_guide_dldt_optimization_guide.html#throughput-mode-for-cpu): stream is the number of instances of your model running simultaneously. Inferring the same model in several streams simultaneously leads to higher model performance. 
 
-- [Batches](https://docs.openvino.ai/latest/openvino_docs_IE_DG_Glossary.html#terms): batch is the number of input data instances propagated to the model at a time.
+- [Batches](@ref openvino_docs_OV_Glossary): batch is the number of input data instances propagated to the model at a time.
 
 Using one of the methods or a combination of them allows getting a noticeable performance boost (especially for lightweight topologies) without any accuracy loss. Another optimization technique is the [INT8 Calibration](https://docs.openvino.ai/latest/openvino_docs_IE_DG_Int8Inference.html#doxid-openvino-docs-i-e-d-g-int8-inference) which results in a controllable accuracy drop.
 
@@ -49,6 +49,6 @@ The DL Workbench allows you to evaluate the performance of the model and provide
 
 * [Run Inference](Run_Single_Inference.md)
 * [View Inference Results](View_Inference_Results.md)
-* [OpenVINO™ Runtime documentation](@ref openvino_docs_OV_Runtime_User_Guide)
+* [OpenVINO™ Runtime documentation](@ref openvino_docs_OV_UG_OV_Runtime_User_Guide)
 * [Benchmark Tool](@ref openvino_inference_engine_tools_benchmark_tool_README)
 * [Troubleshooting](Troubleshooting.md)
