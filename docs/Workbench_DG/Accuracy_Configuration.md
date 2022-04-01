@@ -98,6 +98,6 @@ Below are the rules that help you create a valid configuration file:
 ## See Also
 
 * [Accuracy Checker](https://docs.openvinotoolkit.org/latest/omz_tools_accuracy_checker.html)
-* [Post-Training Optimization Tool](@ref pot_README)
+* [Post-Training Optimization Tool](@ref pot_introduction)
 * [Set Accuracy Configuration](Configure_Accuracy_Settings.md)
 * [Troubleshooting](Troubleshooting.md)

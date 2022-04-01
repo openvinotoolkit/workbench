@@ -284,5 +284,5 @@ Inference completed successfully
 
 * [Deploy and Integrate Performance Criteria into Application](Deploy_and_Integrate_Performance_Criteria_into_Application.md)
 * [Deployment Manager Guide](@ref openvino_docs_install_guides_deployment_manager_tool)
-* [Integrate the OpenVINO™ Runtime with Your Application](@ref openvino_docs_Integrate_OV_with_your_application)
+* [Integrate the OpenVINO™ Runtime with Your Application](@ref openvino_docs_OV_UG_Integrate_OV_with_your_application)
 * [Troubleshooting](Troubleshooting.md)

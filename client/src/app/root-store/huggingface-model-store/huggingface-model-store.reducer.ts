@@ -16,6 +16,7 @@ export const reducer = createReducer(
     ...state,
     modelsData: data,
     isModelsDataLoading: false,
+    modelsDataError: null,
   })),
 
   on(HuggingfaceModelsActions.loadModelDataFailure, (state, { error }) => ({

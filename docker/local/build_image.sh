@@ -5,7 +5,6 @@ HTTP_PROXY=${http_proxy}
 HTTPS_PROXY=${https_proxy}
 IMAGE_NAME=workbench
 IMAGE_TAG=local
-OPENVINO_VERSION="automation/Jenkins/openvino_version.yml"
 TERMINAL_COLOR_MESSAGE='\033[1;33m'
 TERMINAL_COLOR_CLEAR='\033[0m'
 
@@ -45,6 +44,9 @@ pushd ${ROOT_FOLDER}
 
     VERSIONS_FILE="${ROOT_FOLDER}/automation/Jenkins/openvino_version.yml"
 
+    OPENVINO_SETUP_VARS_LINK="https://raw.githubusercontent.com/openvinotoolkit/openvino/master/scripts/setupvars/setupvars.sh"
+    curl -LO ${OPENVINO_SETUP_VARS_LINK}
+
     WHEELS_FOLDER="${TEMP_FOLDER}/workbench/wheels"
     mkdir ${WHEELS_FOLDER}
     if [[ ! -z ${WHEELS_PATH} ]]; then
@@ -52,8 +54,8 @@ pushd ${ROOT_FOLDER}
     else
       WHEELS_VERSION=$(grep 'openvino_wheels_version'  ${VERSIONS_FILE} | awk '{print $2}')
       pushd ${WHEELS_FOLDER}
-        pip download "openvino==${WHEELS_VERSION}" --pre -d . --no-deps
-        pip download "openvino-dev==${WHEELS_VERSION}" --pre -d . --no-deps
+        pip download "openvino==${WHEELS_VERSION}" --pre -d . --no-deps --python-version 3.8
+        pip download "openvino-dev==${WHEELS_VERSION}" --pre -d . --no-deps --python-version 3.8
       popd
     fi
 
@@ -63,7 +65,7 @@ pushd ${ROOT_FOLDER}
       cp -R ${BUNDLS_PATH}/* ${BUNDLES_FOLDER}
     else
       pushd ${BUNDLES_FOLDER}
-        PACKAGE_LINK=$(grep 'openvino_package'  ${VERSIONS_FILE} | awk '{print $2}')
+        PACKAGE_LINK=$(grep 'openvino_deployment_archives'  ${VERSIONS_FILE} | awk '{print $2}')
         python3 "${TEMP_FOLDER}/workbench/wb/main/utils/bundle_creator/bundle_downloader.py" \
                 --link "${PACKAGE_LINK}" \
                 -os ubuntu18 ubuntu20 \
