@@ -120,7 +120,7 @@ export class DatasetListComponent extends HighlightAnimation implements AfterVie
     if (!datasetItem.tasks?.length) {
       return this.notAvailableLabel;
     }
-    return map(datasetItem.tasks, (task) => TaskTypeToNameMap[task]).toString();
+    return map(datasetItem.tasks, (task) => TaskTypeToNameMap[task]).join(', ');
   }
 
   getSize(dataset: DatasetItem): string {

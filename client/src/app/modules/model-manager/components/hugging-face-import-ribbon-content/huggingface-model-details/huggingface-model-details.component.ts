@@ -66,7 +66,7 @@ export class HuggingfaceModelDetailsComponent {
   ) {}
 
   private _extractTags(tags: string[], tag_group: Set<string>): string {
-    return tags.filter((tag) => tag_group.has(tag)).toString() || 'N/A';
+    return tags.filter((tag) => tag_group.has(tag)).join(', ') || 'N/A';
   }
 
   private _extractHfModelParameters(model: IHuggingfaceModel): IParameter[] {

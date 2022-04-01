@@ -118,7 +118,7 @@
   <ng-container matColumnDef="precisions">
     <th mat-header-cell *matHeaderCellDef class="precisions">Precisions</th>
     <td mat-cell *matCellDef="let element" class="precisions">
-      {{ element?.bodyPrecisions }}
+      {{ element?.bodyPrecisions?.join(', ') }}
     </td>
   </ng-container>
 

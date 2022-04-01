@@ -128,7 +128,7 @@ export class AccuracyReportTypeControlOptions {
     ) {
       const supportedTaskTypesNames = this._supportedTaskTypesForParentModelPredictionsReport
         .map((taskType) => TaskTypeToNameMap[taskType])
-        .toString();
+        .join(', ');
       const disabledMessage = this._messagesService.getHint(
         'createAccuracyReportRibbon',
         'notSupportedModelTaskTypeDisabledMessage',

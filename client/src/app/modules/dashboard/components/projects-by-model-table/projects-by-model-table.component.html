@@ -81,7 +81,7 @@
 
     <td mat-cell *matCellDef="let element" class="wb-cell precisions">
       <div class="cell-content">
-        {{ element?.runtimePrecisions }}
+        {{ element?.runtimePrecisions?.join(', ') }}
       </div>
     </td>
   </ng-container>
