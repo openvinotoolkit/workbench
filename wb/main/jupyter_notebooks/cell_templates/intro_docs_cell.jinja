@@ -4,9 +4,9 @@
 
 The purpose of this tutorial is to guide you through the stages of working with a model to optimize it and prepare for production using OpenVINO toolkit. The model used in the tutorial was imported from the DL Workbench project and has the following characteristics:
 
-| Model Name | Domain |  Task Type | Framework | Precisions |
-| :---: | :---: | :---: | :---: | :---: |
-| {{ project_model_name }} | {{ project_model_domain }} | {{ project_model_task_type | replace('_', ' ') | title }} | {{ SupportedFrameworksEnum.get_name(project_model_framework) }} | {{ project_model_precisions }} |
+| Model Name | Domain |  Task Type | Framework | Precisions | Source |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| {{ project_model_name }} | {{ project_model_domain }} | {{ project_model_task_type | replace('_', ' ') | title }} | {{ SupportedFrameworksEnum.get_name(project_model_framework) }} | {{ project_model_precisions }} | {{ project_model_source }} |
 
 {% if project_model_task_type == TaskEnum.object_detection.value -%}
     This model is trained to solve Object Detection task. The goal of Object Detection is to recognize instances of object classes (for example: people, cars, animals) and describe the locations of each detected object in the image using a bounding box.

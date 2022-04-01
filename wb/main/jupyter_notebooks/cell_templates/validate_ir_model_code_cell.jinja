@@ -3,9 +3,9 @@
 
 from openvino.runtime import Core
 
-# Create an Inference Engine instance
+# Create an OpenVINO Core instance
 core = Core()
 
 # Read the network from IR files
 model = core.read_model(model=model_xml_file_path, weights=model_bin_file_path)
-print(f'Model {model.friendly_name} was successfully loaded to Inference Engine.')
+print(f'Model {model.friendly_name} was successfully loaded to OpenVINO.')

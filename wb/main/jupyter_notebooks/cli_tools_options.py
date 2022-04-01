@@ -151,6 +151,9 @@ class CLIToolEnum(enum.Enum):
     pot = CLITool(path='pot',
                   displayed_options={'-c', '--output-dir', '--direct-dump'})
 
+    transformers_onnx = CLITool(path='python -m transformers.onnx',
+                                displayed_options=set())
+
     def format_to_markdown_table(self) -> str:
         return CLIToolHelpToMarkdownTableFormatter.format(cli_tool=self)
 

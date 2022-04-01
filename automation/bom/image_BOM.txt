@@ -508,6 +508,7 @@ wb/main/jupyter_notebooks/cell_templates/tokenize_dataset_docs_cell.jinja
 wb/main/jupyter_notebooks/cell_templates/tokenizer_parameters_code_cell.jinja
 wb/main/jupyter_notebooks/cell_templates/transformers_onnx_converter_code_cell.jinja
 wb/main/jupyter_notebooks/cell_templates/transformers_onnx_converter_docs_cell.jinja
+wb/main/jupyter_notebooks/cell_templates/transformers_onnx_converter_result_docs_cell.jinja
 wb/main/jupyter_notebooks/cell_templates/validate_ir_model_code_cell.jinja
 wb/main/jupyter_notebooks/cell_templates/validate_ir_model_docs_cell.jinja
 wb/main/jupyter_notebooks/cli_tools_options.py

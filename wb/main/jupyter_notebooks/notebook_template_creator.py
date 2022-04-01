@@ -103,6 +103,7 @@ class NotebookTemplateCreator:
                 NotebookCells.obtain_model_docs,
                 NotebookCells.transformers_onnx_converter_docs,
                 NotebookCells.transformers_onnx_converter_code,
+                NotebookCells.transformers_onnx_converter_result_docs,
                 NotebookCells.model_optimizer_docs,
                 NotebookCells.model_optimizer_code,
                 NotebookCells.model_optimizer_result_docs,

@@ -67,6 +67,7 @@ class NotebookCellIds(enum.Enum):
     tokenize_dataset_code = 'tokenize_dataset_code'
     tokenizer_parameters_code = 'tokenizer_parameters_code'
     transformers_onnx_converter_docs = 'transformers_onnx_converter_docs'
+    transformers_onnx_converter_result_docs = 'transformers_onnx_converter_result_docs'
     transformers_onnx_converter_code = 'transformers_onnx_converter_code'
 
 
@@ -150,6 +151,12 @@ class NotebookCells:
         cell_id=NotebookCellIds.transformers_onnx_converter_docs,
         cell_type=NotebookCellTypes.markdown,
         template_filename='transformers_onnx_converter_docs_cell.jinja'
+    )
+
+    transformers_onnx_converter_result_docs = NotebookCellConfig(
+        cell_id=NotebookCellIds.transformers_onnx_converter_result_docs,
+        cell_type=NotebookCellTypes.markdown,
+        template_filename='transformers_onnx_converter_result_docs_cell.jinja'
     )
 
     transformers_onnx_converter_code = NotebookCellConfig(

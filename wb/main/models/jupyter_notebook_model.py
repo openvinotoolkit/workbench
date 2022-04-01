@@ -26,14 +26,14 @@ from sqlalchemy.orm import relationship, backref, Mapper, Session, sessionmaker
 from config.constants import JUPYTER_NOTEBOOKS_FOLDER, ESSENTIAL_DATA_FOLDER
 from wb.main.console_tool_wrapper.model_optimizer.tool import ModelOptimizerTool
 from wb.main.enumerates import ModelPrecisionEnum, JobTypesEnum, StatusEnum, OptimizationTypesEnum, ModelDomainEnum, \
-    ModelShapeTypeEnum
+    ModelShapeTypeEnum, SupportedFrameworksEnum, ModelSourceEnum
 from wb.main.jupyter_notebooks.cell_template_contexts import IntroCellTemplateContext, \
     SetIRModelPathsCodeCellTemplateContext, ProfilingCodeCellTemplateContext, AccuracyDocsCellTemplateContext, \
     AccuracyCodeCellTemplateContext, Int8OptimizationCodeCellTemplateContext, Int8OptimizationDocsCellTemplateContext, \
     ObtainModelDocsCellTemplateContext, ModelDownloaderCodeCellTemplateContext, \
     CheckModelFormatDocsCellTemplateContext, ModelConverterCodeCellTemplateContext, \
     ModelOptimizerCodeCellTemplateContext, InstallRequirementsCodeCellTemplateContext, \
-    TokenizerParametersTemplateContext, TransformersONNXCodeCellTemplateContext
+    TokenizerParametersTemplateContext, TransformersONNXCodeCellTemplateContext, ProfilingDocsCellTemplateContext
 from wb.main.jupyter_notebooks.cli_tools_options import CLIToolEnum
 from wb.main.jupyter_notebooks.config_file_dumpers import AccuracyConfigFileDumper, Int8OptimizationConfigFileDumper
 from wb.main.jupyter_notebooks.jupyter_notebook_cell import NotebookCellIds
@@ -175,8 +175,12 @@ class JupyterNotebookModel(BaseModel):
         topology: 'TopologiesModel' = original_project.topology
         topology_json: dict = topology.json()
         model_task_type = topology_json.get('accuracyConfiguration', {}).get('taskType')
-        project_model_framework = topology.original_model_framework.value
         model_precisions = topology.get_precisions()
+        model_source = topology.source.get_name() if topology.source else None
+        if topology.source is ModelSourceEnum.huggingface:
+            project_model_framework = SupportedFrameworksEnum.pytorch.value
+        else:
+            project_model_framework = topology.original_model_framework.value
         mo_params = topology_json.get('analysis', {}).get('moParams', {})
         topology_analysis_precision = ModelPrecisionEnum.fp16.value
         if mo_params:
@@ -191,6 +195,7 @@ class JupyterNotebookModel(BaseModel):
             project_model_task_type=model_task_type,
             project_model_framework=project_model_framework,
             project_model_precisions=model_precisions,
+            project_model_source=model_source,
             has_tokenizer_section=self._has_tokenizer_section,
             has_accuracy_checker_section=self._has_accuracy_checker_section,
             has_int8_calibration_section=self._has_int8_calibration_section,
@@ -329,6 +334,10 @@ class JupyterNotebookModel(BaseModel):
             has_tokenizer_section=self._has_tokenizer_section or self.project.topology.domain is ModelDomainEnum.CV,
         )
 
+    @property
+    def _profiling_docs_cell_template_context(self) -> ProfilingDocsCellTemplateContext:
+        return ProfilingDocsCellTemplateContext(is_nlp=self.project.topology.domain is ModelDomainEnum.NLP)
+
     def _get_input_file_mapping_for_profiling(self, batch: int, streams: int) -> str:
         input_names = [input_['name'] for input_ in self.project.topology.meta.layout_configuration]
         number_of_samples = min(batch * streams, self.project.dataset.number_images)
@@ -462,6 +471,7 @@ class JupyterNotebookModel(BaseModel):
         NotebookCellIds.set_optimized_ir_model_paths_docs: _set_optimized_ir_model_paths_docs_cell_template_context,
         NotebookCellIds.set_optimized_ir_model_paths_code: _set_optimized_ir_model_paths_code_cell_template_context,
         NotebookCellIds.profiling_code: _profiling_code_cell_template_context,
+        NotebookCellIds.profiling_docs: _profiling_docs_cell_template_context,
         NotebookCellIds.accuracy_docs: _accuracy_docs_cell_template_context,
         NotebookCellIds.check_accuracy_config_code: _accuracy_docs_cell_template_context,
         NotebookCellIds.accuracy_code: _accuracy_code_cell_template_context,

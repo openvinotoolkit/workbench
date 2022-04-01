@@ -31,6 +31,7 @@ class IntroCellTemplateContext(TypedDict):
     project_model_task_type: str
     project_model_framework: str
     project_model_precisions: str
+    project_model_source: str
     has_tokenizer_section: bool
     has_accuracy_checker_section: bool
     has_int8_calibration_section: bool
@@ -77,6 +78,10 @@ class ProfilingCodeCellTemplateContext(PythonToolCodeCellTemplateContext):
     streams: int
     inference_time: int
     has_tokenizer_section: bool
+
+
+class ProfilingDocsCellTemplateContext(PythonToolCodeCellTemplateContext):
+    is_nlp: bool
 
 
 class TokenizerParametersTemplateContext(TypedDict):
