@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { StoreModule } from '@ngrx/store';
 
@@ -9,7 +10,6 @@ import { RootStoreState } from '@store';
 import { SharedModule } from '@shared/shared.module';
 
 import { HuggingfaceModelDetailsComponent } from './huggingface-model-details.component';
-import { MarkdownService } from './markdown/markdown.service';
 
 describe('HuggingfaceModelDetailsComponent', () => {
   let component: HuggingfaceModelDetailsComponent;
@@ -19,11 +19,12 @@ describe('HuggingfaceModelDetailsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         SharedModule,
+        RouterTestingModule,
         StoreModule.forRoot({
           ...RootStoreState.reducers,
         }),
       ],
-      providers: [HuggingfaceService, MarkdownService],
+      providers: [HuggingfaceService],
       declarations: [HuggingfaceModelDetailsComponent],
     }).compileComponents();
   });

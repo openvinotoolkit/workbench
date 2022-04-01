@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { SharedModule } from '@shared/shared.module';
 
@@ -15,7 +16,7 @@ describe('PipelineStagesComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [CommonModule, SharedModule],
+        imports: [CommonModule, RouterTestingModule, SharedModule],
         declarations: [
           PipelineStagesComponent,
           PipelineStageStatusComponent,

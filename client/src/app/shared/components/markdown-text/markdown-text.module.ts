@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 
-import { DirectivesModule } from '@shared/directives/directives.module';
+import { MarkdownService } from '@shared/components/markdown-text/markdown.service';
 
 import { MarkdownTextComponent } from './markdown-text.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, DirectivesModule],
+  imports: [CommonModule],
   declarations: [MarkdownTextComponent],
+  providers: [MarkdownService],
   exports: [MarkdownTextComponent],
 })
 export class MarkdownTextModule {}
