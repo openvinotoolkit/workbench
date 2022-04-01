@@ -22,6 +22,7 @@ import { OmzImportRibbonContentComponent } from './components/omz-import-ribbon-
 import { OmzModelDetailsComponent } from './components/omz-import-ribbon-content/omz-model-details/omz-model-details.component';
 import { HuggingFaceImportRibbonContentComponent } from './components/hugging-face-import-ribbon-content/hugging-face-import-ribbon-content.component';
 import { HuggingfaceModelDetailsComponent } from './components/hugging-face-import-ribbon-content/huggingface-model-details/huggingface-model-details.component';
+import { CardGridSkeletonComponent } from './components/card-grid-skeleton/card-grid-skeleton.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { HuggingfaceModelDetailsComponent } from './components/hugging-face-impo
     OmzModelDetailsComponent,
     HuggingFaceImportRibbonContentComponent,
     HuggingfaceModelDetailsComponent,
+    CardGridSkeletonComponent,
   ],
   imports: [
     CommonModule,

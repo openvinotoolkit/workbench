@@ -13,6 +13,7 @@ import {
   ModelZooDetailsParametersComponent,
 } from './model-zoo-details/model-zoo-details.component';
 import { ModelZooNotificationComponent } from './model-zoo-notification/model-zoo-notification.component';
+import { ModelZooErrorComponent } from './model-zoo-error/model-zoo-error.component';
 
 @NgModule({
   imports: [CommonModule, SharedModule],
@@ -26,6 +27,7 @@ import { ModelZooNotificationComponent } from './model-zoo-notification/model-zo
     ModelZooDetailsDescriptionComponent,
     ModelZooDetailsFooterComponent,
     ModelZooCounterComponent,
+    ModelZooErrorComponent,
   ],
   exports: [
     ModelZooLayoutComponent,
@@ -37,6 +39,7 @@ import { ModelZooNotificationComponent } from './model-zoo-notification/model-zo
     ModelZooDetailsDescriptionComponent,
     ModelZooDetailsFooterComponent,
     ModelZooCounterComponent,
+    ModelZooErrorComponent,
   ],
 })
 export class ModelZooLayoutModule {}
