@@ -33,7 +33,7 @@ During the baseline inference with Batch 1 Stream 1 configurations, DL Workbench
 ![](img/autobenchmarking.png)
 
 
-> **NOTE**: For details about inference processes, see the [OpenVINO™ Runtime documentation](@ref openvino_docs_OV_Runtime_User_Guide).
+> **NOTE**: For details about inference processes, see the [OpenVINO™ Runtime documentation](@ref openvino_docs_OV_UG_OV_Runtime_User_Guide).
 
 ## Run Group Inference 
 
@@ -96,7 +96,7 @@ During the baseline inference with Batch 1 Stream 1 configurations, DL Workbench
 ![](img/autobenchmarking.png)
 
 
-> **NOTE**: For details about inference processes, see the [OpenVINO™ Runtime documentation](@ref openvino_docs_OV_Runtime_User_Guide). 
+> **NOTE**: For details about inference processes, see the [OpenVINO™ Runtime documentation](@ref openvino_docs_OV_UG_OV_Runtime_User_Guide). 
 
 ## See Also
 
