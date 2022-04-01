@@ -1059,10 +1059,13 @@ export class TestUtils {
     const width = firstImage.width;
     const height = firstImage.height;
     const diffPng: PNG = new PNG({ width, height });
-    const diff: number = await pixelmatch(firstImage.data, secondImage.data, diffPng.data, width, height, options);
+    const diff: number = pixelmatch(firstImage.data, secondImage.data, diffPng.data, width, height, options);
+
+    console.log(`TOTAL DIFF: ${diff}`);
+    console.log(`PERCENTAGE DIFF: ${(diff / (width * height)) * 100}`);
 
     if (!!diff) {
-      const filePath = path.join(savePath ? savePath : browser.params.screenShotPath, diffImageName + '.png');
+      const filePath = path.join(savePath ? savePath : browser.params.logsPath, diffImageName + '.png');
       diffPng.pack().pipe(createWriteStream(filePath));
     }
     return !!diff;
