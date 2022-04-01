@@ -99,7 +99,7 @@ model works in the OpenVINO™ environment. Feel free to change the model and ex
 
 ## See Also
 * [Learn Model Workflow with OpenVINO API](Jupyter_Notebooks_CLI.md)
-* OpenVINO™ [samples](@ref openvino_docs_IE_DG_Samples_Overview)
+* OpenVINO™ [samples](@ref openvino_docs_OV_UG_Samples_Overview)
   and [application demos](https://docs.openvino.ai/latest/omz_demos.html)
 * [OpenVINO™ Python API Reference](https://docs.openvinotoolkit.org/latest/ie_python_api/annotated.html)
 * [JupyterLab documentation](https://jupyter-notebook.readthedocs.io/en/stable/ui_components.html)
