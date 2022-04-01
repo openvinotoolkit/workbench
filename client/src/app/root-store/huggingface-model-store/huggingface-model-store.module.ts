@@ -5,6 +5,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { HuggingfaceModelStoreEffects } from './huggingface-model-store.effects';
+import { HuggingfaceModelStoreGaEffects } from './huggingface-model-store.ga.effects';
 import { reducer } from './huggingface-model-store.reducer';
 
 export const FEATURE_KEY = 'huggingfaceModel';
@@ -14,7 +15,7 @@ export const FEATURE_KEY = 'huggingfaceModel';
   imports: [
     CommonModule,
     StoreModule.forFeature(FEATURE_KEY, reducer),
-    EffectsModule.forFeature([HuggingfaceModelStoreEffects]),
+    EffectsModule.forFeature([HuggingfaceModelStoreEffects, HuggingfaceModelStoreGaEffects]),
   ],
 })
 export class HuggingfaceModelStoreModule {}
