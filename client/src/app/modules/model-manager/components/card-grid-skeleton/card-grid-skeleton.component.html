@@ -1,0 +1,10 @@
+<wb-card-grid [dataSource]="dataSource">
+  <wb-card *wbCardDef [disabled]="true">
+    <wb-card-title-row>
+      <wb-card-content-row-item *wbSkeleton="true"></wb-card-content-row-item>
+    </wb-card-title-row>
+    <wb-card-content-row *ngFor="let _ of fakeRows.slice(1)">
+      <wb-card-content-row-item *wbSkeleton="true; width: 'rand'"></wb-card-content-row-item>
+    </wb-card-content-row>
+  </wb-card>
+</wb-card-grid>

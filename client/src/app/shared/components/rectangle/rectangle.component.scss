@@ -1,0 +1,26 @@
+@import 'colors';
+
+:host {
+  display: block;
+  width: var(--rectangle-width);
+  height: var(--rectangle-height);
+  background: $very-light-pink no-repeat;
+  border-radius: 3px;
+}
+
+::ng-deep .pulse {
+  animation: pulse 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation-delay: 0.5s;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}

@@ -1,6 +1,6 @@
 <ng-template
   *ngFor="let item of data"
-  [ngTemplateOutlet]="cardDirective.templateRef"
+  [ngTemplateOutlet]="cardDirective?.templateRef"
   [ngTemplateOutletContext]="{ $implicit: item }"
 >
 </ng-template>
