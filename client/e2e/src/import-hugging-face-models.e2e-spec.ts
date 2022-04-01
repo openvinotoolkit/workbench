@@ -44,7 +44,8 @@ describe('UI tests on Downloading HF Models', () => {
     expect(await testUtils.configurationWizard.uploadsModelsTableElementsCount()).toEqual(uploadedElementsCount);
   });
 
-  it('filter model list, find model, download it and delete', async () => {
+  // 83160
+  xit('filter model list, find model, download it and delete', async () => {
     const model: HFModel = browser.params.precommit_scope.resources.HFModels.russian_toxicity_classifier;
     const uploadedElementsCount = await testUtils.configurationWizard.uploadsModelsTableElementsCount();
     await testUtils.modelManagerPage.goToModelManager();
@@ -82,7 +83,7 @@ describe('UI tests on Downloading HF Models', () => {
 
     // 'electra' models are not currently supported so the model cards cannot be selected
     const firstModelCard: ElementFinder = await testUtils.HFModelDownloadPage.getFirstModelCard();
-    expect(await testUtils.HFModelDownloadPage.isModelAvailableForDownload(firstModelCard)).toBeFalsy();
+    expect(await testUtils.HFModelDownloadPage.isElementAvailable(firstModelCard)).toBeFalsy();
 
     // Expand language filter
     await testUtils.HFModelDownloadPage.expandFilterGroup('language');

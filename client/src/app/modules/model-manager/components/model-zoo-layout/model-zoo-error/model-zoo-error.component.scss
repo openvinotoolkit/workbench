@@ -1,0 +1,30 @@
+@import 'fonts';
+@import 'colors';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+
+  .error-icon {
+    $icon-size: 50px;
+    width: $icon-size;
+    height: $icon-size;
+  }
+
+  .error-icon + .message-container {
+    margin-top: 10px;
+  }
+
+  .message-container {
+    @include wb-text-8();
+    color: $brownish-grey;
+    text-align: center;
+  }
+
+  .message-container + ::ng-deep [ngprojectas='model-zoo-error-button'] {
+    margin-top: 30px;
+  }
+}
