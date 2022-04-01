@@ -10,25 +10,20 @@ export interface IMarkdownParserOptions {
   highlight: boolean;
 }
 
-export interface IMarkdownParser {
-  parse: (markdownTest: string, options?: IMarkdownParserOptions) => Promise<string>;
-}
-
 const DEFAULT_OPTIONS: IMarkdownParserOptions = {
   highlight: true,
 };
 
 export async function parse(text: string, options: IMarkdownParserOptions = DEFAULT_OPTIONS): Promise<string> {
   const noYamlHeaderText = cutYamlHeader(text);
-  return marked.parse(noYamlHeaderText, options.highlight ? highlightConfig : commonConfig);
+  return marked.parse(noYamlHeaderText, options.highlight ? { ...commonConfig, ...highlightConfig } : commonConfig);
 }
 
-const commonConfig = {
+const commonConfig: marked.MarkedOptions = {
   breaks: true,
 };
 
-const highlightConfig = {
-  ...commonConfig,
+const highlightConfig: marked.MarkedOptions = {
   highlight: function (code, lang) {
     const language = hljs.getLanguage(lang) ? lang : 'plaintext';
     return hljs.highlight(code, { language }).value;
