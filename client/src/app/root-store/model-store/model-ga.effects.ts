@@ -10,7 +10,7 @@ import { Categories, GAActions, GoogleAnalyticsService } from '@core/services/co
 import { ProjectStatusNames } from '@store/project-store/project.model';
 import { selectModelById, selectModelByModelOptimizerJobId } from '@store/model-store/model.selectors';
 import { RootStoreState } from '@store';
-import { modelFrameworkNamesMap } from '@store/model-store/model.model';
+import { modelFrameworkNamesMap, ModelSources } from '@store/model-store/model.model';
 
 import * as ModelStoreActions from './model.actions';
 
@@ -30,6 +30,45 @@ export class ModelGAEffects {
         ),
         tap(([payload, model]) => {
           this.gAnalyticsService.emitUploadModelEvent(payload, model);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  importHuggingfaceModelStart$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ModelStoreActions.importHuggingfaceModel),
+        tap(({ huggingfaceModel }) => this.gAnalyticsService.emitImportHuggingfaceModelStart(huggingfaceModel))
+      ),
+    { dispatch: false }
+  );
+
+  importHuggingfaceModelStartFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ModelStoreActions.importHuggingfaceModelFailure),
+        tap(({ error }) => {
+          this.gAnalyticsService.emitImportHuggingfaceModelFailure(error.toString());
+        })
+      ),
+    { dispatch: false }
+  );
+
+  importHuggingfaceModelFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ModelStoreActions.onUploadModelSocket),
+        mergeMap(({ data }) => of(data).pipe(withLatestFrom(this.store$.pipe(select(selectModelById, data.id))))),
+        //  for some reason ready status is firing twice, here we catch only message when status actually changes
+        filter(
+          ([{ status }, model]) =>
+            status.name === ProjectStatusNames.ERROR &&
+            model?.status.name === ProjectStatusNames.RUNNING &&
+            model?.modelSource === ModelSources.HUGGINGFACE
+        ),
+        tap(([payload]) => {
+          this.gAnalyticsService.emitImportHuggingfaceModelFailure(payload.status.errorMessage);
         })
       ),
     { dispatch: false }
