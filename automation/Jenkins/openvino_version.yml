@@ -1,2 +1,4 @@
 openvino_wheels_version: 2022.1.0
 openvino_deployment_archives: https://storage.openvinotoolkit.org/deployment_archives/releases/2022.1/
+openvino_runtime_package_ubuntu: 2022.1/l_openvino_toolkit_runtime_ubuntu20_p_2022.1.0.643.tgz
+openvino_runtime_package_darwin:  2022.1/m_openvino_toolkit_runtime_p_2022.1.0.643.tgz
