@@ -64,7 +64,8 @@
     "e2e:migrationInferenceTest": "migrationInferenceTest",
     "e2e:migrationCheckRestore": "migrationCheckRestore",
     "e2e:preConfiguration": "preConfiguration",
-    "e2e:accuracyReportsSuite": "accuracyReportsSuite"
+    "e2e:accuracyReportsSuite": "accuracyReportsSuite",
+    "e2e:smokeCpu": "smokeCPU"
   },
   "generate_nightly": "python3 automation/generate_tests/generate_nightly_tests.py --hostname $DL_PROFILER_DEPLOY_TARGET --tls $REQUEST_TLS --precommit $PRECOMMIT"
 }

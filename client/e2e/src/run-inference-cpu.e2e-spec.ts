@@ -10,7 +10,7 @@ import { Helpers } from './pages/helpers';
 import { InferenceUtils } from './pages/inference-utils';
 import { LoginPage } from './pages/login.po';
 import { AnalyticsPopup } from './pages/analytics-popup.po';
-import { ModelFile } from './pages/model-file';
+import { HFModel, ModelFile } from './pages/model-file';
 
 describe('UI tests on Running inference', () => {
   let testUtils: TestUtils;
@@ -446,6 +446,14 @@ describe('UI tests on Running inference', () => {
       false,
       false
     );
+  });
+
+  it('should download an NLP model from HF, run inference', async () => {
+    const model: HFModel = browser.params.precommit_scope.resources.HFModels.ms_marco_MiniLM_L_12_v2;
+    const inferenceTarget = InferenceType.CPU;
+    await testUtils.HFModelDownloadPage.selectDownloadConvertModel(model);
+    await inferenceUtils.runInferenceOnDownloadedModel(model.name, sentimentClassificationDataset, inferenceTarget);
+    await testUtils.checkExecutionAttributes();
   });
 
   // 76484

@@ -11,8 +11,6 @@ import {
 import { DatePipe } from '@angular/common';
 
 import { Store } from '@ngrx/store';
-import { switchMap } from 'rxjs/operators';
-import { of, from } from 'rxjs';
 
 import { ModelDomain, modelDomainNames } from '@store/model-store/model.model';
 import { RootStoreState } from '@store';
@@ -22,7 +20,6 @@ import { IHuggingfaceModel } from '@shared/models/huggingface/huggingface-model'
 import { IParameter } from '@shared/components/model-details/parameter-details/parameter-details.component';
 import { shortenNumber } from '@shared/pipes/format-number.pipe';
 
-import { MarkdownService } from './markdown/markdown.service';
 import { IHuggingfaceTagsSets } from '../hugging-face-import-ribbon-content.component';
 
 @Component({
@@ -53,9 +50,7 @@ export class HuggingfaceModelDetailsComponent {
   @Output() import = new EventEmitter<void>();
   @Output() hide = new EventEmitter<void>();
 
-  readonly markdownHTML$ = this._store$
-    .select(HuggingfaceModelStoreSelectors.selectModelReadme)
-    .pipe(switchMap((readme) => (readme ? from(this._mdService.parse(readme)) : of(null))));
+  readonly markdownHTML$ = this._store$.select(HuggingfaceModelStoreSelectors.selectModelReadme);
 
   readonly loading$ = this._store$.select(HuggingfaceModelStoreSelectors.selectModelReadmeLoading);
   readonly error$ = this._store$.select(HuggingfaceModelStoreSelectors.selectModelReadmeError);
@@ -66,7 +61,6 @@ export class HuggingfaceModelDetailsComponent {
 
   constructor(
     private readonly _cdr: ChangeDetectorRef,
-    private readonly _mdService: MarkdownService,
     private readonly _store$: Store<RootStoreState.State>,
     @Inject(LOCALE_ID) private readonly _localeId: string
   ) {}

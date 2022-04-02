@@ -45,6 +45,7 @@ export class AppComponent implements OnInit {
 
   private _checkBrowserUserAgent(): void {
     const isChromeBrowser = navigator.userAgent.match(/Chrome/);
+    // todo: save flag to localstorage or user metadata
     if (!isChromeBrowser) {
       const { title, message } = this._browserInformationMessage;
       this.notificationService.add(title, message, NotificationType.DEFAULT);
