@@ -21,7 +21,6 @@ from wb.main.scripts.job_scripts_generators.script_generator import ScriptGenera
 
 class SetupScriptGenerationContext(ScriptGenerationContext):
     NO_SUDO_SETUP_MESSAGE: str
-    TELEMETRY_SPECIFIC: str
     disable_telemetry: bool
 
 
