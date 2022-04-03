@@ -180,7 +180,7 @@ describe('UI tests on Accuracy Reports', () => {
     expect(await TestUtils.getAllElementsByDataTestId('predictions-table').count()).toBeGreaterThan(1);
   });
 
-  // TODO: 70558, 82461
+  // TODO: 70558
   xit(
     'should download a semantic segmentation model (deeplabv3), ' +
       'int8 calibration, check that predictions comparison is available and that tensor comparison is available, ' +
