@@ -23,7 +23,7 @@ jobs:
             const prName = context.payload.pull_request.title;
             console.log(`Pull Request Name is ${prName}`);
 
-            const shouldSkip = skipLabels.some(label => prName.toLowerCase().includes(label) || dependencyUpdateRegExp.test(prName)
+            const shouldSkip = skipLabels.some(label => prName.toLowerCase().includes(label)) || dependencyUpdateRegExp.test(prName)
             if (shouldSkip) {
               console.log('Skipping PR name checks');
               return;
