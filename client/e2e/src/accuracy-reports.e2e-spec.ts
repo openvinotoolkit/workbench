@@ -28,7 +28,6 @@ describe('UI tests on Accuracy Reports', () => {
   let remoteMachineAdding: AddRemoteMachinePo;
   const targetMachines = new TargetMachines();
   let remoteMachineInfo = { name: '' };
-
   const imageNetNotAnnotated = browser.params.precommit_scope.resources.imageNetNotAnnotated;
 
   beforeAll(async () => {
