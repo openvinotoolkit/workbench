@@ -406,7 +406,7 @@ describe('UI tests on Accuracy Reports', () => {
       await browser.sleep(1500);
 
       // Open INT8 project
-      // await testUtils.homePage.openProjectByModelAndDatasetNames(modelFile.name, imageNetNotAnnotated.name, true);
+      await testUtils.homePage.openProjectByModelAndDatasetNames(modelFile.name, imageNetNotAnnotated.name, true);
       await browser.sleep(1000);
       // Configure accuracy
       await testUtils.advancedAccuracy.goToAccuracyConfiguration();
@@ -424,7 +424,7 @@ describe('UI tests on Accuracy Reports', () => {
       expect(editorLines.includes('datasets:')).toBeTruthy();
       await browser.waitForAngularEnabled(true);
 
-      // await testUtils.homePage.openProjectByModelAndDatasetNames(modelFile.name, imageNetNotAnnotated.name, true);
+      await testUtils.homePage.openProjectByModelAndDatasetNames(modelFile.name, imageNetNotAnnotated.name, true);
       await testUtils.advancedAccuracy.goToAccuracyConfiguration();
       await browser.sleep(1500);
       await testUtils.modelManagerPage.configureAccuracySettingsAndSave(
