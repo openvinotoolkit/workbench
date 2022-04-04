@@ -12,6 +12,8 @@ import { DatePipe } from '@angular/common';
 
 import { Store } from '@ngrx/store';
 
+import { MessagesService } from '@core/services/common/messages.service';
+
 import { ModelDomain, modelDomainNames } from '@store/model-store/model.model';
 import { RootStoreState } from '@store';
 import { HuggingfaceModelStoreActions, HuggingfaceModelStoreSelectors } from '@store/huggingface-model-store';
@@ -35,6 +37,9 @@ export class HuggingfaceModelDetailsComponent {
     this._model = value;
     if (this._model) {
       this.parameters = this._extractHfModelParameters(this._model);
+      this.huggingfaceCardUrl = this._messages.getHint('huggingfaceModels', 'huggingfaceModelCard', {
+        id: this._model.id,
+      });
       this._store$.dispatch(HuggingfaceModelStoreActions.loadModelReadme({ huggingfaceModelId: this._model.id }));
     } else {
       this.parameters = null;
@@ -56,12 +61,14 @@ export class HuggingfaceModelDetailsComponent {
   readonly error$ = this._store$.select(HuggingfaceModelStoreSelectors.selectModelReadmeError);
 
   parameters: IParameter[] = [];
+  huggingfaceCardUrl: string;
 
   isImportStarted = false;
 
   constructor(
     private readonly _cdr: ChangeDetectorRef,
     private readonly _store$: Store<RootStoreState.State>,
+    private readonly _messages: MessagesService,
     @Inject(LOCALE_ID) private readonly _localeId: string
   ) {}
 

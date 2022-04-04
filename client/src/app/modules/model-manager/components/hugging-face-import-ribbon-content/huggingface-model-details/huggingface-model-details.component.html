@@ -6,6 +6,7 @@
 
   <wb-model-zoo-details-parameters>
     <wb-parameter-details class="parameter" *ngFor="let param of parameters" [parameter]="param"></wb-parameter-details>
+    <wb-markdown-text class="hf-card-url" [text]="huggingfaceCardUrl"></wb-markdown-text>
   </wb-model-zoo-details-parameters>
 
   <wb-model-zoo-details-description>

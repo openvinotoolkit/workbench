@@ -263,5 +263,8 @@
   "textDatasetTaskType": {
     "textClassification": "Text classification is the task of assigning a sentence or document an appropriate category (also called label or class). Specify the number of the dataset column that contains Text and Label for classification.",
     "textualEntailment": "Textual entailment is the task of deciding whether the meaning of the Hypothesis (second text) can be inferred from the Premise (first text). The entailment relation is specified by the Label. Use textual entailment pattern for classification tasks that require two texts as input."
+  },
+  "huggingfaceModels": {
+    "huggingfaceModelCard": "[Model Card on HuggingFace](https://huggingface.co/${id})"
   }
 }
