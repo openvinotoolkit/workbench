@@ -715,7 +715,7 @@ wb/main/scripts/templates/accuracy.sh.jinja
 wb/main/scripts/templates/annotate_dataset.sh.jinja
 wb/main/scripts/templates/base_job.sh.jinja
 wb/main/scripts/templates/create_tensor_distance_report.sh.jinja
-wb/main/scripts/templates/disable_telemetry.sh.jinja
+wb/main/scripts/templates/disable_telemetry.jinja
 wb/main/scripts/templates/get_inference_engine_devices.sh.jinja
 wb/main/scripts/templates/get_system_resources.sh.jinja
 wb/main/scripts/templates/has_internet_connection.sh.jinja
