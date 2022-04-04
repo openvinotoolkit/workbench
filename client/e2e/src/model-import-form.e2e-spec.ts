@@ -4,8 +4,8 @@ import { ModelColorChannels, TransformationsConfigType } from '@store/model-stor
 
 import { TestUtils } from './pages/test-utils';
 import { Helpers } from './pages/helpers';
-import { OMZModelPrecisionEnum } from '../../src/app/modules/model-manager/components/model-downloader-table/model-downloader-table.component';
 import { isMXNetModel, isTensorFlowModel, ModelFile } from './pages/model-file';
+import { OMZModelPrecisionEnum } from '../../src/app/modules/model-manager/components/omz-import-ribbon-content/omz-import-ribbon-content.component';
 
 describe('UI tests for model import form', () => {
   const testUtils = new TestUtils();

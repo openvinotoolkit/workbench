@@ -19,7 +19,7 @@ import {
   UploadingModelDTO,
   UploadingTF2SavedModelDTO,
 } from './model.model';
-import { OMZModelPrecisionEnum } from '../../modules/model-manager/components/model-downloader-table/model-downloader-table.component';
+import { OMZModelPrecisionEnum } from '../../modules/model-manager/components/omz-import-ribbon-content/omz-import-ribbon-content.component';
 
 export const waitDownload = createAction('[Model] Fake download state');
 

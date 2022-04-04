@@ -1,4 +1,4 @@
-import { OMZModelPrecisionEnum } from '../../../src/app/modules/model-manager/components/model-downloader-table/model-downloader-table.component';
+import { OMZModelPrecisionEnum } from '../../../src/app/modules/model-manager/components/omz-import-ribbon-content/omz-import-ribbon-content.component';
 
 export type FrameworkType = 'OpenVINO IR' | 'MxNet' | 'Caffe' | 'ONNX' | 'TensorFlow' | 'TensorFlow V2';
 export type ColorSpace = 'RGB' | 'BGR' | 'Grayscale';

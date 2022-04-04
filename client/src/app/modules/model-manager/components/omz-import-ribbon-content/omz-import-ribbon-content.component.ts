@@ -12,8 +12,14 @@ import {
   OpenModelZooDataSource,
 } from '@shared/models/model-zoo-data-source/open-model-zoo-data-source';
 
-import { OMZModelPrecisionEnum } from '../model-downloader-table/model-downloader-table.component';
 import { BaseModelZooImportComponent } from '../base-model-zoo-import/base-model-zoo-import.component';
+
+// TODO Consider replacing with `ModelPrecisionEnum` or moving closer to model interfaces
+export enum OMZModelPrecisionEnum {
+  FP32 = 'FP32',
+  FP16 = 'FP16',
+  INT8 = 'INT8',
+}
 
 @Component({
   selector: 'wb-omz-import-ribbon-content',

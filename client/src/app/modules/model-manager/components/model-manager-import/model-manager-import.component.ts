@@ -34,7 +34,7 @@ import {
   tfModelFileFieldsMap,
   tfModelUtilFieldsMap,
 } from './model-import-fields';
-import { OMZModelPrecisionEnum } from '../model-downloader-table/model-downloader-table.component';
+import { OMZModelPrecisionEnum } from '../omz-import-ribbon-content/omz-import-ribbon-content.component';
 
 export function getUploadModelStage(uploadingModel: ModelItem | Partial<ModelItem>): ProjectStatus {
   if (!uploadingModel || !uploadingModel.stages || !uploadingModel.stages.length) {
