@@ -106,7 +106,8 @@ describe('UI tests on visualization for model with not annotated dataset', () =>
       model,
       expectedImageFile,
       ['1', '61', '1', '67', '1'],
-      5
+      5,
+      { threshold: 0.2 }
     );
   });
 

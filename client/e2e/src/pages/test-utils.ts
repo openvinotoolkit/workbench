@@ -1054,12 +1054,16 @@ export class TestUtils {
     const diffPng: PNG = new PNG({ width, height });
     const diff: number = pixelmatch(firstImage.data, secondImage.data, diffPng.data, width, height, options);
 
-    console.log(`TOTAL DIFF: ${diff}`);
-    console.log(`PERCENTAGE DIFF: ${(diff / (width * height)) * 100}`);
-
     if (!!diff) {
-      const filePath = path.join(savePath ? savePath : browser.params.logsPath, diffImageName + '.png');
+      console.log(`TOTAL DIFF: ${diff}`);
+      // Save diff image
+      const shortName: string = diffImageName.slice(-40);
+      const filePath = path.join(savePath ? savePath : browser.params.logsPath, shortName + '.png');
       diffPng.pack().pipe(createWriteStream(filePath));
+
+      // Save actual and expected images
+      fs.writeFileSync(path.join(browser.params.logsPath, `${shortName}_actual.png`), PNG.sync.write(firstImage));
+      fs.writeFileSync(path.join(browser.params.logsPath, `${shortName}_expected.png`), PNG.sync.write(secondImage));
     }
     return !!diff;
   }
