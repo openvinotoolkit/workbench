@@ -53,12 +53,11 @@ export class OmzImportRibbonContentComponent extends BaseModelZooImportComponent
     this._populateSortOptions();
     this._disableControlsOnLoading();
 
-    this._store$.dispatch(ModelStoreActions.loadOMZModels());
-    this._store$.dispatch(GlobalsStoreActions.getFrameworksAvailability());
-
     this._omzModels$.pipe(takeUntil(this._unsubscribe$)).subscribe((models) => {
       this.dataSource.data = models;
     });
+
+    this._triggerModelsLoading();
   }
 
   protected get _dataSourceFilter(): IOpenModelZooFilter {
@@ -66,6 +65,11 @@ export class OmzImportRibbonContentComponent extends BaseModelZooImportComponent
       name: this.searchControl.value,
       filters: this.filtersControl?.value || {},
     };
+  }
+
+  protected _triggerModelsLoading(): void {
+    this._store$.dispatch(ModelStoreActions.loadOMZModels());
+    this._store$.dispatch(GlobalsStoreActions.getFrameworksAvailability());
   }
 
   importModel(): void {

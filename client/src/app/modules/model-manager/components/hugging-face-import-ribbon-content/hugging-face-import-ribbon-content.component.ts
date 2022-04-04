@@ -43,6 +43,7 @@ export class HuggingFaceImportRibbonContentComponent
 
   private readonly _modelData$ = this._store$.select(HuggingfaceModelStoreSelectors.selectModelsData);
   readonly isLoading$ = this._store$.select(HuggingfaceModelStoreSelectors.selectLoading);
+  readonly error$ = this._store$.select(HuggingfaceModelStoreSelectors.selectError);
 
   readonly dataSource = new HuggingfaceModelZooDataSource();
 
@@ -80,12 +81,16 @@ export class HuggingFaceImportRibbonContentComponent
         this._cdr.detectChanges();
       });
 
-    this._store$.dispatch(HuggingfaceModelStoreActions.loadModelData());
+    this._triggerModelsLoading();
   }
 
   ngOnDestroy(): void {
     super.ngOnDestroy();
     this._store$.dispatch(HuggingfaceModelStoreActions.reset());
+  }
+
+  protected _triggerModelsLoading(): void {
+    this._store$.dispatch(HuggingfaceModelStoreActions.loadModelData());
   }
 
   protected get _dataSourceFilter(): IHuggingfaceModelZooFilter {
