@@ -110,8 +110,6 @@
     <wb-model-manager-import
       *ngIf="modelWizardStage === MODEL_WIZARD_STAGES.UPLOAD"
       [uploadingModel]="model"
-      [omzModels]="omzModels$ | async"
-      [omzModelsAreLoading]="omzModelsAreLoading$ | async"
       [sidenavOpened]="wbMasterDetail.detailsSidenav.opened"
       [isConnected]="isConnected$ | async"
       [frameworksAvailability]="frameworksAvailability$ | async"

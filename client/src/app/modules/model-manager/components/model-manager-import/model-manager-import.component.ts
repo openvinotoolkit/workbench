@@ -65,12 +65,9 @@ enum TFVersions {
 export class ModelManagerImportComponent implements OnInit, OnDestroy {
   @Input() uploadingModel: ModelItem;
 
-  @Input() omzModels: ModelDownloaderDTO[];
-
-  @Input() omzModelsAreLoading: boolean;
-
   @Input() isConnected: boolean;
 
+  // TODO Remove + remove master detail
   @Input() sidenavOpened = false;
 
   @Input() frameworksAvailability: IFrameworksAvailability = null;
@@ -87,6 +84,7 @@ export class ModelManagerImportComponent implements OnInit, OnDestroy {
 
   @Output() selectModelSource = new EventEmitter<ModelSources>();
 
+  // TODO Remove
   @Output() showModelInfo: EventEmitter<ModelDownloaderDTO> = new EventEmitter<ModelDownloaderDTO>();
 
   @Output() closeModelInfo = new EventEmitter();
@@ -367,10 +365,6 @@ export class ModelManagerImportComponent implements OnInit, OnDestroy {
     }
     this.uploadModel.emit({ model: formValue });
     this.uploadModelFormGroup.disable();
-  }
-
-  handleImportOMZModel({ model, precision }): void {
-    this.uploadModel.emit({ model, precision });
   }
 
   updateTip(): void {

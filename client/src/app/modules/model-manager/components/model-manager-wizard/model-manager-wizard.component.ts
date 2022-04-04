@@ -115,8 +115,6 @@ export class ModelManagerWizardComponent implements OnDestroy {
 
   selectedForDetailsModel: ModelDownloaderDTO = null;
 
-  readonly omzModels$ = this._store$.select(ModelStoreSelectors.selectOMZModels);
-  readonly omzModelsAreLoading$ = this._store$.select(ModelStoreSelectors.selectOMZModelsAreLoading);
   readonly isConnected$ = this._store$.select(GlobalsStoreSelectors.selectConnectionStatusState);
   readonly frameworksAvailability$ = this._store$.select(GlobalsStoreSelectors.selectFrameworksAvailability);
   readonly importError$ = this._store$.select(ModelStoreSelectors.selectModelError);

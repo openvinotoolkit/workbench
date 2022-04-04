@@ -37,15 +37,14 @@
           <ng-container [ngSwitch]="selectedImportModelRibbonValue">
             <ng-container *ngSwitchCase="ImportModelRibbonIds.OMZ">
               <wb-omz-import-ribbon-content></wb-omz-import-ribbon-content>
-              <!--              <ng-container [ngTemplateOutlet]="importFromOMZTabContent"></ng-container>-->
-            </ng-container>
-
-            <ng-container *ngSwitchCase="ImportModelRibbonIds.ORIGINAL_MODEL">
-              <ng-container [ngTemplateOutlet]="uploadModelTabContent"></ng-container>
             </ng-container>
 
             <ng-container *ngSwitchCase="ImportModelRibbonIds.HUGGING_FACE">
               <wb-hugging-face-import-ribbon-content></wb-hugging-face-import-ribbon-content>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="ImportModelRibbonIds.ORIGINAL_MODEL">
+              <ng-container [ngTemplateOutlet]="uploadModelTabContent"></ng-container>
             </ng-container>
           </ng-container>
         </ng-container>
@@ -62,6 +61,7 @@
   </div>
 </div>
 
+<!-- TODO Consider moving to separate component -->
 <ng-template #uploadModelTabContent>
   <form #formEl="ngForm">
     <div [ngClass]="['framework', 'framework--' + modelFrameworkControl?.value, 'import-form-container']">
@@ -182,20 +182,5 @@
   <div class="key-val" *ngIf="selectedImportModelRibbonValue !== ImportModelRibbonIds.HUGGING_FACE">
     <div class="key-val__key">Status:</div>
     <wb-status-bar [status]="getUploadModelStage(uploadingModel)" class="inline-status" mode="circle"></wb-status-bar>
-  </div>
-</ng-template>
-
-<ng-template #importFromOMZTabContent>
-  <div class="tab-content">
-    <wb-model-downloader-table
-      [models]="omzModels"
-      [isLoading]="omzModelsAreLoading"
-      [isConnected]="isConnected"
-      [detailsShown]="sidenavOpened"
-      [frameworksAvailability]="frameworksAvailability"
-      (importOMZModel)="handleImportOMZModel($event)"
-      (modelDetailsClick)="showModelInfo.emit($event)"
-      (cancel)="cancelEvent.emit()"
-    ></wb-model-downloader-table>
   </div>
 </ng-template>
