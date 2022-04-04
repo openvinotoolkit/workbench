@@ -74,7 +74,7 @@
       <wb-model-zoo-filter group="task_type">
         <wb-model-zoo-filter-title>Task Type</wb-model-zoo-filter-title>
         <wb-model-zoo-filter-option *ngFor="let option of filterOptions.taskType" [value]="option" icon="list_alt">
-          {{ option }}
+          {{ ModelTaskTypeToNameMap[option] }}
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
 
