@@ -3,10 +3,12 @@ import hljs from 'highlight.js/lib/core';
 import python from 'highlight.js/lib/languages/python';
 import plaintext from 'highlight.js/lib/languages/plaintext';
 
-import { IMarkdownParserOptions } from './index';
-
 hljs.registerLanguage('python', python);
 hljs.registerLanguage('plaintext', plaintext);
+
+export interface IMarkdownParserOptions {
+  highlight: boolean;
+}
 
 const DEFAULT_OPTIONS: IMarkdownParserOptions = {
   highlight: true,
@@ -14,10 +16,14 @@ const DEFAULT_OPTIONS: IMarkdownParserOptions = {
 
 export async function parse(text: string, options: IMarkdownParserOptions = DEFAULT_OPTIONS): Promise<string> {
   const noYamlHeaderText = cutYamlHeader(text);
-  return marked.parse(noYamlHeaderText, options.highlight ? highlightConfig : null);
+  return marked.parse(noYamlHeaderText, options.highlight ? { ...commonConfig, ...highlightConfig } : commonConfig);
 }
 
-const highlightConfig = {
+const commonConfig: marked.MarkedOptions = {
+  breaks: true,
+};
+
+const highlightConfig: marked.MarkedOptions = {
   highlight: function (code, lang) {
     const language = hljs.getLanguage(lang) ? lang : 'plaintext';
     return hljs.highlight(code, { language }).value;

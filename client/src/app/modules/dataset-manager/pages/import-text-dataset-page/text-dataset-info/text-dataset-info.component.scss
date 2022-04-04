@@ -44,10 +44,6 @@ mat-expansion-panel.wb-panel {
   background: $faded-bgr;
 }
 
-::ng-deep .markdown-text-block {
-  white-space: pre-wrap;
-}
-
 .dataset-info-content-divider {
   margin-left: -20px;
   margin-right: -20px;
