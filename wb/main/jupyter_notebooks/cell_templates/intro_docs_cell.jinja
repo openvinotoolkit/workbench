@@ -26,6 +26,8 @@ The purpose of this tutorial is to guide you through the stages of working with 
     This model is trained to solve Facial Landmark Detection task. The goal of Facial Landmark Detection is to detect key landmarks of a face, such as eyes, nose, and mouth.
 {% elif project_model_task_type == TaskEnum.face_recognition.value -%}
     This model is trained to solve Face Recognition task. The goal of Face Recognition is to identify a person based on an image of their face.
+{% elif project_model_task_type == TaskEnum.text_classification.value -%}
+    This model is trained to solve Text Classification task. The goal of Text Classification task is to assign a sentence or document an appropriate category (label or class).
 {% else -%}
     This model is trained to solve Generic task. The goal of Generic task is to enable you to perform different kinds of experiments with your data.
 {% endif %}
