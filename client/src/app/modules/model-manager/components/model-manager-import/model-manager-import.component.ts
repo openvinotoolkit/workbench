@@ -47,9 +47,8 @@ export function getUploadModelStage(uploadingModel: ModelItem | Partial<ModelIte
 
 enum ImportModelRibbonIds {
   OMZ = 'omz',
-  ORIGINAL_MODEL = 'original_model',
-  OMZ_REDESIGNED = 'omz_redesigned',
   HUGGING_FACE = 'hugging_face',
+  ORIGINAL_MODEL = 'original_model',
 }
 
 enum TFVersions {
@@ -76,15 +75,6 @@ export class ModelManagerImportComponent implements OnInit, OnDestroy {
 
   @Input() frameworksAvailability: IFrameworksAvailability = null;
 
-  @Input() set areModelZooFeaturesEnabled([isOMZRedesignEnabled = false, isHuggingFaceEnabled = false]) {
-    if (isOMZRedesignEnabled && !this.importModelRibbonValues.includes(this._omzRedesignRibbonValue)) {
-      this.importModelRibbonValues.push(this._omzRedesignRibbonValue);
-    }
-    if (isHuggingFaceEnabled && !this.importModelRibbonValues.includes(this._huggingFaceRibbonValue)) {
-      this.importModelRibbonValues.push(this._huggingFaceRibbonValue);
-    }
-  }
-
   @Output() uploadModel = new EventEmitter<
     { model: UploadingModelDTO } | { model: ModelDownloaderDTO; precision: OMZModelPrecisionEnum | null }
   >();
@@ -101,19 +91,9 @@ export class ModelManagerImportComponent implements OnInit, OnDestroy {
 
   @Output() closeModelInfo = new EventEmitter();
 
-  private readonly _omzRedesignRibbonValue = {
-    id: ImportModelRibbonIds.OMZ_REDESIGNED,
-    title: 'Open Model Zoo (v2)',
-    icon: 'openvino',
-  };
-  private readonly _huggingFaceRibbonValue = {
-    id: ImportModelRibbonIds.HUGGING_FACE,
-    title: 'Hugging Face',
-    icon: 'hugging_face',
-  };
-
   readonly importModelRibbonValues = [
     { id: ImportModelRibbonIds.OMZ, title: 'Open Model Zoo', icon: 'openvino' },
+    { id: ImportModelRibbonIds.HUGGING_FACE, title: 'Hugging Face', icon: 'hugging_face' },
     { id: ImportModelRibbonIds.ORIGINAL_MODEL, title: 'Original Model', icon: 'file' },
   ];
 

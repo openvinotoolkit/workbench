@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { Store } from '@ngrx/store';
-import { combineLatest, Observable, of, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { isObject } from 'lodash';
 
@@ -32,7 +32,6 @@ import {
 import * as EnvironmentSetup from '@store/globals-store/environment-setup.actions';
 import { JobTypes, ProjectStatus, ProjectStatusNames } from '@store/project-store/project.model';
 import * as ModelsSelector from '@store/model-store/model.selectors';
-import { SupportedFeaturesPreview } from '@store/globals-store/globals.state';
 
 import { ModelDownloaderDTO } from '@shared/models/dto/model-downloader-dto';
 import { MasterDetailComponent } from '@shared/components/master-detail/master-detail.component';
@@ -123,13 +122,6 @@ export class ModelManagerWizardComponent implements OnDestroy {
   readonly importError$ = this._store$.select(ModelStoreSelectors.selectModelError);
   readonly configurePipeline$ = this._store$.select(ModelsSelector.selectRunningConfigurePipeline);
   readonly environmentSetup$ = this._store$.select(GlobalsStoreSelectors.selectEnvironmentSetup);
-
-  readonly areModelZooFeaturesEnabled$ = combineLatest([
-    this._store$.select(GlobalsStoreSelectors.selectIsFeaturePreviewSupported(SupportedFeaturesPreview.OMZ_REDESIGN)),
-    this._store$.select(
-      GlobalsStoreSelectors.selectIsFeaturePreviewSupported(SupportedFeaturesPreview.HUGGING_FACE_MODELS)
-    ),
-  ]);
 
   modelSource: ModelSources;
 

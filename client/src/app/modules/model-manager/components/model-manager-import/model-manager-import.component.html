@@ -36,15 +36,12 @@
         <ng-container *ngIf="!uploadingModel; else uploadingStatusContent">
           <ng-container [ngSwitch]="selectedImportModelRibbonValue">
             <ng-container *ngSwitchCase="ImportModelRibbonIds.OMZ">
-              <ng-container [ngTemplateOutlet]="importFromOMZTabContent"></ng-container>
+              <wb-omz-import-ribbon-content></wb-omz-import-ribbon-content>
+              <!--              <ng-container [ngTemplateOutlet]="importFromOMZTabContent"></ng-container>-->
             </ng-container>
 
             <ng-container *ngSwitchCase="ImportModelRibbonIds.ORIGINAL_MODEL">
               <ng-container [ngTemplateOutlet]="uploadModelTabContent"></ng-container>
-            </ng-container>
-
-            <ng-container *ngSwitchCase="ImportModelRibbonIds.OMZ_REDESIGNED">
-              <wb-omz-import-ribbon-content></wb-omz-import-ribbon-content>
             </ng-container>
 
             <ng-container *ngSwitchCase="ImportModelRibbonIds.HUGGING_FACE">
