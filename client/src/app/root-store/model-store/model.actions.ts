@@ -7,6 +7,7 @@ import { ModelDownloaderDTO } from '@shared/models/dto/model-downloader-dto';
 import { UploadModelSocketDTO } from '@shared/models/dto/upload-socket-message-dto';
 import { IAccuracyConfiguration } from '@shared/models/accuracy';
 import { IConfigurePipeline } from '@shared/models/pipelines/configure-pipeline';
+import { IHuggingfaceModel } from '@shared/models/huggingface/huggingface-model';
 
 import {
   EditModelConvertConfigDTO,
@@ -224,7 +225,7 @@ export const configureModelSuccess = createAction('[Model] Configure Model Succe
 
 export const importHuggingfaceModel = createAction(
   '[Model] Import huggingface model',
-  props<{ huggingface_model_id: string }>()
+  props<{ huggingfaceModel: IHuggingfaceModel }>()
 );
 
 export const importHuggingfaceModelSuccess = createAction(

@@ -7,7 +7,7 @@ import { ErrorState } from '@store/state';
 export const loadModelData = createAction('[Huggingface model] Load model data');
 export const loadModelDataSuccess = createAction(
   '[Huggingface model] Load model data success',
-  props<{ data: IHFModelsData }>()
+  props<{ data: IHFModelsData; timeToLoad: number }>()
 );
 export const loadModelDataFailure = createAction(
   '[Huggingface model] Load model data failure',
@@ -20,11 +20,11 @@ export const loadModelReadme = createAction(
 );
 export const loadModelReadmeSuccess = createAction(
   '[Huggingface model] Import model readme success',
-  props<{ readme: string }>()
+  props<{ readme: string; huggingfaceModelId: string }>()
 );
 export const loadModelReadmeFailure = createAction(
   '[Huggingface model] Import model readme failure',
-  props<{ error: ErrorState }>()
+  props<{ error: ErrorState; huggingfaceModelId: string }>()
 );
 
 export const reset = createAction('[Huggingface model] reset');
