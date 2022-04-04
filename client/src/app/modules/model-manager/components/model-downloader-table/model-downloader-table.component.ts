@@ -16,7 +16,7 @@ import {
 } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { isEmpty } from 'lodash';
 
@@ -39,8 +39,6 @@ import {
   FilterableColumnOptions,
   IMatTableDataSource,
 } from '@shared/components/table-filter-form/filter-form.model';
-
-import { ModelDownloaderService } from './model-downloader.service';
 
 export enum OMZModelPrecisionEnum {
   FP32 = 'FP32',
@@ -154,7 +152,6 @@ export class ModelDownloaderTableComponent implements OnChanges, AfterViewInit {
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private messagesService: MessagesService,
-    private modelDownloaderService: ModelDownloaderService,
     private renderer: Renderer2,
     private fb: FormBuilder
   ) {
@@ -194,7 +191,7 @@ export class ModelDownloaderTableComponent implements OnChanges, AfterViewInit {
   }
 
   get filterableColumnOptions(): FilterableColumnOptions {
-    return this.modelDownloaderService.filterableColumnOptions;
+    return null;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -203,7 +200,6 @@ export class ModelDownloaderTableComponent implements OnChanges, AfterViewInit {
       return;
     }
     this.modelsDataSource = new MatTableDataSource(this.models);
-    this.modelDownloaderService.setUpFilterableColumnOptions(this.models);
     this.setDataSourceSortAndFiler();
   }
 
@@ -213,8 +209,6 @@ export class ModelDownloaderTableComponent implements OnChanges, AfterViewInit {
 
   private setDataSourceSortAndFiler(): void {
     this.modelsDataSource.sort = this.sort;
-    this.modelsDataSource.sortingDataAccessor = ModelDownloaderService.tableDataAccessor;
-    this.modelsDataSource.filterPredicate = this.modelDownloaderService.customFilterPredicate;
   }
 
   applyFilter(appliedFilter: AppliedFilter): void {

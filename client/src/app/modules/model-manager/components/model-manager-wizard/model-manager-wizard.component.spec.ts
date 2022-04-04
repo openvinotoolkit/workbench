@@ -12,8 +12,6 @@ import { FileUploadFieldComponent } from '@shared/components/file-upload-field/f
 
 import { ModelManagerWizardComponent } from './model-manager-wizard.component';
 import { ModelManagerImportComponent } from '../model-manager-import/model-manager-import.component';
-import { ModelDownloaderTableComponent } from '../model-downloader-table/model-downloader-table.component';
-import { ModelDownloaderService } from '../model-downloader-table/model-downloader.service';
 
 describe('ModelManagerWizardComponent', () => {
   let component: ModelManagerWizardComponent;
@@ -31,13 +29,8 @@ describe('ModelManagerWizardComponent', () => {
             ...RootStoreState.reducers,
           }),
         ],
-        declarations: [
-          ModelManagerWizardComponent,
-          ModelManagerImportComponent,
-          FileUploadFieldComponent,
-          ModelDownloaderTableComponent,
-        ],
-        providers: [ModelDownloaderService],
+        declarations: [ModelManagerWizardComponent, ModelManagerImportComponent, FileUploadFieldComponent],
+        providers: [],
       }).compileComponents();
     })
   );
