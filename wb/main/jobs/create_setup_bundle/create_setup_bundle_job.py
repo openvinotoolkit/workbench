@@ -19,6 +19,8 @@ import shutil
 import tempfile
 from contextlib import closing
 
+from werkzeug.utils import secure_filename
+
 from wb.extensions_factories.database import get_db_session_for_celery
 from wb.main.enumerates import JobTypesEnum, StatusEnum
 from wb.main.jobs.interfaces.ijob import IJob
@@ -63,14 +65,15 @@ class CreateSetupBundleJob(IJob):
             topology_temporary_path = None
 
             if self.include_model:
-                topology_temporary_path = os.path.join(tmp_scripts_folder, self.topology_name)
+                topology_name = secure_filename(self.topology_name)
+                topology_temporary_path = os.path.join(tmp_scripts_folder, topology_name)
                 os.makedirs(topology_temporary_path)
                 xml_file = find_by_ext(self.topology_path, 'xml')
-                tmp_xml_file = os.path.join(topology_temporary_path, f'{self.topology_name}.xml')
+                tmp_xml_file = os.path.join(topology_temporary_path, f'{topology_name}.xml')
                 shutil.copy(xml_file, tmp_xml_file)
 
                 bin_file = find_by_ext(self.topology_path, 'bin')
-                tmp_bin_file = os.path.join(topology_temporary_path, f'{self.topology_name}.bin')
+                tmp_bin_file = os.path.join(topology_temporary_path, f'{topology_name}.bin')
                 shutil.copy(bin_file, tmp_bin_file)
 
             setup_bundle_creator = SetupBundleCreator(

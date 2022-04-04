@@ -48,7 +48,7 @@ from wb.main.models import (ConvertDatasetJobsModel, ProfilingJobModel, Datasets
                             FileMetaData)
 from wb.main.models.wait_model_upload_job_model import WaitModelUploadJobModel
 from wb.main.utils.observer_pattern import Observer
-from wb.main.utils.utils import get_size_of_files
+from wb.main.utils.utils import get_size_of_files, FileSizeConverter
 
 
 def check_existing_job_model_decorator(func: Callable[['Observer', JobState], None]):
@@ -565,7 +565,7 @@ class ImportHuggingfaceModelDBObserver(JobStateDBObserver):
             file_record.status = StatusEnum.ready
             file_record.write_record(session)
 
-            topology.size = file_record.size
+            topology.size = FileSizeConverter.bytes_to_mb(file_record.size)
             topology.status = StatusEnum.ready
             topology.progress = 100
             topology.write_record(session)
