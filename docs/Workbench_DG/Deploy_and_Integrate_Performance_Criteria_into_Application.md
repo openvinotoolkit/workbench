@@ -23,7 +23,7 @@ The optimal combination is the highest point on the **Inference Results** graph.
 To view information about latency, throughput, batch, and parallel requests of a specific job, hover your cursor over the corresponding point on the graph:
 ![](img/deployment_package/deployment_package_02.png)
 
-For details, read [Integrate the OpenVINO™ Runtime New Request API with Your Application](@ref openvino_docs_Integrate_OV_with_your_application).
+For details, read [Integrate the OpenVINO™ Runtime New Request API with Your Application](@ref openvino_docs_OV_UG_Integrate_OV_with_your_application).
 
 ## Integrate Optimal Combination into Sample Application
 

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { SharedModule } from '@shared/shared.module';
 
@@ -11,7 +12,7 @@ describe('InfoHintComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [SharedModule],
+        imports: [RouterTestingModule, SharedModule],
       }).compileComponents();
     })
   );

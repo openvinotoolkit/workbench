@@ -4,9 +4,9 @@ DL Workbench can lower the precision of a model from FP32 to INT8 with a process
 Calibration accelerates the performance of certain models on hardware that supports INT8. A model in INT8 precision takes up less memory and has higher throughput capacity. Often this performance boost is achieved at the cost of a small accuracy reduction. With the DL Workbench, you can calibrate your model locally, on a 
 <a href="#remote-calibration">remote target</a>, or in the <a href="#devcloud-calibration">Intel® DevCloud for the Edge</a>.
 
-To read more about INT8 inference, see
-[Using Low-Precision INT8 Integer Inference](@ref openvino_docs_IE_DG_Int8Inference) and 
-[Post-Training Optimization Toolkit](@ref pot_README).
+To read more about INT8 inference, see [Using Low-Precision INT8 Integer Inference](@ref openvino_docs_model_optimization_guide) and 
+[Post-Training Optimization Toolkit](@ref pot_introduction).
+
 
 > **NOTE**: INT8 calibration is **not** available in the following cases: 
 > 1. The model belongs to Natural Language Processing domain. 
@@ -173,5 +173,5 @@ preparation and upload, and then for calibration and inference:
 
 * [Compare Performance between Two Versions of a Model](Compare_Performance_between_Two_Versions_of_Models.md)
 * [Optimization Guide](@ref openvino_docs_optimization_guide_dldt_optimization_guide)
-* [Post-Training Optimization Tool](@ref pot_README)
+* [Post-Training Optimization Tool](@ref pot_introduction)
 * [Troubleshooting](Troubleshooting.md)
