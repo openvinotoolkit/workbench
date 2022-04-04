@@ -81,7 +81,7 @@
         "Wrong index found for [MASK]": {
             "title": "Conversion to ONNX Failed",
             "message": "Hugging Face tool failed to load the tokenizer.",
-            "details": "Wrong tokenizer configuration. Indexes in the added_tokens.json does not match the indexes of the vocab file.",
+            "details": "Wrong tokenizer configuration. Indexes in the added_tokens.json do not match the indexes of the vocab file.",
             "action": "Convert the model to ONNX using PyTorch conversion tool and import it as the original model in the DL Workbench. See Troubleshooting for more details and available solutions: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html"
         },
         "Expecting value: line": {
