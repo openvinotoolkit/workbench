@@ -118,9 +118,9 @@ def format_error_message_decorator(method):
                 message_type: text.format(model_type) for message_type, text in error_dict.items()
             }
         if is_filter:
-            return error_dict["title"]
+            return error_dict['title']
         else:
-            return "\n\n".join(error_dict.values())
+            return '\n\n'.join(error_dict.values())
     return wrapped
 
 
