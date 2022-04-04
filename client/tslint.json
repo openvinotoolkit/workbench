@@ -46,7 +46,7 @@
     "no-unused-expression": true,
     "no-var-keyword": true,
     "object-literal-sort-keys": false,
-    "one-line": [true, "check-open-brace", "check-catch", "check-else", "check-whitespace"],
+    "one-line": [true, "check-catch", "check-else", "check-whitespace"],
     "prefer-const": true,
     "quotemark": [true, "single", "avoid-escape"],
     "radix": true,
