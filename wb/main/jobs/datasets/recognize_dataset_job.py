@@ -70,13 +70,9 @@ class RecognizeDatasetJob(BaseDatasetJob):
         elif len(detected_formats) > 1:
             raise DatumaroError('More than one valid format detected.', self.job_id)
 
-        dataset_type = None
         try:
-            dataset_type = DatasetTypesEnum.get_value(detected_formats[0])
+            dataset_type = DatasetTypesEnum(detected_formats[0])
         except ValueError:
-            pass
-
-        if dataset_type not in DatasetTypesEnum:
             raise DatumaroError(f'Detected format {detected_formats[0]} '
                                 f'cannot currently be handled by DL Workbench.',
                                 self.job_id)

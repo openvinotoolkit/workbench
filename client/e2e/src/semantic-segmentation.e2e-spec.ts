@@ -32,8 +32,8 @@ xdescribe('Semantic segmentation tests', () => {
     await LoginPage.authWithTokenOnLoginPage();
     await analyticsPopup.refuseAnalyticsUsage();
     await testUtils.homePage.openConfigurationWizard();
-    // dataSetFileSemantic.name = testUtils.helpers.generateName();
-    // await testUtils.uploadDataset(dataSetFileSemantic);
+    dataSetFileSemantic.name = testUtils.helpers.generateName();
+    await testUtils.uploadDataset(dataSetFileSemantic);
     helpers = new Helpers();
   });
 

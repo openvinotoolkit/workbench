@@ -57,11 +57,5 @@ class DatasetTypesEnum(enum.Enum):
     # text
     csv = 'csv'
 
-    @classmethod
-    def get_value(cls, value: str):
-        if cls(value):
-            return cls(value)
-        return None
-
     def is_nlp(self) -> bool:
         return self in {self.csv, }

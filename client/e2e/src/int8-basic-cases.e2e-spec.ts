@@ -15,8 +15,8 @@ describe('UI tests on Running Int8 Calibration', () => {
   const datasetFileVOC = browser.params.precommit_scope.resources.smallVOCDataset;
   const datasetFileImageNet = browser.params.precommit_scope.resources.smallImageNetDataset;
   const datasetWiderFace = browser.params.precommit_scope.resources.WiderFaceDataset;
-  // const notAnnotatedDataset = browser.params.precommit_scope.resources.imageNetNotAnnotated;
-  // 73948
+  const notAnnotatedDataset = browser.params.precommit_scope.resources.imageNetNotAnnotated;
+  // TODO: 73948
   // const datasetCityScapes = browser.params.precommit_scope.resources.CityscapesDataset;
 
   beforeAll(async () => {
@@ -31,12 +31,13 @@ describe('UI tests on Running Int8 Calibration', () => {
     await testUtils.homePage.openConfigurationWizard();
     datasetFileVOC.name = testUtils.helpers.generateName();
     datasetFileImageNet.name = testUtils.helpers.generateName();
-    // notAnnotatedDataset.name = testUtils.helpers.generateName();
+    notAnnotatedDataset.name = testUtils.helpers.generateName();
     await testUtils.uploadDataset(datasetFileVOC);
     await testUtils.uploadDataset(datasetFileImageNet);
     await testUtils.uploadDataset(datasetWiderFace);
+    // TODO: 83248
     // await testUtils.uploadDataset(notAnnotatedDataset);
-    // 73948
+    // TODO: 73948
     // await testUtils.uploadDataset(datasetCityScapes);
   });
 
@@ -53,36 +54,36 @@ describe('UI tests on Running Int8 Calibration', () => {
     await calibrationUtils.runInt8PipelineThroughUpload(modelFile, datasetFileVOC, inferenceTarget);
   });
 
-  // TODO: 76569, 83042
+  // TODO: 76569, 83248
   xit(
     'Upload FP32 Mobilenet SSD Lite V2, use Not Annotated dataset, ' +
       'infer (CPU), int8 calibrate - Simplified Mode, infer (CPU)',
     async () => {
       const modelFile = browser.params.precommit_scope.resources.ODModels.ssdliteMobileNetV2;
       const inferenceTarget = InferenceType.CPU;
-      // await calibrationUtils.runInt8PipelineThroughUpload(modelFile, notAnnotatedDataset, inferenceTarget);
+      await calibrationUtils.runInt8PipelineThroughUpload(modelFile, notAnnotatedDataset, inferenceTarget);
     }
   );
 
-  // TODO: 83042
+  // TODO: 83248
   xit(
     'Should upload original Caffe model, convert to IR V10, run inference, run Int-8 Tune with Not Annotated dataset, ' +
       'Simplified Mode',
     async () => {
       const modelFile = browser.params.precommit_scope.resources.classificationModels.googlenetV2;
       const inferenceTarget = InferenceType.CPU;
-      // await calibrationUtils.runInt8PipelineThroughUpload(modelFile, notAnnotatedDataset, inferenceTarget);
+      await calibrationUtils.runInt8PipelineThroughUpload(modelFile, notAnnotatedDataset, inferenceTarget);
     }
   );
 
-  // TODO: 83042
+  // TODO: 83248
   xit(
     'Select squeezenet1.1 from table + Not Annotated dataset, infer (CPU), int8 Simplified Mode, ' +
       'check wait message ',
     async () => {
       const modelFile = { name: 'squeezenet1.1' };
       const inferenceTarget = InferenceType.CPU;
-      /* const inferenceResult = await calibrationUtils.runInt8PipelineThroughDownloader(
+      const inferenceResult = await calibrationUtils.runInt8PipelineThroughDownloader(
         modelFile,
         notAnnotatedDataset,
         inferenceTarget,
@@ -94,7 +95,7 @@ describe('UI tests on Running Int8 Calibration', () => {
         await browser.refresh();
         await browser.waitForAngular();
         await expect(await testUtils.inferenceCard.taskIsRunningMessage().isPresent()).toBeFalsy();
-      } */
+      }
     }
   );
 
