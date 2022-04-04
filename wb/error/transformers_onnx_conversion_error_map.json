@@ -1,30 +1,144 @@
 {
     "conversion_errors": {
-        "RuntimeError: 0INTERNAL ASSERT FAILED": "PyTorch JiT trace error. Try converting the model to ONNX format.",
-        "onnxruntime.capi.onnxruntime_pybind11_state.InvalidArgument": "Wrong tokenizer type in the repository. To convert the model, try contacting the authors of the repository or cloning the repository and fixing the tokenizer yourself.",
-        "Connection error, and we cannot find the requested files in the cached path": "Connection error. Check the internet connection and proxy and try again.",
-        "TypeError: not a string": "Failed to load tokenizer during model conversion to ONNX. Try initializing the tokenizer before starting the model import. If you detect an error, contact the authors of the repository or clone the repository and fix the file yourself.",
-        "Error(s) in loading state_dict": "Cannot initialize the model from the repository. Try contacting the authors of the repository or cloning the repository and fixing the issue yourself.",
-        "sequence item 0: expected str instance": "[unk] and [pad] tokens for tokenizer are not set.",
-        "expected str, bytes or os.PathLike object": "Not enough files for the tokenizer initialization in the repository. Try contacting the repository authors or cloning the repository and adding the fixing the files yourself.",
-        "path should be string, bytes, os.PathLike or integer": "Not enough files for the tokenizer initialization in the repository. Try contacting the repository authors or cloning the repository and adding the fixing the files yourself.",
-        "The state dictionary of the model you are training to load is corrupted": "Cannot initialize the model form the repository. Try contacting the authors of the repository or cloning the repository and fixing the issue yourself.",
-        "No such file or directory (os error 2)": "Cannot initialize tokenizer from the repository.",
-        "Can't load tokenizer for": "Failed to load tokenizer during model conversion to ONNX. Try initializing the tokenizer before starting the model import. If you detect an error, contact the authors of the repository or clone the repository and fix the file yourself.",
-        "Exporting model exceed maximum protobuf size of 2GB": "Cannot convert a large model to ONNX.",
-        "Connection error": "Connection error, check the internet connection and proxy and try again.",
-        "Model and config inputs doesn't match": "Cannot convert model to ONNX: model and config inputs doesn't match. The repository might contain wrong tokenizer type. Try contacting the repository authors or cloning the repository and adding the fixing the files yourself.",
-        "Wrong index found for [MASK]": "Cannot initialize tokenizer from the model repository.",
-        "JSONDecodeError": "Cannot initialize tokenizer from the model repository: the json file is corrupted.",
-        "PreValidationTokenizerError": "Cannot initialize tokenizer from the repository. Try initializing the tokenizer before starting the model import. If you detect an error, contact the authors of the repository or clone the repository and fix the file yourself.",
-        "PreValidationModelConfigError": "Cannot initialize configuration file from the repository. Try initializing the configuration file before starting model import. If you detect an error, contact the authors of the repository or clone the repository and fix the file yourself."
+        "RuntimeError: 0INTERNAL ASSERT FAILED": {
+            "title": "PyTorch JiT trace error. Try converting the model to ONNX format.",
+            "what_happened": "PyTorch JiT trace error. Try converting the model to ONNX format.",
+            "details": "PyTorch JiT trace error. Try converting the model to ONNX format.",
+            "what_to_do": "PyTorch JiT trace error. Try converting the model to ONNX format."
+        },
+        "onnxruntime.capi.onnxruntime_pybind11_state.InvalidArgument": {
+            "title": "Wrong tokenizer type in the repository. To convert the model, try contacting the authors of the repository or cloning the repository and fixing the tokenizer yourself.",
+            "what_happened": "Wrong tokenizer type in the repository. To convert the model, try contacting the authors of the repository or cloning the repository and fixing the tokenizer yourself.",
+            "details": "Wrong tokenizer type in the repository. To convert the model, try contacting the authors of the repository or cloning the repository and fixing the tokenizer yourself.",
+            "what_to_do": "Wrong tokenizer type in the repository. To convert the model, try contacting the authors of the repository or cloning the repository and fixing the tokenizer yourself."
+        },
+        "Connection error, and we cannot find the requested files in the cached path": {
+            "title": "Connection error. Check the internet connection and proxy and try again.",
+            "what_happened": "Connection error. Check the internet connection and proxy and try again.",
+            "details": "Connection error. Check the internet connection and proxy and try again.",
+            "what_to_do": "Connection error. Check the internet connection and proxy and try again."
+        },
+        "TypeError: not a string": {
+            "title": "Failed to load tokenizer during model conversion to ONNX. Try initializing the tokenizer before starting the model import. If you detect an error, contact the authors of the repository or clone the repository and fix the file yourself.",
+            "what_happened": "Failed to load tokenizer during model conversion to ONNX. Try initializing the tokenizer before starting the model import. If you detect an error, contact the authors of the repository or clone the repository and fix the file yourself.",
+            "details": "Failed to load tokenizer during model conversion to ONNX. Try initializing the tokenizer before starting the model import. If you detect an error, contact the authors of the repository or clone the repository and fix the file yourself.",
+            "what_to_do": "Failed to load tokenizer during model conversion to ONNX. Try initializing the tokenizer before starting the model import. If you detect an error, contact the authors of the repository or clone the repository and fix the file yourself."
+        },
+        "Error(s) in loading state_dict": {
+            "title": "Cannot initialize the model from the repository. Try contacting the authors of the repository or cloning the repository and fixing the issue yourself.",
+            "what_happened": "Cannot initialize the model from the repository. Try contacting the authors of the repository or cloning the repository and fixing the issue yourself.",
+            "details": "Cannot initialize the model from the repository. Try contacting the authors of the repository or cloning the repository and fixing the issue yourself.",
+            "what_to_do": "Cannot initialize the model from the repository. Try contacting the authors of the repository or cloning the repository and fixing the issue yourself."
+        },
+        "sequence item 0: expected str instance": {
+            "title": "[unk] and [pad] tokens for tokenizer are not set.",
+            "what_happened": "[unk] and [pad] tokens for tokenizer are not set.",
+            "details": "[unk] and [pad] tokens for tokenizer are not set.",
+            "what_to_do": "[unk] and [pad] tokens for tokenizer are not set."
+        },
+        "expected str, bytes or os.PathLike object": {
+            "title": "Not enough files for the tokenizer initialization in the repository. Try contacting the repository authors or cloning the repository and adding the fixing the files yourself.",
+            "what_happened": "Not enough files for the tokenizer initialization in the repository. Try contacting the repository authors or cloning the repository and adding the fixing the files yourself.",
+            "details": "Not enough files for the tokenizer initialization in the repository. Try contacting the repository authors or cloning the repository and adding the fixing the files yourself.",
+            "what_to_do": "Not enough files for the tokenizer initialization in the repository. Try contacting the repository authors or cloning the repository and adding the fixing the files yourself."
+        },
+        "path should be string, bytes, os.PathLike or integer": {
+            "title": "Not enough files for the tokenizer initialization in the repository. Try contacting the repository authors or cloning the repository and adding the fixing the files yourself.",
+            "what_happened": "Not enough files for the tokenizer initialization in the repository. Try contacting the repository authors or cloning the repository and adding the fixing the files yourself.",
+            "details": "Not enough files for the tokenizer initialization in the repository. Try contacting the repository authors or cloning the repository and adding the fixing the files yourself.",
+            "what_to_do": "Not enough files for the tokenizer initialization in the repository. Try contacting the repository authors or cloning the repository and adding the fixing the files yourself."
+        },
+        "The state dictionary of the model you are training to load is corrupted": {
+            "title": "Cannot initialize the model form the repository. Try contacting the authors of the repository or cloning the repository and fixing the issue yourself.",
+            "what_happened": "Cannot initialize the model form the repository. Try contacting the authors of the repository or cloning the repository and fixing the issue yourself.",
+            "details": "Cannot initialize the model form the repository. Try contacting the authors of the repository or cloning the repository and fixing the issue yourself.",
+            "what_to_do": "Cannot initialize the model form the repository. Try contacting the authors of the repository or cloning the repository and fixing the issue yourself."
+        },
+        "No such file or directory (os error 2)": {
+            "title": "Cannot initialize tokenizer from the repository.",
+            "what_happened": "Cannot initialize tokenizer from the repository.",
+            "details": "Cannot initialize tokenizer from the repository.",
+            "what_to_do": "Cannot initialize tokenizer from the repository."
+        },
+        "Can't load tokenizer for": {
+            "title": "Failed to load tokenizer during model conversion to ONNX. Try initializing the tokenizer before starting the model import. If you detect an error, contact the authors of the repository or clone the repository and fix the file yourself.",
+            "what_happened": "Failed to load tokenizer during model conversion to ONNX. Try initializing the tokenizer before starting the model import. If you detect an error, contact the authors of the repository or clone the repository and fix the file yourself.",
+            "details": "Failed to load tokenizer during model conversion to ONNX. Try initializing the tokenizer before starting the model import. If you detect an error, contact the authors of the repository or clone the repository and fix the file yourself.",
+            "what_to_do": "Failed to load tokenizer during model conversion to ONNX. Try initializing the tokenizer before starting the model import. If you detect an error, contact the authors of the repository or clone the repository and fix the file yourself."
+        },
+        "Exporting model exceed maximum protobuf size of 2GB": {
+            "title": "Cannot convert a large model to ONNX.",
+            "what_happened": "Cannot convert a large model to ONNX.",
+            "details": "Cannot convert a large model to ONNX.",
+            "what_to_do": "Cannot convert a large model to ONNX."
+        },
+        "Connection error": {
+            "title": "Connection error, check the internet connection and proxy and try again.",
+            "what_happened": "Connection error, check the internet connection and proxy and try again.",
+            "details": "Connection error, check the internet connection and proxy and try again.",
+            "what_to_do": "Connection error, check the internet connection and proxy and try again."
+        },
+        "Model and config inputs doesn't match": {
+            "title": "Cannot convert model to ONNX: model and config inputs doesn't match. The repository might contain wrong tokenizer type. Try contacting the repository authors or cloning the repository and adding the fixing the files yourself.",
+            "what_happened": "Cannot convert model to ONNX: model and config inputs doesn't match. The repository might contain wrong tokenizer type. Try contacting the repository authors or cloning the repository and adding the fixing the files yourself.",
+            "details": "Cannot convert model to ONNX: model and config inputs doesn't match. The repository might contain wrong tokenizer type. Try contacting the repository authors or cloning the repository and adding the fixing the files yourself.",
+            "what_to_do": "Cannot convert model to ONNX: model and config inputs doesn't match. The repository might contain wrong tokenizer type. Try contacting the repository authors or cloning the repository and adding the fixing the files yourself."
+        },
+        "Wrong index found for [MASK]": {
+            "title": "Cannot initialize tokenizer from the model repository.",
+            "what_happened": "Cannot initialize tokenizer from the model repository.",
+            "details": "Cannot initialize tokenizer from the model repository.",
+            "what_to_do": "Cannot initialize tokenizer from the model repository."
+        },
+        "Expecting value: line": {
+            "title": "Cannot initialize tokenizer or config from the model repository: the json file is corrupted.",
+            "what_happened": "Cannot initialize tokenizer or config from the model repository: the json file is corrupted.",
+            "details": "Cannot initialize tokenizer or config from the model repository: the json file is corrupted.",
+            "what_to_do": "Cannot initialize tokenizer or config from the model repository: the json file is corrupted."
+        },
+        "UnexpectedTransformersONNXError": {
+            "title": "1",
+            "what_happened": "2",
+            "details": "3",
+            "what_to_do": "4"
+        }
     },
     "filter": {
-        "no_config": "The model has no config in the repository. Try importing another model",
-        "no_model_type": "Model config has no model type. Try importing another model",
-        "not_supported_model_type": "Model type {} is not supported. Try converting the model to a supported format or importing another model",
-        "not_supported_sequence_classification": "Sequence classification feature is not supported for model type {}",
-        "decoder_not_supported": "The model type {} contains transformer decoder that is not supported by the DL Workbench. Try importing another model",
-        "missing_tokenizer_files": "Tokenizer files are missing. Check if the model type and the tokenizer type match"
+        "no_config": {
+            "title": "The model has no config in the repository. Try importing another model",
+            "what_happened": "The model has no config in the repository. Try importing another model",
+            "details": "The model has no config in the repository. Try importing another model",
+            "what_to_do": "The model has no config in the repository. Try importing another model"
+        },
+        "no_model_type": {
+            "title": "Model config has no model type. Try importing another model",
+            "what_happened": "Model config has no model type. Try importing another model",
+            "details": "Model config has no model type. Try importing another model",
+            "what_to_do": "Model config has no model type. Try importing another model"
+        },
+        "not_supported_model_type": {
+            "title": "Model type {} is not supported. Try converting the model to a supported format or importing another model",
+            "what_happened": "Model type {} is not supported. Try converting the model to a supported format or importing another model",
+            "details": "Model type {} is not supported. Try converting the model to a supported format or importing another model",
+            "what_to_do": "Model type {} is not supported. Try converting the model to a supported format or importing another model"
+        },
+        "not_supported_sequence_classification": {
+            "title": "Sequence classification feature is not supported for model type {}",
+            "what_happened": "Sequence classification feature is not supported for model type {}",
+            "details": "Sequence classification feature is not supported for model type {}",
+            "what_to_do": "Sequence classification feature is not supported for model type {}"
+        },
+        "decoder_not_supported": {
+            "title": "The model type {} contains transformer decoder that is not supported by the DL Workbench. Try importing another model",
+            "what_happened": "The model type {} contains transformer decoder that is not supported by the DL Workbench. Try importing another model",
+            "details": "The model type {} contains transformer decoder that is not supported by the DL Workbench. Try importing another model",
+            "what_to_do": "The model type {} contains transformer decoder that is not supported by the DL Workbench. Try importing another model"
+        },
+        "missing_tokenizer_files": {
+            "title": "Tokenizer files are missing. Check if the model type and the tokenizer type match",
+            "what_happened": "Tokenizer files are missing. Check if the model type and the tokenizer type match",
+            "details": "Tokenizer files are missing. Check if the model type and the tokenizer type match",
+            "what_to_do": "Tokenizer files are missing. Check if the model type and the tokenizer type match"
+        }
     }
 }

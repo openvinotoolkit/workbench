@@ -80,17 +80,20 @@ def validate_hf_model(model: ModelInfo) -> ValidationResult:
     model_type = model.config['model_type']
     if model_type not in FeaturesManager._SUPPORTED_MODEL_TYPE:
         return ValidationResult(
-            disabled=True, message=TransformersONNXConversionError.get_not_supported_model_type_message(model_type)
+            disabled=True,
+            message=TransformersONNXConversionError.get_not_supported_model_type_message(model_type=model_type)
         )
     if model_type not in supports_classification:
         return ValidationResult(
             disabled=True,
-            message=TransformersONNXConversionError.get_not_supported_sequence_classification_message(model_type)
+            message=TransformersONNXConversionError.get_not_supported_sequence_classification_message(
+                model_type=model_type
+            )
         )
     if model_type in contains_decoder:
         return ValidationResult(
             disabled=True,
-            message=TransformersONNXConversionError.get_decoder_not_supported_message(model_type)
+            message=TransformersONNXConversionError.get_decoder_not_supported_message(model_type=model_type)
         )
     if has_missing_tokenizer_files(model):
         return ValidationResult(
