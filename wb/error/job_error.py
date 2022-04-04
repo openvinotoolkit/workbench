@@ -110,14 +110,17 @@ class SetupTargetError(JobGeneralError):
 
 def format_error_message_decorator(method):
     @functools.wraps(method)
-    def wrapped(*args, **kwargs) -> str:
+    def wrapped(*args, is_filter=False, **kwargs) -> str:
         error_dict = method(*args, **kwargs)
         model_type = kwargs.pop('model_type', None)
         if model_type:
             error_dict = {
                 message_type: text.format(model_type) for message_type, text in error_dict.items()
             }
-        return "\n\n".join(error_dict.values())
+        if is_filter:
+            return error_dict["title"]
+        else:
+            return "\n\n".join(error_dict.values())
     return wrapped
 
 
