@@ -86,9 +86,14 @@ describe('UI tests on Model visualization', () => {
     const expectedImageFile = browser.params.precommit_scope.resources.testImages.personImageYoloExpected;
 
     await runInferenceAndSetImageAndSetThreshold(model, smallVOCDataset, imageFile, '0.6');
-    await visualizeInferenceResultPage.comparePredictionsAndBadgesWithExpectations(model, expectedImageFile, '14', 1, {
-      threshold: 0.2,
-    });
+    await visualizeInferenceResultPage.comparePredictionsAndBadgesWithExpectations(
+      model,
+      expectedImageFile,
+      '14',
+      1,
+      {},
+      'yolo-v1-tiny-tf'
+    );
   });
 
   it('should check visualization Classification googlenet-v4-tf model', async () => {

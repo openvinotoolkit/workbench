@@ -225,7 +225,8 @@ export class VisualizeInferenceResultPage {
     expectedImageFile: { pathToImage: string },
     model: { name: string },
     badges?: ElementFinder[],
-    options?: PixelmatchOptions
+    options?: PixelmatchOptions,
+    imageName?: string
   ): Promise<boolean> {
     const resultCanvas: ElementFinder = badges ? await this.inputCanvas : await this.resultCanvas;
     await browser.wait(this.until.presenceOf(resultCanvas), browser.params.defaultTimeout);
@@ -240,7 +241,7 @@ export class VisualizeInferenceResultPage {
     return await this.testUtils.areImagesDifferent(
       pngFromCanvas,
       expectedPng,
-      browser.currentTest.fullName,
+      imageName ? imageName : browser.currentTest.fullName,
       null,
       options
     );
@@ -315,7 +316,8 @@ export class VisualizeInferenceResultPage {
     expectedImageFile: { pathToImage: string },
     predictions: string | string[],
     expectedBadgesCount: number,
-    options?: PixelmatchOptions
+    options?: PixelmatchOptions,
+    imageName?: string
   ) {
     await browser.sleep(10000);
 
