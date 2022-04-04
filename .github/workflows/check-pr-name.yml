@@ -15,11 +15,16 @@ jobs:
         with:
           script: |
             const prNameRegExp = /^(?:\[\d+\]\s)+\w+.*/;
-            const skipLabel = '[skip-name]';
+
+            // Skip the PRs with dependency updates
+            const dependencyUpdateRegExp = /Bump.+from.+to.+in\s.+/;
+            const skipLabels = ['[skip-name]', '[snyk]'];
+
             const prName = context.payload.pull_request.title;
             console.log(`Pull Request Name is ${prName}`);
 
-            if (prName.includes(skipLabel)) {
+            const shouldSkip = skipLabels.some(label => prName.toLowerCase().includes(label) || dependencyUpdateRegExp.test(prName)
+            if (shouldSkip) {
               console.log('Skipping PR name checks');
               return;
             }
