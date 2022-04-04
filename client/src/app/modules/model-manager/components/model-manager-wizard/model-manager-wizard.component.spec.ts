@@ -12,10 +12,7 @@ import { FileUploadFieldComponent } from '@shared/components/file-upload-field/f
 
 import { ModelManagerWizardComponent } from './model-manager-wizard.component';
 import { ModelManagerImportComponent } from '../model-manager-import/model-manager-import.component';
-import {
-  ModelDownloaderTableComponent, // keep-line
-} from '../model-downloader-table/model-downloader-table.component';
-import { OmzModelInfoComponent } from '../omz-model-info/omz-model-info.component';
+import { ModelDownloaderTableComponent } from '../model-downloader-table/model-downloader-table.component';
 import { ModelDownloaderService } from '../model-downloader-table/model-downloader.service';
 
 describe('ModelManagerWizardComponent', () => {
@@ -39,7 +36,6 @@ describe('ModelManagerWizardComponent', () => {
           ModelManagerImportComponent,
           FileUploadFieldComponent,
           ModelDownloaderTableComponent,
-          OmzModelInfoComponent,
         ],
         providers: [ModelDownloaderService],
       }).compileComponents();

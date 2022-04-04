@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -34,7 +34,6 @@ import { JobTypes, ProjectStatus, ProjectStatusNames } from '@store/project-stor
 import * as ModelsSelector from '@store/model-store/model.selectors';
 
 import { ModelDownloaderDTO } from '@shared/models/dto/model-downloader-dto';
-import { MasterDetailComponent } from '@shared/components/master-detail/master-detail.component';
 import { RouterUtils } from '@shared/utils/router-utils';
 import { PipelineStatus } from '@shared/models/pipelines/pipeline';
 import { deprecatedIrVersionMessageKey } from '@shared/constants';
@@ -56,8 +55,6 @@ enum MODEL_WIZARD_STAGES {
   styleUrls: ['./model-manager-wizard.component.scss'],
 })
 export class ModelManagerWizardComponent implements OnDestroy {
-  @ViewChild('wbMasterDetail') modelDetailsPanel: MasterDetailComponent;
-
   private _model: Partial<ModelItem>;
   @Input() set model(value: Partial<ModelItem>) {
     this._model = value;
@@ -364,16 +361,6 @@ export class ModelManagerWizardComponent implements OnDestroy {
           return of(res);
         })
       );
-  }
-
-  onModelDetailsClick(model): void {
-    this.selectedForDetailsModel = model;
-    this.modelDetailsPanel.detailsSidenav.open();
-  }
-
-  hideModelDetails(): void {
-    this.selectedForDetailsModel = null;
-    this.modelDetailsPanel.detailsSidenav.close();
   }
 
   handleCancelEnvironment(): void {

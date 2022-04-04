@@ -67,9 +67,6 @@ export class ModelManagerImportComponent implements OnInit, OnDestroy {
 
   @Input() isConnected: boolean;
 
-  // TODO Remove + remove master detail
-  @Input() sidenavOpened = false;
-
   @Input() frameworksAvailability: IFrameworksAvailability = null;
 
   @Output() uploadModel = new EventEmitter<
@@ -83,11 +80,6 @@ export class ModelManagerImportComponent implements OnInit, OnDestroy {
   @Output() cancelEvent: EventEmitter<void> = new EventEmitter();
 
   @Output() selectModelSource = new EventEmitter<ModelSources>();
-
-  // TODO Remove
-  @Output() showModelInfo: EventEmitter<ModelDownloaderDTO> = new EventEmitter<ModelDownloaderDTO>();
-
-  @Output() closeModelInfo = new EventEmitter();
 
   readonly importModelRibbonValues = [
     { id: ImportModelRibbonIds.OMZ, title: 'Open Model Zoo', icon: 'openvino' },
@@ -298,7 +290,6 @@ export class ModelManagerImportComponent implements OnInit, OnDestroy {
     switch (ribbonValue) {
       case ImportModelRibbonIds.ORIGINAL_MODEL:
         this._setFileControlsForImportModel();
-        this.closeModelInfo.emit();
         break;
       case ImportModelRibbonIds.OMZ:
         this.selectModelSource.emit(ModelSources.OMZ);
