@@ -188,8 +188,13 @@ class CLIToolsOptionsCache:
             dump_data = CLIToolsOptionsDumper.deserialize()
             tool_options_map = dump_data.get('options_map')
             dumped_wb_version = dump_data.get('wb_version')
-            if current_wb_version == dumped_wb_version and tool_options_map and all(
-                    [value in CLIToolEnum.keys() for _, value in enumerate(tool_options_map)]):
+            new_tools = {tool.name for tool in CLIToolEnum} - set(tool_options_map)
+            if (
+                current_wb_version == dumped_wb_version
+                and tool_options_map
+                and all(value in CLIToolEnum.keys() for value in tool_options_map)
+                and not new_tools
+            ):
                 self._options_map = tool_options_map
                 return
         tool_processes = []
