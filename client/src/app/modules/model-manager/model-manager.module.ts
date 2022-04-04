@@ -8,7 +8,6 @@ import { ModelManagerWizardComponent } from './components/model-manager-wizard/m
 import { ModelManagerImportComponent } from './components/model-manager-import/model-manager-import.component';
 import { ProjectModule } from '../project/project.module';
 import { ModelDownloaderTableComponent } from './components/model-downloader-table/model-downloader-table.component';
-import { OmzModelInfoComponent } from './components/omz-model-info/omz-model-info.component';
 import { ModelManagerConvertModule } from './components/model-manager-convert/model-manager-convert.module';
 import { ModelDownloaderService } from './components/model-downloader-table/model-downloader.service';
 import { ReshapeComponent } from './components/reshape/reshape.component';
@@ -29,7 +28,6 @@ import { CardGridSkeletonComponent } from './components/card-grid-skeleton/card-
     ModelManagerWizardComponent,
     ModelManagerImportComponent,
     ModelDownloaderTableComponent,
-    OmzModelInfoComponent,
     ReshapeComponent,
     ImportPageComponent,
     EditPageComponent,
