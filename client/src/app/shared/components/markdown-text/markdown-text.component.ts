@@ -1,22 +1,16 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-
-import { split, compact } from 'lodash';
-
-import { isLinkInternal } from '@shared/directives/external-link.directive';
-
 import {
-  MarkdownElement,
-  MarkdownElementTypesEnum,
-  MarkdownInlineLink,
-  MarkdownLineBreak,
-  MarkdownText,
-} from './markdown-elements.model';
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  Renderer2,
+} from '@angular/core';
 
-const markdownElementsRegexp = /((?:\[(?:[^\[\]]+)]\((?:[^\s()]+)\))|(?:[^\S\r\n]*[\r\n]{1}))/g;
+import { LinkNavigationService } from '@core/services/common/link-navigation.service';
 
-const markdownLinkRegexp = /\[([^\[\]]+)\]\(([^)]+)/;
-
-const markdownLineBreakRegexp = /([^\S\r\n]*[\r\n]{1})/;
+import { MarkdownService } from './markdown.service';
 
 @Component({
   selector: 'wb-markdown-text',
@@ -24,51 +18,49 @@ const markdownLineBreakRegexp = /([^\S\r\n]*[\r\n]{1})/;
   styleUrls: ['./markdown-text.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MarkdownTextComponent {
+export class MarkdownTextComponent implements OnDestroy {
+  parsedText: string = null;
+
+  _anchorsClickListenerRemovers: Array<() => void> = [];
+
   @Input() set text(value: string) {
     if (!value) {
       return;
     }
-    this.setMarkdownElements(value);
-  }
-
-  public markdownElements: MarkdownElement[] = [];
-
-  public MarkdownElementTypesEnum = MarkdownElementTypesEnum;
-
-  public isLinkInternal = isLinkInternal;
-
-  setMarkdownElements(value: string): void {
-    const splitTextAndLinks = compact(split(value, markdownElementsRegexp));
-    this.markdownElements = splitTextAndLinks.map((splitText: string) => {
-      const linkMatchResult = markdownLinkRegexp.exec(splitText);
-      if (linkMatchResult) {
-        const [, text, href] = linkMatchResult;
-        return new MarkdownInlineLink(href, text);
-      }
-      if (markdownLineBreakRegexp.test(splitText)) {
-        return new MarkdownLineBreak();
-      }
-      return new MarkdownText(splitText);
+    this._mdService.parse(value).then((parsedText) => {
+      this.parsedText = parsedText;
+      this._cdr.detectChanges();
+      this._addClickHandlersForAnchorElements();
     });
   }
 
-  trimInternalLinkQueryParams(internalLink: string): string {
-    return internalLink.split('?')[0];
+  readonly markdownBodyClassName = this._mdService.markdownBodyClassName;
+
+  private readonly _externalLinkTestId = 'external-link';
+
+  constructor(
+    private readonly _mdService: MarkdownService,
+    private readonly _cdr: ChangeDetectorRef,
+    private readonly _linkNavigationService: LinkNavigationService,
+    private readonly _renderer: Renderer2,
+    private readonly _elementRef: ElementRef<HTMLElement>
+  ) {}
+
+  private _addClickHandlersForAnchorElements(): void {
+    const anchorElements = this._elementRef.nativeElement.getElementsByTagName('a');
+    for (const anchor of Array.from(anchorElements)) {
+      anchor.setAttribute('data-test-id', this._externalLinkTestId);
+      const removeClickListener = this._renderer.listen(anchor, 'click', (event: MouseEvent) => {
+        event.preventDefault();
+        this._linkNavigationService.navigate(anchor.href);
+      });
+      this._anchorsClickListenerRemovers.push(removeClickListener);
+    }
   }
 
-  getInternalLinkQueryParams(internalLink: string): { [key: string]: string | number } {
-    if (!internalLink) {
-      return {};
+  ngOnDestroy(): void {
+    for (const removeClickListener of this._anchorsClickListenerRemovers) {
+      removeClickListener();
     }
-    const [, queryParamsString] = internalLink.split('?');
-    if (!queryParamsString) {
-      return {};
-    }
-    const queryParamsMap = {};
-    new URLSearchParams(queryParamsString).forEach((value, key) => {
-      queryParamsMap[key] = value;
-    });
-    return queryParamsMap;
   }
 }

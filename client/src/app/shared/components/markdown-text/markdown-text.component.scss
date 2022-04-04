@@ -1,6 +1,14 @@
 @import 'colors';
 
-:host {
+:host ::ng-deep {
+  // The class `markdown-body` comes from `highlight.js` extension.
+  // We should overwrite its font styles to match DL Workbench typography styles
+  .markdown-body {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
+
   a {
     transition: 0.2s color;
   }

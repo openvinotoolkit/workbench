@@ -7,10 +7,6 @@
 
 :host ::ng-deep {
   @import 'node_modules/monaco-editor/min/vs/editor/editor.main';
-
-  .hint-container .markdown-text-block {
-    white-space: pre-wrap;
-  }
 }
 
 .model-type-selection {
