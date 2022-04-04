@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { SharedModule } from '@shared/shared.module';
 
@@ -11,7 +12,7 @@ describe('CreateDatasetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, SharedModule],
+      imports: [RouterTestingModule, BrowserAnimationsModule, SharedModule],
       declarations: [CreateDatasetComponent],
     }).compileComponents();
   });

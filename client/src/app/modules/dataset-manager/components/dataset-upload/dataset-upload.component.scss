@@ -135,10 +135,6 @@ $footer-height: 40px;
     &:not(:last-child) {
       margin-bottom: 20px;
     }
-
-    ::ng-deep .markdown-text-block {
-      white-space: pre-wrap;
-    }
   }
   .feedback-info {
     margin: 0 $container-padding $container-padding;

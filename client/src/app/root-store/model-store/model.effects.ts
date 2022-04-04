@@ -290,8 +290,8 @@ export class ModelEffects {
   importHuggingfaceModel$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ModelStoreActions.importHuggingfaceModel),
-      switchMap(({ huggingface_model_id }) =>
-        this._hfService.importModel$(huggingface_model_id).pipe(
+      switchMap(({ huggingfaceModel }) =>
+        this._hfService.importModel$(huggingfaceModel.id).pipe(
           map((model: ModelItem) => ModelStoreActions.importHuggingfaceModelSuccess({ model })),
           catchError((error) => of(ModelStoreActions.importHuggingfaceModelFailure({ error })))
         )

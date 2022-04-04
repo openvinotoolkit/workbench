@@ -13,13 +13,19 @@ export class HuggingfaceModelStoreEffects {
   loadModels$ = createEffect(() =>
     this._actions$.pipe(
       ofType(HuggingfaceModelsActions.loadModelData),
-      switchMap(() =>
-        this._hfService.getModelsData$().pipe(
-          map((data) => HuggingfaceModelsActions.loadModelDataSuccess({ data })),
+      switchMap(() => {
+        const start = Date.now();
+        return this._hfService.getModelsData$().pipe(
+          map((data) =>
+            HuggingfaceModelsActions.loadModelDataSuccess({
+              data,
+              timeToLoad: Number(((Date.now() - start) / 1000).toFixed(2)),
+            })
+          ),
           catchError((error) => of(HuggingfaceModelsActions.loadModelDataFailure({ error }))),
           takeUntil(this._actions$.pipe(ofType(HuggingfaceModelsActions.reset)))
-        )
-      )
+        );
+      })
     )
   );
 
@@ -28,8 +34,8 @@ export class HuggingfaceModelStoreEffects {
       ofType(HuggingfaceModelsActions.loadModelReadme),
       switchMap(({ huggingfaceModelId }) =>
         this._hfService.getModelReadme$(huggingfaceModelId).pipe(
-          map((readme) => HuggingfaceModelsActions.loadModelReadmeSuccess({ readme })),
-          catchError((error) => of(HuggingfaceModelsActions.loadModelReadmeFailure({ error }))),
+          map((readme) => HuggingfaceModelsActions.loadModelReadmeSuccess({ readme, huggingfaceModelId })),
+          catchError((error) => of(HuggingfaceModelsActions.loadModelReadmeFailure({ error, huggingfaceModelId }))),
           takeUntil(this._actions$.pipe(ofType(HuggingfaceModelsActions.reset)))
         )
       )
