@@ -56,7 +56,7 @@ class CreateSetupBundleJob(IJob):
         self._job_state_subject.update_state(status=StatusEnum.running, log='Preparing setup bundle.')
 
         with tempfile.TemporaryDirectory('rw') as tmp_scripts_folder:
-            setup_path = self.generate_script_from_template(tmp_scripts_folder, 'setup.sh')
+            setup_path = self.generate_setup_script_from_template(tmp_scripts_folder, 'setup.sh')
             get_devices_path = self.generate_script_from_template(tmp_scripts_folder,
                                                                   'get_inference_engine_devices.sh')
             get_resources_path = self.generate_script_from_template(tmp_scripts_folder, 'get_system_resources.sh')

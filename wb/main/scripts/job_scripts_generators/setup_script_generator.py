@@ -28,7 +28,7 @@ class SetupScriptGenerator(ScriptGenerator):
     _script_context = SetupScriptGenerationContext(
         **ScriptGenerator._script_context,
         NO_SUDO_SETUP_MESSAGE=NO_SUDO_SETUP_MESSAGE,
-        disable_telemetry=False,
+        disable_telemetry=False
     )
 
     def __init__(self, template_name: str):
@@ -40,7 +40,7 @@ class DevCloudSetupScriptGenerator(SetupScriptGenerator):
     _script_context = SetupScriptGenerationContext(
         **ScriptGenerator._script_context,
         NO_SUDO_SETUP_MESSAGE=NO_SUDO_SETUP_MESSAGE,
-        disable_telemetry=True,
+        disable_telemetry=True
     )
 
 
