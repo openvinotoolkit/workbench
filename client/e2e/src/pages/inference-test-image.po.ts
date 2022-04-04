@@ -327,7 +327,13 @@ export class VisualizeInferenceResultPage {
     expect(result).toBeTruthy('Prediction classes should be equal');
     expect(badges.length).toEqual(expectedBadgesCount, 'Count of prediction should be equal ' + expectedBadgesCount);
 
-    const isImagesDifferent = await this.isCanvasDifferentFromReference(expectedImageFile, model, badges, options);
+    const isImagesDifferent = await this.isCanvasDifferentFromReference(
+      expectedImageFile,
+      model,
+      badges,
+      options,
+      imageName
+    );
 
     expect(isImagesDifferent).toBeFalsy('Images should be equal');
   }
