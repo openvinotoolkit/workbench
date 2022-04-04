@@ -141,7 +141,6 @@ export class ModelManagerWizardComponent implements OnDestroy {
     private _dialogService: DialogService,
     private _location: Location
   ) {
-    this._store$.dispatch(ModelStoreActions.loadOMZModels());
     this._store$.dispatch(GlobalsStoreActions.getFrameworksAvailability());
 
     this.configurePipeline$.pipe(takeUntil(this._unsubscribe$)).subscribe((pipeline) => {
