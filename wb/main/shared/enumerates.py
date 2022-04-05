@@ -57,5 +57,5 @@ class DatasetTypesEnum(enum.Enum):
     # text
     csv = 'csv'
 
-    def is_nlp(self):
+    def is_nlp(self) -> bool:
         return self in {self.csv, }

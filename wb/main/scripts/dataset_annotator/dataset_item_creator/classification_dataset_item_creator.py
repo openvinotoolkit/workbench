@@ -16,8 +16,7 @@
 """
 from pathlib import Path
 
-from datumaro.components.extractor import DatasetItem, Label
-from datumaro.util.image import Image
+from datumaro import DatasetItem, Image, Label
 from openvino.tools.accuracy_checker.representation import ClassificationPrediction
 
 try:
