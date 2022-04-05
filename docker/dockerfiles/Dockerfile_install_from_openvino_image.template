@@ -47,6 +47,7 @@ ENV DEPENDENCIES " \
     gettext-base \
     unzip \
     dpkg-dev \
+    git \
 "
 
 # Preparing
