@@ -28,14 +28,14 @@ describe('UI tests on Downloading HF Models', () => {
     await homePage.openConfigurationWizard();
   });
 
-  it('list of models available for downloading is fetched', async () => {
+  it('should check that the list of models available for downloading is fetched', async () => {
     await testUtils.modelManagerPage.goToModelManager();
     await testUtils.HFModelDownloadPage.openHFTab();
     await browser.sleep(1500);
     expect(await testUtils.HFModelDownloadPage.countModelCards()).toBeGreaterThan(5);
   });
 
-  it('select model from table, download it and delete', async () => {
+  it('should select model from table, download it and delete', async () => {
     const model = browser.params.precommit_scope.resources.HFModels.ms_marco_MiniLM_L_12_v2;
     const uploadedElementsCount = await testUtils.configurationWizard.uploadsModelsTableElementsCount();
     await testUtils.modelManagerPage.goToModelManager();
@@ -45,7 +45,7 @@ describe('UI tests on Downloading HF Models', () => {
   });
 
   // 83160
-  xit('filter model list, find model, download it and delete', async () => {
+  xit('should filter model list, find model, download it and delete', async () => {
     const model: HFModel = browser.params.precommit_scope.resources.HFModels.russian_toxicity_classifier;
     const uploadedElementsCount = await testUtils.configurationWizard.uploadsModelsTableElementsCount();
     await testUtils.modelManagerPage.goToModelManager();
@@ -65,7 +65,7 @@ describe('UI tests on Downloading HF Models', () => {
     expect(await testUtils.configurationWizard.uploadsModelsTableElementsCount()).toEqual(uploadedElementsCount);
   });
 
-  it('select and deselect several filters, check that they are applied correctly', async () => {
+  it('should select and deselect several filters, check that they are applied correctly', async () => {
     await testUtils.modelManagerPage.goToModelManager();
     await testUtils.HFModelDownloadPage.openHFTab();
 

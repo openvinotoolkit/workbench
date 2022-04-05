@@ -109,13 +109,13 @@ describe('UI tests on Downloading Models', () => {
     expect(await testUtils.modelDownloadPage.countModelCards()).toBeTruthy();
     await testUtils.modelDownloadPage.removeFilter('semantic_segmentation');
 
-    await testUtils.HFModelDownloadPage.selectFilter('Caffe');
-    await testUtils.HFModelDownloadPage.selectFilter('INT8');
-    expect(await testUtils.HFModelDownloadPage.countModelCards()).toEqual(0);
+    await testUtils.modelDownloadPage.selectFilter('Caffe');
+    await testUtils.modelDownloadPage.selectFilter('INT8');
+    expect(await testUtils.modelDownloadPage.countModelCards()).toEqual(0);
 
     // Remove all filters, check that there are several model cards
-    await testUtils.HFModelDownloadPage.resetFilters();
-    expect(await testUtils.HFModelDownloadPage.countModelCards()).toBeTruthy();
+    await testUtils.modelDownloadPage.resetFilters();
+    expect(await testUtils.modelDownloadPage.countModelCards()).toBeTruthy();
   });
 
   afterEach(async () => {

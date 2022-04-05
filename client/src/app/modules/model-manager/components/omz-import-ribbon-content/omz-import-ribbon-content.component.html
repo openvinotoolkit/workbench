@@ -77,7 +77,7 @@
           *ngFor="let option of filterOptions.taskType"
           [value]="option"
           icon="list_alt"
-          [attr.data-test-id]="option + '-filter'"
+          testId="{{ option }}"
         >
           {{ option }}
         </wb-model-zoo-filter-option>
@@ -88,7 +88,7 @@
         <wb-model-zoo-filter-option
           *ngFor="let option of filterOptions.precision"
           [value]="option"
-          [attr.data-test-id]="option + '-filter'"
+          testId="{{ option }}"
         >
           {{ option }}
         </wb-model-zoo-filter-option>
@@ -100,7 +100,7 @@
           *ngFor="let option of filterOptions.framework"
           [value]="option"
           [icon]="modelFrameworkIconsMap[option]"
-          [attr.data-test-id]="modelFrameworkNamesMap[option] + '-filter'"
+          testId="{{ modelFrameworkNamesMap[option] }}"
         >
           {{ modelFrameworkNamesMap[option] }}
         </wb-model-zoo-filter-option>

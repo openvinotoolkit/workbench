@@ -73,24 +73,29 @@ export class ModelDownloadPage {
     return TestUtils.getNestedElementByDataTestId(modelCardElement, 'model-name').getText();
   }
 
+  async isElementAvailable(elementToCheck: ElementFinder): Promise<boolean> {
+    const classes = await elementToCheck.getAttribute('class');
+
+    return !classes.includes('disabled');
+  }
+
   // This is applicable to the Task Types, Precisions, Frameworks, i.e., 'classification', 'INT8',
   // and similar are valid options to pass
   async selectFilter(filterName: string): Promise<void> {
-    const filterElement: ElementFinder = TestUtils.getElementByDataTestId(`${filterName}-filter`);
+    const filterElement: ElementFinder = TestUtils.getElementByDataTestId(`${filterName}-option`);
     await new TestUtils().clickElement(filterElement);
     await browser.sleep(1000);
   }
 
   async removeFilter(filterName: string): Promise<void> {
-    const filterElement: ElementFinder = TestUtils.getElementByDataTestId(`${filterName}-filter`);
-    const removeFilterElement: ElementFinder = TestUtils.getNestedElementByDataTestId(filterElement, 'remove-filter');
+    const removeFilterElement: ElementFinder = TestUtils.getElementByDataTestId(`remove-option-${filterName}`);
     await new TestUtils().clickElement(removeFilterElement);
     await browser.sleep(1000);
   }
 
   async resetFilters(): Promise<void> {
     await new TestUtils().clickElement(this.elements.resetFiltersButton);
-    await browser.wait(this.until.invisibilityOf(this.elements.resetFiltersButton));
+    await browser.wait(async () => !(await this.isElementAvailable(this.elements.resetFiltersButton)));
     await browser.sleep(500);
   }
 
@@ -98,7 +103,7 @@ export class ModelDownloadPage {
     const groupContainer: ElementFinder = await this.elements.getFilterGroup(groupName);
     const filterElements: ElementArrayFinder = TestUtils.getNestedElementsContainingDataTestIdPart(
       groupContainer,
-      '-filter'
+      '-option'
     );
     return filterElements.count();
   }
