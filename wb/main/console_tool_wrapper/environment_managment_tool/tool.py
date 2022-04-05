@@ -40,7 +40,7 @@ class UpdatePipTool(PipModule):
     def __init__(self, python_exec: Path):
         super().__init__(python_exec=python_exec, parameters=[
             dict(name='install', parameter_type=ConsoleParametersTypes.flag),
-            dict(name='-upgrade', value='pip', parameter_type=ConsoleParametersTypes.path),
+            dict(name='--upgrade', value='pip', parameter_type=ConsoleParametersTypes.path),
         ])
 
 
