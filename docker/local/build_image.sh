@@ -27,17 +27,12 @@ done
 
 set -e
 
+echo
 echo -e "${TERMINAL_COLOR_MESSAGE} The script must be run from the root folder of the Workbench ${TERMINAL_COLOR_CLEAR}"
-echo -e "${TERMINAL_COLOR_MESSAGE} Also install 'NVM' from the repository 'https://github.com/nvm-sh/nvm' and install the client dependencies in the client folder with the following command: 'npm install'${TERMINAL_COLOR_CLEAR}"
 echo
 
 ROOT_FOLDER="${PWD}"
 pushd ${ROOT_FOLDER}
-
-  pushd client
-    source ${NVM_DIR}/nvm.sh && nvm use 14
-    DL_PROFILER_BACKEND_STATIC_PATH=../static/ npm run pack
-  popd
 
   if [ -d $TEMP_FOLDER ]; then
     rm -rf $TEMP_FOLDER
@@ -45,6 +40,7 @@ pushd ${ROOT_FOLDER}
   mkdir $TEMP_FOLDER
   pushd $TEMP_FOLDER
     rsync -av --progress ${ROOT_FOLDER} ./ --exclude={'venv','venv_tf2','tests','client','.git','wb/data','.venv','.unified_venv'}
+    rsync -av --progress ${ROOT_FOLDER}/client ./ --exclude={'node_modules','.idea','.git','e2e'}
 
     VERSIONS_FILE="${ROOT_FOLDER}/automation/Jenkins/openvino_version.yml"
 
@@ -92,4 +88,4 @@ pushd ${ROOT_FOLDER}
 popd
 
 echo "To run the image, execute the following command:"
-echo "docker rm local_build || true && openvino-workbench --image ${IMAGE_NAME}:${IMAGE_TAG} --container-name local_build"
+echo "docker rm local_build || true && openvino-workbench --image ${IMAGE_NAME}:${IMAGE_TAG} --container-name local_build --enable-gpu"
