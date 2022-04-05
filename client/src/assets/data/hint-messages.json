@@ -106,7 +106,8 @@
   },
   "importHuggingFaceTips": {
     "externalResourceNotification": "Hugging Face is an external source, there may be connection problems. Contains unverified models, we do not guarantee their performance.",
-    "shownSubsetNotification": "We show only a subset of the models from Hugging Face (Text Classification and PyTorch)."
+    "shownSubsetNotification": "We show only a subset of the models from Hugging Face (Text Classification and PyTorch).",
+    "huggingfaceModelCard": "[Model Card on Hugging Face](https://huggingface.co/${id})"
   },
   "login": {
     "loginTip": "To enter the DL Workbench, use a token that is generated once you start the application. Copy it from the console.\n [Read more](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html#omz)"
@@ -263,8 +264,5 @@
   "textDatasetTaskType": {
     "textClassification": "Text classification is the task of assigning a sentence or document an appropriate category (also called label or class). Specify the number of the dataset column that contains Text and Label for classification.",
     "textualEntailment": "Textual entailment is the task of deciding whether the meaning of the Hypothesis (second text) can be inferred from the Premise (first text). The entailment relation is specified by the Label. Use textual entailment pattern for classification tasks that require two texts as input."
-  },
-  "huggingfaceModels": {
-    "huggingfaceModelCard": "[Model Card on HuggingFace](https://huggingface.co/${id})"
   }
 }

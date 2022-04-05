@@ -37,7 +37,7 @@ export class HuggingfaceModelDetailsComponent {
     this._model = value;
     if (this._model) {
       this.parameters = this._extractHfModelParameters(this._model);
-      this.huggingfaceCardUrl = this._messages.getHint('huggingfaceModels', 'huggingfaceModelCard', {
+      this.huggingfaceCardUrl = this._messages.getHint('importHuggingFaceTips', 'huggingfaceModelCard', {
         id: this._model.id,
       });
       this._store$.dispatch(HuggingfaceModelStoreActions.loadModelReadme({ huggingfaceModelId: this._model.id }));
