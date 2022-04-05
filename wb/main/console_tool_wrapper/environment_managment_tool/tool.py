@@ -36,6 +36,14 @@ class CollectInstalledPackagesTool(PipModule):
         ])
 
 
+class UpdatePipTool(PipModule):
+    def __init__(self, python_exec: Path):
+        super().__init__(python_exec=python_exec, parameters=[
+            dict(name='install', parameter_type=ConsoleParametersTypes.flag),
+            dict(name='-upgrade', value='pip', parameter_type=ConsoleParametersTypes.path),
+        ])
+
+
 class InstallPackagesTool(PipModule):
     def __init__(self, python_exec: Path, requirement_file: Path, runtime_wheel: Path, dev_wheel: Path, mirror: str = None):
         super().__init__(python_exec=python_exec, parameters=[

@@ -24,6 +24,7 @@ from sqlalchemy.orm import Session
 from config.constants import PYPI_MIRROR_FOR_PRC, OPENVINO_DEV_WHEEL, OPENVINO_RUNTIME_WHEEL
 from wb.main.console_tool_wrapper.environment_managment_tool import CreateVirtualEnvTool, InstallPackagesTool, \
     InstallPackagesToolParser
+from wb.main.console_tool_wrapper.environment_managment_tool.tool import UpdatePipTool
 from wb.main.environment.creator import EnvironmentCreator
 from wb.main.environment.creator.status_reporter import CreateEnvironmentStatusReporter
 from wb.main.environment.manifest import ManifestDumper, Manifest
@@ -41,6 +42,11 @@ class ManifestSpecificEnvironmentCreator(EnvironmentCreator):
     def _create(self, session: Session, is_prc: bool) -> EnvironmentModel:
         environment = self._create_environment_model(session)
         environment_path = Path(environment.path)
+
+        update_pip_tool = UpdatePipTool(environment_path)
+        runner = LocalRunner(tool=update_pip_tool)
+        return_code, _ = runner.run_console_tool()
+
         self._create_python_virtual_environment(environment_path)
         self.install_packages(environment.python_executable, is_prc)
         return environment
