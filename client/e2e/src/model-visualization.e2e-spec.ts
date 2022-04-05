@@ -144,7 +144,7 @@ describe('UI tests on Model visualization', () => {
     );
   });
 
-  // 75981
+  // TODO: 75981
   xit('should check visualization GAN single-image-super-resolution-1032 model', async () => {
     const model = { name: 'single-image-super-resolution-1032', framework: 'openvino' };
     const imageFile = browser.params.precommit_scope.resources.testImages.streetImage;
