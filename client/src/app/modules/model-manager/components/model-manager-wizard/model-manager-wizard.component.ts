@@ -263,18 +263,9 @@ export class ModelManagerWizardComponent implements OnDestroy {
     this.modelWizardStage = stage;
   }
 
-  handleUploadModelFiles({ model, precision }): void {
+  handleUploadModelFiles({ model }: { model: UploadingModelDTO }): void {
     this.redirectAllowed = false;
-    const actionToDispatch =
-      this.modelSource === ModelSources.OMZ
-        ? ModelStoreActions.downloadOMZModel({
-            model: model as ModelDownloaderDTO,
-            precision,
-          })
-        : ModelStoreActions.startUploadModel({
-            uploadingModel: model as UploadingModelDTO,
-          });
-    this._store$.dispatch(actionToDispatch);
+    this._store$.dispatch(ModelStoreActions.startUploadModel({ uploadingModel: model }));
   }
 
   handleUploadSavedModelFiles({ savedModel }): void {

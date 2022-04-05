@@ -21,7 +21,6 @@ import {
 import { ProjectStatus, ProjectStatusNames } from '@store/project-store/project.model';
 import { FrameworksAvailabilityStates, IFrameworksAvailability } from '@store/globals-store/globals.state';
 
-import { ModelDownloaderDTO } from '@shared/models/dto/model-downloader-dto';
 import { CustomValidators } from '@shared/components/config-form-field/custom-validators';
 import { AdvancedConfigField } from '@shared/components/config-form-field/config-form-field.component';
 import { TipMessage } from '@shared/components/tip/tip.component';
@@ -34,7 +33,6 @@ import {
   tfModelFileFieldsMap,
   tfModelUtilFieldsMap,
 } from './model-import-fields';
-import { OMZModelPrecisionEnum } from '../omz-import-ribbon-content/omz-import-ribbon-content.component';
 
 export function getUploadModelStage(uploadingModel: ModelItem | Partial<ModelItem>): ProjectStatus {
   if (!uploadingModel || !uploadingModel.stages || !uploadingModel.stages.length) {
@@ -69,9 +67,7 @@ export class ModelManagerImportComponent implements OnInit, OnDestroy {
 
   @Input() frameworksAvailability: IFrameworksAvailability = null;
 
-  @Output() uploadModel = new EventEmitter<
-    { model: UploadingModelDTO } | { model: ModelDownloaderDTO; precision: OMZModelPrecisionEnum | null }
-  >();
+  @Output() uploadModel = new EventEmitter<{ model: UploadingModelDTO }>();
 
   @Output() uploadSavedModel = new EventEmitter<{
     savedModel: UploadingTF2SavedModelDTO;
