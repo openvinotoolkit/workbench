@@ -84,7 +84,9 @@ RUN apt update && \
     # For E2E in non-headless mode
     xvfb \
     gnupg2 \
-    build-essential && \
+    build-essential  \
+    # for running packages from git commits \
+    git && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
