@@ -200,10 +200,10 @@ class CLIToolsOptionsCache:
         tool_processes = []
         processes_tool_options_map = Manager().dict()
         for tool_enum in CLIToolEnum:
-            tool_name = tool_enum.name
+            tool_name = tool_enum.name.split()
             tool_path = tool_enum.value['path']
             process = Process(target=self._update_parsed_tool_options_map,
-                              args=(tool_name.split(), tool_path, processes_tool_options_map))
+                              args=(*tool_name, tool_path, processes_tool_options_map))
             tool_processes.append(process)
             process.start()
         for process in tool_processes:
