@@ -22,6 +22,8 @@ jobs:
 
             const prName = context.payload.pull_request.title;
             console.log(`Pull Request Name is ${prName}`);
+            console.log(`User created this: ${context.payload.pull_request.user.login}`)
+            console.log(`User created this: ${context.payload.pull_request.user.type}`)
 
             const shouldSkip = skipLabels.some(label => prName.toLowerCase().includes(label)) || dependencyUpdateRegExp.test(prName)
             if (shouldSkip) {
