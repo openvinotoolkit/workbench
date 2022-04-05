@@ -1,11 +1,10 @@
 import { browser, by, element, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
 
-import { ModelColorChannels, TransformationsConfigType } from '@store/model-store/model.model';
+import { ModelColorChannels, ModelPrecisionEnum, TransformationsConfigType } from '@store/model-store/model.model';
 
 import { TestUtils } from './pages/test-utils';
 import { Helpers } from './pages/helpers';
 import { isMXNetModel, isTensorFlowModel, ModelFile } from './pages/model-file';
-import { OMZModelPrecisionEnum } from '../../src/app/modules/model-manager/components/omz-import-ribbon-content/omz-import-ribbon-content.component';
 
 describe('UI tests for model import form', () => {
   const testUtils = new TestUtils();
@@ -234,8 +233,8 @@ describe('UI tests for model import form', () => {
       browser.params.defaultTimeout
     );
     await checkDropDownAndSetValue(testUtils.modelManagerPage.precisionContainer, conversionSettings.precision, [
-      OMZModelPrecisionEnum.FP32,
-      OMZModelPrecisionEnum.FP16,
+      ModelPrecisionEnum.FP32,
+      ModelPrecisionEnum.FP16,
     ]);
     expect(await testUtils.modelManagerPage.isParameterSatisfied('dataType-tip')).toBeTruthy(
       'Precision tip should shows that precision drop down is filled'

@@ -15,11 +15,11 @@ import {
   ModelArchivingSocketDTO,
   ModelConvertConfigDTO,
   ModelItem,
+  ModelPrecisionEnum,
   TransformationsConfig,
   UploadingModelDTO,
   UploadingTF2SavedModelDTO,
 } from './model.model';
-import { OMZModelPrecisionEnum } from '../../modules/model-manager/components/omz-import-ribbon-content/omz-import-ribbon-content.component';
 
 export const waitDownload = createAction('[Model] Fake download state');
 
@@ -151,7 +151,7 @@ export const resetOMZModels = createAction('[Model] Reset OMZ Models');
 
 export const downloadOMZModel = createAction(
   '[Model] Download OMZ Model',
-  props<{ model: ModelDownloaderDTO; precision?: OMZModelPrecisionEnum }>()
+  props<{ model: ModelDownloaderDTO; precision?: ModelPrecisionEnum.FP32 | ModelPrecisionEnum.FP16 }>()
 );
 
 export const downloadOMZModelSuccess = createAction(

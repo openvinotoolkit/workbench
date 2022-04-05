@@ -3,7 +3,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
 
-import { modelFrameworkNamesMap, ModelFrameworks, TaskTypeToNameMap } from '@store/model-store/model.model';
+import {
+  modelFrameworkNamesMap,
+  ModelFrameworks,
+  ModelPrecisionEnum,
+  TaskTypeToNameMap,
+} from '@store/model-store/model.model';
 import { GlobalsStoreActions, ModelStoreActions, ModelStoreSelectors, RootStoreState } from '@store';
 
 import { ModelDownloaderDTO } from '@shared/models/dto/model-downloader-dto';
@@ -13,13 +18,6 @@ import {
 } from '@shared/models/model-zoo-data-source/open-model-zoo-data-source';
 
 import { BaseModelZooImportComponent } from '../base-model-zoo-import/base-model-zoo-import.component';
-
-// TODO Consider replacing with `ModelPrecisionEnum` or moving closer to model interfaces
-export enum OMZModelPrecisionEnum {
-  FP32 = 'FP32',
-  FP16 = 'FP16',
-  INT8 = 'INT8',
-}
 
 @Component({
   selector: 'wb-omz-import-ribbon-content',
@@ -75,9 +73,7 @@ export class OmzImportRibbonContentComponent extends BaseModelZooImportComponent
   importModel(): void {
     // TODO Check which precision is needed for initial downloading
     const precision =
-      this.selectedModel.framework === ModelFrameworks.OPENVINO
-        ? OMZModelPrecisionEnum.FP16
-        : OMZModelPrecisionEnum.FP32;
+      this.selectedModel.framework === ModelFrameworks.OPENVINO ? ModelPrecisionEnum.FP16 : ModelPrecisionEnum.FP32;
     this._store$.dispatch(
       ModelStoreActions.downloadOMZModel({
         model: this.selectedModel,
