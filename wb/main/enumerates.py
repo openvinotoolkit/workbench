@@ -664,6 +664,7 @@ class ModelShapeTypeEnum(enum.Enum):
 
 class DatumaroModesEnum(enum.Enum):
     convert = 'convert'
+    detect_format = 'detect-format'
 
 
 class TokenizerTypeEnum(enum.Enum):

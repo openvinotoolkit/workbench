@@ -46,8 +46,9 @@ describe('UI tests on Accuracy Reports', () => {
     imageNetNotAnnotated.name = testUtils.helpers.generateName();
     await testUtils.uploadDataset(datasetFileVOC);
     await testUtils.uploadDataset(datasetFileImageNet);
-    await testUtils.uploadDataset(dataSetFileSemantic);
-    await testUtils.uploadDataset(imageNetNotAnnotated);
+    // TODO: 83042
+    // await testUtils.uploadDataset(dataSetFileSemantic);
+    // await testUtils.uploadDataset(imageNetNotAnnotated);
 
     if (browser.params.isDevCloud) {
       jasmine.DEFAULT_TIMEOUT_INTERVAL *= 2.5;
@@ -179,7 +180,7 @@ describe('UI tests on Accuracy Reports', () => {
     expect(await TestUtils.getAllElementsByDataTestId('predictions-table').count()).toBeGreaterThan(1);
   });
 
-  // 70558
+  // TODO: 70558
   xit(
     'should download a semantic segmentation model (deeplabv3), ' +
       'int8 calibration, check that predictions comparison is available and that tensor comparison is available, ' +
@@ -270,7 +271,7 @@ describe('UI tests on Accuracy Reports', () => {
     }
   );
 
-  // 70558
+  // TODO: 70558, 83248
   xit(
     'should download a semantic segmentation model (deeplabv3), not-annotated dataset' +
       'int8 calibration, check that predictions comparison is available and that tensor comparison is available, ' +
@@ -322,7 +323,7 @@ describe('UI tests on Accuracy Reports', () => {
     }
   );
 
-  // 73953
+  // TODO: 73953, 83248
   xit(
     'should create a project with a generic model, calibrate it, configure accuracy (OD), ' +
       'create accuracy report (predictions comparison)',
@@ -373,7 +374,7 @@ describe('UI tests on Accuracy Reports', () => {
     }
   );
 
-  // 73953
+  // TODO: 73953, 83248
   xit(
     'should create a project with a generic model and not-annotated dataset, calibrate, ' +
       'create another project with annotated dataset, ' +
@@ -447,7 +448,7 @@ describe('UI tests on Accuracy Reports', () => {
     }
   );
 
-  // 73953
+  // TODO: 73953, 83248
   xit(
     'should create a project with a classification model & ' +
       'not-annotated dataset, calibrate it, create accuracy report (predictions comparison), ' +
