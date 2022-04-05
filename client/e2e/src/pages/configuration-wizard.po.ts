@@ -967,9 +967,11 @@ export class ConfigurationWizardPage {
 
     await this.selectDatasetFile(datasetFile, resourceDir);
 
+    const selectTypes = await TestUtils.getElementByDataTestId('datasettype-form-field');
     if (datasetFile['format'] === DatasetTypeNames.CITYSCAPES) {
-      const selectTypes = await TestUtils.getElementByDataTestId('datasettype-form-field');
       await this.selectValueFromDropdown(selectTypes, DatasetTypeNames.CITYSCAPES);
+    } else if (datasetFile['format'] === DatasetTypeNames.NOT_ANNOTATED) {
+      await this.selectValueFromDropdown(selectTypes, DatasetTypeNames.NOT_ANNOTATED);
     }
 
     await this.uploadButton.click();

@@ -47,8 +47,7 @@ describe('UI tests on parent predictions visualization', () => {
     dataSetFileSemantic.name = testUtils.helpers.generateName();
     await testUtils.uploadDataset(datasetFileVOC);
     await testUtils.uploadDataset(datasetFileImageNet);
-    // TODO: 83248
-    // await testUtils.uploadDataset(dataSetFileSemantic);
+    await testUtils.uploadDataset(dataSetFileSemantic);
   });
 
   beforeEach(async () => {
