@@ -1,1 +1,1 @@
-[[ -f ${HOME}/intel/isip ]] || echo 0 >> ${HOME}/intel/isip
+[[ -f ${HOME}/intel/isip ]] || ( mkdir ${HOME}/intel && echo 1 >> ${HOME}/intel/isip )
