@@ -65,8 +65,8 @@ pushd ${ROOT_FOLDER}
 
     BUNDLES_FOLDER="${TEMP_FOLDER}/workbench/bundles"
     mkdir ${BUNDLES_FOLDER}
-    if [[ ! -z ${BUNDLS_PATH} ]]; then
-      cp -R ${BUNDLS_PATH}/* ${BUNDLES_FOLDER}
+    if [[ ! -z ${BUNDLES_PATH} ]]; then
+      cp -R ${BUNDLES_PATH}/* ${BUNDLES_FOLDER}
     else
       pushd ${BUNDLES_FOLDER}
         PACKAGE_LINK=$(grep 'openvino_deployment_archives'  ${VERSIONS_FILE} | awk '{print $2}')
