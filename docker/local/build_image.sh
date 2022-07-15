@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-TEMP_FOLDER=/tmp/build_wb
+TEMP_FOLDER=${TEMP_FOLDER:='/tmp/build_wb'}
 HTTP_PROXY=${http_proxy}
 HTTPS_PROXY=${https_proxy}
 IMAGE_NAME=workbench
