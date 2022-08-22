@@ -61,6 +61,7 @@ RUN mkdir -m 777 -p ${WORKBENCH_PUBLIC_DIR} && chown -R ${USER_NAME} ${WORKBENCH
 
 RUN apt update && \
     apt install -y --no-install-recommends \
+    curl \
     unzip \
     erlang-nox \
     default-jre \
