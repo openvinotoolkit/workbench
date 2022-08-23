@@ -210,11 +210,14 @@ RUN . ${NVM_DIR}/nvm.sh && \
 
 WORKDIR ${OPENVINO_WORKBENCH_ROOT}
 
-RUN python3 ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/bundle_creator/bundle_downloader.py \
-                        --link "${PACKAGE_LINK}" \
-                        -os ubuntu18 ubuntu20 \
-                        --output-path "${OPENVINO_WORKBENCH_ROOT}/bundles" \
-                        --targets cpu gpu hddl opencv python3.6 python3.7 python3.8 vpu
+#RUN python3 ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/bundle_creator/bundle_downloader.py \
+#                        --link "${PACKAGE_LINK}" \
+#                        -os ubuntu18 ubuntu20 \
+#                        --output-path "${OPENVINO_WORKBENCH_ROOT}/bundles" \
+#                        --targets cpu gpu hddl opencv python3.6 python3.7 python3.8 vpu \
+RUN python3 ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/package_downloader.py \
+                        --link ${PACKAGE_LINK} \
+                        --output-path "${OPENVINO_WORKBENCH_ROOT}/bundles"
 
 RUN python3 ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/wheel_downloader.py \
                         --link ${WHEELS_LINK} \
