@@ -1,0 +1,1 @@
+git+https://github.com/openvinotoolkit/datumaro.git@develop#egg=datumaro

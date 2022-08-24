@@ -181,6 +181,7 @@ RUN rm -rf ${OPENVINO_WORKBENCH_ROOT} && \
 
 # Copy only files with requirements and install them before copying all code for speed up the docker build process
 COPY --chown=${USER_NAME} requirements/requirements.txt ${OPENVINO_WORKBENCH_ROOT}/requirements/
+COPY --chown=${USER_NAME} requirements/datumaro.txt ${OPENVINO_WORKBENCH_ROOT}/requirements/
 COPY --chown=${USER_NAME} requirements/requirements_jupyter.txt ${OPENVINO_WORKBENCH_ROOT}/requirements/
 COPY --chown=${USER_NAME} requirements/requirements_dev.txt ${OPENVINO_WORKBENCH_ROOT}/requirements/
 COPY --chown=${USER_NAME} model_analyzer/requirements.txt ${OPENVINO_WORKBENCH_ROOT}/model_analyzer/
@@ -189,6 +190,7 @@ COPY --chown=${USER_NAME} client/package-lock.json ${OPENVINO_WORKBENCH_ROOT}/cl
 COPY --chown=root nginx/nginx.conf /etc/nginx/nginx.conf
 
 RUN python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements.txt && \
+    python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/requirements/datumaro.txt && \
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_jupyter.txt && \
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_dev.txt && \
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/model_analyzer/requirements.txt
