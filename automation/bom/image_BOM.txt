@@ -107,6 +107,7 @@ nginx/security.conf
 README.md
 requirements/extra/requirements_huggingface_onnx.txt
 requirements/requirements.txt
+requirements/datumaro.txt
 requirements/requirements_jupyter.txt
 tutorials/classification/car.bmp
 tutorials/classification/labels.txt
