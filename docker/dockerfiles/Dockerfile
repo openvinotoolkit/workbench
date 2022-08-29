@@ -94,7 +94,7 @@ RUN apt update && \
     rm -rf /var/lib/apt/lists/*
 
 # FIXME: Remove this dependency from Workbench runtime
-RUN mkdir ${INTEL_OPENVINO_DIR}  \
+RUN mkdir -p ${INTEL_OPENVINO_DIR}  \
     && curl -o ${INTEL_OPENVINO_DIR}/setupvars.sh https://raw.githubusercontent.com/openvinotoolkit/openvino/master/scripts/setupvars/setupvars.sh \
     && chown ${CI_USER}: ${INTEL_OPENVINO_DIR}/setupvars.sh
 
