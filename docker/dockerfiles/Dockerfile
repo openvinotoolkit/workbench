@@ -94,7 +94,7 @@ RUN apt update && \
     rm -rf /var/lib/apt/lists/*
 
 # FIXME: Remove this dependency from Workbench runtime
-curl -o ${INTEL_OPENVINO_DIR}/setupvars.sh https://raw.githubusercontent.com/openvinotoolkit/openvino/master/scripts/setupvars/setupvars.sh \
+RUN curl -o ${INTEL_OPENVINO_DIR}/setupvars.sh https://raw.githubusercontent.com/openvinotoolkit/openvino/master/scripts/setupvars/setupvars.sh \
     && chown ${CI_USER}: ${INTEL_OPENVINO_DIR}/setupvars.sh
 
 # For postgresql-10
