@@ -38,6 +38,8 @@ ENV http_proxy ${HTTP_PROXY}
 ENV https_proxy ${HTTPS_PROXY}
 ENV no_proxy ${NO_PROXY}
 
+ENV INTEL_OPENVINO_DIR /opt/intel/openvino
+
 ENV OPENVINO_WORKBENCH_ROOT ${INTEL_OPENVINO_DIR}/tools/workbench
 ENV WHEELS_PATH ${OPENVINO_WORKBENCH_ROOT}/wheels
 ENV WORKBENCH_FE_DIR ${OPENVINO_WORKBENCH_ROOT}/client
@@ -90,6 +92,9 @@ RUN apt update && \
     git && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
+
+# FIXME: Remove this dependency from Workbench runtime
+curl -o ${INTEL_OPENVINO_DIR}/setupvars.sh https://raw.githubusercontent.com/openvinotoolkit/openvino/master/scripts/setupvars/setupvars.sh
 
 # For postgresql-10
 RUN curl -L https://www.postgresql.org/media/keys/ACCC4CF8.asc -s | apt-key add - && \
