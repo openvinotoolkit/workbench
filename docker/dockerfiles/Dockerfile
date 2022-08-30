@@ -44,13 +44,13 @@ ENV OPENVINO_WORKBENCH_ROOT ${INTEL_OPENVINO_DIR}/tools/workbench
 ENV WHEELS_PATH ${OPENVINO_WORKBENCH_ROOT}/wheels
 ENV WORKBENCH_FE_DIR ${OPENVINO_WORKBENCH_ROOT}/client
 ENV OPENVINO_WORKBENCH_DATA_PATH ${OPENVINO_WORKBENCH_ROOT}/wb/data
+ENV WORKBENCH_POSTGRESQL_DATA_DIR ${WORKBENCH_PUBLIC_DIR}/postgresql_data_directory
 
 ENV TZ Europe/Helsinki
 
 ENV PYTHONPATH ${PYTHONPATH}:\
 ${OPENVINO_WORKBENCH_ROOT}:\
-${OPENVINO_WORKBENCH_ROOT}/model_analyzer:\
-${INTEL_OPENVINO_DIR}/tools/benchmark_tool
+${OPENVINO_WORKBENCH_ROOT}/model_analyzer
 
 ENV NOTEBOOKS_VENV /tmp/jupyter_env
 
@@ -76,6 +76,8 @@ RUN apt update && \
     python3-dev \
     nginx \
     libsm6 \
+    libopencv-dev \
+    python3-opencv \
     # for envsubst
     gettext-base \
     libboost-filesystem-dev \
@@ -199,8 +201,24 @@ COPY --chown=root nginx/nginx.conf /etc/nginx/nginx.conf
 RUN python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements.txt && \
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/requirements/datumaro.txt && \
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_jupyter.txt && \
-    python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_dev.txt && \
+#    python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_dev.txt && \
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/model_analyzer/requirements.txt
+
+#RUN python3 ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/package_downloader.py \
+#                        --link ${PACKAGE_LINK} \
+#                        --output-path "${OPENVINO_WORKBENCH_ROOT}/bundles" && \
+#    chown ${USER_NAME} -R ${OPENVINO_WORKBENCH_ROOT}/bundles
+
+RUN python3 ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/wheel_downloader.py \
+                        --link ${WHEELS_LINK} \
+                        --output-path ${WHEELS_PATH}
+
+# Base image changed to ubuntu, we should to setup openvino
+RUN python3 -m pip install -U pip setuptools wheel
+
+RUN chown -R ${USER_NAME} ${WHEELS_PATH} && \
+    OPENVINO_WHEEL=$(find ${WHEELS_PATH} -name "openvino-202*cp38*linux*.whl" -print -quit) && python3 -m pip install ${OPENVINO_WHEEL} && \
+    OPENVINO_DEV_WHEEL=$(find ${WHEELS_PATH} -name "openvino_dev*.whl" -print -quit) && python3 -m pip install "${OPENVINO_DEV_WHEEL}" \
 
 RUN chown -R ${USER_NAME} ${OPENVINO_WORKBENCH_ROOT}
 
@@ -224,24 +242,6 @@ WORKDIR ${OPENVINO_WORKBENCH_ROOT}
 #                        -os ubuntu18 ubuntu20 \
 #                        --output-path "${OPENVINO_WORKBENCH_ROOT}/bundles" \
 #                        --targets cpu gpu hddl opencv python3.6 python3.7 python3.8 vpu \
-RUN python3 ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/package_downloader.py \
-                        --link ${PACKAGE_LINK} \
-                        --output-path "${OPENVINO_WORKBENCH_ROOT}/bundles"
-
-RUN python3 ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/wheel_downloader.py \
-                        --link ${WHEELS_LINK} \
-                        --output-path ${WHEELS_PATH}
-
-USER root
-# Base image changed to ubuntu, we should to setup openvino
-RUN python3 -m pip install -U pip setuptools wheel
-
-RUN chown -R ${USER_NAME} ${WHEELS_PATH} && \
-    OPENVINO_WHEEL=$(find ${WHEELS_PATH} -name "openvino-202*cp38*linux*.whl" -print -quit) && python3 -m pip install ${OPENVINO_WHEEL} && \
-    OPENVINO_DEV_WHEEL=$(find ${WHEELS_PATH} -name "openvino_dev*.whl" -print -quit) && python3 -m pip install "${OPENVINO_DEV_WHEEL}"
-
-USER ${USER_NAME}
 
 # install jenkins jnlp agent
-
 ENTRYPOINT ["/tools/jenkins-agent"]
