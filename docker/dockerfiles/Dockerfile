@@ -204,11 +204,13 @@ RUN python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_W
 #    python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_dev.txt && \
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/model_analyzer/requirements.txt
 
+#COPY --chown=${USER_NAME} wb/main/utils/package_downloader.py ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/package_downloader.py
 #RUN python3 ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/package_downloader.py \
 #                        --link ${PACKAGE_LINK} \
 #                        --output-path "${OPENVINO_WORKBENCH_ROOT}/bundles" && \
 #    chown ${USER_NAME} -R ${OPENVINO_WORKBENCH_ROOT}/bundles
 
+COPY --chown=${USER_NAME} wb/main/utils/wheel_downloader.py ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/wheel_downloader.py
 RUN python3 ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/wheel_downloader.py \
                         --link ${WHEELS_LINK} \
                         --output-path ${WHEELS_PATH}
