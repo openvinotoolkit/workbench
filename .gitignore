@@ -72,3 +72,6 @@ thread.info
 
 # bundles
 bundles/
+
+# openvino wheels
+wheels/
