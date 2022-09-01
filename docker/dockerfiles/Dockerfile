@@ -52,14 +52,19 @@ ENV PYTHONPATH ${PYTHONPATH}:\
 ${OPENVINO_WORKBENCH_ROOT}:\
 ${OPENVINO_WORKBENCH_ROOT}/model_analyzer
 
-ENV NOTEBOOKS_VENV /tmp/jupyter_env
+ENV HOME_FOLDER /home/${USER_NAME}
 
 RUN useradd -ms /bin/bash -u 28895 ${USER_NAME} && \
     chown ${USER_NAME} -R /home/${USER_NAME}
 
 # CREATE DIRECTORY FOR PUBLIC WORKBENCH ARTIFACTS
-ENV WORKBENCH_PUBLIC_DIR /home/${USER_NAME}/.workbench
+ENV WORKBENCH_PUBLIC_DIR ${HOME_FOLDER}/.workbench
 RUN mkdir -m 777 -p ${WORKBENCH_PUBLIC_DIR} && chown -R ${USER_NAME} ${WORKBENCH_PUBLIC_DIR}
+
+ENV JUPYTER_BASE_DIR ${HOME_FOLDER}/.jupyter
+ENV JUPYTER_USER_SETTINGS_DIR ${JUPYTER_BASE_DIR}/lab/user-settings
+ENV JUPYTER_TUTORIALS_DIR ${WORKBENCH_PUBLIC_DIR}/tutorials
+ENV NOTEBOOKS_VENV ${OPENVINO_WORKBENCH_DATA_PATH}/jupyter_env
 
 RUN apt update && \
     apt install -y --no-install-recommends \
@@ -94,6 +99,9 @@ RUN apt update && \
     git && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
+
+# COPY JUPYTER USER SETTINGS
+COPY --chown=workbench workbench/docker/jupyter_config/user-settings ${JUPYTER_USER_SETTINGS_DIR}
 
 # FIXME: Remove this dependency from Workbench runtime
 RUN mkdir -p ${INTEL_OPENVINO_DIR}  \
