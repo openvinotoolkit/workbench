@@ -101,7 +101,7 @@ RUN apt update && \
     rm -rf /var/lib/apt/lists/*
 
 # COPY JUPYTER USER SETTINGS
-COPY --chown=workbench workbench/docker/jupyter_config/user-settings ${JUPYTER_USER_SETTINGS_DIR}
+COPY --chown=workbench docker/jupyter_config/user-settings ${JUPYTER_USER_SETTINGS_DIR}
 
 # FIXME: Remove this dependency from Workbench runtime
 RUN mkdir -p ${INTEL_OPENVINO_DIR}  \
