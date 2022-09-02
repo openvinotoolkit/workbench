@@ -72,8 +72,12 @@ python3 ./docker/scripts/configure_index_html.py \
 ./docker/scripts/start_jupyter.sh &
 
 # TODO: rm LC_ALL & LANG when 53369 is resolved
-LC_ALL=C.UTF-8 LANG=C.UTF-8 gunicorn --worker-class eventlet -w 1 -b 127.0.0.1:${API_PORT} workbench:APP \
-  --log-level ${WB_LOG_LEVEL} \
-  --log-file ${WB_LOG_FILE} \
-  --error-logfile ${WB_LOG_FILE} \
-  --enable-stdio-inheritance
+LC_ALL=C.UTF-8 LANG=C.UTF-8 gunicorn \
+  --limit-request-field_size 0 \
+  --worker-class eventlet \
+  -w 1 \
+  -b 127.0.0.1:${API_PORT} workbench:APP \
+    --log-level ${WB_LOG_LEVEL} \
+    --log-file ${WB_LOG_FILE} \
+    --error-logfile ${WB_LOG_FILE} \
+    --enable-stdio-inheritance
