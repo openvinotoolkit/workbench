@@ -100,9 +100,6 @@ RUN apt update && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
-# COPY JUPYTER USER SETTINGS
-COPY --chown=workbench docker/jupyter_config/user-settings ${JUPYTER_USER_SETTINGS_DIR}
-
 # FIXME: Remove this dependency from Workbench runtime
 RUN mkdir -p ${INTEL_OPENVINO_DIR}  \
     && curl -o ${INTEL_OPENVINO_DIR}/setupvars.sh https://raw.githubusercontent.com/openvinotoolkit/openvino/master/scripts/setupvars/setupvars.sh \
@@ -142,6 +139,9 @@ RUN gpasswd -a ${USER_NAME} ssl-cert && \
     gpasswd -a ${USER_NAME} users && \
     gpasswd -a ${USER_NAME} video && \
     gpasswd -a ${USER_NAME} adm
+
+# COPY JUPYTER USER SETTINGS
+COPY --chown=workbench docker/jupyter_config/user-settings ${JUPYTER_USER_SETTINGS_DIR}
 
 RUN rm -rf /etc/nginx/sites-enabled/default && \
     touch /var/run/nginx.pid
