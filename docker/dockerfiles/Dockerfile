@@ -141,7 +141,7 @@ RUN gpasswd -a ${USER_NAME} ssl-cert && \
     gpasswd -a ${USER_NAME} adm
 
 # COPY JUPYTER USER SETTINGS
-COPY --chown=workbench docker/jupyter_config/user-settings ${JUPYTER_USER_SETTINGS_DIR}
+COPY --chown=${USER_NAME} docker/jupyter_config/user-settings ${JUPYTER_USER_SETTINGS_DIR}
 
 RUN rm -rf /etc/nginx/sites-enabled/default && \
     touch /var/run/nginx.pid
