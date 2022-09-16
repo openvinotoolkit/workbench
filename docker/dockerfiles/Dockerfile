@@ -101,9 +101,10 @@ RUN apt update && \
     rm -rf /var/lib/apt/lists/*
 
 # FIXME: Remove this dependency from Workbench runtime
-RUN mkdir -p ${INTEL_OPENVINO_DIR}  \
-    && curl -o ${INTEL_OPENVINO_DIR}/setupvars.sh https://raw.githubusercontent.com/openvinotoolkit/openvino/master/scripts/setupvars/setupvars.sh \
-    && chown ${CI_USER}: ${INTEL_OPENVINO_DIR}/setupvars.sh
+RUN mkdir -p ${INTEL_OPENVINO_DIR}
+    # OpenVINO package archive will be downloaded below with package_downloader.py
+    # && curl -o ${INTEL_OPENVINO_DIR}/setupvars.sh https://raw.githubusercontent.com/openvinotoolkit/openvino/master/scripts/setupvars/setupvars.sh \
+    # && chown ${CI_USER}: ${INTEL_OPENVINO_DIR}/setupvars.sh
 
 # For postgresql-10
 RUN curl -L https://www.postgresql.org/media/keys/ACCC4CF8.asc -s | apt-key add - && \
@@ -212,11 +213,12 @@ RUN python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_W
 #    python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_dev.txt && \
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/model_analyzer/requirements.txt
 
-#COPY --chown=${USER_NAME} wb/main/utils/package_downloader.py ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/package_downloader.py
-#RUN python3 ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/package_downloader.py \
-#                        --link ${PACKAGE_LINK} \
-#                        --output-path "${OPENVINO_WORKBENCH_ROOT}/bundles" && \
-#    chown ${USER_NAME} -R ${OPENVINO_WORKBENCH_ROOT}/bundles
+COPY --chown=${USER_NAME} wb/main/utils/package_downloader.py ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/package_downloader.py
+RUN python3 ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/package_downloader.py \
+                       --link ${PACKAGE_LINK} \
+                       --output-path "${INTEL_OPENVINO_DIR}"
+#    chown ${USER_NAME} -R ${INTEL_OPENVINO_DIR}
+RUN chown ${CI_USER}: ${INTEL_OPENVINO_DIR}/setupvars.sh
 
 COPY --chown=${USER_NAME} wb/main/utils/wheel_downloader.py ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/wheel_downloader.py
 RUN python3 ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/wheel_downloader.py \
