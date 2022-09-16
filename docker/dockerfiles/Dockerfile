@@ -106,6 +106,11 @@ RUN mkdir -p ${INTEL_OPENVINO_DIR}
     # && curl -o ${INTEL_OPENVINO_DIR}/setupvars.sh https://raw.githubusercontent.com/openvinotoolkit/openvino/master/scripts/setupvars/setupvars.sh \
     # && chown ${CI_USER}: ${INTEL_OPENVINO_DIR}/setupvars.sh
 
+RUN curl ${PACKAGE_LINK} -o /tmp/package.tgz \
+    && mkdir -p /tmp/openvino/ \
+    && tar -xzf /tmp/package.tgz -C /tmp/openvino/ \
+    && DIRNAME=$(ls /tmp/openvino/) && mv -v /tmp/openvino/${DIRNAME}/* ${INTEL_OPENVINO_DIR}
+
 # For postgresql-10
 RUN curl -L https://www.postgresql.org/media/keys/ACCC4CF8.asc -s | apt-key add - && \
     echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" | tee /etc/apt/sources.list.d/postgresql.list
@@ -214,9 +219,7 @@ RUN python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_W
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/model_analyzer/requirements.txt
 
 COPY --chown=${USER_NAME} wb/main/utils/package_downloader.py ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/package_downloader.py
-RUN python3 ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/package_downloader.py \
-                       --link ${PACKAGE_LINK} \
-                       --output-path "${INTEL_OPENVINO_DIR}"
+
 #    chown ${USER_NAME} -R ${INTEL_OPENVINO_DIR}
 RUN chown ${CI_USER}: ${INTEL_OPENVINO_DIR}/setupvars.sh
 
