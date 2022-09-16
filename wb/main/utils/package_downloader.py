@@ -1,8 +1,8 @@
 """
  OpenVINO DL Workbench
- File for downloading OpenVINO Runtime and Dev wheels
+ File for downloading OpenVINO package archive
 
- Copyright (c) 2021 Intel Corporation
+ Copyright (c) 2022 Intel Corporation
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ def build_argparser():
     return parser
 
 
-class WheelsDownloader:
+class PackageDownloader:
     chunk_size = 1024 * 1024
 
     def __init__(self, link: str, output_path: str):
@@ -82,4 +82,4 @@ class WheelsDownloader:
 
 if __name__ == '__main__':
     ARGS = build_argparser().parse_args()
-    sys.exit(WheelsDownloader(ARGS.link, ARGS.output_path).download())
+    sys.exit(PackageDownloader(ARGS.link, ARGS.output_path).download())
