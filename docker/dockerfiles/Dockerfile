@@ -218,7 +218,8 @@ RUN python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_W
 #    python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_dev.txt && \
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/model_analyzer/requirements.txt
 
-COPY --chown=${USER_NAME} wb/main/utils/package_downloader.py ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/package_downloader.py
+# TODO Remove `package_downloader.py` and all occurances if package is downloading through curl
+# COPY --chown=${USER_NAME} wb/main/utils/package_downloader.py ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/package_downloader.py
 
 #    chown ${USER_NAME} -R ${INTEL_OPENVINO_DIR}
 RUN chown ${CI_USER}: ${INTEL_OPENVINO_DIR}/setupvars.sh
