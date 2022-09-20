@@ -96,11 +96,12 @@ describe('UI tests on Running Int8 Calibration (Python)', () => {
       await testUtils.inferenceCard.checkAdvice({ ...adviceCheckingParams, adviceId: 'calibrateFirst' });
 
       // Check the second advice
-      await testUtils.inferenceCard.checkAdvice({
-        ...adviceCheckingParams,
-        adviceLevel: 1,
-        adviceId: 'reordersOverload',
-      });
+      // TODO 92170 Consider changing model for checking second reorder advice/improvement
+      // await testUtils.inferenceCard.checkAdvice({
+      //   ...adviceCheckingParams,
+      //   adviceLevel: 1,
+      //   adviceId: 'reordersOverload',
+      // });
     }
   );
 
