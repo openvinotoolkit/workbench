@@ -48,13 +48,6 @@ ENV WORKBENCH_POSTGRESQL_DATA_DIR ${WORKBENCH_PUBLIC_DIR}/postgresql_data_direct
 
 ENV TZ Europe/Helsinki
 
-# Set the locale to en_US.UTF-8
-# RUN locale-gen en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-ENV LC_CTYPE en_US.UTF-8
-
 ENV PYTHONPATH ${PYTHONPATH}:\
 ${OPENVINO_WORKBENCH_ROOT}:\
 ${OPENVINO_WORKBENCH_ROOT}/model_analyzer
@@ -86,6 +79,7 @@ RUN apt update && \
     python3-pip \
     python3-setuptools \
     python3-dev \
+    python3-venv \
     nginx \
     libsm6 \
     libopencv-dev \
