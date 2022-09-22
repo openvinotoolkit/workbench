@@ -78,7 +78,7 @@ You can learn how to use batches and streams in your application with DL Workben
 
 ### Prerequisite
 
-[Install the Intel® Distribution of OpenVINO™ toolkit for Linux*](@ref openvino_docs_install_guides_installing_openvino_linux) 
+[Install the Intel® Distribution of OpenVINO™ toolkit for Linux*](@ref openvino_docs_install_guides_overview) 
 on your developer machine. OpenVINO™ toolkit and DL Workbench should be of the same release version.
 
 ### Step 1. Create main.cpp
