@@ -83,7 +83,7 @@ describe('UI tests on Running Int8 Calibration (Python)', () => {
       const adviceCheckingParams = {
         adviceLevel: 0,
         isTheoryPresent: true,
-        numberOfAdviceContainers: 2,
+        numberOfAdviceContainers: 1, // TODO 92170
         adviceId: 'unquantizedConvolutions',
       };
       // Go back to the original project
