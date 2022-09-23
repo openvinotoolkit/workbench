@@ -62,8 +62,9 @@ describe('UI tests on Running inference', () => {
     await calibrationUtils.runInt8PipelineThroughDownloader(modelFile, datasetFileImageNet, inferenceTarget);
   });
 
-  // TODO  unskip when resolved 38040
-  xit(
+  // TODO unskip when resolved 38040 - seems resolved
+  // TODO However, possibly test can fail due to the same tensor name error as in 38040
+  it(
     'should go to model manager and upload a YOLO V2 model, go to accuracy edit and select Tiny V2, check that change is applied ' +
       'in the models table',
     async () => {
