@@ -741,7 +741,6 @@ wb/main/utils/dev_cloud_platforms.py
 wb/main/utils/dev_cloud_socket_service.py
 wb/main/utils/device_info.py
 wb/main/utils/observer_pattern.py
-wb/main/utils/package_downloader.py
 wb/main/utils/profiling_run_info.py
 wb/main/utils/safe_runner.py
 wb/main/utils/tokenizer/__init__.py

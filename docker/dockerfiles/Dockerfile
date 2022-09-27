@@ -102,12 +102,9 @@ RUN apt update && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
-# FIXME: Remove this dependency from Workbench runtime
 RUN mkdir -p ${INTEL_OPENVINO_DIR}
-    # OpenVINO package archive will be downloaded below with package_downloader.py
-    # && curl -o ${INTEL_OPENVINO_DIR}/setupvars.sh https://raw.githubusercontent.com/openvinotoolkit/openvino/master/scripts/setupvars/setupvars.sh \
-    # && chown ${CI_USER}: ${INTEL_OPENVINO_DIR}/setupvars.sh
 
+# Load and install OpenVINO package
 RUN curl ${PACKAGE_LINK} -o /tmp/package.tgz \
     && mkdir -p /tmp/openvino/ \
     && tar -xzf /tmp/package.tgz -C /tmp/openvino/ \
@@ -220,10 +217,6 @@ RUN python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_W
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_dev.txt && \
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/model_analyzer/requirements.txt
 
-# TODO Remove `package_downloader.py` and all occurances if package is downloading through curl
-# COPY --chown=${USER_NAME} wb/main/utils/package_downloader.py ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/package_downloader.py
-
-#    chown ${USER_NAME} -R ${INTEL_OPENVINO_DIR}
 RUN chown ${CI_USER}: ${INTEL_OPENVINO_DIR}/setupvars.sh
 
 COPY --chown=${USER_NAME} wb/main/utils/wheel_downloader.py ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/wheel_downloader.py
