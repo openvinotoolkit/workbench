@@ -33,7 +33,6 @@ OPENVINO_DEV_WHEEL=$(find ${WHEELS_FOLDER} -name "openvino_dev*.whl" -print -qui
 python3 -m pip install ${OPENVINO_WHEEL}
 python3 -m pip install ${OPENVINO_DEV_WHEEL}[caffe,mxnet,onnx,pytorch,tensorflow2]
 python3 -m pip install -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements.txt
-python3 -m pip install -r ${OPENVINO_WORKBENCH_ROOT}/requirements/datumaro.txt
 python3 -m pip install -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_dev.txt
 python3 -m pip install -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_jupyter.txt
 python3 -m pip install -r ${OPENVINO_WORKBENCH_ROOT}/client/automation/requirements_dev.txt
