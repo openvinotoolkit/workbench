@@ -70,7 +70,8 @@ describe('UI tests with disabled headless mode', () => {
     await testUtils.configurationWizard.deleteUploadedFile(datasetName);
   });
 
-  it(
+  // FIXME: 92937
+  xit(
     'should upload FasterRCNNInceptionResNetV2 model, specify usage of pipeline config,' +
       ' check that model is in table',
     async () => {
