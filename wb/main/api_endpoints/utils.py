@@ -161,7 +161,10 @@ def delete_model_from_db(model_id: int):
 
 
 def delete_dataset_from_db(dataset_id: int):
+    print(f'[DEBUG LOG] Starting dataset deletion from database')
     dataset = DatasetsModel.query.get(dataset_id)
+    print(f'[DEBUG LOG] Got dataset by quering from database')
+    print(f'[DEBUG LOG] Dataset details: dataset_data_dir="{dataset.dataset_data_dir}"')
     if dataset:
         dataset.delete_record(get_db_session_for_app())
 
