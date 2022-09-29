@@ -225,8 +225,8 @@ RUN chown ${CI_USER}: ${INTEL_OPENVINO_DIR}/setupvars.sh
 #                         --output-path ${WHEELS_PATH}
 
 WORKDIR ${WHEELS_PATH}
-RUN curl -o $WHEELS_LINK
-RUN curl -o $WHEELS_DEV_LINK
+RUN curl -O $WHEELS_LINK
+RUN curl -O $WHEELS_DEV_LINK
 
 # Base image changed to ubuntu, we should to setup openvino
 RUN python3 -m pip install -U pip setuptools wheel
