@@ -16,6 +16,7 @@ ARG rabbitmq_password
 ARG google_analytics_id
 ARG PACKAGE_LINK
 ARG WHEELS_LINK
+ARG WHEELS_DEV_LINK
 ARG HTTP_PROXY
 ARG HTTPS_PROXY
 ARG NO_PROXY
@@ -217,10 +218,15 @@ RUN python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_W
 
 RUN chown ${CI_USER}: ${INTEL_OPENVINO_DIR}/setupvars.sh
 
-COPY --chown=${USER_NAME} wb/main/utils/wheel_downloader.py ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/wheel_downloader.py
-RUN python3 ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/wheel_downloader.py \
-                        --link ${WHEELS_LINK} \
-                        --output-path ${WHEELS_PATH}
+# FIXME: Revert running of this script after find a solution with permanent place of store wheels 
+# COPY --chown=${USER_NAME} wb/main/utils/wheel_downloader.py ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/wheel_downloader.py
+# RUN python3 ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/wheel_downloader.py \
+#                         --link ${WHEELS_LINK} \
+#                         --output-path ${WHEELS_PATH}
+
+WORKDIR ${WHEELS_PATH}
+RUN curl -o $WHEELS_LINK
+RUN curl -o $WHEELS_DEV_LINK
 
 # Base image changed to ubuntu, we should to setup openvino
 RUN python3 -m pip install -U pip setuptools wheel
