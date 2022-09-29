@@ -155,7 +155,9 @@ def get_job_json(job_id) -> dict:
 
 
 def delete_model_from_db(model_id: int):
+    print(f'[DEBUG LOG] Starting model deletion from database')
     model = TopologiesModel.query.get(model_id)
+    print(f'[DEBUG LOG] Got model by quering from database')
     if model:
         model.delete_record(get_db_session_for_app())
 
