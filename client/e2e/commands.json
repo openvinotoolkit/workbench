@@ -6,7 +6,7 @@
   },
   "browsers": {
     "base": "./node_modules/protractor/bin/webdriver-manager clean && ./node_modules/protractor/bin/webdriver-manager update --github_token 5fb7f923d65bd47dde62689da74cb849435c2c8a {chrome} {firefox}",
-    "chrome": "--versions.chrome 104.0.5112.101",
+    "chrome": "--versions.chrome 106.0.5249.61",
     "firefox": "--versions.gecko v0.26.0",
     "without:chrome": "--chrome false",
     "without:firefox": "--gecko false",
