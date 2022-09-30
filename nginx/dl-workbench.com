@@ -17,6 +17,8 @@ server {
     include /etc/nginx/default.d/*.conf;
     include /etc/nginx/snippets/security.conf;
 
+    error_log ${OPENVINO_WORKBENCH_ROOT}/server.log debug;
+
     location /socket.io {
         proxy_http_version 1.1;
         proxy_buffering off;
