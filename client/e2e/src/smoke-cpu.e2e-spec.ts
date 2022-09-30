@@ -64,7 +64,8 @@ describe('UI tests on Running inference', () => {
 
   // TODO unskip when resolved 38040 - seems resolved
   // TODO However, possibly test can fail due to the same tensor name error as in 38040
-  it(
+  // TODO Actualize bug number
+  xit(
     'should go to model manager and upload a YOLO V2 model, go to accuracy edit and select Tiny V2, check that change is applied ' +
       'in the models table',
     async () => {
