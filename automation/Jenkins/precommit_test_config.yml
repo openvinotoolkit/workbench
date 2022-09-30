@@ -8,176 +8,176 @@ e2e_cpu_chrome:
     browser: chrome
     frameworks: tensorflow
 
-e2e_deployment_manager:
-   platform: workbench=true
-   tests: e2e:packaging
-   cpu: 2
-   memory: 1G
-   memory_limit: 1G
-   browser: chrome
-
-# e2e_gpu_chrome:
-#    platform: workbench_gpu=true
-#    tests: e2e:gpu
+# e2e_deployment_manager:
+#    platform: workbench=true
+#    tests: e2e:packaging
 #    cpu: 2
-#    memory: 2G
-#    memory_limit: 2G
+#    memory: 1G
+#    memory_limit: 1G
+#    browser: chrome
+
+# # e2e_gpu_chrome:
+# #    platform: workbench_gpu=true
+# #    tests: e2e:gpu
+# #    cpu: 2
+# #    memory: 2G
+# #    memory_limit: 2G
+# #    browser: chrome
+# #    frameworks: pytorch
+
+# e2e_int8_basic_chrome:
+#    platform: workbench=true
+#    tests: e2e:int8Basic
+#    cpu: 4
+#    memory: 8G
+#    memory_limit: 8G
+#    browser: chrome
+#    frameworks: tensorflow
+
+# e2e_int8_gpu:
+#    platform: gpu_int8=true
+#    tests: e2e:int8GPU
+#    cpu: 4
+#    memory: 8G
+#    memory_limit: 8G
 #    browser: chrome
 #    frameworks: pytorch
 
-e2e_int8_basic_chrome:
-   platform: workbench=true
-   tests: e2e:int8Basic
-   cpu: 4
-   memory: 8G
-   memory_limit: 8G
-   browser: chrome
-   frameworks: tensorflow
+# e2e_int8_advanced_chrome:
+#    platform: workbench=true
+#    tests: e2e:int8Advanced
+#    cpu: 4
+#    memory: 8G
+#    memory_limit: 8G
+#    browser: chrome
+#    frameworks: tensorflow,pytorch
 
-e2e_int8_gpu:
-   platform: gpu_int8=true
-   tests: e2e:int8GPU
-   cpu: 4
-   memory: 8G
-   memory_limit: 8G
-   browser: chrome
-   frameworks: pytorch
+# e2e_int8_face_recognition_chrome:
+#    platform: workbench=true
+#    tests: e2e:int8FaceRecognition
+#    cpu: 4
+#    memory: 12G
+#    memory_limit: 12G
+#    browser: chrome
 
-e2e_int8_advanced_chrome:
-   platform: workbench=true
-   tests: e2e:int8Advanced
-   cpu: 4
-   memory: 8G
-   memory_limit: 8G
-   browser: chrome
-   frameworks: tensorflow,pytorch
+# #e2e_myriad_chrome:
+# #    platform: workbench_myriad=true
+# #    tests: e2e:vpu
+# #    cpu: 2
+# #    memory: 2G
+# #    memory_limit: 2G
+# #    browser: chrome
 
-e2e_int8_face_recognition_chrome:
-   platform: workbench=true
-   tests: e2e:int8FaceRecognition
-   cpu: 4
-   memory: 12G
-   memory_limit: 12G
-   browser: chrome
+# e2e_UI:
+#    platform: workbench=true
+#    tests: e2e:universal
+#    cpu: 6
+#    memory: 8G
+#    memory_limit: 8G
+#    browser: chrome
+#    frameworks: tensorflow
 
-#e2e_myriad_chrome:
-#    platform: workbench_myriad=true
-#    tests: e2e:vpu
+# e2e_uploading_and_converting:
+#    platform: workbench=true
+#    tests: e2e:uploading
 #    cpu: 2
 #    memory: 2G
 #    memory_limit: 2G
 #    browser: chrome
+#    frameworks: tensorflow
 
-e2e_UI:
-   platform: workbench=true
-   tests: e2e:universal
-   cpu: 6
-   memory: 8G
-   memory_limit: 8G
-   browser: chrome
-   frameworks: tensorflow
+# e2e_netron:
+#    platform: workbench=true
+#    tests: e2e:netron
+#    cpu: 2
+#    memory: 1G
+#    memory_limit: 1G
+#    browser: chrome
 
-e2e_uploading_and_converting:
-   platform: workbench=true
-   tests: e2e:uploading
-   cpu: 2
-   memory: 2G
-   memory_limit: 2G
-   browser: chrome
-   frameworks: tensorflow
+# e2e_segmentation:
+#    platform: workbench=true
+#    tests: e2e:segmentation
+#    cpu: 6
+#    memory: 8G
+#    memory_limit: 8G
+#    browser: chrome
+#    frameworks: tensorflow
 
-e2e_netron:
-   platform: workbench=true
-   tests: e2e:netron
-   cpu: 2
-   memory: 1G
-   memory_limit: 1G
-   browser: chrome
+# e2e_gan:
+#    platform: workbench=true
+#    tests: e2e:gan
+#    cpu: 6
+#    memory: 8G
+#    memory_limit: 8G
+#    browser: chrome
+#    frameworks: tensorflow
 
-e2e_segmentation:
-   platform: workbench=true
-   tests: e2e:segmentation
-   cpu: 6
-   memory: 8G
-   memory_limit: 8G
-   browser: chrome
-   frameworks: tensorflow
+# e2e_inference_visualizaion:
+#    platform: workbench=true
+#    tests: e2e:inferenceVisualization
+#    cpu: 6
+#    memory: 8G
+#    memory_limit: 8G
+#    browser: chrome
+#    frameworks: tensorflow
 
-e2e_gan:
-   platform: workbench=true
-   tests: e2e:gan
-   cpu: 6
-   memory: 8G
-   memory_limit: 8G
-   browser: chrome
-   frameworks: tensorflow
+# e2e_profiling_report_downloading:
+#    platform: workbench=true
+#    tests: e2e:profilingReportDownloading
+#    cpu: 6
+#    memory: 8G
+#    memory_limit: 8G
+#    browser: chrome
 
-e2e_inference_visualizaion:
-   platform: workbench=true
-   tests: e2e:inferenceVisualization
-   cpu: 6
-   memory: 8G
-   memory_limit: 8G
-   browser: chrome
-   frameworks: tensorflow
+# e2e_project_export:
+#    platform: workbench=true
+#    tests: e2e:projectExport
+#    cpu: 6
+#    memory: 8G
+#    memory_limit: 8G
+#    browser: chrome
+#    frameworks: tensorflow
 
-e2e_profiling_report_downloading:
-   platform: workbench=true
-   tests: e2e:profilingReportDownloading
-   cpu: 6
-   memory: 8G
-   memory_limit: 8G
-   browser: chrome
+# e2e_project_error_handling:
+#    platform: workbench=true
+#    tests: e2e:projectErrorHandling
+#    cpu: 4
+#    memory: 8G
+#    memory_limit: 8G
+#    browser: chrome
 
-e2e_project_export:
-   platform: workbench=true
-   tests: e2e:projectExport
-   cpu: 6
-   memory: 8G
-   memory_limit: 8G
-   browser: chrome
-   frameworks: tensorflow
+# e2e_erase_all:
+#    platform: workbench=true
+#    tests: e2e:eraseAll
+#    cpu: 4
+#    memory: 4G
+#    memory_limit: 4G
+#    browser: chrome
 
-e2e_project_error_handling:
-   platform: workbench=true
-   tests: e2e:projectErrorHandling
-   cpu: 4
-   memory: 8G
-   memory_limit: 8G
-   browser: chrome
+# e2e_accuracy_reports:
+#    platform: workbench=true
+#    tests: e2e:accuracyReportsSuite
+#    cpu: 4
+#    memory: 8G
+#    memory_limit: 8G
+#    browser: chrome
 
-e2e_erase_all:
-   platform: workbench=true
-   tests: e2e:eraseAll
-   cpu: 4
-   memory: 4G
-   memory_limit: 4G
-   browser: chrome
+# # ---------------FIREFOX---------------
+# # TODO: Add workaround for shm-size... somehow
 
-e2e_accuracy_reports:
-   platform: workbench=true
-   tests: e2e:accuracyReportsSuite
-   cpu: 4
-   memory: 8G
-   memory_limit: 8G
-   browser: chrome
+# e2e_cpu_firefox:
+#    platform: workbench=true
+#    tests: e2e:smokeFlow
+#    cpu: 4
+#    memory: 4G
+#    memory_limit: 4G
+#    browser: firefox
 
-# ---------------FIREFOX---------------
-# TODO: Add workaround for shm-size... somehow
-
-e2e_cpu_firefox:
-   platform: workbench=true
-   tests: e2e:smokeFlow
-   cpu: 4
-   memory: 4G
-   memory_limit: 4G
-   browser: firefox
-
-e2e_tensorflow_v2_chrome:
-   platform: workbench=true
-   tests: e2e:disabledHeadless
-   cpu: 6
-   memory: 8G
-   memory_limit: 8G
-   browser: chrome
-   frameworks: tensorflow
+# e2e_tensorflow_v2_chrome:
+#    platform: workbench=true
+#    tests: e2e:disabledHeadless
+#    cpu: 6
+#    memory: 8G
+#    memory_limit: 8G
+#    browser: chrome
+#    frameworks: tensorflow
