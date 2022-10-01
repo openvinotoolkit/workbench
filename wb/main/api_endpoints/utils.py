@@ -156,18 +156,13 @@ def get_job_json(job_id) -> dict:
 
 
 def delete_model_from_db(model_id: int):
-    logging.warning(f'[DEBUG LOG] Starting model deletion from database')
     model = TopologiesModel.query.get(model_id)
-    logging.warning(f'[DEBUG LOG] Got model by quering from database')
     if model:
         model.delete_record(get_db_session_for_app())
 
 
 def delete_dataset_from_db(dataset_id: int):
-    logging.warning(f'[DEBUG LOG] Starting dataset deletion from database')
     dataset = DatasetsModel.query.get(dataset_id)
-    logging.warning(f'[DEBUG LOG] Got dataset by quering from database')
-    logging.warning(f'[DEBUG LOG] Dataset details: dataset_data_dir="{dataset.dataset_data_dir}"')
     if dataset:
         dataset.delete_record(get_db_session_for_app())
 

@@ -98,9 +98,7 @@ def write_dataset(file_id: int):
 @V1_DATASETS_API.route('/dataset/<int:dataset_id>', methods=['DELETE'])
 @safe_run
 def delete_dataset(dataset_id: int):
-    logging.warning(f'[DEBUG LOG] Receive request for deleting dataset {dataset_id}')
     delete_dataset_from_db(dataset_id)
-    logging.warning(f'[DEBUG LOG] Dataset deleted from database')
     return jsonify({'id': dataset_id})
 
 
