@@ -3,8 +3,7 @@
 TEMP_FOLDER=${TEMP_FOLDER:='/tmp/build_wb'}
 HTTP_PROXY=${http_proxy}
 HTTPS_PROXY=${https_proxy}
-IMAGE_NAME=workbench
-IMAGE_TAG=local
+
 TERMINAL_COLOR_MESSAGE='\033[1;33m'
 TERMINAL_COLOR_CLEAR='\033[0m'
 
@@ -18,12 +17,28 @@ while (( "$#" )); do
       BUNDLES_PATH=$2
       shift 2
       ;;
+    --image-name)
+      IMAGE_NAME=$2
+      shift 2
+      ;;
+    --image-tag)
+      IMAGE_TAG=$2
+      shift 2
+      ;;
     *)
       echo Unsupport argument $1
       exit 1
       ;;
   esac
 done
+
+if [[ -z ${IMAGE_NAME} ]]; then
+    IMAGE_NAME=workbench
+fi
+
+if [[ -z ${IMAGE_TAG} ]]; then
+    IMAGE_TAG=local
+fi
 
 set -e
 
@@ -84,6 +99,7 @@ pushd ${ROOT_FOLDER}
                   --no-cache \
                   --build-arg RABBITMQ_PASSWORD=openvino \
                   --build-arg DB_PASSWORD=openvino \
+                  $([ -z ${GOOGLE_ANALYTICS_ID+x} ] || printf -- "--build-arg GOOGLE_ANALYTICS_ID=${GOOGLE_ANALYTICS_ID}") \
                   $([ -z ${no_proxy+x} ] || printf -- "--build-arg NO_PROXY=${no_proxy}") \
                   $([ -z ${http_proxy+x} ] || printf -- "--build-arg HTTP_PROXY=${http_proxy}") \
                   $([ -z ${https_proxy+x} ] || printf -- "--build-arg HTTPS_PROXY=${https_proxy}")
