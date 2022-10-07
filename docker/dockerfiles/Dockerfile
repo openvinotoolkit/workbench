@@ -55,7 +55,7 @@ ${OPENVINO_WORKBENCH_ROOT}/model_analyzer
 
 ENV HOME_FOLDER /home/${USER_NAME}
 
-RUN useradd -ms /bin/bash -u 28895 ${USER_NAME} && \
+RUN useradd -ms /bin/bash -u 1001 ${USER_NAME} && \
     chown ${USER_NAME} -R /home/${USER_NAME}
 
 # CREATE DIRECTORY FOR PUBLIC WORKBENCH ARTIFACTS
