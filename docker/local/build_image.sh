@@ -50,7 +50,22 @@ ROOT_FOLDER="${PWD}"
 pushd ${ROOT_FOLDER}
 
   pushd client
-    source ${NVM_DIR}/nvm.sh && nvm use 14
+    if [[ -z ${NVM_DIR} ]]; then
+        # Install nvm
+        NVM_DIR=/home/${USER}/.nvm
+        mkdir -p ${NVM_DIR}
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.0/install.sh | bash
+        chown ${USER} -R ${NVM_DIR}
+        source ${NVM_DIR}/nvm.sh
+        nvm install v14
+        nvm use v14
+        npm install -g npm@7.22.0
+        npm config set proxy ${http_proxy}
+        npm config set https-proxy ${https_proxy}
+        npm set strict-ssl false
+    else
+      source ${NVM_DIR}/nvm.sh && nvm use 14
+    fi
     DL_PROFILER_BACKEND_STATIC_PATH=../static/ npm run pack
   popd
 
