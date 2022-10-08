@@ -66,6 +66,17 @@ pushd ${ROOT_FOLDER}
     else
       source ${NVM_DIR}/nvm.sh && nvm use 14
     fi
+
+    # Installing npm packages
+    if [ -d node_modules ]; then
+      echo "node_modules directory already exist, proceeding to build"
+      echo
+    else
+      echo "node_modules directory does not exist, installing client packages"
+      echo
+      npm ci
+      npm run init-netron
+    fi
     DL_PROFILER_BACKEND_STATIC_PATH=../static/ npm run pack
   popd
 
