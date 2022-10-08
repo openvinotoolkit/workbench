@@ -52,7 +52,7 @@ pushd ${ROOT_FOLDER}
   pushd client
     if [[ -z ${NVM_DIR} ]]; then
         # Install nvm
-        NVM_DIR=/home/${USER}/.nvm
+        NVM_DIR=~/.nvm
         mkdir -p ${NVM_DIR}
         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.0/install.sh | bash
         chown ${USER} -R ${NVM_DIR}
