@@ -55,7 +55,26 @@ class RemotePerTensorReportJob(PerTensorReportJob, RemoteJobMixin):
             dest_archive = str(self.get_job_results_path(job_model) / JOB_ARTIFACTS_ARCHIVE_NAME)
             collect_artifacts(target.id, result_archive, dest_archive, session)
             with tarfile.open(dest_archive, 'r:gz') as tar:
-                tar.extractall(path=self.get_job_results_path(job_model))
+                def is_within_directory(directory, target):
+                    
+                    abs_directory = os.path.abspath(directory)
+                    abs_target = os.path.abspath(target)
+                
+                    prefix = os.path.commonprefix([abs_directory, abs_target])
+                    
+                    return prefix == abs_directory
+                
+                def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+                
+                    for member in tar.getmembers():
+                        member_path = os.path.join(path, member.name)
+                        if not is_within_directory(path, member_path):
+                            raise Exception("Attempted Path Traversal in Tar File")
+                
+                    tar.extractall(path, members, numeric_owner=numeric_owner) 
+                    
+                
+                safe_extract(tar, path=self.get_job_results_path(job_model))
 
     def on_success(self):
         super().on_success()

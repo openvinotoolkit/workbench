@@ -59,7 +59,29 @@ class ParseDevCloudInt8CalibrationResultJob(IJob):
     def extract_calibrated_model(self, archive_path: str, destination_path: str):
         create_empty_dir(destination_path)
         with tarfile.open(archive_path, 'r:gz') as tar:
-            tar.extractall(destination_path)
+            
+            import os
+            
+            def is_within_directory(directory, target):
+                
+                abs_directory = os.path.abspath(directory)
+                abs_target = os.path.abspath(target)
+            
+                prefix = os.path.commonprefix([abs_directory, abs_target])
+                
+                return prefix == abs_directory
+            
+            def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+            
+                for member in tar.getmembers():
+                    member_path = os.path.join(path, member.name)
+                    if not is_within_directory(path, member_path):
+                        raise Exception("Attempted Path Traversal in Tar File")
+            
+                tar.extractall(path, members, numeric_owner=numeric_owner) 
+                
+            
+            safe_extract(tar, destination_path)
         Int8CalibrationJob.move_optimized_model(destination_path, destination_path, self.job_id)
 
     def on_success(self):
