@@ -41,19 +41,19 @@ def remove_dir(dir_path: str):
         shutil.rmtree(dir_path)
         while True:
             try:
-                print(f'[DEBUG LOG] Trying to remove directory {dir_path}')
+                log.warning(f'[DEBUG LOG] Trying to remove directory {dir_path}')
                 os.makedirs(dir_path)
             except FileExistsError:
                 # If problem is that directory still exists, wait a bit and try again
                 # this is the known issue: https://bit.ly/2I5vkZY
-                print(f'[DEBUG LOG] FileExistsError, sleeping for directory removal')
+                log.warning(f'[DEBUG LOG] FileExistsError, sleeping for directory removal')
                 time.sleep(0.01)
             else:
-                print(f'[DEBUG LOG] Directory does not exist anymore, quiting the loop')
+                log.warning(f'[DEBUG LOG] Directory does not exist anymore, quiting the loop')
                 os.sync()
                 break
         shutil.rmtree(dir_path)
-        print(f'[DEBUG LOG] Directory removed, syncing')
+        log.warning(f'[DEBUG LOG] Directory removed, syncing')
         os.sync()
 
 
