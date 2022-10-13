@@ -50,11 +50,12 @@ def remove_dir(dir_path: str):
                 time.sleep(0.01)
             else:
                 log.warning(f'[DEBUG LOG] Directory does not exist anymore, quiting the loop')
-                os.sync()
+                # os.sync()
                 break
+        log.warning(f'[DEBUG LOG] Exited from loop, removing directory again')
         shutil.rmtree(dir_path)
         log.warning(f'[DEBUG LOG] Directory removed, syncing')
-        os.sync()
+        # os.sync()
 
 
 def create_empty_dir(path):
