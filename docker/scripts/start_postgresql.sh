@@ -74,4 +74,11 @@ setup_db
 apply_migrations
 
 # TODO: 69771
-${POSTGRESQL_BIN_PATH}/postgres -c max_connections=300 -c shared_buffers=512MB -D "${WORKBENCH_POSTGRESQL_DATA_DIR}" &> ${WB_LOG_FILE} &
+${POSTGRESQL_BIN_PATH}/postgres \
+  -c max_connections=300 \
+  -c shared_buffers=512MB \
+  -c log_destination=csvlog \
+  -c logging_collector=on \
+  -c log_directory=pg_log \
+  -c log_filename='postgresql-%Y-%m-%d_%H%M%S.log' \
+  -D "${WORKBENCH_POSTGRESQL_DATA_DIR}" &> ${WB_LOG_FILE} &
