@@ -34,7 +34,7 @@ describe('UI tests on Running Int8 Calibration (Python)', () => {
     await testUtils.modelManagerPage.goToModelManager();
   });
 
-  it(
+  fit(
     'Should upload original Caffe sphereface model, convert to IR V10, run inference, run Int-8 Tune with LFW dataset, ' +
       'Simplified Mode',
     async () => {
@@ -44,7 +44,7 @@ describe('UI tests on Running Int8 Calibration (Python)', () => {
     }
   );
 
-  it(
+  fit(
     'Should upload original MxNet ArcFace model, convert to IR V11, run inference, run Int-8 Tune with LFW dataset, ' +
       'Simplified Mode',
     async () => {
@@ -62,7 +62,7 @@ describe('UI tests on Running Int8 Calibration (Python)', () => {
     }
   );
 
-  it(
+  fit(
     'Should upload original MxNet MobileFace model, convert to IR V11, run inference, run Int-8 Tune with LFW dataset, ' +
       'Simplified Mode',
     async () => {
