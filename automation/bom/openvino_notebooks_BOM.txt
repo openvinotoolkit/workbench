@@ -37,10 +37,6 @@
 102-pytorch-onnx-to-openvino/requirements.txt
 102-pytorch-onnx-to-openvino/README.md
 102-pytorch-onnx-to-openvino/data/street.jpg
-103-paddle-onnx-to-openvino/requirements.txt
-103-paddle-onnx-to-openvino/README.md
-103-paddle-onnx-to-openvino/103-paddle-onnx-to-openvino-classification.ipynb
-103-paddle-onnx-to-openvino/coco_close.png
 104-model-tools/requirements.txt
 104-model-tools/README.md
 104-model-tools/104-model-tools.ipynb

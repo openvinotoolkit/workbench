@@ -47,10 +47,8 @@ def remove_dir(dir_path: str):
                 # this is the known issue: https://bit.ly/2I5vkZY
                 time.sleep(0.01)
             else:
-                os.sync()
                 break
         shutil.rmtree(dir_path)
-        os.sync()
 
 
 def create_empty_dir(path):
