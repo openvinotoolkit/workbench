@@ -109,6 +109,7 @@ RUN mkdir -p ${INTEL_OPENVINO_DIR}
 RUN curl ${PACKAGE_LINK} -o /tmp/package.tgz \
     && mkdir -p /tmp/openvino/ \
     && tar -xzf /tmp/package.tgz -C /tmp/openvino/ \
+    && rm -rf /tmp/package.tgz \
     && DIRNAME=$(ls /tmp/openvino/) && mv -v /tmp/openvino/${DIRNAME}/* ${INTEL_OPENVINO_DIR}
 
 # For postgresql-10
