@@ -217,11 +217,7 @@ RUN python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_W
 
 RUN chown ${CI_USER}: ${INTEL_OPENVINO_DIR}/setupvars.sh
 
-# FIXME: Revert running of this script after find a solution with permanent place of store wheels 
-# COPY --chown=${USER_NAME} wb/main/utils/wheel_downloader.py ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/wheel_downloader.py
-# RUN python3 ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/wheel_downloader.py \
-#                         --link ${WHEELS_LINK} \
-#                         --output-path ${WHEELS_PATH}
+# TODO: 94358 - Enable wheel downloader
 
 WORKDIR ${WHEELS_PATH}
 RUN curl -O $WHEELS_LINK
@@ -251,11 +247,7 @@ RUN . ${NVM_DIR}/nvm.sh && \
 
 WORKDIR ${OPENVINO_WORKBENCH_ROOT}
 
-#RUN python3 ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/bundle_creator/bundle_downloader.py \
-#                        --link "${PACKAGE_LINK}" \
-#                        -os ubuntu18 ubuntu20 \
-#                        --output-path "${OPENVINO_WORKBENCH_ROOT}/bundles" \
-#                        --targets cpu gpu hddl opencv python3.6 python3.7 python3.8 vpu \
+# TODO: 94359 - Enable bundle downloader
 
 # install jenkins jnlp agent
 ENTRYPOINT ["/tools/jenkins-agent"]
