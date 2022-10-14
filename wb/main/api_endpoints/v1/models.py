@@ -219,7 +219,6 @@ def write_model(file_id: int):
 @V1_MODELS_API.route('/model/<int:model_id>', methods=['DELETE'])
 @safe_run
 def delete_model(model_id: int):
-    logging.warning(f'[DEBUG LOG] Receive request for deleting model {model_id}')
     delete_model_from_db(model_id)
     return jsonify({'id': model_id})
 

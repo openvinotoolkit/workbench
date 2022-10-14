@@ -118,12 +118,9 @@ class ArtifactsModel(BaseModel):
 
 @event.listens_for(ArtifactsModel, 'after_delete', propagate=True)
 def handle_after_delete_artifact(unused_mapper, unused_connection, artifact: ArtifactsModel):
-    logging.warning(f'[DEBUG LOG] Running artifact {artifact.id} after_delet hook')
     if not artifact.path or not os.path.exists(artifact.path):
         return
     if os.path.isfile(artifact.path):
-        logging.warning(f'[DEBUG LOG] Removing artifact {artifact.id} as file')
         os.remove(artifact.path)
     if os.path.isdir(artifact.path):
-        logging.warning(f'[DEBUG LOG] Removing artifact {artifact.id} as directory')
         remove_dir(artifact.path)
