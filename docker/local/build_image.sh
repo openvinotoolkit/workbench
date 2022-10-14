@@ -62,7 +62,6 @@ pushd ${ROOT_FOLDER}
         npm install -g npm@7.22.0
         npm config set proxy ${http_proxy}
         npm config set https-proxy ${https_proxy}
-        npm set strict-ssl false
     else
       source ${NVM_DIR}/nvm.sh && nvm use 14
     fi

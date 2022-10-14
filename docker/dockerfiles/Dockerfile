@@ -165,8 +165,7 @@ RUN mkdir -p ${NVM_DIR} && \
     nvm use v14 && \
     npm install -g npm@7.22.0 && \
     npm config set proxy ${http_proxy} && \
-    npm config set https-proxy ${https_proxy} && \
-    npm set strict-ssl false
+    npm config set https-proxy ${https_proxy}
 
 # install jenkins jnlp agent for kubernetes
 ARG VERSION=3.36
