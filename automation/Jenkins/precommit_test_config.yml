@@ -1,4 +1,4 @@
---- # ---------------CHROME---------------
+# ---------------CHROME---------------
 e2e_cpu_chrome:
     platform: workbench=true
     tests: e2e:cpu
