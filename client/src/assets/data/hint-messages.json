@@ -106,7 +106,8 @@
   },
   "importHuggingFaceTips": {
     "externalResourceNotification": "Hugging Face is an external source, there may be connection problems. Contains unverified models, we do not guarantee their performance.",
-    "shownSubsetNotification": "We show only a subset of the models from Hugging Face (Text Classification and PyTorch)."
+    "shownSubsetNotification": "We show only a subset of the models from Hugging Face (Text Classification and PyTorch).",
+    "huggingfaceModelCard": "[Model Card on Hugging Face](https://huggingface.co/${id})"
   },
   "login": {
     "loginTip": "To enter the DL Workbench, use a token that is generated once you start the application. Copy it from the console.\n [Read more](https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html#omz)"
