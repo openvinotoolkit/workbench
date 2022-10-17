@@ -1,4 +1,7 @@
 {
+  "103-paddle-onnx-to-openvino-classification.ipynb": {
+    "skip": "92461"
+  },
   "105-language-quantize-bert.ipynb": {
     "skip": "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed"
   },

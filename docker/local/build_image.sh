@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
-TEMP_FOLDER=/tmp/build_wb
+TEMP_FOLDER=${TEMP_FOLDER:='/tmp/build_wb'}
 HTTP_PROXY=${http_proxy}
 HTTPS_PROXY=${https_proxy}
-IMAGE_NAME=workbench
-IMAGE_TAG=local
+
 TERMINAL_COLOR_MESSAGE='\033[1;33m'
 TERMINAL_COLOR_CLEAR='\033[0m'
 
@@ -18,12 +17,28 @@ while (( "$#" )); do
       BUNDLES_PATH=$2
       shift 2
       ;;
+    --image-name)
+      IMAGE_NAME=$2
+      shift 2
+      ;;
+    --image-tag)
+      IMAGE_TAG=$2
+      shift 2
+      ;;
     *)
       echo Unsupport argument $1
       exit 1
       ;;
   esac
 done
+
+if [[ -z ${IMAGE_NAME} ]]; then
+    IMAGE_NAME=workbench
+fi
+
+if [[ -z ${IMAGE_TAG} ]]; then
+    IMAGE_TAG=local
+fi
 
 set -e
 
@@ -35,7 +50,32 @@ ROOT_FOLDER="${PWD}"
 pushd ${ROOT_FOLDER}
 
   pushd client
-    source ${NVM_DIR}/nvm.sh && nvm use 14
+    if [[ -z ${NVM_DIR} ]]; then
+        # Install nvm
+        NVM_DIR=~/.nvm
+        mkdir -p ${NVM_DIR}
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.0/install.sh | bash
+        chown ${USER} -R ${NVM_DIR}
+        source ${NVM_DIR}/nvm.sh
+        nvm install v14
+        nvm use v14
+        npm install -g npm@7.22.0
+        npm config set proxy ${http_proxy}
+        npm config set https-proxy ${https_proxy}
+    else
+      source ${NVM_DIR}/nvm.sh && nvm use 14
+    fi
+
+    # Installing npm packages
+    if [ -d node_modules ]; then
+      echo "node_modules directory already exist, proceeding to build"
+      echo
+    else
+      echo "node_modules directory does not exist, installing client packages"
+      echo
+      npm ci
+      npm run init-netron
+    fi
     DL_PROFILER_BACKEND_STATIC_PATH=../static/ npm run pack
   popd
 
@@ -65,8 +105,8 @@ pushd ${ROOT_FOLDER}
 
     BUNDLES_FOLDER="${TEMP_FOLDER}/workbench/bundles"
     mkdir ${BUNDLES_FOLDER}
-    if [[ ! -z ${BUNDLS_PATH} ]]; then
-      cp -R ${BUNDLS_PATH}/* ${BUNDLES_FOLDER}
+    if [[ ! -z ${BUNDLES_PATH} ]]; then
+      cp -R ${BUNDLES_PATH}/* ${BUNDLES_FOLDER}
     else
       pushd ${BUNDLES_FOLDER}
         PACKAGE_LINK=$(grep 'openvino_deployment_archives'  ${VERSIONS_FILE} | awk '{print $2}')
@@ -84,6 +124,7 @@ pushd ${ROOT_FOLDER}
                   --no-cache \
                   --build-arg RABBITMQ_PASSWORD=openvino \
                   --build-arg DB_PASSWORD=openvino \
+                  $([ -z ${GOOGLE_ANALYTICS_ID+x} ] || printf -- "--build-arg GOOGLE_ANALYTICS_ID=${GOOGLE_ANALYTICS_ID}") \
                   $([ -z ${no_proxy+x} ] || printf -- "--build-arg NO_PROXY=${no_proxy}") \
                   $([ -z ${http_proxy+x} ] || printf -- "--build-arg HTTP_PROXY=${http_proxy}") \
                   $([ -z ${https_proxy+x} ] || printf -- "--build-arg HTTPS_PROXY=${https_proxy}")

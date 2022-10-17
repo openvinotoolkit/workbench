@@ -22,7 +22,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 
   sudo -E apt-get install -y docker-ce docker-ce-cli containerd.io
 
-  sudo groupadd docker
+  sudo groupadd -f docker
 
   sudo usermod -aG docker $USER
 
