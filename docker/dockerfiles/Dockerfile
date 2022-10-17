@@ -16,6 +16,7 @@ ARG rabbitmq_password
 ARG google_analytics_id
 ARG PACKAGE_LINK
 ARG WHEELS_LINK
+ARG WHEELS_DEV_LINK
 ARG HTTP_PROXY
 ARG HTTPS_PROXY
 ARG NO_PROXY
@@ -38,29 +39,37 @@ ENV http_proxy ${HTTP_PROXY}
 ENV https_proxy ${HTTPS_PROXY}
 ENV no_proxy ${NO_PROXY}
 
+ENV INTEL_OPENVINO_DIR /opt/intel/openvino
+
 ENV OPENVINO_WORKBENCH_ROOT ${INTEL_OPENVINO_DIR}/tools/workbench
 ENV WHEELS_PATH ${OPENVINO_WORKBENCH_ROOT}/wheels
 ENV WORKBENCH_FE_DIR ${OPENVINO_WORKBENCH_ROOT}/client
 ENV OPENVINO_WORKBENCH_DATA_PATH ${OPENVINO_WORKBENCH_ROOT}/wb/data
+ENV WORKBENCH_POSTGRESQL_DATA_DIR ${WORKBENCH_PUBLIC_DIR}/postgresql_data_directory
 
 ENV TZ Europe/Helsinki
 
 ENV PYTHONPATH ${PYTHONPATH}:\
 ${OPENVINO_WORKBENCH_ROOT}:\
-${OPENVINO_WORKBENCH_ROOT}/model_analyzer:\
-${INTEL_OPENVINO_DIR}/tools/benchmark_tool
+${OPENVINO_WORKBENCH_ROOT}/model_analyzer
 
-ENV NOTEBOOKS_VENV /tmp/jupyter_env
+ENV HOME_FOLDER /home/${USER_NAME}
 
-RUN useradd -ms /bin/bash -u 28895 ${USER_NAME} && \
+RUN useradd -ms /bin/bash -u 1001 ${USER_NAME} && \
     chown ${USER_NAME} -R /home/${USER_NAME}
 
 # CREATE DIRECTORY FOR PUBLIC WORKBENCH ARTIFACTS
-ENV WORKBENCH_PUBLIC_DIR /home/${USER_NAME}/.workbench
+ENV WORKBENCH_PUBLIC_DIR ${HOME_FOLDER}/.workbench
 RUN mkdir -m 777 -p ${WORKBENCH_PUBLIC_DIR} && chown -R ${USER_NAME} ${WORKBENCH_PUBLIC_DIR}
+
+ENV JUPYTER_BASE_DIR ${HOME_FOLDER}/.jupyter
+ENV JUPYTER_USER_SETTINGS_DIR ${JUPYTER_BASE_DIR}/lab/user-settings
+ENV JUPYTER_TUTORIALS_DIR ${WORKBENCH_PUBLIC_DIR}/tutorials
+ENV NOTEBOOKS_VENV ${OPENVINO_WORKBENCH_DATA_PATH}/jupyter_env
 
 RUN apt update && \
     apt install -y --no-install-recommends \
+    curl \
     unzip \
     erlang-nox \
     default-jre \
@@ -71,8 +80,11 @@ RUN apt update && \
     python3-pip \
     python3-setuptools \
     python3-dev \
+    python3-venv \
     nginx \
     libsm6 \
+    libopencv-dev \
+    python3-opencv \
     # for envsubst
     gettext-base \
     libboost-filesystem-dev \
@@ -84,9 +96,20 @@ RUN apt update && \
     # For E2E in non-headless mode
     xvfb \
     gnupg2 \
-    build-essential && \
+    build-essential  \
+    # for running packages from git commits \
+    git && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p ${INTEL_OPENVINO_DIR}
+
+# Load and install OpenVINO package
+RUN curl ${PACKAGE_LINK} -o /tmp/package.tgz \
+    && mkdir -p /tmp/openvino/ \
+    && tar -xzf /tmp/package.tgz -C /tmp/openvino/ \
+    && rm -rf /tmp/package.tgz \
+    && DIRNAME=$(ls /tmp/openvino/) && mv -v /tmp/openvino/${DIRNAME}/* ${INTEL_OPENVINO_DIR}
 
 # For postgresql-10
 RUN curl -L https://www.postgresql.org/media/keys/ACCC4CF8.asc -s | apt-key add - && \
@@ -122,6 +145,9 @@ RUN gpasswd -a ${USER_NAME} ssl-cert && \
     gpasswd -a ${USER_NAME} users && \
     gpasswd -a ${USER_NAME} video && \
     gpasswd -a ${USER_NAME} adm
+
+# COPY JUPYTER USER SETTINGS
+COPY --chown=${USER_NAME} docker/jupyter_config/user-settings ${JUPYTER_USER_SETTINGS_DIR}
 
 RUN rm -rf /etc/nginx/sites-enabled/default && \
     touch /var/run/nginx.pid
@@ -189,6 +215,21 @@ RUN python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_W
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_dev.txt && \
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/model_analyzer/requirements.txt
 
+RUN chown ${CI_USER}: ${INTEL_OPENVINO_DIR}/setupvars.sh
+
+# TODO: 94358 - Enable wheel downloader
+
+WORKDIR ${WHEELS_PATH}
+RUN curl -O $WHEELS_LINK
+RUN curl -O $WHEELS_DEV_LINK
+
+# Base image changed to ubuntu, we should to setup openvino
+RUN python3 -m pip install -U pip setuptools wheel
+
+RUN chown -R ${USER_NAME} ${WHEELS_PATH} && \
+    OPENVINO_WHEEL=$(find ${WHEELS_PATH} -name "openvino-202*cp38*linux*.whl" -print -quit) && python3 -m pip install ${OPENVINO_WHEEL} && \
+    OPENVINO_DEV_WHEEL=$(find ${WHEELS_PATH} -name "openvino_dev*.whl" -print -quit) && python3 -m pip install "${OPENVINO_DEV_WHEEL}"
+
 RUN chown -R ${USER_NAME} ${OPENVINO_WORKBENCH_ROOT}
 
 USER ${USER_NAME}
@@ -206,16 +247,7 @@ RUN . ${NVM_DIR}/nvm.sh && \
 
 WORKDIR ${OPENVINO_WORKBENCH_ROOT}
 
-RUN python3 ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/bundle_creator/bundle_downloader.py \
-                        --link "${PACKAGE_LINK}" \
-                        -os ubuntu18 ubuntu20 \
-                        --output-path "${OPENVINO_WORKBENCH_ROOT}/bundles" \
-                        --targets cpu gpu hddl opencv python3.6 python3.7 python3.8 vpu
-
-RUN python3 ${OPENVINO_WORKBENCH_ROOT}/wb/main/utils/wheel_downloader.py \
-                        --link ${WHEELS_LINK} \
-                        --output-path ${WHEELS_PATH}
+# TODO: 94359 - Enable bundle downloader
 
 # install jenkins jnlp agent
-
 ENTRYPOINT ["/tools/jenkins-agent"]

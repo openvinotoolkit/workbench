@@ -72,7 +72,7 @@ xdescribe('Instance segmentation tests', () => {
     await calibrationUtils.runCalibrationWithAccuracyCheck(modelFile, dataSetFileSuperRes, InferenceType.CPU, true);
   });
 
-  // 43320
+  // TODO: 43320
   xit('Upload GAN model (tensor_layer_srgan), check accuracy, run calibration', async () => {
     const modelFile = browser.params.precommit_scope.resources.ganModels.tensorLayerSrgan;
     modelFile.name = testUtils.helpers.generateName();

@@ -233,7 +233,7 @@
         ```
 
     11. Copy this configuration(this one will be for Celery)
-    12. Setup settings as on the image![Celery configuration](celery_configuration.png)
+    12. Setup settings as on the image![Celery configuration](images/celery_configuration.png)
 
          | Property              | Value                                                                                                    |
         |-----------------------|----------------------------------------------------------------------------------------------------------|
@@ -242,7 +242,7 @@
         | Working configuration | OPENVINO_WORKBENCH_ROOT/                                                          |
     13. Set to user environment variable `VENV_TF2_PYTHON`  this value `OPENVINO_WORKBENCH_ROOT/.unified_venv/bin/python`
     14. Copy this configuration(this one will be for database upgrading)
-    15. Setup settings as on the image![DB upgrade configuration](db_upgrade_configuration.png)
+    15. Setup settings as on the image![DB upgrade configuration](images/db_upgrade_configuration.png)
 
         | Property              | Value                                                                                                    |
         |-----------------------|----------------------------------------------------------------------------------------------------------|
@@ -310,4 +310,3 @@ python ./wb/main/utils/bundle_creator/bundle_downloader.py \
 4. Make sure that your VM satisfy requirement:
     * Installed `python` (v3) and `pip` (as a python module:`python3 -m pip --version`)
     * Configured Internet connection (`ping -c 1 google.com`)
-    

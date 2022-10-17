@@ -67,7 +67,7 @@ xdescribe('Semantic segmentation tests', () => {
     console.log(`Accuracy check end: ${{ accuracy }}`);
   });
 
-  // 70558
+  // TODO: 70558
   xit('Upload instance segmentation model (deeplabv3), int8 calibration, check accuracy', async () => {
     const model = {
       name: 'deeplabv3',

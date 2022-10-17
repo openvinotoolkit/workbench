@@ -1,6 +1,7 @@
 #ide
 .idea
 .vs
+.vscode
 
 # python
 __pycache__
@@ -72,3 +73,6 @@ thread.info
 
 # bundles
 bundles/
+
+# wheels
+wheels/
