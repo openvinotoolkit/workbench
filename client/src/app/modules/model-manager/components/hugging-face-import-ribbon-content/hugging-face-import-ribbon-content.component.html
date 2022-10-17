@@ -44,7 +44,7 @@
         [disabled]="model.validation.disabled"
         [matTooltip]="model.validation.message"
         [matTooltipDisabled]="!model.validation.disabled"
-        (click)="selectedModel = model"
+        (selected)="selectedModel = model"
         data-test-id="model-card"
       >
         <wb-card-title-row>
