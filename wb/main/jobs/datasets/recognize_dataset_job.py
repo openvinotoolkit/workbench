@@ -14,18 +14,20 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 """
+import json
 from contextlib import closing
 
 from sqlalchemy.orm import Session
 
-from wb.error.inconsistent_upload_error import UnknownDatasetError
+from config.constants import DATASET_REPORTS_FOLDER
+from wb.error.job_error import DatumaroError
 from wb.extensions_factories.database import get_db_session_for_celery
-from wb.main.accuracy_utils.yml_templates.registry import ConfigRegistry
-from wb.main.enumerates import JobTypesEnum, StatusEnum
+from wb.main.console_tool_wrapper.datumaro_tool.tool import DatumaroTool
+from wb.main.enumerates import JobTypesEnum, StatusEnum, DatumaroModesEnum
 from wb.main.jobs.datasets.base_dataset_job import BaseDatasetJob
+from wb.main.jobs.tools_runner.local_runner import LocalRunner
 from wb.main.models import DatasetsModel, RecognizeDatasetJobsModel
 from wb.main.shared.enumerates import DatasetTypesEnum
-from wb.main.utils.utils import remove_dir
 
 
 class RecognizeDatasetJob(BaseDatasetJob):
@@ -42,16 +44,37 @@ class RecognizeDatasetJob(BaseDatasetJob):
                 return
             # Early exit if dataset type is already defined by user
             if not dataset.dataset_type:
-                dataset_path = dataset.path
-                dataset.dataset_type = self._recognize(dataset_path)
+                dataset.dataset_type = self._recognize(dataset)
             dataset.write_record(session)
             self._job_state_subject.update_state(status=StatusEnum.ready, progress=100)
             self._job_state_subject.detach_all_observers()
 
-    @staticmethod
-    def _recognize(path: str):
-        for dataset_type, dataset_recognizer in ConfigRegistry.dataset_recognizer_registry.items():
-            if dataset_recognizer.recognize(path):
-                return dataset_type
-        remove_dir(path)
-        raise UnknownDatasetError('Unknown dataset type')
+    def _recognize(self, dataset: DatasetsModel) -> DatasetTypesEnum:
+        report_path = DATASET_REPORTS_FOLDER / f'{dataset.id}.json'
+
+        tool = DatumaroTool()
+        tool.set_mode(DatumaroModesEnum.detect_format)
+        tool.set_report_path(report_path)
+        tool.set_target(dataset.path)
+
+        runner = LocalRunner(tool)
+        return_code, _ = runner.run_console_tool()
+        if return_code:
+            raise DatumaroError('Error during format detection.', self.job_id)
+        with report_path.open() as report_file:
+            report = json.load(report_file)
+
+        detected_formats = report['detected_formats']
+        if not detected_formats:
+            raise DatumaroError('No valid dataset format detected.', self.job_id)
+        elif len(detected_formats) > 1:
+            raise DatumaroError('More than one valid format detected.', self.job_id)
+
+        try:
+            dataset_type = DatasetTypesEnum(detected_formats[0])
+        except ValueError:
+            raise DatumaroError(f'Detected format {detected_formats[0]} '
+                                f'cannot currently be handled by DL Workbench.',
+                                self.job_id)
+
+        return dataset_type

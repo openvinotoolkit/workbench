@@ -758,12 +758,16 @@ class VGGFace2LandmarkCustomAdapter(VGGFace2BaseAdapter):
 class WiderFaceBaseAdapter(BaseImageDatasetAdapter):
 
     def get_images_dir(self) -> Optional[Path]:
-        for item in self.dataset_path.iterdir():
-            if item.is_dir() and all(path.is_dir()
-                                     and all(subpath.suffix[1:] in ALLOWED_EXTENSIONS_IMG for subpath in path.iterdir())
-                                     for path in item.iterdir()):
+        dirs = self.dataset_path.glob('**/*')
+        for item in dirs:
+            if item.is_dir() and item.name == 'images' and all(self.is_event_class_dir(path)
+                                                               for path in item.iterdir()):
                 return item
         return None
+
+    @staticmethod
+    def is_event_class_dir(path: Path) -> bool:
+        return path.is_dir() and all(subpath.suffix[1:] in ALLOWED_EXTENSIONS_IMG for subpath in path.iterdir())
 
     def get_task_specific_constants(self) -> dict:
         raise NotImplementedError

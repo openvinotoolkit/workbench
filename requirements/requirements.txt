@@ -9,7 +9,7 @@ cffi==1.15.0
 chardet==4.0.0
 click==8.0.0
 cryptography==3.4.8
-datumaro==0.2.1
+git+https://github.com/openvinotoolkit/datumaro.git@develop#egg=datumaro
 defusedxml==0.7.1
 distlib==0.3.2
 dnspython==1.16.0
@@ -32,6 +32,7 @@ lxml==4.6.5
 Mako==1.1.5
 MarkupSafe==2.0.1
 monotonic==1.6
+numpy==1.19.5
 packaging==21.3
 paramiko==2.7.2
 pg8000==1.21.1
