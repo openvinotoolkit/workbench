@@ -39,7 +39,7 @@ python3 -m pip install -r ${OPENVINO_WORKBENCH_ROOT}/client/automation/requireme
 python3 -m pip install -r ${OPENVINO_WORKBENCH_ROOT}/model_analyzer/requirements.txt
 deactivate
 
-printf "\n Installing dependecies of deep learning frameworks \n\n"
+printf "\n Installing dependencies of deep learning frameworks \n\n"
 
 python3 -m virtualenv ${OPENVINO_WORKBENCH_ROOT}/.unified_venv
 source ${OPENVINO_WORKBENCH_ROOT}/.unified_venv/bin/activate

@@ -35,11 +35,26 @@ class DatumaroTool(PythonModuleTool):
         self.set_parameter('--input-format', input_format.value, ConsoleParametersTypes.dataset_format)
         self.set_parameter('--output-format', output_format.value, ConsoleParametersTypes.dataset_format)
 
-    def set_input_output_paths(self, input_path: str, output_path: Optional[str]):
-        self.set_parameter('--input-path', input_path, ConsoleParametersTypes.path)
-        if output_path:
-            self.set_parameter('--output-dir', output_path, ConsoleParametersTypes.path)
+    def _set_path(self, param_name: Optional[str], path: str):
+        self.set_parameter(param_name, path, ConsoleParametersTypes.path)
 
-    def enable_image_copy(self):
+    def set_input_path(self, path: str):
+        self._set_path('--input-path', path)
+
+    def set_output_path(self, path: str):
+        self._set_path('--output-dir', path)
+
+    def set_report_path(self, path: str):
+        self._set_path('--json-report', path)
+
+    def set_target(self, path: str):
+        self._set_path('', path)
+
+    def _set_flag(self, param_name: str):
+        self.set_parameter(f'--{param_name}', True, ConsoleParametersTypes.flag)
+
+    def enable_image_save(self):
+        self._set_flag('save-images')
+
+    def add_separator(self):
         self.set_parameter('--', True, ConsoleParametersTypes.flag)
-        self.set_parameter('--save-images', True, ConsoleParametersTypes.flag)
