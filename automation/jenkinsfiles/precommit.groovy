@@ -1,4 +1,4 @@
-@Library(['workbench_lib', 'mainlib@0.4.0']) _
+@Library(['workbench_lib', 'mainlib@master']) _
 
 properties([
     buildDiscarder(logRotator(daysToKeepStr: "10")),

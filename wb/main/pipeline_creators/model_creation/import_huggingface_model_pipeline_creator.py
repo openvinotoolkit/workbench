@@ -16,6 +16,7 @@
 """
 import os
 
+import json
 from sqlalchemy.orm import Session
 
 from config.constants import UPLOAD_FOLDER_MODELS, ORIGINAL_FOLDER
@@ -28,9 +29,11 @@ from wb.main.models import (PipelineModel, TopologyAnalysisJobsModel, ModelOptim
 from wb.main.models.huggingface.import_huggingface_model_job_model import ImportHuggingfaceJobModel, \
     ImportHuggingfaceJobData
 from wb.main.models.model_optimizer_job_model import ModelOptimizerJobData
+from wb.main.models.topologies_metadata_model import DEFAULT_ACCURACY_CONFIGURATION
 from wb.main.models.topologies_model import ModelJobData
 from wb.main.pipeline_creators.model_creation.base_model_creation_pipeline_creator import \
     BaseModelCreationPipelineCreator
+from wb.main.shared.enumerates import TaskEnum
 from wb.main.utils.utils import create_empty_dir
 
 
@@ -59,7 +62,12 @@ class ImportHuggingfaceModelPipelineCreator(BaseModelCreationPipelineCreator):
     def create_result_model(self, session: Session):
         uploaded_model: TopologiesModel = session.query(TopologiesModel).get(self.model_id)
 
+        # consider all huggingface models as text classification
         metadata = TopologiesMetaDataModel()
+        metadata.task_type = TaskEnum.text_classification.value
+        accuracy_config = json.loads(DEFAULT_ACCURACY_CONFIGURATION)
+        accuracy_config['taskType'] = TaskEnum.text_classification.value
+        metadata.advanced_configuration = json.dumps(accuracy_config)
         metadata.write_record(session)
 
         self._result_model = TopologiesModel(self.model_name, SupportedFrameworksEnum.openvino, metadata.id)

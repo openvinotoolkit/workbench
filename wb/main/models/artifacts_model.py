@@ -15,6 +15,7 @@
  limitations under the License.
 """
 import hashlib
+import logging
 import os
 
 from sqlalchemy import Column, Integer, Float, String, event

@@ -70,7 +70,7 @@ class WheelsDownloader:
             # get only wheels
             if '.whl' in link:
                 # link is relative to the base url
-                links.append(urljoin(self.base_url, link))
+                links.append(urljoin(self.link, link))
         return links
 
     def download(self):

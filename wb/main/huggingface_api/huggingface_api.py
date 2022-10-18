@@ -74,7 +74,6 @@ class HuggingfaceModel:
             'lastModified': self.last_modified,
             'tags': self.tags,
             'validation': self.validation.json(),
-            'siblings': self.siblings,
             'config': self.config.json() if self.config else None,
             'downloads': self.downloads,
         }
