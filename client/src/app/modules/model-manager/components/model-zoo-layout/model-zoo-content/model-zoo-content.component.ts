@@ -13,8 +13,10 @@ export class ModelZooContentComponent {
   @Input() hasError = false;
 
   @ViewChild('emptyFilteredModelsTemplate') emptyFilteredModelsTemplate: TemplateRef<unknown>;
+  @ViewChild('failedModelsFetchingTemplate') failedModelsFetchingTemplate: TemplateRef<unknown>;
 
   readonly emptyFilteredModelsMessage = this._messagesService.hintMessages.modelZooImport.emptyFilteredModels;
+  readonly failedModelsFetchingMessage = this._messagesService.hintMessages.modelZooImport.failedModelsFetching;
 
   constructor(private readonly _messagesService: MessagesService) {}
 }

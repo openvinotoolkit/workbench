@@ -6,10 +6,6 @@ import { SharedModule } from '@shared/shared.module';
 import { FileUploadFieldComponent } from '@shared/components/file-upload-field/file-upload-field.component';
 
 import { ModelManagerImportComponent } from './model-manager-import.component';
-import {
-  ModelDownloaderTableComponent, // keep-line
-} from '../model-downloader-table/model-downloader-table.component';
-import { ModelDownloaderService } from '../model-downloader-table/model-downloader.service';
 
 describe('ModelManagerImportComponent', () => {
   let component: ModelManagerImportComponent;
@@ -19,8 +15,8 @@ describe('ModelManagerImportComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [RouterTestingModule, BrowserAnimationsModule, SharedModule],
-        declarations: [ModelManagerImportComponent, FileUploadFieldComponent, ModelDownloaderTableComponent],
-        providers: [ModelDownloaderService],
+        declarations: [ModelManagerImportComponent, FileUploadFieldComponent],
+        providers: [],
       }).compileComponents();
     })
   );
