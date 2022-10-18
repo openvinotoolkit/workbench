@@ -51,6 +51,19 @@
   <ng-content select="wb-model-zoo-error"></ng-content>
 </ng-template>
 
+<ng-template #failedModelsFetchingTemplate let-action="action">
+  <wb-model-zoo-error>
+    <wb-markdown-text [text]="failedModelsFetchingMessage"></wb-markdown-text>
+    <wb-button
+      ngProjectAs="model-zoo-error-button"
+      type="secondary"
+      class="enlarged-control"
+      text="Try Again"
+      (handleClick)="action()"
+    ></wb-button>
+  </wb-model-zoo-error>
+</ng-template>
+
 <!-- TODO Consider moving to separate component -->
 <ng-template #emptyFilteredModelsTemplate let-action="action">
   <wb-model-zoo-error>

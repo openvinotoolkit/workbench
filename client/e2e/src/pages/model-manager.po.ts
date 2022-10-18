@@ -46,10 +46,6 @@ export class ModelManagerPage {
     return TestUtils.getElementByDataTestId('original_model');
   }
 
-  get OMZTab(): ElementFinder {
-    return TestUtils.getElementByDataTestId('open_model_zoo');
-  }
-
   get modelFrameworkContainer() {
     return element(by.id('framework'));
   }

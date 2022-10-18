@@ -102,6 +102,4 @@ export type FrameworksAvailability = {
 
 export enum SupportedFeaturesPreview {
   DYNAMIC_SHAPES = 'DYNAMIC_SHAPES',
-  OMZ_REDESIGN = 'OMZ_REDESIGN',
-  HUGGING_FACE_MODELS = 'HUGGING_FACE_MODELS',
 }

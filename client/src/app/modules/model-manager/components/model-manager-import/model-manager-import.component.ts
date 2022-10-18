@@ -21,7 +21,6 @@ import {
 import { ProjectStatus, ProjectStatusNames } from '@store/project-store/project.model';
 import { FrameworksAvailabilityStates, IFrameworksAvailability } from '@store/globals-store/globals.state';
 
-import { ModelDownloaderDTO } from '@shared/models/dto/model-downloader-dto';
 import { CustomValidators } from '@shared/components/config-form-field/custom-validators';
 import { AdvancedConfigField } from '@shared/components/config-form-field/config-form-field.component';
 import { TipMessage } from '@shared/components/tip/tip.component';
@@ -34,7 +33,6 @@ import {
   tfModelFileFieldsMap,
   tfModelUtilFieldsMap,
 } from './model-import-fields';
-import { OMZModelPrecisionEnum } from '../model-downloader-table/model-downloader-table.component';
 
 export function getUploadModelStage(uploadingModel: ModelItem | Partial<ModelItem>): ProjectStatus {
   if (!uploadingModel || !uploadingModel.stages || !uploadingModel.stages.length) {
@@ -47,9 +45,8 @@ export function getUploadModelStage(uploadingModel: ModelItem | Partial<ModelIte
 
 enum ImportModelRibbonIds {
   OMZ = 'omz',
-  ORIGINAL_MODEL = 'original_model',
-  OMZ_REDESIGNED = 'omz_redesigned',
   HUGGING_FACE = 'hugging_face',
+  ORIGINAL_MODEL = 'original_model',
 }
 
 enum TFVersions {
@@ -66,28 +63,11 @@ enum TFVersions {
 export class ModelManagerImportComponent implements OnInit, OnDestroy {
   @Input() uploadingModel: ModelItem;
 
-  @Input() omzModels: ModelDownloaderDTO[];
-
-  @Input() omzModelsAreLoading: boolean;
-
   @Input() isConnected: boolean;
-
-  @Input() sidenavOpened = false;
 
   @Input() frameworksAvailability: IFrameworksAvailability = null;
 
-  @Input() set areModelZooFeaturesEnabled([isOMZRedesignEnabled = false, isHuggingFaceEnabled = false]) {
-    if (isOMZRedesignEnabled && !this.importModelRibbonValues.includes(this._omzRedesignRibbonValue)) {
-      this.importModelRibbonValues.push(this._omzRedesignRibbonValue);
-    }
-    if (isHuggingFaceEnabled && !this.importModelRibbonValues.includes(this._huggingFaceRibbonValue)) {
-      this.importModelRibbonValues.push(this._huggingFaceRibbonValue);
-    }
-  }
-
-  @Output() uploadModel = new EventEmitter<
-    { model: UploadingModelDTO } | { model: ModelDownloaderDTO; precision: OMZModelPrecisionEnum | null }
-  >();
+  @Output() uploadModel = new EventEmitter<{ model: UploadingModelDTO }>();
 
   @Output() uploadSavedModel = new EventEmitter<{
     savedModel: UploadingTF2SavedModelDTO;
@@ -97,23 +77,9 @@ export class ModelManagerImportComponent implements OnInit, OnDestroy {
 
   @Output() selectModelSource = new EventEmitter<ModelSources>();
 
-  @Output() showModelInfo: EventEmitter<ModelDownloaderDTO> = new EventEmitter<ModelDownloaderDTO>();
-
-  @Output() closeModelInfo = new EventEmitter();
-
-  private readonly _omzRedesignRibbonValue = {
-    id: ImportModelRibbonIds.OMZ_REDESIGNED,
-    title: 'Open Model Zoo (v2)',
-    icon: 'openvino',
-  };
-  private readonly _huggingFaceRibbonValue = {
-    id: ImportModelRibbonIds.HUGGING_FACE,
-    title: 'Hugging Face',
-    icon: 'hugging_face',
-  };
-
   readonly importModelRibbonValues = [
     { id: ImportModelRibbonIds.OMZ, title: 'Open Model Zoo', icon: 'openvino' },
+    { id: ImportModelRibbonIds.HUGGING_FACE, title: 'Hugging Face', icon: 'hugging_face' },
     { id: ImportModelRibbonIds.ORIGINAL_MODEL, title: 'Original Model', icon: 'file' },
   ];
 
@@ -320,7 +286,6 @@ export class ModelManagerImportComponent implements OnInit, OnDestroy {
     switch (ribbonValue) {
       case ImportModelRibbonIds.ORIGINAL_MODEL:
         this._setFileControlsForImportModel();
-        this.closeModelInfo.emit();
         break;
       case ImportModelRibbonIds.OMZ:
         this.selectModelSource.emit(ModelSources.OMZ);
@@ -387,10 +352,6 @@ export class ModelManagerImportComponent implements OnInit, OnDestroy {
     }
     this.uploadModel.emit({ model: formValue });
     this.uploadModelFormGroup.disable();
-  }
-
-  handleImportOMZModel({ model, precision }): void {
-    this.uploadModel.emit({ model, precision });
   }
 
   updateTip(): void {
