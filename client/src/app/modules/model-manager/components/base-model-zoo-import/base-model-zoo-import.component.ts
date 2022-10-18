@@ -59,11 +59,19 @@ export abstract class BaseModelZooImportComponent<T, U = string> implements Afte
     },
   };
 
+  readonly failedModelsFetchingTemplateContext = {
+    action: () => {
+      this._triggerModelsLoading();
+    },
+  };
+
   protected readonly _unsubscribe$ = new Subject<void>();
 
   protected constructor() {
     this._subscribeToSortAndFiltersChanges();
   }
+
+  protected abstract _triggerModelsLoading(): void;
 
   protected abstract get _dataSourceFilter(): U;
 

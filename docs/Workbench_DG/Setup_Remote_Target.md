@@ -170,7 +170,7 @@ execution of the command above.
 If you do not have the rights to perform these steps, contact your system administrator or set up
 the devices manually by following the **Steps for Intel® Processor Graphics (GPU)** and **Steps for
 Intel® Movidius™ Neural Compute Stick and Intel® Neural Compute Stick 2** sections of 
-[Install Intel® Distribution of OpenVINO™ toolkit for Linux](@ref openvino_docs_install_guides_installing_openvino_linux).
+[Install Intel® Distribution of OpenVINO™ toolkit for Linux](@ref openvino_docs_install_guides_overview).
 
 ---
 ## See Also

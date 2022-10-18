@@ -1,4 +1,4 @@
-import { OMZModelPrecisionEnum } from '../../../src/app/modules/model-manager/components/model-downloader-table/model-downloader-table.component';
+import { ModelPrecisionEnum } from '@store/model-store/model.model';
 
 export type FrameworkType = 'OpenVINO IR' | 'MxNet' | 'Caffe' | 'ONNX' | 'TensorFlow' | 'TensorFlow V2';
 export type ColorSpace = 'RGB' | 'BGR' | 'Grayscale';
@@ -82,7 +82,7 @@ interface Tokenizer {
 
 interface ConversionSettings {
   colourSpace?: ColorSpace;
-  precision?: OMZModelPrecisionEnum;
+  precision?: ModelPrecisionEnum.FP32 | ModelPrecisionEnum.FP16;
   framework: FrameworkType;
   outputs: string[];
   irVersion: number;

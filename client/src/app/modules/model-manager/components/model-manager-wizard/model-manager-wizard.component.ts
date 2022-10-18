@@ -1,9 +1,9 @@
-import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { Store } from '@ngrx/store';
-import { combineLatest, Observable, of, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { isObject } from 'lodash';
 
@@ -32,10 +32,8 @@ import {
 import * as EnvironmentSetup from '@store/globals-store/environment-setup.actions';
 import { JobTypes, ProjectStatus, ProjectStatusNames } from '@store/project-store/project.model';
 import * as ModelsSelector from '@store/model-store/model.selectors';
-import { SupportedFeaturesPreview } from '@store/globals-store/globals.state';
 
 import { ModelDownloaderDTO } from '@shared/models/dto/model-downloader-dto';
-import { MasterDetailComponent } from '@shared/components/master-detail/master-detail.component';
 import { RouterUtils } from '@shared/utils/router-utils';
 import { PipelineStatus } from '@shared/models/pipelines/pipeline';
 import { deprecatedIrVersionMessageKey } from '@shared/constants';
@@ -57,8 +55,6 @@ enum MODEL_WIZARD_STAGES {
   styleUrls: ['./model-manager-wizard.component.scss'],
 })
 export class ModelManagerWizardComponent implements OnDestroy {
-  @ViewChild('wbMasterDetail') modelDetailsPanel: MasterDetailComponent;
-
   private _model: Partial<ModelItem>;
   @Input() set model(value: Partial<ModelItem>) {
     this._model = value;
@@ -116,20 +112,11 @@ export class ModelManagerWizardComponent implements OnDestroy {
 
   selectedForDetailsModel: ModelDownloaderDTO = null;
 
-  readonly omzModels$ = this._store$.select(ModelStoreSelectors.selectOMZModels);
-  readonly omzModelsAreLoading$ = this._store$.select(ModelStoreSelectors.selectOMZModelsAreLoading);
   readonly isConnected$ = this._store$.select(GlobalsStoreSelectors.selectConnectionStatusState);
   readonly frameworksAvailability$ = this._store$.select(GlobalsStoreSelectors.selectFrameworksAvailability);
   readonly importError$ = this._store$.select(ModelStoreSelectors.selectModelError);
   readonly configurePipeline$ = this._store$.select(ModelsSelector.selectRunningConfigurePipeline);
   readonly environmentSetup$ = this._store$.select(GlobalsStoreSelectors.selectEnvironmentSetup);
-
-  readonly areModelZooFeaturesEnabled$ = combineLatest([
-    this._store$.select(GlobalsStoreSelectors.selectIsFeaturePreviewSupported(SupportedFeaturesPreview.OMZ_REDESIGN)),
-    this._store$.select(
-      GlobalsStoreSelectors.selectIsFeaturePreviewSupported(SupportedFeaturesPreview.HUGGING_FACE_MODELS)
-    ),
-  ]);
 
   modelSource: ModelSources;
 
@@ -154,7 +141,6 @@ export class ModelManagerWizardComponent implements OnDestroy {
     private _dialogService: DialogService,
     private _location: Location
   ) {
-    this._store$.dispatch(ModelStoreActions.loadOMZModels());
     this._store$.dispatch(GlobalsStoreActions.getFrameworksAvailability());
 
     this.configurePipeline$.pipe(takeUntil(this._unsubscribe$)).subscribe((pipeline) => {
@@ -277,18 +263,9 @@ export class ModelManagerWizardComponent implements OnDestroy {
     this.modelWizardStage = stage;
   }
 
-  handleUploadModelFiles({ model, precision }): void {
+  handleUploadModelFiles({ model }: { model: UploadingModelDTO }): void {
     this.redirectAllowed = false;
-    const actionToDispatch =
-      this.modelSource === ModelSources.OMZ
-        ? ModelStoreActions.downloadOMZModel({
-            model: model as ModelDownloaderDTO,
-            precision,
-          })
-        : ModelStoreActions.startUploadModel({
-            uploadingModel: model as UploadingModelDTO,
-          });
-    this._store$.dispatch(actionToDispatch);
+    this._store$.dispatch(ModelStoreActions.startUploadModel({ uploadingModel: model }));
   }
 
   handleUploadSavedModelFiles({ savedModel }): void {
@@ -374,16 +351,6 @@ export class ModelManagerWizardComponent implements OnDestroy {
           return of(res);
         })
       );
-  }
-
-  onModelDetailsClick(model): void {
-    this.selectedForDetailsModel = model;
-    this.modelDetailsPanel.detailsSidenav.open();
-  }
-
-  hideModelDetails(): void {
-    this.selectedForDetailsModel = null;
-    this.modelDetailsPanel.detailsSidenav.close();
   }
 
   handleCancelEnvironment(): void {

@@ -8,8 +8,7 @@ export class ModelDownloadPage {
   until = protractor.ExpectedConditions;
 
   private readonly elements = {
-    // TODO: change test-id
-    OMZTab: TestUtils.getElementByDataTestId('open_model_zoo_(v2)'),
+    OMZTab: TestUtils.getElementByDataTestId('open_model_zoo'),
     searchField: TestUtils.getNestedElementByDataTestId(
       TestUtils.getElementByDataTestId('search-form-field'),
       'search'
