@@ -32,10 +32,13 @@ class TestRuntimeRepresentationReport:
 
     @staticmethod
     def construct_paths(model_path: str, device: str):
-        ir_dir = find_by_ext(model_path, 'xml')
-        exec_dir = os.path.join(model_path, '{}_runtime_repr'.format(device.lower()), 'exec_graph.xml')
-        repr_report = os.path.join(model_path, '{}_runtime_repr'.format(device.lower()), 'runtime_report.json')
-        return ir_dir, exec_dir, repr_report
+        device_runtime_repr_path =  os.path.join(model_path, f'{device.lower()}_runtime_repr')
+        exec_graph_path = find_by_ext(device_runtime_repr_path, 'xml')
+        model_name = Path(exec_graph_path).stem.replace('_exec_graph', '')
+        ir_path = os.path.join(model_path, f'{model_name}.xml')
+        repr_report_path = os.path.join(device_runtime_repr_path, 'runtime_report.json')
+        return ir_path, exec_graph_path, repr_report_path
+
 
     @staticmethod
     def assert_list_of_layers_equal(expected_layers: list, actual_layers: list):

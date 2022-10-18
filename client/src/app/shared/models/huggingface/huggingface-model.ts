@@ -14,7 +14,6 @@ export interface IHuggingfaceModel {
   lastModified: string;
   tags: string[];
   validation: IHuggingfaceModelValidationResult;
-  siblings?: string[];
   config?: IHuggingfaceModelConfig;
   downloads?: number;
 }

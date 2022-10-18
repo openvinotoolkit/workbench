@@ -16,14 +16,14 @@ e2e_deployment_manager:
     memory_limit: 1G
     browser: chrome
 
-e2e_gpu_chrome:
-    platform: workbench_gpu=true
-    tests: e2e:gpu
-    cpu: 2
-    memory: 2G
-    memory_limit: 2G
-    browser: chrome
-    frameworks: pytorch
+# e2e_gpu_chrome:
+#    platform: workbench_gpu=true
+#    tests: e2e:gpu
+#    cpu: 2
+#    memory: 2G
+#    memory_limit: 2G
+#    browser: chrome
+#    frameworks: pytorch
 
 e2e_int8_basic_chrome:
     platform: workbench=true
