@@ -33,7 +33,7 @@ class UnifiedEnvironmentCreator(EnvironmentCreator):
         self._status_report_callback(progress=0)
         environment = EnvironmentModel(path=Path(TF2_PYTHON).parent.parent)
 
-        update_pip_tool = UpdatePipTool(Path(environment.path))
+        update_pip_tool = UpdatePipTool(Path(environment.python_executable))
         runner = LocalRunner(tool=update_pip_tool)
         return_code, _ = runner.run_console_tool()
 
