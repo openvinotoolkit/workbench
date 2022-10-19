@@ -43,7 +43,7 @@ class ManifestSpecificEnvironmentCreator(EnvironmentCreator):
         environment = self._create_environment_model(session)
         environment_path = Path(environment.path)
 
-        update_pip_tool = UpdatePipTool(environment_path.python_executable)
+        update_pip_tool = UpdatePipTool(environment.python_executable)
         runner = LocalRunner(tool=update_pip_tool)
         return_code, _ = runner.run_console_tool()
 
