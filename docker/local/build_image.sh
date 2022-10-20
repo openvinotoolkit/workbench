@@ -49,35 +49,43 @@ echo
 ROOT_FOLDER="${PWD}"
 pushd ${ROOT_FOLDER}
 
-  pushd client
-    if [[ -z ${NVM_DIR} ]]; then
-        # Install nvm
-        NVM_DIR=~/.nvm
-        mkdir -p ${NVM_DIR}
-        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.0/install.sh | bash
-        chown ${USER} -R ${NVM_DIR}
-        source ${NVM_DIR}/nvm.sh
-        nvm install v14
-        nvm use v14
-        npm install -g npm@7.22.0
-        npm config set proxy ${http_proxy}
-        npm config set https-proxy ${https_proxy}
-    else
-      source ${NVM_DIR}/nvm.sh && nvm use 14
-    fi
+  if [ -d static ]; then
+    echo "static directory already exist, proceeding to build image with existing static"
+    echo
+  else 
+    echo "static directory does not exist, proceeding to building static from client sources"
+    echo
 
-    # Installing npm packages
-    if [ -d node_modules ]; then
-      echo "node_modules directory already exist, proceeding to build"
-      echo
-    else
-      echo "node_modules directory does not exist, installing client packages"
-      echo
-      npm ci
-      npm run init-netron
-    fi
-    DL_PROFILER_BACKEND_STATIC_PATH=../static/ npm run pack
-  popd
+    pushd client
+      if [[ -z ${NVM_DIR} ]]; then
+          # Install nvm
+          NVM_DIR=~/.nvm
+          mkdir -p ${NVM_DIR}
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.0/install.sh | bash
+          chown ${USER} -R ${NVM_DIR}
+          source ${NVM_DIR}/nvm.sh
+          nvm install v14
+          nvm use v14
+          npm install -g npm@7.22.0
+          npm config set proxy ${http_proxy}
+          npm config set https-proxy ${https_proxy}
+      else
+        source ${NVM_DIR}/nvm.sh && nvm use 14
+      fi
+
+      # Installing npm packages
+      if [ -d node_modules ]; then
+        echo "node_modules directory already exist, proceeding to build"
+        echo
+      else
+        echo "node_modules directory does not exist, installing client packages"
+        echo
+        npm ci
+        npm run init-netron
+      fi
+      DL_PROFILER_BACKEND_STATIC_PATH=../static/ npm run pack
+    popd
+  fi
 
   if [ -d $TEMP_FOLDER ]; then
     rm -rf $TEMP_FOLDER
