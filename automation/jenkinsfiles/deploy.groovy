@@ -1,4 +1,4 @@
-@Library(['workbench_lib', 'mainlib@master']) _
+@Library(['workbench_lib@bug/yt/fix-build-image-from-opensource', 'mainlib@master']) _
 import java.text.SimpleDateFormat
 
 
