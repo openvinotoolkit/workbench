@@ -218,9 +218,7 @@ exports.config = {
       './src/smoke-gpu.e2e-spec.ts',
       './src/smoke-nightly.e2e-spec.ts',
     ],
-    smokeCPU: [
-      './src/smoke-cpu.e2e-spec.ts',
-    ],
+    smokeCPU: ['./src/smoke-cpu.e2e-spec.ts'],
     smokeE2EFlow: ['./src/smoke-e2e-flow.e2e-spec.ts'],
     disabledHeadless: ['./src/headless-mode-off.e2e-spec.ts'],
     performanceSuite: ['./src/benchmark-performance.e2e-spec.ts'],
@@ -310,12 +308,12 @@ exports.config = {
       paths: tsConfigE2E.compilerOptions.paths,
     });
 
-    fs.ensureDir(screenShotPath, function (err) {
-      console.log(err);
-    });
+    const artifactDirectories = [screenShotPath, path.join(__dirname, 'src', 'downloads'), logsPath];
 
-    fs.ensureDir(path.join(__dirname, 'src', 'downloads'), function (err) {
-      console.log(err);
+    artifactDirectories.forEach((directory) => {
+      fs.ensureDir(directory, function (err) {
+        console.log(err);
+      });
     });
 
     jasmine.getEnv().addReporter({
