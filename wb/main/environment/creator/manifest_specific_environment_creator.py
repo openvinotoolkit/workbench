@@ -43,11 +43,12 @@ class ManifestSpecificEnvironmentCreator(EnvironmentCreator):
         environment = self._create_environment_model(session)
         environment_path = Path(environment.path)
 
+        self._create_python_virtual_environment(environment_path)
+
         update_pip_tool = UpdatePipTool(environment.python_executable)
         runner = LocalRunner(tool=update_pip_tool)
         return_code, _ = runner.run_console_tool()
 
-        self._create_python_virtual_environment(environment_path)
         self.install_packages(environment.python_executable, is_prc)
         return environment
 
