@@ -1045,18 +1045,24 @@ export class TestUtils {
   async areImagesDifferent(
     firstImage: PNGWithMetadata,
     secondImage: PNGWithMetadata,
-    diffImageName: string,
+    imageName: string,
     savePath?: string,
     options?: PixelmatchOptions
   ): Promise<boolean> {
     const width = firstImage.width;
     const height = firstImage.height;
     const diffPng: PNG = new PNG({ width, height });
-    const diff: number = await pixelmatch(firstImage.data, secondImage.data, diffPng.data, width, height, options);
+    const diff: number = pixelmatch(firstImage.data, secondImage.data, diffPng.data, width, height, options);
 
     if (!!diff) {
-      const filePath = path.join(savePath ? savePath : browser.params.screenShotPath, diffImageName + '.png');
+      console.log(`TOTAL DIFF: ${diff}`);
+      // Save diff image
+      const filePath = path.join(savePath ? savePath : browser.params.logsPath, `${imageName}_diff.png`);
       diffPng.pack().pipe(createWriteStream(filePath));
+
+      // Save actual and expected images
+      fs.writeFileSync(path.join(browser.params.logsPath, `${imageName}_actual.png`), PNG.sync.write(firstImage));
+      fs.writeFileSync(path.join(browser.params.logsPath, `${imageName}_expected.png`), PNG.sync.write(secondImage));
     }
     return !!diff;
   }
