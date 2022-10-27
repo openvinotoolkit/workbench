@@ -19,8 +19,10 @@ from pathlib import Path
 from sqlalchemy.orm import Session
 
 from config.constants import TF2_PYTHON
+from wb.main.console_tool_wrapper.environment_managment_tool.tool import UpdatePipTool
 from wb.main.environment.creator import EnvironmentCreator
 from wb.main.environment.manifest import ManifestFactory, ManifestDumper, Manifest
+from wb.main.jobs.tools_runner.local_runner import LocalRunner
 from wb.main.models import EnvironmentModel
 
 
@@ -30,6 +32,11 @@ class UnifiedEnvironmentCreator(EnvironmentCreator):
     def _create(self, session: Session, unused_is_prc: bool) -> EnvironmentModel:
         self._status_report_callback(progress=0)
         environment = EnvironmentModel(path=Path(TF2_PYTHON).parent.parent)
+
+        update_pip_tool = UpdatePipTool(Path(environment.python_executable))
+        runner = LocalRunner(tool=update_pip_tool)
+        return_code, _ = runner.run_console_tool()
+
         environment.write_record(session=session)
         self._status_report_callback(progress=40)
         manifest = self._create_manifest(environment=environment)

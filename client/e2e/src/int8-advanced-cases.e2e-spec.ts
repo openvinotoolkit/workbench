@@ -83,7 +83,7 @@ describe('UI tests on Running Int8 Calibration (Python)', () => {
       const adviceCheckingParams = {
         adviceLevel: 0,
         isTheoryPresent: true,
-        numberOfAdviceContainers: 1, // TODO 92170
+        numberOfAdviceContainers: 2,
         adviceId: 'unquantizedConvolutions',
       };
       // Go back to the original project
@@ -96,12 +96,11 @@ describe('UI tests on Running Int8 Calibration (Python)', () => {
       await testUtils.inferenceCard.checkAdvice({ ...adviceCheckingParams, adviceId: 'calibrateFirst' });
 
       // Check the second advice
-      // TODO 92170 Consider changing model for checking second reorder advice/improvement
-      // await testUtils.inferenceCard.checkAdvice({
-      //   ...adviceCheckingParams,
-      //   adviceLevel: 1,
-      //   adviceId: 'reordersOverload',
-      // });
+      await testUtils.inferenceCard.checkAdvice({
+        ...adviceCheckingParams,
+        adviceLevel: 1,
+        adviceId: 'reordersOverload',
+      });
     }
   );
 
