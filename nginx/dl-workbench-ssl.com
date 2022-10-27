@@ -1,6 +1,9 @@
 server {
     server_tokens off;
 
+    # Large header support
+    large_client_header_buffers 4 32k;
+
     #ipv4
     listen ${PROXY_PORT} ssl;
 
