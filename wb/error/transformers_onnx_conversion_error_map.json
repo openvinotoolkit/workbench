@@ -1,19 +1,126 @@
 {
-    "RuntimeError: 0INTERNAL ASSERT FAILED": "PyTorch JiT trace error",
-    "onnxruntime.capi.onnxruntime_pybind11_state.InvalidArgument": "Wrong tokenizer type in the repository. To convert the model you could create a repository with the same model and right tokenizer type and use it instead.",
-    "Connection error, and we cannot find the requested files in the cached path": "Connection error. Check the internet connection.",
-    "TypeError: not a string": "Cannot initialize tokenizer from the repository.",
-    "Error(s) in loading state_dict": "Cannot initialize the the model from the repository. Try to connect the repository creator of the repository.",
-    "sequence item 0: expected str instance": "[unk] and [pad] tokens for tokenizer are not set.",
-    "expected str, bytes or os.PathLike object": "Not enough files for tokenizer initialization in the repository",
-    "path should be string, bytes, os.PathLike or integer": "Not enough files for tokenizer initialization in the repository",
-    "The state dictionary of the model you are training to load is corrupted": "Cannot initialize the model form the repository. It may not have been saved properly.",
-    "No such file or directory (os error 2)": "Cannot initialize tokenizer from the repository.",
-    "Can't load tokenizer for": "Cannot initialize tokenizer from the repository.",
-    "Exporting model exceed maximum protobuf size of 2GB": "Cannot convert a large model to ONNX.",
-    "Connection error": "Connection error, check the internet connection.",
-    "Model and config inputs doesn't match": "Cannot convert model to ONNX - model and config inputs doesn't match. The repository might contain wrong tokenizer type.",
-    "Wrong index found for [MASK]": "Cannot initialize tokenizer from the model repository.",
-    "JSONDecodeError": "Cannot initialize tokenizer from the model repository - the json file is corrupted.",
-    "PreValidation Error": "Cannot initialize tokenizer or model from the repository."
+    "conversion_errors": {
+        "RuntimeError: 0INTERNAL ASSERT FAILED": {
+            "title": "Conversion to ONNX Failed",
+            "message": "Hugging Face tool failed to convert the model to ONNX format.",
+            "details": "Failed to trace static execution graph from PyTorch model.",
+            "action": "See Troubleshooting for more details: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html"
+        },
+        "onnxruntime.capi.onnxruntime_pybind11_state.InvalidArgument": {
+            "title": "Conversion to ONNX Failed",
+            "message": "Hugging Face tool failed to convert the model to ONNX format.",
+            "details": "The tokenizer generated data for the input that is not present in the model. The tokenizer does not match this model.",
+            "action": "Try to create your own repository with the model and select the right tokenizer. See Troubleshooting for more details: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html"
+        },
+        "TypeError: not a string": {
+            "title": "Conversion to ONNX Failed",
+            "message": "Hugging Face tool failed to load tokenizer.",
+            "details": "Some tokenizer files are missing in the repository or tokenizer files have wrong type/name.",
+            "action": "Convert the model to ONNX using PyTorch conversion tool and import it as the original model in the DL Workbench. See Troubleshooting for more details and available solutions: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html"
+        },
+        "Error(s) in loading state_dict": {
+            "title": "Conversion to ONNX Failed",
+            "message": "Hugging Face tool failed to load PyTorch model.",
+            "details": "Error while loading the state dictionary of the PyTorch model. Model configuration might not match the model weights in the Hugging Face repository.",
+            "action": "Try to initialize the model, save the model locally and convert it using the instructions from Troubleshooting: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html"
+        },
+        "sequence item 0: expected str instance": {
+            "title": "Conversion to ONNX Failed",
+            "message": "Hugging Face tool failed to convert the model to ONNX format.",
+            "details": "Failed to generate dummy input for PyTorch model tracing. Required tokenizer.unk_token is not set.",
+            "action": "Convert the model to ONNX using PyTorch conversion tool and import it as the original model in the DL Workbench. See Troubleshooting for more details and available solutions: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html "
+        },
+        "expected str, bytes or os.PathLike object": {
+            "title": "Conversion to ONNX Failed",
+            "message": "Hugging Face tool failed to load tokenizer.",
+            "details": "Some tokenizer files are missing in the repository or tokenizer files have wrong type/name.",
+            "action": "Convert the model to ONNX using PyTorch conversion tool and import it as the original model in the DL Workbench. See Troubleshooting for more details and available solutions: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html ."
+        },
+        "path should be string, bytes, os.PathLike or integer": {
+            "title": "Conversion to ONNX Failed",
+            "message": "Hugging Face tool failed to load tokenizer.",
+            "details": "Some tokenizer files are missing in the repository or tokenizer files have wrong type/name.",
+            "action": "Convert the model to ONNX using PyTorch conversion tool and import it as the original model in the DL Workbench. See Troubleshooting for more details and available solutions: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html"
+        },
+        "The state dictionary of the model you are training to load is corrupted": {
+            "title": "Conversion to ONNX Failed",
+            "message": "Hugging Face tool failed to load PyTorch model.",
+            "details": "The state dictionary of the PyTorch model is corrupted. The file might not be properly saved.",
+            "action": "Try to initialize the model, save the model locally and convert it using the instructions from Troubleshooting: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html"
+        },
+        "No such file or directory (os error 2)": {
+            "title": "Conversion to ONNX Failed",
+            "message": "Hugging Face tool failed to load the tokenizer.",
+            "details": "Failed to load Fast tokenizer from the repository.",
+            "action": "Convert the model to ONNX using PyTorch conversion tool and import it as the original model in the DL Workbench. See Troubleshooting for more details and available solutions: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html"
+        },
+        "Can't load tokenizer for": {
+            "title": "Conversion to ONNX Failed",
+            "message": "Hugging Face tool failed to load tokenizer.",
+            "details": "Some tokenizer files are missing in the repository.",
+            "action": "Contact the repository owners or see Troubleshooting for more possible solutions: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html"
+        },
+        "Exporting model exceed maximum protobuf size of 2GB": {
+            "title": "Conversion to ONNX Failed",
+            "message": "Hugging Face tool failed to convert the model to ONNX format.",
+            "details": "The size of the model exceeded the Protobuf limit of 2 GB.",
+            "action": "See Troubleshooting for more details: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html"
+        },
+        "Connection error": {
+            "title": "Hugging Face Hub can't be reached",
+            "message": "Cannot load the data from Hugging Face Hub due to network connectivity issues.",
+            "details": "Check the internet connection of your server and specify proxies if necessary.",
+            "action": "See Troubleshooting for more details: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html"
+        },
+        "Model and config inputs doesn't match": {
+            "title": "Conversion to ONNX Failed",
+            "message": "Hugging Face tool failed to convert the model to ONNX format.",
+            "details": "The tokenizer generated data for the input that is not present in the model. The tokenizer does not match this model.",
+            "action": "Try to create your own repository with the model and select the right tokenizer. See Troubleshooting for more details: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html"
+        },
+        "Wrong index found for [MASK]": {
+            "title": "Conversion to ONNX Failed",
+            "message": "Hugging Face tool failed to load the tokenizer.",
+            "details": "Wrong tokenizer configuration. Indexes in the added_tokens.json do not match the indexes of the vocab file.",
+            "action": "Convert the model to ONNX using PyTorch conversion tool and import it as the original model in the DL Workbench. See Troubleshooting for more details and available solutions: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html"
+        },
+        "Expecting value: line": {
+            "title": "Conversion to ONNX Failed",
+            "message": "Hugging Face tool failed to initialize the model config or tokenizer from the repository.",
+            "details": "Сonfig or tokenizer initialization process failed: invalid json file in the model repository.",
+            "action": "Check the model repository for invalid config.json or tokenizer json files. See Troubleshooting for more details: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html"
+        },
+        "UnexpectedTransformersONNXError": {
+            "title": "Conversion to ONNX Failed",
+            "message": "Hugging Face tool failed to convert the model to ONNX format.",
+            "details": "Unexpected conversion error.",
+            "action": "See Troubleshooting for more details or contact the DL Workbench team: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html"
+        }
+    },
+    "filter": {
+        "no_config": {
+            "title": "The model has no config in the repository",
+            "message": "No information about the model type is available. Hugging Face tool will use auto config instead of a suitable config, which does not guarantee proper results"
+        },
+        "no_model_type": {
+            "title": "The model has no model type in the config",
+            "message": "No information about the model type is available. Hugging Face tool will use auto config instead of a suitable config, which does not guarantee proper results"
+        },
+        "not_supported_model_type": {
+            "title": "Model type {} is not supported",
+            "action": "See Troubleshooting for more details: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html"
+        },
+        "not_supported_sequence_classification": {
+            "title": "Sequence classification feature is not supported by {} model",
+            "action": "Convert the model to ONNX using PyTorch conversion tool and import it as the original model in the DL Workbench. See Troubleshooting for more details and available solutions: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html"
+        },
+        "decoder_not_supported": {
+            "title": "The model type {} contains transformer decoder that is not supported by the DL Workbench"
+        },
+        "missing_tokenizer_files": {
+            "title": "Tokenizer files are missing",
+            "details": "Tokenizer files are missing. Check if the model type and the tokenizer type match",
+            "action": "Contact the repository owners or see Troubleshooting for more possible solutions: https://docs.openvino.ai/latest/workbench_docs_Workbench_DG_Troubleshooting.html"
+        }
+    }
 }

@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  HostBinding,
+  HostListener,
+  Input,
+  Output,
+} from '@angular/core';
 
 @Component({
   selector: 'wb-card',
@@ -8,6 +16,14 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
 })
 export class CardComponent {
   @HostBinding('class.disabled') @Input() disabled = false;
+
+  @Output() selected = new EventEmitter<void>();
+
+  @HostListener('click') onClick(): void {
+    if (!this.disabled) {
+      this.selected.emit();
+    }
+  }
 }
 
 @Component({

@@ -14,6 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 """
+import functools
 import json
 
 from config.constants import CELERY_RETRY_COUNTDOWN, CELERY_RETRY_MAX_RETRY, TRANSFORMERS_ONNX_ERROR_MAP_JSON
@@ -107,6 +108,22 @@ class SetupTargetError(JobGeneralError):
     }
 
 
+def format_error_message_decorator(method):
+    @functools.wraps(method)
+    def wrapped(*args, is_filter=False, **kwargs) -> str:
+        error_dict = method(*args, **kwargs)
+        model_type = kwargs.pop('model_type', None)
+        if model_type:
+            error_dict = {
+                message_type: text.format(model_type) for message_type, text in error_dict.items()
+            }
+        if is_filter:
+            return error_dict['title']
+        else:
+            return '\n\n'.join(error_dict.values())
+    return wrapped
+
+
 class TransformersONNXConversionError(JobGeneralError):
     code = CodeRegistry.get_transformers_onnx_error_code()
 
@@ -117,9 +134,40 @@ class TransformersONNXConversionError(JobGeneralError):
         message = self.replace_error_message(message)
         super().__init__(message, job_id)
 
-    def replace_error_message(self, message: str) -> str:
-        for substring, replacement_string in self.message_map.items():
+    @format_error_message_decorator
+    def replace_error_message(self, message: str) -> dict:
+        for substring, replacement_string in self.message_map['conversion_errors'].items():
             if substring in message:
                 return replacement_string
 
-        return f'Unexpected error: {message}'
+        return self.message_map['conversion_error']['UnexpectedTransformersONNXError']
+
+    @classmethod
+    @format_error_message_decorator
+    def get_no_config_message(cls) -> dict:
+        return cls.message_map['filter']['no_config']
+
+    @classmethod
+    @format_error_message_decorator
+    def get_no_model_type_message(cls) -> dict:
+        return cls.message_map['filter']['no_model_type']
+
+    @classmethod
+    @format_error_message_decorator
+    def get_not_supported_model_type_message(cls, model_type: str) -> dict:
+        return cls.message_map['filter']['not_supported_model_type']
+
+    @classmethod
+    @format_error_message_decorator
+    def get_not_supported_sequence_classification_message(cls, model_type: str) -> dict:
+        return cls.message_map['filter']['not_supported_sequence_classification']
+
+    @classmethod
+    @format_error_message_decorator
+    def get_decoder_not_supported_message(cls, model_type: str) -> dict:
+        return cls.message_map['filter']['decoder_not_supported']
+
+    @classmethod
+    @format_error_message_decorator
+    def get_has_missing_tokenizer_files_message(cls) -> dict:
+        return cls.message_map['filter']['missing_tokenizer_files']

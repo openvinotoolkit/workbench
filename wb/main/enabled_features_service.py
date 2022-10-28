@@ -26,8 +26,6 @@ FEATURE_FLAG_ENABLED = True
 
 class SupportedFeatures(Enum):
     DYNAMIC_SHAPES = 'DYNAMIC_SHAPES'
-    OMZ_REDESIGN = 'OMZ_REDESIGN'
-    HUGGING_FACE_MODELS = 'HUGGING_FACE_MODELS'
 
 
 class SingletonServiceMeta(type):

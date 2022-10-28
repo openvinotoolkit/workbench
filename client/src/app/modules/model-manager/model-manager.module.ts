@@ -7,10 +7,7 @@ import { ModelManagerRoutingModule } from './model-manager-routing.module';
 import { ModelManagerWizardComponent } from './components/model-manager-wizard/model-manager-wizard.component';
 import { ModelManagerImportComponent } from './components/model-manager-import/model-manager-import.component';
 import { ProjectModule } from '../project/project.module';
-import { ModelDownloaderTableComponent } from './components/model-downloader-table/model-downloader-table.component';
-import { OmzModelInfoComponent } from './components/omz-model-info/omz-model-info.component';
 import { ModelManagerConvertModule } from './components/model-manager-convert/model-manager-convert.module';
-import { ModelDownloaderService } from './components/model-downloader-table/model-downloader.service';
 import { ReshapeComponent } from './components/reshape/reshape.component';
 import { ImportPageComponent } from './pages/import-page/import-page.component';
 import { EditPageComponent } from './pages/edit-page/edit-page.component';
@@ -28,8 +25,6 @@ import { CardGridSkeletonComponent } from './components/card-grid-skeleton/card-
   declarations: [
     ModelManagerWizardComponent,
     ModelManagerImportComponent,
-    ModelDownloaderTableComponent,
-    OmzModelInfoComponent,
     ReshapeComponent,
     ImportPageComponent,
     EditPageComponent,
@@ -51,6 +46,5 @@ import { CardGridSkeletonComponent } from './components/card-grid-skeleton/card-
     ModelZooLayoutModule,
     ModelZooFilterGroupModule,
   ],
-  providers: [ModelDownloaderService],
 })
 export class ModelManagerModule {}

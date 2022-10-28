@@ -1,5 +1,5 @@
 <wb-model-zoo-layout [isDetailsOpened]="!!selectedModel">
-  <wb-model-zoo-content #modelZooContent [loading]="isLoading$ | async">
+  <wb-model-zoo-content #modelZooContent [loading]="isLoading$ | async" [hasError]="!!(error$ | async)">
     <wb-config-form-field
       ngProjectAs="model-zoo-sort"
       [field]="sortField"
@@ -44,7 +44,7 @@
         [disabled]="model.validation.disabled"
         [matTooltip]="model.validation.message"
         [matTooltipDisabled]="!model.validation.disabled"
-        (click)="selectedModel = model"
+        (selected)="selectedModel = model"
         data-test-id="model-card"
       >
         <wb-card-title-row>
@@ -57,7 +57,7 @@
         <wb-card-content-row>
           <wb-card-content-row-item data-test-id="model-downloads">
             <mat-icon svgIcon="download"></mat-icon>
-            {{ (model.downloads | callFunction: shortenNumber) || 0 }}
+            {{ (model.downloads | callFunction : shortenNumber) || 0 }}
           </wb-card-content-row-item>
           <wb-card-content-row-item data-test-id="updated"
             >Updated: {{ model.lastModified | date }}</wb-card-content-row-item
@@ -65,6 +65,8 @@
         </wb-card-content-row>
       </wb-card>
     </wb-card-grid>
+
+    <ng-container ngProjectAs="wb-model-zoo-error" [ngTemplateOutlet]="failedModelsFetchingTemplate"></ng-container>
   </wb-model-zoo-content>
 
   <wb-huggingface-model-details
@@ -150,5 +152,11 @@
 <ng-template #emptyFilteredModelsTemplate>
   <ng-container
     *ngTemplateOutlet="modelZooContent.emptyFilteredModelsTemplate; context: emptyFilteredModelsTemplateContext"
+  ></ng-container>
+</ng-template>
+
+<ng-template #failedModelsFetchingTemplate>
+  <ng-container
+    *ngTemplateOutlet="modelZooContent.failedModelsFetchingTemplate; context: failedModelsFetchingTemplateContext"
   ></ng-container>
 </ng-template>

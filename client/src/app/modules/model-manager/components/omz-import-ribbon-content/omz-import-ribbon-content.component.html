@@ -1,5 +1,5 @@
 <wb-model-zoo-layout [isDetailsOpened]="!!selectedModel">
-  <wb-model-zoo-content #modelZooContent [hasError]="!!(error$ | async)" [loading]="isLoading$ | async">
+  <wb-model-zoo-content #modelZooContent [loading]="isLoading$ | async" [hasError]="!!(error$ | async)">
     <wb-config-form-field
       ngProjectAs="model-zoo-sort"
       [field]="sortField"
@@ -54,7 +54,7 @@
       </wb-card>
     </wb-card-grid>
 
-    <ng-container ngProjectAs="wb-model-zoo-error" [ngTemplateOutlet]="errorTemplate"></ng-container>
+    <ng-container ngProjectAs="wb-model-zoo-error" [ngTemplateOutlet]="failedModelsFetchingTemplate"></ng-container>
   </wb-model-zoo-content>
 
   <wb-omz-model-details
@@ -79,7 +79,7 @@
           icon="list_alt"
           testId="{{ option }}"
         >
-          {{ option }}
+          {{ ModelTaskTypeToNameMap[option] }}
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
 
@@ -109,24 +109,14 @@
   </wb-model-zoo-filter-group>
 </ng-template>
 
-<ng-template #errorTemplate>
-  <wb-model-zoo-error>
-    <!-- TODO Consider moving to messages -->
-    No data found.
-    <br />
-    Check your proxy and connection and try again.
-    <!--  TODO Add handler for try again action  -->
-    <wb-button
-      ngProjectAs="model-zoo-error-button"
-      type="secondary"
-      class="enlarged-control"
-      text="Try Again"
-    ></wb-button>
-  </wb-model-zoo-error>
-</ng-template>
-
 <ng-template #emptyFilteredModelsTemplate>
   <ng-container
     *ngTemplateOutlet="modelZooContent.emptyFilteredModelsTemplate; context: emptyFilteredModelsTemplateContext"
+  ></ng-container>
+</ng-template>
+
+<ng-template #failedModelsFetchingTemplate>
+  <ng-container
+    *ngTemplateOutlet="modelZooContent.failedModelsFetchingTemplate; context: failedModelsFetchingTemplateContext"
   ></ng-container>
 </ng-template>

@@ -85,7 +85,7 @@ xdescribe('UI tests on visualization for model with not annotated dataset', () =
     expect(result).toBeTruthy('Prediction classes should be equal');
   });
 
-  it('Should visualization form for OD model', async () => {
+  it('should check visualization form for an OD model', async () => {
     const model = ODModels.ssdliteMobileNetV2;
     const imageFile = testImages.instanceSegmImage;
     const expectedImageFile = testImages.mobilenetSSDExpected;
@@ -107,7 +107,9 @@ xdescribe('UI tests on visualization for model with not annotated dataset', () =
       model,
       expectedImageFile,
       ['1', '61', '1', '67', '1'],
-      5
+      5,
+      {},
+      'ssdliteMobileNetSSD'
     );
   });
 

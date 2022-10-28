@@ -1,8 +1,9 @@
 import { browser, by, element, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
 
+import { ModelPrecisionEnum } from '@store/model-store/model.model';
+
 import { TestUtils } from './test-utils';
 import { ModelFile } from './model-file';
-import { OMZModelPrecisionEnum } from '../../../src/app/modules/model-manager/components/model-downloader-table/model-downloader-table.component';
 
 export const filterGroupNames = ['task', 'library', 'model-type', 'language', 'license'];
 type FilterGroupName = typeof filterGroupNames[number];
@@ -162,7 +163,7 @@ export class HFModelDownloadPage {
   }
 
   async convertDownloadedModelToIR(
-    precision?: OMZModelPrecisionEnum,
+    precision?: ModelPrecisionEnum.FP32 | ModelPrecisionEnum.FP16,
     configurationMultiplier: number = 4
   ): Promise<void> {
     // Wait for the environment preparing to complete
@@ -182,14 +183,14 @@ export class HFModelDownloadPage {
     );
 
     if (precision) {
-      if (precision !== OMZModelPrecisionEnum.FP16) {
+      if (precision !== ModelPrecisionEnum.FP16) {
         await this.selectPrecision(precision);
       } else {
         console.log('select FP16');
         await browser.sleep(2000);
       }
     } else {
-      await this.selectPrecision(OMZModelPrecisionEnum.FP32);
+      await this.selectPrecision(ModelPrecisionEnum.FP32);
     }
 
     await browser.wait(this.until.elementToBeClickable(this.elements.convertButton), browser.params.defaultTimeout * 3);

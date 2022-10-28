@@ -17,6 +17,11 @@
   }
 }
 
+.hf-card-url {
+  @include wb-text-8();
+  margin-top: 30px;
+}
+
 .readme-not-found {
   color: $brownish-grey;
   margin: auto;

@@ -22,8 +22,8 @@ from huggingface_hub import HfApi, hf_hub_url
 from huggingface_hub.file_download import cached_download
 from huggingface_hub.hf_api import ModelInfo
 from requests import HTTPError
-from transformers.onnx import FeaturesManager
 
+from wb.main.huggingface_api.validators import validate_hf_model, ValidationResult
 from wb.error.request_error import NotFoundRequestError
 
 _huggingface_api = HfApi()
@@ -44,18 +44,6 @@ class HuggingfaceModelConfig:
             'architectures': self.architectures,
             'modelType': self.model_type,
         }
-
-
-class ValidationResult:
-    def __init__(self, disabled: bool, message: Optional[str] = None):
-        self.disabled = disabled
-        self.message = message
-
-    def json(self) -> dict:
-        result = {'disabled': self.disabled}
-        if self.message:
-            result['message'] = self.message
-        return result
 
 
 class HuggingfaceModel:
@@ -86,37 +74,9 @@ class HuggingfaceModel:
             'lastModified': self.last_modified,
             'tags': self.tags,
             'validation': self.validation.json(),
-            'siblings': self.siblings,
             'config': self.config.json() if self.config else None,
             'downloads': self.downloads,
         }
-
-
-contains_decoder = {
-    model_type for model_type, tasks in FeaturesManager._SUPPORTED_MODEL_TYPE.items()
-    if any("with-past" in task for task in tasks)
-}
-
-
-def _validate_hf_model(model: ModelInfo) -> ValidationResult:
-    if not model.config:
-        return ValidationResult(disabled=True, message='Model has no config')
-    if 'model_type' not in model.config.keys():
-        return ValidationResult(disabled=True, message='Model has no model type')
-    model_type = model.config['model_type']
-    if model_type not in FeaturesManager._SUPPORTED_MODEL_TYPE:
-        return ValidationResult(disabled=True, message=f'Model type {model_type} is not supported')
-    if 'sequence-classification' not in FeaturesManager._SUPPORTED_MODEL_TYPE[model_type]:
-        return ValidationResult(
-            disabled=True,
-            message=f'Sequence classification feature is not supported for model type {model_type}'
-        )
-    if model_type in contains_decoder:
-        return ValidationResult(
-            disabled=True,
-            message=f'The model type {model_type} contains transformer decoder and is not supported by DL Workbench'
-        )
-    return ValidationResult(disabled=False)
 
 
 def _convert_hf_model_info(model_info: ModelInfo) -> HuggingfaceModel:
@@ -125,7 +85,7 @@ def _convert_hf_model_info(model_info: ModelInfo) -> HuggingfaceModel:
         pipeline_tag=model_info.pipeline_tag,
         last_modified=model_info.lastModified,
         tags=model_info.tags,
-        validation=_validate_hf_model(model_info),
+        validation=validate_hf_model(model_info),
         siblings=[x.rfilename for x in model_info.siblings],
         config=model_info.config,
         downloads=getattr(model_info, 'downloads', None),

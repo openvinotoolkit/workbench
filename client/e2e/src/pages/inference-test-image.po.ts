@@ -225,7 +225,8 @@ export class VisualizeInferenceResultPage {
     expectedImageFile: { pathToImage: string },
     model: { name: string },
     badges?: ElementFinder[],
-    options?: PixelmatchOptions
+    options?: PixelmatchOptions,
+    imageName?: string
   ): Promise<boolean> {
     const resultCanvas: ElementFinder = badges ? await this.inputCanvas : await this.resultCanvas;
     await browser.wait(this.until.presenceOf(resultCanvas), browser.params.defaultTimeout);
@@ -240,7 +241,7 @@ export class VisualizeInferenceResultPage {
     return await this.testUtils.areImagesDifferent(
       pngFromCanvas,
       expectedPng,
-      browser.currentTest.fullName,
+      imageName ? imageName : browser.currentTest.fullName,
       null,
       options
     );
@@ -315,7 +316,8 @@ export class VisualizeInferenceResultPage {
     expectedImageFile: { pathToImage: string },
     predictions: string | string[],
     expectedBadgesCount: number,
-    options?: PixelmatchOptions
+    options?: PixelmatchOptions,
+    imageName?: string
   ) {
     await browser.sleep(10000);
 
@@ -325,7 +327,13 @@ export class VisualizeInferenceResultPage {
     expect(result).toBeTruthy('Prediction classes should be equal');
     expect(badges.length).toEqual(expectedBadgesCount, 'Count of prediction should be equal ' + expectedBadgesCount);
 
-    const isImagesDifferent = await this.isCanvasDifferentFromReference(expectedImageFile, model, badges, options);
+    const isImagesDifferent = await this.isCanvasDifferentFromReference(
+      expectedImageFile,
+      model,
+      badges,
+      options,
+      imageName
+    );
 
     expect(isImagesDifferent).toBeFalsy('Images should be equal');
   }

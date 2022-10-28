@@ -139,6 +139,7 @@ export const reducer = createReducer(
     omzModels: {
       ...state.omzModels,
       isLoading: true,
+      error: null,
     },
   })),
   on(ModelStoreActions.loadOMZModelsSuccess, (state, { items }) => ({

@@ -109,7 +109,10 @@ export class ImageRendererComponent implements OnDestroy {
     }
 
     if (this.drawMode === ImageRendererDrawMode.BOX) {
-      predictions.forEach((prediction) => this._renderer.drawBox(prediction.bbox, prediction.colors.primary));
+      predictions.forEach((prediction) => {
+        const label = `#${prediction.category_id}: ${prediction.score.toString().slice(0, 4)}`;
+        this._renderer.drawBox(prediction.bbox, prediction.colors.primary, label);
+      });
     }
 
     if (this.drawMode === ImageRendererDrawMode.MASK) {
