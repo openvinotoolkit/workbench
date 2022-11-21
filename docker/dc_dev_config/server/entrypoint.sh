@@ -16,7 +16,7 @@ function find_token() {
 
 echo "[*] Sourcing setupvars.sh..."
 # shellcheck disable=SC1090
-source "${INTEL_OPENVINO_DIR}/setupvars.sh"
+# source "${INTEL_OPENVINO_DIR}/setupvars.sh"
 
 cd "${SERVER_ROOT}"
 

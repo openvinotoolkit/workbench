@@ -96,9 +96,6 @@ pushd ${ROOT_FOLDER}
 
     VERSIONS_FILE="${ROOT_FOLDER}/automation/Jenkins/openvino_version.yml"
 
-    OPENVINO_SETUP_VARS_LINK="https://raw.githubusercontent.com/openvinotoolkit/openvino/master/scripts/setupvars/setupvars.sh"
-    curl -LO ${OPENVINO_SETUP_VARS_LINK}
-
     WHEELS_FOLDER="${TEMP_FOLDER}/workbench/wheels"
     mkdir ${WHEELS_FOLDER}
     if [[ ! -z ${WHEELS_PATH} ]]; then

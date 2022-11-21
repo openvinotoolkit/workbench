@@ -111,8 +111,6 @@ RUN mkdir -p ${INTEL_OPENVINO_DIR}
 #     && rm -rf /tmp/package.tgz \
 #     && DIRNAME=$(ls /tmp/openvino/) && mv -v /tmp/openvino/${DIRNAME}/* ${INTEL_OPENVINO_DIR}
 
-RUN touch ${INTEL_OPENVINO_DIR}/setupvars.sh
-
 # For postgresql-10
 RUN curl -L https://www.postgresql.org/media/keys/ACCC4CF8.asc -s | apt-key add - && \
     echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" | tee /etc/apt/sources.list.d/postgresql.list

@@ -93,9 +93,6 @@ RUN sed -Ei 's/# deb-src /deb-src /' /etc/apt/sources.list && \
 # CREATE DIRECTORY FOR PUBLIC WORKBENCH ARTIFACTS
 RUN mkdir -m 777 -p ${WORKBENCH_PUBLIC_DIR} && chown -R ${USER_NAME} ${WORKBENCH_PUBLIC_DIR}
 
-WORKDIR ${INTEL_OPENVINO_DIR}
-ADD --chown=workbench setupvars.sh ${INTEL_OPENVINO_DIR}/
-
 WORKDIR ${INTEL_OPENVINO_DIR}/tools
 ADD --chown=workbench workbench ${OPENVINO_WORKBENCH_ROOT}/
 
@@ -108,7 +105,7 @@ RUN python3 -m pip install --no-cache-dir -r ${OPENVINO_WORKBENCH_ROOT}/requirem
     python3 -m pip install --no-cache-dir -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_jupyter.txt && \
     python3 -m pip install --no-cache-dir -r ${OPENVINO_WORKBENCH_ROOT}/model_analyzer/requirements.txt
 
-RUN python3 -m pip install -U pip setuptools wheel
+RUN python3 -m pip install -U pip setuptools==65.5.1 wheel
 
 RUN chown -R ${USER_NAME} ${WHEELS_PATH} && \
     OPENVINO_WHEEL=$(find ${WHEELS_PATH} -name "openvino-202*cp38*linux*.whl" -print -quit) && python3 -m pip install ${OPENVINO_WHEEL} && \

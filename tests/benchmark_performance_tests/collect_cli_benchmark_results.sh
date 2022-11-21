@@ -3,8 +3,6 @@ echo 'Staring benchmark performance measurements...'
 
 set -e
 
-source "${INTEL_OPENVINO_DIR}/setupvars.sh"
-
 BENCHMARK_PERFORMANCE_REPORTS_PATH=${OPENVINO_WORKBENCH_ROOT}/client/e2e/benchmark_performance_reports
 
 BENCHMARK_PERFORMANCE_TESTS_PATH="${OPENVINO_WORKBENCH_ROOT}/tests/benchmark_performance_tests"
