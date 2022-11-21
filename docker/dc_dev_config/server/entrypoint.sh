@@ -14,10 +14,6 @@ function find_token() {
   echo "Your access token is $(cat "$TOKEN_PATH")"
 }
 
-echo "[*] Sourcing setupvars.sh..."
-# shellcheck disable=SC1090
-# source "${INTEL_OPENVINO_DIR}/setupvars.sh"
-
 cd "${SERVER_ROOT}"
 
 case ${CONTAINER_TYPE} in

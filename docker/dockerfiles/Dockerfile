@@ -215,8 +215,6 @@ RUN python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_W
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_dev.txt && \
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/model_analyzer/requirements.txt
 
-RUN chown ${CI_USER}: ${INTEL_OPENVINO_DIR}/setupvars.sh
-
 # TODO: 94358 - Enable wheel downloader
 
 WORKDIR ${WHEELS_PATH}
