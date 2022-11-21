@@ -1,2 +1,3 @@
 torch==1.11.0
 onnxruntime==1.10.0
+transformers[onnx]==4.16.2
