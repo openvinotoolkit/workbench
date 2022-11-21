@@ -1,3 +1,10 @@
-torch==1.11.0
 onnxruntime==1.10.0
 transformers[onnx]==4.16.2
+
+# tokenization dependencies
+sentencepiece==0.1.96
+fugashi==1.1.2 # ja tokenizers
+ipadic==1.0.0 # ja tokenizers
+
+--find-links https://download.pytorch.org/whl/torch_stable.html
+torch==1.11.0+cpu
