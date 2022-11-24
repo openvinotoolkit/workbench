@@ -6,5 +6,4 @@ sentencepiece==0.1.96
 fugashi==1.1.2 # ja tokenizers
 ipadic==1.0.0 # ja tokenizers
 
---find-links https://download.pytorch.org/whl/torch_stable.html
-torch==1.11.0+cpu
+torch@http://download.pytorch.org/whl/cpu/torch-1.11.0%2Bcpu-cp38-cp38-linux_x86_64.whl

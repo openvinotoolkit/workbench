@@ -105,11 +105,11 @@ RUN apt update && \
 RUN mkdir -p ${INTEL_OPENVINO_DIR}
 
 # Load and install OpenVINO package
-# RUN curl ${PACKAGE_LINK} -o /tmp/package.tgz \
-#     && mkdir -p /tmp/openvino/ \
-#     && tar -xzf /tmp/package.tgz -C /tmp/openvino/ \
-#     && rm -rf /tmp/package.tgz \
-#     && DIRNAME=$(ls /tmp/openvino/) && mv -v /tmp/openvino/${DIRNAME}/* ${INTEL_OPENVINO_DIR}
+RUN curl ${PACKAGE_LINK} -o /tmp/package.tgz \
+    && mkdir -p /tmp/openvino/ \
+    && tar -xzf /tmp/package.tgz -C /tmp/openvino/ \
+    && rm -rf /tmp/package.tgz \
+    && DIRNAME=$(ls /tmp/openvino/) && mv -v /tmp/openvino/${DIRNAME}/* ${INTEL_OPENVINO_DIR}
 
 # For postgresql-10
 RUN curl -L https://www.postgresql.org/media/keys/ACCC4CF8.asc -s | apt-key add - && \
@@ -215,8 +215,10 @@ RUN python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_W
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_dev.txt && \
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/model_analyzer/requirements.txt
 
-# TODO: 94358 - Enable wheel downloader
 
+RUN chown ${CI_USER}: ${INTEL_OPENVINO_DIR}/setupvars.sh
+
+# TODO: 94358 - Enable wheel downloader
 WORKDIR ${WHEELS_PATH}
 RUN curl -O $WHEELS_LINK
 RUN curl -O $WHEELS_DEV_LINK
