@@ -105,7 +105,7 @@ pushd ${ROOT_FOLDER}
     VERSIONS_FILE="${ROOT_FOLDER}/automation/Jenkins/openvino_version.yml"
 
     WHEELS_FOLDER="${TEMP_FOLDER}/workbench/wheels"
-    mkdir ${WHEELS_FOLDER}
+    mkdir -p ${WHEELS_FOLDER}
     if [[ ! -z ${WHEELS_PATH} ]]; then
       cp -R ${WHEELS_PATH}/* ${WHEELS_FOLDER}
     else

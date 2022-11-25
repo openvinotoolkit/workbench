@@ -63,7 +63,8 @@ describe('UI tests on Running Int8 Calibration (Python)', () => {
     expect(Number(accuracyResult) >= 0 && Number(accuracyResult) <= 100).toBeTruthy();
   });
 
-  it(
+  // 97829
+  xit(
     'should download shufflenet-v2-x1.0 FP16, select ImageNet dataset, ' +
       'infer (CPU), run INT8, check two pieces of advice',
     async () => {
