@@ -29,7 +29,7 @@ importlib-resources==5.2.2
 itsdangerous==2.0.1
 kombu==5.2.2
 lxml==4.6.5
-Mako==1.1.5
+Mako==1.2.2
 MarkupSafe==2.0.1
 monotonic==1.6
 numpy==1.22.0
