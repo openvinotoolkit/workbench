@@ -48,6 +48,5 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     cd /Volumes/m_*
     echo "Use install \"as a current user\""
     open -g -W "*.app"
-    source ~/intel/openvino_2022/setupvars.sh
     sudo spctl --master-disable
 fi

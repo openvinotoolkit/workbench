@@ -215,16 +215,16 @@ RUN python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_W
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_dev.txt && \
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/model_analyzer/requirements.txt
 
+
 RUN chown ${CI_USER}: ${INTEL_OPENVINO_DIR}/setupvars.sh
 
 # TODO: 94358 - Enable wheel downloader
-
 WORKDIR ${WHEELS_PATH}
 RUN curl -O $WHEELS_LINK
 RUN curl -O $WHEELS_DEV_LINK
 
 # Base image changed to ubuntu, we should to setup openvino
-RUN python3 -m pip install -U pip setuptools wheel
+RUN python3 -m pip install -U pip setuptools==65.5.1 wheel
 
 RUN chown -R ${USER_NAME} ${WHEELS_PATH} && \
     OPENVINO_WHEEL=$(find ${WHEELS_PATH} -name "openvino-202*cp38*linux*.whl" -print -quit) && python3 -m pip install ${OPENVINO_WHEEL} && \

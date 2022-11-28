@@ -57,7 +57,8 @@ describe('UI tests on parent predictions visualization', () => {
     await testUtils.modelManagerPage.goToModelManager();
   });
 
-  it(
+  // 97828
+  xit(
     'should create a project with a classification model, ' +
       'calibrate it, compare predictions on the output visualization tab',
     async () => {

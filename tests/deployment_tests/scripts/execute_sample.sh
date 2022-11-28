@@ -13,8 +13,6 @@ while (( "$#" )); do
   esac
 done
 
-source ${LIB_FOLDER}/setupvars.sh
-
 set -e
 
 if [ ${DEVICE} == 'vpu' ]

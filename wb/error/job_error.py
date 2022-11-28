@@ -140,7 +140,7 @@ class TransformersONNXConversionError(JobGeneralError):
             if substring in message:
                 return replacement_string
 
-        return self.message_map['conversion_error']['UnexpectedTransformersONNXError']
+        return self.message_map['conversion_errors']['UnexpectedTransformersONNXError']
 
     @classmethod
     @format_error_message_decorator
