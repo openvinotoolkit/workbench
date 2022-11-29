@@ -24,8 +24,8 @@ jsonschema==3.2.0
 jupyter==1.0.0
 jupyter-client==6.1.11
 jupyter-console==6.2.0
-jupyter-core==4.7.1
-jupyter-server==1.13.4
+jupyter-core==4.11.2
+jupyter-server==1.17.0
 jupyterlab==3.0.17
 jupyterlab-execute-time==2.0.2
 jupyterlab-pygments==0.1.2
@@ -34,10 +34,10 @@ MarkupSafe==2.0.1
 mistune==0.8.4
 nbclassic==0.3.5
 nbclient==0.5.2
-nbconvert==6.0.7
+nbconvert==6.5.1
 nbformat==5.0.7
 nest-asyncio==1.5.1
-notebook==6.4.1
+notebook==6.4.10
 packaging==21.3
 pandocfilters==1.4.3
 parso==0.7.1
