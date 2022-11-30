@@ -52,8 +52,6 @@ class Config:
     JWT_TOKEN_LOCATION = ('headers', 'cookies')
     JWT_COOKIE_CSRF_PROTECT = True
     JWT_COOKIE_SECURE = IS_TLS_ENABLED
-    JWT_BLACKLIST_ENABLED = True
-    JWT_BLACKLIST_TOKEN_CHECKS = ['access', 'refresh']
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=10) if ENABLE_AUTH else False
     JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(days=15) if ENABLE_AUTH else False
 

@@ -19,7 +19,7 @@ from typing import Callable
 
 from flask import jsonify, request, Response
 from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, set_refresh_cookies, \
-    jwt_refresh_token_required, jwt_required, unset_jwt_cookies, get_raw_jwt, get_jti
+    jwt_required, unset_jwt_cookies, get_jwt, get_jti
 
 from config.constants import ENABLE_AUTH
 from wb.extensions_factories.database import get_db_session_for_app
@@ -79,10 +79,10 @@ def handle_login_with_token():
 
 @V1_AUTH_API.route('/auth/refresh', methods=['POST'])
 @check_auth_enabled
-@jwt_refresh_token_required
+@jwt_required(refresh=True)
 @safe_run
 def handle_refresh_token():
-    refresh_token_jti = get_raw_jwt().get('jti')
+    refresh_token_jti = get_jwt().get('jti')
     BLACKLIST.add(refresh_token_jti)
     user_identity = get_jwt_identity()
     response = create_response_with_tokens(user_data=user_identity)
@@ -90,10 +90,10 @@ def handle_refresh_token():
 
 
 @V1_AUTH_API.route('/auth/logout', methods=['DELETE'])
-@jwt_required
+@jwt_required()
 @safe_run
 def handle_logout():
-    access_token_jti = get_raw_jwt().get('jti')
+    access_token_jti = get_jwt().get('jti')
     BLACKLIST.add(access_token_jti)
     refresh_token = request.cookies.get('refresh_token_cookie')
     if refresh_token:
@@ -104,14 +104,14 @@ def handle_logout():
 
 
 @V1_AUTH_API.route('/auth', methods=['GET'])
-@jwt_required
+@jwt_required()
 @safe_run
 def handle_check_auth():
     return '', 200
 
 
-@JWT_MANAGER.token_in_blacklist_loader
-def check_if_token_in_blacklist(decrypted_token: dict):
+@JWT_MANAGER.token_in_blocklist_loader
+def check_if_token_in_blacklist(unused_jwt_header, decrypted_token: dict):
     jti = decrypted_token.get('jti')
     return jti in BLACKLIST
 
@@ -135,7 +135,7 @@ def add_auth_status_on_invalid_jwt(error_message):
 
 
 @JWT_MANAGER.revoked_token_loader
-def add_auth_status_on_revoked_jwt():
+def add_auth_status_on_revoked_jwt(unused_jwt_headers, jwt_payload):
     response = jsonify({
         'authStatus': JWTAuthStatusCodeEnum.INVALID_JWT.value,
         'message': 'Token has been revoked'
@@ -145,7 +145,7 @@ def add_auth_status_on_revoked_jwt():
 
 
 @JWT_MANAGER.expired_token_loader
-def add_auth_status_on_expired_jwt(expired_token):
+def add_auth_status_on_expired_jwt(unused_jwt_header, expired_token):
     response_dict = {
         'message': 'Token has expired'
     }
