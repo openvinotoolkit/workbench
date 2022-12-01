@@ -135,7 +135,7 @@ def add_auth_status_on_invalid_jwt(error_message):
 
 
 @JWT_MANAGER.revoked_token_loader
-def add_auth_status_on_revoked_jwt(unused_jwt_headers, jwt_payload):
+def add_auth_status_on_revoked_jwt(unused_jwt_headers, unused_jwt_payload):
     response = jsonify({
         'authStatus': JWTAuthStatusCodeEnum.INVALID_JWT.value,
         'message': 'Token has been revoked'
