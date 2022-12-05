@@ -60,7 +60,7 @@ PROTECTED_ENDPOINTS = [
 ]
 
 for endpoint in PROTECTED_ENDPOINTS:
-    endpoint.before_request(verify_jwt_in_request)
+    endpoint.before_request(lambda: verify_jwt_in_request() and None)
 
 BLUEPRINTS = (V1_AUTH_API, *PROTECTED_ENDPOINTS)
 

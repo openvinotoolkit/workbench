@@ -16,7 +16,7 @@
 """
 import logging as log
 
-from flask_jwt_extended import verify_jwt_refresh_token_in_request, exceptions
+from flask_jwt_extended import verify_jwt_in_request, exceptions
 from flask_socketio import disconnect
 
 from wb.extensions_factories.socket_io import get_socket_io_server
@@ -27,7 +27,7 @@ SOCKET_IO = get_socket_io_server()
 @SOCKET_IO.on('connect')
 def handle_connect():
     try:
-        verify_jwt_refresh_token_in_request()
+        verify_jwt_in_request(refresh=True)
     except exceptions.JWTExtendedException:
         log.debug('Socket connection authentication error')
         disconnect()
