@@ -25,6 +25,10 @@ while (( "$#" )); do
       IMAGE_TAG=$2
       shift 2
       ;;
+    --package-link)
+      PACKAGE_LINK=$2
+      shift 2
+      ;;
     *)
       echo Unsupport argument $1
       exit 1
@@ -38,6 +42,10 @@ fi
 
 if [[ -z ${IMAGE_TAG} ]]; then
     IMAGE_TAG=local
+fi
+
+if [[ -z ${PACKAGE_LINK} ]]; then
+    PACKAGE_LINK="https://storage.openvinotoolkit.org/repositories/openvino/packages/2022.2/linux/l_openvino_toolkit_ubuntu20_2022.2.0.7713.af16ea1d79a_x86_64.tgz"
 fi
 
 set -e
@@ -96,11 +104,8 @@ pushd ${ROOT_FOLDER}
 
     VERSIONS_FILE="${ROOT_FOLDER}/automation/Jenkins/openvino_version.yml"
 
-    OPENVINO_SETUP_VARS_LINK="https://raw.githubusercontent.com/openvinotoolkit/openvino/master/scripts/setupvars/setupvars.sh"
-    curl -LO ${OPENVINO_SETUP_VARS_LINK}
-
     WHEELS_FOLDER="${TEMP_FOLDER}/workbench/wheels"
-    mkdir ${WHEELS_FOLDER}
+    mkdir -p ${WHEELS_FOLDER}
     if [[ ! -z ${WHEELS_PATH} ]]; then
       cp -R ${WHEELS_PATH}/* ${WHEELS_FOLDER}
     else
@@ -117,9 +122,9 @@ pushd ${ROOT_FOLDER}
       cp -R ${BUNDLES_PATH}/* ${BUNDLES_FOLDER}
     else
       pushd ${BUNDLES_FOLDER}
-        PACKAGE_LINK=$(grep 'openvino_deployment_archives'  ${VERSIONS_FILE} | awk '{print $2}')
+        BUNDLES_LINK=$(grep 'openvino_deployment_archives'  ${VERSIONS_FILE} | awk '{print $2}')
         python3 "${TEMP_FOLDER}/workbench/wb/main/utils/bundle_creator/bundle_downloader.py" \
-                --link "${PACKAGE_LINK}" \
+                --link "${BUNDLES_LINK}" \
                 -os ubuntu18 ubuntu20 \
                 --output-path "${BUNDLES_FOLDER}" \
                 --targets cpu gpu hddl opencv python3.6 python3.7 python3.8 vpu
@@ -132,6 +137,7 @@ pushd ${ROOT_FOLDER}
                   --no-cache \
                   --build-arg RABBITMQ_PASSWORD=openvino \
                   --build-arg DB_PASSWORD=openvino \
+                  --build-arg PACKAGE_LINK="${PACKAGE_LINK}" \
                   $([ -z ${GOOGLE_ANALYTICS_ID+x} ] || printf -- "--build-arg GOOGLE_ANALYTICS_ID=${GOOGLE_ANALYTICS_ID}") \
                   $([ -z ${no_proxy+x} ] || printf -- "--build-arg NO_PROXY=${no_proxy}") \
                   $([ -z ${http_proxy+x} ] || printf -- "--build-arg HTTP_PROXY=${http_proxy}") \

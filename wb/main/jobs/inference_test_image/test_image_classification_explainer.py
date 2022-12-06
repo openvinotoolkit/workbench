@@ -19,7 +19,7 @@ from typing import List, Callable, Tuple
 
 import cv2
 import numpy as np
-from openvino.pyopenvino import Layout
+from openvino._pyopenvino import Layout
 from openvino.tools.accuracy_checker.evaluators import ModelEvaluator
 from openvino.tools.accuracy_checker.representation import ClassificationPrediction
 

@@ -81,7 +81,9 @@ class EnvironmentCreator:
             package_name = dependency.name
             # TODO: extract
             if package_name in ('openvino', 'openvino-dev'):
-                version = '2022.1.0'
+                version = '2022.3.0'
+            elif 'torch' in package_name:
+                version = '1.11.0'
             else:
                 version = dependency.specs[0][1]
             dependency = DependencyModel(package=package_name, version=version,

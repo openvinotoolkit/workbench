@@ -121,6 +121,7 @@ def run_benchmark_tool(parameters: BenchmarkToolParameters) -> int:
                           f'-t "{time}"',
                           f'--report_type "{report_type}"',
                           f'--report_folder "{artifact_path}"',
+                          f'-hint none',
                           f'{pc_params}'])
     command = f'"{benchmark_app_executable}" {arguments}'
     return run_command(command)

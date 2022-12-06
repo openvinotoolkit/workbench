@@ -117,7 +117,7 @@ class CreateProfilingScriptsJob(IJob):
     @staticmethod
     def _get_network_inputs(xml_model_path: str) -> Tuple[Dict[str, List[int]], List]:
         from openvino.runtime import Core
-        from openvino.pyopenvino import Model
+        from openvino._pyopenvino import Model
 
         datatype_map = {
             'i32': np.int32,
