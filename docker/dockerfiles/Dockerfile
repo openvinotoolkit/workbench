@@ -237,6 +237,8 @@ RUN . ${NVM_DIR}/nvm.sh && \
 
 WORKDIR ${OPENVINO_WORKBENCH_ROOT}
 
+RUN ${OPENVINO_WORKBENCH_ROOT}/docker/scripts/configure_ov_notebooks_env.sh --notebooks_venv ${NOTEBOOKS_VENV}
+
 # TODO: 94359 - Enable bundle downloader
 
 # install jenkins jnlp agent
