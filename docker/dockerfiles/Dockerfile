@@ -97,6 +97,8 @@ RUN apt update && \
     xvfb \
     gnupg2 \
     build-essential  \
+    # for sample application notebook
+    cmake \
     # for running packages from git commits \
     git && \
     apt clean && \
