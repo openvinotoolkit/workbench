@@ -24,7 +24,6 @@ grep ".ipynb$" "${path_to_bom}" | while read -r filename; do
 
     notebook_path="${PATH_TO_WORKBENCH}/${filename}"
     notebook_dir="$(dirname "${notebook_path}")"
-    ls -la ${notebook_dir}
     notebook_name="$(basename "${notebook_path}")"
 
     if [[ -z $container_name ]]; then
