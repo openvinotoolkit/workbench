@@ -71,26 +71,36 @@
   <wb-model-zoo-filter-group [formControl]="filtersControl" *ngIf="dataSource.filtersOptions$ | async as filterOptions">
     <!--  TODO Consider moving filters skeleton to separate component  -->
     <ng-container *wbSkeleton="isLoading$ | async; repeat: 10; width: 'rand'; gap: '20px'">
-      <wb-model-zoo-filter group="task_type">
+      <wb-model-zoo-filter group="task_type" data-test-id="task-type-filter-group">
         <wb-model-zoo-filter-title>Task Type</wb-model-zoo-filter-title>
-        <wb-model-zoo-filter-option *ngFor="let option of filterOptions.taskType" [value]="option" icon="list_alt">
+        <wb-model-zoo-filter-option
+          *ngFor="let option of filterOptions.taskType"
+          [value]="option"
+          icon="list_alt"
+          testId="{{ option }}"
+        >
           {{ ModelTaskTypeToNameMap[option] }}
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
 
-      <wb-model-zoo-filter group="precision">
+      <wb-model-zoo-filter group="precision" data-test-id="precision-filter-group">
         <wb-model-zoo-filter-title>Precisions</wb-model-zoo-filter-title>
-        <wb-model-zoo-filter-option *ngFor="let option of filterOptions.precision" [value]="option">
+        <wb-model-zoo-filter-option
+          *ngFor="let option of filterOptions.precision"
+          [value]="option"
+          testId="{{ option }}"
+        >
           {{ option }}
         </wb-model-zoo-filter-option>
       </wb-model-zoo-filter>
 
-      <wb-model-zoo-filter group="framework">
+      <wb-model-zoo-filter group="framework" data-test-id="framework-filter-group">
         <wb-model-zoo-filter-title>Framework</wb-model-zoo-filter-title>
         <wb-model-zoo-filter-option
           *ngFor="let option of filterOptions.framework"
           [value]="option"
           [icon]="modelFrameworkIconsMap[option]"
+          testId="{{ modelFrameworkNamesMap[option] }}"
         >
           {{ modelFrameworkNamesMap[option] }}
         </wb-model-zoo-filter-option>
