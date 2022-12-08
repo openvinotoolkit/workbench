@@ -57,7 +57,7 @@
         <wb-card-content-row>
           <wb-card-content-row-item data-test-id="model-downloads">
             <mat-icon svgIcon="download"></mat-icon>
-            {{ (model.downloads | callFunction: shortenNumber) || 0 }}
+            {{ (model.downloads | callFunction : shortenNumber) || 0 }}
           </wb-card-content-row-item>
           <wb-card-content-row-item data-test-id="updated"
             >Updated: {{ model.lastModified | date }}</wb-card-content-row-item
@@ -91,7 +91,7 @@
           *ngFor="let tag of appliedTags.pipelineTags"
           [value]="tag"
           icon="list_alt"
-          [attr.data-test-id]="tag + '-filter'"
+          testId="{{ tag }}"
         >
           {{ tag }}
         </wb-model-zoo-filter-option>
@@ -104,7 +104,7 @@
           disabled="true"
           *ngFor="let tag of appliedTags.libraries"
           [value]="tag"
-          [attr.data-test-id]="tag + '-filter'"
+          testId="{{ tag }}"
         >
           {{ tag }}
         </wb-model-zoo-filter-option>
@@ -117,7 +117,7 @@
         <wb-model-zoo-filter-option
           *ngFor="let modelType of availableTags.modelTypes"
           [value]="modelType"
-          [attr.data-test-id]="modelType + '-filter'"
+          testId="{{ modelType }}"
         >
           {{ modelType }}
         </wb-model-zoo-filter-option>
@@ -128,7 +128,7 @@
         <wb-model-zoo-filter-option
           *ngFor="let language of availableTags.languages"
           [value]="language"
-          [attr.data-test-id]="language + '-filter'"
+          testId="{{ language }}"
         >
           {{ language }}
         </wb-model-zoo-filter-option>
@@ -140,7 +140,7 @@
           *ngFor="let license of availableTags.licenses"
           [value]="license"
           icon="license"
-          [attr.data-test-id]="license.replace('license:', '') + '-filter'"
+          testId="{{ license.replace('license:', '') }}"
         >
           {{ license.replace('license:', '') }}
         </wb-model-zoo-filter-option>

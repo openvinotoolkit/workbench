@@ -7,6 +7,7 @@ import { Helpers } from './pages/helpers';
 import { TestUtils } from './pages/test-utils';
 import { LoginPage } from './pages/login.po';
 import { AnalyticsPopup } from './pages/analytics-popup.po';
+import { filterGroupNames } from './pages/model-download.po';
 
 describe('UI tests on Downloading Models', () => {
   let homePage: AppPage;
@@ -65,6 +66,56 @@ describe('UI tests on Downloading Models', () => {
     );
     await testUtils.configurationWizard.deleteUploadedModel(model.name);
     expect(await testUtils.configurationWizard.uploadsModelsTableElementsCount()).toEqual(uploadedElementsCount);
+  });
+
+  it('filter model cards, find model, download it and delete', async () => {
+    const expectedModelName = 'mobilefacedet-v1-mxnet';
+    const uploadedElementsCount = await testUtils.configurationWizard.uploadsModelsTableElementsCount();
+    await testUtils.modelManagerPage.goToModelManager();
+    await testUtils.modelDownloadPage.openOMZTab();
+
+    // Apply several filters
+    await testUtils.modelDownloadPage.selectFilter('object_detection');
+    await testUtils.modelDownloadPage.selectFilter('FP16');
+    await testUtils.modelDownloadPage.selectFilter('MXNet');
+    // Currently, only one model satisfies these filters
+    expect(await testUtils.modelDownloadPage.getModelNameFromCard()).toEqual(expectedModelName);
+    expect(await testUtils.modelDownloadPage.countModelCards()).toEqual(1);
+
+    await testUtils.modelDownloadPage.selectAndDownloadModel(expectedModelName);
+    await testUtils.modelDownloadPage.convertDownloadedModelToIR();
+    await browser.wait(
+      () => testUtils.configurationWizard.isUploadReady(expectedModelName),
+      browser.params.defaultTimeout * 9
+    );
+    await testUtils.configurationWizard.deleteUploadedModel(expectedModelName);
+    expect(await testUtils.configurationWizard.uploadsModelsTableElementsCount()).toEqual(uploadedElementsCount);
+  });
+
+  it('select and deselect several filters, check that they are applied correctly', async () => {
+    await testUtils.modelManagerPage.goToModelManager();
+    await testUtils.modelDownloadPage.openOMZTab();
+
+    // Check that there are several filters available for groups
+    for (const filterGroup of filterGroupNames) {
+      expect(await testUtils.modelDownloadPage.countFiltersByGroup(filterGroup)).toBeTruthy();
+    }
+
+    await testUtils.modelDownloadPage.selectFilter('semantic_segmentation');
+    await testUtils.modelDownloadPage.selectFilter('Caffe');
+    // There should be no model cards based on the above filters
+    expect(await testUtils.modelDownloadPage.countModelCards()).toEqual(0);
+    await testUtils.modelDownloadPage.removeFilter('Caffe');
+    expect(await testUtils.modelDownloadPage.countModelCards()).toBeTruthy();
+    await testUtils.modelDownloadPage.removeFilter('semantic_segmentation');
+
+    await testUtils.modelDownloadPage.selectFilter('Caffe');
+    await testUtils.modelDownloadPage.selectFilter('INT8');
+    expect(await testUtils.modelDownloadPage.countModelCards()).toEqual(0);
+
+    // Remove all filters, check that there are several model cards
+    await testUtils.modelDownloadPage.resetFilters();
+    expect(await testUtils.modelDownloadPage.countModelCards()).toBeTruthy();
   });
 
   afterEach(async () => {
