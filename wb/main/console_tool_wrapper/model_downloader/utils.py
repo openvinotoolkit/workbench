@@ -371,11 +371,11 @@ def parse_yolo_adapter(topology_adapter: dict) -> TaskMethodEnum:
     All listed models use the same adapter type, but differ in anchors and/or anchor masks.
     """
     yolo_anchors_to_yolo_type_map = {
-        YoloAnchors.yolo_v2: TaskMethodEnum.yolo_v2,
-        YoloAnchors.tiny_yolo_v2: TaskMethodEnum.tiny_yolo_v2,
-        YoloAnchors.yolo_v3: TaskMethodEnum.yolo_v3,
-        YoloAnchors.yolo_v4: TaskMethodEnum.yolo_v4,
-        YoloAnchors.tiny_yolo_v3_v4: TaskMethodEnum.tiny_yolo_v3_v4,
+        YoloAnchors.YOLO_V2: TaskMethodEnum.yolo_v2,
+        YoloAnchors.TINY_YOLO_V2: TaskMethodEnum.tiny_yolo_v2,
+        YoloAnchors.YOLO_V3: TaskMethodEnum.yolo_v3,
+        YoloAnchors.YOLO_V4: TaskMethodEnum.yolo_v4,
+        YoloAnchors.TINY_YOLO_V3_V4: TaskMethodEnum.tiny_yolo_v3_v4,
     }
     adapter_anchors = topology_adapter.get('anchors', None)
     if not adapter_anchors:
@@ -389,13 +389,13 @@ def parse_yolo_adapter(topology_adapter: dict) -> TaskMethodEnum:
 
 def alias_to_anchors(alias: str) -> str:
     if alias == 'yolo_v2':
-        return format_yolo_anchors(YoloAnchors.yolo_v2)
+        return format_yolo_anchors(YoloAnchors.YOLO_V2)
     if alias == 'tiny_yolo_v2':
-        return format_yolo_anchors(YoloAnchors.tiny_yolo_v2)
+        return format_yolo_anchors(YoloAnchors.TINY_YOLO_V2)
     if alias == 'yolo_v3':
-        return format_yolo_anchors(YoloAnchors.yolo_v3)
+        return format_yolo_anchors(YoloAnchors.YOLO_V3)
     if alias == 'tiny_yolo_v3':
-        return format_yolo_anchors(YoloAnchors.tiny_yolo_v3_v4)
+        return format_yolo_anchors(YoloAnchors.TINY_YOLO_V3_V4)
     return alias
 
 
