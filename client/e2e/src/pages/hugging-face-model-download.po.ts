@@ -56,8 +56,8 @@ export class HFModelDownloadPage {
     return this.elements.modelCard;
   }
 
-  async isElementAvailable(modelCardElement: ElementFinder): Promise<boolean> {
-    const classes = await modelCardElement.getAttribute('class');
+  async isElementAvailable(elementToCheck: ElementFinder): Promise<boolean> {
+    const classes = await elementToCheck.getAttribute('class');
 
     return !classes.includes('disabled');
   }
@@ -84,7 +84,7 @@ export class HFModelDownloadPage {
     const groupContainer: ElementFinder = await this.elements.getFilterGroup(groupName);
     const filterElements: ElementArrayFinder = TestUtils.getNestedElementsContainingDataTestIdPart(
       groupContainer,
-      '-filter'
+      '-option'
     );
     return filterElements.count();
   }
@@ -92,14 +92,13 @@ export class HFModelDownloadPage {
   // This is applicable to the Model Types, Languages, Licenses, i.e., 'bert', 'en',
   // and similar are valid options to pass
   async selectFilter(filterName: string): Promise<void> {
-    const filterElement: ElementFinder = TestUtils.getElementByDataTestId(`${filterName}-filter`);
+    const filterElement: ElementFinder = TestUtils.getElementByDataTestId(`${filterName}-option`);
     await new TestUtils().clickElement(filterElement);
     await browser.sleep(1000);
   }
 
   async removeFilter(filterName: string): Promise<void> {
-    const filterElement: ElementFinder = TestUtils.getElementByDataTestId(`${filterName}-filter`);
-    const removeFilterElement: ElementFinder = TestUtils.getNestedElementByDataTestId(filterElement, 'remove-filter');
+    const removeFilterElement: ElementFinder = TestUtils.getElementByDataTestId(`remove-option-${filterName}`);
     await new TestUtils().clickElement(removeFilterElement);
     await browser.sleep(1000);
   }

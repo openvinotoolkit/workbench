@@ -97,19 +97,14 @@ RUN apt update && \
     xvfb \
     gnupg2 \
     build-essential  \
+    # for sample application notebook
+    cmake \
     # for running packages from git commits \
     git && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p ${INTEL_OPENVINO_DIR}
-
-# Load and install OpenVINO package
-RUN curl ${PACKAGE_LINK} -o /tmp/package.tgz \
-    && mkdir -p /tmp/openvino/ \
-    && tar -xzf /tmp/package.tgz -C /tmp/openvino/ \
-    && rm -rf /tmp/package.tgz \
-    && DIRNAME=$(ls /tmp/openvino/) && mv -v /tmp/openvino/${DIRNAME}/* ${INTEL_OPENVINO_DIR}
 
 # For postgresql-10
 RUN curl -L https://www.postgresql.org/media/keys/ACCC4CF8.asc -s | apt-key add - && \
@@ -215,9 +210,6 @@ RUN python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_W
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_dev.txt && \
     python3 -m pip install --no-cache-dir --proxy=${https_proxy} -r ${OPENVINO_WORKBENCH_ROOT}/model_analyzer/requirements.txt
 
-
-RUN chown ${CI_USER}: ${INTEL_OPENVINO_DIR}/setupvars.sh
-
 # TODO: 94358 - Enable wheel downloader
 WORKDIR ${WHEELS_PATH}
 RUN curl -O $WHEELS_LINK
@@ -246,6 +238,8 @@ RUN . ${NVM_DIR}/nvm.sh && \
     DL_PROFILER_BACKEND_STATIC_PATH=${OPENVINO_WORKBENCH_ROOT}/static/ npm run pack
 
 WORKDIR ${OPENVINO_WORKBENCH_ROOT}
+
+RUN ${OPENVINO_WORKBENCH_ROOT}/docker/scripts/configure_ov_notebooks_env.sh --notebooks_venv ${NOTEBOOKS_VENV}
 
 # TODO: 94359 - Enable bundle downloader
 

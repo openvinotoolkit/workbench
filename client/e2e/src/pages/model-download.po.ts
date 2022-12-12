@@ -1,8 +1,13 @@
-import { browser, by, element, ElementFinder, protractor } from 'protractor';
+import { browser, by, element, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
 
 import { ModelPrecisionEnum } from '@store/model-store/model.model';
 
 import { TestUtils } from './test-utils';
+
+export const filterGroupNames = ['task-type', 'precision', 'framework'];
+type FilterGroupName = typeof filterGroupNames[number];
+const details = ['framework', 'task', 'domain', 'precision'];
+type Detail = typeof details[number];
 
 export class ModelDownloadPage {
   until = protractor.ExpectedConditions;
@@ -18,13 +23,9 @@ export class ModelDownloadPage {
     modelDescription: TestUtils.getElementByDataTestId('model-description'),
     modelLicense: TestUtils.getElementByDataTestId('model-license'),
     downloadButton: TestUtils.getElementByDataTestId('download-and-import'),
-    precisionContainer: element(by.id('dataType')),
+    precisionContainer: TestUtils.getElementByDataTestId('datatype-form-field'),
     convertButton: element(by.buttonText('Convert')),
-    // Assuming only one model card is present
-    async getModelNameFromCard(): Promise<string> {
-      const modelCardElement = await this.modelCard;
-      return TestUtils.getNestedElementByDataTestId(modelCardElement, 'model-name').getText();
-    },
+    resetFiltersButton: TestUtils.getElementByDataTestId('reset-filters'),
     // Assuming only one model card is present
     async getModelContentFromCard(): Promise<{ precisions: string; taskType: string; framework: string }> {
       const modelCardElement = await this.modelCard;
@@ -35,11 +36,11 @@ export class ModelDownloadPage {
         framework: await TestUtils.getNestedElementByDataTestId(modelContentElement, 'framework'),
       };
     },
-    detailsFrameworkParameter: TestUtils.getElementByDataTestId('framework-detail'),
-    detailsTaskParameter: TestUtils.getElementByDataTestId('task-detail'),
-    detailsDomainParameter: TestUtils.getElementByDataTestId('domain-detail'),
-    detailsPrecisionParameter: TestUtils.getElementByDataTestId('precision-detail'),
-    async getDetailsParameterValue(detailsParameterElement: ElementFinder): Promise<string> {
+    async getFilterGroup(groupName: FilterGroupName): Promise<ElementFinder> {
+      return TestUtils.getElementByDataTestId(`${groupName}-filter-group`);
+    },
+    async getDetailsParameterValue(detailName: Detail): Promise<string> {
+      const detailsParameterElement: ElementFinder = TestUtils.getElementByDataTestId(`${detailName}-detail`);
       const valueElement = TestUtils.getNestedElementByDataTestId(detailsParameterElement, 'value');
       return valueElement.getText();
     },
@@ -55,16 +56,55 @@ export class ModelDownloadPage {
     return this.elements.modelCards.count();
   }
 
-  async filterModelCards(modelName: string): Promise<ElementFinder> {
+  async filterModelCardsByName(modelName: string): Promise<ElementFinder> {
     await this.elements.searchField.sendKeys(modelName);
     await browser.sleep(1000);
-    // TODO: unskip once filters are introduced
-    // expect(await this.elements.modelCards.count()).toEqual(1);
     await browser.wait(async () => {
-      const modelCardModelName = await this.elements.getModelNameFromCard();
+      const modelCardModelName = await this.getModelNameFromCard();
       return modelCardModelName === modelName;
     }, browser.params.defaultTimeout);
     return this.elements.modelCard;
+  }
+
+  // Assuming only one model card is present
+  async getModelNameFromCard(): Promise<string> {
+    const modelCardElement = await this.elements.modelCard;
+    return TestUtils.getNestedElementByDataTestId(modelCardElement, 'model-name').getText();
+  }
+
+  async isElementAvailable(elementToCheck: ElementFinder): Promise<boolean> {
+    const classes = await elementToCheck.getAttribute('class');
+
+    return !classes.includes('disabled');
+  }
+
+  // This is applicable to the Task Types, Precisions, Frameworks, i.e., 'classification', 'INT8',
+  // and similar are valid options to pass
+  async selectFilter(filterName: string): Promise<void> {
+    const filterElement: ElementFinder = TestUtils.getElementByDataTestId(`${filterName}-option`);
+    await new TestUtils().clickElement(filterElement);
+    await browser.sleep(1000);
+  }
+
+  async removeFilter(filterName: string): Promise<void> {
+    const removeFilterElement: ElementFinder = TestUtils.getElementByDataTestId(`remove-option-${filterName}`);
+    await new TestUtils().clickElement(removeFilterElement);
+    await browser.sleep(1000);
+  }
+
+  async resetFilters(): Promise<void> {
+    await new TestUtils().clickElement(this.elements.resetFiltersButton);
+    await browser.wait(async () => !(await this.isElementAvailable(this.elements.resetFiltersButton)));
+    await browser.sleep(500);
+  }
+
+  async countFiltersByGroup(groupName: FilterGroupName): Promise<number> {
+    const groupContainer: ElementFinder = await this.elements.getFilterGroup(groupName);
+    const filterElements: ElementArrayFinder = TestUtils.getNestedElementsContainingDataTestIdPart(
+      groupContainer,
+      '-option'
+    );
+    return filterElements.count();
   }
 
   async checkModelDetails(): Promise<void> {
@@ -80,20 +120,16 @@ export class ModelDownloadPage {
     await new TestUtils().checkExternalLinkDialogWindow(this.elements.modelLicense);
 
     // Model features
-    const framework = await this.elements.getDetailsParameterValue(this.elements.detailsFrameworkParameter);
-    const task = await this.elements.getDetailsParameterValue(this.elements.detailsTaskParameter);
-    const domain = await this.elements.getDetailsParameterValue(this.elements.detailsDomainParameter);
-    const precision = await this.elements.getDetailsParameterValue(this.elements.detailsPrecisionParameter);
-    const modelFeatures = [framework, task, domain, precision];
-    for (const modelFeature of modelFeatures) {
-      expect(modelFeature.length).toBeTruthy();
+    for (const detail of details) {
+      const detailValue: string = await this.elements.getDetailsParameterValue(detail);
+      expect(detailValue.length).toBeTruthy();
     }
   }
 
   // This function is expected to run from the Model Manager
   async selectAndDownloadModel(modelName: string): Promise<void> {
     await this.openOMZTab();
-    const modelCard = await this.filterModelCards(modelName);
+    const modelCard = await this.filterModelCardsByName(modelName);
     await new TestUtils().clickElement(modelCard);
     // Check description, license and model features
     await this.checkModelDetails();

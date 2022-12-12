@@ -26,6 +26,8 @@ export class ModelZooFilterOptionComponent<T> {
 
   @Input() value: T = null;
 
+  @Input() testId: string;
+
   @HostBinding('class.selected') @Input() selected = false;
 
   @HostBinding('class.disabled') @Input() disabled = false;
