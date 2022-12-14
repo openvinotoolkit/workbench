@@ -37,21 +37,21 @@ def format_yolo_anchors(anchors: YoloAnchors) -> str:
 @register_task_method_adapter(TaskMethodEnum.yolo_v2)
 def get_yolo_v2_adapter() -> Adapter:
     return Adapter(type='yolo_v2', parameters={
-        'anchors': format_yolo_anchors(YoloAnchors.yolo_v2)
+        'anchors': format_yolo_anchors(YoloAnchors.YOLO_V2)
     })
 
 
 @register_task_method_adapter(TaskMethodEnum.tiny_yolo_v2)
 def get_tiny_yolo_v2_adapter() -> Adapter:
     return Adapter(type='yolo_v2', parameters={
-        'anchors': format_yolo_anchors(YoloAnchors.tiny_yolo_v2)
+        'anchors': format_yolo_anchors(YoloAnchors.TINY_YOLO_V2)
     })
 
 
 @register_task_method_adapter(TaskMethodEnum.yolo_v3)
 def get_yolo_v3_adapter() -> Adapter:
     return Adapter(type='yolo_v3', parameters={
-        'anchors': format_yolo_anchors(YoloAnchors.yolo_v3),
+        'anchors': format_yolo_anchors(YoloAnchors.YOLO_V3),
         'anchor_masks': YoloAnchorMasksEnum.yolo_v3.value,
     })
 
@@ -59,7 +59,7 @@ def get_yolo_v3_adapter() -> Adapter:
 @register_task_method_adapter(TaskMethodEnum.yolo_v4)
 def get_yolo_v4_adapter() -> Adapter:
     return Adapter(type='yolo_v3', parameters={
-        'anchors': format_yolo_anchors(YoloAnchors.yolo_v4),
+        'anchors': format_yolo_anchors(YoloAnchors.YOLO_V4),
         'anchor_masks': YoloAnchorMasksEnum.yolo_v4.value,
     })
 
@@ -67,7 +67,7 @@ def get_yolo_v4_adapter() -> Adapter:
 @register_task_method_adapter(TaskMethodEnum.tiny_yolo_v3_v4)
 def get_tiny_yolo_v3_v4_adapter() -> Adapter:
     return Adapter(type='yolo_v3', parameters={
-        'anchors': format_yolo_anchors(YoloAnchors.tiny_yolo_v3_v4),
+        'anchors': format_yolo_anchors(YoloAnchors.TINY_YOLO_V3_V4),
         'anchor_masks': YoloAnchorMasksEnum.tiny_yolo_v3_v4.value,
     })
 
