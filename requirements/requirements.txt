@@ -13,7 +13,7 @@ git+https://github.com/openvinotoolkit/datumaro.git@develop#egg=datumaro
 defusedxml==0.7.1
 distlib==0.3.2
 dnspython==1.16.0
-eventlet==0.30.2
+eventlet==0.33.0
 filelock==3.0.12
 Flask==2.0.1
 Flask-JWT-Extended==4.4.4
@@ -22,7 +22,7 @@ Flask-RESTful==0.3.9
 Flask-SocketIO==5.1.1
 Flask-SQLAlchemy==2.5.1
 greenlet==1.1.1
-gunicorn==20.1.0
+gunicorn @ git+https://github.com/benoitc/gunicorn.git@008d81d0227cbc324f4e0814011e5d3cc4ec47e7
 idna==3.3
 importlib-metadata==4.7.0
 importlib-resources==5.2.2
