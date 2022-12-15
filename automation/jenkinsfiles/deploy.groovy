@@ -1,4 +1,4 @@
-@Library(['workbench_lib@PR-39', 'mainlib@0.6.5']) _
+@Library(['workbench_lib', 'mainlib@0.6.5']) _
 import java.text.SimpleDateFormat
 
 
