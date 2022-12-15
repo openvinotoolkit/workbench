@@ -17,7 +17,7 @@ while (("$#")); do
     esac
 done
 
-PATH_TO_WORKBENCH=/opt/intel/openvino/tools/workbench
+[[ -z $container_name ]] && PATH_TO_WORKBENCH="/opt/intel/openvino/tools/workbench" || PATH_TO_WORKBENCH="/opt/intel/openvino_2022/tools/workbench"
 
 grep ".ipynb$" "${path_to_bom}" | while read -r filename; do
     echo "Executing ${filename}"
