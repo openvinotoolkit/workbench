@@ -6,7 +6,7 @@ attrs==21.4.0
 Babel==2.9.1
 backcall==0.2.0
 bleach==3.3.0
-certifi==2021.10.8
+certifi==2022.12.07
 cffi==1.15.0
 charset-normalizer==2.0.11
 decorator==5.1.1
@@ -37,7 +37,7 @@ nbclient==0.5.2
 nbconvert==6.5.1
 nbformat==5.7.0
 nest-asyncio==1.5.1
-notebook==6.4.10
+notebook==6.4.12
 packaging==21.3
 pandocfilters==1.4.3
 parso==0.7.1
