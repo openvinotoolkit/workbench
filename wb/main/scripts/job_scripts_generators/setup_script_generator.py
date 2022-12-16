@@ -15,19 +15,41 @@
  limitations under the License.
 """
 from config.constants import NO_SUDO_SETUP_MESSAGE
+from wb.main.enumerates import PipelineTypeEnum
 from wb.main.scripts.job_scripts_generators.script_generator import ScriptGenerator, ScriptGenerationContext
 
 
 class SetupScriptGenerationContext(ScriptGenerationContext):
     NO_SUDO_SETUP_MESSAGE: str
+    disable_telemetry: bool
 
 
 class SetupScriptGenerator(ScriptGenerator):
     _script_context = SetupScriptGenerationContext(
         **ScriptGenerator._script_context,
         NO_SUDO_SETUP_MESSAGE=NO_SUDO_SETUP_MESSAGE,
+        disable_telemetry=False
     )
 
     def __init__(self, template_name: str):
         self._template_file_name = f'{template_name}.jinja'
         super().__init__()
+
+
+class DevCloudSetupScriptGenerator(SetupScriptGenerator):
+    _script_context = SetupScriptGenerationContext(
+        **ScriptGenerator._script_context,
+        NO_SUDO_SETUP_MESSAGE=NO_SUDO_SETUP_MESSAGE,
+        disable_telemetry=True
+    )
+
+
+def get_setup_script_generator(pipeline_type: PipelineTypeEnum, template_name: str) -> SetupScriptGenerator:
+    dev_cloud_pipeline_types = (
+        PipelineTypeEnum.dev_cloud_profiling, PipelineTypeEnum.dev_cloud_int8_calibration,
+        PipelineTypeEnum.dev_cloud_accuracy, PipelineTypeEnum.dev_cloud_per_tensor_report,
+        PipelineTypeEnum.dev_cloud_predictions_relative_accuracy_report,
+    )
+    if pipeline_type in dev_cloud_pipeline_types:
+        return DevCloudSetupScriptGenerator(template_name)
+    return SetupScriptGenerator(template_name)

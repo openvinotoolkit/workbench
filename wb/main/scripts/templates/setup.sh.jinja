@@ -42,6 +42,10 @@ echo "Checking the OS of the target."
 
 source "${CURRENT_SCRIPT_PATH}/is_supported_os.sh"
 
+{% if disable_telemetry -%}
+    {% include 'disable_telemetry.sh' %}
+{% endif %}
+
 if [[ -z "${INSTALL_DIR}" ]]; then
 
   DESTINATION_BUNDLE_PATH="${HOME}/{{WORKBENCH_HIDDEN_FOLDER}}"
