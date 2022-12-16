@@ -22,7 +22,7 @@ Flask-RESTful==0.3.9
 Flask-SocketIO==5.1.1
 Flask-SQLAlchemy==2.5.1
 greenlet==1.1.1
-gunicorn @ git+https://github.com/benoitc/gunicorn.git@008d81d0227cbc324f4e0814011e5d3cc4ec47e7
+gunicorn@git+https://github.com/benoitc/gunicorn.git@008d81d0227cbc324f4e0814011e5d3cc4ec47e7
 idna==3.3
 importlib-metadata==4.7.0
 importlib-resources==5.2.2
