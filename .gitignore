@@ -37,6 +37,7 @@ client/dist-server
 client/tmp
 client/out-tsc
 client/.npmrc
+client/.angular
 
 # client unit tests reports
 client/reports

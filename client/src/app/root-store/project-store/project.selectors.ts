@@ -1,8 +1,6 @@
-import { flatten } from '@angular/compiler';
-
 import { createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store';
 import { Dictionary } from '@ngrx/entity';
-import { isEmpty } from 'lodash';
+import { isEmpty, flatten } from 'lodash';
 
 import { ICompoundInference } from '@store/inference-history-store/inference-history.model';
 
@@ -28,12 +26,11 @@ export const getSelectedProjectId = (state: ProjectState): number => state.selec
 
 export const selectProjectState = createFeatureSelector<AppState, ProjectState>('project');
 
-export const selectAllProjectItems: (state: AppState) => ProjectItem[] = projectAdapter.getSelectors(selectProjectState)
-  .selectAll;
+export const selectAllProjectItems: (state: AppState) => ProjectItem[] =
+  projectAdapter.getSelectors(selectProjectState).selectAll;
 
-export const selectProjectItemsMap: (state: AppState) => Dictionary<ProjectItem> = projectAdapter.getSelectors(
-  selectProjectState
-).selectEntities;
+export const selectProjectItemsMap: (state: AppState) => Dictionary<ProjectItem> =
+  projectAdapter.getSelectors(selectProjectState).selectEntities;
 
 export const selectProjectItemsIds = projectAdapter.getSelectors(selectProjectState).selectIds as (
   state: AppState
@@ -118,17 +115,13 @@ export const selectChildProjects: MemoizedSelector<object, ProjectItem[]> = crea
   }
 );
 
-export const getSelectedProjectByRouteParam: (
-  state: AppState
-) => ProjectItem | null = createSelector(
+export const getSelectedProjectByRouteParam: (state: AppState) => ProjectItem | null = createSelector(
   selectProjectItemsMap,
   selectParamProjectId,
   (itemsMap: Dictionary<ProjectItem>, projectId) => (!isEmpty(itemsMap) ? itemsMap[projectId] : null)
 );
 
-export const getSelectedProjectByRouteQueryParam: (
-  state: AppState
-) => ProjectItem | null = createSelector(
+export const getSelectedProjectByRouteQueryParam: (state: AppState) => ProjectItem | null = createSelector(
   selectProjectItemsMap,
   selectQueryProjectId,
   (itemsMap: Dictionary<ProjectItem>, id) => (!isEmpty(itemsMap) ? itemsMap[id] : null)
