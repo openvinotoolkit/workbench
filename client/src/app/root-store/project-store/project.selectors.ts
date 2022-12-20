@@ -24,7 +24,7 @@ export const getExportRunning = (state: ProjectState): boolean => state.isExport
 
 export const getSelectedProjectId = (state: ProjectState): number => state.selectedProject;
 
-export const selectProjectState = createFeatureSelector<AppState, ProjectState>('project');
+export const selectProjectState = createFeatureSelector<ProjectState>('project');
 
 export const selectAllProjectItems: (state: AppState) => ProjectItem[] =
   projectAdapter.getSelectors(selectProjectState).selectAll;

@@ -1,4 +1,4 @@
-import { FormGroup, Validators } from '@angular/forms';
+import { UntypedFormGroup, Validators } from '@angular/forms';
 
 import { isNumber } from 'lodash';
 
@@ -11,14 +11,14 @@ import { IAccuracyConfiguration, IVisualizationConfiguration } from '@shared/mod
 import { createControl, IFormFeatureHandler, Subscriptions } from './index';
 
 export class AdapterGroupHandler implements IFormFeatureHandler<IAdapter> {
-  readonly group = new FormGroup({});
+  readonly group = new UntypedFormGroup({});
 
   readonly handlers: {
     yoloV3V4?: YoloV3V4AdapterGroupHandler;
     maskrcnn?: MaskrcnnAdapterGroupHandler;
   } = {};
 
-  orderedFields: { field: AdvancedConfigField; group: FormGroup }[] = [];
+  orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] = [];
 
   private readonly _subs = new Subscriptions();
 
@@ -96,11 +96,11 @@ export class YoloV3V4AdapterGroupHandler implements IFormFeatureHandler<IYoloV3V
     },
   };
 
-  readonly group = new FormGroup({
+  readonly group = new UntypedFormGroup({
     [this._fields.classes.name]: createControl(this._fields.classes),
   });
 
-  orderedFields: { field: AdvancedConfigField; group: FormGroup }[] = [
+  orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] = [
     { field: this._fields.classes, group: this.group },
   ];
 
@@ -204,10 +204,10 @@ export class MaskrcnnAdapterGroupHandler implements IFormFeatureHandler<IMaskRCN
     },
   };
 
-  readonly group = new FormGroup({});
+  readonly group = new UntypedFormGroup({});
 
-  inputField: { field: AdvancedConfigField; group: FormGroup };
-  orderedFields: { field: AdvancedConfigField; group: FormGroup }[] = [];
+  inputField: { field: AdvancedConfigField; group: UntypedFormGroup };
+  orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] = [];
 
   static isApplicable(taskType: ModelTaskTypes): boolean {
     return taskType === ModelTaskTypes.INSTANCE_SEGMENTATION;
@@ -224,10 +224,10 @@ export class MaskrcnnAdapterGroupHandler implements IFormFeatureHandler<IMaskRCN
     this.group.addControl('image_info_input', createControl(this._fields.image_info_input));
     this.inputField = { field: { ...this._fields.image_info_input, options: inputs }, group: this.group };
 
-    let outputsForm: FormGroup;
+    let outputsForm: UntypedFormGroup;
 
     if (model.analysis.moParams.framework === ModelFrameworks.TF) {
-      outputsForm = new FormGroup({
+      outputsForm = new UntypedFormGroup({
         raw_masks_out: createControl(this._fields.raw_masks_out),
         detection_out: createControl(this._fields.detection_out),
       });
@@ -236,7 +236,7 @@ export class MaskrcnnAdapterGroupHandler implements IFormFeatureHandler<IMaskRCN
         { field: { ...this._fields.detection_out, options: outputs }, group: outputsForm },
       ];
     } else {
-      outputsForm = new FormGroup({
+      outputsForm = new UntypedFormGroup({
         raw_masks_out: createControl(this._fields.raw_masks_out),
         boxes_out: createControl(this._fields.boxes_out),
         classes_out: createControl(this._fields.classes_out),

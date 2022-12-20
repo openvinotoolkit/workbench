@@ -10,7 +10,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { distinctUntilKeyChanged, filter, takeUntil } from 'rxjs/operators';
@@ -74,7 +74,8 @@ export const PIPELINE_TYPE_TO_REPORT_TYPE_MAP = {
 })
 export class AnalyzeAccuracyRibbonContentComponent
   extends AccuracyReportTypeControlOptions
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   @Input() projectId: number = null;
 
   private _model: ModelItem = null;
@@ -112,7 +113,7 @@ export class AnalyzeAccuracyRibbonContentComponent
 
   readonly AccuracyReportType = AccuracyReportType;
 
-  readonly reportMetricControl = new FormControl(null, Validators.required);
+  readonly reportMetricControl = new UntypedFormControl(null, Validators.required);
 
   datasetImage: File = null;
 

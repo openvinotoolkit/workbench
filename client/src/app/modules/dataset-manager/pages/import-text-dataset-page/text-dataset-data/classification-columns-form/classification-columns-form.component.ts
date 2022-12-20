@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, DoCheck, Input, OnDestroy, OnInit, Optional, Self } from '@angular/core';
-import { ControlValueAccessor, FormControl, FormGroup, NgControl, Validators } from '@angular/forms';
+import { ControlValueAccessor, UntypedFormControl, UntypedFormGroup, NgControl, Validators } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -68,10 +68,10 @@ export class ClassificationColumnsFormComponent implements OnInit, OnDestroy, Do
 
   readonly formFields = cloneDeep(formFields);
 
-  readonly form = new FormGroup(
+  readonly form = new UntypedFormGroup(
     {
-      [formFields.label.name]: new FormControl(formFields.label.value, formFields.label?.validators),
-      [formFields.text.name]: new FormControl(formFields.text.value, formFields.text?.validators),
+      [formFields.label.name]: new UntypedFormControl(formFields.label.value, formFields.label?.validators),
+      [formFields.text.name]: new UntypedFormControl(formFields.text.value, formFields.text?.validators),
     },
     { validators: uniqueColumnsGroupValidator }
   );

@@ -11,7 +11,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { cloneDeep, isEmpty, isEqual, values } from 'lodash';
 import { Subject } from 'rxjs';
@@ -71,17 +71,21 @@ export class TargetMachineFormComponent implements OnChanges, OnDestroy, AfterVi
   public privateKeyFileComponent$ = new Subject<FileUploadFieldComponent>();
 
   // Form Groups
-  public targetMachineForm: FormGroup = this.fb.group({});
+  public targetMachineForm: UntypedFormGroup = this.fb.group({});
   public proxyUtilsFormGroup = this.fb.group({});
-  public httpProxyForm: FormGroup = this.fb.group({});
-  public httpsProxyForm: FormGroup = this.fb.group({});
+  public httpProxyForm: UntypedFormGroup = this.fb.group({});
+  public httpsProxyForm: UntypedFormGroup = this.fb.group({});
 
   public feedbackDescription = this.messagesService.hintMessages.feedback.remoteTargetTipFeedback;
 
   private readonly defaultPort = 22;
   private unsubscribe$ = new Subject<void>();
 
-  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef, private messagesService: MessagesService) {
+  constructor(
+    private fb: UntypedFormBuilder,
+    private cdr: ChangeDetectorRef,
+    private messagesService: MessagesService
+  ) {
     // Add not optional controls to main form
     FormUtils.addControlsToForm(this.requiredTargetMachineFields, this.targetMachineForm);
     // Set default port

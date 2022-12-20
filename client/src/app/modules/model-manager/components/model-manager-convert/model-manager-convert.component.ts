@@ -8,7 +8,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -66,7 +66,7 @@ export class ModelManagerConvertComponent implements OnInit, OnDestroy {
 
   public colorSpace: ModelColorChannels;
 
-  public group = new FormGroup({});
+  public group = new UntypedFormGroup({});
 
   public isInputsSpecified = false;
 

@@ -9,7 +9,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 import { Observable } from 'rxjs';
@@ -40,7 +40,7 @@ export class SelectAutocompleteComponent implements OnInit, OnChanges {
   options: string[] = [];
 
   @Input()
-  control: FormControl;
+  control: UntypedFormControl;
 
   @Input()
   testId: string;

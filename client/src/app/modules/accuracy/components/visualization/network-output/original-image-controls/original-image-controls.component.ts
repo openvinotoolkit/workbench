@@ -8,7 +8,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -70,7 +70,7 @@ export class OriginalImageControlsComponent implements OnInit, OnDestroy {
   @Output() test = new EventEmitter<{ visualizationType: VisualizationType }>();
   @Output() file = new EventEmitter<File>();
 
-  public visualizationOptionsForm: FormGroup;
+  public visualizationOptionsForm: UntypedFormGroup;
 
   readonly visualizationOptions = {
     [VisualizationType.DEFAULT]: {
@@ -105,7 +105,7 @@ export class OriginalImageControlsComponent implements OnInit, OnDestroy {
   constructor(
     public paintingCanvasManagerService: PaintingCanvasManagerService,
     private _messagesService: MessagesService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private _cdr: ChangeDetectorRef
   ) {
     this.visualizationOptionsForm = this.formBuilder.group({});

@@ -131,7 +131,6 @@
       }
     }
   },
-  "defaultProject": "client",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "wb",

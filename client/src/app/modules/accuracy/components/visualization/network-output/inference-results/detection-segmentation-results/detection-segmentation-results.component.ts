@@ -7,7 +7,7 @@ import {
   OnDestroy,
   Output,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -75,7 +75,7 @@ export class DetectionSegmentationResultsComponent implements OnDestroy {
 
   readonly THRESHOLD_OPTIONS = [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0];
 
-  readonly thresholdControl = new FormControl(0.8);
+  readonly thresholdControl = new UntypedFormControl(0.8);
 
   // 'thresholded' predictions passed to object detection predictions component
   filteredPredictions: IColoredInferencePrediction[] = [];

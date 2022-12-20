@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 import { cloneDeep, values } from 'lodash';
 
@@ -41,7 +41,7 @@ export class DatasetUploadComponent {
   isUploadingStarted = false;
 
   public uploadingFile: File;
-  public readonly uploadDatasetForm: FormGroup = this._formBuilder.group({});
+  public readonly uploadDatasetForm: UntypedFormGroup = this._formBuilder.group({});
   public readonly datasetFormControls = cloneDeep(datasetUploadFormFields);
   public readonly datasetUploadFileField = datasetUploadFileField;
 
@@ -49,7 +49,7 @@ export class DatasetUploadComponent {
   public readonly hints = this._messagesService.hintMessages.importDatasetTips;
   public readonly feedbackDescription = this._messagesService.hintMessages.feedback.validationDatasetTipFeedback;
 
-  constructor(private readonly _messagesService: MessagesService, private readonly _formBuilder: FormBuilder) {
+  constructor(private readonly _messagesService: MessagesService, private readonly _formBuilder: UntypedFormBuilder) {
     FormUtils.addControlsToForm(values(this.datasetFormControls), this.uploadDatasetForm);
   }
 

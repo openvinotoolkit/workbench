@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -15,7 +15,7 @@ type StatusBlockType = 'VALID' | 'PENDING' | 'INVALID';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatusBlockComponent implements OnInit, OnDestroy {
-  @Input() acConfigControl: FormControl;
+  @Input() acConfigControl: UntypedFormControl;
 
   get status(): StatusBlockType {
     return this.acConfigControl.status as StatusBlockType;

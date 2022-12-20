@@ -1,4 +1,4 @@
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 
 import { isNumber } from 'lodash';
 
@@ -9,7 +9,7 @@ import { FormUtils } from '@shared/utils/form-utils';
  * Set 'unique' error for controls with duplicated values in provided FormGroup
  * @param control
  */
-export const uniqueColumnsGroupValidator = (control: FormGroup): ValidatorError | null => {
+export const uniqueColumnsGroupValidator = (control: UntypedFormGroup): ValidatorError | null => {
   Object.values(control.controls).forEach((c) => FormUtils.removeErrors(['unique'], c));
 
   // group controls by number value

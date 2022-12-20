@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { filter, map } from 'rxjs/operators';
@@ -23,7 +23,7 @@ import { AdvancedConfigField } from '@shared/components/config-form-field/config
 })
 export class LoginComponent {
   public loginHint: string;
-  public loginForm: FormGroup;
+  public loginForm: UntypedFormGroup;
   public authErrorMessage$: Observable<string | null>;
 
   readonly tokenControlName = 'tokenControl';
@@ -36,7 +36,7 @@ export class LoginComponent {
 
   constructor(
     private messagesService: MessagesService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private store$: Store<RootStoreState.State>
   ) {
     this.loginHint = this.messagesService.getHint('login', 'loginTip');

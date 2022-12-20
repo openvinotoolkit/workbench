@@ -13,7 +13,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { DecimalPipe } from '@angular/common';
 
 import { Chart, ChartData, ChartOptions, ChartPoint, ChartTooltipItem, PointStyle } from 'chart.js';
@@ -182,7 +182,7 @@ export class BenchmarkChartComponent implements OnInit, OnChanges, OnDestroy {
 
   public linesPoints: { x: number; y: number; batch: number; stream: number; type: CHART_POINT_TYPE }[] = [];
 
-  public maxLatencyForm: FormGroup;
+  public maxLatencyForm: UntypedFormGroup;
   public maxLatencyField: AdvancedConfigField = {
     type: 'input',
     label: `In range 0-1000`,
@@ -206,8 +206,8 @@ export class BenchmarkChartComponent implements OnInit, OnChanges, OnDestroy {
 
     this.linesPoints = this.getLinesPoints();
 
-    this.maxLatencyForm = new FormGroup({
-      maxLatency: new FormControl(this.maxLatencyField.value, this.maxLatencyField.validators),
+    this.maxLatencyForm = new UntypedFormGroup({
+      maxLatency: new UntypedFormControl(this.maxLatencyField.value, this.maxLatencyField.validators),
     });
     this.maxLatencyControl.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe((value) => {
       this.setChartLatency(this.chart, this.inferenceResults, value);

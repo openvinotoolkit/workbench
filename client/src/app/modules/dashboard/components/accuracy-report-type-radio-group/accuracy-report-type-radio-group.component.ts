@@ -1,5 +1,5 @@
 import { Component, forwardRef, Input } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import { ControlValueAccessor, UntypedFormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 
 import { isNumber } from 'lodash';
 
@@ -40,7 +40,7 @@ export class AccuracyReportTypeControlOptions {
     },
   };
 
-  readonly accuracyReportTypeControl = new FormControl(null, Validators.required);
+  readonly accuracyReportTypeControl = new UntypedFormControl(null, Validators.required);
 
   private readonly _supportedTaskTypesForParentModelPredictionsReport = [
     ModelTaskTypes.OBJECT_DETECTION,

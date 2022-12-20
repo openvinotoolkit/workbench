@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -51,7 +51,7 @@ export class OpenSampleTutorialComponent implements OnDestroy {
 
   @Output() select = new EventEmitter<SampleTutorialType>();
 
-  readonly sampleTypeControl = new FormControl(null);
+  readonly sampleTypeControl = new UntypedFormControl(null);
   readonly SampleTutorialType = SampleTutorialType;
 
   readonly sampleTypeOptions = [

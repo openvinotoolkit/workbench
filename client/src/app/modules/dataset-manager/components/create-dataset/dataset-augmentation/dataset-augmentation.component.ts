@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Output, EventEmitter, Input } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 import { DatasetAugmentationDTO, IImageCorrection } from '@store/dataset-store/dataset.model';
 
@@ -24,11 +24,11 @@ export class DatasetAugmentationComponent {
     additionalImages: number;
   }> = new EventEmitter();
 
-  public datasetAugmentationForm: FormGroup;
+  public datasetAugmentationForm: UntypedFormGroup;
   public dataAugmentationFormFields = dataAugmentationFormFieldsMap;
   public selectedPresets: IImageCorrection[] = [];
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: UntypedFormBuilder) {
     const verticalFlipGroup = this.formBuilder.group({});
     const horizontalFlipGroup = this.formBuilder.group({});
     const eraseGroup = this.formBuilder.group({});
@@ -71,28 +71,28 @@ export class DatasetAugmentationComponent {
     });
   }
 
-  get flipGroup(): FormGroup {
-    return this.datasetAugmentationForm.get('flip') as FormGroup;
+  get flipGroup(): UntypedFormGroup {
+    return this.datasetAugmentationForm.get('flip') as UntypedFormGroup;
   }
 
-  get verticalFlipGroup(): FormGroup {
-    return this.datasetAugmentationForm.get('verticalFlip') as FormGroup;
+  get verticalFlipGroup(): UntypedFormGroup {
+    return this.datasetAugmentationForm.get('verticalFlip') as UntypedFormGroup;
   }
 
-  get horizontalFlipGroup(): FormGroup {
-    return this.datasetAugmentationForm.get('horizontalFlip') as FormGroup;
+  get horizontalFlipGroup(): UntypedFormGroup {
+    return this.datasetAugmentationForm.get('horizontalFlip') as UntypedFormGroup;
   }
 
-  get eraseGroup(): FormGroup {
-    return this.datasetAugmentationForm.get('erase') as FormGroup;
+  get eraseGroup(): UntypedFormGroup {
+    return this.datasetAugmentationForm.get('erase') as UntypedFormGroup;
   }
 
-  get noiseGroup(): FormGroup {
-    return this.datasetAugmentationForm.get('noise') as FormGroup;
+  get noiseGroup(): UntypedFormGroup {
+    return this.datasetAugmentationForm.get('noise') as UntypedFormGroup;
   }
 
-  get colorSpaceGroup(): FormGroup {
-    return this.datasetAugmentationForm.get('colorSpace') as FormGroup;
+  get colorSpaceGroup(): UntypedFormGroup {
+    return this.datasetAugmentationForm.get('colorSpace') as UntypedFormGroup;
   }
 
   get randomEraseImages(): number {
@@ -148,7 +148,7 @@ export class DatasetAugmentationComponent {
     return additionalImages;
   }
 
-  setCheckboxState(checked: boolean, group: FormGroup, field: AdvancedConfigField): void {
+  setCheckboxState(checked: boolean, group: UntypedFormGroup, field: AdvancedConfigField): void {
     const control = group.get(field.name);
 
     control.setValue(checked);

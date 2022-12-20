@@ -1,5 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, Optional, Self } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NgControl, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  UntypedFormControl,
+  UntypedFormGroup,
+  NgControl,
+  Validators,
+} from '@angular/forms';
 
 import { takeUntil } from 'rxjs/operators';
 import { merge, Subject } from 'rxjs';
@@ -58,7 +65,7 @@ const endValueValidator = (control: AbstractControl): ValidatorError | null => {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MetricThresholdComponent implements OnInit, ControlValueAccessor, OnDestroy {
-  form: FormGroup = null;
+  form: UntypedFormGroup = null;
 
   constructor(@Self() @Optional() private controlDirective: NgControl, public tooltipService: MessagesService) {
     if (!this.controlDirective) {
@@ -126,10 +133,20 @@ export class MetricThresholdComponent implements OnInit, ControlValueAccessor, O
   }
 
   createForm() {
-    this.form = new FormGroup({
-      start: new FormControl(null, [Validators.required, Validators.min(0), Validators.max(1), startValueValidator]),
-      step: new FormControl(null, [Validators.required, Validators.min(0), Validators.max(1), stepValueValidator]),
-      end: new FormControl(null, [Validators.required, Validators.min(0), Validators.max(1), endValueValidator]),
+    this.form = new UntypedFormGroup({
+      start: new UntypedFormControl(null, [
+        Validators.required,
+        Validators.min(0),
+        Validators.max(1),
+        startValueValidator,
+      ]),
+      step: new UntypedFormControl(null, [
+        Validators.required,
+        Validators.min(0),
+        Validators.max(1),
+        stepValueValidator,
+      ]),
+      end: new UntypedFormControl(null, [Validators.required, Validators.min(0), Validators.max(1), endValueValidator]),
     });
 
     this.form.markAllAsTouched();

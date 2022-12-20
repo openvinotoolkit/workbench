@@ -1,4 +1,4 @@
-import { FormGroup, Validators } from '@angular/forms';
+import { UntypedFormGroup, Validators } from '@angular/forms';
 
 import { ModelItem, ModelTaskTypes } from '@store/model-store/model.model';
 
@@ -44,9 +44,9 @@ const getTypeField = (value: MetricType, options: MetricType[]): AdvancedConfigF
 });
 
 export class MetricGroupHandler implements IFormFeatureHandler<IMetric[]> {
-  readonly group = new FormGroup({});
+  readonly group = new UntypedFormGroup({});
 
-  orderedFields: { field: AdvancedConfigField; group: FormGroup }[] = [];
+  orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] = [];
 
   private readonly _subs = new Subscriptions();
 
@@ -182,12 +182,12 @@ export class AccuracyMetricHandler implements IFormFeatureHandler<IAccuracyMetri
     },
   };
 
-  readonly group = new FormGroup({
+  readonly group = new UntypedFormGroup({
     type: createControl(this._fields.type),
     top_k: createControl(this._fields.top_k),
   });
 
-  readonly orderedFields: { field: AdvancedConfigField; group: FormGroup }[] = [
+  readonly orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] = [
     { field: this._fields.type, group: this.group },
     { field: this._fields.top_k, group: this.group },
   ];
@@ -252,11 +252,11 @@ export class ObjectDetectionMetricHandler implements IFormFeatureHandler<IMapMet
     },
   };
 
-  readonly group = new FormGroup({
+  readonly group = new UntypedFormGroup({
     type: createControl(this._fields.type),
   });
 
-  orderedFields: { field: AdvancedConfigField; group: FormGroup }[] = [];
+  orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] = [];
 
   private readonly _subs = new Subscriptions();
 
@@ -324,12 +324,12 @@ export class CocoOrigPrecisionMetricHandler implements IFormFeatureHandler<ICoco
     },
   };
 
-  readonly group = new FormGroup({
+  readonly group = new UntypedFormGroup({
     type: createControl(this._fields.type),
     threshold: createControl(this._fields.threshold),
   });
 
-  readonly orderedFields: { field: AdvancedConfigField; group: FormGroup }[] = [
+  readonly orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] = [
     { field: this._fields.type, group: this.group },
     { field: this._fields.threshold, group: this.group },
   ];
@@ -370,12 +370,12 @@ export class MeanIOUMetricHandler implements IFormFeatureHandler<IMeanIOUMetric>
     },
   };
 
-  readonly group = new FormGroup({
+  readonly group = new UntypedFormGroup({
     type: createControl(this._fields.type),
     use_argmax: createControl(this._fields.use_argmax),
   });
 
-  readonly orderedFields: { field: AdvancedConfigField; group: FormGroup }[] = [
+  readonly orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] = [
     { field: this._fields.type, group: this.group },
     { field: this._fields.use_argmax, group: this.group },
   ];
@@ -397,9 +397,9 @@ export class GANMetricHandler implements IFormFeatureHandler<IPSNRMetric | ISSIM
     type: getTypeField(MetricType.SSIM, [MetricType.SSIM, MetricType.PSNR]),
   };
 
-  readonly group = new FormGroup({ type: createControl(this._fields.type) });
+  readonly group = new UntypedFormGroup({ type: createControl(this._fields.type) });
 
-  readonly orderedFields: { field: AdvancedConfigField; group: FormGroup }[] = [
+  readonly orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] = [
     { field: this._fields.type, group: this.group },
   ];
 
@@ -419,9 +419,9 @@ export class NormedErrorMetricHandler implements IFormFeatureHandler<INormedErro
     type: getTypeField(MetricType.NORMED_ERROR, [MetricType.NORMED_ERROR]),
   };
 
-  readonly group = new FormGroup({ type: createControl(this._fields.type) });
+  readonly group = new UntypedFormGroup({ type: createControl(this._fields.type) });
 
-  readonly orderedFields: { field: AdvancedConfigField; group: FormGroup }[] = [
+  readonly orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] = [
     { field: this._fields.type, group: this.group },
   ];
 
@@ -452,12 +452,12 @@ export class PairwiseAccuracySubsetsErrorMetricHandler implements IFormFeatureHa
     },
   };
 
-  readonly group = new FormGroup({
+  readonly group = new UntypedFormGroup({
     type: createControl(this._fields.type),
     subset_number: createControl(this._fields.subset_number),
   });
 
-  readonly orderedFields: { field: AdvancedConfigField; group: FormGroup }[] = [
+  readonly orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] = [
     { field: this._fields.type, group: this.group },
     { field: this._fields.subset_number, group: this.group },
   ];
