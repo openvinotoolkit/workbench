@@ -5,7 +5,7 @@ import { browser, by, element, ElementArrayFinder, ElementFinder, protractor } f
 import {
   VisualizationOptionsNamesMap,
   VisualizationType,
-  // tslint:disable-next-line:max-line-length
+  // eslint-disable-next-line max-len
 } from '../../../src/app/modules/accuracy/components/visualization/network-output/original-image-controls/original-image-controls.component';
 
 import { TestUtils } from './test-utils';
@@ -356,9 +356,9 @@ export class VisualizeInferenceResultPage {
     }
 
     if (!shouldCancel) {
-      const optimizedModelPredictions: Function = this.until.visibilityOf(this.optimizedModelPredictionsContainer);
-      const parentModelPredictions: Function = this.until.visibilityOf(this.parentModelPredictionsContainer);
-      const predictionsTable: Function = this.until.visibilityOf(this.predictionsTable);
+      const optimizedModelPredictions = this.until.visibilityOf(this.optimizedModelPredictionsContainer);
+      const parentModelPredictions = this.until.visibilityOf(this.parentModelPredictionsContainer);
+      const predictionsTable = this.until.visibilityOf(this.predictionsTable);
 
       await browser.wait(
         this.until.or(optimizedModelPredictions, parentModelPredictions, predictionsTable),

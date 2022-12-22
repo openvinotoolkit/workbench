@@ -93,7 +93,7 @@ export class NetronGraph {
     const valueElement = await parameter.element(by.className('value'));
     await browser.wait(this.until.presenceOf(valueElement), browser.params.defaultTimeout);
     const value = await valueElement.getText();
-    return { name: name, value: value };
+    return { name, value };
   }
 
   async selectValueFromDropdown(el: ElementFinder, value: string, option = 'mat-option-text'): Promise<void> {

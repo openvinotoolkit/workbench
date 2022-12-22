@@ -81,7 +81,7 @@ describe('E2E tests Explainable AI: ', () => {
     console.log('Progress is present');
 
     await browser.sleep(1000);
-    const reg = new RegExp(`[0-9]+`);
+    const reg = new RegExp('[0-9]+');
     expect(reg.test(await visualizeInferenceResultPage.visualizationProgress.getText())).toBeTruthy(
       'Progress not displayed'
     );

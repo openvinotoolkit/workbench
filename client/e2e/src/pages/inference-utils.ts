@@ -6,7 +6,7 @@ import { IInferenceConfiguration } from '@shared/models/compound-inference-confi
 
 import { ModelManagerPage } from './model-manager.po';
 import { ModelDownloadPage } from './model-download.po';
-import {ConfigurationWizardPage, InferenceType} from './configuration-wizard.po';
+import { ConfigurationWizardPage, InferenceType } from './configuration-wizard.po';
 import { InferenceCardPage } from './inference-card.po';
 import { CalibrationPage } from './calibration-configurator.po';
 import { TestUtils } from './test-utils';
@@ -30,7 +30,7 @@ export class InferenceUtils {
 
   constructor(originTestUtils?) {
     this.until = protractor.ExpectedConditions;
-    originTestUtils ? (this.testUtils = originTestUtils) : (this.testUtils = new TestUtils());
+    this.testUtils = originTestUtils || new TestUtils();
     this.helpers = new Helpers();
     this.configurationWizard = new ConfigurationWizardPage();
     this.inferenceCard = new InferenceCardPage();
@@ -234,7 +234,7 @@ export class InferenceUtils {
 
           const isElementAvailable: boolean = await cancel.isPresent();
           if (!isElementAvailable) {
-            console.log(`cancel button no longer exists`);
+            console.log('cancel button no longer exists');
             throw new Error();
           }
 
@@ -245,7 +245,7 @@ export class InferenceUtils {
           return true;
         } catch (e) {
           console.log(e);
-          console.log(`received error for cancelling inference. try one more time.`);
+          console.log('received error for cancelling inference. try one more time.');
         }
       } while (true);
     });

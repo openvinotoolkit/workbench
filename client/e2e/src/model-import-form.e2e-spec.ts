@@ -18,6 +18,7 @@ describe('UI tests for model import form', () => {
   ): Promise<void> => {
     await TestUtils.checkMatFormFieldState(field, 'valid', 'freeze-row');
     const input = field.element(by.tagName('input'));
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i = 0; i < testValues.length; i++) {
       const { value, expectedState } = testValues[i];
       await TestUtils.clearInput(input);

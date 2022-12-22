@@ -76,7 +76,8 @@ export class InferenceCardPage {
   }
 
   async progressBarStatus(parentRow) {
-    let row, progressBar;
+    let row;
+    let progressBar;
     if (parentRow) {
       row = await parentRow();
       progressBar = TestUtils.getNestedElementByDataTestId(row, 'status-bar-progress');
@@ -410,7 +411,7 @@ export class InferenceCardPage {
           await browser.wait(this.until.presenceOf(progressBar), browser.params.defaultTimeout);
           const percentElement = await TestUtils.getNestedElementByDataTestId(progressBar, 'current-percent');
           statusPercent = await percentElement.getText();
-          const reg = new RegExp(`[0-9]+`);
+          const reg = new RegExp('[0-9]+');
           const currentPercent = reg.exec(statusPercent)[0];
           console.log(`${processType} is running.`);
           console.log(`Current ${processType} percent:`, currentPercent);
@@ -431,6 +432,7 @@ export class InferenceCardPage {
     return new Promise(async (resolve, reject) => {
       const unExpectedRows = [];
       const names = await this.getLayerTableRows(table).all(by.className('cdk-column-layerName')).getText();
+      // eslint-disable-next-line @typescript-eslint/prefer-for-of
       for (let i = 0; i < expectedLayers.length; i++) {
         if (!names.includes(expectedLayers[i].name)) {
           unExpectedRows.push(expectedLayers[i].name);
@@ -443,6 +445,7 @@ export class InferenceCardPage {
   async equalPrecisionLayerAndTable(table, layers): Promise<string[]> {
     const errorArray = [];
     const rowsObj = await this.getInferenceTablePrecision(table);
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i = 0; i < layers.length; i++) {
       const name = layers[i].name;
       if (name === 'data' || rowsObj[name] === 'N/A') {
@@ -459,6 +462,7 @@ export class InferenceCardPage {
     return new Promise(async (resolve, reject) => {
       const rows = await this.getLayerTableRows(table);
       const rowsObj = {};
+      // eslint-disable-next-line @typescript-eslint/prefer-for-of
       for (let i = 0; i < rows.length; i++) {
         const row = await rows[i];
         const name = await this.layerTableRowName(row);
@@ -477,6 +481,7 @@ export class InferenceCardPage {
       console.log('Start check value');
       const rowsWithError: string[] = [];
       const openRows = await this.getOpenRows(table);
+      // eslint-disable-next-line @typescript-eslint/prefer-for-of
       for (let i = 0; i < openRows.length; i++) {
         const row = openRows[i];
         const { rowName, rowType } = await this.openRowName(row);
@@ -561,6 +566,7 @@ export class InferenceCardPage {
         return;
       }
       if (layer.irLayer && layer.irLayer[0]) {
+        // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let i = 0; i < layer.irLayer.length; i++) {
           let ir;
           if (layer.irLayer[i].data) {
@@ -620,7 +626,7 @@ export class InferenceCardPage {
     await cellName.click();
   }
 
-  async checkLayerDistribution(referenceDistribution: Object) {
+  async checkLayerDistribution(referenceDistribution: object) {
     await this.analyzeTab.click();
     await browser.sleep(500);
     await this.performanceSubTab.click();

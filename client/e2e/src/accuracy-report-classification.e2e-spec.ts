@@ -38,7 +38,7 @@ describe('UI tests on Accuracy Reports with classification model: ', () => {
     await testUtils.openInt8Project(resourceModel, datasetFileImageNet);
   });
 
-  it(`Create accuracy report (basic accuracy config, annotated dataset) on model from resource`, async () => {
+  it('Create accuracy report (basic accuracy config, annotated dataset) on model from resource', async () => {
     await testUtils.accuracyReport.createAccuracyReport(
       AccuracyReportType.DATASET_ANNOTATIONS,
       resourceModel,
@@ -49,7 +49,7 @@ describe('UI tests on Accuracy Reports with classification model: ', () => {
     await browser.wait(testUtils.until.presenceOf(accuracyTable));
   });
 
-  it(`Create Parent Model Predictions report (basic accuracy config, annotated dataset) on model from resource`, async () => {
+  it('Create Parent Model Predictions report (basic accuracy config, annotated dataset) on model from resource', async () => {
     await testUtils.accuracyReport.createAccuracyReport(
       AccuracyReportType.PARENT_MODEL_PREDICTIONS,
       resourceModel,
@@ -60,7 +60,7 @@ describe('UI tests on Accuracy Reports with classification model: ', () => {
     await browser.wait(testUtils.until.presenceOf(accuracyTable));
   });
 
-  it(`Create Tensor Distance report (basic accuracy config, annotated dataset) on model from resource`, async () => {
+  it('Create Tensor Distance report (basic accuracy config, annotated dataset) on model from resource', async () => {
     await testUtils.accuracyReport.createAccuracyReport(
       AccuracyReportType.PARENT_MODEL_PER_TENSOR,
       resourceModel,
