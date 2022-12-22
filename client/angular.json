@@ -14,11 +14,13 @@
           "options": {
             "allowedCommonJsDependencies": [
               "@core/services/common/backend-feed.service",
+              "@shared/constants",
               "chart.js",
               "dagre",
               "file-saver",
               "jwt-decode",
               "lodash",
+              "papaparse",
               "rxjs/internal/operators/first",
               "rxjs/internal/operators/withLatestFrom",
               "socket.io-client",
