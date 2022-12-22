@@ -7,6 +7,7 @@ import { FormUtils } from '@shared/utils/form-utils';
 
 /**
  * Set 'unique' error for controls with duplicated values in provided FormGroup
+ *
  * @param control
  */
 export const uniqueColumnsGroupValidator = (control: UntypedFormGroup): ValidatorError | null => {

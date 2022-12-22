@@ -24,6 +24,7 @@ import { CREATE_PROJECT_STAGES } from '../../modules/dashboard/constants';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationComponent implements OnDestroy {
+  // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() close: EventEmitter<void> = new EventEmitter();
 
   @Input() set message(value: NotificationMessage) {

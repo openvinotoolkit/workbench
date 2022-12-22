@@ -66,7 +66,11 @@ export class ModelZooFilterComponent<T> implements AfterContentInit, OnDestroy {
     merge(...this.options.map((filterOptionComponent) => filterOptionComponent.selectionChange))
       .pipe(takeUntil(changedOrDestroyed$))
       .subscribe(({ selected, value }) => {
-        selected ? this.selectedOptions.add(value) : this.selectedOptions.delete(value);
+        if (selected) {
+          this.selectedOptions.add(value);
+        } else {
+          this.selectedOptions.delete(value);
+        }
         this._cdr.detectChanges();
         this.optionsChange.next(Array.from(this.selectedOptions.values()));
       });

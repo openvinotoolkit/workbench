@@ -84,6 +84,7 @@ export class FileUploadFieldComponent implements OnInit {
     }
 
     const files: File[] = [];
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i = 0; i < inputFiles.length; i++) {
       files.push(inputFiles[i]);
     }

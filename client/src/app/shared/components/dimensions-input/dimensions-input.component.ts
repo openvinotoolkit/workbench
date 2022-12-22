@@ -39,11 +39,10 @@ export class DimensionsInputComponent implements OnInit, OnDestroy {
     this._inputPrefixes = value;
     this.setDimensionFields();
   }
-  private _inputPrefixes: string[] = [];
-
   get inputPrefixes(): string[] {
     return this._inputPrefixes;
   }
+  private _inputPrefixes: string[] = [];
 
   @Input()
   public minDimensionValue = 0;

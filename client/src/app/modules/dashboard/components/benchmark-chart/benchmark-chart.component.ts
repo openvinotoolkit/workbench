@@ -185,7 +185,7 @@ export class BenchmarkChartComponent implements OnInit, OnChanges, OnDestroy {
   public maxLatencyForm: UntypedFormGroup;
   public maxLatencyField: AdvancedConfigField = {
     type: 'input',
-    label: `In range 0-1000`,
+    label: 'In range 0-1000',
     name: 'maxLatency',
     value: 0,
     maxNumber: 1000,
@@ -410,12 +410,12 @@ export class BenchmarkChartComponent implements OnInit, OnChanges, OnDestroy {
       return;
     }
 
-    set(this.chart, `data.datasets[0].data`, execInfoToChartPoints(points));
+    set(this.chart, 'data.datasets[0].data', execInfoToChartPoints(points));
 
     const bounds = this.getSuggestedBounds(this.normalizationResults || points);
-    set(this.chart, `options.scales.xAxes[0].ticks.suggestedMax`, bounds.x.max);
-    set(this.chart, `options.scales.yAxes[0].ticks.suggestedMax`, bounds.y.max);
-    set(this.chart, `options.scales.yAxes[0].ticks.suggestedMin`, bounds.y.min);
+    set(this.chart, 'options.scales.xAxes[0].ticks.suggestedMax', bounds.x.max);
+    set(this.chart, 'options.scales.yAxes[0].ticks.suggestedMax', bounds.y.max);
+    set(this.chart, 'options.scales.yAxes[0].ticks.suggestedMin', bounds.y.min);
   }
 
   private getSuggestedBounds(points: IInferenceExecutionInfo[] = []) {

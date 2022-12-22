@@ -126,9 +126,9 @@ export class ConfigFormFieldComponent implements OnInit, OnDestroy {
       const error = control.errors.step;
       return `Number of steps (${error.step}) should be lower than max - min `;
     } else if (control.hasError('range')) {
-      return `Minimum value should not be greater than maximum `;
+      return 'Minimum value should not be greater than maximum ';
     } else if (control.hasError('pattern')) {
-      return `Value should be integer`;
+      return 'Value should be integer';
     } else if (control.hasError('nameUnsafeCharacters')) {
       return control.getError('nameUnsafeCharacters').message;
     } else if (control.hasError('unique')) {

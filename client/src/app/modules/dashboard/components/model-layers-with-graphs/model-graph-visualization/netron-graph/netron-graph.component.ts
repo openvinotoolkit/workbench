@@ -132,9 +132,11 @@ export class NetronGraphComponent implements OnChanges, OnInit {
     const targetElement = event.target as HTMLElement;
     const node = targetElement.closest(`.${this.netronNodeElementClassName}, .${this.netronInputNodeElementClassName}`);
     if (node) {
-      targetElement.classList.contains(this.netronLayerDetailsClassName)
-        ? this.openLayerDetailsPanel.emit(node.id)
-        : this.changeSelectedNode.emit(node.id);
+      if (targetElement.classList.contains(this.netronLayerDetailsClassName)) {
+        this.openLayerDetailsPanel.emit(node.id);
+      } else {
+        this.changeSelectedNode.emit(node.id);
+      }
     }
   }
 }

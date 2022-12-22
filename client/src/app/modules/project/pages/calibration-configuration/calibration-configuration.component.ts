@@ -158,9 +158,11 @@ export class CalibrationConfigurationComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._unsubscribe$))
       .subscribe((route: Route) => {
         const { modelId } = route.queryParams;
-        modelId
-          ? this._store$.dispatch(ProjectStoreActions.loadProjectsForModel({ modelId }))
-          : this._store$.dispatch(ProjectStoreActions.loadActiveProjects());
+        if (modelId) {
+          this._store$.dispatch(ProjectStoreActions.loadProjectsForModel({ modelId }));
+        } else {
+          this._store$.dispatch(ProjectStoreActions.loadActiveProjects());
+        }
       });
 
     combineLatest([

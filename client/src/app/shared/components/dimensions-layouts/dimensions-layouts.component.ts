@@ -210,7 +210,11 @@ export class DimensionsLayoutsComponent implements OnInit, OnDestroy {
     if (!options.find(({ value }) => value === currentType)) {
       this.layoutTypeControl.setValue(LayoutTypes.CUSTOM, { emitEvent: false });
     }
-    options.length === 1 ? this.layoutTypeControl.disable() : this.layoutTypeControl.enable();
+    if (options.length === 1) {
+      this.layoutTypeControl.disable();
+    } else {
+      this.layoutTypeControl.enable();
+    }
   }
 
   getLayoutTypeOptions(dimensionCount): SelectOption[] {

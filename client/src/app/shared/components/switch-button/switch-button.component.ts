@@ -20,12 +20,6 @@ export class SwitchButtonComponent {
     return this.leftOptionCheckedValue;
   }
 
-  @Input()
-  tooltipMessage: string;
-
-  @Output()
-  leftOptionCheckedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-
   set leftOptionChecked(value) {
     if (this.leftOptionCheckedValue === value) {
       return;
@@ -33,4 +27,10 @@ export class SwitchButtonComponent {
     this.leftOptionCheckedValue = value;
     this.leftOptionCheckedChange.emit(this.leftOptionCheckedValue);
   }
+
+  @Input()
+  tooltipMessage: string;
+
+  @Output()
+  leftOptionCheckedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 }

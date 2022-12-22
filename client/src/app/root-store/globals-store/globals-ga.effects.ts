@@ -62,9 +62,11 @@ export class GlobalsGAEffects {
       withLatestFrom(this.store$.select(GlobalsStoreSelectors.selectUserMetaInfo)),
       switchMap(([action, userMetadata]) => {
         const { agreedCookies } = action;
-        agreedCookies
-          ? this.gAnalyticsService.emitAnalyticsApplyEvent()
-          : this.gAnalyticsService.emitAnalyticsRefuseEvent();
+        if (agreedCookies) {
+          this.gAnalyticsService.emitAnalyticsApplyEvent();
+        } else {
+          this.gAnalyticsService.emitAnalyticsRefuseEvent();
+        }
         return this.commonRestService
           .setUserMeta$({ agreedCookies, viewedWarning: userMetadata.viewedWarning })
           .pipe(map((userMeta) => GlobalsStoreActions.setUserMetaAction({ userMeta })));

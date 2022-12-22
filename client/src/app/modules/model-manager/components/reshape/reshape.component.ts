@@ -31,13 +31,12 @@ export class ReshapeComponent implements OnDestroy {
       this.populate();
     }
   }
-
-  @Input()
-  isNLPModel: boolean;
-
   get importingModel(): Partial<ModelItem> {
     return this._importingModel;
   }
+
+  @Input()
+  isNLPModel: boolean;
 
   @Output()
   public readonly cancel: EventEmitter<void> = new EventEmitter<void>();

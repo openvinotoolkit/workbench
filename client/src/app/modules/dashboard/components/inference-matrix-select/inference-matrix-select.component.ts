@@ -74,7 +74,7 @@ export class InferenceMatrixSelectComponent implements ControlValueAccessor {
     this.emit();
   }
 
-  registerOnChange(fn: (_: IInferenceConfiguration[]) => {}): void {
+  registerOnChange(fn: (_: IInferenceConfiguration[]) => void): void {
     if (!fn) {
       return;
     }
@@ -82,7 +82,7 @@ export class InferenceMatrixSelectComponent implements ControlValueAccessor {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: () => {}): void {
+  registerOnTouched(fn: () => void): void {
     if (!fn) {
       return;
     }

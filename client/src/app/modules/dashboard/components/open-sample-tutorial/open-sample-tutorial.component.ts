@@ -49,6 +49,7 @@ export class OpenSampleTutorialComponent implements OnDestroy {
 
   @Input() bestConfiguration: IInferenceResult = null;
 
+  // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() select = new EventEmitter<SampleTutorialType>();
 
   readonly sampleTypeControl = new UntypedFormControl(null);
@@ -106,7 +107,7 @@ export class OpenSampleTutorialComponent implements OnDestroy {
         { label: `Path to ${modelName} xml file`, value: xmlModelFilePath, tooltip: '' },
         { label: `Path to ${modelName} bin file`, value: binModelFilePath, tooltip: '' },
       ];
-      const projectDeviceParameter = { label: `Current project device`, value: this.deviceName, tooltip: '' };
+      const projectDeviceParameter = { label: 'Current project device', value: this.deviceName, tooltip: '' };
 
       if (this.selectedSampleType === SampleTutorialType.PYTHON_API) {
         const { name: datasetName, singleImagePath, csvFilePath } = this.dataset;
@@ -121,8 +122,8 @@ export class OpenSampleTutorialComponent implements OnDestroy {
       this._projectPathsParameters = [
         ...modelPathsParameters,
         projectDeviceParameter,
-        { label: `Best number of Streams`, value: this.bestConfiguration.nireq, tooltip: '' },
-        { label: `Best number of Batches`, value: this.bestConfiguration.batch, tooltip: '' },
+        { label: 'Best number of Streams', value: this.bestConfiguration.nireq, tooltip: '' },
+        { label: 'Best number of Batches', value: this.bestConfiguration.batch, tooltip: '' },
       ];
     }
     return this._projectPathsParameters;

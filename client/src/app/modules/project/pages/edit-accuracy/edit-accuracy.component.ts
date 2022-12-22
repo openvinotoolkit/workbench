@@ -206,7 +206,11 @@ export class EditAccuracyComponent implements OnInit {
   }
 
   navigateBack(): void {
-    this.queryParams.fromCalibration ? this.goToCalibrationPage() : this.goToProject();
+    if (this.queryParams.fromCalibration) {
+      this.goToCalibrationPage();
+    } else {
+      this.goToProject();
+    }
   }
 
   async chooseAnother(): Promise<void> {

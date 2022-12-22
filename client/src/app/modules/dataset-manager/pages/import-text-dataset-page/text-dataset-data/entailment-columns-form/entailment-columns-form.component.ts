@@ -111,11 +111,11 @@ export class EntailmentColumnsFormComponent implements OnDestroy, OnInit, DoChec
 
   writeValue(): void {}
 
-  registerOnChange(fn: (value: IEntailmentColumns) => {}): void {
+  registerOnChange(fn: (value: IEntailmentColumns) => void): void {
     this._onChange = fn;
   }
 
-  registerOnTouched(fn: () => {}): void {
+  registerOnTouched(fn: () => void): void {
     this._onTouched = fn;
   }
 

@@ -103,11 +103,10 @@ export interface ITensorDistanceReportEntity {
   [TensorDistanceReportEntityKey.MSE]: number;
 }
 
-export interface IOutputMSEInfo
-  extends Pick<
-    ITensorDistanceReportEntity,
-    TensorDistanceReportEntityKey.OUTPUT_NAME | TensorDistanceReportEntityKey.MSE
-  > {}
+export type IOutputMSEInfo = Pick<
+  ITensorDistanceReportEntity,
+  TensorDistanceReportEntityKey.OUTPUT_NAME | TensorDistanceReportEntityKey.MSE
+>;
 
 export type AccuracyReportTableColumnHeaders<ReportEntityKey extends string> = Partial<
   Record<

@@ -199,9 +199,9 @@ export class ModelGraphVisualizationService {
   }
 
   private getGraphCanvasElement(modelGraphType: ModelGraphType): SVGSVGElement {
-    return (this.getGraphBrowserHost(modelGraphType).document.getElementById(
+    return this.getGraphBrowserHost(modelGraphType).document.getElementById(
       this.getElementIdWithGraphTypeSuffix(modelGraphType, this.netronCanvasId)
-    ) as unknown) as SVGSVGElement;
+    ) as unknown as SVGSVGElement;
   }
 
   async startRendering(xmlContent: string, modelGraphType: ModelGraphType) {

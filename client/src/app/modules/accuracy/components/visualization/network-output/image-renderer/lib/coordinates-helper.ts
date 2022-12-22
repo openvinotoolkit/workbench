@@ -8,6 +8,7 @@
  * | html scaled 100% client width box |
  *
  * Also handles object-fit css property
+ *
  * @param context
  * @param imageX
  * @param imageY
@@ -54,6 +55,7 @@ export function getScalingRatio(context: CanvasRenderingContext2D): { xRatio: nu
  *      | context width box |
  *
  * Also handles object-fit css property
+ *
  * @param context
  * @param clientX
  * @param clientY

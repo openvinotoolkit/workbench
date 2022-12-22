@@ -52,7 +52,7 @@ export class AccuracyReportTypeControlOptions {
   constructor(private _messagesService: MessagesService) {}
 
   protected get accuracyReportTypes(): AccuracyReportType[] {
-    return <AccuracyReportType[]>Object.keys(this.accuracyReportOptions);
+    return Object.keys(this.accuracyReportOptions) as AccuracyReportType[];
   }
 
   protected disableReportType(reportType: AccuracyReportType, disabledMessage: string = ''): void {
@@ -195,11 +195,11 @@ export class AccuracyReportTypeRadioGroupComponent implements ControlValueAccess
   private _onChange = (_: AccuracyReportType) => {};
   private _onTouched = () => {};
 
-  registerOnChange(fn: (_: AccuracyReportType) => {}): void {
+  registerOnChange(fn: (_: AccuracyReportType) => void): void {
     this._onChange = fn;
   }
 
-  registerOnTouched(fn: () => {}): void {
+  registerOnTouched(fn: () => void): void {
     this._onTouched = fn;
   }
 

@@ -1,3 +1,4 @@
+/* eslint-disable quote-props */
 import { Dictionary } from '@ngrx/entity';
 import { keys, values } from 'lodash';
 

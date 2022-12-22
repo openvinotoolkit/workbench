@@ -91,11 +91,11 @@ export class ClassificationColumnsFormComponent implements OnInit, OnDestroy, Do
 
   writeValue(): void {}
 
-  registerOnChange(fn: (value: IClassificationColumns) => {}): void {
+  registerOnChange(fn: (value: IClassificationColumns) => void): void {
     this._onChange = fn;
   }
 
-  registerOnTouched(fn: () => {}): void {
+  registerOnTouched(fn: () => void): void {
     this._onTouched = fn;
   }
 

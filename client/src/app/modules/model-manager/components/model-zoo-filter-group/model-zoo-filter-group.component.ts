@@ -60,11 +60,11 @@ export class ModelZooFilterGroupComponent implements OnDestroy, AfterContentInit
 
   writeValue(): void {}
 
-  registerOnChange(fn: (value: IFormValue) => {}): void {
+  registerOnChange(fn: (value: IFormValue) => void): void {
     this._onChange = fn;
   }
 
-  registerOnTouched(fn: () => {}): void {
+  registerOnTouched(fn: () => void): void {
     this._onTouched = fn;
   }
 

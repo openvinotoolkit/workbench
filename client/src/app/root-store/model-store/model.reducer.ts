@@ -204,7 +204,7 @@ export const reducer = createReducer(
     return {
       ...state,
       isLoading: false,
-      error: error,
+      error,
     };
   }),
   on(ModelStoreActions.editModelConvert, (state) => {
@@ -220,7 +220,7 @@ export const reducer = createReducer(
     return {
       ...state,
       isLoading: false,
-      error: error,
+      error,
     };
   }),
   on(ModelStoreActions.configureModelSuccess, (state) => {

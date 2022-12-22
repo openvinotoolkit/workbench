@@ -104,7 +104,7 @@ export class MetricThresholdComponent implements OnInit, ControlValueAccessor, O
     });
   }
 
-  registerOnChange(fn: () => {}): void {
+  registerOnChange(fn: () => void): void {
     if (!fn) {
       return;
     }
@@ -112,7 +112,7 @@ export class MetricThresholdComponent implements OnInit, ControlValueAccessor, O
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: () => {}): void {
+  registerOnTouched(fn: () => void): void {
     if (!fn) {
       return;
     }
@@ -175,6 +175,7 @@ export class MetricThresholdComponent implements OnInit, ControlValueAccessor, O
 
   /**
    * Accuracy checker threshold format '.50:.05:.95'
+   *
    * @param start
    * @param step
    * @param end

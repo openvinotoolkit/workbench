@@ -107,6 +107,6 @@ import { MatBadgeModule } from '@angular/material/badge';
 export class MaterialModule {
   constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
     // Register custom SVG icon set
-    this.matIconRegistry.addSvgIconSet(this.domSanitizer.bypassSecurityTrustResourceUrl(`assets/svg/icon_set.svg`));
+    this.matIconRegistry.addSvgIconSet(this.domSanitizer.bypassSecurityTrustResourceUrl('assets/svg/icon_set.svg'));
   }
 }

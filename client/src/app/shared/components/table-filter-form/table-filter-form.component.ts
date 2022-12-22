@@ -43,7 +43,11 @@ export class TableFilterFormComponent implements OnDestroy {
   @Input()
   public set disabled(value: boolean) {
     this._disabled = value;
-    this._disabled ? this.mainFormGroup.disable({ emitEvent: false }) : this.mainFormGroup.enable({ emitEvent: false });
+    if (this._disabled) {
+      this.mainFormGroup.disable({ emitEvent: false });
+    } else {
+      this.mainFormGroup.enable({ emitEvent: false });
+    }
   }
 
   public get disabled(): boolean {
@@ -80,7 +84,7 @@ export class TableFilterFormComponent implements OnDestroy {
   }
 
   get filtersFormArray(): UntypedFormArray {
-    return <UntypedFormArray>this.mainFormGroup.get(this.controlNamesMap.filters);
+    return this.mainFormGroup.get(this.controlNamesMap.filters) as UntypedFormArray;
   }
 
   public appliedFilter: AppliedFilter = null;

@@ -28,6 +28,9 @@ export class DatasetUploadComponent {
       .get(this.datasetFormControls.datasetName.name as string)
       .patchValue(this.editingDataset.name);
   }
+  get editingDataset(): DatasetItem {
+    return this._editingDataset;
+  }
 
   @Input()
   importTip: { tipHeader: string; tipContent: string };
@@ -51,10 +54,6 @@ export class DatasetUploadComponent {
 
   constructor(private readonly _messagesService: MessagesService, private readonly _formBuilder: UntypedFormBuilder) {
     FormUtils.addControlsToForm(values(this.datasetFormControls), this.uploadDatasetForm);
-  }
-
-  get editingDataset(): DatasetItem {
-    return this._editingDataset;
   }
 
   onFileChange(file: File): void {

@@ -18,7 +18,7 @@ import { RectangleComponent } from '@shared/components/rectangle/rectangle.compo
 export class SkeletonDirective implements OnChanges {
   @Input('wbSkeleton') isLoading = false;
 
-  // tslint:disable-next-line:no-input-rename
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('wbSkeletonRepeat') size = 1;
   @Input('wbSkeletonGap') gap: string = null;
   @Input('wbSkeletonWidth') width: string = null;
