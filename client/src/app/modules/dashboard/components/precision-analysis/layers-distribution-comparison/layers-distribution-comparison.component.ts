@@ -8,7 +8,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { SortDirection } from '@angular/material/sort';
 
 import { filter, maxBy, find, isArray } from 'lodash';

@@ -1,5 +1,5 @@
 import { DataSource } from '@angular/cdk/collections';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { HttpParams } from '@angular/common/http';
 import { MatSort } from '@angular/material/sort';
 import { EventEmitter } from '@angular/core';

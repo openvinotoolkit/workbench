@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { debounceTime, distinctUntilChanged, map, takeUntil } from 'rxjs/operators';

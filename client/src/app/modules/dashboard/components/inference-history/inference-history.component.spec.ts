@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
 import { StatusBarComponent } from '@shared/components/status-bar/status-bar.component';
 import { SingleInferenceStatusPipe } from '@shared/pipes/inference-status/single-inference-status.pipe';
@@ -14,15 +14,13 @@ describe('InferenceHistoryComponent', () => {
   let component: InferenceHistoryComponent;
   let fixture: ComponentFixture<InferenceHistoryComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [CommonModule, MatTableModule, MatIconModule, MatCheckboxModule, MatTooltipModule],
-        declarations: [InferenceHistoryComponent, StatusBarComponent, SingleInferenceStatusPipe],
-        providers: [],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [CommonModule, MatTableModule, MatIconModule, MatCheckboxModule, MatTooltipModule],
+      declarations: [InferenceHistoryComponent, StatusBarComponent, SingleInferenceStatusPipe],
+      providers: [],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(InferenceHistoryComponent);
