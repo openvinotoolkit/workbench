@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, ViewChild, AfterViewInit, Input } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { SortDirection } from '@angular/material/sort/sort-direction';
+import { SortDirection } from '@angular/material/sort';
 
 import { filter, maxBy, isEmpty } from 'lodash';
 
@@ -66,9 +66,8 @@ export class LayersDistributionComponent implements AfterViewInit {
   precisionColumnTips = this.messagesService.hintMessages.precisionColumn;
   public readonly notAvailableLabel = 'N/A';
 
-  dataSource: MatTableDataSource<ILayerTimePrecisionDistributionTableData> = new MatTableDataSource<
-    ILayerTimePrecisionDistributionTableData
-  >([]);
+  dataSource: MatTableDataSource<ILayerTimePrecisionDistributionTableData> =
+    new MatTableDataSource<ILayerTimePrecisionDistributionTableData>([]);
   private _expanded = false;
 
   ngAfterViewInit(): void {

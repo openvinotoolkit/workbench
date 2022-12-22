@@ -1,6 +1,6 @@
 import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
-import { SortDirection } from '@angular/material/sort/sort-direction';
+import { SortDirection } from '@angular/material/sort';
 
 import { BehaviorSubject, combineLatest, merge, Observable, of, Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
