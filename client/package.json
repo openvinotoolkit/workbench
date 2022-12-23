@@ -106,6 +106,7 @@
     "karma": "6.3.17",
     "karma-chrome-launcher": "3.1.1",
     "karma-cli": "2.0.0",
+    "karma-coverage": "2.2.0",
     "karma-coverage-istanbul-reporter": "3.0.3",
     "karma-jasmine": "4.0.1",
     "karma-jasmine-html-reporter": "1.5.2",

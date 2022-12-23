@@ -104,6 +104,9 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [],
+            "customWebpackConfig": {
+              "path": "./extra-webpack.config.ts"
+            },
             "codeCoverageExclude": [
               "e2e/**/*",
               "dist/**/*",
