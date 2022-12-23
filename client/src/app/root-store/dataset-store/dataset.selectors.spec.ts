@@ -3,8 +3,8 @@ import { DatasetStoreSelectors, DatasetStoreState } from './';
 import { ProjectStatusNames } from '../project-store/project.model';
 import { DatasetItem, DatasetTypes } from './dataset.model';
 
-const id_1 = '1';
-const id_2 = '2';
+const id_1 = 1;
+const id_2 = 2;
 
 const name_1 = 'Dataset Name 1';
 const name_2 = 'Dataset Name 2';
