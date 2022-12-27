@@ -8,8 +8,6 @@ import {
   TransformationsConfigType,
 } from '@store/model-store/model.model';
 
-import { layoutFieldNamesValuesMap } from '@shared/components/dimensions-layouts/dimensions-layouts.component';
-
 import { TestUtils } from './test-utils';
 import { Helpers } from './helpers';
 import { ConfigurationWizardPage } from './configuration-wizard.po';
@@ -1432,7 +1430,7 @@ export class ModelManagerPage {
             );
             await this.selectValueFromDropdown(layoutInput, originalLayout[i]);
             if (inputType === LayoutTypeNamesByTypeMap[LayoutTypes.CUSTOM] && i === 0) {
-              await this.selectInputLayerType(layoutFieldNamesValuesMap.N);
+              await this.selectInputLayerType('Batch');
             }
           }
         }

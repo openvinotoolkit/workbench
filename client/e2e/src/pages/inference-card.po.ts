@@ -1,7 +1,7 @@
 import { browser, by, element, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
+import { startCase } from 'lodash';
 
 import { TestUtils } from './test-utils';
-import { ParameterNamePipe } from '../../../src/app/modules/dashboard/components/model-layers-with-graphs/layers-table/parameter-name.pipe';
 import { ConfigurationWizardPage } from './configuration-wizard.po';
 
 export class InferenceCardPage {
@@ -558,7 +558,15 @@ export class InferenceCardPage {
   async equalLayerAndTabData(layer, comparison?): Promise<string | false> {
     return new Promise(async (resolve, reject) => {
       let parametrsDiv = this.executeParametrsContainer;
-      const nameFn = new ParameterNamePipe();
+
+      const nameFn = (value: string) => {
+        const keyToNameMap = {
+          execOrder: 'Execution Order',
+          execTimeMcs: 'Execution Time, ms',
+        };
+        return keyToNameMap[value] || startCase(value);
+      };
+
       await browser.wait(await this.until.presenceOf(parametrsDiv), browser.params.defaultTimeout);
       const currentLayer = comparison ? layer.comparisonLayer : layer.execLayer;
       if (currentLayer.data && (await this.paramsNotEqual(currentLayer.data, parametrsDiv, nameFn))) {
@@ -592,7 +600,7 @@ export class InferenceCardPage {
         continue;
       }
       let dataValue;
-      const parameterValue = await this.getParameterValue(container, nameFn.transform(parameterName));
+      const parameterValue = await this.getParameterValue(container, nameFn(parameterName));
       switch (parameterName) {
         case 'execTimeMcs':
           dataValue =

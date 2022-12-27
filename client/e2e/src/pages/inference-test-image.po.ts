@@ -2,15 +2,21 @@ import { PixelmatchOptions } from 'pixelmatch';
 
 import { browser, by, element, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
 
-import {
-  VisualizationOptionsNamesMap,
-  VisualizationType,
-  // eslint-disable-next-line max-len
-} from '../../../src/app/modules/accuracy/components/visualization/network-output/original-image-controls/original-image-controls.component';
-
 import { TestUtils } from './test-utils';
 
 const path = require('path');
+
+export enum VisualizationType {
+  DEFAULT = 'default',
+  EXPLAIN = 'explain',
+  PARENT_MODEL_PREDICTIONS = 'ref_visualization',
+}
+
+export const VisualizationOptionsNamesMap = {
+  [VisualizationType.DEFAULT]: 'Model Predictions',
+  [VisualizationType.EXPLAIN]: 'Model Predictions with Importance Map',
+  [VisualizationType.PARENT_MODEL_PREDICTIONS]: 'Optimized and Parent Model Predictions',
+};
 
 export class VisualizeInferenceResultPage {
   until = protractor.ExpectedConditions;

@@ -1,11 +1,12 @@
 import { browser, protractor } from 'protractor';
 
 import { Frameworks, TestUtils } from './pages/test-utils';
-import { VisualizeInferenceResultPage } from './pages/inference-test-image.po';
 import {
+  VisualizeInferenceResultPage,
   VisualizationOptionsNamesMap,
   VisualizationType,
-} from '../../src/app/modules/accuracy/components/visualization/network-output/original-image-controls/original-image-controls.component';
+} from './pages/inference-test-image.po';
+
 import { AnalyticsPopup } from './pages/analytics-popup.po';
 import { Helpers } from './pages/helpers';
 

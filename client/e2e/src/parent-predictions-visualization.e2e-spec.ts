@@ -7,11 +7,12 @@ import { InferenceType } from './pages/configuration-wizard.po';
 import { Frameworks, TestUtils } from './pages/test-utils';
 import { CalibrationUtils } from './pages/calibration-utils';
 import { LoginPage } from './pages/login.po';
-import { VisualizeInferenceResultPage } from './pages/inference-test-image.po';
 import {
+  VisualizeInferenceResultPage,
   VisualizationOptionsNamesMap,
   VisualizationType,
-} from '../../src/app/modules/accuracy/components/visualization/network-output/original-image-controls/original-image-controls.component';
+} from './pages/inference-test-image.po';
+
 import { Helpers } from './pages/helpers';
 import { TargetMachines, DevCloudTargets } from './pages/target-machines.po';
 
