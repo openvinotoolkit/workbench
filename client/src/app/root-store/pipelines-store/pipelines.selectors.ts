@@ -18,17 +18,13 @@ import {
 
 import * as fromPipelinesStore from './pipelines.reducer';
 
-const selectPipelinesState = createFeatureSelector<AppState, PipelinesState>(
-  fromPipelinesStore.pipelinesStoreFeatureKey
-);
+const selectPipelinesState = createFeatureSelector<PipelinesState>(fromPipelinesStore.pipelinesStoreFeatureKey);
 
-export const selectPipelineEntities: (
-  state: AppState
-) => Dictionary<IConfigureTargetPipeline> = pipelineItemAdapter.getSelectors(selectPipelinesState).selectEntities;
+export const selectPipelineEntities: (state: AppState) => Dictionary<IConfigureTargetPipeline> =
+  pipelineItemAdapter.getSelectors(selectPipelinesState).selectEntities;
 
-export const selectAllPipelines: (state: AppState) => IConfigureTargetPipeline[] = pipelineItemAdapter.getSelectors(
-  selectPipelinesState
-).selectAll;
+export const selectAllPipelines: (state: AppState) => IConfigureTargetPipeline[] =
+  pipelineItemAdapter.getSelectors(selectPipelinesState).selectAll;
 
 const filterPipelinesByTargetId = (pipelines: IConfigureTargetPipeline[], targetId: number) =>
   pipelines.filter(({ targetId: pipelineTargetId }) => targetId === pipelineTargetId);

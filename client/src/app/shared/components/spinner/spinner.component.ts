@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { LegacyProgressSpinnerMode as ProgressSpinnerMode } from '@angular/material/legacy-progress-spinner';
 
 @Component({
   selector: 'wb-spinner',

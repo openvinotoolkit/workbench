@@ -6,7 +6,7 @@ const crypto = require('crypto');
 
 type JSONPrimitive = string | number | boolean | null;
 type JSONValue = JSONObject | JSONArray | JSONPrimitive;
-interface JSONArray extends Array<JSONValue> {}
+type JSONArray = Array<JSONValue>;
 interface JSONObject {
   [member: string]: JSONValue;
 }

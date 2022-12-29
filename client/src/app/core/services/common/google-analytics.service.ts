@@ -413,7 +413,7 @@ export class GoogleAnalyticsService {
   };
 
   public emitTestInferenceEvent({ predictions, refPredictions }: ITestImage, model: ModelItem): void {
-    const modelType = <ModelTaskTypeNames>TaskMethodToNameMap[model.accuracyConfiguration.taskMethod];
+    const modelType = TaskMethodToNameMap[model.accuracyConfiguration.taskMethod] as ModelTaskTypeNames;
     const isImportanceMapVisualization = predictions.some(({ explanation_mask }) => explanation_mask);
     let visualizationType: VisualizationType;
     if (refPredictions) {

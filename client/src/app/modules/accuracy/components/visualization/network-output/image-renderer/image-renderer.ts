@@ -67,7 +67,7 @@ export class ImageRenderer {
     }
 
     const options: IBoxOptions = {
-      color: color,
+      color,
       lineWidth: this._scaleToImageSize(6),
       label: {
         padding: {
@@ -91,6 +91,7 @@ export class ImageRenderer {
 
   /**
    * Draw polygon areas with intersections
+   *
    * @param polygons
    * @param color
    */
@@ -100,7 +101,7 @@ export class ImageRenderer {
     }
 
     const polygonOptions: IPolygonOptions = {
-      color: color,
+      color,
       innerBorderWidth: this._scaleToImageSize(3),
     };
 

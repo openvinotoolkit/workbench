@@ -1,4 +1,4 @@
-import { FormGroup, Validators } from '@angular/forms';
+import { UntypedFormGroup, Validators } from '@angular/forms';
 
 import { ModelTaskMethods, ModelTaskTypes } from '@store/model-store/model.model';
 
@@ -17,9 +17,9 @@ import { IAccuracyConfiguration, IVisualizationConfiguration } from '@shared/mod
 import { createControl, IFormFeatureHandler, Subscriptions } from './index';
 
 export class PostProcessorGroupHandler implements IFormFeatureHandler<IPostProcessor[]> {
-  readonly group = new FormGroup({});
+  readonly group = new UntypedFormGroup({});
 
-  orderedFields: { field: AdvancedConfigField; group: FormGroup }[] = [];
+  orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] = [];
 
   private readonly _subs = new Subscriptions();
 
@@ -115,7 +115,8 @@ enum ResizePredictionBoxesOptions {
 }
 
 export class BoxesPostProcessorHandler
-  implements IFormFeatureHandler<(IResizePredictionBoxesPostProcessor | INMSPostProcessor)[]> {
+  implements IFormFeatureHandler<(IResizePredictionBoxesPostProcessor | INMSPostProcessor)[]>
+{
   private readonly _fields: { resize_prediction_boxes: AdvancedConfigField; overlap: AdvancedConfigField } = {
     resize_prediction_boxes: {
       type: 'select',
@@ -146,11 +147,11 @@ export class BoxesPostProcessorHandler
     },
   };
 
-  readonly group = new FormGroup({
+  readonly group = new UntypedFormGroup({
     resize_prediction_boxes: createControl(this._fields.resize_prediction_boxes),
   });
 
-  orderedFields: { field: AdvancedConfigField; group: FormGroup }[] = [
+  orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] = [
     { field: this._fields.resize_prediction_boxes, group: this.group },
   ];
 
@@ -243,11 +244,11 @@ export class EncodeSegmentationMaskPostProcessorHandler implements IFormFeatureH
     },
   };
 
-  readonly group = new FormGroup({
+  readonly group = new UntypedFormGroup({
     encode_segmentation_mask: createControl(this._fields.encode_segmentation_mask),
   });
 
-  orderedFields: { field: AdvancedConfigField; group: FormGroup }[] = [
+  orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] = [
     { field: this._fields.encode_segmentation_mask, group: this.group },
   ];
 
@@ -277,11 +278,11 @@ export class ResizeSegmentationMaskPostProcessorHandler implements IFormFeatureH
     },
   };
 
-  readonly group = new FormGroup({
+  readonly group = new UntypedFormGroup({
     resize_segmentation_mask: createControl(this._fields.resize_segmentation_mask),
   });
 
-  orderedFields: { field: AdvancedConfigField; group: FormGroup }[] = [
+  orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] = [
     { field: this._fields.resize_segmentation_mask, group: this.group },
   ];
 
@@ -295,7 +296,8 @@ export class ResizeSegmentationMaskPostProcessorHandler implements IFormFeatureH
 }
 
 export class NormalizeLandmarkPointsPostProcessorHandler
-  implements IFormFeatureHandler<INormalizeLandmarkPointsPostProcessor> {
+  implements IFormFeatureHandler<INormalizeLandmarkPointsPostProcessor>
+{
   private readonly _fields: { normalize_landmarks_points: AdvancedConfigField } = {
     normalize_landmarks_points: {
       type: 'select',
@@ -312,11 +314,11 @@ export class NormalizeLandmarkPointsPostProcessorHandler
     },
   };
 
-  readonly group = new FormGroup({
+  readonly group = new UntypedFormGroup({
     normalize_landmarks_points: createControl(this._fields.normalize_landmarks_points),
   });
 
-  orderedFields: { field: AdvancedConfigField; group: FormGroup }[] = [
+  orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] = [
     { field: this._fields.normalize_landmarks_points, group: this.group },
   ];
 

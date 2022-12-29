@@ -1,4 +1,4 @@
-/* tslint:disable:directive-selector */
+/* eslint-disable @angular-eslint/directive-selector */
 import { Directive, ElementRef, HostBinding, HostListener, Input, OnInit } from '@angular/core';
 
 import { LinkNavigationService } from '@core/services/common/link-navigation.service';

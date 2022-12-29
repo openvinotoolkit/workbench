@@ -5,7 +5,7 @@ import { ConfigurationWizardPage } from './pages/configuration-wizard.po';
 import { Helpers } from './pages/helpers';
 import { TestUtils } from './pages/test-utils';
 
-describe('UI tests on Uploading Large Datasets', async () => {
+describe('UI tests on Uploading Large Datasets', () => {
   let homePage: AppPage;
   let configurationWizard: ConfigurationWizardPage;
   let helpers: Helpers;

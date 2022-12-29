@@ -14,11 +14,13 @@
           "options": {
             "allowedCommonJsDependencies": [
               "@core/services/common/backend-feed.service",
+              "@shared/constants",
               "chart.js",
               "dagre",
               "file-saver",
               "jwt-decode",
               "lodash",
+              "papaparse",
               "rxjs/internal/operators/first",
               "rxjs/internal/operators/withLatestFrom",
               "socket.io-client",
@@ -102,6 +104,9 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [],
+            "customWebpackConfig": {
+              "path": "./extra-webpack.config.ts"
+            },
             "codeCoverageExclude": [
               "e2e/**/*",
               "dist/**/*",
@@ -115,10 +120,9 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "**/*.json"]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }
@@ -136,16 +140,14 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": ["e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "**/*.json"]
+            "lintFilePatterns": ["e2e/**/*.ts", "e2e/**/*.html"]
           }
         }
       }
     }
   },
-  "defaultProject": "client",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "wb",
@@ -157,6 +159,7 @@
     }
   },
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "schematicCollections": ["@angular-eslint/schematics"]
   }
 }

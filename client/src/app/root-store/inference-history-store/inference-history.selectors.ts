@@ -19,15 +19,13 @@ export const getSelectedInferencePoint = (state: InferenceHistoryState) => state
 
 export const getHiddenInferenceItemsIds = (state: InferenceHistoryState) => state.hiddenIds;
 
-const selectInferenceHistoryState = createFeatureSelector<AppState, InferenceHistoryState>('inferenceHistory');
+const selectInferenceHistoryState = createFeatureSelector<InferenceHistoryState>('inferenceHistory');
 
-export const selectAllInferenceItems: (state: AppState) => IInferenceResult[] = inferenceResultAdapter.getSelectors(
-  selectInferenceHistoryState
-).selectAll;
+export const selectAllInferenceItems: (state: AppState) => IInferenceResult[] =
+  inferenceResultAdapter.getSelectors(selectInferenceHistoryState).selectAll;
 
-export const selectInferenceItemsMap: (
-  state: AppState
-) => Dictionary<IInferenceResult> = inferenceResultAdapter.getSelectors(selectInferenceHistoryState).selectEntities;
+export const selectInferenceItemsMap: (state: AppState) => Dictionary<IInferenceResult> =
+  inferenceResultAdapter.getSelectors(selectInferenceHistoryState).selectEntities;
 
 export const selectInferenceError: MemoizedSelector<object, ErrorState> = createSelector(
   selectInferenceHistoryState,

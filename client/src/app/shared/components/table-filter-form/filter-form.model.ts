@@ -1,4 +1,4 @@
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 
 import { Dictionary } from '@ngrx/entity';
 import { eq, gt, gte, lt, lte, negate } from 'lodash';

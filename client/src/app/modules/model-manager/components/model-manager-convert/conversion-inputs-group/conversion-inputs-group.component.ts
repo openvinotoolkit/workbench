@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 import { isNil, map, range, uniq, without } from 'lodash';
 import { filter, first, takeUntil } from 'rxjs/operators';
@@ -29,7 +29,7 @@ export class ConversionInputsGroupComponent implements OnChanges, OnDestroy {
   model: ModelItem;
 
   @Input()
-  parentGroup: FormGroup;
+  parentGroup: UntypedFormGroup;
 
   @Input()
   colorSpace: ModelColorChannels;
@@ -43,7 +43,7 @@ export class ConversionInputsGroupComponent implements OnChanges, OnDestroy {
 
   public isVisibleNote = false;
 
-  public readonly group = new FormGroup({});
+  public readonly group = new UntypedFormGroup({});
 
   public readonly inputLayers = 'inputs';
 
@@ -58,7 +58,7 @@ export class ConversionInputsGroupComponent implements OnChanges, OnDestroy {
 
   constructor(
     private store$: Store<RootStoreState.State>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private readonly _messagesService: MessagesService
   ) {
     this.store$
@@ -136,11 +136,11 @@ export class ConversionInputsGroupComponent implements OnChanges, OnDestroy {
     this.group.patchValue({ inputs });
   }
 
-  get inputLayersFormArray(): FormArray {
-    return this.group.get(this.inputLayers) as FormArray;
+  get inputLayersFormArray(): UntypedFormArray {
+    return this.group.get(this.inputLayers) as UntypedFormArray;
   }
 
-  set inputLayersFormArray(formArray: FormArray) {
+  set inputLayersFormArray(formArray: UntypedFormArray) {
     this.group.setControl(this.inputLayers, formArray);
   }
 

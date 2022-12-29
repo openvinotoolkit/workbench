@@ -3,7 +3,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { initialState, MergedRouteReducerState, Route } from './route.state';
 import { State as AppState } from '../state';
 
-export const selectRouterState = createFeatureSelector<AppState, MergedRouteReducerState>('router');
+export const selectRouterState = createFeatureSelector<MergedRouteReducerState>('router');
 export const getMergedRoute = createSelector(selectRouterState, (routerReducerState) =>
   routerReducerState ? routerReducerState.state : initialState.state
 );
@@ -24,24 +24,24 @@ export const selectParamModelId = createSelector(getMergedRoute, (rootState: Rou
 
 export const selectParamProjectId = createSelector(getMergedRoute, (rootState: Route) => rootState.params.projectId);
 
-export const selectUrl = createSelector<AppState, Route, string>(getMergedRoute, (rootState: Route) => rootState.url);
+export const selectUrl = createSelector<AppState, [Route], string>(getMergedRoute, (rootState: Route) => rootState.url);
 
-export const selectTokenQueryParam = createSelector<AppState, Route, string>(
+export const selectTokenQueryParam = createSelector<AppState, [Route], string>(
   getMergedRoute,
   (rootState: Route) => rootState.queryParams.token
 );
 
-export const selectOptimizationQueryParam = createSelector<AppState, Route, string>(
+export const selectOptimizationQueryParam = createSelector<AppState, [Route], string>(
   getMergedRoute,
   (rootState: Route) => rootState.queryParams.optimization
 );
 
-export const selectPresetQueryParam = createSelector<AppState, Route, string>(
+export const selectPresetQueryParam = createSelector<AppState, [Route], string>(
   getMergedRoute,
   (rootState: Route) => rootState.queryParams.preset
 );
 
-export const selectLossQueryParam = createSelector<AppState, Route, string>(
+export const selectLossQueryParam = createSelector<AppState, [Route], string>(
   getMergedRoute,
   (rootState: Route) => rootState.queryParams.loss
 );

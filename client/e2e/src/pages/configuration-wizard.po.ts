@@ -696,7 +696,7 @@ export class ConfigurationWizardPage {
     const configParameters = await this.getConfigParameters(data);
 
     if (!(await configParameters.length)) {
-      throw new Error(`No config parameters found for calibration`);
+      throw new Error('No config parameters found for calibration');
     }
 
     for (const parameter of configParameters) {
@@ -821,7 +821,7 @@ export class ConfigurationWizardPage {
   }
 
   async isUploadHasErrors(): Promise<boolean> {
-    const errorContainer = await TestUtils.getElementByDataTestId(`message-box-error`);
+    const errorContainer = await TestUtils.getElementByDataTestId('message-box-error');
     console.log('Wait error');
     await browser.wait(this.until.presenceOf(errorContainer), browser.params.defaultTimeout);
     return true;
@@ -919,7 +919,7 @@ export class ConfigurationWizardPage {
           resolve();
           return;
         } catch (e) {
-          console.log(`received error for cancelling import row. try one more time.`);
+          console.log('received error for cancelling import row. try one more time.');
         }
       } while (true);
     });
@@ -952,7 +952,7 @@ export class ConfigurationWizardPage {
           resolve(row);
           return;
         } catch (e) {
-          console.log(`received error for selecting import row. try one more time.`);
+          console.log('received error for selecting import row. try one more time.');
         }
       } while (true);
     });
@@ -1233,7 +1233,7 @@ export class ConfigurationWizardPage {
           resolve(row);
           return;
         } catch (e) {
-          console.log(`received error for collecting model type. try one more time.`);
+          console.log('received error for collecting model type. try one more time.');
         }
       } while (true);
     });
@@ -1301,6 +1301,7 @@ export class ConfigurationWizardPage {
 
   async selectAllColorPresets(): Promise<void> {
     const presets = await TestUtils.getAllElementsByDataTestId('transform-img');
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let index = 0; index < presets.length; index++) {
       const preset = presets[index];
       await TestUtils.scrollToElement(preset);
@@ -1340,7 +1341,7 @@ export class ConfigurationWizardPage {
       .getAttribute('data-test-dataset-id');
     const dataSetPath = path.join(workbenchFolder, 'datasets', id.toString());
     return {
-      dataSetPath: dataSetPath,
+      dataSetPath,
       images: this.helper.getFilesFromFolder(dataSetPath, ['png', 'jpg']),
     };
   }
@@ -1349,6 +1350,7 @@ export class ConfigurationWizardPage {
     await browser.sleep(1000);
     const { dataSetPath, images } = await this.getImagesFromDataset(workbenchFolder, datasetName);
     const result = [];
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let index = 0; index < images.length; index++) {
       const imagePath = path.join(dataSetPath, images[index]);
       result.push(await this.helper.hashSum(imagePath));

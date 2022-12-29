@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input, OnInit, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, ValidatorFn } from '@angular/forms';
+import { UntypedFormGroup, ValidatorFn } from '@angular/forms';
 
 import { TransformationsConfig } from '@store/model-store/model.model';
 
@@ -21,7 +21,7 @@ export class TransformationsConfigFieldComponent {
   field: TransformationsConfigField;
 
   @Input()
-  group: FormGroup;
+  group: UntypedFormGroup;
 
   @Input()
   testId: string;

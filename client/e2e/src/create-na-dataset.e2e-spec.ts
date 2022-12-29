@@ -118,7 +118,7 @@ describe('UI tests on Creating Not Annotated Datasets', () => {
     await configurationWizard.importDataset(dataSet.name);
 
     expect(await configurationWizard.checkImagesInDataset(dataSet.name, TransformationOptions.HORIZONTAL)).toBeTruthy(
-      `Image not found in dataset`
+      'Image not found in dataset'
     );
 
     await configurationWizard.deleteUploadedFile(dataSet.name);
@@ -132,7 +132,7 @@ describe('UI tests on Creating Not Annotated Datasets', () => {
     await configurationWizard.importDataset(dataSet.name);
 
     expect(await configurationWizard.checkImagesInDataset(dataSet.name, TransformationOptions.VERTICAL)).toBeTruthy(
-      `Image not found in dataset`
+      'Image not found in dataset'
     );
 
     await configurationWizard.deleteUploadedFile(dataSet.name);

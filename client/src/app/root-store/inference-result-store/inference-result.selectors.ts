@@ -8,7 +8,7 @@ const getCurrentprofilingJobId = (state: InferenceResultState): InferenceResultM
 
 const selectIsReportGenerating = (state: InferenceResultState): boolean => state.isReportGenerating;
 
-const selectInferenceResultState = createFeatureSelector<AppState, InferenceResultState>('inferenceResult');
+const selectInferenceResultState = createFeatureSelector<InferenceResultState>('inferenceResult');
 
 export const selectSelectedInferenceResult: MemoizedSelector<object, InferenceResultModel> = createSelector(
   selectInferenceResultState,

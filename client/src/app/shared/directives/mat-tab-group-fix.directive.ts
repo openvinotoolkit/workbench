@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Directive, ElementRef, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { MatTabGroup } from '@angular/material/tabs';
+import { MatLegacyTabGroup as MatTabGroup } from '@angular/material/legacy-tabs';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';

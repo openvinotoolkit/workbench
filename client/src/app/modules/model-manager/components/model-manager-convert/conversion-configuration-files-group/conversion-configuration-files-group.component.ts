@@ -10,7 +10,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -59,7 +59,7 @@ export class ConversionConfigurationFilesGroupComponent implements OnChanges, On
   model: ModelItem;
 
   @Input()
-  parentGroup: FormGroup;
+  parentGroup: UntypedFormGroup;
 
   @Output()
   usePipelineConfigChecked = new EventEmitter();
@@ -133,14 +133,14 @@ export class ConversionConfigurationFilesGroupComponent implements OnChanges, On
     },
   };
 
-  public readonly group = new FormGroup({});
-  public readonly utilGroup = new FormGroup({});
+  public readonly group = new UntypedFormGroup({});
+  public readonly utilGroup = new UntypedFormGroup({});
   readonly useTransformationsConfigHint = this._messagesService.tooltipMessages.convertModel.useTransformationsConfig;
 
   private _unsubscribe$: Subject<void> = new Subject<void>();
 
   constructor(
-    private readonly _fb: FormBuilder,
+    private readonly _fb: UntypedFormBuilder,
     private readonly _cdr: ChangeDetectorRef,
     private readonly _messagesService: MessagesService,
     readonly helpChecklistService: HelpChecklistService

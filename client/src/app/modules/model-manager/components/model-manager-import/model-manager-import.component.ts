@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { combineLatest, Subject } from 'rxjs';
 import { filter, startWith, takeUntil } from 'rxjs/operators';
@@ -157,26 +157,26 @@ export class ModelManagerImportComponent implements OnInit, OnDestroy {
   readonly getUploadModelStage = getUploadModelStage;
 
   // Forms
-  uploadModelFormGroup: FormGroup;
-  tfModelFormGroup: FormGroup;
-  filesFormGroup: FormGroup = this._fb.group({});
+  uploadModelFormGroup: UntypedFormGroup;
+  tfModelFormGroup: UntypedFormGroup;
+  filesFormGroup: UntypedFormGroup = this._fb.group({});
 
   private readonly _unsubscribe$ = new Subject<void>();
 
-  constructor(private readonly _fb: FormBuilder, private readonly _messagesService: MessagesService) {
+  constructor(private readonly _fb: UntypedFormBuilder, private readonly _messagesService: MessagesService) {
     const initialModelFramework = this.modelFrameworkField.value;
 
     this.uploadModelFormGroup = this._fb.group({
-      modelName: new FormControl('', this.modelNameField.validators),
-      isDynamic: new FormControl(),
-      framework: new FormControl(initialModelFramework, this.modelFrameworkField.validators),
-      domain: new FormControl(this.modelDomainField.value, this.modelDomainField.validators),
+      modelName: new UntypedFormControl('', this.modelNameField.validators),
+      isDynamic: new UntypedFormControl(),
+      framework: new UntypedFormControl(initialModelFramework, this.modelFrameworkField.validators),
+      domain: new UntypedFormControl(this.modelDomainField.value, this.modelDomainField.validators),
       files: this.filesFormGroup,
     });
 
     const tfModelFormControlsConfig = mapValues(
       this.tfModelUtilFieldsMap,
-      ({ value, validators }) => new FormControl(value, validators)
+      ({ value, validators }) => new UntypedFormControl(value, validators)
     );
 
     this.tfModelFormGroup = this._fb.group(tfModelFormControlsConfig);
@@ -273,11 +273,11 @@ export class ModelManagerImportComponent implements OnInit, OnDestroy {
     return [];
   }
 
-  getModelNameControl(parentFormGroup: FormGroup): AbstractControl {
+  getModelNameControl(parentFormGroup: UntypedFormGroup): AbstractControl {
     return parentFormGroup.get('modelName');
   }
 
-  handleFileSelected(formGroup: FormGroup, fileType: string, file: File | File[] | TF2SavedModel) {
+  handleFileSelected(formGroup: UntypedFormGroup, fileType: string, file: File | File[] | TF2SavedModel) {
     formGroup.get([fileType]).setValue(file);
     this.uploadModelFormGroup.updateValueAndValidity();
   }
@@ -313,7 +313,7 @@ export class ModelManagerImportComponent implements OnInit, OnDestroy {
         this.filesFormGroup = this._fb.group({});
         this.getModelNameControl(this.uploadModelFormGroup).setValue('');
         this.getModelFrameworkFileFields().forEach(({ name }, i) => {
-          this.filesFormGroup.addControl(name, new FormControl(null, [Validators.required]));
+          this.filesFormGroup.addControl(name, new UntypedFormControl(null, [Validators.required]));
           // Set model name the same as first uploading file
           if (i === 0) {
             this.filesFormGroup

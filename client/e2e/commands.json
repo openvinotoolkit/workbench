@@ -1,6 +1,6 @@
 {
   "mode": {
-    "base": "./node_modules/@angular/cli/bin/ng e2e --base-url {mode} --dev-server-target= --webdriver-update false {suites}",
+    "base": "npx ng e2e --base-url {mode} --dev-server-target= --webdriver-update false {suites}",
     "local": "http://localhost:4200",
     "ci": "$DL_PROFILER_DEPLOY_TARGET"
   },

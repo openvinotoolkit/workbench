@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { FormControl, FormGroup } from '@angular/forms';
+import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { debounceTime, distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import { merge, Observable, Subject } from 'rxjs';
@@ -19,7 +19,7 @@ export abstract class BaseModelZooImportComponent<T, U = string> implements Afte
   abstract readonly dataSource: BaseModelZooDataSource<T, U>;
   abstract readonly isLoading$: Observable<boolean>;
 
-  readonly filtersControl = new FormControl({});
+  readonly filtersControl = new UntypedFormControl({});
 
   readonly sortField: AdvancedConfigField = {
     type: 'select',
@@ -33,9 +33,9 @@ export abstract class BaseModelZooImportComponent<T, U = string> implements Afte
     suffixIcon: 'search',
   };
 
-  readonly sortControl = new FormControl(null);
-  readonly searchControl = new FormControl('');
-  readonly sortAndSearchFormGroup = new FormGroup({
+  readonly sortControl = new UntypedFormControl(null);
+  readonly searchControl = new UntypedFormControl('');
+  readonly sortAndSearchFormGroup = new UntypedFormGroup({
     [this.sortField.name]: this.sortControl,
     [this.searchField.name]: this.searchControl,
   });

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
@@ -31,13 +31,12 @@ export class ReshapeComponent implements OnDestroy {
       this.populate();
     }
   }
-
-  @Input()
-  isNLPModel: boolean;
-
   get importingModel(): Partial<ModelItem> {
     return this._importingModel;
   }
+
+  @Input()
+  isNLPModel: boolean;
 
   @Output()
   public readonly cancel: EventEmitter<void> = new EventEmitter<void>();
@@ -46,7 +45,7 @@ export class ReshapeComponent implements OnDestroy {
   public readonly reshapePipeline$ = this._store$.select(ModelsSelector.selectRunningConfigurePipeline);
   public readonly error$ = this._store$.select(ModelsSelector.selectModelError);
 
-  public group: FormGroup;
+  public group: UntypedFormGroup;
 
   public readonly inputProperties = {
     index: 'index',
@@ -80,7 +79,7 @@ export class ReshapeComponent implements OnDestroy {
 
   private readonly _unsubscribe$ = new Subject<void>();
 
-  constructor(private _store$: Store, private _messagesService: MessagesService, private _fb: FormBuilder) {
+  constructor(private _store$: Store, private _messagesService: MessagesService, private _fb: UntypedFormBuilder) {
     this.group = this._fb.group({
       inputs: this._fb.array([]),
     });
@@ -116,8 +115,8 @@ export class ReshapeComponent implements OnDestroy {
     });
   }
 
-  get inputs(): FormArray {
-    return this.group.controls['inputs'] as FormArray;
+  get inputs(): UntypedFormArray {
+    return this.group.controls['inputs'] as UntypedFormArray;
   }
 
   save(): void {
@@ -131,13 +130,13 @@ export class ReshapeComponent implements OnDestroy {
   }
 
   getShapeControl(index: number): AbstractControl {
-    const inputs = this.group.get('inputs') as FormArray;
+    const inputs = this.group.get('inputs') as UntypedFormArray;
 
     return inputs.at(index).get(this.inputProperties.shape);
   }
 
   getLayoutControl(index: number): AbstractControl {
-    const inputs = this.group.get('inputs') as FormArray;
+    const inputs = this.group.get('inputs') as UntypedFormArray;
 
     return inputs.at(index).get(this.inputProperties.layout);
   }

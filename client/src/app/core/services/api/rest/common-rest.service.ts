@@ -49,8 +49,8 @@ export class CommonRestService {
     });
   }
 
-  public eraseAll$(): Observable<{}> {
-    return this.http.delete(`${this.connectionService.prefix}/erase-all`);
+  public eraseAll$(): Observable<Record<string, never>> {
+    return this.http.delete<Record<string, never>>(`${this.connectionService.prefix}/erase-all`);
   }
 
   constructor(private http: HttpClient, private connectionService: ConnectionService) {}

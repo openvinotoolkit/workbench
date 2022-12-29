@@ -1,5 +1,6 @@
 import { CustomWebpackBrowserSchema } from '@angular-builders/custom-webpack';
 
+import * as path from 'path';
 import { Configuration } from 'webpack';
 
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
@@ -56,6 +57,18 @@ module.exports = (config: CustomConfiguration, options: CustomWebpackBrowserSche
   };
 
   config.plugins.push(new MonacoWebpackPlugin({ languages: ['yaml'] }));
+  config.module.rules.push({
+    test: /\.css$/,
+    include: path.join(__dirname, 'node_modules/monaco-editor'),
+    use: [
+      {
+        loader: 'css-loader',
+        options: {
+          url: false,
+        },
+      },
+    ],
+  });
 
   return config;
 };

@@ -25,7 +25,7 @@ div[wb-content] {
 }
 
 .layer-row {
-  margin: 0 -$container-padding;
+  margin: 0 (-$container-padding);
   padding: $container-padding;
 
   & + & {

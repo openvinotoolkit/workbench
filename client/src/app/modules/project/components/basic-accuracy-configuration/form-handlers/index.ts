@@ -1,11 +1,11 @@
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { Subscription } from 'rxjs';
 
 import { AdvancedConfigField } from '@shared/components/config-form-field/config-form-field.component';
 
 export const createControl = (field: AdvancedConfigField) =>
-  new FormControl(
+  new UntypedFormControl(
     {
       value: field.value,
       disabled: field.disabled,
@@ -27,8 +27,8 @@ export class Subscriptions {
 }
 
 export interface IFormFeatureHandler<T> {
-  readonly group: FormGroup;
-  readonly orderedFields: { field: AdvancedConfigField; group: FormGroup }[];
+  readonly group: UntypedFormGroup;
+  readonly orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[];
   setValue: (preProcessor: T) => void;
   getValue: () => T;
   destroy: () => void;

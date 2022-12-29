@@ -303,6 +303,9 @@ export class ModelDetailsComponent implements OnInit {
       opset5: 'https://docs.openvino.ai/latest/openvino_docs_ops_opset5.html',
       opset6: 'https://docs.openvino.ai/latest/openvino_docs_ops_opset6.html',
       opset7: 'https://docs.openvino.ai/latest/openvino_docs_ops_opset7.html',
+      opset8: 'https://docs.openvino.ai/latest/openvino_docs_ops_opset8.html',
+      opset9: 'https://docs.openvino.ai/latest/openvino_docs_ops_opset9.html',
+      opset10: 'https://docs.openvino.ai/latest/openvino_docs_ops_opset10.html',
     };
 
     const opSetsLinks: ILink[] = opSets.map((opset) => ({ text: opset, url: opSetMap[opset] }));

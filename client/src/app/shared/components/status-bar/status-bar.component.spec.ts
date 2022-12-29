@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
 import { ProjectStatus, ProjectStatusNames } from '@store/project-store/project.model';
 
@@ -11,15 +11,13 @@ describe('StatusBarComponent', () => {
   let component: StatusBarComponent;
   let fixture: ComponentFixture<StatusBarComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [CommonModule, MatIconModule, MatTooltipModule],
-        declarations: [StatusBarComponent],
-        providers: [],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [CommonModule, MatIconModule, MatTooltipModule],
+      declarations: [StatusBarComponent],
+      providers: [],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StatusBarComponent);

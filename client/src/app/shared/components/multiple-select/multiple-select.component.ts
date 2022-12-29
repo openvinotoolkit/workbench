@@ -1,4 +1,4 @@
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Component, ChangeDetectionStrategy, Input, OnInit, OnChanges } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -16,13 +16,13 @@ export interface ColumnOption {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MultipleSelectComponent implements OnInit, OnChanges {
-  @Input() control: FormControl;
+  @Input() control: UntypedFormControl;
 
   @Input() options: ColumnOption[] = [];
 
   @Input() label: string;
 
-  public searchControl = new FormControl(null);
+  public searchControl = new UntypedFormControl(null);
 
   public filteredOptions$: Observable<ColumnOption[]>;
 

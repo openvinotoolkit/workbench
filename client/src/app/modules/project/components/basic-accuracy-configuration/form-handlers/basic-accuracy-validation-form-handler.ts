@@ -1,4 +1,4 @@
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import {
   ModelItem,
@@ -108,7 +108,7 @@ export class BasicAccuracyValidationFormHandler {
   metricGroup: MetricGroupHandler;
   annotationConversionGroup: AnnotationConversionGroupHandler;
 
-  form = new FormGroup({
+  form = new UntypedFormGroup({
     taskType: createControl(this.fields.taskType),
     taskMethod: createControl(this.fields.taskMethod),
   });

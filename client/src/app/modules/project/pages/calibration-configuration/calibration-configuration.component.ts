@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Params, Router } from '@angular/router';
 
 import { combineLatest, of, Subject } from 'rxjs';
@@ -121,11 +121,14 @@ export class CalibrationConfigurationComponent implements OnInit, OnDestroy {
     },
   };
 
-  readonly calibrationForm = new FormGroup({
-    optimization: new FormControl(OptimizationAlgorithm.DEFAULT, Validators.required),
-    preset: new FormControl(OptimizationAlgorithmPreset.PERFORMANCE, Validators.required),
-    [this.accuracyLossField.name]: new FormControl(this.accuracyLossField.value, this.accuracyLossField.validators),
-    [this.datasetSubsetFormField.name]: new FormControl(
+  readonly calibrationForm = new UntypedFormGroup({
+    optimization: new UntypedFormControl(OptimizationAlgorithm.DEFAULT, Validators.required),
+    preset: new UntypedFormControl(OptimizationAlgorithmPreset.PERFORMANCE, Validators.required),
+    [this.accuracyLossField.name]: new UntypedFormControl(
+      this.accuracyLossField.value,
+      this.accuracyLossField.validators
+    ),
+    [this.datasetSubsetFormField.name]: new UntypedFormControl(
       this.datasetSubsetFormField.value,
       this.datasetSubsetFormField.validators
     ),
@@ -155,9 +158,11 @@ export class CalibrationConfigurationComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._unsubscribe$))
       .subscribe((route: Route) => {
         const { modelId } = route.queryParams;
-        modelId
-          ? this._store$.dispatch(ProjectStoreActions.loadProjectsForModel({ modelId }))
-          : this._store$.dispatch(ProjectStoreActions.loadActiveProjects());
+        if (modelId) {
+          this._store$.dispatch(ProjectStoreActions.loadProjectsForModel({ modelId }));
+        } else {
+          this._store$.dispatch(ProjectStoreActions.loadActiveProjects());
+        }
       });
 
     combineLatest([

@@ -263,6 +263,7 @@ export class TargetMachines {
 
     const deviceElements = await this.allDevices;
 
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i = 0; i < deviceElements.length; i++) {
       const deviceName: string = await deviceElements[i].getText();
       console.log(`Device name: ${deviceName}`);

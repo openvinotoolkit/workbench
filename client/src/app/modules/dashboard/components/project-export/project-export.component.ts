@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, ValidatorFn } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { each } from 'lodash';
@@ -44,7 +44,7 @@ export class ProjectExportComponent implements OnDestroy, OnChanges {
   @Output() startExportProject: EventEmitter<StartExportProjectEvent> = new EventEmitter<StartExportProjectEvent>();
 
   public exportTip: string = this.messagesService.hintMessages.projectExportTips.exportTip;
-  public exportProjectForm: FormGroup;
+  public exportProjectForm: UntypedFormGroup;
   public estimatedSize = 0;
   public isExportRunning = false;
 
@@ -69,13 +69,17 @@ export class ProjectExportComponent implements OnDestroy, OnChanges {
 
   private unsubscribe$: Subject<void> = new Subject<void>();
 
-  constructor(private _store$: Store, private messagesService: MessagesService, private formBuilder: FormBuilder) {
+  constructor(
+    private _store$: Store,
+    private messagesService: MessagesService,
+    private formBuilder: UntypedFormBuilder
+  ) {
     this.exportProjectForm = this.formBuilder.group(
       {
-        includeModel: new FormControl(false),
-        includeDataset: new FormControl(false),
-        includeAccuracyConfig: new FormControl(false),
-        includeCalibrationConfig: new FormControl(false),
+        includeModel: new UntypedFormControl(false),
+        includeDataset: new UntypedFormControl(false),
+        includeAccuracyConfig: new UntypedFormControl(false),
+        includeCalibrationConfig: new UntypedFormControl(false),
       },
       { validators: this.exportDisabled }
     );

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
@@ -15,7 +15,7 @@ import { InferenceTestImageStoreSelectors, RootStoreState } from '@store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LabelSetsComponent implements OnInit, OnDestroy {
-  public labelSetControl = new FormControl();
+  public labelSetControl = new UntypedFormControl();
 
   public labelSets: ILabelSet[] = [];
 

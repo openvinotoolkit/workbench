@@ -7,9 +7,9 @@ import {
   ViewChild,
   ChangeDetectorRef,
 } from '@angular/core';
-import { MatSelectChange } from '@angular/material/select';
+import { MatLegacySelectChange as MatSelectChange } from '@angular/material/legacy-select';
 
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { isEmpty } from 'lodash';
 
@@ -114,8 +114,8 @@ export class ModelGraphVisualizationComponent {
 
   public isOriginalModelGraph = ModelGraphLayersService.isOriginalModelGraph;
 
-  public searchRuntimeLayerFormControl = new FormControl(null);
-  public searchOriginalLayerFormControl = new FormControl(null);
+  public searchRuntimeLayerFormControl = new UntypedFormControl(null);
+  public searchOriginalLayerFormControl = new UntypedFormControl(null);
 
   constructor(
     private modelGraphVisualizationService: ModelGraphVisualizationService,
@@ -130,7 +130,7 @@ export class ModelGraphVisualizationComponent {
       : this.runtimeGraphMasterDetailComponent;
   }
 
-  public getSearchLayerFormControl(modelGraphType: ModelGraphType): FormControl {
+  public getSearchLayerFormControl(modelGraphType: ModelGraphType): UntypedFormControl {
     return ModelGraphLayersService.isOriginalModelGraph(modelGraphType)
       ? this.searchOriginalLayerFormControl
       : this.searchRuntimeLayerFormControl;
@@ -224,10 +224,8 @@ export class ModelGraphVisualizationComponent {
       ? ModelGraphType.RUNTIME
       : ModelGraphType.ORIGINAL;
 
-    const [
-      originalGraphMappingNodesIds,
-      reversedGraphMappingNodesIds,
-    ] = this.modelGraphLayersService.getMappingNodesIdsFromGraphs(modelGraphType, nodeId);
+    const [originalGraphMappingNodesIds, reversedGraphMappingNodesIds] =
+      this.modelGraphLayersService.getMappingNodesIdsFromGraphs(modelGraphType, nodeId);
 
     this.selectNodesInGraphByIds(modelGraphType, originalGraphMappingNodesIds, nodeId);
     this.selectNodesInGraphByIds(reversedGraphType, reversedGraphMappingNodesIds);

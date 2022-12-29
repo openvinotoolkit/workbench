@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { SharedModule } from '@shared/shared.module';
@@ -28,8 +28,8 @@ describe('TransformationsConfigFieldComponent', () => {
     fixture = TestBed.createComponent(TransformationsConfigFieldComponent);
     component = fixture.componentInstance;
     component.field = mockField;
-    component.group = new FormGroup({
-      [mockField.name]: new FormControl(),
+    component.group = new UntypedFormGroup({
+      [mockField.name]: new UntypedFormControl(),
     });
     fixture.detectChanges();
   });

@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
@@ -46,7 +46,7 @@ export class DeploymentManagerComponent implements OnDestroy {
   });
   public readonly archiveSizeTip = this._messagesService.hintMessages.deploymentTips.archiveSizeTip;
 
-  public deploymentForm: FormGroup;
+  public deploymentForm: UntypedFormGroup;
   public estimatedSize: number;
   public devices: DeviceTargetType[] = [DeviceTargets.CPU, DeviceTargets.GPU, DeviceTargets.MYRIAD, DeviceTargets.HDDL];
   public osTypes: TargetOSType[] = [OSTypeNames.UBUNTU18, OSTypeNames.UBUNTU20];
@@ -67,13 +67,13 @@ export class DeploymentManagerComponent implements OnDestroy {
   constructor(
     private _store$: Store<RootStoreState.State>,
     private _messagesService: MessagesService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: UntypedFormBuilder
   ) {
     this.deploymentForm = this._formBuilder.group({
-      selectedOS: new FormControl(OSTypeNames.UBUNTU18),
-      includeModel: new FormControl(false),
-      pythonBindings: new FormControl(false),
-      installScripts: new FormControl(false),
+      selectedOS: new UntypedFormControl(OSTypeNames.UBUNTU18),
+      includeModel: new UntypedFormControl(false),
+      pythonBindings: new UntypedFormControl(false),
+      installScripts: new UntypedFormControl(false),
     });
     this._store$
       .select(GlobalsStoreSelectors.selectPackageSizesInfo)

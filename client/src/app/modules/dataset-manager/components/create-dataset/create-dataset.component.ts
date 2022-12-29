@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 import { isEmpty, max, map, flatten, cloneDeep, isNil } from 'lodash';
 
@@ -55,12 +55,12 @@ export class CreateDatasetComponent implements OnDestroy {
   images: IUploadingImage[] = [];
   private _imageFiles: ImageFile[] = [];
 
-  readonly uploadDatasetForm: FormGroup = this._formBuilder.group({});
+  readonly uploadDatasetForm: UntypedFormGroup = this._formBuilder.group({});
   private _augmentationImagesCount = 0;
   private _augmentationConfig = initialAugmentationFormState;
   isAugmentationFormValid = true;
 
-  constructor(private readonly _formBuilder: FormBuilder, private readonly _messagesService: MessagesService) {
+  constructor(private readonly _formBuilder: UntypedFormBuilder, private readonly _messagesService: MessagesService) {
     this.datasetFormControls.datasetName.value = 'My Custom Dataset';
     FormUtils.addControlsToForm(Object.values(this.datasetFormControls), this.uploadDatasetForm);
   }

@@ -7,7 +7,7 @@ import {
   SimpleChanges,
   OnDestroy,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { isNil } from 'lodash';
 import { Subject } from 'rxjs';
@@ -29,7 +29,7 @@ import defaultImages from '../../../../../../../assets/img/default-dataset/image
 export class GeneralAugmentationSectionComponent implements OnChanges, OnDestroy {
   @Input() formFields: AdvancedConfigField[] = [];
 
-  @Input() formGroup: FormGroup;
+  @Input() formGroup: UntypedFormGroup;
 
   @Input() isDevCloud: boolean = null;
 

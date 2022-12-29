@@ -24,7 +24,7 @@ const commonConfig: marked.MarkedOptions = {
 };
 
 const highlightConfig: marked.MarkedOptions = {
-  highlight: function (code, lang) {
+  highlight(code, lang) {
     const language = hljs.getLanguage(lang) ? lang : 'plaintext';
     return hljs.highlight(code, { language }).value;
   },

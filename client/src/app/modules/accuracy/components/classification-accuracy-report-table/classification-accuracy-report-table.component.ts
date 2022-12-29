@@ -9,7 +9,7 @@ import {
   Output,
 } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -51,35 +51,35 @@ export class ClassificationAccuracyReportTableComponent implements OnInit, OnDes
     }),
   ];
 
-  private readonly _classificationReportTableColumnsHeaders: AccuracyReportTableColumnHeaders<
-    ClassificationReportEntityKey
-  > = {
-    [ClassificationReportEntityKey.IMAGE_NAME]: {
-      [AccuracyReportType.DATASET_ANNOTATIONS]: 'Image Name',
-      [AccuracyReportType.PARENT_MODEL_PREDICTIONS]: 'Image Name',
-    },
-    [ClassificationReportEntityKey.TOP_1_PREDICTION]: {
-      [AccuracyReportType.DATASET_ANNOTATIONS]: 'Predicted Class',
-      [AccuracyReportType.PARENT_MODEL_PREDICTIONS]: 'Class Predicted by Optimized Model',
-    },
-    [ClassificationReportEntityKey.ANNOTATION_CLASS_ID]: {
-      [AccuracyReportType.DATASET_ANNOTATIONS]: 'Class Defined in Dataset Annotations',
-      [AccuracyReportType.PARENT_MODEL_PREDICTIONS]: 'Class Predicted by Parent Model',
-    },
-    [ClassificationReportEntityKey.ANNOTATION_ID_RANK_IN_PREDICTIONS]: {
-      [AccuracyReportType.DATASET_ANNOTATIONS]: 'Rank of Class Defined in Dataset Annotations in Model Predictions',
-      [AccuracyReportType.PARENT_MODEL_PREDICTIONS]:
-        'Rank of Class Predicted by Parent Model in Optimized Model Predictions',
-    },
-    [ClassificationReportEntityKey.TOP_1_PREDICTION_CONFIDENCE]: {
-      [AccuracyReportType.DATASET_ANNOTATIONS]: 'Model Confidence in Predicted Class',
-      [AccuracyReportType.PARENT_MODEL_PREDICTIONS]: 'Optimized Model Confidence in Class Predicted by Optimized Model',
-    },
-    [ClassificationReportEntityKey.CONFIDENCE_IN_ANNOTATION_CLASS_ID]: {
-      [AccuracyReportType.DATASET_ANNOTATIONS]: 'Model Confidence in Class Defined in Dataset Annotations',
-      [AccuracyReportType.PARENT_MODEL_PREDICTIONS]: 'Optimized Model Confidence in Class Predicted by Parent Model',
-    },
-  };
+  private readonly _classificationReportTableColumnsHeaders: AccuracyReportTableColumnHeaders<ClassificationReportEntityKey> =
+    {
+      [ClassificationReportEntityKey.IMAGE_NAME]: {
+        [AccuracyReportType.DATASET_ANNOTATIONS]: 'Image Name',
+        [AccuracyReportType.PARENT_MODEL_PREDICTIONS]: 'Image Name',
+      },
+      [ClassificationReportEntityKey.TOP_1_PREDICTION]: {
+        [AccuracyReportType.DATASET_ANNOTATIONS]: 'Predicted Class',
+        [AccuracyReportType.PARENT_MODEL_PREDICTIONS]: 'Class Predicted by Optimized Model',
+      },
+      [ClassificationReportEntityKey.ANNOTATION_CLASS_ID]: {
+        [AccuracyReportType.DATASET_ANNOTATIONS]: 'Class Defined in Dataset Annotations',
+        [AccuracyReportType.PARENT_MODEL_PREDICTIONS]: 'Class Predicted by Parent Model',
+      },
+      [ClassificationReportEntityKey.ANNOTATION_ID_RANK_IN_PREDICTIONS]: {
+        [AccuracyReportType.DATASET_ANNOTATIONS]: 'Rank of Class Defined in Dataset Annotations in Model Predictions',
+        [AccuracyReportType.PARENT_MODEL_PREDICTIONS]:
+          'Rank of Class Predicted by Parent Model in Optimized Model Predictions',
+      },
+      [ClassificationReportEntityKey.TOP_1_PREDICTION_CONFIDENCE]: {
+        [AccuracyReportType.DATASET_ANNOTATIONS]: 'Model Confidence in Predicted Class',
+        [AccuracyReportType.PARENT_MODEL_PREDICTIONS]:
+          'Optimized Model Confidence in Class Predicted by Optimized Model',
+      },
+      [ClassificationReportEntityKey.CONFIDENCE_IN_ANNOTATION_CLASS_ID]: {
+        [AccuracyReportType.DATASET_ANNOTATIONS]: 'Model Confidence in Class Defined in Dataset Annotations',
+        [AccuracyReportType.PARENT_MODEL_PREDICTIONS]: 'Optimized Model Confidence in Class Predicted by Parent Model',
+      },
+    };
 
   @Input() projectId: number = null;
 
@@ -107,7 +107,7 @@ export class ClassificationAccuracyReportTableComponent implements OnInit, OnDes
 
   filterableColumns: FilterableColumn[];
 
-  readonly onlyErroneousFormControl = new FormControl(false);
+  readonly onlyErroneousFormControl = new UntypedFormControl(false);
 
   private _unsubscribe$ = new Subject();
 

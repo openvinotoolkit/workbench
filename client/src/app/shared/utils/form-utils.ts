@@ -1,15 +1,15 @@
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { AdvancedConfigField } from '@shared/components/config-form-field/config-form-field.component';
 
 export class FormUtils {
-  static addControlsToForm(fields: AdvancedConfigField[] = [], form: FormGroup): void {
+  static addControlsToForm(fields: AdvancedConfigField[] = [], form: UntypedFormGroup): void {
     fields.forEach(({ name, value, validators }) => {
-      form.addControl(name, new FormControl(value, validators));
+      form.addControl(name, new UntypedFormControl(value, validators));
     });
   }
 
-  static removeControlsFromForm(fields: AdvancedConfigField[] = [], form: FormGroup): void {
+  static removeControlsFromForm(fields: AdvancedConfigField[] = [], form: UntypedFormGroup): void {
     fields.forEach(({ name }) => {
       form.removeControl(name);
     });

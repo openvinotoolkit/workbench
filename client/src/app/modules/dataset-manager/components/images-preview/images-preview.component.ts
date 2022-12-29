@@ -9,7 +9,7 @@ import {
   EventEmitter,
   DoCheck,
 } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 import { chunk } from 'lodash';

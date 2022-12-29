@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
