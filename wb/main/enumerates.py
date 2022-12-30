@@ -298,8 +298,6 @@ class DeploymentTargetEnum(enum.Enum):
     gpu = 'GPU'
     myriad = 'VPU'
     hddl = 'HDDL'
-    opencv = 'opencv'
-    python36 = 'python3.6'
     python37 = 'python3.7'
     python38 = 'python3.8'
 

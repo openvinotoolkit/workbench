@@ -127,7 +127,7 @@ pushd ${ROOT_FOLDER}
                 --link "${BUNDLES_LINK}" \
                 -os ubuntu18 ubuntu20 \
                 --output-path "${BUNDLES_FOLDER}" \
-                --targets cpu gpu hddl opencv python3.6 python3.7 python3.8 vpu
+                --targets cpu gpu hddl python3.7 python3.8 vpu
       popd
     fi
 
