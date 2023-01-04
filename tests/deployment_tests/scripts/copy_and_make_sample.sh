@@ -31,6 +31,8 @@ while (( "$#" )); do
   esac
 done
 
+source "${INTEL_OPENVINO_DIR}/setupvars.sh"
+
 set -e
 
 python3 ${OPENVINO_WORKBENCH_ROOT}/tests/deployment_tests/scripts/get_bundle.py --token ${TOKEN_PATH} --hostname http://${HOSTNAME}:${PORT} --tls 1 --path ${OPENVINO_WORKBENCH_ROOT}/tests/deployment_tests/scripts --os ${OS}
