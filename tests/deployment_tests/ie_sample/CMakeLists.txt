@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(IE_SAMPLE_NAME ie_sample)
 
-find_package(InferenceEngine 2.1 REQUIRED)
+find_package(InferenceEngine REQUIRED)
 
 add_executable(${IE_SAMPLE_NAME} main.cpp ${IE_SAMPLE_SOURCES} ${IE_SAMPLES_HEADERS})
 
