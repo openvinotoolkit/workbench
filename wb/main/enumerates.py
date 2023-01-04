@@ -311,7 +311,7 @@ class DeploymentTargetEnum(enum.Enum):
 
     @staticmethod
     def get_python_targets() -> Tuple[str, ...]:
-        python_targets = (DeploymentTargetEnum.python36, DeploymentTargetEnum.python37, DeploymentTargetEnum.python38)
+        python_targets = (DeploymentTargetEnum.python37, DeploymentTargetEnum.python38)
         return tuple(python_target.value for python_target in python_targets)
 
     @staticmethod
