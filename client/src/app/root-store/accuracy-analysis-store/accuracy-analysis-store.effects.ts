@@ -48,7 +48,7 @@ export class AccuracyAnalysisEffects {
       switchMap(([{ error, reportType }, { id }]) => [
         ProjectStoreActions.updateProjectParameters({
           id,
-          status: { name: ProjectStatusNames.ERROR, errorMessage: <string>error },
+          status: { name: ProjectStatusNames.ERROR, errorMessage: error as string },
         }),
         ProjectStoreActions.reportAccuracyGA({
           projectId: id,

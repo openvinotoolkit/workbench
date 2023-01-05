@@ -36,8 +36,8 @@ export class AdvancedAccuracyConfigurationPage {
   }
 
   async isConfigurationValid(): Promise<boolean> {
-    const isValidElement: Function = this.until.visibilityOf(this.elements.isConfigurationValidStatus);
-    const isNotValidElement: Function = this.until.visibilityOf(this.elements.isConfigurationNotValidStatus);
+    const isValidElement = this.until.visibilityOf(this.elements.isConfigurationValidStatus);
+    const isNotValidElement = this.until.visibilityOf(this.elements.isConfigurationNotValidStatus);
 
     await browser.wait(this.until.or(isNotValidElement, isValidElement), browser.params.defaultTimeout);
 
@@ -156,6 +156,7 @@ export class AdvancedAccuracyConfigurationPage {
     const line: ElementFinder = await this.getEditorLineByIndex(index);
     await new TestUtils().clickElement(line);
     const activeField: WebdriverWebElement = await browser.driver.switchTo().activeElement();
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i = 0; i < REQUIRED_PLACEHOLDER.length; i++) {
       await activeField.sendKeys(protractor.Key.BACK_SPACE);
     }
@@ -167,6 +168,7 @@ export class AdvancedAccuracyConfigurationPage {
     await new TestUtils().clickElement(line);
     const activeField: WebdriverWebElement = await browser.driver.switchTo().activeElement();
     const text = await line.getText();
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i = 0; i < text.trim().length; i++) {
       await activeField.sendKeys(protractor.Key.BACK_SPACE);
     }

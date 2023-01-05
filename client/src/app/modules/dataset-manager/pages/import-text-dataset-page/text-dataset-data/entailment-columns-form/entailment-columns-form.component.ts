@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, DoCheck, Input, OnDestroy, OnInit, Optional, Self } from '@angular/core';
-import { ControlValueAccessor, FormControl, FormGroup, NgControl, Validators } from '@angular/forms';
+import { ControlValueAccessor, UntypedFormControl, UntypedFormGroup, NgControl, Validators } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -84,11 +84,14 @@ export class EntailmentColumnsFormComponent implements OnDestroy, OnInit, DoChec
 
   readonly formFields = cloneDeep(formFields);
 
-  readonly form = new FormGroup(
+  readonly form = new UntypedFormGroup(
     {
-      [formFields.premise.name]: new FormControl(formFields.premise.value, formFields.premise?.validators),
-      [formFields.hypothesis.name]: new FormControl(formFields.hypothesis.value, formFields.hypothesis?.validators),
-      [formFields.label.name]: new FormControl(formFields.label.value, formFields.label?.validators),
+      [formFields.premise.name]: new UntypedFormControl(formFields.premise.value, formFields.premise?.validators),
+      [formFields.hypothesis.name]: new UntypedFormControl(
+        formFields.hypothesis.value,
+        formFields.hypothesis?.validators
+      ),
+      [formFields.label.name]: new UntypedFormControl(formFields.label.value, formFields.label?.validators),
     },
     { validators: uniqueColumnsGroupValidator }
   );
@@ -108,11 +111,11 @@ export class EntailmentColumnsFormComponent implements OnDestroy, OnInit, DoChec
 
   writeValue(): void {}
 
-  registerOnChange(fn: (value: IEntailmentColumns) => {}): void {
+  registerOnChange(fn: (value: IEntailmentColumns) => void): void {
     this._onChange = fn;
   }
 
-  registerOnTouched(fn: () => {}): void {
+  registerOnTouched(fn: () => void): void {
     this._onTouched = fn;
   }
 

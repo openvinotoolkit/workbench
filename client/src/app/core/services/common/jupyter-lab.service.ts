@@ -40,7 +40,7 @@ export class JupyterLabService {
   }
 
   private _getOpenvinoNotebooksLinks(): IOpenVINONotebookLink[] {
-    return (<IOpenVINONotebookMetadata[]>openvinoNotebooksMetadata).map(({ name, filename, description }) => {
+    return (openvinoNotebooksMetadata as IOpenVINONotebookMetadata[]).map(({ name, filename, description }) => {
       const notebookFilePath = filename ? `${name}/${filename}` : `${name}/${name}.ipynb`;
       const notebookName = filename?.split('.')[0] || name;
       const url = this._getOpenvinoNotebookURL(notebookFilePath);

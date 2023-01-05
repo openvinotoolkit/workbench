@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnDestroy, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { merge, Subject } from 'rxjs';
 import { delay, takeUntil } from 'rxjs/operators';
@@ -74,14 +74,14 @@ export class TextDatasetDataComponent implements OnDestroy {
 
   readonly formFields = formFields;
 
-  readonly form = new FormGroup({
-    [formFields.file.name]: new FormControl(null, [Validators.required]),
-    [formFields.name.name]: new FormControl(formFields.name.value, formFields.name?.validators),
-    [formFields.encoding.name]: new FormControl(formFields.encoding.value, formFields.encoding?.validators),
-    [formFields.separator.name]: new FormControl(formFields.separator.value, formFields.separator?.validators),
-    [formFields.header.name]: new FormControl(formFields.header.value, formFields.header?.validators),
-    [formFields.taskType.name]: new FormControl(formFields.taskType.value, formFields.taskType?.validators),
-    columns: new FormControl(),
+  readonly form = new UntypedFormGroup({
+    [formFields.file.name]: new UntypedFormControl(null, [Validators.required]),
+    [formFields.name.name]: new UntypedFormControl(formFields.name.value, formFields.name?.validators),
+    [formFields.encoding.name]: new UntypedFormControl(formFields.encoding.value, formFields.encoding?.validators),
+    [formFields.separator.name]: new UntypedFormControl(formFields.separator.value, formFields.separator?.validators),
+    [formFields.header.name]: new UntypedFormControl(formFields.header.value, formFields.header?.validators),
+    [formFields.taskType.name]: new UntypedFormControl(formFields.taskType.value, formFields.taskType?.validators),
+    columns: new UntypedFormControl(),
   });
 
   private readonly _unsubscribe$ = new Subject<void>();

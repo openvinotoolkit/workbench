@@ -20,19 +20,17 @@ import {
 
 import * as fromTargetMachineStore from './target-machine.reducer';
 
-const selectTargetMachineState = createFeatureSelector<AppState, TargetMachineState>(
+const selectTargetMachineState = createFeatureSelector<TargetMachineState>(
   fromTargetMachineStore.targetMachineStoreFeatureKey
 );
 
-export const selectTargetMachineEntities: (
-  state: AppState
-) => Dictionary<TargetMachineItem> = targetMachineItemAdapter.getSelectors(selectTargetMachineState).selectEntities;
+export const selectTargetMachineEntities: (state: AppState) => Dictionary<TargetMachineItem> =
+  targetMachineItemAdapter.getSelectors(selectTargetMachineState).selectEntities;
 
 export const getSelectedTargetMachine = (state: TargetMachineState): number => state.selectedTarget;
 
-export const selectAllTargetMachines: (state: AppState) => TargetMachineItem[] = targetMachineItemAdapter.getSelectors(
-  selectTargetMachineState
-).selectAll;
+export const selectAllTargetMachines: (state: AppState) => TargetMachineItem[] =
+  targetMachineItemAdapter.getSelectors(selectTargetMachineState).selectAll;
 
 export const selectAvailablePlatforms = createSelector(selectAllTargetMachines, (targetMachines: TargetMachineItem[]) =>
   targetMachines.reduce((acc, { cpuInfo }) => {

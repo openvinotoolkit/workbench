@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MatSelectChange } from '@angular/material/select';
+import { UntypedFormControl } from '@angular/forms';
+import { MatLegacySelectChange as MatSelectChange } from '@angular/material/legacy-select';
 
 import { Store } from '@ngrx/store';
 
@@ -51,7 +51,7 @@ export class SingleModelGraphVisualizationComponent implements OnInit, OnDestroy
 
   public openedNodeIdInOriginalGraph: string;
 
-  public searchOriginalLayerFormControl = new FormControl(null);
+  public searchOriginalLayerFormControl = new UntypedFormControl(null);
 
   constructor(
     private _store$: Store<RootStoreState.State>,

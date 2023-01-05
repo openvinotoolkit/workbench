@@ -30,7 +30,7 @@ export class CalibrationUtils {
 
   constructor(originTestUtils?) {
     this.until = protractor.ExpectedConditions;
-    originTestUtils ? (this.testUtils = originTestUtils) : (this.testUtils = new TestUtils());
+    this.testUtils = originTestUtils || new TestUtils();
     this.helpers = new Helpers();
     this.configurationWizard = new ConfigurationWizardPage();
     this.inferenceCard = new InferenceCardPage();

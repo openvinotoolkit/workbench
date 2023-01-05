@@ -21,7 +21,7 @@ export class EnvironmentService {
     return this.http.get<SupportedFeaturesPreview[]>(`${this.connectionService.prefix}/supported-preview-features`);
   }
 
-  public stopSetup$(): Observable<{}> {
-    return this.http.delete(`${this.connectionService.prefix}/environment/setup/stop`);
+  public stopSetup$(): Observable<Record<string, never>> {
+    return this.http.delete<Record<string, never>>(`${this.connectionService.prefix}/environment/setup/stop`);
   }
 }

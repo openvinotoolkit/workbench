@@ -8,7 +8,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { isNil } from 'lodash';
 import { Subject } from 'rxjs';
@@ -56,7 +56,7 @@ export class ColorTransformationsSectionComponent implements OnDestroy {
   public readonly defaultImageName = defaultImages[0];
   public defaultImagePath: string = null;
 
-  readonly group = new FormGroup({});
+  readonly group = new UntypedFormGroup({});
 
   private unsubscribe$: Subject<void> = new Subject<void>();
   isNil = isNil;
@@ -68,7 +68,7 @@ export class ColorTransformationsSectionComponent implements OnDestroy {
     private _cdr: ChangeDetectorRef
   ) {
     this.colorSpacePresets.forEach(({ id }) => {
-      this.group.addControl(id, new FormControl());
+      this.group.addControl(id, new UntypedFormControl());
     });
 
     this.group.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((checkboxes) => {

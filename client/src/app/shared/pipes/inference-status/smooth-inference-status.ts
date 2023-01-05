@@ -14,6 +14,7 @@ import { JobType, PipelineStage } from '@shared/models/pipelines/pipeline';
 
 /**
  * Build an observable which emits progress based on estimated inference time
+ *
  * @param inference
  */
 const singleInferenceProgress$ = ({ deviceType, started, inferenceTime }: IInferenceResult): Observable<number> => {
@@ -51,6 +52,7 @@ export const singleInferenceStatus$ = (inferenceResult: IInferenceResult): Obser
 
 /**
  * Build an observable which emits status based on a group of single inferences estimations
+ *
  * @param inferences
  */
 export const compoundInferenceStatus$ = (inferences: IInferenceResult[]): Observable<ProjectStatus> => {
@@ -96,6 +98,7 @@ const PIPELINE_STAGE_NAME = {
  * Builds an observable which emits status based on a pipeline jobs.
  * Status for all jobs but CompoundInference emitted as is
  * Status for CompoundInference estimated based on compoundInferenceStatus$
+ *
  * @param pipeline
  */
 export const profilingStatus$ = (
@@ -104,7 +107,7 @@ export const profilingStatus$ = (
   if (pipeline.status.stage !== PipelineStage.PROFILING) {
     return of({
       progress: pipeline.status.progress,
-      name: (pipeline.status.name as unknown) as ProjectStatusNames,
+      name: pipeline.status.name as unknown as ProjectStatusNames,
       stage: PIPELINE_STAGE_NAME[pipeline.status.stage],
     });
   }

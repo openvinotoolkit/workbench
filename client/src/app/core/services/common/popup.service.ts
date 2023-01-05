@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 import { BackendErrorConfig, CookieBannerConfig } from '@core/services/common/popup.config';
 import { AnalyticsPopupComponent } from '@core/analytics-popup/analytics-popup.component';

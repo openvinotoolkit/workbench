@@ -8,7 +8,7 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es2015",
+    "target": "ES2022",
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2020", "dom"],
     "module": "es2020",
@@ -21,6 +21,7 @@
       "@core/*": ["app/core/*"],
       "@store": ["app/root-store"],
       "@store/*": ["app/root-store/*"]
-    }
+    },
+    "useDefineForClassFields": false
   }
 }

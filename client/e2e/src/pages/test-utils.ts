@@ -162,7 +162,7 @@ export class TestUtils {
                 browser.currentTest.failedExpectations.push({
                   matcherName: 'toBeTruthy',
                   message: `Browser console have errors:\n Message:\n ${log.message}`,
-                  stack: ``,
+                  stack: '',
                   passed: false,
                   expected: [],
                   actual: false,
@@ -206,7 +206,7 @@ export class TestUtils {
         await console.log(await errorPopup.getText());
         return;
       } catch (err) {
-        console.log(`error popup did not show up`);
+        console.log('error popup did not show up');
       }
     } while (true);
   }
@@ -223,6 +223,7 @@ export class TestUtils {
 
   /**
    * Return object with checkbox state is disabled and is checked
+   *
    * @param checkbox
    */
   static async getCheckboxState(checkbox: ElementFinder): Promise<{ isChecked: boolean; isDisabled: boolean }> {
@@ -235,6 +236,7 @@ export class TestUtils {
 
   /**
    * Return object with input state
+   *
    * @param matFormFieldEl
    */
   static async getMatFormFieldState(matFormFieldEl: ElementFinder) {
@@ -247,6 +249,7 @@ export class TestUtils {
 
   /**
    * checks the expected match of the state of the input field
+   *
    * @param matFormField 'mat-form-field' element
    * @param state expected state
    * @param inputName name displayed in expectation output
@@ -280,6 +283,7 @@ export class TestUtils {
   /**
    * Clear input + mark it as touched
    * Allow clear input and check input validation
+   *
    * @param input input element
    */
   static async clearInput(input: ElementFinder): Promise<void> {
@@ -703,27 +707,27 @@ export class TestUtils {
             console.log(needClick);
             if ((needClick && selectedPackingModel) || (!needClick && !selectedPackingModel)) {
               await this.packingSheet.cpuCheckBox.click();
-              console.log(`click CPU`);
+              console.log('click CPU');
             }
             break;
           case 'GPU':
             needClick = !(await this.isChecked(this.packingSheet.gpuCheckBox));
             if ((needClick && selectedPackingModel) || (!needClick && !selectedPackingModel)) {
               await this.packingSheet.gpuCheckBox.click();
-              console.log(`click GPU`);
+              console.log('click GPU');
             }
             break;
           case 'VPU':
             needClick = !(await this.isChecked(this.packingSheet.vpuCheckBox));
             if ((needClick && selectedPackingModel) || (!needClick && !selectedPackingModel)) {
               await this.packingSheet.vpuCheckBox.click();
-              console.log(`click VPU`);
+              console.log('click VPU');
             }
             break;
           case 'includeModel':
             if (selectedPackingModel) {
               await this.packingSheet.includeModel.click();
-              console.log(`click Yes`);
+              console.log('click Yes');
             }
             break;
         }
@@ -779,16 +783,16 @@ export class TestUtils {
       }
     }
     return {
-      projectId: projectId,
+      projectId,
       includeModel: packingModel.includeModel,
-      targets: targets,
+      targets,
       targetOS: packingModel.os,
     };
   }
 
   async checkErrorStatus(): Promise<string> {
     try {
-      const errorContainer = await TestUtils.getAllElementsByDataTestId(`message-box-error`)
+      const errorContainer = await TestUtils.getAllElementsByDataTestId('message-box-error')
         .filter(async (el: ElementFinder) => await el.isDisplayed())
         .first();
       const detailBtn = await TestUtils.getNestedElementByDataTestId(errorContainer, 'details-button');
@@ -1156,6 +1160,7 @@ export class TestUtils {
 
   /**
    * Search for mat-form-field element.
+   *
    * @param container
    */
   async getMatFormFieldElement(container: ElementFinder): Promise<ElementFinder> {
@@ -1166,6 +1171,7 @@ export class TestUtils {
 
   /**
    * Search for input element material autocomplete.
+   *
    * @param autocompleteContainer element with 'wb-select-autocomplete' tag name
    */
   async getAutocompleteInputElement(autocompleteContainer: ElementFinder): Promise<ElementFinder> {
@@ -1179,6 +1185,7 @@ export class TestUtils {
    * cleaning input
    * filling random value
    * setting suggested value
+   *
    * @param autocompleteContainer element with 'wb-select-autocomplete' tag name
    * @param options contain randomName random name to check validation state, elementName name displayed in expectation output
    */

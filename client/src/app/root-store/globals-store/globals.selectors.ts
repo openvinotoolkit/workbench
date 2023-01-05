@@ -3,7 +3,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { State as GlobalsState, SupportedFeaturesPreview } from './globals.state';
 import { State as AppState } from '../state';
 
-export const selectGlobalsState = createFeatureSelector<AppState, GlobalsState>('globals');
+export const selectGlobalsState = createFeatureSelector<GlobalsState>('globals');
 
 const getTaskIsRunning = (state: GlobalsState) => state.isRunning;
 const getConnectionStatus = (state: GlobalsState) => state.isConnected;

@@ -8,8 +8,6 @@ import {
   TransformationsConfigType,
 } from '@store/model-store/model.model';
 
-import { layoutFieldNamesValuesMap } from '@shared/components/dimensions-layouts/dimensions-layouts.component';
-
 import { TestUtils } from './test-utils';
 import { Helpers } from './helpers';
 import { ConfigurationWizardPage } from './configuration-wizard.po';
@@ -274,11 +272,11 @@ export class ModelManagerPage {
     return TestUtils.getElementByDataTestId('layout-form-field');
   }
 
-  async isValidateButtonDisabled(): Promise<Boolean> {
+  async isValidateButtonDisabled(): Promise<boolean> {
     return (await this.validateButton.element(by.css('button')).getAttribute('disabled')) === 'true';
   }
 
-  async isConvertButtonDisabled(): Promise<Boolean> {
+  async isConvertButtonDisabled(): Promise<boolean> {
     return (await this.convertButton.getAttribute('disabled')) === 'true';
   }
 
@@ -396,7 +394,7 @@ export class ModelManagerPage {
       .filter(async (layer: ElementFinder) => {
         const layerInput: ElementFinder = await TestUtils.getNestedElementsContainingDataTestIdPart(
           layer,
-          `input-layer-name-`
+          'input-layer-name-'
         ).first();
         if (!layerInput) {
           return false;
@@ -584,7 +582,7 @@ export class ModelManagerPage {
   async selectTFKeras() {
     const optionElement = await element(by.id('isKerasModel'));
     await optionElement.click();
-    await console.log(`Keras mode is selected.`);
+    await console.log('Keras mode is selected.');
   }
 
   async selectPredefinedTransformationsConfig(config: string): Promise<void> {
@@ -1256,6 +1254,7 @@ export class ModelManagerPage {
 
   /**
    * Returns dimensions input values
+   *
    * @param el element with wb-dimensions-input tag name
    */
   async getDimensionsInputValues(el: ElementFinder) {
@@ -1431,7 +1430,7 @@ export class ModelManagerPage {
             );
             await this.selectValueFromDropdown(layoutInput, originalLayout[i]);
             if (inputType === LayoutTypeNamesByTypeMap[LayoutTypes.CUSTOM] && i === 0) {
-              await this.selectInputLayerType(layoutFieldNamesValuesMap.N);
+              await this.selectInputLayerType('Batch');
             }
           }
         }

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, ValidatorFn, Validators } from '@angular/forms';
 
 import { isObject } from 'lodash';
 import { Subject } from 'rxjs';
@@ -59,7 +59,7 @@ export interface Tooltip {
 export class ConfigFormFieldComponent implements OnInit, OnDestroy {
   @Input() field: AdvancedConfigField;
 
-  @Input() group: FormGroup;
+  @Input() group: UntypedFormGroup;
 
   @Input() idSuffix: string;
 
@@ -67,14 +67,14 @@ export class ConfigFormFieldComponent implements OnInit, OnDestroy {
 
   @Input() autoDisableSelect = true;
 
-  rgbFormGroup: FormGroup;
+  rgbFormGroup: UntypedFormGroup;
   isObject = isObject;
   readonly AdvancedConfigFieldType = AdvancedConfigFieldType;
 
   private unsubscribe$ = new Subject<void>();
 
   constructor(
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     public tooltipService: MessagesService,
     private _cdr: ChangeDetectorRef
   ) {}
@@ -84,9 +84,9 @@ export class ConfigFormFieldComponent implements OnInit, OnDestroy {
       const { value } = this.field;
       const [R, G, B] = value as number[];
       this.rgbFormGroup = this._formBuilder.group({
-        R: new FormControl(R, RGBValidators),
-        G: new FormControl(G, RGBValidators),
-        B: new FormControl(B, RGBValidators),
+        R: new UntypedFormControl(R, RGBValidators),
+        G: new UntypedFormControl(G, RGBValidators),
+        B: new UntypedFormControl(B, RGBValidators),
       });
     }
 
@@ -126,9 +126,9 @@ export class ConfigFormFieldComponent implements OnInit, OnDestroy {
       const error = control.errors.step;
       return `Number of steps (${error.step}) should be lower than max - min `;
     } else if (control.hasError('range')) {
-      return `Minimum value should not be greater than maximum `;
+      return 'Minimum value should not be greater than maximum ';
     } else if (control.hasError('pattern')) {
-      return `Value should be integer`;
+      return 'Value should be integer';
     } else if (control.hasError('nameUnsafeCharacters')) {
       return control.getError('nameUnsafeCharacters').message;
     } else if (control.hasError('unique')) {

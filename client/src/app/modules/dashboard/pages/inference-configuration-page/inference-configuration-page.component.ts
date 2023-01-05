@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { UntypedFormControl, UntypedFormGroup, ValidationErrors } from '@angular/forms';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import { Store } from '@ngrx/store';
 import { combineLatest, Subject } from 'rxjs';
@@ -46,15 +46,15 @@ export class InferenceConfigurationPageComponent implements OnInit, OnDestroy {
 
   matrix: IInferenceMatrix = null;
 
-  matrixControl = new FormControl([]);
+  matrixControl = new UntypedFormControl([]);
 
-  matrixFormGroup = new FormGroup(
+  matrixFormGroup = new UntypedFormGroup(
     {
-      maxBatches: new FormControl(256),
-      maxStreams: new FormControl(0),
-      streamColumns: new FormControl(10),
-      batchRows: new FormControl(10),
-      batchRowsPower: new FormControl(false),
+      maxBatches: new UntypedFormControl(256),
+      maxStreams: new UntypedFormControl(0),
+      streamColumns: new UntypedFormControl(10),
+      batchRows: new UntypedFormControl(10),
+      batchRowsPower: new UntypedFormControl(false),
     },
     { validators: this.matrixColumnsAndRowsLengthValidator }
   );
@@ -170,7 +170,7 @@ export class InferenceConfigurationPageComponent implements OnInit, OnDestroy {
     this.matrixControl.setValue(this.matrixControl.value.filter((selected) => selected !== value));
   }
 
-  matrixColumnsAndRowsLengthValidator(form: FormGroup): ValidationErrors | null {
+  matrixColumnsAndRowsLengthValidator(form: UntypedFormGroup): ValidationErrors | null {
     const { maxBatches, batchRows, maxStreams, streamColumns, batchRowsPower } = form.value;
     const hasNextStreamColumns = streamColumns < maxStreams;
     const hasNextBatchRows = batchRowsPower ? 2 ** batchRows + 1 < maxBatches : batchRows < maxBatches;

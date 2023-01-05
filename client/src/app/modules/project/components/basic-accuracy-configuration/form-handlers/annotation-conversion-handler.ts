@@ -1,4 +1,4 @@
-import { FormGroup, Validators } from '@angular/forms';
+import { UntypedFormGroup, Validators } from '@angular/forms';
 
 import { ModelItem, ModelTaskTypes } from '@store/model-store/model.model';
 import { DatasetTypes } from '@store/dataset-store/dataset.model';
@@ -59,9 +59,9 @@ export class AnnotationConversionGroupHandler implements IFormFeatureHandler<IAn
     },
   };
 
-  readonly group = new FormGroup({});
+  readonly group = new UntypedFormGroup({});
 
-  orderedFields: { field: AdvancedConfigField; group: FormGroup }[] = [];
+  orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] = [];
 
   static isApplicable(taskType: ModelTaskTypes, datasetType: DatasetTypes): boolean {
     const applicableTaskType = ![

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 
@@ -18,7 +18,7 @@ describe('StatusBlockComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StatusBlockComponent);
     component = fixture.componentInstance;
-    component.acConfigControl = ({ statusChanges: new Subject() } as unknown) as FormControl;
+    component.acConfigControl = { statusChanges: new Subject() } as unknown as UntypedFormControl;
     fixture.detectChanges();
   });
 

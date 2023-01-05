@@ -172,6 +172,6 @@ preparation and upload, and then for calibration and inference:
 ## See Also
 
 * [Compare Performance between Two Versions of a Model](Compare_Performance_between_Two_Versions_of_Models.md)
-* [Optimization Guide](@ref openvino_docs_optimization_guide_dldt_optimization_guide)
+* [Optimization Guide](@ref openvino_docs_deployment_optimization_guide_dldt_optimization_guide)
 * [Post-Training Optimization Tool](@ref pot_introduction)
 * [Troubleshooting](Troubleshooting.md)

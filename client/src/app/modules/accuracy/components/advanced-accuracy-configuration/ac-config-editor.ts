@@ -1,4 +1,4 @@
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 
 import * as jsyaml from 'js-yaml';
@@ -39,7 +39,7 @@ export interface IACConfigControlErrors {
 export class ACConfigEditor {
   private _codeEditor: ICodeEditor;
 
-  readonly control = new FormControl(null, [Validators.required, ACConfigValidators.yamlSyntax]);
+  readonly control = new UntypedFormControl(null, [Validators.required, ACConfigValidators.yamlSyntax]);
 
   private _unsubscribe$ = new Subject<void>();
 

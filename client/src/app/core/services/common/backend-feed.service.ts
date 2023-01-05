@@ -40,7 +40,7 @@ export class BackendFeedService {
   ) {}
 
   private _getErrorGroupByCodeName(codeName: string): ErrorGroup {
-    const errorGroup = <ErrorGroup>findKey(this._backendErrorGroups, (val) => val.includes(codeName));
+    const errorGroup = findKey(this._backendErrorGroups, (val) => val.includes(codeName)) as ErrorGroup;
     return errorGroup || ErrorGroup.SERVER;
   }
 

@@ -7,7 +7,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
+import { UntypedFormGroup, Validators } from '@angular/forms';
 
 import { values } from 'lodash';
 
@@ -41,7 +41,7 @@ export class ConversionGeneralParametersGroupComponent implements OnChanges {
   model: ModelItem;
 
   @Input()
-  parentGroup: FormGroup;
+  parentGroup: UntypedFormGroup;
 
   @Output()
   setColorSpace = new EventEmitter<ModelColorChannels>();
@@ -97,7 +97,7 @@ export class ConversionGeneralParametersGroupComponent implements OnChanges {
     },
   };
 
-  public readonly group = new FormGroup({});
+  public readonly group = new UntypedFormGroup({});
 
   public frameworkSpecificFields: AdvancedConfigField[] = [];
 

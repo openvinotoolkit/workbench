@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 import { range, isEmpty } from 'lodash';
 import { takeUntil } from 'rxjs/operators';
@@ -23,7 +23,7 @@ export class ConversionAdvancedParametersGroupComponent implements OnChanges, On
   model: ModelItem;
 
   @Input()
-  parentGroup: FormGroup;
+  parentGroup: UntypedFormGroup;
 
   public readonly useOutputs: AdvancedConfigField = {
     name: 'useOutputs',
@@ -37,12 +37,12 @@ export class ConversionAdvancedParametersGroupComponent implements OnChanges, On
   };
   public readonly outputLayers = 'outputs';
 
-  public group = new FormGroup({});
-  public utilGroup = new FormGroup({});
+  public group = new UntypedFormGroup({});
+  public utilGroup = new UntypedFormGroup({});
 
   private _unsubscribe$: Subject<void> = new Subject<void>();
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: UntypedFormBuilder) {
     this.build();
 
     this.useOutputsControl.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe((useOutputs) => {
@@ -107,11 +107,11 @@ export class ConversionAdvancedParametersGroupComponent implements OnChanges, On
     return this.utilGroup.get(this.useOutputs.name);
   }
 
-  get outputLayersFormArray(): FormArray {
-    return this.group.get(this.outputLayers) as FormArray;
+  get outputLayersFormArray(): UntypedFormArray {
+    return this.group.get(this.outputLayers) as UntypedFormArray;
   }
 
-  set outputLayersFormArray(formArray: FormArray) {
+  set outputLayersFormArray(formArray: UntypedFormArray) {
     this.group.setControl(this.outputLayers, formArray);
   }
 

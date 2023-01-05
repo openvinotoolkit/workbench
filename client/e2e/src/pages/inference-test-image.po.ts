@@ -2,15 +2,21 @@ import { PixelmatchOptions } from 'pixelmatch';
 
 import { browser, by, element, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
 
-import {
-  VisualizationOptionsNamesMap,
-  VisualizationType,
-  // tslint:disable-next-line:max-line-length
-} from '../../../src/app/modules/accuracy/components/visualization/network-output/original-image-controls/original-image-controls.component';
-
 import { TestUtils } from './test-utils';
 
 const path = require('path');
+
+export enum VisualizationType {
+  DEFAULT = 'default',
+  EXPLAIN = 'explain',
+  PARENT_MODEL_PREDICTIONS = 'ref_visualization',
+}
+
+export const VisualizationOptionsNamesMap = {
+  [VisualizationType.DEFAULT]: 'Model Predictions',
+  [VisualizationType.EXPLAIN]: 'Model Predictions with Importance Map',
+  [VisualizationType.PARENT_MODEL_PREDICTIONS]: 'Optimized and Parent Model Predictions',
+};
 
 export class VisualizeInferenceResultPage {
   until = protractor.ExpectedConditions;
@@ -356,9 +362,9 @@ export class VisualizeInferenceResultPage {
     }
 
     if (!shouldCancel) {
-      const optimizedModelPredictions: Function = this.until.visibilityOf(this.optimizedModelPredictionsContainer);
-      const parentModelPredictions: Function = this.until.visibilityOf(this.parentModelPredictionsContainer);
-      const predictionsTable: Function = this.until.visibilityOf(this.predictionsTable);
+      const optimizedModelPredictions = this.until.visibilityOf(this.optimizedModelPredictionsContainer);
+      const parentModelPredictions = this.until.visibilityOf(this.parentModelPredictionsContainer);
+      const predictionsTable = this.until.visibilityOf(this.predictionsTable);
 
       await browser.wait(
         this.until.or(optimizedModelPredictions, parentModelPredictions, predictionsTable),

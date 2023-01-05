@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { range, without, values, get, isEmpty, isEqual } from 'lodash';
 import { Subject } from 'rxjs';
@@ -39,11 +39,10 @@ export class DimensionsInputComponent implements OnInit, OnDestroy {
     this._inputPrefixes = value;
     this.setDimensionFields();
   }
-  private _inputPrefixes: string[] = [];
-
   get inputPrefixes(): string[] {
     return this._inputPrefixes;
   }
+  private _inputPrefixes: string[] = [];
 
   @Input()
   public minDimensionValue = 0;
@@ -53,7 +52,7 @@ export class DimensionsInputComponent implements OnInit, OnDestroy {
 
   public dimensionFields: number[] = [];
 
-  public dimensionsFormGroup: FormGroup;
+  public dimensionsFormGroup: UntypedFormGroup;
 
   public dimensionsInputNumberType = 'integer';
 
@@ -61,7 +60,7 @@ export class DimensionsInputComponent implements OnInit, OnDestroy {
 
   private _unsubscribe$ = new Subject<void>();
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: UntypedFormBuilder) {
     this.dimensionsFormGroup = this.fb.group({});
     this.dimensionsFormGroup.valueChanges.pipe(takeUntil(this._unsubscribe$)).subscribe((formValues) => {
       this.changeInputValues.emit(values(formValues));

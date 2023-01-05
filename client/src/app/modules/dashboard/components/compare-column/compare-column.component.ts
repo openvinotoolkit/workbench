@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
@@ -47,7 +47,7 @@ export class CompareColumnComponent implements OnInit, OnDestroy {
 
   @Output() selectInferenceResult = new EventEmitter<IInferenceResult>();
 
-  selectedProjectControl = new FormControl(null, [Validators.required]);
+  selectedProjectControl = new UntypedFormControl(null, [Validators.required]);
 
   selectedInferenceHistory: IInferenceResult;
 

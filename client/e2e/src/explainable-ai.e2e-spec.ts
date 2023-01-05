@@ -1,11 +1,12 @@
 import { browser, protractor } from 'protractor';
 
 import { Frameworks, TestUtils } from './pages/test-utils';
-import { VisualizeInferenceResultPage } from './pages/inference-test-image.po';
 import {
+  VisualizeInferenceResultPage,
   VisualizationOptionsNamesMap,
   VisualizationType,
-} from '../../src/app/modules/accuracy/components/visualization/network-output/original-image-controls/original-image-controls.component';
+} from './pages/inference-test-image.po';
+
 import { AnalyticsPopup } from './pages/analytics-popup.po';
 import { Helpers } from './pages/helpers';
 
@@ -81,7 +82,7 @@ describe('E2E tests Explainable AI: ', () => {
     console.log('Progress is present');
 
     await browser.sleep(1000);
-    const reg = new RegExp(`[0-9]+`);
+    const reg = new RegExp('[0-9]+');
     expect(reg.test(await visualizeInferenceResultPage.visualizationProgress.getText())).toBeTruthy(
       'Progress not displayed'
     );

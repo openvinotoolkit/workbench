@@ -10,14 +10,13 @@ import { State as AppState } from '../state';
 import { DatasetItem, DatasetTypes } from './dataset.model';
 import { selectQueryDatasetId } from '../router-store/route.selectors';
 
-const selectDatasetState = createFeatureSelector<AppState, DatasetState>('dataset');
+const selectDatasetState = createFeatureSelector<DatasetState>('dataset');
 
-export const selectAllDatasets: (state: AppState) => DatasetItem[] = datasetItemAdapter.getSelectors(selectDatasetState)
-  .selectAll;
+export const selectAllDatasets: (state: AppState) => DatasetItem[] =
+  datasetItemAdapter.getSelectors(selectDatasetState).selectAll;
 
-const selectDatasetsEntities: (state: AppState) => Dictionary<DatasetItem> = datasetItemAdapter.getSelectors(
-  selectDatasetState
-).selectEntities;
+const selectDatasetsEntities: (state: AppState) => Dictionary<DatasetItem> =
+  datasetItemAdapter.getSelectors(selectDatasetState).selectEntities;
 
 export const selectDatasetIdToNameMap = createSelector(selectDatasetsEntities, (datasetsMap) =>
   mapValues(datasetsMap, (dataset) => dataset.name)
@@ -47,9 +46,7 @@ export const selectLoadingDatasets = createSelector(selectDatasetsEntities, (ite
   return filter(itemsMap, (datasetItem) => datasetItem.status.name === ProjectStatusNames.RUNNING);
 });
 
-export const getSelectedDatasetByQueryParam: (
-  state: AppState
-) => DatasetItem | null = createSelector(
+export const getSelectedDatasetByQueryParam: (state: AppState) => DatasetItem | null = createSelector(
   selectDatasetsEntities,
   selectQueryDatasetId,
   (itemsMap: Dictionary<DatasetItem>, datasetId) => (!isEmpty(itemsMap) ? itemsMap[datasetId] : null)

@@ -7,7 +7,7 @@ import {
   OnDestroy,
   Output,
 } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { filter, find, get } from 'lodash';
 import { Subject } from 'rxjs';
@@ -43,7 +43,11 @@ export class TableFilterFormComponent implements OnDestroy {
   @Input()
   public set disabled(value: boolean) {
     this._disabled = value;
-    this._disabled ? this.mainFormGroup.disable({ emitEvent: false }) : this.mainFormGroup.enable({ emitEvent: false });
+    if (this._disabled) {
+      this.mainFormGroup.disable({ emitEvent: false });
+    } else {
+      this.mainFormGroup.enable({ emitEvent: false });
+    }
   }
 
   public get disabled(): boolean {
@@ -71,16 +75,16 @@ export class TableFilterFormComponent implements OnDestroy {
     valueCondition: 'valueCondition',
   };
 
-  public mainFormGroup: FormGroup;
+  public mainFormGroup: UntypedFormGroup;
 
   private unsubscribe$: Subject<void> = new Subject<void>();
 
-  constructor(private fb: FormBuilder, private _cdr: ChangeDetectorRef) {
+  constructor(private fb: UntypedFormBuilder, private _cdr: ChangeDetectorRef) {
     this.createForm();
   }
 
-  get filtersFormArray(): FormArray {
-    return <FormArray>this.mainFormGroup.get(this.controlNamesMap.filters);
+  get filtersFormArray(): UntypedFormArray {
+    return this.mainFormGroup.get(this.controlNamesMap.filters) as UntypedFormArray;
   }
 
   public appliedFilter: AppliedFilter = null;
@@ -124,7 +128,7 @@ export class TableFilterFormComponent implements OnDestroy {
     });
   }
 
-  createFilterGroup(): FormGroup {
+  createFilterGroup(): UntypedFormGroup {
     const group = this.fb.group({
       column: [null, Validators.required],
       value: [null, Validators.required],

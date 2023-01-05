@@ -1,4 +1,4 @@
-import { FormGroup, Validators } from '@angular/forms';
+import { UntypedFormGroup, Validators } from '@angular/forms';
 
 import { ModelItem, ModelTaskTypes } from '@store/model-store/model.model';
 
@@ -14,7 +14,7 @@ import { AdvancedConfigField } from '@shared/components/config-form-field/config
 import { createControl, IFormFeatureHandler, Subscriptions } from './index';
 
 export class PreProcessorGroupHandler implements IFormFeatureHandler<IPreProcessor[]> {
-  readonly group = new FormGroup({});
+  readonly group = new UntypedFormGroup({});
 
   readonly handlers: {
     auto_resize: AutoResizePreProcessorHandler;
@@ -23,7 +23,7 @@ export class PreProcessorGroupHandler implements IFormFeatureHandler<IPreProcess
     auto_resize: new AutoResizePreProcessorHandler(),
   };
 
-  orderedFields: { field: AdvancedConfigField; group: FormGroup }[] = [];
+  orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] = [];
 
   private readonly _subs = new Subscriptions();
 
@@ -93,11 +93,11 @@ export class AutoResizePreProcessorHandler implements IFormFeatureHandler<IAutoR
     },
   };
 
-  readonly group = new FormGroup({
+  readonly group = new UntypedFormGroup({
     auto_resize: createControl(this._fields['auto_resize']),
   });
 
-  orderedFields: { field: AdvancedConfigField; group: FormGroup }[] = [
+  orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] = [
     { field: this._fields['auto_resize'], group: this.group },
   ];
 
@@ -111,7 +111,8 @@ export class AutoResizePreProcessorHandler implements IFormFeatureHandler<IAutoR
 }
 
 export class InpaintingMaskPreProcessorHandler
-  implements IFormFeatureHandler<IRectMaskPreProcessor | IFreeFormMaskPreProcessor> {
+  implements IFormFeatureHandler<IRectMaskPreProcessor | IFreeFormMaskPreProcessor>
+{
   protected readonly _fields: {
     mask_type: AdvancedConfigField;
     parts: AdvancedConfigField;
@@ -225,11 +226,11 @@ export class InpaintingMaskPreProcessorHandler
     },
   };
 
-  readonly group = new FormGroup({
+  readonly group = new UntypedFormGroup({
     mask_type: createControl(this._fields['mask_type']),
   });
 
-  orderedFields: { field: AdvancedConfigField; group: FormGroup }[] = [];
+  orderedFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] = [];
 
   private readonly _subs = new Subscriptions();
 
@@ -250,13 +251,13 @@ export class InpaintingMaskPreProcessorHandler
   }
 
   protected _setOrderedFields() {
-    const maskType: PreProcessorType.RECT_MASK | PreProcessorType.FREE_FORM_MASK = this.group.controls['mask_type']
-      .value;
+    const maskType: PreProcessorType.RECT_MASK | PreProcessorType.FREE_FORM_MASK =
+      this.group.controls['mask_type'].value;
 
-    const freeFormMaskGroup = this.group.controls['free_form_mask'] as FormGroup;
-    const rectMaskGroup = this.group.controls['rect_mask'] as FormGroup;
+    const freeFormMaskGroup = this.group.controls['free_form_mask'] as UntypedFormGroup;
+    const rectMaskGroup = this.group.controls['rect_mask'] as UntypedFormGroup;
 
-    const maskFields: { field: AdvancedConfigField; group: FormGroup }[] =
+    const maskFields: { field: AdvancedConfigField; group: UntypedFormGroup }[] =
       maskType === PreProcessorType.FREE_FORM_MASK
         ? [
             { field: this._fields['parts'], group: freeFormMaskGroup },
@@ -275,7 +276,7 @@ export class InpaintingMaskPreProcessorHandler
   }
 
   freeFormMaskGroup() {
-    return new FormGroup({
+    return new UntypedFormGroup({
       parts: createControl(this._fields['parts']),
       max_brush_width: createControl(this._fields['max_brush_width']),
       max_length: createControl(this._fields['max_length']),
@@ -285,7 +286,7 @@ export class InpaintingMaskPreProcessorHandler
   }
 
   rectFormMaskGroup() {
-    return new FormGroup({
+    return new UntypedFormGroup({
       dst_width: createControl(this._fields['dst_width']),
       dst_height: createControl(this._fields['dst_height']),
       inverse_mask: createControl(this._fields['inverse_mask']),
@@ -323,8 +324,8 @@ export class InpaintingMaskPreProcessorHandler
       return null;
     }
 
-    const maskType: PreProcessorType.RECT_MASK | PreProcessorType.FREE_FORM_MASK = this.group.controls['mask_type']
-      .value;
+    const maskType: PreProcessorType.RECT_MASK | PreProcessorType.FREE_FORM_MASK =
+      this.group.controls['mask_type'].value;
 
     if (maskType === PreProcessorType.RECT_MASK) {
       const value = this.group.controls['rect_mask'].value;
@@ -356,11 +357,11 @@ export class InpaintingMaskPreProcessorHandler
 
 class VisualizationInpaintingMaskPreProcessorHandler extends InpaintingMaskPreProcessorHandler {
   protected _setOrderedFields() {
-    const maskType: PreProcessorType.RECT_MASK | PreProcessorType.FREE_FORM_MASK = this.group.controls['mask_type']
-      .value;
+    const maskType: PreProcessorType.RECT_MASK | PreProcessorType.FREE_FORM_MASK =
+      this.group.controls['mask_type'].value;
 
-    const freeFormMaskGroup = this.group.controls['free_form_mask'] as FormGroup;
-    const rectMaskGroup = this.group.controls['rect_mask'] as FormGroup;
+    const freeFormMaskGroup = this.group.controls['free_form_mask'] as UntypedFormGroup;
+    const rectMaskGroup = this.group.controls['rect_mask'] as UntypedFormGroup;
 
     this.orderedFields =
       maskType === PreProcessorType.FREE_FORM_MASK

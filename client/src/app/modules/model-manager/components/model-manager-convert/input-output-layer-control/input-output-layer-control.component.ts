@@ -11,9 +11,9 @@ import {
 import {
   AbstractControl,
   ControlValueAccessor,
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   ValidationErrors,
@@ -97,13 +97,13 @@ export class InputOutputLayerControlComponent implements OnInit, OnDestroy, Cont
   @Output()
   public removeInput: EventEmitter<number> = new EventEmitter<number>();
 
-  public inputOutputLayerFormGroup: FormGroup;
+  public inputOutputLayerFormGroup: UntypedFormGroup;
 
   public channelPrefixes = channelPrefixesMap.RGB;
 
-  public utilFormGroup: FormGroup;
+  public utilFormGroup: UntypedFormGroup;
 
-  public layerNameFormControl = new FormControl(null, [Validators.required]);
+  public layerNameFormControl = new UntypedFormControl(null, [Validators.required]);
 
   public defaultInputDimensionsCount = 4;
 
@@ -126,7 +126,7 @@ export class InputOutputLayerControlComponent implements OnInit, OnDestroy, Cont
 
   private _cvDomainSubscription: Subscription = null;
 
-  constructor(private _fb: FormBuilder) {
+  constructor(private _fb: UntypedFormBuilder) {
     this.inputOutputLayerFormGroup = this._fb.group({
       [this.controlNamesMap.name]: this.layerNameFormControl,
     });

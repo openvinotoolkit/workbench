@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 
 import { intersection } from 'lodash';
 import { takeUntil } from 'rxjs/operators';
@@ -8,10 +8,10 @@ import { Subject } from 'rxjs';
 import { MessagesService } from '@core/services/common/messages.service';
 
 interface ModelOptimizerFormGroups {
-  general: FormGroup;
-  files: FormGroup;
-  inputs: FormGroup;
-  advanced: FormGroup;
+  general: UntypedFormGroup;
+  files: UntypedFormGroup;
+  inputs: UntypedFormGroup;
+  advanced: UntypedFormGroup;
 }
 
 @Component({
@@ -22,7 +22,7 @@ interface ModelOptimizerFormGroups {
 })
 export class TipsListComponent implements OnInit, OnDestroy {
   @Input()
-  modelOptimizerForm: FormGroup;
+  modelOptimizerForm: UntypedFormGroup;
 
   @Input()
   isTfOdAPI: boolean;
@@ -73,7 +73,7 @@ export class TipsListComponent implements OnInit, OnDestroy {
     let fieldsMap = {};
 
     Object.keys(moFormValues).forEach((fieldsetKey) => {
-      const fieldset = this.modelOptimizerForm.get(fieldsetKey) as FormGroup;
+      const fieldset = this.modelOptimizerForm.get(fieldsetKey) as UntypedFormGroup;
 
       fieldsMap = {
         ...fieldsMap,

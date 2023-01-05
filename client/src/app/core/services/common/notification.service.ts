@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ERROR } from '@angular/compiler-cli/src/ngtsc/logging/src/console_logger';
 
 export interface NotificationMessage {
   title: string;

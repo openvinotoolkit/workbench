@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { delay, startWith, takeUntil } from 'rxjs/operators';
@@ -20,11 +20,11 @@ export class ImportTokenizerFormComponent implements OnDestroy {
 
   readonly fields = fields;
 
-  readonly form = new FormGroup({
-    [fields.type.name]: new FormControl(fields.type.value, fields.type.validators),
-    [fields.vocabFile.name]: new FormControl(null, [Validators.required]),
-    [fields.lowerCase.name]: new FormControl(fields.lowerCase.value, [Validators.required]),
-    [fields.name.name]: new FormControl(fields.name.value, fields.name.validators),
+  readonly form = new UntypedFormGroup({
+    [fields.type.name]: new UntypedFormControl(fields.type.value, fields.type.validators),
+    [fields.vocabFile.name]: new UntypedFormControl(null, [Validators.required]),
+    [fields.lowerCase.name]: new UntypedFormControl(fields.lowerCase.value, [Validators.required]),
+    [fields.name.name]: new UntypedFormControl(fields.name.value, fields.name.validators),
   });
 
   private _unsubscribe$ = new Subject<void>();
@@ -38,7 +38,7 @@ export class ImportTokenizerFormComponent implements OnDestroy {
           this.form.removeControl(fields.mergesFile.name);
         }
         if (type === TokenizerType.BPE) {
-          this.form.addControl(fields.mergesFile.name, new FormControl(null, [Validators.required]));
+          this.form.addControl(fields.mergesFile.name, new UntypedFormControl(null, [Validators.required]));
         }
       });
 

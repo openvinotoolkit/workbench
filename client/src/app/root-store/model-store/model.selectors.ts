@@ -11,7 +11,7 @@ import { modelDownloaderItemAdapter, modelItemAdapter, State as ModelState } fro
 import { ErrorState, State as AppState } from '../state';
 import { ModelFrameworks, ModelItem, tfFlavorsToPrefixMap, TransformationsConfig } from './model.model';
 
-const selectModelState = createFeatureSelector<AppState, ModelState>(modelStoreFeatureKey);
+const selectModelState = createFeatureSelector<ModelState>(modelStoreFeatureKey);
 
 export const selectAllModels: (state: AppState) => ModelItem[] =
   modelItemAdapter.getSelectors(selectModelState).selectAll;

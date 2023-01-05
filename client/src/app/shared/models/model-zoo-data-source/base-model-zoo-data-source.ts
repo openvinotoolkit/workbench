@@ -1,6 +1,6 @@
 import { DataSource } from '@angular/cdk/collections';
-import { MatPaginator } from '@angular/material/paginator';
-import { SortDirection } from '@angular/material/sort/sort-direction';
+import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
+import { SortDirection } from '@angular/material/sort';
 
 import { BehaviorSubject, combineLatest, merge, Observable, of, Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -17,8 +17,8 @@ export abstract class BaseModelZooDataSource<T, U = string> implements DataSourc
   private _paginator: MatPaginator;
   private readonly _internalPageChanges$ = new Subject<void>();
 
-  protected readonly _data$ = new BehaviorSubject<T[]>(<T[]>[]);
-  private readonly _renderData$ = new BehaviorSubject<T[]>(<T[]>[]);
+  protected readonly _data$ = new BehaviorSubject<T[]>([] as T[]);
+  private readonly _renderData$ = new BehaviorSubject<T[]>([] as T[]);
 
   abstract readonly sortOptions: IModelZooSort<T>[];
 

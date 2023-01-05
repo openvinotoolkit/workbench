@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 
 import { IInferenceResult } from '@store/inference-history-store/inference-history.model';
 import { THROUGHPUT_UNIT } from '@store/model-store/model.model';

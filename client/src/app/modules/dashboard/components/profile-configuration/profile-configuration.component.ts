@@ -9,7 +9,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -92,7 +92,7 @@ export class ProfileConfigurationComponent implements OnInit, OnDestroy {
   PROFILE_CONFIGURATION_TYPE = PROFILE_CONFIGURATION_TYPE;
 
   inferenceTips = this.messagesService.getHint('inferenceTips', 'inferenceFormTips');
-  profileConfigurationForm: FormGroup = null;
+  profileConfigurationForm: UntypedFormGroup = null;
   fieldsMetaData: { stream: AdvancedConfigField; batch: AdvancedConfigField } = null;
   archivedTipMessage = this.messagesService.getHint('common', 'archivedProjectWarning', {
     actionName: 'Action',
@@ -142,11 +142,11 @@ export class ProfileConfigurationComponent implements OnInit, OnDestroy {
     const minStreams = DeviceItemUtils.getMinStreams(this.devicesMap[this._project.deviceId]);
     const maxStreams = DeviceItemUtils.getMaxStreams(this.devicesMap[this._project.deviceId]);
 
-    this.profileConfigurationForm = new FormGroup({
-      type: new FormControl(PROFILE_CONFIGURATION_TYPE.SINGLE),
-      stream: new FormControl(minStreams, [Validators.required, Validators.min(1), Validators.max(maxStreams)]),
-      batch: new FormControl(1, [Validators.required, Validators.min(1), Validators.max(256)]),
-      inferenceTime: new FormControl(),
+    this.profileConfigurationForm = new UntypedFormGroup({
+      type: new UntypedFormControl(PROFILE_CONFIGURATION_TYPE.SINGLE),
+      stream: new UntypedFormControl(minStreams, [Validators.required, Validators.min(1), Validators.max(maxStreams)]),
+      batch: new UntypedFormControl(1, [Validators.required, Validators.min(1), Validators.max(256)]),
+      inferenceTime: new UntypedFormControl(),
     });
 
     this.profileConfigurationForm.controls.type.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((type) => {

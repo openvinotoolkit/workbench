@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -38,10 +38,10 @@ export class DimensionsLayoutsComponent implements OnInit, OnDestroy {
 
   @Input() minDimensionValue = 0;
 
-  @Input() parentGroup: FormGroup;
+  @Input() parentGroup: UntypedFormGroup;
 
-  public group: FormGroup;
-  public readonly utilGroup: FormGroup = new FormGroup({});
+  public group: UntypedFormGroup;
+  public readonly utilGroup: UntypedFormGroup = new UntypedFormGroup({});
 
   public isSpecifyLayout = false;
 
@@ -87,7 +87,7 @@ export class DimensionsLayoutsComponent implements OnInit, OnDestroy {
 
   private readonly _unsubscribe$ = new Subject<void>();
 
-  constructor(private _fb: FormBuilder) {
+  constructor(private _fb: UntypedFormBuilder) {
     const { name, value, validators } = this.layoutTypeField;
     this.utilGroup.addControl(name, this._fb.control(value, validators));
 
@@ -143,7 +143,7 @@ export class DimensionsLayoutsComponent implements OnInit, OnDestroy {
           break;
       }
 
-      (this.group.get('inputs') as FormArray).controls.forEach((input, index) => {
+      (this.group.get('inputs') as UntypedFormArray).controls.forEach((input, index) => {
         input.get('layout').setValue(layouts[index], { emitEvent: false });
       });
 
@@ -210,7 +210,11 @@ export class DimensionsLayoutsComponent implements OnInit, OnDestroy {
     if (!options.find(({ value }) => value === currentType)) {
       this.layoutTypeControl.setValue(LayoutTypes.CUSTOM, { emitEvent: false });
     }
-    options.length === 1 ? this.layoutTypeControl.disable() : this.layoutTypeControl.enable();
+    if (options.length === 1) {
+      this.layoutTypeControl.disable();
+    } else {
+      this.layoutTypeControl.enable();
+    }
   }
 
   getLayoutTypeOptions(dimensionCount): SelectOption[] {
@@ -225,15 +229,15 @@ export class DimensionsLayoutsComponent implements OnInit, OnDestroy {
     return layoutValue ? layoutFieldNamesValuesMap[layoutValue] : '';
   }
 
-  get inputs(): FormArray {
-    return this.group.controls['inputs'] as FormArray;
+  get inputs(): UntypedFormArray {
+    return this.group.controls['inputs'] as UntypedFormArray;
   }
 
   get layoutTypeControl(): AbstractControl {
     return this.utilGroup.get(this.layoutTypeField.name);
   }
 
-  private _getFormItem(): FormGroup {
+  private _getFormItem(): UntypedFormGroup {
     return this._fb.group({
       [this.inputProperties.dimension]: this._fb.control(null, [
         Validators.required,
@@ -254,7 +258,7 @@ export class DimensionsLayoutsComponent implements OnInit, OnDestroy {
 
   private _updateShapeValidity(inputs: { layout: string; dimension: number }[]): void {
     inputs?.forEach(({ layout, dimension }, index) => {
-      const dimensionControl = (this.group?.get('inputs') as FormArray).at(index).get('dimension');
+      const dimensionControl = (this.group?.get('inputs') as UntypedFormArray).at(index).get('dimension');
       let errors = dimensionControl.errors;
 
       errors = omit(errors, this._batchDimensionKey);

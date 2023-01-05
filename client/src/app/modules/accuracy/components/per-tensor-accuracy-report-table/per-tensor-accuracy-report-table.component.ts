@@ -9,7 +9,7 @@ import {
   Output,
 } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -78,7 +78,7 @@ export class PerTensorAccuracyReportTableComponent implements OnInit, OnDestroy 
 
   dataSource: EntitiesDataSource<ITensorDistanceReportEntity> = null;
 
-  readonly outputLayerControl = new FormControl(null);
+  readonly outputLayerControl = new UntypedFormControl(null);
 
   readonly selectOutputTooltipMessage = this._messagesService.tooltipMessages.accuracyAnalysis.selectOutputToDisplay;
 

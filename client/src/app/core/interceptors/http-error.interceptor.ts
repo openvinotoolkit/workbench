@@ -53,7 +53,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             return throwError(error);
           }
           if (error.error.authStatus === JWTAuthStatusCodeEnum.EXPIRED_REFRESH_JWT) {
-            errorMessage = `Your session has expired. Please login again`;
+            errorMessage = 'Your session has expired. Please login again';
             this.resetAuthCredentialsAndGoToLogin();
           }
           if (error.error.authStatus === JWTAuthStatusCodeEnum.EXPIRED_ACCESS_JWT) {
