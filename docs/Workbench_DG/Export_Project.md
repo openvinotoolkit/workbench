@@ -6,7 +6,7 @@ You can download an archive with artifacts of your project:
 * Dataset
 * Accuracy measurement configuration delivered as a valid configuration file for the 
   [Accuracy Checker](https://docs.openvino.ai/latest/omz_tools_accuracy_checker.html)
-* [Post-training Optimization Tool](https://docs.openvino.ai/latest/pot_README.html) calibration configuration file
+* [Post-training Optimization Tool](@ref pot_introduction) calibration configuration file
 
 A downloaded archive also contains information on the project and best model performance.
 
