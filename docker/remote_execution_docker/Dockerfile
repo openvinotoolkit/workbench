@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 # rewrite shell output
 SHELL ["/bin/bash", "+x", "-c"]

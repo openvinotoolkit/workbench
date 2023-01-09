@@ -298,8 +298,6 @@ class DeploymentTargetEnum(enum.Enum):
     gpu = 'GPU'
     myriad = 'VPU'
     hddl = 'HDDL'
-    opencv = 'opencv'
-    python36 = 'python3.6'
     python37 = 'python3.7'
     python38 = 'python3.8'
 
@@ -313,7 +311,7 @@ class DeploymentTargetEnum(enum.Enum):
 
     @staticmethod
     def get_python_targets() -> Tuple[str, ...]:
-        python_targets = (DeploymentTargetEnum.python36, DeploymentTargetEnum.python37, DeploymentTargetEnum.python38)
+        python_targets = (DeploymentTargetEnum.python37, DeploymentTargetEnum.python38)
         return tuple(python_target.value for python_target in python_targets)
 
     @staticmethod

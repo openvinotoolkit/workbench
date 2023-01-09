@@ -54,7 +54,7 @@ def build_argparser():
                         required=True,
                         type=str,
                         nargs='+',
-                        choices=['gpu', 'cpu', 'vpu', 'hddl', 'opencv', 'python3.6', 'python3.7', 'python3.8'])
+                        choices=['gpu', 'cpu', 'vpu', 'hddl', 'python3.7', 'python3.8'])
 
     parser.add_argument('--unpack',
                         help='Unpacks downloaded archives',
