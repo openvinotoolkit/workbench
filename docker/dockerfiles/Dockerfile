@@ -99,6 +99,8 @@ RUN apt update && \
     build-essential  \
     # for sample application notebook
     cmake \
+    # OV dependency
+    libpugixml-dev \
     # for running packages from git commits \
     git && \
     apt clean && \
