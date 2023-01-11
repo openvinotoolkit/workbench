@@ -38,11 +38,7 @@ int main(int argc, char *argv[]) {
     // Set the maximum amount of execution streams for the device, indicating how many inference requests can be run simultaneously
     // By default the maximum number is 1, meaning each inference request uses all the execution resources,
     // several inference requests are run one after the other
-    if (device == "CPU") {
-        core.set_property(device, {{CONFIG_KEY(CPU_THROUGHPUT_STREAMS), std::to_string(num_streams)}});
-    } else if (device == "GPU") {
-        core.set_property(device, {{CONFIG_KEY(GPU_THROUGHPUT_STREAMS), std::to_string(num_streams)}});
-    }
+    core.set_property(device, {{"NUM_STREAMS", std::to_string(num_streams)}});
 
     // Read model
     std::cout << "READING MODEL...";

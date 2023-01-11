@@ -68,6 +68,7 @@ ENV DEPENDENCIES " \
     unzip \
     dpkg-dev \
     cmake \
+    libpugixml-dev \
 "
 
 RUN mkdir -p ${INTEL_OPENVINO_DIR}
