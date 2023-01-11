@@ -108,12 +108,6 @@ RUN apt update && \
 
 RUN mkdir -p ${INTEL_OPENVINO_DIR}
 
-RUN curl ${PACKAGE_LINK} -o /tmp/package.tgz \
-    && mkdir -p /tmp/openvino/ \
-    && tar -xzf /tmp/package.tgz -C /tmp/openvino/ \
-    && rm -rf /tmp/package.tgz \
-    && DIRNAME=$(ls /tmp/openvino/) && mv -v /tmp/openvino/${DIRNAME}/* ${INTEL_OPENVINO_DIR}
-
 # For postgresql-10
 RUN curl -L https://www.postgresql.org/media/keys/ACCC4CF8.asc -s | apt-key add - && \
     echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" | tee /etc/apt/sources.list.d/postgresql.list
@@ -231,8 +225,6 @@ RUN chown -R ${USER_NAME} ${WHEELS_PATH} && \
     OPENVINO_DEV_WHEEL=$(find ${WHEELS_PATH} -name "openvino_dev*.whl" -print -quit) && python3 -m pip install "${OPENVINO_DEV_WHEEL}"
 
 RUN chown -R ${USER_NAME} ${OPENVINO_WORKBENCH_ROOT}
-
-RUN chown ${USER_NAME}: ${INTEL_OPENVINO_DIR}/setupvars.sh
 
 USER ${USER_NAME}
 

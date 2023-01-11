@@ -31,7 +31,15 @@ while (( "$#" )); do
   esac
 done
 
-source "${INTEL_OPENVINO_DIR}/setupvars.sh"
+OV_PACKAGE_DIR="/tmp/openvino_package"
+
+curl ${PACKAGE_LINK} -o /tmp/package.tgz \
+                        && mkdir -p ${OV_PACKAGE_DIR} \
+                        && tar -xzf /tmp/package.tgz -C ${OV_PACKAGE_DIR} \
+                        && rm -rf /tmp/package.tgz \
+                        && DIRNAME=$(ls ${OV_PACKAGE_DIR}/) && mv -v ${OV_PACKAGE_DIR}/${DIRNAME}/* ${OV_PACKAGE_DIR}
+
+source "${OV_PACKAGE_DIR}/setupvars.sh"
 
 set -e
 
