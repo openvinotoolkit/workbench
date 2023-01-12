@@ -26,17 +26,16 @@ RUN apt-get update && \
     software-properties-common \
     build-essential \
     libssl-dev \
-    libffi-dev \
-    python3-pip \
-    python3-setuptools \
-    python3-dev \
-    python3-opencv && \
+    libffi-dev && \
     add-apt-repository -y ppa:deadsnakes && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends python3.8-venv && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends python3.8 && \
+    rm -rf /usr/bin/python /usr/bin/python3 && \
+    ln -s /usr/bin/python3.8 /usr/bin/python && \
+    ln -s /usr/bin/python3.8 /usr/bin/python3 && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y python3.8-venv python3-pip python3-setuptools python3.8-dev python3-opencv && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN python3.8 -m venv /venv
-ENV PATH=/venv/bin:$PATH
+RUN python3 -m pip install --upgrade pip
 
 RUN ${LIB_FOLDER}/scripts/setup.sh
 
