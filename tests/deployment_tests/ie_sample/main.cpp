@@ -37,11 +37,11 @@ int main(int argc, char *argv[]) {
     
     // start Set number of streams
     if (device == "CPU") {
-        core.set_property(device, {{CONFIG_KEY(CPU_THROUGHPUT_STREAMS), std::stoi(numInferReq)}});
+        core.set_property(device, {{CONFIG_KEY(CPU_THROUGHPUT_STREAMS), numInferReq}});
     }
 
     if (device == "GPU") {
-        core.set_property(device, {{CONFIG_KEY(GPU_THROUGHPUT_STREAMS), std::stoi(numInferReq)}});
+        core.set_property(device, {{CONFIG_KEY(GPU_THROUGHPUT_STREAMS), numInferReq}});
     }
     // end Set number of streams
 
