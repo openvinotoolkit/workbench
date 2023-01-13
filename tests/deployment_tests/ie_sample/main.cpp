@@ -36,14 +36,7 @@ int main(int argc, char *argv[]) {
     // |___ ___|
     
     // start Set number of streams
-    if (device == "CPU") {
-        core.set_property(device, {{CONFIG_KEY(CPU_THROUGHPUT_STREAMS), numInferReq}});
-    }
-
-    if (device == "GPU") {
-        core.set_property(device, {{CONFIG_KEY(GPU_THROUGHPUT_STREAMS), numInferReq}});
-    }
-    // end Set number of streams
+    core.set_property(device, {{"NUM_STREAMS", std::to_string(numInferReq)}});
 
     auto model = core.read_model(modelXml);
 
