@@ -53,6 +53,12 @@ mkdir -m 777 ${DEPLOYMENT_MANAGER_PATH} \
 
 cp ${OPENVINO_WORKBENCH_ROOT}/tests/deployment_tests/scripts/bundle.tar.gz ${DEPLOYMENT_MANAGER_PATH}/packages
 tar -xf ${OPENVINO_WORKBENCH_ROOT}/tests/deployment_tests/scripts/bundle.tar.gz -C ${DEPLOYMENT_MANAGER_PATH}/packages
+
+# Get OpenVINO from package
+rm -rf ${DEPLOYMENT_MANAGER_PATH}/packages/python && cp -r ${OV_PACKAGE_DIR}/python ${DEPLOYMENT_MANAGER_PATH}/packages
+rm -rf ${DEPLOYMENT_MANAGER_PATH}/packages/runtime && cp -r ${OV_PACKAGE_DIR}/runtime ${DEPLOYMENT_MANAGER_PATH}/packages
+rm -rf ${DEPLOYMENT_MANAGER_PATH}/packages/install_dependencies && cp -r ${OV_PACKAGE_DIR}/install_dependencies ${DEPLOYMENT_MANAGER_PATH}/packages
+
 cp ${OPENVINO_WORKBENCH_ROOT}/tests/deployment_tests/scripts/* ${DEPLOYMENT_MANAGER_PATH}/scripts
 cp ${OPENVINO_WORKBENCH_ROOT}/tests/deployment_tests/Dockerfile ${DEPLOYMENT_MANAGER_PATH}
 sed -i "s|BASE_IMAGE_UBUNTU|${UBUNTU_IMAGE}|g" ${DEPLOYMENT_MANAGER_PATH}/Dockerfile
