@@ -72,7 +72,7 @@ def get_artifact_id(hostname, access_token, tls, operating_system: str = 'ubuntu
     json_data = {
         "includeModel": False,
         "pythonBindings": True,
-        "targets": ["CPU", "GPU", "VPU"],
+        "targets": ["CPU", "GPU"],
         "installScripts": True,
         'targetOS': operating_system
     }
