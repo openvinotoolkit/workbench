@@ -38,8 +38,7 @@ Code name in DL Workbench | Plugin name in OpenVINO™ Runtime | Examples of dev
 ---|---| ---
 CPU	| [CPU](@ref openvino_docs_OV_UG_supported_plugins_CPU) | Intel® Xeon® with Intel® AVX2 and AVX512, Intel® Core™ processors with Intel® AVX2, Intel Atom® processors with Intel® SSE
 GPU	| [GPU](@ref openvino_docs_OV_UG_supported_plugins_GPU) |Intel® Processor Graphics, including Intel® HD Graphics and Intel® Iris® Graphics
-MYRIAD | [MYRIAD](@ref openvino_docs_OV_UG_supported_plugins_MYRIAD) | Intel® Movidius™ Neural Compute Stick 2
-HDDL | [HDDL](@ref openvino_docs_OV_UG_supported_plugins_HDDL) | Intel® Vision Accelerator Design with Intel® Movidius™ VPUs
+
 
 ---
 ## See Also
