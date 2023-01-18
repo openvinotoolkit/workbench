@@ -296,8 +296,6 @@ class TargetOSEnum(enum.Enum):
 class DeploymentTargetEnum(enum.Enum):
     cpu = 'CPU'
     gpu = 'GPU'
-    myriad = 'VPU'
-    hddl = 'HDDL'
     python37 = 'python3.7'
     python38 = 'python3.8'
 
@@ -307,16 +305,12 @@ class DeploymentTargetEnum(enum.Enum):
 
     @staticmethod
     def create(value: str) -> 'DeploymentTargetEnum':
-        return DeploymentTargetEnum.myriad if DeploymentTargetEnum.is_myriad(value) else DeploymentTargetEnum(value)
+        return DeploymentTargetEnum(value)
 
     @staticmethod
     def get_python_targets() -> Tuple[str, ...]:
         python_targets = (DeploymentTargetEnum.python37, DeploymentTargetEnum.python38)
         return tuple(python_target.value for python_target in python_targets)
-
-    @staticmethod
-    def is_myriad(device_name: str) -> bool:
-        return device_name == 'MYRIAD'
 
 
 class DeploymentPackageSizesEnum(enum.Enum):
