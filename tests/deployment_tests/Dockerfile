@@ -27,6 +27,7 @@ RUN apt-get update && \
     build-essential \
     libssl-dev \
     libpugixml-dev \
+    libtbb2 \
     libffi-dev && \
     add-apt-repository -y ppa:deadsnakes && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends python3.8 && \
