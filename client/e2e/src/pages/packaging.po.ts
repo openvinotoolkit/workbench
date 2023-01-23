@@ -59,9 +59,6 @@ export class PackingSheet {
     if (packing.GPU) {
       name += 'GPU_';
     }
-    if (packing.VPU) {
-      name += 'VPU_';
-    }
     if (packing.includeModel) {
       name += `with_model_${modelName}`;
     } else {
