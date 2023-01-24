@@ -38,14 +38,6 @@ describe('UI tests on Packing project.', () => {
     await browser.refresh();
   });
 
-  it('Select all target, model not include.', async () => {
-    const packingModel = new PackingModel();
-    packingModel.CPU = true;
-    packingModel.GPU = true;
-    packingModel.VPU = true;
-    await testUtils.loadPack(packingModel);
-  });
-
   it('Select only CPU, model not include', async () => {
     const packingModel = new PackingModel();
     packingModel.CPU = true;
@@ -58,40 +50,11 @@ describe('UI tests on Packing project.', () => {
     await testUtils.loadPack(packingModel);
   });
 
-  it('Select only VPU, model not include', async () => {
-    const packingModel = new PackingModel();
-    packingModel.VPU = true;
-    await testUtils.loadPack(packingModel);
-  });
-
   it('Select CPU and GPU, model not include', async () => {
     const packingModel = new PackingModel();
     packingModel.CPU = true;
     packingModel.GPU = true;
     await testUtils.loadPack(packingModel);
-  });
-
-  it('Select CPU and VPU, model not include', async () => {
-    const packingModel = new PackingModel();
-    packingModel.CPU = true;
-    packingModel.VPU = true;
-    await testUtils.loadPack(packingModel);
-  });
-
-  it('Select GPU and VPU, model not include', async () => {
-    const packingModel = new PackingModel();
-    packingModel.GPU = true;
-    packingModel.VPU = true;
-    await testUtils.loadPack(packingModel);
-  });
-
-  it('Select CPU, GPU and VPU, model include', async () => {
-    const packingModel = new PackingModel();
-    packingModel.CPU = true;
-    packingModel.GPU = true;
-    packingModel.VPU = true;
-    packingModel.includeModel = true;
-    await testUtils.loadPack(packingModel, modelFile.name);
   });
 
   it('Select only CPU, model include', async () => {
@@ -108,33 +71,10 @@ describe('UI tests on Packing project.', () => {
     await testUtils.loadPack(packingModel, modelFile.name);
   });
 
-  it('Select only VPU, model include', async () => {
-    const packingModel = new PackingModel();
-    packingModel.VPU = true;
-    packingModel.includeModel = true;
-    await testUtils.loadPack(packingModel, modelFile.name);
-  });
-
   it('Select CPU and GPU, model include', async () => {
     const packingModel = new PackingModel();
     packingModel.CPU = true;
     packingModel.GPU = true;
-    packingModel.includeModel = true;
-    await testUtils.loadPack(packingModel, modelFile.name);
-  });
-
-  it('Select CPU and VPU, model include', async () => {
-    const packingModel = new PackingModel();
-    packingModel.CPU = true;
-    packingModel.VPU = true;
-    packingModel.includeModel = true;
-    await testUtils.loadPack(packingModel, modelFile.name);
-  });
-
-  it('Select GPU and VPU, model include', async () => {
-    const packingModel = new PackingModel();
-    packingModel.GPU = true;
-    packingModel.VPU = true;
     packingModel.includeModel = true;
     await testUtils.loadPack(packingModel, modelFile.name);
   });

@@ -1,4 +1,4 @@
-#include <inference_engine.hpp>
+#include "openvino/openvino.hpp"
 #include <vector>
 
 using namespace InferenceEngine;
@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
 
     std::transform(device.begin(), device.end(), device.begin(), ::toupper);
 
-    Core ie;
+    ov::Core core;
     
     // ___GPU___
     // |   |   |
@@ -36,27 +36,13 @@ int main(int argc, char *argv[]) {
     // |___ ___|
     
     // start Set number of streams
-    if (device == "CPU") {
-        ie.SetConfig({{CONFIG_KEY(CPU_THROUGHPUT_STREAMS), std::to_string(numInferReq)}}, device);
-    }
+    core.set_property(device, {{"NUM_STREAMS", std::to_string(numInferReq)}});
 
-    if (device == "GPU") {
-        int numStreams = numInferReq;
-        if (numStreams % 2) {
-            numStreams++;
-        }
-        ie.SetConfig({{CONFIG_KEY(GPU_THROUGHPUT_STREAMS), std::to_string(numStreams)}}, device);
-    }
-    // end Set number of streams
+    auto model = core.read_model(modelXml);
 
-    CNNNetwork network = ie.ReadNetwork(modelXml);
+    ov::CompiledModel compiled_model = core.compile_model(model, device);
 
-    // set batch
-    network.setBatchSize(batchSize);
-
-    ExecutableNetwork executableNetwork = ie.LoadNetwork(network, device);
-
-    std::vector<InferRequest> requests(numInferReq);
+    std::vector<ov::InferRequest> requests(numInferReq);
 
     std::vector<int> runs(numInferReq);
 
@@ -66,25 +52,19 @@ int main(int argc, char *argv[]) {
     // create InferRequests
     for (std::size_t i = 0; i < numInferReq; i++) {
         // create an InferRequest
-        requests[i] = executableNetwork.CreateInferRequest();
-        requests[i].SetCompletionCallback([i, &requests, &runs, maxNumRuns]() {
-            auto status = requests[i].Wait(IInferRequest::WaitMode::STATUS_ONLY);
-            std::cout << "InferRequest #" << i;
-            if (status != OK) {
-                std::cout << " done ";
-            } else {
-                std::cout << " failed ";
-            }
+        requests[i] = compiled_model.create_infer_request();
+        requests[i].set_callback([i, &requests, &runs, maxNumRuns](std::exception_ptr ex) {
+            std::cout << "InferRequest #" << i << " ";
             runs[i] += 1;
             if (runs[i] < maxNumRuns) {
-                std::cout << "and runs again";
+                std::cout << "runs again";
                 // run again the InferRequest
-                requests[i].StartAsync();
+                requests[i].start_async();
             }
             std::cout << std::endl;
         });
         // run the InferRequest
-        requests[i].StartAsync();
+        requests[i].start_async();
     }
 
     while (true) {

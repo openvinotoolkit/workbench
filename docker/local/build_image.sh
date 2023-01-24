@@ -45,10 +45,11 @@ if [[ -z ${IMAGE_TAG} ]]; then
 fi
 
 if [[ -z ${PACKAGE_LINK} ]]; then
-    PACKAGE_LINK="https://storage.openvinotoolkit.org/repositories/openvino/packages/2022.2/linux/l_openvino_toolkit_ubuntu20_2022.2.0.7713.af16ea1d79a_x86_64.tgz"
+    PACKAGE_LINK="https://storage.openvinotoolkit.org/repositories/openvino/packages/2022.3/linux/l_openvino_toolkit_ubuntu20_2022.3.0.9052.9752fafe8eb_x86_64.tgz"
 fi
 
 set -e
+set -x
 
 echo -e "${TERMINAL_COLOR_MESSAGE} The script must be run from the root folder of the Workbench ${TERMINAL_COLOR_CLEAR}"
 echo -e "${TERMINAL_COLOR_MESSAGE} Also install 'NVM' from the repository 'https://github.com/nvm-sh/nvm' and install the client dependencies in the client folder with the following command: 'npm install'${TERMINAL_COLOR_CLEAR}"

@@ -447,17 +447,20 @@ export class TestUtils {
     console.log('waiting for project to become ready');
     await browser.wait(this.until.presenceOf(this.inferenceCard.projectInfoContainer), browser.params.defaultTimeout);
     const isReady = await browser
-      .wait(async () => {
-        const result = await this.inferenceCard.isProjectReady();
-        switch (result) {
-          case 'done':
-            return true;
-          case 'error':
-            throw new Error('Project fail');
-          default:
-            return false;
-        }
-      }, Number(jasmine.DEFAULT_TIMEOUT_INTERVAL / browser.params.calibrationCoefficient))
+      .wait(
+        async () => {
+          const result = await this.inferenceCard.isProjectReady();
+          switch (result) {
+            case 'done':
+              return true;
+            case 'error':
+              throw new Error('Project fail');
+            default:
+              return false;
+          }
+        },
+        Number(jasmine.DEFAULT_TIMEOUT_INTERVAL / browser.params.calibrationCoefficient)
+      )
       .catch((error) => {
         console.log(error);
         return false;
@@ -715,13 +718,6 @@ export class TestUtils {
             if ((needClick && selectedPackingModel) || (!needClick && !selectedPackingModel)) {
               await this.packingSheet.gpuCheckBox.click();
               console.log('click GPU');
-            }
-            break;
-          case 'VPU':
-            needClick = !(await this.isChecked(this.packingSheet.vpuCheckBox));
-            if ((needClick && selectedPackingModel) || (!needClick && !selectedPackingModel)) {
-              await this.packingSheet.vpuCheckBox.click();
-              console.log('click VPU');
             }
             break;
           case 'includeModel':

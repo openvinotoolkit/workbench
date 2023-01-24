@@ -72,7 +72,7 @@ def get_artifact_id(hostname, access_token, tls, operating_system: str = 'ubuntu
     json_data = {
         "includeModel": False,
         "pythonBindings": True,
-        "targets": ["CPU", "GPU", "VPU"],
+        "targets": ["CPU", "GPU"],
         "installScripts": True,
         'targetOS': operating_system
     }
@@ -102,14 +102,14 @@ if __name__ == '__main__':
     artifactId = None
     status = None
     access_token = get_access_token(arg.token, arg.hostname, arg.tls)
-    for i in range(10):
+    for i in range(5):
         data: dict = get_artifact_id(arg.hostname, access_token, arg.tls, arg.os)
         print(data)
         artifactId = data.get('artifactId', False)
         status = data.get('status', False)
         if artifactId and status == 'ready':
             break
-        time.sleep(30)
+        time.sleep(180)
     if artifactId and status == 'ready':
         bundle = get_bundle(artifactId, arg.hostname, access_token, arg.tls)
         bundle_path = '{}/bundle.tar.gz'.format(root_path)

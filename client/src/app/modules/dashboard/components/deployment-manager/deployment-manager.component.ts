@@ -48,7 +48,7 @@ export class DeploymentManagerComponent implements OnDestroy {
 
   public deploymentForm: UntypedFormGroup;
   public estimatedSize: number;
-  public devices: DeviceTargetType[] = [DeviceTargets.CPU, DeviceTargets.GPU, DeviceTargets.MYRIAD, DeviceTargets.HDDL];
+  public devices: DeviceTargetType[] = [DeviceTargets.CPU, DeviceTargets.GPU];
   public osTypes: TargetOSType[] = [OSTypeNames.UBUNTU18, OSTypeNames.UBUNTU20];
   public packageSizes: PackageSizeInfo;
   public selectedTargets: DeviceTargetType[];

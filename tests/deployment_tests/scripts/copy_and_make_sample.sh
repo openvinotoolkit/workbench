@@ -43,11 +43,15 @@ mkdir -m 777 ${DEPLOYMENT_MANAGER_PATH} \
 
 cp ${OPENVINO_WORKBENCH_ROOT}/tests/deployment_tests/scripts/bundle.tar.gz ${DEPLOYMENT_MANAGER_PATH}/packages
 tar -xf ${OPENVINO_WORKBENCH_ROOT}/tests/deployment_tests/scripts/bundle.tar.gz -C ${DEPLOYMENT_MANAGER_PATH}/packages
+
 cp ${OPENVINO_WORKBENCH_ROOT}/tests/deployment_tests/scripts/* ${DEPLOYMENT_MANAGER_PATH}/scripts
 cp ${OPENVINO_WORKBENCH_ROOT}/tests/deployment_tests/Dockerfile ${DEPLOYMENT_MANAGER_PATH}
 sed -i "s|BASE_IMAGE_UBUNTU|${UBUNTU_IMAGE}|g" ${DEPLOYMENT_MANAGER_PATH}/Dockerfile
 cp ${RESOURCES_PATH}/models/IR/classification/squeezenetV1.1/*.* ${DEPLOYMENT_MANAGER_PATH}/model
 cd ${OPENVINO_WORKBENCH_ROOT}/tests/deployment_tests/ie_sample/build
+
+source ${DEPLOYMENT_MANAGER_PATH}/packages/setupvars.sh
+
 cmake ..
 make
 cp ie_sample ${DEPLOYMENT_MANAGER_PATH}/scripts
