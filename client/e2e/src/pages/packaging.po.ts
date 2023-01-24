@@ -7,7 +7,6 @@ import { TestUtils } from './test-utils';
 export class PackingModel {
   CPU: boolean;
   GPU: boolean;
-  // VPU: boolean;
   includeModel: boolean;
   baseName: string;
   projectId: number;
@@ -16,7 +15,6 @@ export class PackingModel {
   constructor() {
     this.CPU = false;
     this.GPU = false;
-    // this.VPU = false;
     this.includeModel = false;
     this.projectId = -1;
     this.os = OSTypeNames.UBUNTU18;
