@@ -720,13 +720,6 @@ export class TestUtils {
               console.log('click GPU');
             }
             break;
-          // case 'VPU':
-          //   needClick = !(await this.isChecked(this.packingSheet.vpuCheckBox));
-          //   if ((needClick && selectedPackingModel) || (!needClick && !selectedPackingModel)) {
-          //     await this.packingSheet.vpuCheckBox.click();
-          //     console.log('click VPU');
-          //   }
-          //   break;
           case 'includeModel':
             if (selectedPackingModel) {
               await this.packingSheet.includeModel.click();
