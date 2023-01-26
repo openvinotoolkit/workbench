@@ -485,6 +485,7 @@ def is_model_available(model: OMZTopologyModel) -> bool:
 def aggregate_topologies():
     # Filter rule #1: Show only models with not generic type
     not_supported_topologies = ('aclnet',
+                                'aclnet-int8',
                                 'asl-recognition-0004',
                                 'common-sign-language-0001',
                                 'common-sign-language-0002',
@@ -493,23 +494,8 @@ def aggregate_topologies():
                                 'mixnet-l',
                                 'netvlad-tf',
                                 'open-closed-eye-0001',
-                                # TODO: unskip when 65499 will be fixed
-                                'densenet-161-tf',
-                                'se-resnet-101',
-                                'se-resnet-50',
-                                'se-resnet-152',
-                                'drn-d-38',
-                                'se-inception',
-                                'densenet-169',
-                                'se-resnext-50',
-                                'ssd512',
-                                'Sphereface',
-                                'densenet-121',
-                                'densenet-161',
-                                'ssd300',
-                                'densenet-201',
-                                'se-resnext-101',
-                                'mobilenet-ssd',
+                                # 'drn-d-38' is not supported as there is no 'encode_segmentation_mask' in its accuracy configuration
+                                'drn-d-38'
                                 )
 
     supported_topologies = OMZTopologyModel.query \
