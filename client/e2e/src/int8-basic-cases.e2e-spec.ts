@@ -32,9 +32,9 @@ describe('UI tests on Running Int8 Calibration', () => {
     datasetFileVOC.name = testUtils.helpers.generateName();
     datasetFileImageNet.name = testUtils.helpers.generateName();
     notAnnotatedDataset.name = testUtils.helpers.generateName();
-    // await testUtils.uploadDataset(datasetFileVOC);
-    // await testUtils.uploadDataset(datasetFileImageNet);
-    // await testUtils.uploadDataset(datasetWiderFace);
+    await testUtils.uploadDataset(datasetFileVOC);
+    await testUtils.uploadDataset(datasetFileImageNet);
+    await testUtils.uploadDataset(datasetWiderFace);
     await testUtils.uploadDataset(notAnnotatedDataset);
     // TODO: 73948
     // await testUtils.uploadDataset(datasetCityScapes);
