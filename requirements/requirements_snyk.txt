@@ -1,2 +1,2 @@
 numpy==1.22.0
-cryptography==3.3.2
+cryptography==39.0.1
