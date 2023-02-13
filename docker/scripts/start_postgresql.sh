@@ -27,7 +27,7 @@ setup_db() {
     # TODO: rm -E UTF8 when 53369 is resolved
     ${POSTGRESQL_BIN_PATH}/initdb -E UTF8 -D "${WORKBENCH_POSTGRESQL_DATA_DIR}" &> ${WB_LOG_FILE}
     ${POSTGRESQL_BIN_PATH}/pg_ctl -D "${WORKBENCH_POSTGRESQL_DATA_DIR}" -w start --log=${WB_LOG_FILE}
-    psql -d postgres --command "CREATE USER ${DB_USER} WITH SUPERUSER PASSWORD '${DB_PASSWORD}'" --quiet &> ${WB_LOG_FILE}
+    psql -d postgres --command "CREATE USER ${DB_USER} WITH CREATEDB PASSWORD '${DB_PASSWORD}'" --quiet &> ${WB_LOG_FILE}
     createdb -O "${DB_USER}" "${DB_NAME}"
     psql -d postgres --command "ALTER USER ${DB_USER} PASSWORD '${DB_PASSWORD}'" --quiet
 
