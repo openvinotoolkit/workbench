@@ -97,6 +97,7 @@ WORKDIR ${INTEL_OPENVINO_DIR}/tools
 ADD --chown=workbench workbench ${OPENVINO_WORKBENCH_ROOT}/
 
 RUN python3 -m pip install pip==19.3.1
+RUN python3 -m pip install -U pip setuptools==65.5.1 wheel
 
 # COPY JUPYTER USER SETTINGS
 COPY --chown=workbench workbench/docker/jupyter_config/user-settings ${JUPYTER_USER_SETTINGS_DIR}
@@ -104,8 +105,6 @@ COPY --chown=workbench workbench/docker/jupyter_config/user-settings ${JUPYTER_U
 RUN python3 -m pip install --no-cache-dir -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements.txt && \
     python3 -m pip install --no-cache-dir -r ${OPENVINO_WORKBENCH_ROOT}/requirements/requirements_jupyter.txt && \
     python3 -m pip install --no-cache-dir -r ${OPENVINO_WORKBENCH_ROOT}/model_analyzer/requirements.txt
-
-RUN python3 -m pip install -U pip setuptools==65.5.1 wheel
 
 RUN chown -R ${USER_NAME} ${WHEELS_PATH} && \
     OPENVINO_WHEEL=$(find ${WHEELS_PATH} -name "openvino-202*cp38*linux*.whl" -print -quit) && python3 -m pip install ${OPENVINO_WHEEL} && \
