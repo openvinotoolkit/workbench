@@ -67,6 +67,7 @@ RUN sed -Ei 's/# deb-src /deb-src /' /etc/apt/sources.list && \
     rm -rf /var/lib/apt/lists/*
 
 RUN python3 -m pip install pip==19.3.1
+RUN python3 -m pip install -U pip setuptools==65.5.1 wheel
 
 # CREATE DIRECTORY FOR PUBLIC WORKBENCH ARTIFACTS
 RUN mkdir -m 777 -p ${WORKBENCH_PUBLIC_DIR} && chown -R ${USER_NAME} ${WORKBENCH_PUBLIC_DIR}
