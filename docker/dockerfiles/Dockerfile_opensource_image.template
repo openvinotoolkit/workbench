@@ -65,7 +65,6 @@ ENV DEPENDENCIES " \
     rabbitmq-server \
     nginx \
     gettext-base \
-    unzip \
     dpkg-dev \
     cmake \
     libpugixml-dev \
