@@ -123,11 +123,12 @@ RUN apt update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN python3 -m pip install pip==19.3.1
+RUN python3 -m pip install -U pip setuptools==65.5.1 wheel
 
 USER postgres
 
 RUN service postgresql start && \
-    psql --command "CREATE USER ${DB_USER}  WITH SUPERUSER PASSWORD '${DB_PASSWORD}';" && \
+    psql --command "CREATE USER ${DB_USER} WITH CREATEDB PASSWORD '${DB_PASSWORD}';" && \
     service postgresql stop
 
 USER root
@@ -217,9 +218,7 @@ WORKDIR ${WHEELS_PATH}
 RUN curl -O $WHEELS_LINK
 RUN curl -O $WHEELS_DEV_LINK
 
-# Base image changed to ubuntu, we should to setup openvino
-RUN python3 -m pip install -U pip setuptools==65.5.1 wheel
-
+# Install OpenVINO manually for Ubuntu base image
 RUN chown -R ${USER_NAME} ${WHEELS_PATH} && \
     OPENVINO_WHEEL=$(find ${WHEELS_PATH} -name "openvino-202*cp38*linux*.whl" -print -quit) && python3 -m pip install ${OPENVINO_WHEEL} && \
     OPENVINO_DEV_WHEEL=$(find ${WHEELS_PATH} -name "openvino_dev*.whl" -print -quit) && python3 -m pip install "${OPENVINO_DEV_WHEEL}"
