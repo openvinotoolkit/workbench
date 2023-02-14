@@ -128,7 +128,7 @@ RUN python3 -m pip install -U pip setuptools==65.5.1 wheel
 USER postgres
 
 RUN service postgresql start && \
-    psql --command "CREATE USER ${DB_USER}  WITH SUPERUSER PASSWORD '${DB_PASSWORD}';" && \
+    psql --command "CREATE USER ${DB_USER} WITH CREATEDB PASSWORD '${DB_PASSWORD}';" && \
     service postgresql stop
 
 USER root
