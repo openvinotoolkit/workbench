@@ -218,7 +218,7 @@ WORKDIR ${WHEELS_PATH}
 RUN curl -O $WHEELS_LINK
 RUN curl -O $WHEELS_DEV_LINK
 
-# Base image changed to ubuntu, we should to setup openvino
+# Install OpenVINO manually for Ubuntu base image
 RUN chown -R ${USER_NAME} ${WHEELS_PATH} && \
     OPENVINO_WHEEL=$(find ${WHEELS_PATH} -name "openvino-202*cp38*linux*.whl" -print -quit) && python3 -m pip install ${OPENVINO_WHEEL} && \
     OPENVINO_DEV_WHEEL=$(find ${WHEELS_PATH} -name "openvino_dev*.whl" -print -quit) && python3 -m pip install "${OPENVINO_DEV_WHEEL}"
