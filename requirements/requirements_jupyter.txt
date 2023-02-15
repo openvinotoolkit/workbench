@@ -34,7 +34,7 @@ MarkupSafe==2.0.1
 mistune==2.0.3
 nbclassic==0.3.5
 nbclient==0.5.2
-nbconvert==6.5.1
+nbconvert==7.0.0
 nbformat==5.7.0
 nest-asyncio==1.5.1
 notebook==6.4.12
