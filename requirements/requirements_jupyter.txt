@@ -30,7 +30,7 @@ jupyterlab==3.0.17
 jupyterlab-execute-time==2.0.2
 jupyterlab-pygments==0.1.2
 jupyterlab-server==2.4.0
-MarkupSafe==2.0.1
+MarkupSafe==2.1.1
 mistune==2.0.3
 nbclassic==0.3.5
 nbclient==0.5.2

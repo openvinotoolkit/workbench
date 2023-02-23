@@ -30,7 +30,7 @@ itsdangerous==2.0.1
 kombu==5.2.2
 lxml==4.9.1
 Mako==1.2.2
-MarkupSafe==2.0.1
+MarkupSafe==2.1.1
 monotonic==1.6
 numpy==1.22.0
 packaging==21.3
@@ -56,7 +56,7 @@ urllib3==1.26.8
 vine==5.0.0
 virtualenv==20.7.2
 wcwidth==0.2.5
-Werkzeug==2.0.1
+Werkzeug==2.2.3
 zipp==3.5.0
 huggingface_hub==0.4.0
 transformers[onnx]==4.16.2
