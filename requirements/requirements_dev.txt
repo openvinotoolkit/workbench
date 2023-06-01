@@ -4,7 +4,7 @@ fonttools==4.22.0
 parameterized==0.7.1
 pylint==2.8.3
 pytest==5.4.2
-requests==2.27.1
+requests==2.31.0
 pre-commit==2.7.1
 pylint-quotes==0.2.1
 isort==4.2.5
