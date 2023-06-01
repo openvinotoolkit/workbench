@@ -41,8 +41,9 @@ def create_app() -> Flask:
 
     url_prefix = '/api/v1'
 
-    for blueprint in BLUEPRINTS:
-        app.register_blueprint(blueprint, url_prefix=url_prefix)
+    with app.app_context():
+        for blueprint in BLUEPRINTS:
+            app.register_blueprint(blueprint, url_prefix=url_prefix)
 
     return app
 
