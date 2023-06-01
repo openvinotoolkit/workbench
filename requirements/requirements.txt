@@ -15,7 +15,7 @@ distlib==0.3.2
 dnspython==1.16.0
 eventlet==0.33.0
 filelock==3.0.12
-Flask==2.0.1
+Flask==2.3.2
 Flask-JWT-Extended==4.4.4
 Flask-Migrate==3.1.0
 Flask-RESTful==0.3.9
