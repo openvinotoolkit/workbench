@@ -8,7 +8,7 @@ celery==5.2.2
 cffi==1.15.0
 chardet==4.0.0
 click==8.0.0
-cryptography==39.0.1
+cryptography==41.0.0
 git+https://github.com/openvinotoolkit/datumaro.git@develop#egg=datumaro
 defusedxml==0.7.1
 distlib==0.3.2
