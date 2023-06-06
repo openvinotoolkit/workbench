@@ -65,7 +65,7 @@ for endpoint in PROTECTED_ENDPOINTS:
 BLUEPRINTS = (V1_AUTH_API, *PROTECTED_ENDPOINTS)
 
 # pylint: disable=wrong-import-position
-from . import (
+from wb.main.api_endpoints.v1 import (
     accuracy, auth, cancel, common, datasets,
     deployment, environment, export, profiling, int8_calibration,
     model_downloader, model_optimizer, models,
