@@ -4,11 +4,9 @@ Tests for common endpoints
 
 # pylint: disable=no-name-in-module
 # pylint: disable=wrong-import-position
-from workbench.workbench import APP
-
 from flask_migrate import upgrade
 
-from migrations.migration import APP as MIGRATION_APP
+from migrations.migration import APP
 from wb import CLIToolsOptionsCache
 from wb.main.database import data_initialization
 
@@ -24,7 +22,7 @@ from wb.main.models.topologies_model import TopologiesModel
 
 
 def apply_migrations():
-    with MIGRATION_APP.app_context():
+    with APP.app_context():
         upgrade()
 
 
@@ -32,12 +30,10 @@ class TestFlaskAppCase:
     @staticmethod
     def setup():
         apply_migrations()
-        data_initialization.initialize(MIGRATION_APP)
+        data_initialization.initialize(APP)
         CLIToolsOptionsCache().initialize()
 
 
-# import pytest
-# @pytest.mark.skip(reason='Blueprints registration')
 class TestCommonApiCase(TestFlaskAppCase):
     @staticmethod
     def create_topology_record() -> TopologiesModel:
