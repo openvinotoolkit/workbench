@@ -223,7 +223,7 @@ RUN chown -R ${USER_NAME} ${WHEELS_PATH} && \
     OPENVINO_WHEEL=$(find ${WHEELS_PATH} -name "openvino-202*cp38*linux*.whl" -print -quit) && python3 -m pip install ${OPENVINO_WHEEL} && \
     OPENVINO_DEV_WHEEL=$(find ${WHEELS_PATH} -name "openvino_dev*.whl" -print -quit) && python3 -m pip install "${OPENVINO_DEV_WHEEL}"
 
-RUN chown -R ${USER_NAME} ${OPENVINO_WORKBENCH_ROOT}
+RUN chown -R ${USER_NAME} ${OPENVINO_WORKBENCH_ROOT} && chown -R ${USER_NAME} /cache/pip
 
 USER ${USER_NAME}
 
