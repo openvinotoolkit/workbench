@@ -48,6 +48,7 @@ class InstallPackagesTool(PipModule):
     def __init__(self, python_exec: Path, requirement_file: Path, runtime_wheel: Path, dev_wheel: Path, mirror: str = None):
         super().__init__(python_exec=python_exec, parameters=[
             dict(name='install', parameter_type=ConsoleParametersTypes.flag),
+            dict(name='--no-cache-dir', parameter_type=ConsoleParametersTypes.flag),
             dict(name='-r', value=str(requirement_file), parameter_type=ConsoleParametersTypes.path),
             dict(value=str(runtime_wheel), parameter_type=ConsoleParametersTypes.path),
             dict(value=str(dev_wheel), parameter_type=ConsoleParametersTypes.path),
