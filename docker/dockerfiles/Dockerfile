@@ -177,8 +177,7 @@ RUN curl --create-dirs -sSLo /usr/share/jenkins/agent.jar https://repo.jenkins-c
     mkdir -p /home/${USER_NAME}/.jenkins/cache/jars && \
     chmod 775 -R /home/${USER_NAME} && \
     chown ${USER_NAME} -R /home/${USER_NAME} && \
-    chown ${USER_NAME} -R /tools && \
-    chown ${USER_NAME} -R /cache/pip
+    chown ${USER_NAME} -R /tools
 
 # Install internal Intel SHA and SHA2 SSL certificates chain
 COPY tools /tools/
