@@ -122,8 +122,9 @@ RUN apt update && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN python3 -m pip install pip==19.3.1
-RUN python3 -m pip install -U pip setuptools wheel
+RUN python3 -m pip install pip==23.0.1
+RUN python3 -m pip install -U setuptools==65.5.1 wheel==0.38.4
+RUN python3 -m pip cache dir && echo $XDG_CACHE_HOME
 
 USER postgres
 
