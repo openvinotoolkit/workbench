@@ -124,7 +124,7 @@ RUN apt update && \
 
 RUN python3 -m pip install pip==23.0.1
 RUN python3 -m pip install -U setuptools==65.5.1 wheel==0.38.4
-RUN python3 -m pip cache dir && echo $XDG_CACHE_HOME
+RUN PIP_CACHE_DIR=$(python3 -m pip cache dir) && chown -R ${USER_NAME} ${PIP_CACHE_DIR}
 
 USER postgres
 
