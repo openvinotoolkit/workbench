@@ -71,7 +71,7 @@ server {
         proxy_set_header Connection "Upgrade";
 
         proxy_pass http://127.0.0.1:${JUPYTER_PORT};
-        add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' mybinder.org *.mybinder.org user-images.githubusercontent.com data: blob: www.google-analytics.com www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self' ws://0.0.0.0:${PROXY_PORT} https://www.google-analytics.com https://www.googletagmanager.com; frame-ancestors 'none'" always;
+        add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' mybinder.org *.mybinder.org user-images.githubusercontent.com data: blob: www.google-analytics.com www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self' ws://0.0.0.0:${PROXY_PORT} https://*.google-analytics.com https://www.googletagmanager.com; frame-ancestors 'none'" always;
     }
 
     location /static {
