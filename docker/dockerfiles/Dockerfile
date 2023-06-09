@@ -123,7 +123,7 @@ RUN apt update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN python3 -m pip install pip==19.3.1
-RUN python3 -m pip install -U pip setuptools==65.5.1 wheel==0.38.4
+RUN python3 -m pip install -U pip setuptools wheel
 
 USER postgres
 
