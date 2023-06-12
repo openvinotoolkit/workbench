@@ -17,7 +17,8 @@ set -e
 
 python3 -m virtualenv ${NOTEBOOKS_VENV} 
 source ${NOTEBOOKS_VENV}/bin/activate
-python3 -m pip install --upgrade pip
+python3 -m pip install --upgrade pip==23.0.1
+python3 -m pip install setuptools==65.5.1
 python3 -m pip install --no-cache-dir ipykernel
 python3 -m ipykernel install --user --name jupyter_env
 

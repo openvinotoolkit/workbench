@@ -7,9 +7,9 @@ billiard==3.6.4.0
 celery==5.2.2
 cffi==1.15.0
 chardet==4.0.0
-click==8.0.0
-cryptography==39.0.1
-git+https://github.com/openvinotoolkit/datumaro.git@develop#egg=datumaro
+click==8.1.3
+cryptography==41.0.0
+datumaro==1.0.0
 defusedxml==0.7.1
 distlib==0.3.2
 dnspython==1.16.0
@@ -26,7 +26,7 @@ gunicorn@git+https://github.com/benoitc/gunicorn.git@008d81d0227cbc324f4e0814011
 idna==3.3
 importlib-metadata==4.7.0
 importlib-resources==5.2.2
-itsdangerous==2.0.1
+itsdangerous==2.1.2
 kombu==5.2.2
 lxml==4.9.1
 Mako==1.2.2
@@ -48,7 +48,7 @@ python-engineio==4.2.1
 python-socketio==5.4.0
 pytz==2021.3
 PyYAML==5.4.1
-requests==2.27.1
+requests==2.31.0
 scikit-image==0.19.3
 scramp==1.4.1
 SQLAlchemy==1.4.23
@@ -56,7 +56,7 @@ urllib3==1.26.8
 vine==5.0.0
 virtualenv==20.7.2
 wcwidth==0.2.5
-Werkzeug==2.2.3
+Werkzeug==2.3.3
 zipp==3.5.0
 huggingface_hub==0.4.0
 transformers[onnx]==4.16.2

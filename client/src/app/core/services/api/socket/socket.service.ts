@@ -3,8 +3,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, map, takeUntil } from 'rxjs/operators';
-import { Manager as SocketManager } from 'socket.io-client';
-import { ManagerOptions } from 'socket.io-client/build/manager';
+import { ManagerOptions, Manager as SocketManager } from 'socket.io-client';
 
 import { BackendFeedService } from '@core/services/common/backend-feed.service';
 
