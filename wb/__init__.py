@@ -37,12 +37,11 @@ def create_app() -> Flask:
 
     Api(app)
 
-    from wb.main.api_endpoints.v1 import BLUEPRINTS
-
-    url_prefix = '/api/v1'
-
-    for blueprint in BLUEPRINTS:
-        app.register_blueprint(blueprint, url_prefix=url_prefix)
+    with app.app_context():
+        from wb.main.api_endpoints.v1 import BLUEPRINTS
+        url_prefix = '/api/v1'
+        for blueprint in BLUEPRINTS:
+            app.register_blueprint(blueprint, url_prefix=url_prefix)
 
     return app
 

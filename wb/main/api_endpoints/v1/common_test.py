@@ -4,10 +4,13 @@ Tests for common endpoints
 
 # pylint: disable=no-name-in-module
 # pylint: disable=wrong-import-position
-from workbench.workbench import APP
+from flask_migrate import upgrade
+
+from migrations.migration import APP
+from wb import CLIToolsOptionsCache
+from wb.main.database import data_initialization
 
 from wb.extensions_factories.database import get_db_session_for_app
-from wb.flask_test import TestFlaskAppCase
 from wb.main.api_endpoints.utils import find_projects, project_json, connect_with_parents
 from wb.main.enumerates import OptimizationTypesEnum, SupportedFrameworksEnum, TargetTypeEnum
 from wb.main.models.datasets_model import DatasetsModel
@@ -16,6 +19,19 @@ from wb.main.models.projects_model import ProjectsModel
 from wb.main.models.target_model import TargetModel
 from wb.main.models.topologies_metadata_model import TopologiesMetaDataModel
 from wb.main.models.topologies_model import TopologiesModel
+
+
+def apply_migrations():
+    with APP.app_context():
+        upgrade()
+
+
+class TestFlaskAppCase:
+    @staticmethod
+    def setup():
+        apply_migrations()
+        data_initialization.initialize(APP)
+        CLIToolsOptionsCache().initialize()
 
 
 class TestCommonApiCase(TestFlaskAppCase):
