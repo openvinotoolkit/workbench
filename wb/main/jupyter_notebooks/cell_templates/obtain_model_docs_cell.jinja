@@ -13,9 +13,21 @@ In this tutorial we are working with the following model:
 
 - Model Name: **{{ project_model_name }}**
 
-- Model Source: {{ 'Open Model Zoo' if project_model_source == ModelSourceEnum.omz.value else 'User provided model' }}
+- Model Source:
+{% if project_model_source == ModelSourceEnum.huggingface.value %}
+Hugging Face Hub
+{% elif project_model_source == ModelSourceEnum.omz.value %}
+Open Model Zoo
+{% else %}
+User provided model
+{% endif %}
 
-- Model Framework: {{ SupportedFrameworksEnum.get_name(project_model_framework) }}
+- Model Framework:
+{% if project_model_source == ModelSourceEnum.huggingface.value %}
+{{ SupportedFrameworksEnum.get_name("pytorch") }}
+{% else %}
+{{ SupportedFrameworksEnum.get_name(project_model_framework) }}
+{% endif %}
 
 - Steps to obtain IR:
 {% if project_model_source == ModelSourceEnum.ir.value %}
@@ -26,6 +38,8 @@ No conversion to IR required. Download the model with the Model Downloader and p
 {%      else %}
 Download the model with Model Downloader and then convert it to IR format with Model Converter.
 {%      endif %}
+{% elif project_model_source == ModelSourceEnum.huggingface.value %}
+Your original model is in the PyTorch format. Use `transformers.onnx` CLI tool to convert it to ONNX, then convert the model to the IR format with Model Optimizer.
 {% elif project_model_source == ModelSourceEnum.original.value %}
 Your original model is in one of the supported frameworks. Convert model to IR format with Model Optimizer.
 {% endif %}

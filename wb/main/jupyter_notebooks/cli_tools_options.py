@@ -151,6 +151,9 @@ class CLIToolEnum(enum.Enum):
     pot = CLITool(path='pot',
                   displayed_options={'-c', '--output-dir', '--direct-dump'})
 
+    transformers_onnx = CLITool(path='python -m transformers.onnx',
+                                displayed_options=set())
+
     def format_to_markdown_table(self) -> str:
         return CLIToolHelpToMarkdownTableFormatter.format(cli_tool=self)
 
@@ -185,17 +188,22 @@ class CLIToolsOptionsCache:
             dump_data = CLIToolsOptionsDumper.deserialize()
             tool_options_map = dump_data.get('options_map')
             dumped_wb_version = dump_data.get('wb_version')
-            if current_wb_version == dumped_wb_version and tool_options_map and all(
-                    [value in CLIToolEnum.keys() for _, value in enumerate(tool_options_map)]):
+            new_tools = {tool.name for tool in CLIToolEnum} - set(tool_options_map)
+            if (
+                current_wb_version == dumped_wb_version
+                and tool_options_map
+                and all(value in CLIToolEnum.keys() for value in tool_options_map)
+                and not new_tools
+            ):
                 self._options_map = tool_options_map
                 return
         tool_processes = []
         processes_tool_options_map = Manager().dict()
         for tool_enum in CLIToolEnum:
-            tool_name = tool_enum.name
+            tool_name = tool_enum.name.split()
             tool_path = tool_enum.value['path']
             process = Process(target=self._update_parsed_tool_options_map,
-                              args=(tool_name, tool_path, processes_tool_options_map))
+                              args=(*tool_name, tool_path, processes_tool_options_map))
             tool_processes.append(process)
             process.start()
         for process in tool_processes:

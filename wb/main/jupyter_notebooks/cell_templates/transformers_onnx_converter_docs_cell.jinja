@@ -1,0 +1,32 @@
+### Get ONNX model from Hugging Face Hub
+
+#### Motivation
+
+Most of the models on the Hugging Face Hub are stored in the PyTorch format.
+To get an Intermediate Representation (IR), preferred model format to work with OpenVINO, you need to convert the model to ONNX format.
+For that, use `transformers.onnx` CLI tool from the Transformers library, which is not part of OpenVINO.
+
+#### Main usage
+
+`transformers.onnx` tool takes the name of the model repository and the model task from Hugging Face Hub.
+Then it downloads all necessary files, converts the model to ONNX format, and checks the resulting model.
+
+#### Description
+
+`transformers.onnx` will execute the following steps:
+
+1. Download the model files and tokenizer files from the Hugging Face Hub.
+1. Generate the dummy input with the tokenizer and pass it to the model to trace the model execution graph.
+1. Use the execution graph to generate an ONNX model.
+1. Check that the result model output is close to the original model output.
+
+To learn more about this CLI tool, read the [documentation](https://huggingface.co/docs/transformers/main/en/serialization#onnx).
+
+#### Used Command-Line Arguments
+
+<details>
+<summary>View transformers.onnx command-line arguments</summary>
+
+{{ CLIToolEnum.transformers_onnx.format_to_markdown_table() | safe }}
+
+</details>

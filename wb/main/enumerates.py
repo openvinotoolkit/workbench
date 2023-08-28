@@ -285,6 +285,16 @@ class ModelSourceEnum(enum.Enum):
     ir = 'ir'
     huggingface = 'huggingface'
 
+    def get_name(self) -> str:
+        if self.value == "omz":
+            return "OMZ"
+        if self.value == "original":
+            return "Original"
+        if self.value == "ir":
+            return "IR"
+        if self.value == "huggingface":
+            return "Hugging Face Hub"
+
 
 class TargetOSEnum(enum.Enum):
     ubuntu18 = 'ubuntu18'

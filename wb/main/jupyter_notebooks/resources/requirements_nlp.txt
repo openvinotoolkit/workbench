@@ -2,5 +2,9 @@ PyYAML==5.4.1
 numpy==1.22.0
 progress==1.6
 
-transformers==4.12.2
+transformers[onnx]==4.16.2
+
+# tokenization dependencies
 sentencepiece==0.1.96
+fugashi==1.1.2 # ja tokenizers
+ipadic==1.0.0 # ja tokenizers

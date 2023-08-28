@@ -2,11 +2,16 @@
 
 ### Motivation
 
-Model performance is the amount of information that your model can process per unit of time. In Computer Vision model performance defines how fast your model can process a number of images and generate the desired output. Usually it is measured in Frames Per Second (FPS).
+Model performance is the amount of information that your model can process per unit of time.
+{% if is_nlp %}In NLP, model performance defines how fast your model can process a number of text samples and generate the desired output. Usually it is measured in Samples Per Second (SPS).
+{% else %}
+In Computer Vision model performance defines how fast your model can process a number of images and generate the desired output. Usually it is measured in Frames Per Second (FPS).
+{% endif %}
 OpenVINO uses the term Inference to denote the stage of a single network execution.
 Inference is the stage in which a trained model is used to infer/predict the testing samples and comprises of a similar forward pass as training to predict the values.
 
 In OpenVINO toolkit inference is performed by Benchmark Tool.
+{% if is_nlp %} Note that Benchmark Tool was initially developed for Computer Vision (CV) use case and reports inference results in Frames Per Second (FPS in CV = SPS in NLP). {% endif %}
 
 ### OpenVINO Tool: Benchmark Tool
 
