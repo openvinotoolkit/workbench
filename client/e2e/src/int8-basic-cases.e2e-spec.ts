@@ -35,8 +35,7 @@ describe('UI tests on Running Int8 Calibration', () => {
     await testUtils.uploadDataset(datasetFileVOC);
     await testUtils.uploadDataset(datasetFileImageNet);
     await testUtils.uploadDataset(datasetWiderFace);
-    // TODO: 83248
-    // await testUtils.uploadDataset(notAnnotatedDataset);
+    await testUtils.uploadDataset(notAnnotatedDataset);
     // TODO: 73948
     // await testUtils.uploadDataset(datasetCityScapes);
   });
@@ -54,7 +53,7 @@ describe('UI tests on Running Int8 Calibration', () => {
     await calibrationUtils.runInt8PipelineThroughUpload(modelFile, datasetFileVOC, inferenceTarget);
   });
 
-  // TODO: 76569, 83248
+  // TODO: 76569
   xit(
     'Upload FP32 Mobilenet SSD Lite V2, use Not Annotated dataset, ' +
       'infer (CPU), int8 calibrate - Simplified Mode, infer (CPU)',
@@ -65,8 +64,7 @@ describe('UI tests on Running Int8 Calibration', () => {
     }
   );
 
-  // TODO: 83248
-  xit(
+  it(
     'Should upload original Caffe model, convert to IR V10, run inference, run Int-8 Tune with Not Annotated dataset, ' +
       'Simplified Mode',
     async () => {
@@ -76,8 +74,7 @@ describe('UI tests on Running Int8 Calibration', () => {
     }
   );
 
-  // TODO: 83248
-  xit(
+  it(
     'Select squeezenet1.1 from table + Not Annotated dataset, infer (CPU), int8 Simplified Mode, ' +
       'check wait message ',
     async () => {

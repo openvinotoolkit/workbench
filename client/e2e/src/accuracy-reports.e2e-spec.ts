@@ -271,7 +271,7 @@ describe('UI tests on Accuracy Reports', () => {
     }
   );
 
-  // TODO: 70558, 83248
+  // TODO: 70558
   xit(
     'should download a semantic segmentation model (deeplabv3), not-annotated dataset' +
       'int8 calibration, check that predictions comparison is available and that tensor comparison is available, ' +
@@ -323,7 +323,7 @@ describe('UI tests on Accuracy Reports', () => {
     }
   );
 
-  // TODO: 73953, 83248
+  // TODO: 73953
   xit(
     'should create a project with a generic model, calibrate it, configure accuracy (OD), ' +
       'create accuracy report (predictions comparison)',
@@ -374,7 +374,7 @@ describe('UI tests on Accuracy Reports', () => {
     }
   );
 
-  // TODO: 73953, 83248
+  // TODO: 73953
   xit(
     'should create a project with a generic model and not-annotated dataset, calibrate, ' +
       'create another project with annotated dataset, ' +
@@ -448,7 +448,7 @@ describe('UI tests on Accuracy Reports', () => {
     }
   );
 
-  // TODO: 73953, 83248
+  // TODO: 73953
   xit(
     'should create a project with a classification model & ' +
       'not-annotated dataset, calibrate it, create accuracy report (predictions comparison), ' +
