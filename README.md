@@ -5,7 +5,7 @@ This project has been identified as having known security escapes.
 Intel has ceased development and contributions including, but not limited to, maintenance, bug fixes, new releases, or updates, to this project.  
 Intel no longer accepts patches to this project.
 
-Effective August 24, 2023, we invite you to use [Deep Learning Workbench](https://www.intel.com/content/www/us/en/developer/tools/devcloud/edge/overview.html), presently being hosted and maintained on Intel® Developer Cloud for the Edge.
+Effective August 28, 2023, we invite you to use [Deep Learning Workbench](https://www.intel.com/content/www/us/en/developer/tools/devcloud/edge/overview.html), presently being hosted and maintained on Intel® Developer Cloud for the Edge.
 
 # Deep Learning Workbench
 
