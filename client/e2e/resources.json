@@ -2725,7 +2725,7 @@
   "imageNetNotAnnotated": {
     "path": "datasets/imagenet_notannotated_200.zip",
     "name": "ImageNetNotAnnotated",
-    "format": "ImageNet",
+    "format": "Not Annotated",
     "type": "dataset",
     "accuracyData": {
       "type": "Not Annotated",

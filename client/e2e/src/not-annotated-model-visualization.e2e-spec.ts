@@ -8,8 +8,7 @@ import { VisualizeInferenceResultPage } from './pages/inference-test-image.po';
 import { TargetMachines, DevCloudTargets } from './pages/target-machines.po';
 import { Helpers } from './pages/helpers';
 
-// TODO: 83248
-xdescribe('UI tests on visualization for model with not annotated dataset', () => {
+describe('UI tests on visualization for model with not annotated dataset', () => {
   const testUtils = new TestUtils();
   const inferenceUtils = new InferenceUtils(testUtils);
   const visualizeInferenceResultPage = new VisualizeInferenceResultPage();
