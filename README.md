@@ -1,3 +1,14 @@
+# DISCONTINUATION OF PROJECT
+
+This project will no longer be maintained by Intel.  
+This project has been identified as having known security escapes.  
+Intel has ceased development and contributions including, but not limited to, maintenance, bug fixes, new releases, or updates, to this project.  
+Intel no longer accepts patches to this project.
+
+Effective August 28, 2023, we invite you to use [Deep Learning Workbench](https://www.intel.com/content/www/us/en/developer/tools/devcloud/edge/overview.html), presently being hosted and maintained on Intel® Developer Cloud for the Edge.
+
+# OpenVINO™ Deep Learning Workbench
+
 Deep Learning Workbench (DL Workbench) provides a web-based graphical environment to visualize, fine-tune, and compare performance of deep learning models on various Intel® architecture configurations. With the DL Workbench UI, you can use OpenVINO components like Model Downloader, Open Model Zoo, Model Optimizer, Post-training Optimization Tool, Accuracy Checker, and Benchmark Tool without having to write any code.
 
 ![](https://docs.openvino.ai/latest/_images/openvino_dl_wb.png)
